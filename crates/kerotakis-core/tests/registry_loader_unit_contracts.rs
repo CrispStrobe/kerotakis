@@ -86,7 +86,7 @@ fn equivalent(doc: Value, packed: bool) {
 #[test]
 fn canonical_registry_runtime_and_pack_supported() {
     let doc = document();
-    assert_eq!(parse_document(&doc).unwrap().len(), 186);
+    assert_eq!(parse_document(&doc).unwrap().len(), 188);
     assert!(load_pack(&build_pack(&typed(doc))).is_ok());
 }
 

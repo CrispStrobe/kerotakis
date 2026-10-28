@@ -19,10 +19,14 @@ mod aqueous;
 pub mod aqueous_gases;
 pub mod complexation;
 pub mod continuation_acceptance;
+pub mod crystallisation_route;
 pub mod dbindex;
 pub mod derived;
+pub mod dissolution_reference;
 pub mod enthalpy;
+pub mod gas_phases;
 mod inventory;
+pub mod ligand_routing;
 mod native_namespace;
 mod phase_diagnostics;
 pub mod pourbaix;
@@ -85,7 +89,8 @@ pub mod databases {
     /// ligand slice. Reading
     /// these bytes directly would give a caller a database the engine is not
     /// running.
-    const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
+    pub(crate) const MINTEQ_V4: &[u8] =
+        include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
 
@@ -249,6 +254,30 @@ SOLUTION_SPECIES
         log_k 1.0139
 ";
 
+    /// One reviewed anion added to minteq.v4: tetrathionate, the product of
+    /// the iodometric titration `I2 + 2 S2O3-2 -> 2 I- + S4O6-2`.
+    ///
+    /// `vendor/iphreeqc/database/llnl.dat` line 1306 defines `S4O6-2` as a
+    /// redox state of sulfur and defines NO protonated form. It enters here
+    /// as its own pseudo-element for the reason [`THIOSULFATE_EXTENSION`]
+    /// gives: entered as a sulfur state, an open beaker's pe would oxidise
+    /// it to sulfate. Without this block the curated titration product would
+    /// be a dianion no routed database holds, and its four counter-sodiums
+    /// would read as free base in the charge balance.
+    ///
+    /// **No constant is borrowed or invented.** The master species with
+    /// `log_k 0` is an identity; there is no protonation row because none
+    /// exists in any vendored database (tetrathionic acid is strong).
+    /// Alkalinity 0, as sulfate and thiosulfate. 224.2604 g/mol is
+    /// 4 S 32.066 + 6 O 15.9994, the atomic weights the thiosulfate row uses.
+    const TETRATHIONATE_EXTENSION: &[u8] = b"
+SOLUTION_MASTER_SPECIES
+    Tetrathionate   Tetrathionate-2   0   224.2604   224.2604
+SOLUTION_SPECIES
+    Tetrathionate-2 = Tetrathionate-2
+        log_k 0
+";
+
     /// One reviewed anion added to minteq.v4: sulfite, and unlike the three
     /// above it MOVES THE pH OF EVERY VESSEL THAT HAS EVER HELD THE SALT.
     ///
@@ -384,8 +413,10 @@ SOLUTION_SPECIES
 
     /// minteq.v4 as this lab runs it: the vendored file plus
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
-    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`] and the reviewed
-    /// reference-temperature ligand slice.
+    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`],
+    /// [`TETRATHIONATE_EXTENSION`], the reviewed reference-temperature
+    /// ligand slice and the gas phases imported by
+    /// [`crate::gas_phases::reconcile`] (NH3(g), H2(g) from wateq4f).
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -393,6 +424,13 @@ SOLUTION_SPECIES
     /// vendored bytes anywhere else would give the ledger an element the
     /// engine has and it does not.
     pub fn minteq_v4() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("minteq.v4", minteq_v4_base()))
+    }
+
+    /// minteq.v4 before gas reconciliation.
+    fn minteq_v4_base() -> &'static [u8] {
         use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| {
@@ -408,13 +446,15 @@ SOLUTION_SPECIES
                     + LACTATE_EXTENSION.len()
                     + HYPOCHLORITE_EXTENSION.len()
                     + THIOSULFATE_EXTENSION.len()
-                    + SULFITE_EXTENSION.len(),
+                    + SULFITE_EXTENSION.len()
+                    + TETRATHIONATE_EXTENSION.len(),
             );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(THIOSULFATE_EXTENSION);
             bytes.extend_from_slice(SULFITE_EXTENSION);
+            bytes.extend_from_slice(TETRATHIONATE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })
@@ -423,6 +463,12 @@ SOLUTION_SPECIES
     /// WATEQ4F plus the reviewed 25 C copper/thiocyanate ligand slice.
     /// The unmodified `WATEQ4F` bytes remain available for upstream-oracle tests.
     pub fn wateq4f() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("wateq4f", wateq4f_base()))
+    }
+
+    fn wateq4f_base() -> &'static [u8] {
         use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| {
@@ -433,8 +479,23 @@ SOLUTION_SPECIES
     /// Pitzer plus reviewed gas uptake; no unsupported ligand extension.
     pub fn pitzer() -> &'static [u8] {
         use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("pitzer", pitzer_base()))
+    }
+
+    fn pitzer_base() -> &'static [u8] {
+        use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| super::aqueous_gases::append_to(PITZER))
+    }
+
+    /// A route's database before gas reconciliation (for the coverage audit).
+    pub(crate) fn route_base(route: &str) -> &'static [u8] {
+        match route {
+            "minteq.v4" => minteq_v4_base(),
+            "pitzer" => pitzer_base(),
+            _ => wateq4f_base(),
+        }
     }
 }
 

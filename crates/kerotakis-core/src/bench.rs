@@ -62,8 +62,10 @@ impl AqueousTransferSnapshot {
         Ok(())
     }
 
-    /// Only for a common fraction of ALL liquid/aqueous contents: Filter and
-    /// Decant. Phase-selective extraction and native MIX need their own proof.
+    /// Only for a common fraction of ALL liquid/aqueous contents: Filter,
+    /// Decant and Mix (which withdraws the same fraction of every liquid and
+    /// aqueous portion of each source). Phase-selective extraction needs its
+    /// own proof.
     fn take(source: &mut Vessel, fraction: f64) -> Result<Option<Self>, BenchError> {
         // No measured aqueous parcel accompanies a dry/organic-only pour.
         // In particular, do not migrate old diagnostic fields when no water
@@ -2177,64 +2179,182 @@ impl Bench {
                 let cp = v.heat_capacity();
                 if cp > 0.0 {
                     let from = v.temperature;
-                    // `from + signed/Cp` no longer: the heat a vessel can
-                    // give up between here and there is the area under its
-                    // own capacity, and `temperature_after` inverts that.
-                    // Below absolute zero the integral runs out first, so
-                    // the shortfall is measured against what the vessel
-                    // actually holds rather than against a rectangle.
-                    let holds = -v.energy_between(from.0, 0.0);
-                    let wanted = if -signed > holds {
-                        // Asked for more than there is; the clamp below and
-                        // the `NotYetModeled` note both key off this being
-                        // negative, as they did.
-                        -1.0
-                    } else {
-                        v.temperature_after(signed)
-                    };
-                    // A vessel can only give up the heat it has. Clamping
-                    // at absolute zero and saying nothing let a request for
-                    // more be silently granted: two grams of magnesia at
-                    // 2769 °C, asked for 10 kJ it did not hold, came back
-                    // at exactly −273.15 °C as though that were an answer.
-                    //
-                    // No coolant is modelled — `cool` removes energy without
-                    // a reservoir to remove it into — so the only bound
-                    // available is the vessel's own heat content, and the
-                    // bench has to say when a request runs past it. That
-                    // this bound is absolute zero is itself the tell: long
-                    // before it the heat capacities have stopped describing
-                    // anything, because even a tabulated curve runs out of
-                    // table around 100-300 K and is held flat below it.
-                    let to = Kelvin(wanted.max(0.0));
-                    let moved = -v.energy_between(from.0, to.0);
-                    v.temperature = to;
-                    events.push(Event::TemperatureChanged {
-                        vessel: *vessel,
-                        from,
-                        to,
-                    });
-                    events.push(Event::EnergyTransferred {
-                        vessel: *vessel,
-                        heating: false,
-                        requested_j: energy.0,
-                        delivered_j: moved,
-                        time_coupled: false,
-                        // No coolant is modelled, so there is no cold body
-                        // to name and no floor of its temperature to quote.
-                        source: None,
-                        ceiling_k: None,
-                        // Cooling here is pure sensible heat by
-                        // construction: this arm moves the thermometer and
-                        // nothing else.
-                        sensible_j: moved,
-                        passes: 1,
-                        capped: false,
-                    });
-                    brown_dry_lemon_mark(v, &mut events);
-                    if wanted < 0.0 {
-                        let could_pay = holds / 1000.0;
-                        events.push(Event::not_modeled(
+                    'cool: {
+                        // A cooled solution that reaches saturation with a salt
+                        // whose curve and dissolution heat are reviewed pays
+                        // part of the dose in crystallisation heat, in this one
+                        // ledger (`crystallisation`). Unsaturated paths return
+                        // `None` and cool exactly as below.
+                        let crystallising = {
+                            let start: &Vessel = v;
+                            let sensible_after = |t_f: f64, n: f64| -> f64 {
+                                let mut end = start.clone();
+                                if let Some(Ok((curve, _))) =
+                                    crate::crystallisation::binary_solution(start)
+                                {
+                                    crate::crystallisation::apply(&mut end, curve, n);
+                                }
+                                end.energy_between(t_f, from.0)
+                            };
+                            crate::crystallisation::cool_with_crystallisation(
+                                start,
+                                energy.0,
+                                &sensible_after,
+                            )
+                        };
+                        match crystallising {
+                            Some(Ok(owned)) => {
+                                if let Some(curve) = crate::crystallisation::curve_for(owned.salt) {
+                                    crate::crystallisation::apply(v, curve, owned.moles);
+                                }
+                                let to = Kelvin(owned.final_k);
+                                let sensible = v.energy_between(to.0, from.0);
+                                v.temperature = to;
+                                v.resolved.invalidate();
+                                events.push(Event::TemperatureChanged {
+                                    vessel: *vessel,
+                                    from,
+                                    to,
+                                });
+                                if owned.moles > 0.0 {
+                                    events.push(Event::Precipitated {
+                                        vessel: *vessel,
+                                        species: SpeciesId::new(owned.salt),
+                                        moles: Moles(owned.moles),
+                                        dry: false,
+                                    });
+                                }
+                                events.push(Event::EnergyTransferred {
+                                    vessel: *vessel,
+                                    heating: false,
+                                    requested_j: energy.0,
+                                    delivered_j: sensible + owned.heat_j,
+                                    time_coupled: false,
+                                    source: None,
+                                    ceiling_k: None,
+                                    // The rest of what crossed was paid by the
+                                    // crystals, not by the thermometer.
+                                    sensible_j: sensible,
+                                    passes: 1,
+                                    capped: false,
+                                });
+                                brown_dry_lemon_mark(v, &mut events);
+                                break 'cool;
+                            }
+                            Some(Err(refusal)) => {
+                                let phrase = match refusal {
+                                crate::crystallisation::Refusal::Unpriced { salt } => Phrase::new(
+                                    "not-modeled.crystallisation-heat-unpriced",
+                                    "cooling saturates this solution with {salt}, and the routed \
+             engine prices no enthalpy of dissolution for it, so its crystallisation \
+             and the heat that comes with it are not computed; the temperature below \
+             is sensible cooling alone",
+                                    vec![("salt".to_string(), Slot::term("species", salt))],
+                                ),
+                                crate::crystallisation::Refusal::BelowCurveDomain {
+                                    salt,
+                                    floor_k,
+                                } => Phrase::new(
+                                    "not-modeled.crystallisation-below-curve-domain",
+                                    "this cooling would carry a saturated {salt} solution below \
+             {floor} K, the lowest measured point of its solubility curve, toward \
+             the salt-ice eutectic, which is not modelled; crystallisation and ice \
+             formation there are not computed",
+                                    vec![
+                                        ("salt".to_string(), Slot::term("species", salt)),
+                                        (
+                                            "floor".to_string(),
+                                            Slot::number(format!("{floor_k:.2}")),
+                                        ),
+                                    ],
+                                ),
+                                crate::crystallisation::Refusal::NoRoutedPhase { salt } => {
+                                    Phrase::new(
+                                        "not-modeled.crystallisation-no-routed-phase",
+                                        "cooling saturates this solution with {salt}, and no \
+             routed aqueous database defines a {salt} phase whose solubility has been \
+             validated against measurement, so its crystallisation and the heat that \
+             comes with it are not computed; the temperature below is sensible cooling \
+             alone",
+                                        vec![("salt".to_string(), Slot::term("species", salt))],
+                                    )
+                                }
+                                crate::crystallisation::Refusal::NotBinary { salt } => {
+                                    Phrase::new(
+                                        "not-modeled.crystallisation-not-binary",
+                                        "the solubility curve of {salt} is measured in pure \
+             water, and this solution holds other dissolved ions, so whether and how \
+             much {salt} crystallises on cooling is not computed",
+                                        vec![("salt".to_string(), Slot::term("species", salt))],
+                                    )
+                                }
+                            };
+                                events.push(Event::not_modeled(
+                                    *vessel,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    phrase,
+                                ));
+                            }
+                            None => {}
+                        }
+                        // `from + signed/Cp` no longer: the heat a vessel can
+                        // give up between here and there is the area under its
+                        // own capacity, and `temperature_after` inverts that.
+                        // Below absolute zero the integral runs out first, so
+                        // the shortfall is measured against what the vessel
+                        // actually holds rather than against a rectangle.
+                        let holds = -v.energy_between(from.0, 0.0);
+                        let wanted = if -signed > holds {
+                            // Asked for more than there is; the clamp below and
+                            // the `NotYetModeled` note both key off this being
+                            // negative, as they did.
+                            -1.0
+                        } else {
+                            v.temperature_after(signed)
+                        };
+                        // A vessel can only give up the heat it has. Clamping
+                        // at absolute zero and saying nothing let a request for
+                        // more be silently granted: two grams of magnesia at
+                        // 2769 °C, asked for 10 kJ it did not hold, came back
+                        // at exactly −273.15 °C as though that were an answer.
+                        //
+                        // No coolant is modelled — `cool` removes energy without
+                        // a reservoir to remove it into — so the only bound
+                        // available is the vessel's own heat content, and the
+                        // bench has to say when a request runs past it. That
+                        // this bound is absolute zero is itself the tell: long
+                        // before it the heat capacities have stopped describing
+                        // anything, because even a tabulated curve runs out of
+                        // table around 100-300 K and is held flat below it.
+                        let to = Kelvin(wanted.max(0.0));
+                        let moved = -v.energy_between(from.0, to.0);
+                        v.temperature = to;
+                        events.push(Event::TemperatureChanged {
+                            vessel: *vessel,
+                            from,
+                            to,
+                        });
+                        events.push(Event::EnergyTransferred {
+                            vessel: *vessel,
+                            heating: false,
+                            requested_j: energy.0,
+                            delivered_j: moved,
+                            time_coupled: false,
+                            // No coolant is modelled, so there is no cold body
+                            // to name and no floor of its temperature to quote.
+                            source: None,
+                            ceiling_k: None,
+                            // Cooling here is pure sensible heat by
+                            // construction: this arm moves the thermometer and
+                            // nothing else.
+                            sensible_j: moved,
+                            passes: 1,
+                            capped: false,
+                        });
+                        brown_dry_lemon_mark(v, &mut events);
+                        if wanted < 0.0 {
+                            let could_pay = holds / 1000.0;
+                            events.push(Event::not_modeled(
                             *vessel,
                             crate::ops::NotModelledCause::ModelBoundary,
                             Phrase::new(
@@ -2261,6 +2381,7 @@ impl Bench {
                                 ],
                             ),
                         ));
+                        }
                     }
                 } else {
                     events.push(Event::not_modeled(
@@ -2912,6 +3033,14 @@ impl Bench {
                     }
                 }
 
+                // The measured hydroxide/proton coordinates travel with
+                // their liquid exactly as on a pour. Left behind, a mixed
+                // strong acid and strong base met no hydroxide in the
+                // receiver's StepStart and the neutralisation heat
+                // (~-55.8 kJ/mol) was never charged: the mixture sat at
+                // the average of its two inlet temperatures.
+                let snapshot_a = AqueousTransferSnapshot::take(self.vessel_mut(*a)?, *fraction_a)?;
+                let snapshot_b = AqueousTransferSnapshot::take(self.vessel_mut(*b)?, *fraction_b)?;
                 // Withdraw fractions from sources.
                 {
                     let src_a = self.vessel_mut(*a)?;
@@ -2986,6 +3115,9 @@ impl Bench {
                 }
                 dst.unresolved_materials
                     .extend(unresolved_a.into_iter().chain(unresolved_b));
+                for snapshot in [snapshot_a, snapshot_b].into_iter().flatten() {
+                    snapshot.deposit(dst)?;
+                }
                 events.push(Event::Mixed {
                     a: *a,
                     b: *b,
@@ -3180,7 +3312,14 @@ impl Bench {
                 }
                 let v = self.vessel_mut(*vessel)?;
                 let water = SpeciesId::new("water");
-                let present = v.moles_of(&water);
+                // Only liquid water evaporates here; ice and vapour are not debited.
+                let present = Moles(
+                    v.contents
+                        .iter()
+                        .filter(|p| p.species == water && p.phase == Phase::Liquid)
+                        .map(|p| p.moles.0)
+                        .sum(),
+                );
                 if present.0 <= 0.0 {
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
@@ -3192,7 +3331,8 @@ impl Bench {
                         ),
                     ));
                 } else {
-                    let removed = v.withdraw(&water, Moles(present.0 * fraction));
+                    let removed =
+                        v.withdraw_phase(&water, Moles(present.0 * fraction), Phase::Liquid);
                     events.push(Event::Evaporated {
                         vessel: *vessel,
                         moles: removed,
@@ -3439,8 +3579,13 @@ impl Bench {
                             // number is the latent heat the burner paid
                             // and the condenser dumped; it never touches
                             // the vessel ledger, and the event says so.
-                            let removed_e = src.withdraw(&ethanol, Moles(cut.ethanol_over));
-                            let removed_w = src.withdraw(&water, Moles(cut.water_over));
+                            let removed_e = src.withdraw_phases(
+                                &ethanol,
+                                Moles(cut.ethanol_over),
+                                &[Phase::Liquid, Phase::Aqueous],
+                            );
+                            let removed_w =
+                                src.withdraw_phase(&water, Moles(cut.water_over), Phase::Liquid);
                             let at = Kelvin(cut.t_start_c + 273.15);
                             let ended = Kelvin(cut.t_end_c + 273.15);
                             let energy_kj = cut.energy_kj;
@@ -4508,6 +4653,19 @@ impl Bench {
                                     ),
                                 ));
                             }
+                        } else if gaps.is_empty() && !coverage.missing_absorptivity.is_empty() {
+                            // Coloured inventory with no reviewed molar
+                            // absorptivity (iodine): a zero would claim the
+                            // sample is transparent, so refuse instead.
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.unreviewed-molar-absorptivity",
+                                    "absorbance is unavailable: {species} absorbs visible light and has no reviewed molar absorptivity",
+                                    vec![("species".to_string(), Slot::terms("species", coverage.missing_absorptivity))],
+                                ),
+                            ));
                         } else if gaps.is_empty() {
                             // Written out rather than folded into one push with
                             // two conditionals: `every_fixed_gap_reason_has_german`
@@ -4816,7 +4974,7 @@ impl Bench {
                             let taken = (run.ion.clone(), Moles(run.moles * run.ion_per_metal));
                             let v = self.vessel_mut(*vessel)?;
                             v.deposit(species.clone(), moles, Phase::Solid);
-                            v.withdraw(&taken.0, taken.1);
+                            v.withdraw_phase(&taken.0, taken.1, Phase::Aqueous);
                             // Oxygen evolution supplies one proton per
                             // electron, but cathodic hydrogen cancels its
                             // share. Only the metal's electron share remains
@@ -4850,7 +5008,11 @@ impl Bench {
                             // electrorefining model and is not inferred here.
                             if anode_evolves {
                                 let v = self.vessel_mut(*vessel)?;
-                                v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
+                                v.withdraw_phase(
+                                    &SpeciesId::new("water"),
+                                    Moles(oxygen.0 * 2.0),
+                                    Phase::Liquid,
+                                );
                                 let oxygen_id = SpeciesId::new("O2");
                                 if v.retain_gas(oxygen_id.clone(), oxygen) {
                                     events.push(Event::GasContained {
@@ -4911,7 +5073,11 @@ impl Bench {
                             require_electrolysis_water(self.vessel(*vessel)?, run.water_spent)?;
                             let v = self.vessel_mut(*vessel)?;
                             if run.water_spent > crate::OBSERVABLE_MOLES {
-                                v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
+                                v.withdraw_phase(
+                                    &SpeciesId::new("water"),
+                                    Moles(run.water_spent),
+                                    Phase::Liquid,
+                                );
                             }
                             // Cathode.
                             if run.cathode_moles > crate::OBSERVABLE_MOLES {
@@ -4922,7 +5088,7 @@ impl Bench {
                                         Phase::Solid,
                                     );
                                     if let Some((ion, taken)) = &run.cathode_ion {
-                                        v.withdraw(ion, Moles(*taken));
+                                        v.withdraw_phase(ion, Moles(*taken), Phase::Aqueous);
                                     }
                                     events.push(electrolysed_run(*vessel, *amps, *seconds, &run));
                                     // The plating ion ran out part-way and
@@ -4992,7 +5158,11 @@ impl Bench {
                             }
                             // Anode.
                             if run.chloride_spent > crate::OBSERVABLE_MOLES {
-                                v.withdraw(&SpeciesId::new("Cl-"), Moles(run.chloride_spent));
+                                v.withdraw_phase(
+                                    &SpeciesId::new("Cl-"),
+                                    Moles(run.chloride_spent),
+                                    Phase::Aqueous,
+                                );
                             }
                             if run.anode_moles > crate::OBSERVABLE_MOLES {
                                 let m = Moles(run.anode_moles);
@@ -6295,7 +6465,7 @@ fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<
         }
     }
     if water_delta > 0.0 {
-        vessel.withdraw(&SpeciesId::new("water"), Moles(water_delta));
+        vessel.withdraw_phase(&SpeciesId::new("water"), Moles(water_delta), Phase::Liquid);
     } else if water_delta < 0.0 {
         vessel.deposit(SpeciesId::new("water"), Moles(-water_delta), Phase::Liquid);
     }
@@ -6410,8 +6580,8 @@ fn precipitate_declared_soap(
     // bound Ca/Mg mass, less the sodium returned to solution. This keeps the
     // ledger exact for calcium, magnesium, and mixtures of the two.
     let aggregate_mass_g = soap_mass_g + ion_mass_g - sodium_mass_g;
-    vessel.withdraw(&SpeciesId::new("Ca+2"), Moles(ca_take));
-    vessel.withdraw(&SpeciesId::new("Mg+2"), Moles(mg_take));
+    vessel.withdraw_phase(&SpeciesId::new("Ca+2"), Moles(ca_take), Phase::Aqueous);
+    vessel.withdraw_phase(&SpeciesId::new("Mg+2"), Moles(mg_take), Phase::Aqueous);
     vessel.deposit(
         SpeciesId::new("Na+"),
         Moles(scum.soap_bound_moles),

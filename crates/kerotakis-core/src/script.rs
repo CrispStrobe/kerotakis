@@ -177,7 +177,7 @@ pub fn is_canonical_verb(word: &str) -> bool {
 /// polyethylene and `pe` is the redox endpoint; a language that wanted
 /// `pe` for something of its own would collide with both, and the point
 /// of this check is to catch exactly that before it reaches a learner.
-fn is_canonical_word(word: &str) -> bool {
+pub(crate) fn is_canonical_word(word: &str) -> bool {
     let lower = word.to_ascii_lowercase();
     let lower = lower.as_str();
     INSTRUMENT_WORDS.iter().any(|(name, _)| *name == lower)
@@ -595,14 +595,38 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
         _ => return None,
     };
     let mut selected = None;
-    for (alias, canonical) in species::INPUT_ALIASES {
+    for &(alias, canonical) in species::CURATED_INPUT_ALIASES {
         let tokens: Vec<&str> = alias.split_whitespace().collect();
         let end = position + tokens.len();
         if words.get(position..end) == Some(tokens.as_slice())
             && selected.is_none_or(|(width, _)| tokens.len() > width)
         {
-            selected = Some((tokens.len(), *canonical));
+            selected = Some((tokens.len(), canonical));
         }
+    }
+    // Generated spellings, only where the typed word is not already an
+    // exact species key, material or nuclide: exact identities win.
+    let typed = words.get(position).copied()?;
+    let mut exact: Option<bool> = None;
+    for (tokens, canonical) in species::input_alias_tokens() {
+        let end = position + tokens.len();
+        if words.get(position..end) != Some(tokens.as_slice())
+            || selected.is_some_and(|(width, _)| tokens.len() <= width)
+        {
+            continue;
+        }
+        // Checked only when a one-word alias actually matches, so ordinary
+        // lines pay nothing for it.
+        if tokens.len() == 1
+            && *exact.get_or_insert_with(|| {
+                species::lookup_key(typed).is_some()
+                    || material::lookup_input(typed, None).is_some()
+                    || crate::nuclide::lookup_notation(typed).is_some()
+            })
+        {
+            continue;
+        }
+        selected = Some((tokens.len(), *canonical));
     }
     let (width, canonical) = selected?;
     let mut rewritten = words[..position].to_vec();

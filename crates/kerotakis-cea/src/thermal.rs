@@ -399,6 +399,10 @@ fn cea_species(registry_key: &str) -> Option<&'static Species> {
     db().get(name).or_else(|| db().get_reactant(name))
 }
 
+/// The stated temperature domain of the open-air CEA route (formerly a clamp).
+const CEA_ROUTE_MIN_K: f64 = 200.0;
+const CEA_ROUTE_MAX_K: f64 = 6000.0;
+
 fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
     if db().get_reactant(&species.name).is_none() && species.is_gas() {
         return species.h(temperature);
@@ -427,11 +431,34 @@ fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
             return gas.h(temperature);
         }
     }
+    // Only a degenerate point record (an assigned enthalpy at its single
+    // reference temperature) still reaches this endpoint evaluation; a ranged
+    // record outside its range is refused upstream by
+    // `outside_ranged_record` instead of being booked at the clamped endpoint.
     let t = species
         .t_range()
         .map(|(low, high)| temperature.clamp(low, high))
         .unwrap_or(temperature);
     species.h(t)
+}
+
+/// A ranged condensed/feed record that `temperature` lies BELOW: the
+/// reagent persists there and its enthalpy would be the clamped endpoint
+/// value, a true extrapolation. Above the record's upper bound the species
+/// does not persist as booked: decomposition or a phase change (calcination,
+/// melting, vaporisation) is a transition the HP/TP solve owns, and the
+/// product, not the reagent, is evaluated there, so it is not refused.
+/// Gas records keep their polynomial (deferred: `Species::interval_for`
+/// extrapolates the nearest interval) and degenerate point records keep
+/// their assigned enthalpy.
+fn outside_ranged_record(species: &Species, temperature: f64) -> bool {
+    let Some((low, high)) = species.t_range() else {
+        return false;
+    };
+    if high <= low || temperature >= low {
+        return false;
+    }
+    !(db().get_reactant(&species.name).is_none() && species.is_gas())
 }
 
 fn cea_identity_stem(name: &str) -> &str {
@@ -806,7 +833,41 @@ impl Equilibrator for ThermalEquilibrator {
                             .any(|stem| *stem == cea_identity_stem(&species.name)))
             });
         }
-        let t = vessel.temperature.0.clamp(200.0, 6000.0);
+        // Refuse, before any mutation, a vessel outside the route's stated
+        // 200-6000 K domain instead of booking its charge at a clamped
+        // temperature (unbooked or invented sensible heat).
+        let t = vessel.temperature.0;
+        if !(CEA_ROUTE_MIN_K..=CEA_ROUTE_MAX_K).contains(&t) {
+            return Ok(vec![Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    "not-modeled.cea-temperature-range",
+                    "the thermochemical equilibrium route's temperature domain ({low}-{high} K): this vessel is at {temperature} K, so the equilibrium is refused rather than evaluated at a clamped temperature; its inventory is retained",
+                    vec![
+                        ("low".into(), Slot::number(format!("{CEA_ROUTE_MIN_K:.0}"))),
+                        ("high".into(), Slot::number(format!("{CEA_ROUTE_MAX_K:.0}"))),
+                        ("temperature".into(), Slot::number(format!("{t:.1}"))),
+                    ],
+                ),
+            )]);
+        }
+        let context = if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+            CeaSolveContext::AdiabaticHp
+        } else {
+            CeaSolveContext::IsothermalTp
+        };
+        if let Some(outside) = charge
+            .mapped
+            .iter()
+            .filter_map(|(sid, _)| cea_species(&sid.0))
+            .find(|s| outside_ranged_record(s, t))
+        {
+            return Err(cea_solve_error(
+                &CeaError::OutOfRange(outside.name.clone(), t),
+                context,
+            ));
+        }
 
         // Enthalpy the vessel and its share of the atmosphere carry into
         // the problem.
@@ -1315,6 +1376,43 @@ mod owned_failure_reason_tests {
             assert!(transcript.contains(&phrase));
             assert!(transcript.contains(&detail));
             assert!(transcript.contains("unregistered-CEA-label"));
+        }
+    }
+}
+
+#[cfg(test)]
+mod record_domain_tests {
+    use super::*;
+
+    #[test]
+    fn ranged_condensed_records_refuse_outside_and_admit_their_boundaries() {
+        let mut checked = 0;
+        for s in db().species.values().filter(|s| !s.is_gas()) {
+            let Some((low, high)) = s.t_range() else {
+                continue;
+            };
+            if high <= low {
+                continue;
+            }
+            assert!(!outside_ranged_record(s, low), "{} at low", s.name);
+            assert!(!outside_ranged_record(s, high), "{} at high", s.name);
+            assert!(!outside_ranged_record(s, 0.5 * (low + high)), "{}", s.name);
+            // Below the record there is never a gas continuation.
+            assert!(outside_ranged_record(s, low - 1.0), "{} below", s.name);
+            // Above it, decomposition/phase change is owned by the solve.
+            assert!(!outside_ranged_record(s, high + 100.0), "{} above", s.name);
+            checked += 1;
+        }
+        assert!(checked > 0);
+    }
+
+    #[test]
+    fn gas_records_are_not_refused_by_this_guard() {
+        for s in db().species.values().filter(|s| s.is_gas()).take(20) {
+            if let Some((low, high)) = s.t_range() {
+                assert!(!outside_ranged_record(s, high + 100.0), "{}", s.name);
+                assert!(!outside_ranged_record(s, low - 1.0), "{}", s.name);
+            }
         }
     }
 }

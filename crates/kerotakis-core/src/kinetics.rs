@@ -699,8 +699,22 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 },
                 provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies explicitly editorial, bounded hydration and high-temperature activity envelopes rather than claiming universal yeast activity or irreversible denaturation history",
             },
+            // Bottle and ion siblings, the `MnO4-`/`KMnO4` pattern. KI now
+            // speciates (2026-10-27), so a solved vessel holds `K+` and
+            // `I-` and only the ion row can match there; the bottle row
+            // still covers the step before a solve and core-only stacks.
+            // At most one is present in any vessel; parameters identical.
             Catalyst {
                 species: "KI",
+                activation_energy: 56_000.0,
+                activity: CatalystActivity::Homogeneous {
+                    order: 1.0,
+                    reference_molar: 0.05,
+                },
+                provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). The 0.05 M reference preserves the curated demonstration time scale; changing KI concentration follows the measured first-order ratio. KI remains catalyst inventory rather than being consumed by the net equation",
+            },
+            Catalyst {
+                species: "I-",
                 activation_energy: 56_000.0,
                 activity: CatalystActivity::Homogeneous {
                     order: 1.0,
@@ -726,7 +740,19 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
     // ── EXP-43: iodine-clock reactions ──────────────────────────────────
     KineticReaction {
         id: "iodide-peroxide-clock",
-        equation: "H₂O₂ + 2 KI → I₂ + 2 KOH",
+        // RE-KEYED ONTO THE ION, 2026-10-27, for the reason the thiosulfate
+        // and bisulfite rows were: KI now speciates (iodine is a halide
+        // residue booked as wateq4f/minteq.v4's master species `I-`), so a
+        // solved beaker holds `K+` and `I-` and a law written on `KI` would
+        // match only in a dry vessel. The acidic net reaction is the one the
+        // rate law's first order in H+ already describes:
+        // H2O2 + 2 I- + 2 H+ -> I2 + 2 H2O (H 4=4, O 2=2, I 2=2, charge 0=0;
+        // 2 e- from iodide to peroxide oxygen). The old `2 KOH` product was
+        // the same balance written with the potassium as a carrier; the
+        // spectator K+ now simply stays. The protons are consumed from the
+        // represented strong-acid inventory exactly as `thiosulfate-acid`
+        // consumes them, so the extent is bounded by the acid present.
+        equation: "H₂O₂ + 2 I⁻ + 2 H⁺ → I₂ + 2 H₂O",
         stoichiometry: &[
             StoichiometricTerm {
                 species: "H2O2",
@@ -734,7 +760,12 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 phase: Phase::Liquid,
             },
             StoichiometricTerm {
-                species: "KI",
+                species: "I-",
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: PROTON,
                 coefficient: -2.0,
                 phase: Phase::Aqueous,
             },
@@ -744,9 +775,9 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 phase: Phase::Aqueous,
             },
             StoichiometricTerm {
-                species: "KOH",
+                species: "water",
                 coefficient: 2.0,
-                phase: Phase::Aqueous,
+                phase: Phase::Liquid,
             },
         ],
         locality: Locality::Bulk(Phase::Aqueous),
@@ -758,7 +789,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                     order: 1.0,
                 },
                 OrderTerm {
-                    species: "KI",
+                    species: "I-",
                     phase: Some(Phase::Aqueous),
                     order: 1.0,
                 },

@@ -518,23 +518,41 @@ fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -
 
 /// Native equilibrium includes bound ammonia, while the canonical NH3/NH4
 /// portions still partition total reduced nitrogen using only free-ion weights.
-fn silver_ammine_inventory_boundary(
-    vessel: &Vessel,
-    distribution: &[SpeciesDetail],
-) -> Option<Event> {
+///
+/// Silver keeps its original key. Every other ammine complex the routed
+/// databases define (enumerated in `ligand_routing`) carries the same
+/// ledger limitation and receives the generic metal-ammine note.
+fn silver_ammine_inventory_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -> Vec<Event> {
+    let mut events = Vec::new();
+    let other_ammine = distribution.iter().any(|species| {
+        species.molality > 0.0
+            && !matches!(species.name.as_str(), "AgNH3+" | "Ag(NH3)2+")
+            && crate::ligand_routing::is_ammine_complex(&species.name)
+    });
+    if other_ammine {
+        events.push(Event::not_modeled(
+            vessel.id,
+            kerotakis_core::ops::NotModelledCause::ModelBoundary,
+            Phrase::bare(
+                "not-modeled.metal-ammine-ligand-inventory",
+                "Metal-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
+            ),
+        ));
+    }
     if !distribution.iter().any(|species| {
         species.molality > 0.0 && matches!(species.name.as_str(), "AgNH3+" | "Ag(NH3)2+")
     }) {
-        return None;
+        return events;
     }
-    Some(Event::not_modeled(
+    events.push(Event::not_modeled(
         vessel.id,
         kerotakis_core::ops::NotModelledCause::ModelBoundary,
         Phrase::bare(
             "not-modeled.silver-ammine-ligand-inventory",
             "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
         ),
-    ))
+    ));
+    events
 }
 
 fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
@@ -935,6 +953,17 @@ pub struct PhreeqcEquilibrator {
     /// Heat of neutralisation per database tag, kJ/mol, asked of the
     /// database the first time that database is used.
     neutralisation: std::collections::HashMap<String, f64>,
+    /// Why the most recent `solve_once` could not price its whole-step
+    /// heat, if it could not. Read by the thermal fixed point: a step whose
+    /// heat ledger is incomplete is characterised at its supplied
+    /// temperature and says so, rather than applying a partial ledger.
+    last_heat_unpriced: Option<enthalpy::Unpriced>,
+    /// Set once a pass of the current thermal fixed point found its
+    /// unpriced movers too large to bound away. The decision is then held
+    /// for every later pass of the same step: a threshold that flipped with
+    /// the trial temperature (charge at 25 C, refuse at 33 C) made the fixed
+    /// point oscillate by 8.8 K and fail the whole solve.
+    unpriced_bound_refused: bool,
     /// An outside solver, for builds that cannot link IPhreeqc themselves.
     ///
     /// `wasm32-unknown-unknown` cannot host PHREEQC's C++, so the browser
@@ -2340,6 +2369,9 @@ impl PhreeqcEquilibrator {
 impl PhreeqcEquilibrator {
     #[cfg(feature = "engine")]
     pub fn new() -> Result<Self, PhreeqcError> {
+        // Crystallisation on cooling is charged at the same dissolution
+        // enthalpy this stack's heat balance uses (#867 `solid_route`).
+        crate::enthalpy::register_crystallisation_pricer();
         let mut inorganic = load_native_database("wateq4f")?;
         let mut organic = load_native_database("minteq.v4")?;
         let mut brine = load_native_database("pitzer")?;
@@ -2373,6 +2405,8 @@ impl PhreeqcEquilibrator {
             engine_calls: 0,
             hook: None,
             neutralisation,
+            last_heat_unpriced: None,
+            unpriced_bound_refused: false,
         })
     }
 
@@ -2382,6 +2416,9 @@ impl PhreeqcEquilibrator {
     /// guess.
     #[cfg(not(feature = "engine"))]
     pub fn new() -> Result<Self, PhreeqcError> {
+        // Crystallisation on cooling is charged at the same dissolution
+        // enthalpy this stack's heat balance uses (#867 `solid_route`).
+        crate::enthalpy::register_crystallisation_pricer();
         Ok(PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
@@ -2393,6 +2430,8 @@ impl PhreeqcEquilibrator {
             engine_calls: 0,
             hook: None,
             neutralisation: std::collections::HashMap::new(),
+            last_heat_unpriced: None,
+            unpriced_bound_refused: false,
         })
     }
 
@@ -3212,9 +3251,71 @@ fn append_candidate_phases(
 
 /// Element coverage alone cannot express ligand coverage: wateq4f knows
 /// both Ag and N(-3), but lacks silver ammines. Nitrate N(5) is not ammonia.
+/// The silver case is now one row of the generic table in
+/// `ligand_routing`; this predicate keeps its original routing phrase.
 fn needs_silver_ammine(elements: &[String]) -> bool {
     elements.iter().any(|element| element == "Ag")
         && elements.iter().any(|element| element == "N(-3)")
+}
+
+/// The routing phrase for a metal-ligand route that overrides the default.
+fn ligand_routing_phrase(db_tag: &str, pairs: &[(String, String)]) -> Phrase {
+    if pairs.len() == 1 && pairs[0].0 == "Ag" && pairs[0].1 == "N(-3)" {
+        return Phrase::bare(
+            "routing.silver-ammine",
+            "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species",
+        );
+    }
+    let families = pairs
+        .iter()
+        .map(|(metal, ligand)| {
+            let family = crate::ligand_routing::ligand_family(ligand).unwrap_or(ligand.as_str());
+            format!("{metal}-{family}")
+        })
+        .collect::<Vec<_>>()
+        .join(", ");
+    Phrase::new(
+        "routing.metal-ligand-complexes",
+        "chosen because {dataset} is the routed dataset that defines the metal-ligand complexes present ({families}); elemental coverage alone does not include these ligand species",
+        vec![
+            ("dataset".to_string(), Slot::text(format!("{db_tag}.dat"))),
+            ("families".to_string(), Slot::text(families)),
+        ],
+    )
+}
+
+/// A typed refusal for a present metal-ligand family that no route defines
+/// (or no single route defines together with every element).
+fn ligand_route_refusal(
+    route: &crate::ligand_routing::LigandRoute,
+    solver: &str,
+) -> Option<SolveError> {
+    use crate::ligand_routing::LigandRoute;
+    let (reason, pairs, what) = match route {
+        LigandRoute::Undefined { pairs } => (
+            AqueousReason::MetalLigandComplexesUndefined,
+            pairs,
+            "no routed aqueous database defines",
+        ),
+        LigandRoute::Conflict { pairs } => (
+            AqueousReason::MetalLigandRoutesConflict,
+            pairs,
+            "no single routed aqueous database defines, together with every element,",
+        ),
+        _ => return None,
+    };
+    let listed = pairs
+        .iter()
+        .map(|(metal, ligand)| format!("{metal}/{ligand}"))
+        .collect::<Vec<_>>()
+        .join(", ");
+    Some(SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
+        solver: solver.to_string(),
+        detail: format!(
+            "{what} the metal-ligand complexes of {listed}; speciation without them is not modeled"
+        ),
+    })
 }
 
 fn partition(vessel: &Vessel) -> Option<Problem> {
@@ -3339,6 +3440,15 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         // the pH of the acid sitting beside it, and the vessel simply
         // stopped having a solution at all. The honesty pass names the
         // unmodelled substance; the acid still gets its answer.
+        // Crystals of a curve salt deposited onto an already saturated
+        // solution belong to the crystallisation ledger
+        // (`kerotakis_core::crystallisation`); entering them as a freely
+        // dissolving solid would undo the crystallisation on this step.
+        if p.phase == Phase::Solid
+            && kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
+        {
+            continue;
+        }
         let Some(role) = derived::role(&p.species.0) else {
             continue;
         };
@@ -4185,7 +4295,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
         validate_clock_boundary(vessel, partition(vessel).as_ref())?;
-        if let Some(boundary) = kerotakis_core::nonaqueous::peroxide_medium_boundary(vessel) {
+        if let Some(boundary) = kerotakis_core::nonaqueous::non_water_matrix_boundary(vessel) {
             return Ok(vec![boundary]);
         }
         if has_solvent_only_basis(vessel) {
@@ -4267,11 +4377,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut guess = t0;
         let mut volume_guess = start.headspace_volume();
         let mut settled: Option<(Vessel, Vec<Event>, f64, bool, f64)> = None;
+        let mut settled_unpriced: Option<enthalpy::Unpriced> = None;
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
         let mut previous_was_provisional = false;
         let mut full_strict_thermal = false;
+        self.unpriced_bound_refused = false;
 
         for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
@@ -4282,6 +4394,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 trial.headspace = Headspace::PressureControlled { pressure, volume };
             }
             let mut deferred_seed = None;
+            self.last_heat_unpriced = None;
             let (mut events, q_joules, mut physical_canonical_closed, mut clock_applied) =
                 if full_strict_thermal {
                     self.solve_at_temperature(&mut trial)?
@@ -4340,7 +4453,9 @@ impl Equilibrator for PhreeqcEquilibrator {
             // Unknown-heat continuation is characterisation at the supplied
             // temperature, not an adiabatic prediction. Even a Cp/water basis
             // change must not reconstruct omitted endpoint heat indirectly.
-            let mut next = aqueous_temperature_target(&start, &trial, q_joules);
+            let mut heat_unpriced = self.last_heat_unpriced.clone();
+            let mut next =
+                aqueous_temperature_target(&start, &trial, q_joules, heat_unpriced.is_none());
             let mut next_volume = trial.headspace_volume();
             last_temperature_residual = (next - guess).abs();
             let provisional_thermal = deferred_seed.is_some();
@@ -4366,7 +4481,13 @@ impl Equilibrator for PhreeqcEquilibrator {
                     events = strict_events;
                     physical_canonical_closed = strict_closed;
                     clock_applied = strict_clock;
-                    next = aqueous_temperature_target(&start, &trial, strict_heat);
+                    heat_unpriced = self.last_heat_unpriced.clone();
+                    next = aqueous_temperature_target(
+                        &start,
+                        &trial,
+                        strict_heat,
+                        heat_unpriced.is_none(),
+                    );
                     next_volume = trial.headspace_volume();
                     last_temperature_residual = (next - guess).abs();
                     // A provisional two-cycle cannot witness the strict heat
@@ -4397,6 +4518,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 physical_canonical_closed,
                 clock_applied,
             ));
+            settled_unpriced = heat_unpriced;
             previous_guess = if reset_thermal_history {
                 None
             } else {
@@ -4443,6 +4565,12 @@ impl Equilibrator for PhreeqcEquilibrator {
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         events.extend(component_charge_note);
+        if let Some(unpriced) = settled_unpriced.filter(|_| {
+            matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+                && kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
+        }) {
+            events.push(unpriced_heat_note(vessel.id, &unpriced));
+        }
         let ph_now = vessel.solution.as_ref().map(|s| s.ph);
         events.extend(milk_buffer_notes(vessel, ph_now));
         // Observability gates narration, never the physical state. Dropping
@@ -4570,9 +4698,11 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
 
         // Separate sources can each use wateq4f while their combination
-        // needs silver ammines. Leave that new ligand problem to the
-        // ordinary target solve, which owns capability routing/provenance.
-        if needs_silver_ammine(&merged_elements) {
+        // needs metal-ligand complexes (silver ammines and every other
+        // family in `ligand_routing`). Leave that new ligand problem to the
+        // ordinary target solve, which owns capability routing/provenance
+        // and the typed refusal when no route defines the family.
+        if crate::ligand_routing::select(&merged_elements).blocks(db_tag) {
             return None;
         }
 
@@ -4876,7 +5006,9 @@ struct SolveSetup {
 enum HeatMode {
     Inactive,
     Priced,
-    DissolutionFallback,
+    /// The whole-step state-function balance declined. No partial heat is
+    /// charged and the step is characterised at its supplied temperature.
+    Unpriced,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -4904,11 +5036,37 @@ struct AqueousFirstPose {
     pass: AqueousPass,
 }
 
-fn aqueous_temperature_target(start: &Vessel, trial: &Vessel, q_joules: f64) -> f64 {
+/// The typed refusal for a step whose whole-step heat ledger is incomplete.
+/// The chemistry of the step stands; only its heat is withheld, and the
+/// temperature is the one the step was supplied at.
+fn unpriced_heat_note(vessel: kerotakis_core::VesselId, unpriced: &enthalpy::Unpriced) -> Event {
+    Event::not_modeled(
+        vessel,
+        kerotakis_core::ops::NotModelledCause::NoReviewedDatum,
+        Phrase::new(
+            "not-modeled.aqueous-heat-unpriced",
+            "the reaction heat of this step is not modelled: {species} changed amount and has no reviewed enthalpy on this route. No partial heat is charged; the temperature stays where the step began, and the composition, pH and speciation are unaffected",
+            vec![("species".to_string(), Slot::text(unpriced.species.clone()))],
+        ),
+    )
+}
+
+fn aqueous_temperature_target(
+    start: &Vessel,
+    trial: &Vessel,
+    q_joules: f64,
+    heat_priced: bool,
+) -> f64 {
     let t0 = start.temperature.0;
     let t_ref = Kelvin::STANDARD.0;
     let held = start.energy_between(t_ref, t0) + q_joules;
-    if !matches!(start.thermal_mode, ThermalMode::Adiabatic)
+    // An unpriced step keeps its supplied temperature. Re-reading the same
+    // enthalpy through the trial's lower heat capacity (dissolved ions carry
+    // Cp 0 here) would release the solid's sensible heat above 25 °C as if
+    // it were reaction heat while the dissolution enthalpy itself stayed
+    // unowned: hot potassium nitrate then WARMED its solution by 8.8 K.
+    if !heat_priced
+        || !matches!(start.thermal_mode, ThermalMode::Adiabatic)
         || !kerotakis_core::aqueous_continuation::whole_step_heat_available(start)
     {
         t0
@@ -4968,10 +5126,8 @@ fn secondary_routing(
 
 struct AqueousPass {
     events: Vec<Event>,
-    /// Priced mode is a whole-step state-function quote. The existing
-    /// unpriced fallback covers only known dissolution events owned by this
-    /// aqueous solver, accumulated across its inner passes; StepStart does
-    /// not carry earlier solvers' dissolution events.
+    /// Priced mode is a whole-step state-function quote. Unpriced mode
+    /// charges nothing: a partial per-event ledger is never applied.
     heat_quote_j: f64,
     heat_mode: HeatMode,
     component_certificate: ComponentCertificate,
@@ -5169,7 +5325,9 @@ enum AqueousReason {
     DiluteExchangeDomain,
     DiluteCrystalDomain,
     SolidSolutionPhaseUnavailable,
-    AmmoniaGasUnavailable,
+    GasPhaseUnavailable,
+    MetalLigandComplexesUndefined,
+    MetalLigandRoutesConflict,
     ReadbackUnrepresented,
     ExchangeReadbackInvalid,
     ComponentReadbackInvalid,
@@ -5500,9 +5658,17 @@ impl AqueousReason {
                 "solver-reason.aqueous.solid-solution-phase-unavailable",
                 "The routed database does not define a reviewed solid-solution end member.",
             ),
-            Self::AmmoniaGasUnavailable => (
-                "solver-reason.aqueous.ammonia-gas-unavailable",
-                "The routed database does not define the ammonia gas phase needed for this mixed-domain headspace.",
+            Self::GasPhaseUnavailable => (
+                "solver-reason.aqueous.gas-phase-unavailable",
+                "The routed database does not define a reviewed phase for a gas in this headspace.",
+            ),
+            Self::MetalLigandComplexesUndefined => (
+                "solver-reason.aqueous.metal-ligand-complexes-undefined",
+                "No routed aqueous database defines the metal-ligand complexes this solution needs, so its speciation would omit them.",
+            ),
+            Self::MetalLigandRoutesConflict => (
+                "solver-reason.aqueous.metal-ligand-routes-conflict",
+                "The metal-ligand complexes in this solution are not defined together on any single routed aqueous database.",
             ),
             Self::ReadbackUnrepresented => (
                 "solver-reason.aqueous.readback-unrepresented",
@@ -6155,36 +6321,6 @@ fn closed_aqueous_events(
     Ok(final_events)
 }
 
-/// The fallback retains the preexisting owner boundary: native dissolution
-/// events from this aqueous owner. StepStart carries earlier solvers' gas,
-/// contents and free base, but no earlier dissolution event list; inferring
-/// such events from a stock delta would fabricate a reaction. The physical
-/// inner passes below must at least be accumulated rather than charging
-/// only the last re-pose.
-fn cumulative_dissolution_fallback<'a>(events: impl IntoIterator<Item = &'a Event>) -> f64 {
-    let mut joules = 0.0;
-    for event in events {
-        match event {
-            Event::Dissolved { species, moles, .. } => {
-                if let Some(dh) =
-                    species::lookup(species).and_then(|row| row.dissolution_enthalpy_kj)
-                {
-                    joules -= dh * 1000.0 * moles.0;
-                }
-            }
-            Event::Precipitated { species, moles, .. } => {
-                if let Some(dh) =
-                    species::lookup(species).and_then(|row| row.dissolution_enthalpy_kj)
-                {
-                    joules += dh * 1000.0 * moles.0;
-                }
-            }
-            _ => {}
-        }
-    }
-    joules
-}
-
 #[cfg(test)]
 mod canonical_physical_closure_tests {
     use super::*;
@@ -6709,7 +6845,7 @@ mod canonical_physical_closure_tests {
         };
         let guess = start.temperature.0;
         let volume = start.headspace_volume();
-        let provisional_next = aqueous_temperature_target(&start, &start, 0.0);
+        let provisional_next = aqueous_temperature_target(&start, &start, 0.0, true);
         assert!(aqueous_thermal_pose_converged(
             &start,
             guess,
@@ -6718,7 +6854,7 @@ mod canonical_physical_closure_tests {
             volume,
             None,
         ));
-        let strict_next = aqueous_temperature_target(&start, &start, 1.0);
+        let strict_next = aqueous_temperature_target(&start, &start, 1.0, true);
         assert!(!aqueous_thermal_pose_converged(
             &start,
             guess,
@@ -7014,7 +7150,7 @@ mod canonical_physical_closure_tests {
     }
 
     #[test]
-    fn signed_gas_and_unpriced_fallback_keep_all_native_inner_passes() {
+    fn signed_gas_keeps_all_native_inner_passes() {
         let vessel = state();
         let evolved = Event::GasEvolved {
             vessel: vessel.id,
@@ -7036,23 +7172,6 @@ mod canonical_physical_closure_tests {
                 moles: Moles(1e-8),
             }]
         );
-        let salt = SpeciesId::new("NaCl");
-        let dh = species::lookup(&salt)
-            .and_then(|row| row.dissolution_enthalpy_kj)
-            .expect("reviewed salt dissolution heat");
-        let first = Event::Dissolved {
-            vessel: vessel.id,
-            species: salt.clone(),
-            moles: Moles(0.01),
-        };
-        let second = Event::Dissolved {
-            vessel: vessel.id,
-            species: salt,
-            moles: Moles(0.005),
-        };
-        let actual = cumulative_dissolution_fallback([&first, &second]);
-        assert!((actual + dh * 15.0).abs() < 1e-10);
-        assert!((actual - cumulative_dissolution_fallback([&second])).abs() > 1.0);
     }
 
     #[test]
@@ -7796,6 +7915,7 @@ impl PhreeqcEquilibrator {
         hint: FirstPoseHint,
         auxiliary_policy: AuxiliaryPolicy,
     ) -> Result<AqueousPass, SolveError> {
+        self.last_heat_unpriced = None;
         if hint.primary_route.is_some() {
             // A provisional answer on another database must not reuse an
             // electron-search guess from the abandoned model.
@@ -8236,63 +8356,60 @@ impl PhreeqcEquilibrator {
                     None => gas_out.push(("CO2".into(), -problem.clock_co2_applied_mol)),
                 }
             }
-            match enthalpy::heat_released_j(
+            // An unpriced mover whose worst-case heat would move this
+            // vessel by less than the bench thermometer can resolve cannot
+            // change any reading; a larger one refuses the step's heat.
+            let tolerance_j =
+                vessel.heat_capacity() * kerotakis_core::instrument::THERMOMETER_PRECISION_K;
+            let quoted = enthalpy::heat_quote(
                 &before_contents,
                 before_oh,
                 &vessel.contents,
                 measured_oh,
                 &gas_out,
                 db_tag,
-            ) {
+            )
+            .and_then(|quote| match quote.unpriced {
+                None => Ok(quote.released_j),
+                Some(declined) => {
+                    if quote.unpriced_bound_j > tolerance_j {
+                        self.unpriced_bound_refused = true;
+                    }
+                    if self.unpriced_bound_refused {
+                        Err(declined)
+                    } else {
+                        Ok(quote.released_j)
+                    }
+                }
+            });
+            match quoted {
                 Ok(j) => {
                     q_joules = j;
                     heat_mode = HeatMode::Priced;
                 }
-                Err(_unpriced) => {
-                    heat_mode = HeatMode::DissolutionFallback;
-                    // THE LAST SECOND PATH, and it is confined to exactly
-                    // the steps the balance cannot answer.
+                Err(unpriced) => {
+                    // The balance could not price something that MOVED.
                     //
-                    // Declining outright loses heats the bench already
-                    // knew. A copper sulfate solution precipitates
-                    // chalcanthite, which no registry row prices, and the
-                    // whole step then declined — throwing away the -73.1
-                    // kJ/mol of dissolving the copper sulfate, which is
-                    // known and large. The beaker sat at room temperature
-                    // instead of reaching 58 °C, and because solubility
-                    // follows temperature the lesson's crystals and even
-                    // its colour changed with it.
+                    // This used to fall back to charging the registry's
+                    // dissolution enthalpy per observed `Dissolved` /
+                    // `Precipitated` event. That ledger is partial by
+                    // construction — it exists only for steps the
+                    // state-function balance could not close — and a
+                    // partial ledger is not a smaller error, it can be the
+                    // wrong SIGN: slaking quicklime on wateq4f charged the
+                    // portlandite precipitation and not the lime it came
+                    // from, and the beaker cooled for one of the most
+                    // exothermic reactions on the bench.
                     //
-                    // So where the balance can price a step it owns it
-                    // completely and no event charges anything; where it
-                    // cannot, this falls back to what the bench charged
-                    // before — per observed dissolution, partial by
-                    // construction, and no worse than yesterday.
-                    // `dissolution_fallback_is_only_for_steps_the_balance_declines`
-                    // counts what still lands here.
-                    q_joules = cumulative_dissolution_fallback(
-                        prior_physical_events.iter().chain(events.iter()),
-                    );
-                    // Nothing charged and nothing guessed.
-                    //
-                    // Deliberately SILENT, and this was measured rather
-                    // than assumed. A `NotYetModeled` here reads "no route
-                    // answered this step", and the curiosity classifier
-                    // takes it at its word ahead of the route branches: it
-                    // moved fifteen corpus rows from `computed` to
-                    // `missing` — rows whose pH, speciation and products
-                    // were all still there and correct. Only the HEAT was
-                    // unpriced, and saying the step was not modelled
-                    // because of that is a false statement about the whole
-                    // step, of exactly the kind this module exists to stop
-                    // making about temperature.
-                    //
-                    // Not charging is also the status quo: an unpriceable
-                    // dissolution was silently uncharged before this
-                    // existed too. The refusal is still real and still
-                    // names its species — `heat_released_j` returns it,
-                    // and `reaction_heat.rs` asserts on it — it just is
-                    // not broadcast as a claim about anything but itself.
+                    // So the heat is refused for the whole step, and the
+                    // thermal fixed point keeps the supplied temperature
+                    // (`aqueous_temperature_target`) rather than letting a
+                    // heat-capacity relabelling reconstruct a heat no one
+                    // owns. The refusal is named once, after settling.
+                    heat_mode = HeatMode::Unpriced;
+                    q_joules = 0.0;
+                    let _ = prior_physical_events;
+                    self.last_heat_unpriced = Some(unpriced);
                 }
             }
         }
@@ -8362,8 +8479,10 @@ impl PhreeqcEquilibrator {
         // (the ion-interaction model is built for them: halite saturates at
         // the textbook 6.13 mol/kgw where wateq4f gives 6.50); wateq4f
         // otherwise.
-        // Silver ammines are a separate ligand capability: Ag and N(-3)
-        // exist in wateq4f, but their complexes are present only in minteq.
+        // Silver ammines (and every other metal-ligand family enumerated
+        // in `ligand_routing`) are a separate ligand capability: Ag and
+        // N(-3) exist in wateq4f, but their complexes are present only in
+        // minteq. That selection follows the domain choice below.
         // "Extended": any element wateq4f does not know (derived — e.g.
         // Acetate), plus phosphate as a documented exception (wateq4f has
         // the P element but no free H3PO4 species).
@@ -8376,15 +8495,13 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (mut db_tag, mut routing) = if needs_silver_ammine(&problem.elements) {
-            (
-                "minteq.v4",
-                Phrase::bare(
-                    "routing.silver-ammine",
-                    "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species",
-                ),
-            )
-        } else if needs_extended {
+        let ligand_route = crate::ligand_routing::select(&problem.elements);
+        if forced_route.is_none() {
+            if let Some(refusal) = ligand_route_refusal(&ligand_route, self.name()) {
+                return Err(refusal);
+            }
+        }
+        let (mut db_tag, mut routing) = if needs_extended {
             (
                 "minteq.v4",
                 Phrase::bare(
@@ -8420,6 +8537,17 @@ impl PhreeqcEquilibrator {
                 ),
             )
         };
+        // Metal-ligand capability: a route-deciding family present in the
+        // vessel overrides the domain choice above when that choice lacks
+        // it (silver ammines, nickel/cobalt/iron/mercury ammines, cyanide,
+        // citrate, EDTA ...). Where the domain route already defines every
+        // present family its phrase is kept.
+        if let crate::ligand_routing::LigandRoute::Route { db, pairs } = &ligand_route {
+            if *db != db_tag {
+                db_tag = *db;
+                routing = ligand_routing_phrase(db, pairs);
+            }
+        }
         if let Some(requested) = forced_route {
             let transition_is_reviewed = matches!(requested, "pitzer" | "wateq4f")
                 && (db_tag == requested
@@ -8449,6 +8577,7 @@ impl PhreeqcEquilibrator {
                 || !original_is_representable
                 || needs_extended
                 || needs_silver_ammine(&problem.elements)
+                || ligand_route.blocks(requested)
                 || !problem.surfaces.is_empty()
                 || !problem.exchanges.is_empty()
                 || !problem.solid_solutions.is_empty()
@@ -8483,6 +8612,26 @@ impl PhreeqcEquilibrator {
                     ),
                 ],
             );
+            // Saturation and crystallisation of a posed phase at this load
+            // are outside the Debye-Hueckel route's activity domain: the
+            // hosted validation of b720949 put minteq.v4 Halite at -40%
+            // against measurement. Say so as a typed clause rather than
+            // let the phase amounts read as a validated prediction.
+            let posed: Vec<&str> = problem
+                .phases
+                .iter()
+                .map(|(name, _, _)| name.as_str())
+                .collect();
+            if !posed.is_empty() {
+                routing = Phrase::new(
+                    "routing.crystallisation-outside-activity-domain",
+                    "{routing}. Saturation and crystallisation of {phases} at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction",
+                    vec![
+                        ("routing".to_string(), Slot::phrase(routing)),
+                        ("phases".to_string(), Slot::text(posed.join(", "))),
+                    ],
+                );
+            }
         }
         if !problem.surfaces.is_empty() {
             if potential_molality > 1.0 && db_tag != "minteq.v4" {
@@ -8576,17 +8725,22 @@ impl PhreeqcEquilibrator {
         // phases are kept so the engine errors honestly rather than the
         // ledger losing their crystal water silently.
         let idx = derived::index_for(db_tag);
-        // WATEQ defines NH3(g); minteq's extended aqueous/ligand route
-        // does not. Silently dropping this component would leave a stale
-        // headspace beside a seemingly complete acid/base equilibrium.
-        // Refuse before mutation instead of borrowing unreviewed phase
-        // data or treating analytical bound ligand as free ammonia.
-        if problem.gases.iter().any(|(phase, _, _)| phase == "NH3(g)") && !idx.has_phase("NH3(g)") {
+        // Every gas posed to the solve must be defined on the routed
+        // database, natively or through the consistency-checked import in
+        // `gas_phases::reconcile`. Silently dropping a component would leave
+        // a stale headspace beside a seemingly complete acid/base
+        // equilibrium, so refuse before mutation instead of borrowing
+        // unreviewed phase data (docs/gas-phase-coverage-20261027.md).
+        if let Some((phase, ..)) = problem
+            .gases
+            .iter()
+            .find(|(phase, ..)| !idx.has_phase(phase))
+        {
             return Err(SolveError::NotConverged {
-                reason: Some(Box::new(AqueousReason::AmmoniaGasUnavailable.phrase())),
+                reason: Some(Box::new(AqueousReason::GasPhaseUnavailable.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
-                    "finite ammonia gas/protonation equilibrium requires NH3(g), which the routed {db_tag} database does not define; this mixed-domain headspace is not modeled"
+                    "finite gas/liquid equilibrium requires {phase}, which the routed {db_tag} database does not define and no reviewed vendored database could supply consistently; this headspace is not modeled"
                 ),
             });
         }
@@ -9942,6 +10096,14 @@ impl PhreeqcEquilibrator {
                 // entered the condensed inventory and how much vented.
                 continue;
             }
+            // Held crystals of a curve salt were never handed to the
+            // solver (`partition`), so they pass through unchanged.
+            if p.phase == Phase::Solid
+                && kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
+            {
+                contents.push(p.clone());
+                continue;
+            }
             match derived::role(&p.species.0) {
                 // The solvent is rebuilt on the *equilibrated* water mass,
                 // not left at what went in. Speciation consumes and
@@ -10240,6 +10402,7 @@ impl PhreeqcEquilibrator {
         for p in &vessel.contents {
             if p.phase == Phase::Solid
                 && matches!(derived::role(&p.species.0), Some(DerivedRole::Dissolves(_)))
+                && !kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
             {
                 events.push(Event::Dissolved {
                     vessel: vessel.id,
@@ -14747,12 +14910,12 @@ mod finite_ammonia_admission_diagnostics {
 
     #[test]
     fn ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database() {
-        assert!(
-            !derived::index_for("minteq.v4").has_phase("NH3(g)"),
-            "unexpected minteq phase: {:?}",
-            derived::index_for("minteq.v4").phases.get("NH3(g)")
-        );
-        assert!(derived::index_for("wateq4f").has_phase("NH3(g)"));
+        // minteq.v4 carries the wateq4f Henry phase verbatim, so a sealed
+        // ammonium + acetate vessel on the ligand route is solvable.
+        let minteq = &derived::index_for("minteq.v4").phases["NH3(g)"];
+        let wateq = &derived::index_for("wateq4f").phases["NH3(g)"];
+        assert_eq!(minteq.log_k, wateq.log_k);
+        assert_eq!(minteq.delta_h_kj, wateq.delta_h_kj);
         for phase in [Phase::Aqueous, Phase::Gas] {
             let mut v = Vessel::new(kerotakis_core::VesselId(0), "beaker");
             v.headspace = Headspace::Sealed {

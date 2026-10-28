@@ -10,11 +10,6 @@
     "placeholders": []
   },
   {
-    "key": "solver-reason.aqueous.ammonia-gas-unavailable",
-    "en": "The routed database does not define the ammonia gas phase needed for this mixed-domain headspace.",
-    "placeholders": []
-  },
-  {
     "key": "solver-reason.aqueous.aux-input-binding",
     "en": "The queued auxiliary input no longer matches its exact database and input binding.",
     "placeholders": []
@@ -225,6 +220,11 @@
     "placeholders": []
   },
   {
+    "key": "solver-reason.aqueous.gas-phase-unavailable",
+    "en": "The routed database does not define a reviewed phase for a gas in this headspace.",
+    "placeholders": []
+  },
+  {
     "key": "solver-reason.aqueous.gas-wrong-vessel",
     "en": "A gas crossing belongs to a different vessel.",
     "placeholders": []
@@ -242,6 +242,16 @@
   {
     "key": "solver-reason.aqueous.measured-coordinate-invalid",
     "en": "A measured aqueous coordinate is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.metal-ligand-complexes-undefined",
+    "en": "No routed aqueous database defines the metal-ligand complexes this solution needs, so its speciation would omit them.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.metal-ligand-routes-conflict",
+    "en": "The metal-ligand complexes in this solution are not defined together on any single routed aqueous database.",
     "placeholders": []
   },
   {

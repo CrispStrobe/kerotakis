@@ -55,6 +55,10 @@ pub trait InstrumentContract {
 
 // ── Built-in instruments (INST-002 migration targets) ──────────────
 
+/// The bench thermometer's stated precision, K. A temperature difference
+/// smaller than this cannot be observed on this bench.
+pub const THERMOMETER_PRECISION_K: f64 = 0.1;
+
 /// A simple thermometer: reads temperature, no perturbation.
 pub struct Thermometer;
 
@@ -76,7 +80,7 @@ impl InstrumentContract for Thermometer {
             observable: "temperature".into(),
             value: vessel.temperature.0 - 273.15,
             unit: "°C".into(),
-            precision: Some(0.1),
+            precision: Some(THERMOMETER_PRECISION_K),
             in_range: vessel.temperature.0 > 233.15 && vessel.temperature.0 < 573.15,
         })
     }

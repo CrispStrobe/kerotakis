@@ -1391,6 +1391,31 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
         "an open vessel vents CO2 while the reagents meet, so the trace \
          sealed in afterwards depends on the order by 2.3e-3 relative",
     ),
+    // RECORDED 2026-10-28, measured on hosted builds of both orders.
+    //
+    // Bleach and betanin. HClO, hypochlorite's own conjugate acid, has no
+    // stated enthalpy in any shipped database (llnl.dat 4496: "Not possible
+    // to calculate enthalpy of reaction HClO"), so every step that moves it
+    // is priced only if the moved trace is bounded below the thermometer's
+    // resolution. Poured into plain water, NaOCl forms little HClO, the
+    // bound admits it and the dissolution is charged (298.1482 K for 5 mmol,
+    // 298.1474 K for 10 mmol). Poured after betanin, the slightly acidic
+    // pigment converts more hypochlorite to HClO, the bound refuses, and the
+    // step states `not-modeled.aqueous-heat-unpriced` at 298.15 K. Both
+    // orders tell the truth about what they could price; they disagree by
+    // 1.8 and 2.6 mK, under the 0.1 K the bench thermometer resolves, and
+    // th-077's base equivalents carry the same temperature into speciation.
+    // Closes when HClO's protonation enthalpy has a reviewed source.
+    (
+        "bio-094",
+        "HClO has no stated enthalpy anywhere shipped; one order bounds the \
+         trace and charges the bleach's 1.8 mK, the other refuses the heat",
+    ),
+    (
+        "th-077",
+        "HClO has no stated enthalpy anywhere shipped; one order bounds the \
+         trace and charges the bleach's 2.6 mK, the other refuses the heat",
+    ),
     // FIXED 2026-09-18, and the row is kept as a comment because the
     // investigation is the useful part. `aq-023` — calcium chloride and a
     // powdered detergent in 100 mL of water — departed here from the day

@@ -805,7 +805,11 @@ measure v3 ph
 
 [reaction.expect]
 events = ["added:Na2S2O3", "measured"]
-absent = ["solver_failed", "not_yet_modelled"]
+# The claim is speciation, carried by the pH: unspeciated thiosulfate would
+# leave the acid control at 1.75. Its HEAT is a separate, true refusal: no
+# shipped database states an enthalpy for S2O3-2, so a not-modelled heat note
+# is expected here and is not the error this entry is about.
+absent = ["solver_failed"]
 ph = { min = 1.84, max = 1.93 }
 
 [reaction.expect.predict]

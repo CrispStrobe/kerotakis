@@ -101,10 +101,10 @@ fn phase_conflict(property: &str) {
 fn same_runtime(doc: &Value) {
     let canonical = document();
     let expected = parse_document(&canonical).unwrap();
-    assert_eq!(expected.len(), 186);
+    assert_eq!(expected.len(), 188);
     assert_eq!(
         expected.iter().filter(|s| s.heat_capacity == 0.0).count(),
-        47
+        49
     );
     let typed: RegistryDocument = serde_json::from_value(doc.clone()).unwrap();
     assert!(typed.validate().is_ok());

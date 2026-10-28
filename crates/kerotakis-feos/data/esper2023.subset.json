@@ -1,0 +1,73 @@
+{
+  "_source": {
+    "upstream": "feos-org/feos@aabc02bbf6c469cf702206cfa68bbb7b2105a324:parameters/pcsaft/esper2023.json",
+    "upstream_sha256": "87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679",
+    "extracted_by": "tools/extract_feos_params.py",
+    "note": "records copied unchanged; do not edit by hand"
+  },
+  "records": [
+    {
+      "identifier": {
+        "cas": "67-56-1",
+        "name": "methanol",
+        "iupac_name": "methanol",
+        "smiles": "CO",
+        "inchi": "InChI=1S/CH4O/c1-2/h2H,1H3"
+      },
+      "molarweight": 32.026,
+      "m": 2.25965,
+      "sigma": 2.83016,
+      "epsilon_k": 183.58634,
+      "association_sites": [
+        {
+          "na": 1.0,
+          "nb": 1.0,
+          "kappa_ab": 0.08716,
+          "epsilon_k_ab": 2465.13545
+        }
+      ]
+    },
+    {
+      "identifier": {
+        "cas": "7732-18-5",
+        "name": "water",
+        "iupac_name": "oxidane",
+        "smiles": "O",
+        "inchi": "InChI=1S/H2O/h1H2"
+      },
+      "molarweight": 18.011,
+      "m": 2.36948,
+      "sigma": 2.15072,
+      "epsilon_k": 230.71557,
+      "association_sites": [
+        {
+          "na": 1.0,
+          "nb": 1.0,
+          "kappa_ab": 0.35319,
+          "epsilon_k_ab": 2195.10176
+        }
+      ]
+    },
+    {
+      "identifier": {
+        "cas": "64-17-5",
+        "name": "ethanol",
+        "iupac_name": "ethanol",
+        "smiles": "CCO",
+        "inchi": "InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3"
+      },
+      "molarweight": 46.042,
+      "m": 2.8866,
+      "sigma": 2.95772,
+      "epsilon_k": 187.26028,
+      "association_sites": [
+        {
+          "na": 1.0,
+          "nb": 1.0,
+          "kappa_ab": 0.05533,
+          "epsilon_k_ab": 2462.30577
+        }
+      ]
+    }
+  ]
+}

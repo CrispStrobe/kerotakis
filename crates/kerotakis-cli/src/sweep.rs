@@ -244,7 +244,13 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
     } else {
         1.5
     };
-    if liquid_water && after.temperature.0 < freezing_k - allowance {
+    // A step whose chemistry was refused leaves the vessel explicitly
+    // uncharacterised: an unsolved mixture gets no invented phase answer
+    // (`phase_without_aqueous`), so there is no claimed state to score.
+    let chemistry_refused = events
+        .iter()
+        .any(|e| matches!(e, Event::SolverFailed { .. }));
+    if liquid_water && !chemistry_refused && after.temperature.0 < freezing_k - allowance {
         fail(
             Invariant::StatesAgreeWithTemperature,
             format!(

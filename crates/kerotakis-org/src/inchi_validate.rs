@@ -49,6 +49,8 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("Na+", "[Na+]"),
     ("K+", "[K+]"),
     ("Br-", "[Br-]"),
+    // Iodide (PubChem CID 30165) joins with the iodide/thiosulfate lane.
+    ("I-", "[I-]"),
     ("Cl-", "[Cl-]"),
     ("Ca+2", "[Ca+2]"),
     ("Mg+2", "[Mg+2]"),
@@ -121,6 +123,9 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // rather than different from it - the opposite of the hypochlorite
     // pair above. Neither pattern generalises, so both were fetched.
     ("S2O3-2", "[O-]S(=O)(=O)[S-]"),
+    // Tetrathionate, the iodometric titration product (PubChem CID 4657547,
+    // fetched by `tetrathionate(2-)`, -L suffix).
+    ("S4O6-2", "[O-]S(=O)(=O)SSS(=O)(=O)[O-]"),
     // Sulfite's conjugate pair, both halves of the element the sulfite
     // borrow adds. The two keys share their first block and differ only in
     // the suffix letter - -L for the dianion, -M for the monoanion - which

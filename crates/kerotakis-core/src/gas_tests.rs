@@ -229,8 +229,8 @@ fn dispatch_pop(vessel: &mut Vessel, id: VesselId, events: &mut Vec<Event>) {
     let o2_consumed = extent;
     let h2o_produced = extent * 2.0;
 
-    vessel.withdraw(&SpeciesId::new("H2"), Moles(h2_consumed));
-    vessel.withdraw(&SpeciesId::new("O2"), Moles(o2_consumed));
+    vessel.withdraw_phase(&SpeciesId::new("H2"), Moles(h2_consumed), Phase::Gas);
+    vessel.withdraw_phase(&SpeciesId::new("O2"), Moles(o2_consumed), Phase::Gas);
     vessel.deposit(SpeciesId::new("water"), Moles(h2o_produced), Phase::Liquid);
     vessel.refresh_pressure();
 
@@ -297,7 +297,7 @@ fn dispatch_limewater(vessel: &mut Vessel, id: VesselId, events: &mut Vec<Event>
     let co2_available = gas_moles_of(vessel, "CO2");
     let co2_consumed = co2_available.min(LIMEWATER_CA_OH_2_MOLES);
 
-    vessel.withdraw(&SpeciesId::new("CO2"), Moles(co2_consumed));
+    vessel.withdraw_phase(&SpeciesId::new("CO2"), Moles(co2_consumed), Phase::Gas);
     // The Ca(OH)₂ and CaCO₃ are in the limewater (a separate solution
     // held up to the tube mouth); we don't model the limewater vessel
     // explicitly — we consume a curated amount of CO₂ and state the

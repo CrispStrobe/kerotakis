@@ -1,7 +1,7 @@
 //! EXP-43: iodine-clock kinetics.
 //!
 //! Two clock reactions beside the landed thiosulfate clock: the
-//! iodide–peroxide clock (H₂O₂ + 2 KI → I₂ + 2 KOH) and the
+//! iodide–peroxide clock (H₂O₂ + 2 I⁻ + 2 H⁺ → I₂ + 2 H₂O) and the
 //! iodate–bisulfite Landolt clock (KIO₃ + 3 HSO₃⁻ + 3 Na⁺ → KI + 3 NaHSO₄).
 //! Each must show clock time scaling with concentration and temperature.
 
@@ -16,7 +16,14 @@ use kerotakis_core::vessel::{SolutionInfo, Vessel, VesselId};
 fn iodide_peroxide_vessel(celsius: f64, ki: f64, h2o2: f64) -> Vessel {
     let mut v = Vessel::new(VesselId(0), "beaker");
     v.deposit(SpeciesId::new("water"), Moles(5.5343), Phase::Liquid);
-    v.deposit(SpeciesId::new("KI"), Moles(ki), Phase::Aqueous);
+    // The vessel as a solve leaves it: KI speciates to `K+` and `I-`
+    // (2026-10-27), and pH 1.7 in 0.1 L is 0.002 mol of represented strong
+    // acid, carried with its chloride so the hand-built vessel is
+    // electroneutral (the `thiosulfate` fixture in kinetics.rs, same reason).
+    v.deposit(SpeciesId::new("I-"), Moles(ki), Phase::Aqueous);
+    v.deposit(SpeciesId::new("K+"), Moles(ki), Phase::Aqueous);
+    v.deposit(SpeciesId::new("H+"), Moles(0.002), Phase::Aqueous);
+    v.deposit(SpeciesId::new("Cl-"), Moles(0.002), Phase::Aqueous);
     v.deposit(SpeciesId::new("H2O2"), Moles(h2o2), Phase::Liquid);
     v.temperature = Kelvin(273.15 + celsius);
     v.solution = Some(SolutionInfo {
@@ -134,7 +141,21 @@ fn iodide_peroxide_products_form() {
     let mut v = iodide_peroxide_vessel(25.0, 0.005, 0.005);
     advance(&mut v, 60.0).unwrap();
     assert!(moles_of(&v, "I2") > 0.0, "must produce I₂");
-    assert!(moles_of(&v, "KOH") > 0.0, "must produce KOH");
+    let i2 = moles_of(&v, "I2");
+    // H2O2 + 2 I- + 2 H+ -> I2 + 2 H2O: two iodides and two protons per I2.
+    assert!(
+        (0.005 - moles_of(&v, "I-") - 2.0 * i2).abs() < 1e-12,
+        "iodide balance"
+    );
+    assert!(
+        (0.002 - moles_of(&v, "H+") - 2.0 * i2).abs() < 1e-12,
+        "proton balance"
+    );
+    assert!(
+        (moles_of(&v, "K+") - 0.005).abs() < 1e-15,
+        "potassium is a spectator"
+    );
+    assert_eq!(moles_of(&v, "KOH"), 0.0, "no hydroxide is minted in acid");
 }
 
 // ── Iodate–bisulfite (Landolt) clock ───────────────────────────────
@@ -239,4 +260,19 @@ fn the_clock_agrees_with_itself_over_one_step_and_ten() {
 fn all_clock_reactions_pass_the_conservation_lint() {
     kinetics::lint_network(&kinetics::NETWORK)
         .expect("the built-in network must pass the conservation lint");
+}
+
+/// No acid, no clock: the net reaction consumes two protons per iodine, so
+/// a neutral iodide/peroxide vessel with no represented acid makes no I2.
+#[test]
+fn iodide_peroxide_needs_represented_acid() {
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    v.deposit(SpeciesId::new("water"), Moles(5.5343), Phase::Liquid);
+    v.deposit(SpeciesId::new("I-"), Moles(0.005), Phase::Aqueous);
+    v.deposit(SpeciesId::new("K+"), Moles(0.005), Phase::Aqueous);
+    v.deposit(SpeciesId::new("H2O2"), Moles(0.005), Phase::Liquid);
+    v.temperature = Kelvin(298.15);
+    let _ = advance(&mut v, 60.0);
+    assert_eq!(moles_of(&v, "I2"), 0.0);
+    assert_eq!(moles_of(&v, "I-"), 0.005);
 }

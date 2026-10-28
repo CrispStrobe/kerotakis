@@ -1,7 +1,9 @@
 //! Conserved strong-base reserve for an explicitly bounded named reaction.
 //!
-//! In this closed Na/K + halide/nitrate + acetate pool, let M be total
-//! alkali-metal equivalents, X strong-acid anion equivalents and A total
+//! In this closed pool of certified strong carriers (the shared
+//! [`crate::strong_reserve::CARRIERS`] table: Na/K/Ba with halide, nitrate
+//! and sulfate) plus acetate, let M be total
+//! spectator-cation equivalents, X strong-acid anion equivalents and A total
 //! acetate in every admitted protonation/salt form. M-X-A is the strong-base
 //! excess after the entire weak-acid reservoir has been neutralised. It is
 //! NOT the analytical H/O basis coordinate and NOT instantaneous measured OH.
@@ -59,25 +61,29 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
         let key = p.species.0.as_str();
         let aqueous = matches!(p.phase, Phase::Aqueous);
         let fluid = matches!(p.phase, Phase::Liquid | Phase::Aqueous);
-        let admitted = match key {
-            "water" => p.phase == Phase::Liquid,
-            "ethyl_acetate" | "ethanol" | "CH3COOH" | "HCl" | "HBr" | "HNO3" => fluid,
-            "NaOH" | "KOH" | "NaOAc" | "NaCl" | "KCl" | "NaBr" | "KBr" | "NaNO3" | "KNO3" => {
-                !matches!(p.phase, Phase::Gas)
+        // The reaction's own pool (solvent, ester, acetate, inert gases) is
+        // admitted here; every strong acid/base carrier comes from the one
+        // shared certified table, and weak buffers are refused by name.
+        let pool = match key {
+            "water" => Some(p.phase == Phase::Liquid),
+            "ethyl_acetate" | "ethanol" | "CH3COOH" => Some(fluid),
+            "NaOAc" => Some(!matches!(p.phase, Phase::Gas)),
+            "CH3COO-" | "H+" => Some(aqueous),
+            "N2" | "O2" | "Ar" | "He" | "Ne" => {
+                Some(matches!(p.phase, Phase::Gas | Phase::Aqueous))
             }
-            "Na+"
-            | "K+"
-            | "Cl-"
-            | "Br-"
-            | "NO3-"
-            | "CH3COO-"
-            | "H+"
-            | "OH-"
-            | species::BASE_EQUIVALENTS => aqueous,
-            "N2" | "O2" | "Ar" | "He" | "Ne" => matches!(p.phase, Phase::Gas | Phase::Aqueous),
-            _ => false,
+            _ => None,
         };
+        let carrier = crate::strong_reserve::carrier(key);
+        let admitted = pool
+            .or_else(|| carrier.map(|c| c.admit.admits(p.phase)))
+            .unwrap_or(false);
         if !admitted {
+            if let Some(class) = crate::strong_reserve::weak_buffer_class(key) {
+                return Err(format!(
+                    "owned {key} is a weak {class} buffer whose acid/base capacity is pH-dependent, not a certified strong-base reserve; no named hydrolysis applied"
+                ));
+            }
             return Err(format!(
                 "strong-base capacity is not established for owned {key} in {:?}; no named hydrolysis applied",
                 p.phase
@@ -89,58 +95,21 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
             .map_err(|_| format!("no molecular inventory formula for {key}"))?;
         charge += formula.charge * n;
         charge_scale += (formula.charge * n).abs();
-        if matches!(
-            key,
-            "Na+"
-                | "K+"
-                | "NaOH"
-                | "KOH"
-                | "NaOAc"
-                | "NaCl"
-                | "KCl"
-                | "NaBr"
-                | "KBr"
-                | "NaNO3"
-                | "KNO3"
-        ) {
-            metal += n;
+        if let Some(c) = carrier.filter(|_| pool.is_none()) {
+            metal += c.cation_eq * n;
+            anion += c.anion_eq * n;
+            hydroxide += c.hydroxide_eq * n;
+            ionic |= c.ionic;
         }
-        if matches!(
-            key,
-            "Cl-"
-                | "Br-"
-                | "NO3-"
-                | "HCl"
-                | "HBr"
-                | "HNO3"
-                | "NaCl"
-                | "KCl"
-                | "NaBr"
-                | "KBr"
-                | "NaNO3"
-                | "KNO3"
-        ) {
-            anion += n;
+        match key {
+            "NaOAc" => {
+                metal += n;
+                acetate += n;
+            }
+            "CH3COOH" | "CH3COO-" => acetate += n,
+            "H+" => ionic = true,
+            _ => {}
         }
-        if matches!(key, "CH3COOH" | "CH3COO-" | "NaOAc") {
-            acetate += n;
-        }
-        if matches!(key, "NaOH" | "KOH" | "OH-" | species::BASE_EQUIVALENTS) {
-            hydroxide += n;
-        }
-        ionic |= matches!(
-            key,
-            "Na+"
-                | "K+"
-                | "H+"
-                | "OH-"
-                | "Cl-"
-                | "Br-"
-                | "NO3-"
-                | "CH3COO-"
-                | "KOH"
-                | species::BASE_EQUIVALENTS
-        );
     }
     if ![metal, anion, acetate, hydroxide, charge, charge_scale]
         .iter()
@@ -200,29 +169,60 @@ pub(crate) fn saponify(v: &mut Vessel) -> Result<Applied, String> {
     }
     let mut next = v.clone();
     let mut spent = 0.0;
-    for key in [species::BASE_EQUIVALENTS, "OH-", "NaOH", "KOH"] {
-        let needed = (requested - spent).max(0.0);
-        let take = needed.min(next.moles_of(&SpeciesId::new(key)).0);
-        if take <= 0.0 {
-            continue;
-        }
-        let actual = next.withdraw(&SpeciesId::new(key), Moles(take)).0;
-        if key == "NaOH" {
-            // This sodium was in the withdrawn molecule, not already a spectator.
-            next.deposit(SpeciesId::new("NaOAc"), Moles(actual), Phase::Aqueous);
-        } else {
-            next.deposit(SpeciesId::new("CH3COO-"), Moles(actual), Phase::Aqueous);
-            if key == "KOH" {
-                next.deposit(SpeciesId::new("K+"), Moles(actual), Phase::Aqueous);
+    // Spend owned hydroxide carriers from the shared certified table, each
+    // from its admitted phases only (never a gas portion of the same key).
+    for key in [species::BASE_EQUIVALENTS, "OH-", "NaOH", "KOH", "Ba(OH)2"] {
+        let c = crate::strong_reserve::carrier(key)
+            .ok_or_else(|| format!("{key} is not a certified strong-base carrier"))?;
+        for phase in [Phase::Aqueous, Phase::Liquid, Phase::Solid] {
+            if !c.admit.admits(phase) {
+                continue;
             }
+            let needed = (requested - spent).max(0.0);
+            let owned: f64 = next
+                .contents
+                .iter()
+                .filter(|p| p.species.0 == key && p.phase == phase)
+                .map(|p| p.moles.0)
+                .sum();
+            let take = needed.min(owned * c.hydroxide_eq);
+            if take <= 0.0 {
+                continue;
+            }
+            let molecules = next
+                .withdraw_phase(&SpeciesId::new(key), Moles(take / c.hydroxide_eq), phase)
+                .0;
+            let equivalents = molecules * c.hydroxide_eq;
+            if key == "NaOH" {
+                // This sodium was in the withdrawn molecule, not already a spectator.
+                next.deposit(SpeciesId::new("NaOAc"), Moles(molecules), Phase::Aqueous);
+            } else {
+                next.deposit(
+                    SpeciesId::new("CH3COO-"),
+                    Moles(equivalents),
+                    Phase::Aqueous,
+                );
+                if let Some((cation, per)) = c.cation {
+                    next.deposit(
+                        SpeciesId::new(cation),
+                        Moles(molecules * per),
+                        Phase::Aqueous,
+                    );
+                }
+            }
+            spent += equivalents;
         }
-        spent += actual;
     }
     if (requested - spent).abs() > RECONCILIATION * requested {
         return Err("owned hydroxide withdrawal cannot represent the requested extent".into());
     }
-    let taken = next
-        .withdraw(&SpeciesId::new("ethyl_acetate"), Moles(spent))
+    // The admitted ester phases are liquid and dissolved; never a vapour.
+    let ester_id = SpeciesId::new("ethyl_acetate");
+    let mut taken = next
+        .withdraw_phase(&ester_id, Moles(spent), Phase::Liquid)
+        .0;
+    taken += next
+        .withdraw_phase(&ester_id, Moles(spent - taken), Phase::Aqueous)
         .0;
     if (taken - spent).abs() > RECONCILIATION * spent {
         return Err("owned ester withdrawal cannot represent the requested extent".into());

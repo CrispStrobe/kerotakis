@@ -70,7 +70,7 @@
 use kerotakis_core::{species, stoich, Phase, Portion, SpeciesId};
 use std::collections::BTreeMap;
 
-use crate::{dbindex, derived};
+use crate::{dbindex, derived, dissolution_reference};
 
 /// What each solid with a curated enthalpy of dissolution actually
 /// dissolves INTO, in the database's own spelling.
@@ -138,6 +138,126 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     ("KSCN", &[("K+", 1.0), ("Thiocyanate-", 1.0)]),
 ];
 
+/// The reviewed hydration enthalpy `oxide + n H2O -> k hydroxide`, kJ per
+/// mole of oxide, derived generically by
+/// [`dissolution_reference::hydration`] for EVERY registry oxide with a
+/// registry hydroxide partner: the two stablest phases of ONE vendored
+/// database must both balance and differ by exactly the waters.
+///
+/// Quicklime is the case that put this here: wateq4f, the default route,
+/// has Portlandite but no Lime, and the old per-event fallback charged only
+/// the precipitating portlandite and cooled the beaker. minteq.v4 writes
+/// `CaO + 2H+ = Ca+2 + H2O` at -193.91 kJ and `Ca(OH)2 + 2H+ = Ca+2 + 2H2O`
+/// at -128.62 kJ, so the hydration is -65.29 kJ/mol (standard tables -65.2).
+/// Domain: 25 °C reference reaction enthalpies, as every other term.
+pub fn hydration_enthalpy(oxide: &str) -> Option<f64> {
+    dissolution_reference::hydration(oxide).map(|h| h.delta_h_kj)
+}
+
+/// How a solid's enthalpy on the routed basis was owned.
+#[derive(Debug, Clone, PartialEq)]
+pub enum SolidRoute {
+    /// [`DISSOCIATION`] products and the registry's enthalpy of dissolution.
+    Curated,
+    /// Through a priced registry hydroxide and a reviewed hydration.
+    Hydration {
+        hydroxide: &'static str,
+        source: &'static str,
+    },
+    /// The routed database's own neutral dissociation phase.
+    RoutedMineral,
+    /// A reviewed vendored phase that passed every convention check.
+    Reference { source: &'static str, phase: String },
+}
+
+/// A priced solid and the route that owns its price.
+#[derive(Debug, Clone, PartialEq)]
+pub struct PricedSolid {
+    pub route: SolidRoute,
+    pub enthalpy_kj: f64,
+}
+
+fn curated_solid(key: &str, db_tag: &str) -> Option<Result<f64, Unpriced>> {
+    let products = DISSOCIATION
+        .iter()
+        .find(|(k, _)| *k == key)
+        .map(|(_, p)| *p)?;
+    let dissolution =
+        species::lookup(&SpeciesId::new(key)).and_then(|d| d.dissolution_enthalpy_kj)?;
+    let mut sum = 0.0;
+    for (product, n) in products {
+        let Some(h) = aqueous_enthalpy(product, db_tag) else {
+            return Some(Err(Unpriced {
+                species: (*product).to_string(),
+                why: "a dissociation product the routed database does not define",
+            }));
+        };
+        sum += h * n;
+    }
+    Some(Ok(sum - dissolution))
+}
+
+/// The one ownership chain for a solid's enthalpy: curated, then a reviewed
+/// hydration through a priced hydroxide, then the routed mineral phase, then
+/// any reviewed vendored phase. The refusal names the reason of the last.
+pub fn solid_route(key: &str, db_tag: &str) -> Result<PricedSolid, Unpriced> {
+    if let Some(curated) = curated_solid(key, db_tag) {
+        return curated.map(|enthalpy_kj| PricedSolid {
+            route: SolidRoute::Curated,
+            enthalpy_kj,
+        });
+    }
+    if let Some(hydration) = dissolution_reference::hydration(key) {
+        // h(oxide) + n h(water) + dH_hydration = k h(hydroxide).
+        if let Ok(h_hydroxide) = species_enthalpy(hydration.hydroxide, Phase::Solid, db_tag) {
+            let h_water = species_enthalpy("water", Phase::Liquid, db_tag)?;
+            return Ok(PricedSolid {
+                route: SolidRoute::Hydration {
+                    hydroxide: hydration.hydroxide,
+                    source: hydration.source,
+                },
+                enthalpy_kj: hydration.hydroxides * h_hydroxide
+                    - hydration.waters * h_water
+                    - hydration.delta_h_kj,
+            });
+        }
+    }
+    if let Ok((_, solid)) = mineral_reference(key, db_tag) {
+        return Ok(PricedSolid {
+            route: SolidRoute::RoutedMineral,
+            enthalpy_kj: solid,
+        });
+    }
+    dissolution_reference::reference(key, db_tag).map(|r| PricedSolid {
+        route: SolidRoute::Reference {
+            source: r.source,
+            phase: r.phase,
+        },
+        enthalpy_kj: r.solid_kj,
+    })
+}
+
+/// Moles of hydroxide one mole of this species supplies (or protons it
+/// consumes) when it dissolves, from the same reaction that prices it.
+pub fn hydroxide_equivalents(key: &str, db_tag: &str) -> f64 {
+    if let Some((_, products)) = DISSOCIATION.iter().find(|(k, _)| *k == key) {
+        return products
+            .iter()
+            .filter(|(p, _)| *p == "OH-")
+            .map(|(_, n)| n)
+            .sum();
+    }
+    if let Some(h) = dissolution_reference::hydration(key) {
+        let per = hydroxide_equivalents(h.hydroxide, db_tag);
+        if per > 0.0 {
+            return h.hydroxides * per;
+        }
+    }
+    dissolution_reference::reference(key, db_tag)
+        .map(|r| r.base_equivalents.max(0.0))
+        .unwrap_or(0.0)
+}
+
 /// A species the balance cannot price, named so the refusal can say which.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Unpriced {
@@ -146,7 +266,7 @@ pub struct Unpriced {
 }
 
 /// The enthalpy of one aqueous species relative to the master basis.
-fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
+pub(crate) fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     let idx = derived::index_for(db_tag);
     // The public ledger spells the conserved ligand physically; its
     // native pseudo-component master is the same reference basis. This
@@ -370,30 +490,7 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
         // and the bicarbonate carries -14.6 of its own, so the solid is
         // `(0 + -14.6) - 16.7 = -31.3`, not `-16.7`. Both look reasonable.
         // Only one is within a mile of what the world measures.
-        Phase::Solid => {
-            let products = DISSOCIATION
-                .iter()
-                .find(|(k, _)| *k == key)
-                .map(|(_, p)| *p);
-            let Some(products) = products else {
-                return mineral_reference(key, db_tag).map(|(_, solid)| solid);
-            };
-            let dissolution = species::lookup(&SpeciesId::new(key))
-                .and_then(|d| d.dissolution_enthalpy_kj)
-                .ok_or(Unpriced {
-                    species: key.to_string(),
-                    why: "the registry holds no enthalpy of dissolution for this solid",
-                })?;
-            let mut sum = 0.0;
-            for (product, n) in products {
-                let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {
-                    species: (*product).to_string(),
-                    why: "a dissociation product the routed database does not define",
-                })?;
-                sum += h * n;
-            }
-            Ok(sum - dissolution)
-        }
+        Phase::Solid => solid_route(key, db_tag).map(|priced| priced.enthalpy_kj),
         // Water is the solvent and the basis; any other miscible liquid is
         // priced as what it becomes in solution, which leaves its enthalpy
         // of MIXING to `hmix`, where it already lives, rather than counting
@@ -424,14 +521,27 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
             // Already dissolved, and the database spells it only as its
             // ions: it is the sum of them, with no dissolution term
             // because there is no dissolution left to do.
-            let products = DISSOCIATION
+            let Some(products) = DISSOCIATION
                 .iter()
                 .find(|(k, _)| *k == key)
                 .map(|(_, p)| *p)
-                .ok_or(Unpriced {
+            else {
+                // A dissolved registry salt whose reviewed reaction is a
+                // pure dissociation is its products, with no dissolution
+                // term left to charge.
+                if phase == Phase::Aqueous {
+                    if let Some(h) = dissolution_reference::reference(key, db_tag)
+                        .ok()
+                        .and_then(|r| r.dissociative_kj)
+                    {
+                        return Ok(h);
+                    }
+                }
+                return Err(Unpriced {
                     species: key.to_string(),
                     why: "the routed database does not define this species in solution",
-                })?;
+                });
+            };
             let mut sum = 0.0;
             for (product, n) in products {
                 let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {
@@ -508,6 +618,100 @@ pub fn heat_released_j(
     gas_out: &[(String, f64)],
     db_tag: &str,
 ) -> Result<f64, Unpriced> {
+    let quote = heat_quote(before, oh_before, after, oh_after, gas_out, db_tag)?;
+    match quote.unpriced {
+        Some(declined) => Err(declined),
+        None => Ok(quote.released_j),
+    }
+}
+
+/// The largest |ΔH| any phase of the routed database states, kJ/mol: the
+/// database's own ceiling on what one mole of a dissolution reaction can
+/// cost, used to bound a mover the ledger cannot price.
+fn largest_phase_enthalpy_kj(db_tag: &str) -> f64 {
+    derived::index_for(db_tag)
+        .phases
+        .values()
+        .filter_map(|phase| phase.delta_h_kj)
+        .filter(|h| h.is_finite())
+        .fold(0.0, |max: f64, h| max.max(h.abs()))
+}
+
+/// The heavy elements (not H or O) of a mover, from its own routed phase
+/// when the database has one, else from its registry formula.
+fn heavy_elements(key: &str, db_tag: &str) -> std::collections::BTreeSet<String> {
+    let base = |element: &str| element.split('(').next().unwrap_or(element).to_string();
+    let idx = derived::index_for(db_tag);
+    let from_phase = idx
+        .phases
+        .iter()
+        .find(|(name, _)| name.eq_ignore_ascii_case(key))
+        .map(|(_, phase)| phase.elements.iter().map(|(e, _)| base(e)).collect());
+    let elements: std::collections::BTreeSet<String> = from_phase.unwrap_or_else(|| {
+        species::lookup(&SpeciesId::new(key))
+            .and_then(|data| stoich::parse_formula(data.formula).ok())
+            .map(|formula| formula.counts.keys().cloned().collect())
+            .unwrap_or_default()
+    });
+    elements
+        .into_iter()
+        .filter(|e| e != "H" && e != "O")
+        .collect()
+}
+
+/// The ceiling on one mole of an unpriced mover's heat, kJ/mol: the largest
+/// |ΔH| the routed database states for any phase containing all of the
+/// mover's heavy elements. Copper sulfate's trace antlerite is bounded by
+/// copper-and-sulfur phases (206.5 kJ/mol, chalcocite, on wateq4f), not by
+/// the most extreme mineral in the file (649.6). A mover sharing no stated
+/// phase falls back to the whole database's ceiling.
+fn unpriced_ceiling_kj(key: &str, db_tag: &str) -> f64 {
+    let heavy = heavy_elements(key, db_tag);
+    let base = |element: &str| element.split('(').next().unwrap_or(element).to_string();
+    let family = derived::index_for(db_tag)
+        .phases
+        .values()
+        .filter(|phase| {
+            !heavy.is_empty()
+                && heavy
+                    .iter()
+                    .all(|e| phase.elements.iter().any(|(pe, _)| base(pe) == *e))
+        })
+        .filter_map(|phase| phase.delta_h_kj)
+        .filter(|h| h.is_finite())
+        .fold(None, |max: Option<f64>, h| {
+            Some(max.map_or(h.abs(), |m| m.max(h.abs())))
+        });
+    family.unwrap_or_else(|| largest_phase_enthalpy_kj(db_tag))
+}
+
+/// What the ledger could price, and a bound on what it could not.
+#[derive(Debug, Clone, PartialEq)]
+pub struct HeatQuote {
+    /// Heat released by every mover that has a reviewed enthalpy, J.
+    pub released_j: f64,
+    /// The first mover with none, if any.
+    pub unpriced: Option<Unpriced>,
+    /// Worst case for the unpriced movers, J: each `|Δn|` times the largest
+    /// |ΔH| of the routed phases sharing its heavy elements
+    /// ([`unpriced_ceiling_kj`]). Zero when everything was priced.
+    pub unpriced_bound_j: f64,
+}
+
+/// [`heat_released_j`] without the refusal: unpriced movers are reported
+/// with a bound instead of declining the step. A trace precipitate with no
+/// reviewed enthalpy anywhere (5.5e-5 mol antlerite from 8 g of copper
+/// sulfate, 0.1 % of the copper) otherwise vetoes the 3.3 kJ the salt
+/// itself owns. Whether a bound is small enough is the caller's decision;
+/// a hydroxide the vessel cannot account for is still a hard refusal.
+pub fn heat_quote(
+    before: &[Portion],
+    oh_before: f64,
+    after: &[Portion],
+    oh_after: f64,
+    gas_out: &[(String, f64)],
+    db_tag: &str,
+) -> Result<HeatQuote, Unpriced> {
     let mut delta = tally(after);
     for (k, n) in tally(before) {
         *delta.entry(k).or_insert(0.0) -= n;
@@ -572,10 +776,7 @@ pub fn heat_released_j(
     const HYDROXIDE_FROM_A_REAGENT: f64 = 1e-3;
     if d_oh > HYDROXIDE_FROM_A_REAGENT {
         let supplied = delta.iter().any(|((key, _), moved)| {
-            *moved < -NEGLIGIBLE
-                && DISSOCIATION
-                    .iter()
-                    .any(|(k, products)| k == key && products.iter().any(|(p, _)| *p == "OH-"))
+            *moved < -NEGLIGIBLE && hydroxide_equivalents(key, db_tag) > 0.0
         });
         if !supplied {
             return Err(Unpriced {
@@ -588,6 +789,8 @@ pub fn heat_released_j(
     }
 
     let mut d_h_kj = 0.0;
+    let mut unpriced: Option<Unpriced> = None;
+    let mut unpriced_bound_kj = 0.0;
     for ((key, phase), moved) in &delta {
         if moved.abs() <= NEGLIGIBLE {
             continue;
@@ -598,7 +801,14 @@ pub fn heat_released_j(
                 why: "the routed database does not define hydroxide",
             })?
         } else {
-            species_enthalpy(key, phase_of(*phase), db_tag)?
+            match species_enthalpy(key, phase_of(*phase), db_tag) {
+                Ok(h) => h,
+                Err(declined) => {
+                    unpriced_bound_kj += moved.abs() * unpriced_ceiling_kj(key, db_tag);
+                    unpriced.get_or_insert(declined);
+                    continue;
+                }
+            }
         };
         d_h_kj += h * moved;
         if std::env::var("KERO_BAL").is_ok() {
@@ -608,8 +818,40 @@ pub fn heat_released_j(
             );
         }
     }
+    let unpriced_bound_j = if unpriced.is_some() {
+        unpriced_bound_kj * 1000.0
+    } else {
+        0.0
+    };
     // Heat released is the negative of the enthalpy the contents gained.
-    Ok(-d_h_kj * 1000.0)
+    Ok(HeatQuote {
+        released_j: -d_h_kj * 1000.0,
+        unpriced,
+        unpriced_bound_j,
+    })
+}
+
+/// Enthalpy of dissolution of a registry solid, kJ/mol (positive
+/// endothermic): what one mole costs going from the solid to its dissolved
+/// products, both priced by the ONE ownership chain of this module
+/// ([`solid_route`] for the solid, the dissociative aqueous price for the
+/// solution). The first route (wateq4f, minteq.v4, pitzer) that prices
+/// both sides answers. This is the pricer the crystallisation ledger in
+/// `kerotakis_core::crystallisation` charges crystallisation heat with;
+/// see [`register_crystallisation_pricer`].
+pub fn dissolution_enthalpy_kj(key: &str) -> Option<f64> {
+    crate::derived::DB_TAGS.iter().find_map(|tag| {
+        let solid = species_enthalpy(key, Phase::Solid, tag).ok()?;
+        let dissolved = species_enthalpy(key, Phase::Aqueous, tag).ok()?;
+        let dh = dissolved - solid;
+        dh.is_finite().then_some(dh)
+    })
+}
+
+/// Hand [`dissolution_enthalpy_kj`] to the core crystallisation ledger.
+/// Idempotent: the core keeps the first registration.
+pub fn register_crystallisation_pricer() {
+    kerotakis_core::crystallisation::register_dissolution_pricer(dissolution_enthalpy_kj);
 }
 
 #[cfg(test)]
@@ -1002,5 +1244,245 @@ mod tests {
             species_enthalpy(key, Phase::Aqueous, DB)
                 .unwrap_or_else(|e| panic!("{key} in solution: {} ({})", e.species, e.why));
         }
+    }
+
+    /// TH-009. Quicklime's hydration comes from ONE database that writes
+    /// both phases with the same convention (minteq.v4 Lime and
+    /// Portlandite), and is close to the standard-table -65.2 kJ/mol.
+    #[test]
+    fn lime_hydration_is_reviewed_and_validated_against_its_own_convention() {
+        let h = hydration_enthalpy("CaO").expect("validated hydration");
+        assert!((h - (-193.91 - -128.62)).abs() < 1e-9, "{h}");
+        assert!((h - (-65.2)).abs() < 0.5, "{h}");
+        // The same generic rule owns magnesia (minteq.v4 Periclase less
+        // Brucite; standard tables -601.6 - 285.8 -> -924.5, i.e. -37.1).
+        let mgo = hydration_enthalpy("MgO").expect("periclase hydration");
+        assert!((mgo - (-37.1)).abs() < 1.0, "{mgo}");
+        // Nothing without a registry hydroxide partner is invented.
+        for oxide in ["Na2O", "CaCO3", "SiO2", "glitter"] {
+            assert!(hydration_enthalpy(oxide).is_none(), "{oxide}");
+        }
+    }
+
+    /// TH-009 on every route, including wateq4f which has no Lime phase:
+    /// slaking 0.01 mol releases about 0.65 kJ, and dissolving part of the
+    /// portlandite adds its own (exothermic) solution heat rather than the
+    /// old fallback's lone endothermic precipitation term.
+    #[test]
+    fn slaking_quicklime_warms_on_every_route() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [
+                portion("water", 5.5509, Phase::Liquid),
+                portion("CaO", 0.01, Phase::Solid),
+            ];
+            let slaked = [
+                portion("water", 5.5409, Phase::Liquid),
+                portion("Ca(OH)2", 0.01, Phase::Solid),
+            ];
+            let q = heat_released_j(&before, 0.0, &slaked, 0.0, &[], db).expect("owned");
+            assert!((q - 652.9).abs() < 1e-6, "{db}: {q} J");
+            // The production state: part of the hydroxide dissolved.
+            let partly = [
+                portion("water", 5.5409, Phase::Liquid),
+                portion("Ca(OH)2", 0.007967, Phase::Solid),
+                portion("Ca+2", 0.002033, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &partly, 0.004066, &[], db)
+                .expect("free hydroxide is supplied by the oxide");
+            assert!(q > 652.9 && q < 720.0, "{db}: {q} J");
+        }
+    }
+
+    /// TH-015. Neutralising 5 mmol of carried hydroxide with strong acid
+    /// releases ~55.8 kJ per mole of water formed, ~0.28 kJ here.
+    #[test]
+    fn carried_hydroxide_neutralised_by_acid_releases_its_heat() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let mixed = [
+                portion("water", 5.5509, Phase::Liquid),
+                portion("Na+", 0.005, Phase::Aqueous),
+                portion("Cl-", 0.005, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&mixed, 0.005, &mixed, 1e-7, &[], db).expect("priced");
+            assert!(q > 270.0 && q < 285.0, "{db}: {q} J");
+        }
+    }
+
+    /// Negative: table salt dissolving is small and endothermic (+3.88
+    /// kJ/mol), not a reaction heat.
+    #[test]
+    fn table_salt_dissolution_is_near_zero_and_endothermic() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [portion("NaCl", 0.01, Phase::Solid)];
+            let after = [
+                portion("Na+", 0.01, Phase::Aqueous),
+                portion("Cl-", 0.01, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect("priced");
+            assert!((q - (-38.8)).abs() < 1e-9, "{db}: {q} J");
+        }
+    }
+
+    /// Potassium nitrate has no registry enthalpy and no Niter on the
+    /// shipped routes; llnl.dat's Niter (`KNO3 = K+ + NO3-`, +35.48 kJ/mol)
+    /// is used because both ions are basis species of the routed database.
+    /// Dissolving it COOLS the vessel (TH-007), by ~35 kJ/mol.
+    #[test]
+    fn potassium_nitrate_dissolution_is_priced_from_llnl_niter() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [
+                portion("water", 2.775, Phase::Liquid),
+                portion("KNO3", 0.2967, Phase::Solid),
+            ];
+            let after = [
+                portion("water", 2.775, Phase::Liquid),
+                portion("K+", 0.2967, Phase::Aqueous),
+                portion("NO3-", 0.2967, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect("priced");
+            assert!((q - (-35_479.4 * 0.2967)).abs() < 1e-6, "{db}: {q} J");
+            assert_eq!(
+                solid_route("KNO3", db).unwrap().route,
+                SolidRoute::Reference {
+                    source: "llnl.dat",
+                    phase: "Niter".into()
+                }
+            );
+        }
+    }
+
+    /// Negative: sodium nitrate has no reviewed dissolution reaction in any
+    /// vendored database, so a step that dissolves it declines whole.
+    #[test]
+    fn an_unsupported_solid_is_refused_whole() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [portion("NaNO3", 0.1, Phase::Solid)];
+            let after = [
+                portion("Na+", 0.1, Phase::Aqueous),
+                portion("NO3-", 0.1, Phase::Aqueous),
+            ];
+            let err = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect_err("refused");
+            assert_eq!(err.species, "NaNO3", "{db}");
+        }
+    }
+
+    /// A trace mover with no reviewed enthalpy anywhere is bounded, not
+    /// allowed to veto the salt's own heat: 8 g of copper sulfate in 500 mL
+    /// precipitates 5.5e-5 mol of antlerite. Its worst case on the route
+    /// (Σ|Δn| × the largest phase |ΔH|) is a few tens of joules, so with a
+    /// thermometer-sized tolerance the priced heat is charged; the strict
+    /// ledger and a non-trace mover still refuse.
+    #[test]
+    fn a_trace_unpriced_mover_is_bounded_and_a_large_one_is_not() {
+        let db = "wateq4f";
+        let before = [portion("CuSO4", 0.05, Phase::Solid)];
+        let trace = 5.5e-5;
+        let after = [
+            portion("Cu+2", 0.05 - 3.0 * trace, Phase::Aqueous),
+            portion("SO4-2", 0.05 - trace, Phase::Aqueous),
+            portion("antlerite", trace, Phase::Solid),
+        ];
+        let clean = [
+            portion("Cu+2", 0.05, Phase::Aqueous),
+            portion("SO4-2", 0.05, Phase::Aqueous),
+        ];
+        let strict = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect_err("strict");
+        assert_eq!(strict.species, "antlerite");
+
+        let quote = heat_quote(&before, 0.0, &after, 0.0, &[], db).expect("quoted");
+        assert_eq!(quote.unpriced.as_ref().unwrap().species, "antlerite");
+        let bound_j = quote.unpriced_bound_j;
+        assert!(bound_j > 0.0 && bound_j < 15.0, "bound {bound_j} J");
+        let family = unpriced_ceiling_kj("antlerite", db);
+        assert!(
+            family > 0.0 && family < largest_phase_enthalpy_kj(db),
+            "copper-and-sulfur phases bound antlerite more tightly than the file: {family}"
+        );
+        let q = quote.released_j;
+        let full = heat_released_j(&before, 0.0, &clean, 0.0, &[], db).expect("priced");
+        assert!(q > 0.0, "copper sulfate dissolving warms: {q} J");
+        assert!((q - full).abs() < full.abs() * 0.05, "{q} vs {full}");
+
+        let lots = [
+            portion("Cu+2", 0.02, Phase::Aqueous),
+            portion("SO4-2", 0.04, Phase::Aqueous),
+            portion("antlerite", 0.01, Phase::Solid),
+        ];
+        let lots = heat_quote(&before, 0.0, &lots, 0.0, &[], db).expect("quoted");
+        assert!(
+            lots.unpriced_bound_j > 2090.0 * 0.1,
+            "a material mover is not a trace"
+        );
+    }
+
+    /// Blue crystals: chalcanthite is priced from the routed database's own
+    /// Chalcanthite with its five waters balanced, so crystallising it from
+    /// copper sulfate solution releases heat instead of declining.
+    #[test]
+    fn chalcanthite_crystallisation_stays_priced_on_both_routes() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let solution = [
+                portion("water", 5.0, Phase::Liquid),
+                portion("Cu+2", 0.01, Phase::Aqueous),
+                portion("SO4-2", 0.01, Phase::Aqueous),
+            ];
+            let crystals = [
+                portion("water", 4.95, Phase::Liquid),
+                portion("chalcanthite", 0.01, Phase::Solid),
+            ];
+            let route = solid_route("chalcanthite", db).expect("priced").route;
+            assert_eq!(
+                route,
+                SolidRoute::Reference {
+                    source: if db == "wateq4f" {
+                        "wateq4f"
+                    } else {
+                        "minteq.v4"
+                    },
+                    phase: "Chalcanthite".into()
+                },
+                "{db}"
+            );
+            // Endothermic dissolution (+6.0 kJ/mol) means crystallising
+            // releases about 60 J here, whatever the ion-pair basis.
+            let q = heat_released_j(&solution, 0.0, &crystals, 0.0, &[], db).expect("priced");
+            assert!(q > 0.0 && q < 200.0, "{db}: {q} J");
+        }
+    }
+
+    /// Hydrates and hydroxides written with left-hand protons now balance
+    /// over every term: gypsum and brucite are owned on the default route.
+    #[test]
+    fn hydrates_and_proton_written_hydroxides_balance_every_term() {
+        for key in ["gypsum", "epsomite", "Mg(OH)2", "SiO2", "MgO"] {
+            assert!(
+                species_enthalpy(key, Phase::Solid, "wateq4f").is_ok(),
+                "{key}: {:?}",
+                solid_route(key, "wateq4f")
+            );
+        }
+        // Brucite consumes two protons: it is a hydroxide supplier.
+        assert!((hydroxide_equivalents("Mg(OH)2", "wateq4f") - 2.0).abs() < 1e-12);
+        assert!((hydroxide_equivalents("MgO", "wateq4f") - 2.0).abs() < 1e-12);
+        assert_eq!(hydroxide_equivalents("KNO3", "wateq4f"), 0.0);
+    }
+
+    /// Boundary: an exact-zero `delta_h` is a placeholder, not a datum, and
+    /// a species the routed database prices by a reaction the source does
+    /// not also write (Fe+3 is not a wateq4f basis species) is not mixed.
+    #[test]
+    fn placeholders_and_unlinked_conventions_are_refused() {
+        let zero = solid_route("octacalcium_phosphate", "minteq.v4").expect_err("placeholder");
+        assert_eq!(
+            zero.why,
+            "the reviewed phase states an exact-zero enthalpy placeholder"
+        );
+        let unlinked = solid_route("FeCl3", "wateq4f").expect_err("Fe+3 convention");
+        assert_eq!(
+            unlinked.why,
+            "a product's convention differs between the reviewed source and the routed database"
+        );
+        // Elemental solids are owned by displacement, never by this path.
+        assert!(solid_route("Zn", "wateq4f").is_err());
     }
 }

@@ -1793,8 +1793,8 @@ reason_code = "unsupported-fracture-mechanics"
 [[observation]]
 id = "mat-049"
 owning_task = "BRD-060"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
 
 [[observation]]
 id = "mat-050"
@@ -1823,8 +1823,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-054"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
 
 [[observation]]
 id = "mat-055"
@@ -2051,8 +2051,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-092"
 owning_task = "BRD-060"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
 
 [[observation]]
 id = "mat-093"
@@ -2477,8 +2477,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-038"
 owning_task = "BRD-041"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-039"

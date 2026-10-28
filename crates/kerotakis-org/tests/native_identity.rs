@@ -86,7 +86,10 @@ fn the_tranche_only_grows_deliberately() {
         // so even within one pattern the lookup does not behave the same
         // way twice. Both keys fetched (CID 1099 and CID 104748), neither
         // inferred from the other.
-        115,
+        //
+        // 115 -> 117 for `I-` and `S4O6-2`, the iodide/thiosulfate lane:
+        // both keys fetched from PubChem (CID 30165, CID 4657547).
+        117,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

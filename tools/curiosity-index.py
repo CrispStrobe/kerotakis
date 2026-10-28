@@ -45,7 +45,10 @@ def build(corpus: pathlib.Path) -> dict:
                 "tags": prompt.get("tags", []),
                 "script": prompt.get("script", []),
                 "owning_task": result["owning_task"],
-                "support": result["outcome"],
+                # A stated solver failure is, to a reader, an unanswered
+                # question: the browser's support vocabulary has no runnable
+                # failure state, and its reason_code still names the solver.
+                "support": "missing" if result["outcome"] == "solver_failure" else result["outcome"],
                 "reason_code": result["reason_code"],
                 "boundary": prompt.get("parse_boundary"),
             })

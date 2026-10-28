@@ -392,19 +392,11 @@ impl Clock for CuratedKineticsClock {
             ctx.kinetic,
             &ctx.excluded_kinetic_reactions,
         )? {
-            if reaction.id == "peroxide-decomposition" {
-                // Approximately 98.2 kJ is released per mole of H2O2
-                // consumed at 25 °C, not per 2H2O2 -> 2H2O + O2 extent.
-                // Preserve that reference value and derive its amount basis
-                // from the registered reactant coefficient. NIST TN2126,
-                // Table4-4(1), reports 98.48 +/-0.79 kJ/mol liquid H2O2;
-                // solution mixing and temperature corrections remain absent.
-                let peroxide_consumed_mol: f64 = reaction
-                    .reactants()
-                    .filter(|term| term.species == "H2O2")
-                    .map(|term| -term.coefficient * moles.0)
-                    .sum();
-                let energy_j = 98_200.0 * peroxide_consumed_mol;
+            // Reference heats are owned per declared basis by
+            // `reaction_heat`, which derives the per-extent heat from the
+            // coefficient this integrator advanced (PR #850, generalised).
+            if let Some(energy_j) = crate::reaction_heat::kinetic_heat_released_j(reaction, moles.0)
+            {
                 let from = vessel.temperature;
                 if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
                     && vessel.heat_capacity() > 0.0
@@ -412,17 +404,22 @@ impl Clock for CuratedKineticsClock {
                     vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
                 }
                 if moles.0 >= crate::OBSERVABLE_MOLES {
-                    events.push(Event::GasProduced {
-                        vessel: vessel.id,
-                        reaction: reaction.id.to_string(),
-                        species: SpeciesId::new("O2"),
-                        moles,
-                        rate_moles_per_second: if seconds > 0.0 {
-                            moles.0 / seconds
-                        } else {
-                            0.0
-                        },
-                    });
+                    for gas in reaction
+                        .products()
+                        .filter(|term| term.phase == crate::species::Phase::Gas)
+                    {
+                        events.push(Event::GasProduced {
+                            vessel: vessel.id,
+                            reaction: reaction.id.to_string(),
+                            species: SpeciesId::new(gas.species),
+                            moles,
+                            rate_moles_per_second: if seconds > 0.0 {
+                                moles.0 / seconds
+                            } else {
+                                0.0
+                            },
+                        });
+                    }
                     events.push(Event::ReactionHeatReleased {
                         vessel: vessel.id,
                         reaction: reaction.id.to_string(),

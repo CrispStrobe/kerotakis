@@ -62,11 +62,138 @@ pub(crate) fn visible_moles(vessel: &Vessel, key: &str, analytical: f64) -> f64 
 pub struct OpticalCoverage {
     pub missing_spectra: Vec<String>,
     pub missing_ph: Vec<String>,
+    /// Dissolved species the registry describes as coloured but holds no
+    /// reviewed molar absorptivity for. Reading them as zero would report
+    /// iodine as transparent; the instrument refuses instead.
+    pub missing_absorptivity: Vec<String>,
 }
 impl OpticalCoverage {
     pub fn is_complete(&self) -> bool {
-        self.missing_spectra.is_empty() && self.missing_ph.is_empty()
+        self.missing_spectra.is_empty()
+            && self.missing_ph.is_empty()
+            && self.missing_absorptivity.is_empty()
     }
+}
+
+/// How the visible-absorbance model treats one registry species. The
+/// classification is generic: it reads only the registry's curated
+/// appearance, its spectrum and the indicator tables, so a new coloured
+/// species without ε(λ) is refused the moment it is registered.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ChromophoreClass {
+    /// Reviewed ε(λ) in the registry.
+    Parameterised,
+    /// pH-dependent spectrum from the indicator/pigment tables.
+    ParameterisedPh,
+    /// Curated as coloured, no reviewed ε(λ): the spectrophotometer refuses.
+    MissingAbsorptivity,
+    /// Curated as colourless/white: no visible absorption is claimed.
+    OutsideMethod,
+    /// No curated appearance at all; counted as non-absorbing and listed
+    /// so the assumption is visible.
+    Unclassified,
+}
+
+impl ChromophoreClass {
+    pub fn key(self) -> &'static str {
+        match self {
+            ChromophoreClass::Parameterised => "parameterised",
+            ChromophoreClass::ParameterisedPh => "parameterised_ph",
+            ChromophoreClass::MissingAbsorptivity => "missing_absorptivity",
+            ChromophoreClass::OutsideMethod => "outside_method",
+            ChromophoreClass::Unclassified => "unclassified",
+        }
+    }
+}
+
+/// Appearance words that claim no visible colour.
+const TRANSPARENT_WORDS: &[&str] = &["colourless", "colorless", "white", "clear", "translucent"];
+
+/// Appearance words that name a visible colour.
+const COLOUR_WORDS: &[&str] = &[
+    "black", "grey", "gray", "silver", "red", "orange", "yellow", "green", "blue", "violet",
+    "purple", "pink", "brown",
+];
+
+/// Whether a curated appearance claims a visible colour: it names a colour
+/// and no transparency ("white to yellowish powder" is not a chromophore
+/// claim; "sharp-smelling, toxic" is not a colour at all).
+pub fn appearance_is_coloured(appearance: &str) -> bool {
+    let lower = appearance.to_lowercase();
+    COLOUR_WORDS.iter().any(|w| lower.contains(w))
+        && !TRANSPARENT_WORDS.iter().any(|w| lower.contains(w))
+}
+
+pub fn chromophore_class(key: &str) -> ChromophoreClass {
+    if crate::indicator::is_ph_dependent(key) {
+        return ChromophoreClass::ParameterisedPh;
+    }
+    let Some(data) = species::lookup_key(key) else {
+        return ChromophoreClass::Unclassified;
+    };
+    if data.spectrum.is_some() {
+        return ChromophoreClass::Parameterised;
+    }
+    match data.appearance {
+        Some(a) if appearance_is_coloured(a) => ChromophoreClass::MissingAbsorptivity,
+        Some(_) => ChromophoreClass::OutsideMethod,
+        None => ChromophoreClass::Unclassified,
+    }
+}
+
+/// Dissolved/liquid inventory curated as coloured with no reviewed ε(λ).
+fn missing_absorptivity(vessel: &Vessel) -> Vec<String> {
+    vessel
+        .contents
+        .iter()
+        .filter(|p| matches!(p.phase, Phase::Aqueous | Phase::Liquid))
+        .filter(|p| p.moles.0 > 0.0)
+        .filter(|p| chromophore_class(&p.species.0) == ChromophoreClass::MissingAbsorptivity)
+        .filter(|p| visible_moles(vessel, &p.species.0, p.moles.0) > 0.0)
+        .map(|p| p.species.0.clone())
+        .collect::<std::collections::BTreeSet<_>>()
+        .into_iter()
+        .collect()
+}
+
+/// The shared instrument coverage disclosure for the spectrophotometer:
+/// which present species the method measures, which it would need a
+/// parameter for, and which it does not see at all.
+pub fn disclosure(vessel: &Vessel) -> crate::instrument_coverage::InstrumentCoverage {
+    let coverage = coverage(vessel);
+    let mut missing: Vec<String> = coverage
+        .missing_spectra
+        .iter()
+        .chain(&coverage.missing_ph)
+        .chain(&coverage.missing_absorptivity)
+        .cloned()
+        .collect();
+    missing.sort();
+    missing.dedup();
+    let mut supported = Vec::new();
+    let mut outside = Vec::new();
+    for p in vessel
+        .contents
+        .iter()
+        .filter(|p| matches!(p.phase, Phase::Aqueous | Phase::Liquid) && p.moles.0 > 0.0)
+    {
+        let key = p.species.0.clone();
+        if missing.contains(&key) {
+            continue;
+        }
+        match chromophore_class(&key) {
+            ChromophoreClass::Parameterised | ChromophoreClass::ParameterisedPh => {
+                supported.push(key)
+            }
+            _ => outside.push(key),
+        }
+    }
+    crate::instrument_coverage::InstrumentCoverage::new(
+        "spectrophotometer",
+        supported,
+        missing,
+        outside,
+    )
 }
 
 /// Check the actual visible aqueous/liquid inventory, not provenance or a
@@ -90,6 +217,7 @@ pub fn coverage(vessel: &Vessel) -> OpticalCoverage {
     OpticalCoverage {
         missing_spectra: missing_native_spectra(vessel),
         missing_ph,
+        missing_absorptivity: missing_absorptivity(vessel),
     }
 }
 

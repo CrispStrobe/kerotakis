@@ -1,0 +1,7704 @@
+[
+  {
+    "metal": "Ag",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Acetate)",
+        "Ag(Acetate)2-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "B",
+    "family": "background (B)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgH2BO3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Benzoate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgBr",
+        "AgBr2-",
+        "AgBr3-2"
+      ],
+      "wateq4f": [
+        "AgBr",
+        "AgBr2-",
+        "AgBr3-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Butylamine",
+    "family": "background (Butylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Butylamine)+",
+        "Ag(Butylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgCl",
+        "AgCl2-",
+        "AgCl3-2",
+        "AgCl4-3"
+      ],
+      "wateq4f": [
+        "AgCl",
+        "AgCl2-",
+        "AgCl3-2",
+        "AgCl4-3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Cyanide)2-",
+        "Ag(Cyanide)3-2",
+        "Ag(Cyanide)OH-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Diethylamine",
+    "family": "background (Diethylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Diethylamine)+",
+        "Ag(Diethylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Dimethylamine",
+    "family": "background (Dimethylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Dimethylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Edta)-3",
+        "AgH(Edta)-2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Ethylenediamine)+",
+        "Ag(Ethylenediamine)2+",
+        "Ag(HEthylenediamine)2+3",
+        "Ag2(Ethylenediamine)+2",
+        "Ag2(Ethylenediamine)2+2",
+        "AgH(Ethylenediamine)+2",
+        "AgH(Ethylenediamine)2+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgF"
+      ],
+      "wateq4f": [
+        "AgF"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Four_picoline",
+    "family": "background (Four_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Four_picoline)+",
+        "Ag(Four_picoline)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Fulvate",
+    "family": "background (Fulvate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "AgFulvate-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Glutamate)-",
+        "Ag(Glutamate)2-3",
+        "Ag2(Glutamate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Glycine)",
+        "Ag(Glycine)2-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Hexylamine",
+    "family": "background (Hexylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Hexylamine)+",
+        "Ag(Hexylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Humate",
+    "family": "background (Humate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "AgHumate-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgI",
+        "AgI2-",
+        "AgI3-2",
+        "AgI4-3"
+      ],
+      "wateq4f": [
+        "AgI",
+        "AgI2-",
+        "AgI3-2",
+        "AgI4-3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Isopropylamine",
+    "family": "background (Isopropylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Isopropylamine)+",
+        "Ag(Isopropylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Methylamine",
+    "family": "background (Methylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Methylamine)+",
+        "Ag(Methylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(NH3)2+",
+        "AgNH3+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "N(3)",
+    "family": "background (N(3))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(NO2)2-",
+        "AgNO2"
+      ],
+      "wateq4f": [
+        "Ag(NO2)2-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgNO3"
+      ],
+      "wateq4f": [
+        "AgNO3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(OH)2-",
+        "AgOH"
+      ],
+      "wateq4f": [
+        "Ag(OH)2-",
+        "AgOH"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Propylamine",
+    "family": "background (Propylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Propylamine)+",
+        "Ag(Propylamine)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(HS)2-",
+        "Ag(HS)S4-2",
+        "Ag(S4)2-3",
+        "AgHS",
+        "AgS4S5-3"
+      ],
+      "wateq4f": [
+        "Ag(HS)2-",
+        "Ag(S4)2-3",
+        "Ag(S4)S5-3",
+        "AgHS",
+        "AgHS(S4)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AgSO4-"
+      ],
+      "wateq4f": [
+        "AgSO4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Se(-2)",
+    "family": "background (Se(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag2Se",
+        "AgOH(Se)2-4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Se(4)",
+    "family": "background (Se(4))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(SeO3)2-3",
+        "AgSeO3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Thiosulfate",
+    "family": "thiosulfate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {},
+    "decision": "missing on every routed database; refused with a typed reason",
+    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 28 (Ag(S2O3)2 3-, photographic fixing)"
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Three_picoline",
+    "family": "background (Three_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Three_picoline)+",
+        "Ag(Three_picoline)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Trimethylamine",
+    "family": "background (Trimethylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Trimethylamine)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ag",
+    "ligand": "Two_picoline",
+    "family": "background (Two_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Two_picoline)+",
+        "Ag(Two_picoline)2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Al(Benzoate)+2",
+        "AlOH(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Al(Citrate)",
+        "Al(Citrate)2-3",
+        "AlH(Citrate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Al(Edta)-",
+        "AlH(Edta)",
+        "AlOH(Edta)-2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AlF+2",
+        "AlF2+",
+        "AlF3",
+        "AlF4-"
+      ],
+      "wateq4f": [
+        "AlF+2",
+        "AlF2+",
+        "AlF3",
+        "AlF4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "AlH(Glutamate)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Al(Nta)",
+        "AlH(Nta)+",
+        "AlOH(Nta)-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Al(OH)2+",
+        "Al(OH)3",
+        "Al(OH)4-",
+        "AlOH+2"
+      ],
+      "wateq4f": [
+        "Al(OH)2+",
+        "Al(OH)3",
+        "Al(OH)4-",
+        "AlOH+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Al(Phthalate)+",
+        "Al(Phthalate)2-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Al(SO4)2-",
+        "AlSO4+"
+      ],
+      "wateq4f": [
+        "Al(SO4)2-",
+        "AlHSO4+2",
+        "AlSO4+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Al",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Al(Tartarate)2-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Acetate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "B",
+    "family": "background (B)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BaH2BO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Butyrate)+",
+        "Ba(Butyrate)2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BaCO3",
+        "BaHCO3+"
+      ],
+      "wateq4f": [
+        "BaCO3",
+        "BaHCO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Citrate)-",
+        "BaH(Citrate)",
+        "BaH2(Citrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Edta)-2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Formate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Glutamate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Glycine)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Isophthalate",
+    "family": "background (Isophthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Isophthalate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BaNH3+2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BaNO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Nta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BaOH+"
+      ],
+      "wateq4f": [
+        "BaOH+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Phthalate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Propionate)+",
+        "Ba(Propionate)2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "BaSO4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BaH(Salicylate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Tartarate)",
+        "BaH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ba",
+    "ligand": "Valerate",
+    "family": "background (Valerate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ba(Valerate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Acetate)+",
+        "Be(Acetate)2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BeBr+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BeCO3"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Citrate)-",
+        "BeH(Citrate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BeCl+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Edta)-2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "BeF+",
+        "BeF2",
+        "BeF3-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Nta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(OH)2",
+        "Be(OH)3-",
+        "Be(OH)4-2",
+        "Be2OH+3",
+        "Be3(OH)3+3",
+        "BeOH+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Phthalate)",
+        "Be(Phthalate)2-2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(SO4)2-2",
+        "BeSO4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Salicylate)",
+        "Be(Salicylate)2-2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Be",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Be(Tartarate)",
+        "Be(Tartarate)2-2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Acetate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "B",
+    "family": "background (B)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaH2BO3+"
+      ],
+      "pitzer": [
+        "CaB(OH)4+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Benzoate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Butyrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaCO3",
+        "CaHCO3+"
+      ],
+      "wateq4f": [
+        "CaCO3",
+        "CaHCO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Citrate)-",
+        "CaH(Citrate)",
+        "CaH2(Citrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Edta)-2",
+        "CaH(Edta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Ethylenediamine)+2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaF+"
+      ],
+      "wateq4f": [
+        "CaF+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Formate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Glutamate)",
+        "CaH(Glutamate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Glycine)+",
+        "CaH(Glycine)+2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Isobutyrate",
+    "family": "background (Isobutyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Isobutyrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Isophthalate",
+    "family": "background (Isophthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Isophthalate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Isovalerate",
+    "family": "background (Isovalerate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Isovalerate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(NH3)2+2",
+        "CaNH3+2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaNO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Nta)-",
+        "Ca(Nta)2-4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaOH+"
+      ],
+      "wateq4f": [
+        "CaOH+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaH2PO4+",
+        "CaHPO4",
+        "CaPO4-"
+      ],
+      "wateq4f": [
+        "CaH2PO4+",
+        "CaHPO4",
+        "CaPO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Phthalate)",
+        "CaH(Phthalate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Propionate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CaSO4"
+      ],
+      "wateq4f": [
+        "CaHSO4+",
+        "CaSO4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Salicylate)",
+        "CaH(Salicylate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Tartarate)",
+        "CaH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ca",
+    "ligand": "Valerate",
+    "family": "background (Valerate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ca(Valerate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Acetate)+",
+        "Cd(Acetate)2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Benzoate)+",
+        "Cd(Benzoate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CdBr+",
+        "CdBr2"
+      ],
+      "wateq4f": [
+        "CdBr+",
+        "CdBr2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(CO3)2-2",
+        "CdCO3",
+        "CdHCO3+"
+      ],
+      "wateq4f": [
+        "Cd(CO3)2-2",
+        "CdCO3",
+        "CdHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Citrate)-",
+        "Cd(Citrate)2-4",
+        "CdH(Citrate)",
+        "CdH2(Citrate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CdCl+",
+        "CdCl2",
+        "CdCl3-",
+        "CdOHCl"
+      ],
+      "wateq4f": [
+        "CdCl+",
+        "CdCl2",
+        "CdCl3-",
+        "CdOHCl"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Cyanide)2",
+        "Cd(Cyanide)3-",
+        "Cd(Cyanide)4-2",
+        "CdCyanide+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Diethylamine",
+    "family": "background (Diethylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Diethylamine)+2",
+        "Cd(Diethylamine)2+2",
+        "Cd(Diethylamine)3+2",
+        "Cd(Diethylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Edta)-2",
+        "CdH(Edta)-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Ethylenediamine)+2",
+        "Cd(Ethylenediamine)2+2",
+        "Cd(Ethylenediamine)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CdF+",
+        "CdF2"
+      ],
+      "wateq4f": [
+        "CdF+",
+        "CdF2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Four_picoline",
+    "family": "background (Four_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Four_picoline)+2",
+        "Cd(Four_picoline)2+2",
+        "Cd(Four_picoline)3+2",
+        "Cd(Four_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Fulvate",
+    "family": "background (Fulvate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "CdFulvate"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Glutamate)",
+        "Cd(Glutamate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Glycine)+",
+        "Cd(Glycine)2",
+        "Cd(Glycine)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Humate",
+    "family": "background (Humate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "CdHumate"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CdI+",
+        "CdI2"
+      ],
+      "wateq4f": [
+        "CdI+",
+        "CdI2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Isophthalate",
+    "family": "background (Isophthalate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Isophthalate)",
+        "Cd(Isophthalate)2-2",
+        "CdH(Isophthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Isopropylamine",
+    "family": "background (Isopropylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Isopropylamine)+2",
+        "Cd(Isopropylamine)2+2",
+        "Cd(Isopropylamine)3+2",
+        "Cd(Isopropylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Methylamine",
+    "family": "background (Methylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Methylamine)+2",
+        "Cd(Methylamine)2+2",
+        "Cd(Methylamine)3+2",
+        "Cd(Methylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {},
+    "decision": "missing on every routed database; refused with a typed reason",
+    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Cd(NH3)4 2+)"
+  },
+  {
+    "metal": "Cd",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(NO3)2",
+        "CdNO3+"
+      ],
+      "wateq4f": [
+        "CdNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Nta)-",
+        "Cd(Nta)2-4",
+        "CdOH(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(OH)2",
+        "Cd(OH)3-",
+        "Cd(OH)4-2",
+        "Cd2OH+3",
+        "CdOH+"
+      ],
+      "wateq4f": [
+        "Cd(OH)2",
+        "Cd(OH)3-",
+        "Cd(OH)4-2",
+        "Cd2OH+3",
+        "CdOH+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Phthalate)",
+        "Cd(Phthalate)2-2",
+        "CdH(Phthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Propionate)+",
+        "Cd(Propionate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Propylamine",
+    "family": "background (Propylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Propylamine)+2",
+        "Cd(Propylamine)2+2",
+        "Cd(Propylamine)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(HS)2",
+        "Cd(HS)3-",
+        "Cd(HS)4-2",
+        "CdHS+"
+      ],
+      "wateq4f": [
+        "Cd(HS)2",
+        "Cd(HS)3-",
+        "Cd(HS)4-2",
+        "CdHS+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(SO4)2-2",
+        "CdSO4"
+      ],
+      "wateq4f": [
+        "Cd(SO4)2-2",
+        "CdSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Salicylate)",
+        "CdH(Salicylate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Se(4)",
+    "family": "background (Se(4))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(SeO3)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Se(6)",
+    "family": "background (Se(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CdSeO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Tartarate)",
+        "Cd(Tartarate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cd",
+    "ligand": "Three_picoline",
+    "family": "background (Three_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cd(Three_picoline)+2",
+        "Cd(Three_picoline)2+2",
+        "Cd(Three_picoline)3+2",
+        "Cd(Three_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Acetate)+",
+        "Co(Acetate)2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Butyrate)+",
+        "Co(Butyrate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoCO3",
+        "CoHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Citrate)-",
+        "CoH2Citrate+",
+        "CoHCitrate"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoCl+",
+        "CoCl+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Cyanide)3-",
+        "Co(Cyanide)5-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Edta)-",
+        "Co(Edta)-2",
+        "CoH(Edta)",
+        "CoH(Edta)-",
+        "CoH2(Edta)"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Ethylenediamine)+2",
+        "Co(Ethylenediamine)2+2",
+        "Co(Ethylenediamine)2+3",
+        "Co(Ethylenediamine)3+2",
+        "Co(Ethylenediamine)3+3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoF+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Formate)+",
+        "Co(Formate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Four_picoline",
+    "family": "background (Four_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Four_picoline)+2",
+        "Co(Four_picoline)2+2",
+        "Co(Four_picoline)3+2",
+        "Co(Four_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Glutamate)",
+        "Co(Glutamate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Glycine)+",
+        "Co(Glycine)2",
+        "Co(Glycine)3-",
+        "CoOH(Glycine)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Co(NH3)+2",
+        "Co(NH3)2+2",
+        "Co(NH3)3+2",
+        "Co(NH3)4+2",
+        "Co(NH3)5+2",
+        "Co(NH3)6OH+2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "N(3)",
+    "family": "background (N(3))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoNO2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(NO3)2",
+        "CoNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Nta)-",
+        "Co(Nta)2-4",
+        "CoOH(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(OH)2",
+        "Co(OH)3-",
+        "Co(OH)4-2",
+        "Co2OH+3",
+        "Co4(OH)4+4",
+        "CoOH+",
+        "CoOH+2",
+        "CoOOH-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoHPO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Phenylacetate",
+    "family": "background (Phenylacetate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Phenylacetate)+",
+        "Co(Phenylacetate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Phthalate)",
+        "CoH(Phthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Propionate)+",
+        "Co(Propionate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Salicylate)",
+        "Co(Salicylate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Se(6)",
+    "family": "background (Se(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CoSeO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Tartarate)",
+        "Co(Tartarate)2-2",
+        "CoH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Co",
+    "ligand": "Three_picoline",
+    "family": "background (Three_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Co(Three_picoline)+2",
+        "Co(Three_picoline)2+2",
+        "Co(Three_picoline)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Acetate)+",
+        "Cr(Acetate)+2",
+        "Cr(Acetate)2",
+        "Cr(Acetate)2+",
+        "Cr(Acetate)3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CrBr+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CrCl+2",
+        "CrCl2+",
+        "CrO3Cl-",
+        "CrOHCl2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Edta)-",
+        "Cr(Edta)-2",
+        "CrH(Edta)",
+        "CrH(Edta)-",
+        "CrOH(Edta)-2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Ethylenediamine)2+3",
+        "Cr(Ethylenediamine)3+3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CrF+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Glutamate)+",
+        "Cr(Glutamate)2-",
+        "CrH(Glutamate)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Glycine)+2",
+        "Cr(Glycine)2+",
+        "Cr(Glycine)3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CrI+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(NH3)5OH+2",
+        "Cr(NH3)6+3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CrNO3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Nta)",
+        "Cr(Nta)2-3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(OH)3",
+        "Cr(OH)4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CrH2PO4+2",
+        "CrO3H2PO4-",
+        "CrO3HPO4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Phthalate)+",
+        "Cr(Phthalate)2-",
+        "Cr(Phthalate)3-3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr(Propionate)+2",
+        "Cr(Propionate)2+",
+        "Cr(Propionate)3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cr",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cr2(OH)2(SO4)2",
+        "Cr2(OH)2SO4+2",
+        "CrO3SO4-2",
+        "CrOHSO4",
+        "CrSO4+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Acetate)+",
+        "Cu(Acetate)2",
+        "Cu(Acetate)3-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Butyrate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(CO3)2-2",
+        "CuCO3",
+        "CuHCO3+"
+      ],
+      "wateq4f": [
+        "Cu(CO3)2-2",
+        "CuCO3",
+        "CuHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Citrate)-",
+        "Cu(Citrate)2-4",
+        "Cu2(Citrate)2-2",
+        "CuH(Citrate)",
+        "CuH2(Citrate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CuCl",
+        "CuCl+",
+        "CuCl2",
+        "CuCl2-",
+        "CuCl3-",
+        "CuCl3-2",
+        "CuCl4-2"
+      ],
+      "wateq4f": [
+        "CuCl+",
+        "CuCl2",
+        "CuCl3-",
+        "CuCl4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Cyanide)2-",
+        "Cu(Cyanide)3-2",
+        "Cu(Cyanide)4-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Edta)-2",
+        "CuH(Edta)-",
+        "CuH2(Edta)",
+        "CuOH(Edta)-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Ethylenediamine)+2",
+        "Cu(Ethylenediamine)2+",
+        "Cu(Ethylenediamine)2+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CuF+"
+      ],
+      "wateq4f": [
+        "CuF+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Four_picoline",
+    "family": "background (Four_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Four_picoline)+",
+        "Cu(Four_picoline)+2",
+        "Cu(Four_picoline)2+",
+        "Cu(Four_picoline)2+2",
+        "Cu(Four_picoline)3+",
+        "Cu(Four_picoline)3+2",
+        "Cu(Four_picoline)4+",
+        "Cu(Four_picoline)4+2",
+        "Cu(Four_picoline)5+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Fulvate",
+    "family": "background (Fulvate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "CuFulvate"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Glutamate)",
+        "Cu(Glutamate)2-2",
+        "CuH(Glutamate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Glycine)+",
+        "Cu(Glycine)2",
+        "Cu(Glycine)2-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Humate",
+    "family": "background (Humate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "CuHumate"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Isobutyrate",
+    "family": "background (Isobutyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Isobutyrate)+",
+        "Cu(Isobutyrate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Isovalerate",
+    "family": "background (Isovalerate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Isovalerate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Methylamine",
+    "family": "background (Methylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Methylamine)+2",
+        "Cu(Methylamine)2+2",
+        "Cu(Methylamine)3+2",
+        "Cu(Methylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(NH3)2+2",
+        "Cu(NH3)3+2",
+        "Cu(NH3)4+2",
+        "CuNH3+2"
+      ],
+      "wateq4f": [
+        "Cu(NH3)2+2",
+        "Cu(NH3)3+2",
+        "Cu(NH3)4+2",
+        "CuNH3+2"
+      ]
+    },
+    "decision": "routes to wateq4f",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "N(3)",
+    "family": "background (N(3))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(NO2)2",
+        "CuNO2+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(NO3)2",
+        "CuNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Nta)-",
+        "Cu(Nta)2-4",
+        "CuH(Nta)",
+        "CuOH(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(OH)2",
+        "Cu(OH)3-",
+        "Cu(OH)4-2",
+        "Cu2(OH)2+2",
+        "CuOH+"
+      ],
+      "wateq4f": [
+        "Cu(OH)2",
+        "Cu(OH)3-",
+        "Cu(OH)4-2",
+        "Cu2(OH)2+2",
+        "CuOH+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Phenylacetate",
+    "family": "background (Phenylacetate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Phenylacetate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Phthalate)",
+        "Cu(Phthalate)2-2",
+        "CuH(Phthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Propionate)+",
+        "Cu(Propionate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(HS)3-",
+        "Cu(S4)2-3",
+        "CuS4S5-3"
+      ],
+      "wateq4f": [
+        "Cu(HS)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "CuSO4"
+      ],
+      "wateq4f": [
+        "CuSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Salicylate)",
+        "Cu(Salicylate)2-2",
+        "CuH(Salicylate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Tartarate)",
+        "CuH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Three_picoline",
+    "family": "background (Three_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Three_picoline)+",
+        "Cu(Three_picoline)+2",
+        "Cu(Three_picoline)2+",
+        "Cu(Three_picoline)2+2",
+        "Cu(Three_picoline)3+",
+        "Cu(Three_picoline)3+2",
+        "Cu(Three_picoline)4+",
+        "Cu(Three_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Two_picoline",
+    "family": "background (Two_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Two_picoline)+",
+        "Cu(Two_picoline)+2",
+        "Cu(Two_picoline)2+",
+        "Cu(Two_picoline)2+2",
+        "Cu(Two_picoline)3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Cu",
+    "ligand": "Valerate",
+    "family": "background (Valerate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Cu(Valerate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Acetate)+",
+        "Fe(Acetate)+2",
+        "Fe(Acetate)2+",
+        "Fe(Acetate)3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "FeHCO3+"
+      ],
+      "wateq4f": [
+        "FeCO3",
+        "FeHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Citrate)",
+        "Fe(Citrate)-",
+        "FeH(Citrate)",
+        "FeH(Citrate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "FeCl+2",
+        "FeCl2+",
+        "FeCl3"
+      ],
+      "wateq4f": [
+        "FeCl+",
+        "FeCl+2",
+        "FeCl2+",
+        "FeCl3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Cyanide)6-3",
+        "Fe(Cyanide)6-4",
+        "Fe2(Cyanide)6",
+        "H2Fe(Cyanide)6-2",
+        "HFe(Cyanide)6-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Edta)-",
+        "Fe(Edta)-2",
+        "Fe(OH)2(Edta)-3",
+        "Fe(OH)2(Edta)-4",
+        "FeH(Edta)",
+        "FeH(Edta)-",
+        "FeOH(Edta)-2",
+        "FeOH(Edta)-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Ethylenediamine)+2",
+        "Fe(Ethylenediamine)2+2",
+        "Fe(Ethylenediamine)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "FeF+2",
+        "FeF2+",
+        "FeF3"
+      ],
+      "wateq4f": [
+        "FeF+",
+        "FeF+2",
+        "FeF2+",
+        "FeF3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Fulvate",
+    "family": "background (Fulvate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "FeFulvate+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Glycine)+",
+        "Fe(Glycine)+2",
+        "Fe(Glycine)2",
+        "FeH(Glycine)+3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Humate",
+    "family": "background (Humate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "FeHumate+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Isobutyrate",
+    "family": "background (Isobutyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Isobutyrate)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "FeNO3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Nta)",
+        "Fe(Nta)-",
+        "Fe(Nta)2-3",
+        "Fe(Nta)2-4",
+        "FeH(Nta)",
+        "FeOH(Nta)-",
+        "FeOH(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(OH)2",
+        "Fe(OH)2+",
+        "Fe(OH)3",
+        "Fe(OH)3-",
+        "Fe(OH)4-",
+        "Fe2(OH)2+4",
+        "Fe3(OH)4+5",
+        "FeOH+",
+        "FeOH+2"
+      ],
+      "wateq4f": [
+        "Fe(OH)2",
+        "Fe(OH)2+",
+        "Fe(OH)3",
+        "Fe(OH)3-",
+        "Fe(OH)4-",
+        "Fe2(OH)2+4",
+        "Fe3(OH)4+5",
+        "FeOH+",
+        "FeOH+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Oxalate",
+    "family": "oxalate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {},
+    "decision": "missing on every routed database; refused with a typed reason",
+    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 25 (Fe(C2O4)3 3-)"
+  },
+  {
+    "metal": "Fe",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "FeH2PO4+",
+        "FeH2PO4+2",
+        "FeHPO4",
+        "FeHPO4+"
+      ],
+      "wateq4f": [
+        "FeH2PO4+",
+        "FeH2PO4+2",
+        "FeHPO4",
+        "FeHPO4+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Propionate)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(HS)2",
+        "Fe(HS)3-"
+      ],
+      "wateq4f": [
+        "Fe(HS)2",
+        "Fe(HS)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(SO4)2-",
+        "FeSO4",
+        "FeSO4+"
+      ],
+      "wateq4f": [
+        "Fe(SO4)2-",
+        "FeHSO4+",
+        "FeHSO4+2",
+        "FeSO4",
+        "FeSO4+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Salicylate)",
+        "Fe(Salicylate)+",
+        "Fe(Salicylate)2-",
+        "Fe(Salicylate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Se(4)",
+    "family": "background (Se(4))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "FeHSeO3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Tartarate)",
+        "Fe(Tartarate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Fe",
+    "ligand": "Thiocyanate",
+    "family": "thiocyanate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Fe(Thiocyanate)+2",
+        "Fe(Thiocyanate)2+"
+      ],
+      "wateq4f": [
+        "Fe(Thiocyanate)+2",
+        "Fe(Thiocyanate)2+"
+      ]
+    },
+    "decision": "routes to wateq4f",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Acetate)+",
+        "Hg(Acetate)2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "HgBr+",
+        "HgBr2",
+        "HgBr3-",
+        "HgBr4-2",
+        "HgBrOH"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Butylamine",
+    "family": "background (Butylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Butylamine)+2",
+        "Hg(Butylamine)2+2",
+        "Hg(Butylamine)3+2",
+        "Hg(Butylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Butyrate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(CO3)2-2",
+        "HgCO3",
+        "HgHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Citrate)-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "HgCl+",
+        "HgCl2",
+        "HgCl3-",
+        "HgCl4-2",
+        "HgClOH"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Cyanide)2",
+        "Hg(Cyanide)3-",
+        "Hg(Cyanide)4-2",
+        "HgCyanide+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Edta)-2",
+        "HgH(Edta)-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Ethylenediamine)+2",
+        "Hg(Ethylenediamine)2+2",
+        "HgH(Ethylenediamine)2+3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "HgF+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Glutamate)",
+        "Hg(Glutamate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Glycine)+",
+        "Hg(Glycine)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "HgI+",
+        "HgI2",
+        "HgI3-",
+        "HgI4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Isopropylamine",
+    "family": "background (Isopropylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Isopropylamine)+2",
+        "Hg(Isopropylamine)2+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Methylamine",
+    "family": "background (Methylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Methylamine)+2",
+        "Hg(Methylamine)2+2",
+        "Hg(Methylamine)3+2",
+        "Hg(Methylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(NH3)2+2",
+        "Hg(NH3)3+2",
+        "Hg(NH3)4+2",
+        "HgNH3+2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(NO3)2",
+        "HgNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Nta)-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(OH)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Propionate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(HS)2",
+        "HgHS2-",
+        "HgS2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "HgSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Hg",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Hg(Tartarate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "K(Acetate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "K(Citrate)-2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "K(Edta)-3"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "KHPO4-"
+      ],
+      "wateq4f": [
+        "KHPO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "K(Phthalate)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "KSO4-"
+      ],
+      "wateq4f": [
+        "KSO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "K",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "K(Tartarate)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Li",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "LiSO4-"
+      ],
+      "wateq4f": [
+        "LiSO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Acetate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "B",
+    "family": "background (B)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MgH2BO3+"
+      ],
+      "pitzer": [
+        "MgB(OH)4+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Benzoate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Butyrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MgCO3",
+        "MgHCO3+"
+      ],
+      "pitzer": [
+        "MgCO3"
+      ],
+      "wateq4f": [
+        "MgCO3",
+        "MgHCO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Citrate)-",
+        "MgH(Citrate)",
+        "MgH2(Citrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Edta)-2",
+        "MgH(Edta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Ethylenediamine)+2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MgF+"
+      ],
+      "wateq4f": [
+        "MgF+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Formate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Glutamate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Glycine)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Nta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MgOH+"
+      ],
+      "pitzer": [
+        "MgOH+"
+      ],
+      "wateq4f": [
+        "MgOH+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MgH2PO4+",
+        "MgHPO4",
+        "MgPO4-"
+      ],
+      "wateq4f": [
+        "MgH2PO4+",
+        "MgHPO4",
+        "MgPO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Phthalate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Propionate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MgSO4"
+      ],
+      "wateq4f": [
+        "MgSO4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Salicylate)",
+        "MgH(Salicylate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mg",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mg(Tartarate)",
+        "MgH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Acetate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MnHCO3+"
+      ],
+      "wateq4f": [
+        "MnCO3",
+        "MnHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Citrate)-",
+        "MnH(Citrate)"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MnCl+",
+        "MnCl2",
+        "MnCl3-"
+      ],
+      "wateq4f": [
+        "MnCl+",
+        "MnCl2",
+        "MnCl3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Edta)-2",
+        "MnH(Edta)-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Ethylenediamine)+2",
+        "Mn(Ethylenediamine)2+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MnF+"
+      ],
+      "wateq4f": [
+        "MnF+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Glutamate)",
+        "Mn(Glutamate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Glycine)+",
+        "Mn(Glycine)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(NO3)2",
+        "MnNO3+"
+      ],
+      "wateq4f": [
+        "Mn(NO3)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Nta)-",
+        "Mn(Nta)2-4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(OH)3-",
+        "Mn(OH)4-2",
+        "MnO4-",
+        "MnO4-2",
+        "MnOH+"
+      ],
+      "wateq4f": [
+        "Mn(OH)3-",
+        "MnO4-",
+        "MnO4-2",
+        "MnOH+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Phthalate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MnSO4"
+      ],
+      "wateq4f": [
+        "MnSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Salicylate)",
+        "Mn(Salicylate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Se(-2)",
+    "family": "background (Se(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MnSe"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Se(6)",
+    "family": "background (Se(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MnSeO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mn",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Mn(Tartarate)",
+        "MnH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Mo",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "MoO3(Nta)-3",
+        "MoO3H(Nta)-2",
+        "MoO3H2(Nta)-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Na(Acetate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "B",
+    "family": "background (B)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NaH2BO3"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NaCO3-",
+        "NaHCO3"
+      ],
+      "wateq4f": [
+        "NaCO3-",
+        "NaHCO3"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Na(Citrate)-2",
+        "Na2(Citrate)-",
+        "NaH(Citrate)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Na(Edta)-3"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NaF"
+      ],
+      "wateq4f": [
+        "NaF"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NaHPO4-"
+      ],
+      "wateq4f": [
+        "NaHPO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Na(Phthalate)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NaSO4-"
+      ],
+      "wateq4f": [
+        "NaSO4-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Na",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Na(Tartarate)-",
+        "NaH(Tartarate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Acetate)+",
+        "Ni(Acetate)2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NiBr+"
+      ],
+      "wateq4f": [
+        "NiBr+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Butyrate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NiCO3",
+        "NiHCO3+"
+      ],
+      "wateq4f": [
+        "Ni(CO3)2-2",
+        "NiCO3",
+        "NiHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Citrate)-",
+        "Ni(Citrate)2-4",
+        "NiH(Citrate)",
+        "NiH(Citrate)2-3",
+        "NiH2(Citrate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NiCl+",
+        "NiCl2"
+      ],
+      "wateq4f": [
+        "NiCl+",
+        "NiCl2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Cyanide)4-2",
+        "NiH(Cyanide)4-",
+        "NiH2Cyanide4",
+        "NiH3(Cyanide)4+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Diethylamine",
+    "family": "background (Diethylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Diethylamine)+2",
+        "Ni(Diethylamine)2+2",
+        "Ni(Diethylamine)3+2",
+        "Ni(Diethylamine)4+2",
+        "Ni(Diethylamine)5+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Dimethylamine",
+    "family": "background (Dimethylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Dimethylamine)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Edta)-2",
+        "NiH(Edta)-",
+        "NiOH(Edta)-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Ethylenediamine)+2",
+        "Ni(Ethylenediamine)2+2",
+        "Ni(Ethylenediamine)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NiF+"
+      ],
+      "wateq4f": [
+        "NiF+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Four_picoline",
+    "family": "background (Four_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Four_picoline)+2",
+        "Ni(Four_picoline)2+2",
+        "Ni(Four_picoline)3+2",
+        "Ni(Four_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Glutamate)",
+        "Ni(Glutamate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Glycine)+",
+        "Ni(Glycine)2",
+        "Ni(Glycine)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Isopropylamine",
+    "family": "background (Isopropylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Isopropylamine)+2",
+        "Ni(Isopropylamine)2+2",
+        "Ni(Isopropylamine)3+2",
+        "Ni(Isopropylamine)4+2",
+        "Ni(Isopropylamine)5+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Methylamine",
+    "family": "background (Methylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Methylamine)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(NH3)2+2",
+        "NiNH3+2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NiNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Nta)-",
+        "Ni(Nta)2-4",
+        "NiOH(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(OH)2",
+        "Ni(OH)3-",
+        "NiOH+"
+      ],
+      "wateq4f": [
+        "Ni(OH)2",
+        "Ni(OH)3-",
+        "NiOH+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Phthalate)",
+        "NiH(Phthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Propionate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Propylamine",
+    "family": "background (Propylamine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Propylamine)+2",
+        "Ni(Propylamine)2+2",
+        "Ni(Propylamine)3+2",
+        "Ni(Propylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(SO4)2-2",
+        "NiSO4"
+      ],
+      "wateq4f": [
+        "Ni(SO4)2-2",
+        "NiSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Salicylate)",
+        "Ni(Salicylate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Se(6)",
+    "family": "background (Se(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "NiSeO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Tartarate)",
+        "NiH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Three_picoline",
+    "family": "background (Three_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Three_picoline)+2",
+        "Ni(Three_picoline)2+2",
+        "Ni(Three_picoline)3+2",
+        "Ni(Three_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Ni",
+    "ligand": "Two_picoline",
+    "family": "background (Two_picoline)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Ni(Two_picoline)+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Acetate)+",
+        "Pb(Acetate)2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "PbBr+",
+        "PbBr2"
+      ],
+      "wateq4f": [
+        "PbBr+",
+        "PbBr2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Butyrate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(CO3)2-2",
+        "PbCO3",
+        "PbHCO3+"
+      ],
+      "wateq4f": [
+        "Pb(CO3)2-2",
+        "PbCO3",
+        "PbHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Citrate)-",
+        "Pb(Citrate)2-4"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "PbCl+",
+        "PbCl2",
+        "PbCl3-",
+        "PbCl4-2"
+      ],
+      "wateq4f": [
+        "PbCl+",
+        "PbCl2",
+        "PbCl3-",
+        "PbCl4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Edta)-2",
+        "PbH(Edta)-",
+        "PbH2(Edta)"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Ethylenediamine)+2",
+        "Pb(Ethylenediamine)2+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "PbF+",
+        "PbF2",
+        "PbF3-",
+        "PbF4-2"
+      ],
+      "wateq4f": [
+        "PbF+",
+        "PbF2",
+        "PbF3-",
+        "PbF4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Glutamate)",
+        "Pb(Glutamate)2-2",
+        "PbH(Glutamate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Glycine)+",
+        "Pb(Glycine)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "PbI+",
+        "PbI2"
+      ],
+      "wateq4f": [
+        "PbI+",
+        "PbI2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Isophthalate",
+    "family": "background (Isophthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Isophthalate)",
+        "Pb(Isophthalate)2-2",
+        "PbH(Isophthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(NO3)2",
+        "PbNO3+"
+      ],
+      "wateq4f": [
+        "PbNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Nta)-",
+        "PbH(Nta)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(OH)2",
+        "Pb(OH)3-",
+        "Pb(OH)4-2",
+        "Pb2OH+3",
+        "Pb3(OH)4+2",
+        "Pb4(OH)4+4",
+        "PbOH+"
+      ],
+      "wateq4f": [
+        "Pb(OH)2",
+        "Pb(OH)3-",
+        "Pb(OH)4-2",
+        "Pb2OH+3",
+        "Pb3(OH)4+2",
+        "PbOH+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Phthalate)",
+        "Pb(Phthalate)2-2",
+        "PbH(Phthalate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Propionate)+",
+        "Pb(Propionate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(HS)2",
+        "Pb(HS)3-"
+      ],
+      "wateq4f": [
+        "Pb(HS)2",
+        "Pb(HS)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(SO4)2-2",
+        "PbSO4"
+      ],
+      "wateq4f": [
+        "Pb(SO4)2-2",
+        "PbSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Pb",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Pb(Tartarate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sb",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sb(OH)2F",
+        "SbOF"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sb",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sb(OH)4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sb",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sb2S4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Sn(Acetate)+",
+        "Sn(Acetate)2",
+        "Sn(Acetate)3-"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SnBr+",
+        "SnBr2",
+        "SnBr3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SnCl+",
+        "SnCl2",
+        "SnCl3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Sn(Edta)-2",
+        "SnH(Edta)-",
+        "SnH2(Edta)"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SnF+",
+        "SnF2",
+        "SnF3-",
+        "SnF6-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SnNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sn(OH)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sn",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sn(Tartarate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Acetate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "B",
+    "family": "background (B)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrH2BO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Butyrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrCO3",
+        "SrHCO3+"
+      ],
+      "wateq4f": [
+        "SrCO3",
+        "SrHCO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Citrate)-",
+        "SrH(Citrate)",
+        "SrH2(Citrate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Edta)-2",
+        "SrH(Edta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrF+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Formate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Glutamate)"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Glycine)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrNH3+2"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrNO3+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Nta)-"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrOH+"
+      ],
+      "wateq4f": [
+        "SrOH+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrH2PO4+",
+        "SrHPO4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Propionate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "SrSO4"
+      ],
+      "wateq4f": [
+        "SrSO4"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Sr",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Sr(Tartarate)",
+        "SrH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; s-block or background pair, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(Acetate)"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlBr",
+        "TlBr+2",
+        "TlBr2+",
+        "TlBr2-",
+        "TlBr3",
+        "TlBr4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(Citrate)-2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlCl",
+        "TlCl+2",
+        "TlCl2+",
+        "TlCl2-",
+        "TlCl3",
+        "TlCl4-",
+        "TlOHCl+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": false,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(Edta)-3",
+        "TlH(Edta)-2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlF"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(Glycine)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlI",
+        "TlI2-",
+        "TlI4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "N(3)",
+    "family": "background (N(3))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlNO2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlNO3",
+        "TlNO3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(OH)4-",
+        "TlOH"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Tl2(OH)2(HS)2-2",
+        "Tl2HS+",
+        "Tl2OH(HS)3-2",
+        "TlHS"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "TlSO4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Tl",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Tl(Tartarate)-",
+        "TlH(Tartarate)"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "UBr+3",
+        "UO2Br+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "UO2(CO3)2-2",
+        "UO2(CO3)3-4",
+        "UO2CO3"
+      ],
+      "wateq4f": [
+        "(UO2)3(CO3)6-6",
+        "U(CO3)4-4",
+        "U(CO3)5-6",
+        "UO2(CO3)2-2",
+        "UO2(CO3)3-4",
+        "UO2(CO3)3-5",
+        "UO2CO3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "UCl+3",
+        "UO2Cl+"
+      ],
+      "wateq4f": [
+        "UCl+3",
+        "UO2Cl+",
+        "UO2Cl2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "UF+3",
+        "UF2+2",
+        "UF3+",
+        "UF4",
+        "UF5-",
+        "UF6-2",
+        "UO2F+",
+        "UO2F2",
+        "UO2F3-",
+        "UO2F4-2"
+      ],
+      "wateq4f": [
+        "UF+3",
+        "UF2+2",
+        "UF3+",
+        "UF4",
+        "UF5-",
+        "UF6-2",
+        "UO2F+",
+        "UO2F2",
+        "UO2F3-",
+        "UO2F4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "wateq4f": [
+        "UI+3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "UO2NO3+"
+      ],
+      "wateq4f": [
+        "U(NO3)2+2",
+        "UNO3+3",
+        "UO2NO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "(UO2)2(OH)2+2",
+        "(UO2)3(OH)5+",
+        "U(OH)2+2",
+        "U(OH)3+",
+        "U(OH)4",
+        "U(OH)5-",
+        "U6(OH)15+9",
+        "UO2OH+",
+        "UOH+3"
+      ],
+      "wateq4f": [
+        "(UO2)2(OH)2+2",
+        "(UO2)2OH+3",
+        "(UO2)3(OH)4+2",
+        "(UO2)3(OH)5+",
+        "(UO2)3(OH)7-",
+        "(UO2)4(OH)7+",
+        "U(OH)2+2",
+        "U(OH)3+",
+        "U(OH)4",
+        "U6(OH)15+9",
+        "UO2(OH)3-",
+        "UO2(OH)4-2",
+        "UO2OH+",
+        "UOH+3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "P",
+    "family": "background (P)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "U(HPO4)2",
+        "U(HPO4)3-2",
+        "U(HPO4)4-4",
+        "UHPO4+2",
+        "UO2(H2PO4)2",
+        "UO2(H2PO4)3-",
+        "UO2(HPO4)2-2",
+        "UO2H2PO4+",
+        "UO2HPO4",
+        "UO2PO4-"
+      ],
+      "wateq4f": [
+        "UO2(H2PO4)2",
+        "UO2(H2PO4)3-",
+        "UO2(HPO4)2-2",
+        "UO2H2PO4+",
+        "UO2H3PO4+2",
+        "UO2HPO4",
+        "UO2PO4-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "U(SO4)2",
+        "UO2(SO4)2-2",
+        "UO2SO4",
+        "USO4+2"
+      ],
+      "wateq4f": [
+        "U(SO4)2",
+        "UO2(SO4)2-2",
+        "UO2SO4",
+        "USO4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "U",
+    "ligand": "Si",
+    "family": "background (Si)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "UO2H3SiO4+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "V",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "VOCl+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "V",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "VO2F",
+        "VO2F2-",
+        "VO2F3-2",
+        "VO2F4-3",
+        "VOF+",
+        "VOF2",
+        "VOF3-",
+        "VOF4-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "V",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "VO2NO3"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "V",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "H2V10O28-4",
+        "H2V2O4+2",
+        "H2VO4-",
+        "H3V2O7-",
+        "H3VO4",
+        "HV10O28-5",
+        "HV2O7-3",
+        "HVO4-2",
+        "V(OH)2+",
+        "V(OH)3",
+        "V(OH)3+",
+        "V10O28-6",
+        "V2(OH)2+4",
+        "V2(OH)3+3",
+        "V2O7-4",
+        "V3O9-3",
+        "V4O12-4",
+        "VO4-3",
+        "VOH+",
+        "VOH+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "V",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": false,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "VO2SO4-",
+        "VOSO4",
+        "VSO4+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Acetate",
+    "family": "acetate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Acetate)+",
+        "Zn(Acetate)2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Benzoate",
+    "family": "background (Benzoate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Benzoate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Br",
+    "family": "background (Br)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "ZnBr+",
+        "ZnBr2"
+      ],
+      "wateq4f": [
+        "ZnBr+",
+        "ZnBr2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Butyrate",
+    "family": "background (Butyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Butyrate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "C",
+    "family": "background (C)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "ZnCO3",
+        "ZnHCO3+"
+      ],
+      "wateq4f": [
+        "Zn(CO3)2-2",
+        "ZnCO3",
+        "ZnHCO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Citrate",
+    "family": "citrate",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Citrate)-",
+        "Zn(Citrate)2-4",
+        "ZnH(Citrate)",
+        "ZnH2(Citrate)+"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Cl",
+    "family": "background (Cl)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "ZnCl+",
+        "ZnCl2",
+        "ZnCl3-",
+        "ZnCl4-2",
+        "ZnOHCl"
+      ],
+      "wateq4f": [
+        "ZnCl+",
+        "ZnCl2",
+        "ZnCl3-",
+        "ZnCl4-2",
+        "ZnOHCl"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Cyanide",
+    "family": "cyanide",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {},
+    "decision": "missing on every routed database; refused with a typed reason",
+    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(CN)4 2-)"
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Diethylamine",
+    "family": "background (Diethylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Diethylamine)+2",
+        "Zn(Diethylamine)2+2",
+        "Zn(Diethylamine)3+2",
+        "Zn(Diethylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Edta",
+    "family": "EDTA",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Edta)-2",
+        "ZnH(Edta)-",
+        "ZnOH(Edta)-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Ethylenediamine",
+    "family": "background (Ethylenediamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Ethylenediamine)+2",
+        "Zn(Ethylenediamine)2+2",
+        "Zn(Ethylenediamine)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "F",
+    "family": "background (F)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "ZnF+"
+      ],
+      "wateq4f": [
+        "ZnF+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Formate",
+    "family": "background (Formate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Formate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Four_picoline",
+    "family": "background (Four_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Four_picoline)+2",
+        "Zn(Four_picoline)2+2",
+        "Zn(Four_picoline)3+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Glutamate",
+    "family": "background (Glutamate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Glutamate)",
+        "Zn(Glutamate)2-2",
+        "Zn(Glutamate)3-4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Glycine",
+    "family": "background (Glycine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Glycine)+",
+        "Zn(Glycine)2",
+        "Zn(Glycine)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "I",
+    "family": "background (I)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "ZnI+",
+        "ZnI2"
+      ],
+      "wateq4f": [
+        "ZnI+",
+        "ZnI2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Isobutyrate",
+    "family": "background (Isobutyrate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Isobutyrate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Isopropylamine",
+    "family": "background (Isopropylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Isopropylamine)+2",
+        "Zn(Isopropylamine)2+2",
+        "Zn(Isopropylamine)3+2",
+        "Zn(Isopropylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Isovalerate",
+    "family": "background (Isovalerate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Isovalerate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "N(-3)",
+    "family": "ammine",
+    "registry_supplies_metal": true,
+    "route_deciding": true,
+    "complexes": {},
+    "decision": "missing on every routed database; refused with a typed reason",
+    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(NH3)4 2+)"
+  },
+  {
+    "metal": "Zn",
+    "ligand": "N(5)",
+    "family": "background (N(5))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(NO3)2",
+        "ZnNO3+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Nta",
+    "family": "background (Nta)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Nta)-",
+        "Zn(Nta)2-4",
+        "ZnOH(Nta)-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "OH",
+    "family": "hydroxide",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(OH)2",
+        "Zn(OH)3-",
+        "Zn(OH)4-2",
+        "ZnOH+"
+      ],
+      "wateq4f": [
+        "Zn(OH)2",
+        "Zn(OH)3-",
+        "Zn(OH)4-2",
+        "ZnOH+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Phenylacetate",
+    "family": "background (Phenylacetate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Phenylacetate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Phthalate",
+    "family": "background (Phthalate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Phthalate)",
+        "Zn(Phthalate)2-2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Propionate",
+    "family": "background (Propionate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Propionate)+",
+        "Zn(Propionate)2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Propylamine",
+    "family": "background (Propylamine)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Propylamine)+2",
+        "Zn(Propylamine)2+2",
+        "Zn(Propylamine)3+2",
+        "Zn(Propylamine)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "S(-2)",
+    "family": "background (S(-2))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(HS)2",
+        "Zn(HS)3-",
+        "Zn(HS)4-2",
+        "ZnS(HS)-",
+        "ZnS(HS)2-2"
+      ],
+      "wateq4f": [
+        "Zn(HS)2",
+        "Zn(HS)3-"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "S(6)",
+    "family": "background (S(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(SO4)2-2",
+        "ZnSO4"
+      ],
+      "wateq4f": [
+        "Zn(SO4)2-2",
+        "ZnSO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Salicylate",
+    "family": "background (Salicylate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Salicylate)",
+        "ZnH(Salicylate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Se(6)",
+    "family": "background (Se(6))",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(SeO4)2-2",
+        "ZnSeO4"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Tartarate",
+    "family": "background (Tartarate)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Tartarate)",
+        "Zn(Tartarate)2-2",
+        "ZnH(Tartarate)+"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  },
+  {
+    "metal": "Zn",
+    "ligand": "Three_picoline",
+    "family": "background (Three_picoline)",
+    "registry_supplies_metal": true,
+    "route_deciding": false,
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Three_picoline)+2",
+        "Zn(Three_picoline)2+2",
+        "Zn(Three_picoline)3+2",
+        "Zn(Three_picoline)4+2"
+      ]
+    },
+    "decision": "reported; background ligand, not route-deciding",
+    "source": null
+  }
+]

@@ -10597,8 +10597,7 @@
           "measured"
         ],
         "absent": [
-          "solver_failed",
-          "not_yet_modelled"
+          "solver_failed"
         ],
         "predict": {
           "question": "A tool reports that it has no speciation data for a salt you added. What is the check that this claim is true?",

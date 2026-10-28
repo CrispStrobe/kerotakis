@@ -45,6 +45,17 @@ mod tests {
             assert!(index.has_element("Br"));
         }
         assert!(temperature_covered(298.15));
+    }
+
+    #[test]
+    fn every_routed_database_defines_the_same_ammonia_gas_phase() {
+        let wateq = crate::dbindex::DbIndex::parse(crate::databases::wateq4f());
+        let minteq = crate::dbindex::DbIndex::parse(crate::databases::minteq_v4());
+        let reference = &wateq.phases["NH3(g)"];
+        let routed = &minteq.phases["NH3(g)"];
+        assert_eq!(routed.log_k, reference.log_k);
+        assert!((routed.delta_h_kj.unwrap() - reference.delta_h_kj.unwrap()).abs() < 1e-12);
+        assert!(minteq.has_phase("NH3(g)"));
         assert!(!temperature_covered(300.0));
         assert!(!temperature_covered(f64::NAN));
     }

@@ -182,6 +182,12 @@ const KNOWN_UNREACHABLE: &[(&str, &str)] = &[
         "covered: the `curcumin + ClO⁻` row fires in its place.",
     ),
     (
+        "I₂ + 2 Na₂S₂O₃ → 2 I⁻ + S₄O₆²⁻ + 4 Na⁺",
+        "covered: the `I₂ + 2 S₂O₃²⁻` row fires in its place once hypo has \
+         been through a solve. The bottle row exists for the step on which \
+         `Na2S2O3` is poured into a vessel already holding iodine.",
+    ),
+    (
         "indigo carmine + NaOCl → isatin sulfonate + NaCl",
         "covered: the `indigo carmine + ClO⁻` row fires in its place.",
     ),

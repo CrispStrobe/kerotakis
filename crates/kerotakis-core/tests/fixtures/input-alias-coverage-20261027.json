@@ -1,0 +1,4202 @@
+{
+  "aliases": [
+    {
+      "alias": "2-Brom-2-methylpropan",
+      "canonical": "tert_butyl_bromide",
+      "source": "name:de"
+    },
+    {
+      "alias": "2-Methylpropan-2-ol",
+      "canonical": "tert_butanol",
+      "source": "name:de"
+    },
+    {
+      "alias": "2-Methylpropen",
+      "canonical": "isobutylene",
+      "source": "name:de"
+    },
+    {
+      "alias": "2-bromo-2-methylpropane",
+      "canonical": "tert_butyl_bromide",
+      "source": "name:en"
+    },
+    {
+      "alias": "2-bromo-2-méthylpropane",
+      "canonical": "tert_butyl_bromide",
+      "source": "name:fr"
+    },
+    {
+      "alias": "2-methylpropan-2-ol",
+      "canonical": "tert_butanol",
+      "source": "name:en"
+    },
+    {
+      "alias": "2-methylpropene",
+      "canonical": "isobutylene",
+      "source": "name:en"
+    },
+    {
+      "alias": "2-méthylpropan-2-ol",
+      "canonical": "tert_butanol",
+      "source": "name:fr"
+    },
+    {
+      "alias": "2-méthylpropène",
+      "canonical": "isobutylene",
+      "source": "name:fr"
+    },
+    {
+      "alias": "Acetat",
+      "canonical": "CH3COO-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Acetat-Ion",
+      "canonical": "CH3COO-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Aceton",
+      "canonical": "propanone",
+      "source": "name:de"
+    },
+    {
+      "alias": "Aktivkohle",
+      "canonical": "activated_charcoal",
+      "source": "name:de"
+    },
+    {
+      "alias": "Aluminium",
+      "canonical": "Al",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ammoniaklösung",
+      "canonical": "NH3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ammonium",
+      "canonical": "NH4+",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Ammonium-Ion",
+      "canonical": "NH4+",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ammoniumchlorid",
+      "canonical": "NH4Cl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Anthocyan",
+      "canonical": "anthocyanin",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Anthocyan (Rotkohl-Farbstoff)",
+      "canonical": "anthocyanin",
+      "source": "name:de"
+    },
+    {
+      "alias": "Antlerit",
+      "canonical": "antlerite",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Antlerit (grünes Kupfersulfat)",
+      "canonical": "antlerite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Apfelsäure",
+      "canonical": "malic_acid",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ascorbinsäure",
+      "canonical": "ascorbic_acid",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Ascorbinsäure (Vitamin C)",
+      "canonical": "ascorbic_acid",
+      "source": "name:de"
+    },
+    {
+      "alias": "Atacamit",
+      "canonical": "atacamite",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Atacamit (grüner Kupferrost)",
+      "canonical": "atacamite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ba2+",
+      "canonical": "Ba+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Barium-Ion",
+      "canonical": "Ba+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bariumchlorid",
+      "canonical": "BaCl2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bariumhydroxid",
+      "canonical": "Ba(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bariumsulfat",
+      "canonical": "BaSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Betanin (Rote-Bete-Rot)",
+      "canonical": "betanin",
+      "source": "name:de"
+    },
+    {
+      "alias": "Blei",
+      "canonical": "Pb",
+      "source": "name:de"
+    },
+    {
+      "alias": "Blei(II)-Ion",
+      "canonical": "Pb+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Blei(II)-nitrat",
+      "canonical": "Pb(NO3)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bleichmittel",
+      "canonical": "NaOCl",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Bleichmittel (Natriumhypochlorit)",
+      "canonical": "NaOCl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Borsäure",
+      "canonical": "H3BO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "BrNa",
+      "canonical": "NaBr",
+      "source": "formula"
+    },
+    {
+      "alias": "Branntkalk",
+      "canonical": "CaO",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Branntkalk (Calciumoxid)",
+      "canonical": "CaO",
+      "source": "name:de"
+    },
+    {
+      "alias": "Brochantit",
+      "canonical": "brochantite",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Brochantit (grüne Kupferpatina)",
+      "canonical": "brochantite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bromethan",
+      "canonical": "bromoethane",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bromid",
+      "canonical": "Br-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Bromid-Ion",
+      "canonical": "Br-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bromthymolblau",
+      "canonical": "bromothymol_blue",
+      "source": "name:de"
+    },
+    {
+      "alias": "Bromwasserstoff",
+      "canonical": "HBr",
+      "source": "name:de"
+    },
+    {
+      "alias": "Butan",
+      "canonical": "butane",
+      "source": "name:de"
+    },
+    {
+      "alias": "C2H5OH",
+      "canonical": "ethanol",
+      "source": "formula"
+    },
+    {
+      "alias": "CH3COCH3",
+      "canonical": "propanone",
+      "source": "formula"
+    },
+    {
+      "alias": "CH3COOC2H5",
+      "canonical": "ethyl_acetate",
+      "source": "formula"
+    },
+    {
+      "alias": "CH3COONa",
+      "canonical": "NaOAc",
+      "source": "formula"
+    },
+    {
+      "alias": "CH3OH",
+      "canonical": "methanol",
+      "source": "formula"
+    },
+    {
+      "alias": "Ca2+",
+      "canonical": "Ca+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Ca4H(PO4)3*3H2O",
+      "canonical": "octacalcium_phosphate",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "Ca4H(PO4)3.3H2O",
+      "canonical": "octacalcium_phosphate",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "Ca4H(PO4)3·3H2O",
+      "canonical": "octacalcium_phosphate",
+      "source": "formula"
+    },
+    {
+      "alias": "Ca5(PO4)3OH",
+      "canonical": "hydroxylapatite",
+      "source": "formula"
+    },
+    {
+      "alias": "CaH2O2",
+      "canonical": "Ca(OH)2",
+      "source": "formula"
+    },
+    {
+      "alias": "CaSO4*2H2O",
+      "canonical": "gypsum",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "CaSO4.2H2O",
+      "canonical": "gypsum",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "CaSO4·2H2O",
+      "canonical": "gypsum",
+      "source": "formula"
+    },
+    {
+      "alias": "Calcium-Ion",
+      "canonical": "Ca+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Calciumchlorid",
+      "canonical": "CaCl2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Carbonat",
+      "canonical": "CO3-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Carbonat-Ion",
+      "canonical": "CO3-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Cellulose (Anhydroglucose-Einheit)",
+      "canonical": "cellulose",
+      "source": "name:de"
+    },
+    {
+      "alias": "Chloramin",
+      "canonical": "NH2Cl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Chlorgas",
+      "canonical": "Cl2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Chlorid",
+      "canonical": "Cl-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Chlorid-Ion",
+      "canonical": "Cl-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Chlorophyll a",
+      "canonical": "chlorophyll",
+      "source": "name:de"
+    },
+    {
+      "alias": "Citrat",
+      "canonical": "C6H5O7-3",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Citrat-Ion",
+      "canonical": "C6H5O7-3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Citronensäure",
+      "canonical": "citric_acid",
+      "source": "name:de"
+    },
+    {
+      "alias": "Cu+",
+      "canonical": "Cu+1",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Cu2+",
+      "canonical": "Cu+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Cu2ClH3O3",
+      "canonical": "atacamite",
+      "source": "formula"
+    },
+    {
+      "alias": "Cu3SO4(OH)4",
+      "canonical": "antlerite",
+      "source": "formula"
+    },
+    {
+      "alias": "Cu4SO4(OH)6",
+      "canonical": "brochantite",
+      "source": "formula"
+    },
+    {
+      "alias": "Cu4SO4(OH)6*H2O",
+      "canonical": "langite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "Cu4SO4(OH)6.H2O",
+      "canonical": "langite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "Cu4SO4(OH)6·H2O",
+      "canonical": "langite",
+      "source": "formula"
+    },
+    {
+      "alias": "CuH2O2",
+      "canonical": "Cu(OH)2",
+      "source": "formula"
+    },
+    {
+      "alias": "CuSO4*5H2O",
+      "canonical": "chalcanthite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "CuSO4.5H2O",
+      "canonical": "chalcanthite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "CuSO4_anhydrous",
+      "canonical": "CuSO4",
+      "source": "curated"
+    },
+    {
+      "alias": "CuSO4·5H2O",
+      "canonical": "chalcanthite",
+      "source": "formula"
+    },
+    {
+      "alias": "Curcumin (Kurkuma-Gelb)",
+      "canonical": "curcumin",
+      "source": "name:de"
+    },
+    {
+      "alias": "D-Fructose (Fruchtzucker)",
+      "canonical": "fructose",
+      "source": "name:de"
+    },
+    {
+      "alias": "D-Glucose (Traubenzucker)",
+      "canonical": "glucose",
+      "source": "name:de"
+    },
+    {
+      "alias": "D-fructose (fruit sugar)",
+      "canonical": "fructose",
+      "source": "name:en"
+    },
+    {
+      "alias": "D-fructose (sucre de fruit)",
+      "canonical": "fructose",
+      "source": "name:fr"
+    },
+    {
+      "alias": "D-glucose (dextrose)",
+      "canonical": "glucose",
+      "source": "name:en"
+    },
+    {
+      "alias": "Dehydroascorbinsäure",
+      "canonical": "dehydroascorbic_acid",
+      "source": "name:de"
+    },
+    {
+      "alias": "Diamant",
+      "canonical": "diamond",
+      "source": "name:de"
+    },
+    {
+      "alias": "Dihydrogenborat",
+      "canonical": "H2BO3-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Dihydrogenphosphat",
+      "canonical": "H2PO4-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Dihydrogenphosphat-Ion",
+      "canonical": "H2PO4-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen",
+      "canonical": "Fe",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(II)-Ion",
+      "canonical": "Fe+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(II)-hydroxid",
+      "canonical": "Fe(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(II)-sulfat",
+      "canonical": "FeSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(III)-Ion",
+      "canonical": "Fe+3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(III)-chlorid",
+      "canonical": "FeCl3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(III)-hydroxid",
+      "canonical": "Fe(OH)3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Eisen(III)-oxid",
+      "canonical": "Fe2O3",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Eisen(III)-oxid (Hämatit)",
+      "canonical": "Fe2O3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Essigsäure",
+      "canonical": "CH3COOH",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ethen",
+      "canonical": "ethene",
+      "source": "name:de"
+    },
+    {
+      "alias": "Ethylacetat",
+      "canonical": "ethyl_acetate",
+      "source": "name:de"
+    },
+    {
+      "alias": "Fe2+",
+      "canonical": "Fe+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Fe3+",
+      "canonical": "Fe+3",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "FeH2O2",
+      "canonical": "Fe(OH)2",
+      "source": "formula"
+    },
+    {
+      "alias": "FeH3O3",
+      "canonical": "Fe(OH)3",
+      "source": "formula"
+    },
+    {
+      "alias": "Gips",
+      "canonical": "gypsum",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Gips (Calciumsulfat-Dihydrat)",
+      "canonical": "gypsum",
+      "source": "name:de"
+    },
+    {
+      "alias": "Graphit",
+      "canonical": "graphite",
+      "source": "name:de"
+    },
+    {
+      "alias": "H2O",
+      "canonical": "water",
+      "source": "curated"
+    },
+    {
+      "alias": "H2S",
+      "canonical": "hydrogen_sulfide",
+      "source": "formula"
+    },
+    {
+      "alias": "Haarpigment",
+      "canonical": "hair_pigment",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Haarpigment (Eumelanin-Wiederholungseinheit)",
+      "canonical": "hair_pigment",
+      "source": "name:de"
+    },
+    {
+      "alias": "He",
+      "canonical": "helium",
+      "source": "formula"
+    },
+    {
+      "alias": "Hexan",
+      "canonical": "hexane",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hydrogencarbonat",
+      "canonical": "HCO3-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hydrogencarbonat-Ion",
+      "canonical": "HCO3-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hydrogenphosphat",
+      "canonical": "HPO4-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hydrogenphosphat-Ion",
+      "canonical": "HPO4-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hydrogensulfit",
+      "canonical": "HSO3-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hydrogensulfit-Ion",
+      "canonical": "HSO3-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hydroxid",
+      "canonical": "OH-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hydroxid-Ion",
+      "canonical": "OH-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hydroxylapatit",
+      "canonical": "hydroxylapatite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hypochlorit",
+      "canonical": "ClO-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hypochlorit-Ion",
+      "canonical": "ClO-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Indigocarmin",
+      "canonical": "indigo_carmine",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Indigocarmin (E132)",
+      "canonical": "indigo_carmine",
+      "source": "name:de"
+    },
+    {
+      "alias": "Iod",
+      "canonical": "I2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Iodid",
+      "canonical": "I-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Iodid-Ion",
+      "canonical": "I-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Iodwasserstoff",
+      "canonical": "HI",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kalium-Ion",
+      "canonical": "K+",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumchlorid",
+      "canonical": "KCl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumhydroxid",
+      "canonical": "KOH",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumiodat",
+      "canonical": "KIO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumiodid",
+      "canonical": "KI",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumnitrat",
+      "canonical": "KNO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumpermanganat",
+      "canonical": "KMnO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumthiocyanat",
+      "canonical": "KSCN",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Kaliumthiocyanat (wässriges Reagenz)",
+      "canonical": "KSCN",
+      "source": "name:de"
+    },
+    {
+      "alias": "Katalase",
+      "canonical": "catalase",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kohlenmonoxid",
+      "canonical": "CO",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kohlenstoff (Holzkohle)",
+      "canonical": "C",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kohlenstoffdioxid",
+      "canonical": "CO2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kreide",
+      "canonical": "CaCO3",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Kreide (Calciumcarbonat)",
+      "canonical": "CaCO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer",
+      "canonical": "Cu",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(I)-Ion",
+      "canonical": "Cu+1",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-Ion",
+      "canonical": "Cu+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-hydroxid",
+      "canonical": "Cu(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-oxid",
+      "canonical": "CuO",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-sulfat-Pentahydrat",
+      "canonical": "chalcanthite",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Kupfer(II)-sulfat-Pentahydrat (Chalkanthit)",
+      "canonical": "chalcanthite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfersulfat",
+      "canonical": "CuSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Lactat",
+      "canonical": "lactate",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Lactat-Ion",
+      "canonical": "lactate",
+      "source": "name:de"
+    },
+    {
+      "alias": "Langit",
+      "canonical": "langite",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Langit (blaugrünes Kupfersulfat)",
+      "canonical": "langite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Löschkalk",
+      "canonical": "Ca(OH)2",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Löschkalk (Calciumhydroxid)",
+      "canonical": "Ca(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesium",
+      "canonical": "Mg",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesium-Ion",
+      "canonical": "Mg+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesiumhydroxid",
+      "canonical": "Mg(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesiumoxid",
+      "canonical": "MgO",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesiumsulfat",
+      "canonical": "MgSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesiumsulfat-Heptahydrat (Epsomit)",
+      "canonical": "epsomite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Mangan(II)-Ion",
+      "canonical": "Mn+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Mangan(III)-Ion",
+      "canonical": "Mn+3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Manganat",
+      "canonical": "MnO4-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Manganat-Ion",
+      "canonical": "MnO4-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Mangandioxid",
+      "canonical": "MnO2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Methan",
+      "canonical": "methane",
+      "source": "name:de"
+    },
+    {
+      "alias": "Methylorange",
+      "canonical": "methyl_orange",
+      "source": "name:de"
+    },
+    {
+      "alias": "Mg2+",
+      "canonical": "Mg+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "MgH2O2",
+      "canonical": "Mg(OH)2",
+      "source": "formula"
+    },
+    {
+      "alias": "MgSO4*7H2O",
+      "canonical": "epsomite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "MgSO4.7H2O",
+      "canonical": "epsomite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "MgSO4_anhydrous",
+      "canonical": "MgSO4",
+      "source": "anhydrous"
+    },
+    {
+      "alias": "MgSO4·7H2O",
+      "canonical": "epsomite",
+      "source": "formula"
+    },
+    {
+      "alias": "Milchsäure",
+      "canonical": "lactic_acid",
+      "source": "name:de"
+    },
+    {
+      "alias": "Mn2+",
+      "canonical": "Mn+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Mn3+",
+      "canonical": "Mn+3",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "NH3(aq)",
+      "canonical": "NH3",
+      "source": "formula"
+    },
+    {
+      "alias": "NaOCl(aq)",
+      "canonical": "NaOCl",
+      "source": "formula"
+    },
+    {
+      "alias": "Naphthalin",
+      "canonical": "naphthalene",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natrium-Ion",
+      "canonical": "Na+",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumacetat",
+      "canonical": "NaOAc",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumbromid",
+      "canonical": "NaBr",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumchlorid",
+      "canonical": "NaCl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumhydrogensulfat",
+      "canonical": "NaHSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumhydrogensulfit",
+      "canonical": "NaHSO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumhydroxid",
+      "canonical": "NaOH",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumnitrat",
+      "canonical": "NaNO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumsulfat",
+      "canonical": "Na2SO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumsulfit",
+      "canonical": "Na2SO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumtetraborat",
+      "canonical": "Na2B4O7",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Natriumtetraborat (Borax)",
+      "canonical": "Na2B4O7",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumthiosulfat",
+      "canonical": "Na2S2O3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natron (Natriumhydrogencarbonat)",
+      "canonical": "NaHCO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Nitrat",
+      "canonical": "NO3-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Nitrat-Ion",
+      "canonical": "NO3-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Nitrit",
+      "canonical": "NO2-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Nitrit-Ion",
+      "canonical": "NO2-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Nylon 6,6",
+      "canonical": "nylon",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Nylon 6,6 (Wiederholungseinheit)",
+      "canonical": "nylon",
+      "source": "name:de"
+    },
+    {
+      "alias": "Octacalciumphosphat",
+      "canonical": "octacalcium_phosphate",
+      "source": "name:de"
+    },
+    {
+      "alias": "Oxalsäure",
+      "canonical": "H2C2O4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Pb2+",
+      "canonical": "Pb+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Permanganat",
+      "canonical": "MnO4-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Permanganat-Ion",
+      "canonical": "MnO4-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Phosphat",
+      "canonical": "PO4-3",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Phosphat-Ion",
+      "canonical": "PO4-3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Phosphorsäure",
+      "canonical": "H3PO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Polyethylen (HDPE)",
+      "canonical": "PE",
+      "source": "name:de"
+    },
+    {
+      "alias": "Polyethylenterephthalat",
+      "canonical": "PET",
+      "source": "name:de"
+    },
+    {
+      "alias": "Polypropylen",
+      "canonical": "PP",
+      "source": "name:de"
+    },
+    {
+      "alias": "Polystyrol",
+      "canonical": "PS",
+      "source": "name:de"
+    },
+    {
+      "alias": "Polyvinylalkohol",
+      "canonical": "PVA",
+      "source": "name:de"
+    },
+    {
+      "alias": "Propan",
+      "canonical": "propane",
+      "source": "name:de"
+    },
+    {
+      "alias": "Saccharose",
+      "canonical": "sucrose",
+      "source": "name:de"
+    },
+    {
+      "alias": "Salzsäure",
+      "canonical": "HCl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Sauerstoff",
+      "canonical": "O2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Schwefel",
+      "canonical": "S",
+      "source": "name:de"
+    },
+    {
+      "alias": "Schwefeldioxid",
+      "canonical": "SO2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Schwefelsäure",
+      "canonical": "H2SO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Schwefelwasserstoff",
+      "canonical": "hydrogen_sulfide",
+      "source": "name:de"
+    },
+    {
+      "alias": "Silber",
+      "canonical": "Ag",
+      "source": "name:de"
+    },
+    {
+      "alias": "Silber-Ion",
+      "canonical": "Ag+",
+      "source": "name:de"
+    },
+    {
+      "alias": "Silberchlorid",
+      "canonical": "AgCl",
+      "source": "name:de"
+    },
+    {
+      "alias": "Silbernitrat",
+      "canonical": "AgNO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Siliciumdioxid",
+      "canonical": "SiO2",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Siliciumdioxid (Quarz)",
+      "canonical": "SiO2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Sr2+",
+      "canonical": "Sr+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Stickstoff",
+      "canonical": "N2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Strontium-Ion",
+      "canonical": "Sr+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Stärke",
+      "canonical": "starch",
+      "source": "name:de"
+    },
+    {
+      "alias": "Sulfat",
+      "canonical": "SO4-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Sulfat-Ion",
+      "canonical": "SO4-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Sulfit",
+      "canonical": "SO3-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Sulfit-Ion",
+      "canonical": "SO3-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Tetrathionat",
+      "canonical": "S4O6-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Tetrathionat-Ion",
+      "canonical": "S4O6-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Thiocyanat",
+      "canonical": "SCN-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Thiocyanat-Ion",
+      "canonical": "SCN-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Thiosulfat",
+      "canonical": "S2O3-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Thiosulfat-Ion",
+      "canonical": "S2O3-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Trockeneis",
+      "canonical": "dry_ice",
+      "source": "name:de"
+    },
+    {
+      "alias": "U",
+      "canonical": "uranium",
+      "source": "formula"
+    },
+    {
+      "alias": "Uran",
+      "canonical": "uranium",
+      "source": "name:de"
+    },
+    {
+      "alias": "Waschsoda (Natriumcarbonat)",
+      "canonical": "Na2CO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Wasser",
+      "canonical": "water",
+      "source": "name:de"
+    },
+    {
+      "alias": "Wasserstoff",
+      "canonical": "H2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Wasserstoff-Ion",
+      "canonical": "H+",
+      "source": "name:de"
+    },
+    {
+      "alias": "Wasserstoffperoxid",
+      "canonical": "H2O2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zink",
+      "canonical": "Zn",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zink-Ion",
+      "canonical": "Zn+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zinkhydroxid",
+      "canonical": "Zn(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zinksulfat",
+      "canonical": "ZnSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zn2+",
+      "canonical": "Zn+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "ZnH2O2",
+      "canonical": "Zn(OH)2",
+      "source": "formula"
+    },
+    {
+      "alias": "acetate",
+      "canonical": "CH3COO-",
+      "source": "curated"
+    },
+    {
+      "alias": "acetate ion",
+      "canonical": "CH3COO-",
+      "source": "name:en"
+    },
+    {
+      "alias": "acetic acid",
+      "canonical": "CH3COOH",
+      "source": "name:en"
+    },
+    {
+      "alias": "acide acétique",
+      "canonical": "CH3COOH",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide ascorbique",
+      "canonical": "ascorbic_acid",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "acide ascorbique (vitamine C)",
+      "canonical": "ascorbic_acid",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide borique",
+      "canonical": "H3BO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide chlorhydrique",
+      "canonical": "HCl",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide citrique",
+      "canonical": "citric_acid",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide déhydroascorbique",
+      "canonical": "dehydroascorbic_acid",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide hypochloreux",
+      "canonical": "HClO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide lactique",
+      "canonical": "lactic_acid",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide malique",
+      "canonical": "malic_acid",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide oxalique",
+      "canonical": "H2C2O4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide phosphorique",
+      "canonical": "H3PO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide sulfurique",
+      "canonical": "H2SO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "activated charcoal",
+      "canonical": "activated_charcoal",
+      "source": "name:en"
+    },
+    {
+      "alias": "acétate",
+      "canonical": "CH3COO-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "acétate d'éthyle",
+      "canonical": "ethyl_acetate",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acétate de sodium",
+      "canonical": "NaOAc",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acétone",
+      "canonical": "propanone",
+      "source": "name:fr"
+    },
+    {
+      "alias": "aluminium",
+      "canonical": "Al",
+      "source": "name:en"
+    },
+    {
+      "alias": "amidon",
+      "canonical": "starch",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ammonia solution",
+      "canonical": "NH3",
+      "source": "name:en"
+    },
+    {
+      "alias": "ammonium",
+      "canonical": "NH4+",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "ammonium chloride",
+      "canonical": "NH4Cl",
+      "source": "name:en"
+    },
+    {
+      "alias": "ammonium ion",
+      "canonical": "NH4+",
+      "source": "name:en"
+    },
+    {
+      "alias": "anthocyane",
+      "canonical": "anthocyanin",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "anthocyane (pigment du chou rouge)",
+      "canonical": "anthocyanin",
+      "source": "name:fr"
+    },
+    {
+      "alias": "anthocyanin (red-cabbage pigment)",
+      "canonical": "anthocyanin",
+      "source": "name:en"
+    },
+    {
+      "alias": "antlerite (green copper sulfate)",
+      "canonical": "antlerite",
+      "source": "name:en"
+    },
+    {
+      "alias": "antlérite",
+      "canonical": "antlerite",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "antlérite (sulfate de cuivre vert)",
+      "canonical": "antlerite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "argent",
+      "canonical": "Ag",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ascorbic acid",
+      "canonical": "ascorbic_acid",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "ascorbic acid (vitamin C)",
+      "canonical": "ascorbic_acid",
+      "source": "name:en"
+    },
+    {
+      "alias": "atacamite (corrosion verte du cuivre)",
+      "canonical": "atacamite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "atacamite (green copper corrosion)",
+      "canonical": "atacamite",
+      "source": "name:en"
+    },
+    {
+      "alias": "azote liquide",
+      "canonical": "liquid_nitrogen",
+      "source": "name:fr"
+    },
+    {
+      "alias": "baking soda (sodium bicarbonate)",
+      "canonical": "NaHCO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "barium chloride",
+      "canonical": "BaCl2",
+      "source": "name:en"
+    },
+    {
+      "alias": "barium hydroxide",
+      "canonical": "Ba(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "barium ion",
+      "canonical": "Ba+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "barium sulfate",
+      "canonical": "BaSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "beta-Tricalciumphosphat",
+      "canonical": "Ca3(PO4)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "beta-tricalcium phosphate",
+      "canonical": "Ca3(PO4)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "betanin (beetroot red)",
+      "canonical": "betanin",
+      "source": "name:en"
+    },
+    {
+      "alias": "bicarbonate de soude (hydrogénocarbonate de sodium)",
+      "canonical": "NaHCO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bicarbonate ion",
+      "canonical": "HCO3-",
+      "source": "name:en"
+    },
+    {
+      "alias": "bisulfite",
+      "canonical": "HSO3-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "bisulfite ion",
+      "canonical": "HSO3-",
+      "source": "name:en"
+    },
+    {
+      "alias": "bleach",
+      "canonical": "NaOCl",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "bleach (sodium hypochlorite)",
+      "canonical": "NaOCl",
+      "source": "name:en"
+    },
+    {
+      "alias": "bleached hair pigment",
+      "canonical": "hair_pigment_ox",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "bleached hair pigment (oxidised)",
+      "canonical": "hair_pigment_ox",
+      "source": "name:en"
+    },
+    {
+      "alias": "bleu de bromothymol",
+      "canonical": "bromothymol_blue",
+      "source": "name:fr"
+    },
+    {
+      "alias": "boric acid",
+      "canonical": "H3BO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "brochantite (green copper patina)",
+      "canonical": "brochantite",
+      "source": "name:en"
+    },
+    {
+      "alias": "brochantite (patine verte du cuivre)",
+      "canonical": "brochantite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bromide",
+      "canonical": "Br-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "bromide ion",
+      "canonical": "Br-",
+      "source": "name:en"
+    },
+    {
+      "alias": "bromothymol blue",
+      "canonical": "bromothymol_blue",
+      "source": "name:en"
+    },
+    {
+      "alias": "bromoéthane",
+      "canonical": "bromoethane",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bromure",
+      "canonical": "Br-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "bromure d'hydrogène",
+      "canonical": "HBr",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bromure de sodium",
+      "canonical": "NaBr",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bétanine",
+      "canonical": "betanin",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "bétanine (rouge de betterave)",
+      "canonical": "betanin",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bétanine oxydée",
+      "canonical": "betanin_ox",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "bétanine oxydée (incolore)",
+      "canonical": "betanin_ox",
+      "source": "name:fr"
+    },
+    {
+      "alias": "bêta-phosphate tricalcique",
+      "canonical": "Ca3(PO4)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "calcium chloride",
+      "canonical": "CaCl2",
+      "source": "name:en"
+    },
+    {
+      "alias": "calcium ion",
+      "canonical": "Ca+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "carbon (charcoal)",
+      "canonical": "C",
+      "source": "name:en"
+    },
+    {
+      "alias": "carbon dioxide",
+      "canonical": "CO2",
+      "source": "curated"
+    },
+    {
+      "alias": "carbon monoxide",
+      "canonical": "CO",
+      "source": "name:en"
+    },
+    {
+      "alias": "carbonate",
+      "canonical": "CO3-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "carbonate ion",
+      "canonical": "CO3-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "carbone (charbon de bois)",
+      "canonical": "C",
+      "source": "name:fr"
+    },
+    {
+      "alias": "carmin d'indigo",
+      "canonical": "indigo_carmine",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "carmin d'indigo (E132)",
+      "canonical": "indigo_carmine",
+      "source": "name:fr"
+    },
+    {
+      "alias": "carmin d'indigo oxydé",
+      "canonical": "indigo_carmine_ox",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "carmin d'indigo oxydé (incolore)",
+      "canonical": "indigo_carmine_ox",
+      "source": "name:fr"
+    },
+    {
+      "alias": "cellulose (anhydroglucose unit)",
+      "canonical": "cellulose",
+      "source": "name:en"
+    },
+    {
+      "alias": "cellulose (unité anhydroglucose)",
+      "canonical": "cellulose",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chalk",
+      "canonical": "CaCO3",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "chalk (calcium carbonate)",
+      "canonical": "CaCO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "charbon actif",
+      "canonical": "activated_charcoal",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chaux vive",
+      "canonical": "CaO",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "chaux vive (oxyde de calcium)",
+      "canonical": "CaO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chaux éteinte",
+      "canonical": "Ca(OH)2",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "chaux éteinte (hydroxyde de calcium)",
+      "canonical": "Ca(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chloramine",
+      "canonical": "NH2Cl",
+      "source": "name:en"
+    },
+    {
+      "alias": "chloride",
+      "canonical": "Cl-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "chloride ion",
+      "canonical": "Cl-",
+      "source": "name:en"
+    },
+    {
+      "alias": "chlorine gas",
+      "canonical": "Cl2",
+      "source": "name:en"
+    },
+    {
+      "alias": "chlorophyll a",
+      "canonical": "chlorophyll",
+      "source": "name:en"
+    },
+    {
+      "alias": "chlorophylle a",
+      "canonical": "chlorophyll",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure",
+      "canonical": "Cl-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "chlorure d'ammonium",
+      "canonical": "NH4Cl",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure d'argent",
+      "canonical": "AgCl",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de baryum",
+      "canonical": "BaCl2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de calcium",
+      "canonical": "CaCl2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de fer(III)",
+      "canonical": "FeCl3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de potassium",
+      "canonical": "KCl",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de sodium",
+      "canonical": "NaCl",
+      "source": "name:fr"
+    },
+    {
+      "alias": "citrate",
+      "canonical": "C6H5O7-3",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "citrate ion",
+      "canonical": "C6H5O7-3",
+      "source": "name:en"
+    },
+    {
+      "alias": "citric acid",
+      "canonical": "citric_acid",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper",
+      "canonical": "Cu",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper sulfate",
+      "canonical": "CuSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(I) ion",
+      "canonical": "Cu+1",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) hydroxide",
+      "canonical": "Cu(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) ion",
+      "canonical": "Cu+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) oxide",
+      "canonical": "CuO",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) sulfate pentahydrate",
+      "canonical": "chalcanthite",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "copper(II) sulfate pentahydrate (chalcanthite)",
+      "canonical": "chalcanthite",
+      "source": "name:en"
+    },
+    {
+      "alias": "craie",
+      "canonical": "CaCO3",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "craie (carbonate de calcium)",
+      "canonical": "CaCO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "cristaux de soude (carbonate de sodium)",
+      "canonical": "Na2CO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "cuivre",
+      "canonical": "Cu",
+      "source": "name:fr"
+    },
+    {
+      "alias": "curcumin (turmeric yellow)",
+      "canonical": "curcumin",
+      "source": "name:en"
+    },
+    {
+      "alias": "curcumine",
+      "canonical": "curcumin",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "curcumine (jaune de curcuma)",
+      "canonical": "curcumin",
+      "source": "name:fr"
+    },
+    {
+      "alias": "curcumine oxydée",
+      "canonical": "curcumin_ox",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "curcumine oxydée (incolore)",
+      "canonical": "curcumin_ox",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dehydroascorbic acid",
+      "canonical": "dehydroascorbic_acid",
+      "source": "name:en"
+    },
+    {
+      "alias": "diamant",
+      "canonical": "diamond",
+      "source": "name:fr"
+    },
+    {
+      "alias": "diazote",
+      "canonical": "N2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dichlore",
+      "canonical": "Cl2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dihydrogen phosphate",
+      "canonical": "H2PO4-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "dihydrogen phosphate ion",
+      "canonical": "H2PO4-",
+      "source": "name:en"
+    },
+    {
+      "alias": "dihydrogenborate",
+      "canonical": "H2BO3-",
+      "source": "name:en"
+    },
+    {
+      "alias": "dihydrogène",
+      "canonical": "H2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dihydrogénoborate",
+      "canonical": "H2BO3-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dihydrogénophosphate",
+      "canonical": "H2PO4-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "diiode",
+      "canonical": "I2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxyde de carbone",
+      "canonical": "CO2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxyde de carbone dissous",
+      "canonical": "CO2(aq)",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxyde de manganèse",
+      "canonical": "MnO2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxyde de silicium",
+      "canonical": "SiO2",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "dioxyde de silicium (quartz)",
+      "canonical": "SiO2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxyde de soufre",
+      "canonical": "SO2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxygène",
+      "canonical": "O2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dissolved carbon dioxide",
+      "canonical": "CO2(aq)",
+      "source": "name:en"
+    },
+    {
+      "alias": "dry ice",
+      "canonical": "dry_ice",
+      "source": "name:en"
+    },
+    {
+      "alias": "eau",
+      "canonical": "water",
+      "source": "name:fr"
+    },
+    {
+      "alias": "eau de Javel (hypochlorite de sodium)",
+      "canonical": "NaOCl",
+      "source": "name:fr"
+    },
+    {
+      "alias": "fer",
+      "canonical": "Fe",
+      "source": "name:fr"
+    },
+    {
+      "alias": "flüssiger Stickstoff",
+      "canonical": "liquid_nitrogen",
+      "source": "name:de"
+    },
+    {
+      "alias": "gebleichtes Haarpigment",
+      "canonical": "hair_pigment_ox",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "gebleichtes Haarpigment (oxidiert)",
+      "canonical": "hair_pigment_ox",
+      "source": "name:de"
+    },
+    {
+      "alias": "gelöstes Kohlenstoffdioxid",
+      "canonical": "CO2(aq)",
+      "source": "name:de"
+    },
+    {
+      "alias": "gypse",
+      "canonical": "gypsum",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "gypse (sulfate de calcium dihydraté)",
+      "canonical": "gypsum",
+      "source": "name:fr"
+    },
+    {
+      "alias": "gypsum (calcium sulfate dihydrate)",
+      "canonical": "gypsum",
+      "source": "name:en"
+    },
+    {
+      "alias": "hair pigment",
+      "canonical": "hair_pigment",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "hair pigment (eumelanin repeat unit)",
+      "canonical": "hair_pigment",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrochloric acid",
+      "canonical": "HCl",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen",
+      "canonical": "H2",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen bromide",
+      "canonical": "HBr",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen iodide",
+      "canonical": "HI",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen ion",
+      "canonical": "H+",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen peroxide",
+      "canonical": "H2O2",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen phosphate",
+      "canonical": "HPO4-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hydrogen phosphate ion",
+      "canonical": "HPO4-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogen sulfide",
+      "canonical": "hydrogen_sulfide",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydrogénocarbonate",
+      "canonical": "HCO3-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydrogénophosphate",
+      "canonical": "HPO4-2",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydrogénosulfate de sodium",
+      "canonical": "NaHSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydrogénosulfite",
+      "canonical": "HSO3-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydrogénosulfite de sodium",
+      "canonical": "NaHSO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxide",
+      "canonical": "OH-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hydroxide ion",
+      "canonical": "OH-",
+      "source": "name:en"
+    },
+    {
+      "alias": "hydroxyde",
+      "canonical": "OH-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydroxyde de baryum",
+      "canonical": "Ba(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de cuivre(II)",
+      "canonical": "Cu(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de fer(II)",
+      "canonical": "Fe(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de fer(III)",
+      "canonical": "Fe(OH)3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de magnésium",
+      "canonical": "Mg(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de potassium",
+      "canonical": "KOH",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de sodium",
+      "canonical": "NaOH",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de zinc",
+      "canonical": "Zn(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hypochlorige Säure",
+      "canonical": "HClO",
+      "source": "name:de"
+    },
+    {
+      "alias": "hypochlorite",
+      "canonical": "ClO-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hypochlorite ion",
+      "canonical": "ClO-",
+      "source": "name:en"
+    },
+    {
+      "alias": "hypochlorous acid",
+      "canonical": "HClO",
+      "source": "name:en"
+    },
+    {
+      "alias": "hélium",
+      "canonical": "helium",
+      "source": "name:fr"
+    },
+    {
+      "alias": "indigo carmine",
+      "canonical": "indigo_carmine",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "indigo carmine (E132)",
+      "canonical": "indigo_carmine",
+      "source": "name:en"
+    },
+    {
+      "alias": "iodate de potassium",
+      "canonical": "KIO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "iodide",
+      "canonical": "I-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "iodide ion",
+      "canonical": "I-",
+      "source": "name:en"
+    },
+    {
+      "alias": "iodine",
+      "canonical": "I2",
+      "source": "name:en"
+    },
+    {
+      "alias": "iodure",
+      "canonical": "I-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "iodure d'hydrogène",
+      "canonical": "HI",
+      "source": "name:fr"
+    },
+    {
+      "alias": "iodure de potassium",
+      "canonical": "KI",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion acétate",
+      "canonical": "CH3COO-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion ammonium",
+      "canonical": "NH4+",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion argent",
+      "canonical": "Ag+",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion baryum",
+      "canonical": "Ba+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion bromure",
+      "canonical": "Br-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion calcium",
+      "canonical": "Ca+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion carbonate",
+      "canonical": "CO3-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion chlorure",
+      "canonical": "Cl-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion citrate",
+      "canonical": "C6H5O7-3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion cuivre(I)",
+      "canonical": "Cu+1",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion cuivre(II)",
+      "canonical": "Cu+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion dihydrogénophosphate",
+      "canonical": "H2PO4-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion fer(II)",
+      "canonical": "Fe+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion fer(III)",
+      "canonical": "Fe+3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydrogène",
+      "canonical": "H+",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydrogénocarbonate",
+      "canonical": "HCO3-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydrogénophosphate",
+      "canonical": "HPO4-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydrogénosulfite",
+      "canonical": "HSO3-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydroxyde",
+      "canonical": "OH-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hypochlorite",
+      "canonical": "ClO-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion iodure",
+      "canonical": "I-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion lactate",
+      "canonical": "lactate",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion magnésium",
+      "canonical": "Mg+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion manganate",
+      "canonical": "MnO4-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion manganèse(II)",
+      "canonical": "Mn+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion manganèse(III)",
+      "canonical": "Mn+3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion nitrate",
+      "canonical": "NO3-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion nitrite",
+      "canonical": "NO2-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion permanganate",
+      "canonical": "MnO4-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion phosphate",
+      "canonical": "PO4-3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion plomb(II)",
+      "canonical": "Pb+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion potassium",
+      "canonical": "K+",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion sodium",
+      "canonical": "Na+",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion strontium",
+      "canonical": "Sr+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion sulfate",
+      "canonical": "SO4-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion sulfite",
+      "canonical": "SO3-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion thiocyanate",
+      "canonical": "SCN-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion thiosulfate",
+      "canonical": "S2O3-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion tétrathionate",
+      "canonical": "S4O6-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion zinc",
+      "canonical": "Zn+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "iron",
+      "canonical": "Fe",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(II) hydroxide",
+      "canonical": "Fe(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(II) ion",
+      "canonical": "Fe+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(II) sulfate",
+      "canonical": "FeSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(III) chloride",
+      "canonical": "FeCl3",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(III) hydroxide",
+      "canonical": "Fe(OH)3",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(III) ion",
+      "canonical": "Fe+3",
+      "source": "name:en"
+    },
+    {
+      "alias": "iron(III) oxide",
+      "canonical": "Fe2O3",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "iron(III) oxide (hematite)",
+      "canonical": "Fe2O3",
+      "source": "name:en"
+    },
+    {
+      "alias": "lactate ion",
+      "canonical": "lactate",
+      "source": "name:en"
+    },
+    {
+      "alias": "lactic acid",
+      "canonical": "lactic_acid",
+      "source": "name:en"
+    },
+    {
+      "alias": "langite (blue-green copper sulfate)",
+      "canonical": "langite",
+      "source": "name:en"
+    },
+    {
+      "alias": "langite (sulfate de cuivre bleu-vert)",
+      "canonical": "langite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "lead",
+      "canonical": "Pb",
+      "source": "name:en"
+    },
+    {
+      "alias": "lead(II) ion",
+      "canonical": "Pb+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "lead(II) nitrate",
+      "canonical": "Pb(NO3)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "liquid nitrogen",
+      "canonical": "liquid_nitrogen",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium",
+      "canonical": "Mg",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium hydroxide",
+      "canonical": "Mg(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium ion",
+      "canonical": "Mg+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium oxide",
+      "canonical": "MgO",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium sulfate",
+      "canonical": "MgSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium sulfate heptahydrate (epsomite)",
+      "canonical": "epsomite",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnésium",
+      "canonical": "Mg",
+      "source": "name:fr"
+    },
+    {
+      "alias": "malic acid",
+      "canonical": "malic_acid",
+      "source": "name:en"
+    },
+    {
+      "alias": "manganate",
+      "canonical": "MnO4-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "manganate ion",
+      "canonical": "MnO4-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "manganese dioxide",
+      "canonical": "MnO2",
+      "source": "name:en"
+    },
+    {
+      "alias": "manganese(II) ion",
+      "canonical": "Mn+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "manganese(III) ion",
+      "canonical": "Mn+3",
+      "source": "name:en"
+    },
+    {
+      "alias": "methyl orange",
+      "canonical": "methyl_orange",
+      "source": "name:en"
+    },
+    {
+      "alias": "monoxyde de carbone",
+      "canonical": "CO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "méthane",
+      "canonical": "methane",
+      "source": "name:fr"
+    },
+    {
+      "alias": "méthanol",
+      "canonical": "methanol",
+      "source": "name:fr"
+    },
+    {
+      "alias": "n-Dodecan",
+      "canonical": "dodecane",
+      "source": "name:de"
+    },
+    {
+      "alias": "n-Hexadecan",
+      "canonical": "hexadecane",
+      "source": "name:de"
+    },
+    {
+      "alias": "n-dodecane",
+      "canonical": "dodecane",
+      "source": "name:en"
+    },
+    {
+      "alias": "n-dodécane",
+      "canonical": "dodecane",
+      "source": "name:fr"
+    },
+    {
+      "alias": "n-hexadecane",
+      "canonical": "hexadecane",
+      "source": "name:en"
+    },
+    {
+      "alias": "n-hexadécane",
+      "canonical": "hexadecane",
+      "source": "name:fr"
+    },
+    {
+      "alias": "naphtalène",
+      "canonical": "naphthalene",
+      "source": "name:fr"
+    },
+    {
+      "alias": "neige carbonique",
+      "canonical": "dry_ice",
+      "source": "name:fr"
+    },
+    {
+      "alias": "nitrate",
+      "canonical": "NO3-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "nitrate d'argent",
+      "canonical": "AgNO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "nitrate de plomb(II)",
+      "canonical": "Pb(NO3)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "nitrate de potassium",
+      "canonical": "KNO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "nitrate de sodium",
+      "canonical": "NaNO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "nitrate ion",
+      "canonical": "NO3-",
+      "source": "name:en"
+    },
+    {
+      "alias": "nitrite",
+      "canonical": "NO2-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "nitrite ion",
+      "canonical": "NO2-",
+      "source": "name:en"
+    },
+    {
+      "alias": "nitrogen",
+      "canonical": "N2",
+      "source": "curated"
+    },
+    {
+      "alias": "nylon 6,6",
+      "canonical": "nylon",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "nylon 6,6 (repeat unit)",
+      "canonical": "nylon",
+      "source": "name:en"
+    },
+    {
+      "alias": "nylon 6,6 (unité de répétition)",
+      "canonical": "nylon",
+      "source": "name:fr"
+    },
+    {
+      "alias": "octacalcium phosphate",
+      "canonical": "octacalcium_phosphate",
+      "source": "name:en"
+    },
+    {
+      "alias": "orangé de méthyle",
+      "canonical": "methyl_orange",
+      "source": "name:fr"
+    },
+    {
+      "alias": "oxalic acid",
+      "canonical": "H2C2O4",
+      "source": "name:en"
+    },
+    {
+      "alias": "oxidiertes Betanin",
+      "canonical": "betanin_ox",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "oxidiertes Betanin (farblos)",
+      "canonical": "betanin_ox",
+      "source": "name:de"
+    },
+    {
+      "alias": "oxidiertes Curcumin",
+      "canonical": "curcumin_ox",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "oxidiertes Curcumin (farblos)",
+      "canonical": "curcumin_ox",
+      "source": "name:de"
+    },
+    {
+      "alias": "oxidiertes Indigocarmin",
+      "canonical": "indigo_carmine_ox",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "oxidiertes Indigocarmin (farblos)",
+      "canonical": "indigo_carmine_ox",
+      "source": "name:de"
+    },
+    {
+      "alias": "oxidised betanin",
+      "canonical": "betanin_ox",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "oxidised betanin (colourless)",
+      "canonical": "betanin_ox",
+      "source": "name:en"
+    },
+    {
+      "alias": "oxidised curcumin",
+      "canonical": "curcumin_ox",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "oxidised curcumin (colourless)",
+      "canonical": "curcumin_ox",
+      "source": "name:en"
+    },
+    {
+      "alias": "oxidised indigo carmine",
+      "canonical": "indigo_carmine_ox",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "oxidised indigo carmine (colourless)",
+      "canonical": "indigo_carmine_ox",
+      "source": "name:en"
+    },
+    {
+      "alias": "oxyde de cuivre(II)",
+      "canonical": "CuO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "oxyde de fer(III)",
+      "canonical": "Fe2O3",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "oxyde de fer(III) (hématite)",
+      "canonical": "Fe2O3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "oxyde de magnésium",
+      "canonical": "MgO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "oxygen",
+      "canonical": "O2",
+      "source": "curated"
+    },
+    {
+      "alias": "paraffine",
+      "canonical": "paraffin",
+      "source": "name:fr"
+    },
+    {
+      "alias": "permanganate",
+      "canonical": "MnO4-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "permanganate de potassium",
+      "canonical": "KMnO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "permanganate ion",
+      "canonical": "MnO4-",
+      "source": "name:en"
+    },
+    {
+      "alias": "phosphate",
+      "canonical": "PO4-3",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "phosphate ion",
+      "canonical": "PO4-3",
+      "source": "name:en"
+    },
+    {
+      "alias": "phosphate octacalcique",
+      "canonical": "octacalcium_phosphate",
+      "source": "name:fr"
+    },
+    {
+      "alias": "phosphoric acid",
+      "canonical": "H3PO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "phénolphtaléine",
+      "canonical": "phenolphthalein",
+      "source": "name:fr"
+    },
+    {
+      "alias": "pigment capillaire",
+      "canonical": "hair_pigment",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "pigment capillaire (unité de répétition de l'eumélanine)",
+      "canonical": "hair_pigment",
+      "source": "name:fr"
+    },
+    {
+      "alias": "pigment capillaire décoloré",
+      "canonical": "hair_pigment_ox",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "pigment capillaire décoloré (oxydé)",
+      "canonical": "hair_pigment_ox",
+      "source": "name:fr"
+    },
+    {
+      "alias": "plomb",
+      "canonical": "Pb",
+      "source": "name:fr"
+    },
+    {
+      "alias": "poly(alcool vinylique)",
+      "canonical": "PVA",
+      "source": "name:fr"
+    },
+    {
+      "alias": "poly(vinyl alcohol)",
+      "canonical": "PVA",
+      "source": "name:en"
+    },
+    {
+      "alias": "polyethylene (HDPE)",
+      "canonical": "PE",
+      "source": "name:en"
+    },
+    {
+      "alias": "polyethylene terephthalate",
+      "canonical": "PET",
+      "source": "name:en"
+    },
+    {
+      "alias": "polypropylene",
+      "canonical": "PP",
+      "source": "name:en"
+    },
+    {
+      "alias": "polypropylène",
+      "canonical": "PP",
+      "source": "name:fr"
+    },
+    {
+      "alias": "polystyrene",
+      "canonical": "PS",
+      "source": "name:en"
+    },
+    {
+      "alias": "polystyrène",
+      "canonical": "PS",
+      "source": "name:fr"
+    },
+    {
+      "alias": "polyéthylène (PEHD)",
+      "canonical": "PE",
+      "source": "name:fr"
+    },
+    {
+      "alias": "polyéthylène téréphtalate",
+      "canonical": "PET",
+      "source": "name:fr"
+    },
+    {
+      "alias": "potassium chloride",
+      "canonical": "KCl",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium hydroxide",
+      "canonical": "KOH",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium iodate",
+      "canonical": "KIO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium iodide",
+      "canonical": "KI",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium ion",
+      "canonical": "K+",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium nitrate",
+      "canonical": "KNO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium permanganate",
+      "canonical": "KMnO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium thiocyanate",
+      "canonical": "KSCN",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "potassium thiocyanate (aqueous reagent)",
+      "canonical": "KSCN",
+      "source": "name:en"
+    },
+    {
+      "alias": "quicklime",
+      "canonical": "CaO",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "quicklime (calcium oxide)",
+      "canonical": "CaO",
+      "source": "name:en"
+    },
+    {
+      "alias": "saccharose",
+      "canonical": "sucrose",
+      "source": "name:fr"
+    },
+    {
+      "alias": "silicon dioxide",
+      "canonical": "SiO2",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "silicon dioxide (quartz)",
+      "canonical": "SiO2",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver",
+      "canonical": "Ag",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver chloride",
+      "canonical": "AgCl",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver ion",
+      "canonical": "Ag+",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver nitrate",
+      "canonical": "AgNO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "slaked lime",
+      "canonical": "Ca(OH)2",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "slaked lime (calcium hydroxide)",
+      "canonical": "Ca(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium acetate",
+      "canonical": "NaOAc",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium bisulfate",
+      "canonical": "NaHSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium bisulfite",
+      "canonical": "NaHSO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium bromide",
+      "canonical": "NaBr",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium chloride",
+      "canonical": "NaCl",
+      "source": "curated"
+    },
+    {
+      "alias": "sodium hydroxide",
+      "canonical": "NaOH",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium ion",
+      "canonical": "Na+",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium nitrate",
+      "canonical": "NaNO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium sulfate",
+      "canonical": "Na2SO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium sulfite",
+      "canonical": "Na2SO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium tetraborate",
+      "canonical": "Na2B4O7",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "sodium tetraborate (borax)",
+      "canonical": "Na2B4O7",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium thiosulfate",
+      "canonical": "Na2S2O3",
+      "source": "name:en"
+    },
+    {
+      "alias": "soufre",
+      "canonical": "S",
+      "source": "name:fr"
+    },
+    {
+      "alias": "strontium ion",
+      "canonical": "Sr+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "sulfate",
+      "canonical": "SO4-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "sulfate de baryum",
+      "canonical": "BaSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de cuivre",
+      "canonical": "CuSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de cuivre(II) pentahydraté",
+      "canonical": "chalcanthite",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "sulfate de cuivre(II) pentahydraté (chalcanthite)",
+      "canonical": "chalcanthite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de fer(II)",
+      "canonical": "FeSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de magnésium",
+      "canonical": "MgSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de magnésium heptahydraté",
+      "canonical": "epsomite",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "sulfate de magnésium heptahydraté (epsomite)",
+      "canonical": "epsomite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de sodium",
+      "canonical": "Na2SO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de zinc",
+      "canonical": "ZnSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate ion",
+      "canonical": "SO4-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "sulfite",
+      "canonical": "SO3-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "sulfite de sodium",
+      "canonical": "Na2SO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfite ion",
+      "canonical": "SO3-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "sulfur",
+      "canonical": "S",
+      "source": "name:en"
+    },
+    {
+      "alias": "sulfur dioxide",
+      "canonical": "SO2",
+      "source": "name:en"
+    },
+    {
+      "alias": "sulfure d'hydrogène",
+      "canonical": "hydrogen_sulfide",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfuric acid",
+      "canonical": "H2SO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "tetrathionate",
+      "canonical": "S4O6-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "tetrathionate ion",
+      "canonical": "S4O6-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "thiocyanate",
+      "canonical": "SCN-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "thiocyanate de potassium",
+      "canonical": "KSCN",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "thiocyanate de potassium (réactif aqueux)",
+      "canonical": "KSCN",
+      "source": "name:fr"
+    },
+    {
+      "alias": "thiocyanate ion",
+      "canonical": "SCN-",
+      "source": "name:en"
+    },
+    {
+      "alias": "thiosulfate",
+      "canonical": "S2O3-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "thiosulfate de sodium",
+      "canonical": "Na2S2O3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "thiosulfate ion",
+      "canonical": "S2O3-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "tétraborate de sodium (borax)",
+      "canonical": "Na2B4O7",
+      "source": "name:fr"
+    },
+    {
+      "alias": "tétrathionate",
+      "canonical": "S4O6-2",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "washing soda (sodium carbonate)",
+      "canonical": "Na2CO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc",
+      "canonical": "Zn",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc hydroxide",
+      "canonical": "Zn(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc ion",
+      "canonical": "Zn+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc sulfate",
+      "canonical": "ZnSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "éthanol",
+      "canonical": "ethanol",
+      "source": "name:fr"
+    },
+    {
+      "alias": "éthène",
+      "canonical": "ethene",
+      "source": "name:fr"
+    }
+  ],
+  "refused": [
+    {
+      "alias": "ammoniaque",
+      "spellings": [
+        "ammoniaque"
+      ],
+      "candidates": [
+        "NH3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "ammonium nitrate",
+      "spellings": [
+        "ammonium nitrate"
+      ],
+      "candidates": [
+        "NH4NO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "ammoniumnitrat",
+      "spellings": [
+        "Ammoniumnitrat"
+      ],
+      "candidates": [
+        "NH4NO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "amylase",
+      "spellings": [
+        "Amylase"
+      ],
+      "candidates": [
+        "amylase"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "baking soda",
+      "spellings": [
+        "baking soda"
+      ],
+      "candidates": [
+        "NaHCO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "betanin",
+      "spellings": [
+        "Betanin"
+      ],
+      "candidates": [
+        "betanin"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "bicarbonate",
+      "spellings": [
+        "bicarbonate"
+      ],
+      "candidates": [
+        "HCO3-"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "bicarbonate de soude",
+      "spellings": [
+        "bicarbonate de soude"
+      ],
+      "candidates": [
+        "NaHCO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "c",
+      "spellings": [
+        "C"
+      ],
+      "candidates": [
+        "activated_charcoal",
+        "amylase",
+        "catalase",
+        "diamond",
+        "graphite"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "c10h8",
+      "spellings": [
+        "C10H8"
+      ],
+      "candidates": [
+        "naphthalene"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c10h8o4",
+      "spellings": [
+        "C10H8O4"
+      ],
+      "candidates": [
+        "PET"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c12h22n2o2",
+      "spellings": [
+        "C12H22N2O2"
+      ],
+      "candidates": [
+        "nylon"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c12h22o11",
+      "spellings": [
+        "C12H22O11"
+      ],
+      "candidates": [
+        "maltose",
+        "sucrose"
+      ],
+      "reason": "ambiguous"
+    },
+    {
+      "alias": "c12h26",
+      "spellings": [
+        "C12H26"
+      ],
+      "candidates": [
+        "dodecane"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c14h14n3nao3s",
+      "spellings": [
+        "C14H14N3NaO3S"
+      ],
+      "candidates": [
+        "methyl_orange"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c16h34",
+      "spellings": [
+        "C16H34"
+      ],
+      "candidates": [
+        "hexadecane"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c16h8n2na2o8s2",
+      "spellings": [
+        "C16H8N2Na2O8S2"
+      ],
+      "candidates": [
+        "indigo_carmine"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c16h8n2na2o9s2",
+      "spellings": [
+        "C16H8N2Na2O9S2"
+      ],
+      "candidates": [
+        "indigo_carmine_ox"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c20h14o4",
+      "spellings": [
+        "C20H14O4"
+      ],
+      "candidates": [
+        "phenolphthalein"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c21h20o11",
+      "spellings": [
+        "C21H20O11"
+      ],
+      "candidates": [
+        "anthocyanin"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c21h20o6",
+      "spellings": [
+        "C21H20O6"
+      ],
+      "candidates": [
+        "curcumin"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c21h20o7",
+      "spellings": [
+        "C21H20O7"
+      ],
+      "candidates": [
+        "curcumin_ox"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c24h26n2o13",
+      "spellings": [
+        "C24H26N2O13"
+      ],
+      "candidates": [
+        "betanin"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c24h26n2o14",
+      "spellings": [
+        "C24H26N2O14"
+      ],
+      "candidates": [
+        "betanin_ox"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c25h52",
+      "spellings": [
+        "C25H52"
+      ],
+      "candidates": [
+        "paraffin"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c27h28br2o5s",
+      "spellings": [
+        "C27H28Br2O5S"
+      ],
+      "candidates": [
+        "bromothymol_blue"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c2h4",
+      "spellings": [
+        "C2H4"
+      ],
+      "candidates": [
+        "PE",
+        "ethene"
+      ],
+      "reason": "ambiguous"
+    },
+    {
+      "alias": "c2h4o",
+      "spellings": [
+        "C2H4O"
+      ],
+      "candidates": [
+        "PVA"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c2h5br",
+      "spellings": [
+        "C2H5Br"
+      ],
+      "candidates": [
+        "bromoethane"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c3h5o3-",
+      "spellings": [
+        "C3H5O3-"
+      ],
+      "candidates": [
+        "lactate"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c3h6",
+      "spellings": [
+        "C3H6"
+      ],
+      "candidates": [
+        "PP"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c3h6o3",
+      "spellings": [
+        "C3H6O3"
+      ],
+      "candidates": [
+        "lactic_acid"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c3h8",
+      "spellings": [
+        "C3H8"
+      ],
+      "candidates": [
+        "propane"
+      ],
+      "reason": "mechanism-species"
+    },
+    {
+      "alias": "c3h8o",
+      "spellings": [
+        "C3H8O"
+      ],
+      "candidates": [
+        "isopropanol"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c4h10",
+      "spellings": [
+        "C4H10"
+      ],
+      "candidates": [
+        "butane"
+      ],
+      "reason": "mechanism-species"
+    },
+    {
+      "alias": "c4h10o",
+      "spellings": [
+        "C4H10O"
+      ],
+      "candidates": [
+        "tert_butanol"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c4h6o5",
+      "spellings": [
+        "C4H6O5"
+      ],
+      "candidates": [
+        "malic_acid"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c4h8",
+      "spellings": [
+        "C4H8"
+      ],
+      "candidates": [
+        "isobutylene"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c4h9br",
+      "spellings": [
+        "C4H9Br"
+      ],
+      "candidates": [
+        "tert_butyl_bromide"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c55h72mgn4o5",
+      "spellings": [
+        "C55H72MgN4O5"
+      ],
+      "candidates": [
+        "chlorophyll"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c6h10o5",
+      "spellings": [
+        "C6H10O5"
+      ],
+      "candidates": [
+        "cellulose",
+        "starch"
+      ],
+      "reason": "ambiguous"
+    },
+    {
+      "alias": "c6h12o6",
+      "spellings": [
+        "C6H12O6"
+      ],
+      "candidates": [
+        "fructose",
+        "glucose"
+      ],
+      "reason": "ambiguous"
+    },
+    {
+      "alias": "c6h14",
+      "spellings": [
+        "C6H14"
+      ],
+      "candidates": [
+        "hexane"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c6h6o6",
+      "spellings": [
+        "C6H6O6"
+      ],
+      "candidates": [
+        "dehydroascorbic_acid"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c6h8o6",
+      "spellings": [
+        "C6H8O6"
+      ],
+      "candidates": [
+        "ascorbic_acid"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c6h8o7",
+      "spellings": [
+        "C6H8O7"
+      ],
+      "candidates": [
+        "citric_acid"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c8h7no2",
+      "spellings": [
+        "C8H7NO2"
+      ],
+      "candidates": [
+        "hair_pigment"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c8h7no3",
+      "spellings": [
+        "C8H7NO3"
+      ],
+      "candidates": [
+        "hair_pigment_ox"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c8h8",
+      "spellings": [
+        "C8H8"
+      ],
+      "candidates": [
+        "PS"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "carbon",
+      "spellings": [
+        "carbon"
+      ],
+      "candidates": [
+        "C"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "carbone",
+      "spellings": [
+        "carbone"
+      ],
+      "candidates": [
+        "C"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "cellulose",
+      "spellings": [
+        "Cellulose"
+      ],
+      "candidates": [
+        "cellulose"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "ch4",
+      "spellings": [
+        "CH4"
+      ],
+      "candidates": [
+        "methane"
+      ],
+      "reason": "mechanism-species"
+    },
+    {
+      "alias": "co2",
+      "spellings": [
+        "CO2"
+      ],
+      "candidates": [
+        "CO2(aq)",
+        "dry_ice"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "cristaux de soude",
+      "spellings": [
+        "cristaux de soude"
+      ],
+      "candidates": [
+        "Na2CO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "curcumin",
+      "spellings": [
+        "Curcumin"
+      ],
+      "candidates": [
+        "curcumin"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "d-fructose",
+      "spellings": [
+        "D-Fructose",
+        "D-fructose"
+      ],
+      "candidates": [
+        "fructose"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "d-glucose",
+      "spellings": [
+        "D-Glucose",
+        "D-glucose"
+      ],
+      "candidates": [
+        "glucose"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "eau de javel",
+      "spellings": [
+        "eau de Javel"
+      ],
+      "candidates": [
+        "NaOCl"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "ethanol",
+      "spellings": [
+        "Ethanol"
+      ],
+      "candidates": [
+        "ethanol"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "helium",
+      "spellings": [
+        "Helium"
+      ],
+      "candidates": [
+        "helium"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "isopropanol",
+      "spellings": [
+        "Isopropanol"
+      ],
+      "candidates": [
+        "isopropanol"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "kohlenstoff",
+      "spellings": [
+        "Kohlenstoff"
+      ],
+      "candidates": [
+        "C"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "magnesium sulfate heptahydrate",
+      "spellings": [
+        "magnesium sulfate heptahydrate"
+      ],
+      "candidates": [
+        "epsomite"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "magnesiumsulfat-heptahydrat",
+      "spellings": [
+        "Magnesiumsulfat-Heptahydrat"
+      ],
+      "candidates": [
+        "epsomite"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "maltose",
+      "spellings": [
+        "Maltose"
+      ],
+      "candidates": [
+        "maltose"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "methanol",
+      "spellings": [
+        "Methanol"
+      ],
+      "candidates": [
+        "methanol"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "n2",
+      "spellings": [
+        "N2"
+      ],
+      "candidates": [
+        "liquid_nitrogen"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "natron",
+      "spellings": [
+        "Natron"
+      ],
+      "candidates": [
+        "NaHCO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "nitrate d'ammonium",
+      "spellings": [
+        "nitrate d'ammonium"
+      ],
+      "candidates": [
+        "NH4NO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "paraffin",
+      "spellings": [
+        "Paraffin"
+      ],
+      "candidates": [
+        "paraffin"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "peroxyde d'hydrogène",
+      "spellings": [
+        "peroxyde d'hydrogène"
+      ],
+      "candidates": [
+        "H2O2"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "phenolphthalein",
+      "spellings": [
+        "Phenolphthalein"
+      ],
+      "candidates": [
+        "phenolphthalein"
+      ],
+      "reason": "registry-key"
+    },
+    {
+      "alias": "polyethylen",
+      "spellings": [
+        "Polyethylen"
+      ],
+      "candidates": [
+        "PE"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "polyethylene",
+      "spellings": [
+        "polyethylene"
+      ],
+      "candidates": [
+        "PE"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "polyéthylène",
+      "spellings": [
+        "polyéthylène"
+      ],
+      "candidates": [
+        "PE"
+      ],
+      "reason": "qualifier-required"
+    },
+    {
+      "alias": "tétraborate de sodium",
+      "spellings": [
+        "tétraborate de sodium"
+      ],
+      "candidates": [
+        "Na2B4O7"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "waschsoda",
+      "spellings": [
+        "Waschsoda"
+      ],
+      "candidates": [
+        "Na2CO3"
+      ],
+      "reason": "material-name"
+    },
+    {
+      "alias": "washing soda",
+      "spellings": [
+        "washing soda"
+      ],
+      "candidates": [
+        "Na2CO3"
+      ],
+      "reason": "material-name"
+    }
+  ]
+}

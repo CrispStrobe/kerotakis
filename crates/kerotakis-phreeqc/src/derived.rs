@@ -116,8 +116,17 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// aqueous identity is unambiguous (simple cations and halides). Anything
 /// else left over (N, S, C, P outside a group; unbalanced O) means the
 /// compound's aqueous chemistry is not derivable — honestly unmappable.
+///
+/// Iodine joined 2026-10-27: wateq4f.dat line 39 and minteq.v4.dat line 51
+/// both define `I` with master species `I-` and no other oxidation state,
+/// so a bare iodine residue is iodide exactly as a bare bromine residue is
+/// bromide. Before this, potassium iodide was "an ionic solute without an
+/// aqueous component mapping" and every iodide rate law matched only a
+/// bottle name. pitzer.dat has no iodine, so `has_element` keeps an iodide
+/// vessel off that route automatically.
 const RESIDUE_OK: &[&str] = &[
-    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "F", "Cu", "Mn", "Fe", "Zn", "Pb",
+    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "I", "F", "Cu", "Mn", "Fe", "Zn",
+    "Pb",
 ];
 
 /// The subset of `RESIDUE_OK` that forms simple cations.
@@ -136,7 +145,7 @@ const CATION_RESIDUE: &[&str] = &[
 
 /// The subset of `RESIDUE_OK` that carries exactly one negative charge in
 /// solution, so a metal halide's stoichiometry fixes the metal's state.
-const HALIDE_RESIDUE: &[&str] = &["Cl", "Br", "F"];
+const HALIDE_RESIDUE: &[&str] = &["Cl", "Br", "I", "F"];
 
 /// Acids this lab can name but no shipped database can speciate.
 ///
@@ -249,6 +258,11 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // and the ledger books under the anion, exactly as minteq's three
     // citrate constants all book back as `C6H5O7-3`.
     ("Thiosulfate", "S2O3-2"),
+    // Tetrathionate's master species in the borrowed block is
+    // `Tetrathionate-2` for the same PHREEQC naming reason; the registry
+    // writes `S4O6-2`. No protonated form exists in any vendored database
+    // (llnl.dat line 1306 defines only the dianion), so no split.
+    ("Tetrathionate", "S4O6-2"),
     // Sulfite's master species in the borrowed block is `Sulfite-2` for
     // the same PHREEQC reason; the registry writes `SO3-2`. UNLIKE
     // thiosulfate this row does NOT stand alone - there is a
@@ -304,6 +318,16 @@ pub fn role(key: &str) -> Option<&'static DerivedRole> {
 
 pub fn candidate_phases() -> &'static [DerivedPhase] {
     &derived().phases
+}
+
+/// The stablest phase `db_tag` itself defines for registry solid `key`
+/// (its own polymorph), or `None` when that database has none.
+pub fn routed_phase_for_solid(key: &str, db_tag: &str) -> Option<&'static str> {
+    let tag: &'static str = DB_TAGS.iter().find(|t| **t == db_tag).copied()?;
+    derived()
+        .db_best
+        .get(&(key.to_string(), tag))
+        .map(String::as_str)
 }
 
 pub fn phase_by_name(name: &str) -> Option<&'static DerivedPhase> {
@@ -1289,6 +1313,30 @@ fn extract_thiosulfate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     Some(1.0)
 }
 
+/// Tetrathionate, by an exact rule disjoint from thiosulfate and sulfite:
+/// EXACTLY four sulfurs and six oxygens, no hydrogen (tetrathionic acid is
+/// strong and no vendored database defines a protonated form), and nothing
+/// beside it but simple cations. Runs before the greedy `SO4` group, which
+/// would otherwise take one sulfate out of `S4O6` and leave unmappable
+/// sulfur behind.
+fn extract_tetrathionate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
+    let sulfur = counts.get("S").copied().unwrap_or(0.0);
+    let oxygen = counts.get("O").copied().unwrap_or(0.0);
+    let hydrogen = counts.get("H").copied().unwrap_or(0.0);
+    if sulfur != 4.0 || oxygen != 6.0 || hydrogen != 0.0 {
+        return None;
+    }
+    if counts
+        .keys()
+        .any(|el| el != "S" && el != "O" && !CATION_RESIDUE.contains(&el.as_str()))
+    {
+        return None;
+    }
+    counts.remove("S");
+    counts.remove("O");
+    Some(1.0)
+}
+
 /// Sulfite, by an exact rule for the same reason thiosulfate and
 /// hypochlorite have one, and with one extra case they do not.
 ///
@@ -1365,6 +1413,10 @@ fn contribution_from_counts(
 
     if let Some(n) = extract_thiosulfate(&mut counts) {
         contrib.push(("Thiosulfate".to_string(), n));
+    }
+
+    if let Some(n) = extract_tetrathionate(&mut counts) {
+        contrib.push(("Tetrathionate".to_string(), n));
     }
 
     if let Some(n) = extract_sulfite(&mut counts) {
