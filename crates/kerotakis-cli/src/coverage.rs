@@ -691,6 +691,14 @@ fn execute_prompt(
                     // outrank a computed or curated route that was the real
                     // answer.
                     | Event::Precipitated { .. }
+                    // Same class as the precipitate: an electrolysis says
+                    // what formed at each electrode, with coulombs and
+                    // moles. `mat-063` fell from computed to missing when the
+                    // whole-step heat ledger began stating, truthfully, that
+                    // an electrolysis step's heat is not modelled (the
+                    // electrical work is not in that ledger). The products
+                    // did not change; the note beside them is an aside.
+                    | Event::Electrolysed { .. }
                     | Event::Extracted { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
