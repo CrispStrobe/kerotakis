@@ -10,7 +10,8 @@
   `nalgebra` versions are fixed by Cargo.lock on the hosted build.
 - Licence: MIT OR Apache-2.0 (dual; `license-mit`, `license-apache` in the
   published crate). Compatible with distribution inside this
-  AGPL-3.0-or-later workspace; see NOTICE.
+  AGPL-3.0-or-later workspace; see this crate's NOTICE. Released apps do not
+  link FeOs (optional, off by default), so the repository NOTICE omits it.
 - Reference: Rehner, P., Bauer, G., Gross, J. (2023), "FeOs: An Open-Source
   Framework for Equations of State and Classical Density Functional Theory",
   Ind. Eng. Chem. Res. 62, 5347-5357, doi:10.1021/acs.iecr.2c04561.
