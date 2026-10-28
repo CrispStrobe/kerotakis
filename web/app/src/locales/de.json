@@ -2687,6 +2687,7 @@
   "temperature below absolute zero": "Temperatur unter dem absoluten Nullpunkt",
   "timescale outside simulation": "Zeitskala außerhalb der Simulation",
   "typed engine event": "typisiertes Ereignis der Simulation",
+  "solver failed cea thermal": "Löser gescheitert (CEA, thermisch)",
   "typed observation": "typisierte Beobachtung",
   "undefined substance and quantity": "unbestimmter Stoff und unbestimmte Menge",
   "unknown cleaner composition": "unbekannte Zusammensetzung des Reinigers",
