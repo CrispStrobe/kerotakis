@@ -67,6 +67,8 @@ exceptions = [
     { name = "kerotakis-wasm", allow = ["AGPL-3.0-or-later"] },
     { name = "kerotakis-registry-export", allow = ["AGPL-3.0-or-later"] },
     { name = "kerotakis-scene-physics", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-coolprop", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-feos", allow = ["AGPL-3.0-or-later"] },
 ]
 
 [bans]
