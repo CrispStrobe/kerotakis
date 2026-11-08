@@ -97,6 +97,9 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-phreeqc/src/phase_diagnostics.rs",
     ROOT / "crates/kerotakis-org/src/family_oracle.rs",
     ROOT / "crates/kerotakis-core/src/kinetics.rs",
+    # The redox pair table names the pairs it cannot price, and the medium
+    # that blocks the ones it can, as a `Phrase` on its own events.
+    ROOT / "crates/kerotakis-core/src/halogen_redox.rs",
     # `Provenance.routing` — why one dataset answered and not another —
     # was the third instance of the same defect, and it is composed in
     # four files rather than one: the aqueous router chooses the dataset,
@@ -406,6 +409,11 @@ def main() -> int:
     # Reading them only out of `bench.rs` would report every one of them
     # as an orphan the moment the catalogue gained a row for it.
     grammar_src = without_test_modules(SCRIPT.read_text(encoding="utf-8"))
+    # A concentration on `add` is resolved by `solution_stock.rs`, which the
+    # grammar calls; its refusals carry keys the same way.
+    grammar_src += "\n" + without_test_modules(
+        (ROOT / "crates/kerotakis-core/src/solution_stock.rs").read_text(encoding="utf-8")
+    )
     refusals = {
         m.group(1): unwrap(m.group(2))
         for m in REFUSAL.finditer(bench + "\n" + grammar_src)
