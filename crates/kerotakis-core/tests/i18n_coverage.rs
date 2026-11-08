@@ -526,6 +526,9 @@ fn refusal_keys() -> Vec<String> {
     const SOURCES: &[&str] = &[
         include_str!("../src/bench.rs"),
         include_str!("../src/script.rs"),
+        // E1: the grammar's solution resolver writes its own refusals,
+        // called from `script.rs` while parsing `add … 37%` / `… 1M`.
+        include_str!("../src/solution_stock.rs"),
     ];
     let mut keys: Vec<String> = SOURCES
         .iter()
