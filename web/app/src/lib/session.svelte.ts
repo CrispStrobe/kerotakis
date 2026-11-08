@@ -63,6 +63,7 @@ import {
   type ProvenanceStep,
 } from "./provenance";
 import { incidentNotebookEvidence } from "./incidents";
+import { collapseTick, type TickRun } from "./tickCollapse";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart" | "nudge" | "claim";
@@ -83,6 +84,8 @@ export type FeedEntry = {
   realWorld?: string;
   /** Chart entries: the Chart JSON v1 spec to render. */
   chart?: ChartSpec;
+  /** Collapsed-tick marker: how many identical ticks the block above stands for. */
+  repeat?: number;
 };
 
 export type ShelfItem = {
@@ -275,6 +278,8 @@ export class Session {
   announceRouting = $state<boolean>(true);
   scene = $state<Scene | null>(null);
   feed = $state<FeedEntry[]>([]);
+  /** The run of identical clock ticks the journal currently shows as one. */
+  private lastTick: TickRun | null = null;
   busy = $state(false);
   /** Exact command currently waiting on the engine. Presentation may use it
    * to energize only the matching apparatus; `busy` is deliberately broader. */
@@ -1118,6 +1123,7 @@ export class Session {
       // The single note is the whole journal now: the feed is the record of
       // a bench that no longer exists.
       this.feed = [{ kind: "note", text: t("the bench is empty again") }];
+      this.lastTick = null;
       this.clearedFeedLength = this.feed.length;
     } catch (e) {
       this.feed.push({
@@ -1358,6 +1364,10 @@ export class Session {
       if (canonical !== trimmed) this.feed[echo] = { kind: "command", text: canonical };
       this.commandLog.push(canonical);
       this.position = this.commandLog.length;
+      this.lastTick = collapseTick(this.feed, echo, canonical, this.lastTick, (count) => ({
+        kind: "note",
+        text: t("↻ same as previous tick ×{count}", { count: String(count) }),
+      }));
       const dispensed = result.steps.some((step) =>
         (step.events as Array<Record<string, unknown>>).some(isStoryDispenseEvent));
       if (this.mode === "story" && stockItem && !missionSupply && dispensed) {

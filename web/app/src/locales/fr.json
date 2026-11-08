@@ -1567,6 +1567,7 @@
   "the bench": "la paillasse",
   "the bench answered {answer}.": "la paillasse a répondu {answer}.",
   "the bench is empty again": "la paillasse est de nouveau vide.",
+  "↻ same as previous tick ×{count}": "↻ identique au pas précédent ×{count}",
   "the bench refused this operation": "la paillasse a refusé cette opération.",
   "the carbon came from the baking soda": "le carbone provient du bicarbonate de soude",
   "the chemistry agrees": "la chimie concorde",

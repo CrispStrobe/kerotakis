@@ -1173,6 +1173,7 @@
   "saved session migration failed; the original save is preserved: {reason}. Clear the bench to start a new saved session.": "Die gespeicherte Sitzung konnte nicht migriert werden; die ursprüngliche Speicherung bleibt erhalten: {reason}. Leere das Labor, um eine neue gespeicherte Sitzung zu beginnen.",
   "saved session could not be restored; the original save is preserved: {reason}. Clear the bench to start a new saved session.": "Die gespeicherte Sitzung konnte nicht wiederhergestellt werden; die ursprüngliche Speicherung bleibt erhalten: {reason}. Leere das Labor, um eine neue gespeicherte Sitzung zu beginnen.",
   "the bench is empty again": "Das Labor ist wieder leer.",
+  "↻ same as previous tick ×{count}": "↻ wie der vorige Takt ×{count}",
   "the bench refused this operation": "Das Labor hat diesen Vorgang abgelehnt.",
   "running {name} on this bench": "{name} wird in diesem Labor ausgeführt.",
   "stopped at {name}:{line} — the rest of the file did not run": "Bei {name}:{line} angehalten — der Rest der Datei wurde nicht ausgeführt.",
