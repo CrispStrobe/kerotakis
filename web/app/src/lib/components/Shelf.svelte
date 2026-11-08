@@ -84,8 +84,10 @@
    */
   let info = $state<string | null>(null);
   const infoPanelId = (key: string) => `shelf-info-${key}`;
-  let amountValue = $state(1);
-  let amountUnit = $state<AmountUnit>("g");
+  // Placeholders only: `toggle` and the focus request both reset these from
+  // `suggestedAmount(…, register)` before the form is shown.
+  let amountValue = $state(0.1);
+  let amountUnit = $state<AmountUnit>("mol");
 
   /** One tap narrows to a phase; the chips only exist when useful. */
   let phase = $state<string | null>(null);
@@ -277,7 +279,7 @@
       return;
     }
     open = item.key;
-    const suggested = suggestedAmount(item.phase, targetCapacityMl);
+    const suggested = suggestedAmount(item.phase, targetCapacityMl, register);
     amountValue = suggested.value;
     amountUnit = suggested.unit;
   }
@@ -292,7 +294,7 @@
     phase = null;
     role = null;
     open = item.key;
-    const suggested = suggestedAmount(item.phase, targetCapacityMl);
+    const suggested = suggestedAmount(item.phase, targetCapacityMl, register);
     amountValue = suggested.value;
     amountUnit = suggested.unit;
   });
