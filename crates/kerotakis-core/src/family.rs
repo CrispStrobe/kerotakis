@@ -811,9 +811,7 @@ fn medium_admits(medium: &MediumGate, vessel: &Vessel) -> Result<(), Phrase> {
     match medium {
         MediumGate::Any => Ok(()),
         MediumGate::Aqueous => {
-            let watery = water_liquid
-                && crate::nonaqueous::water_fraction_among_solvents(vessel)
-                    .is_none_or(|f| f >= crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR);
+            let watery = water_liquid && crate::nonaqueous::aqueous_model_admits(vessel);
             // A cached solution describes an earlier question; it cannot
             // override the current liquid inventory's medium admission.
             if watery {

@@ -4244,8 +4244,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         // the boundary when this gate declines.
         let inside_validity = vessel.temperature.0
             <= kerotakis_core::solve::AQUEOUS_MODEL_CEILING_K
-            && kerotakis_core::nonaqueous::water_fraction_among_solvents(vessel)
-                .is_none_or(|x| x >= kerotakis_core::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR);
+            && kerotakis_core::nonaqueous::aqueous_model_admits(vessel);
 
         // "Has this solver anything to say about this vessel?" — and having
         // to say *no* is an answer, not a reason to stand down.
@@ -4295,7 +4294,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
         validate_clock_boundary(vessel, partition(vessel).as_ref())?;
-        if let Some(boundary) = kerotakis_core::nonaqueous::non_water_matrix_boundary(vessel) {
+        if let Some(boundary) = kerotakis_core::nonaqueous::aqueous_admission_boundary(vessel) {
             return Ok(vec![boundary]);
         }
         if has_solvent_only_basis(vessel) {

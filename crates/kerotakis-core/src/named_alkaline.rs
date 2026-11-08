@@ -125,8 +125,7 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
             .contents
             .iter()
             .any(|p| p.species.0 == "water" && p.phase == Phase::Liquid && p.moles.0 > TRACE)
-            || crate::nonaqueous::water_fraction_among_solvents(v)
-                .is_some_and(|f| f < crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR))
+            || !crate::nonaqueous::aqueous_model_admits(v))
     {
         return Err("ionic strong-base capacity requires a water-majority liquid; no named hydrolysis applied".into());
     }
