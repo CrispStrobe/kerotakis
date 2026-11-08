@@ -244,3 +244,165 @@ fn iodometry_rows_never_take_iodine_vapour() {
     assert_eq!(m(&v, "I2", Phase::Gas), 0.001);
     assert!(m(&v, "I2", Phase::Aqueous) < 1e-15);
 }
+
+/// Element totals (with H⁺ released to the ledger as charge counted back)
+/// and net charge of everything in the vessel except water's own atoms.
+fn ledger(v: &Vessel) -> (std::collections::BTreeMap<String, f64>, f64) {
+    let mut el = std::collections::BTreeMap::new();
+    let mut charge = 0.0;
+    for p in &v.contents {
+        if p.species.0 == "water" {
+            continue;
+        }
+        let text = species::lookup_key(&p.species.0)
+            .map(|d| d.formula)
+            .unwrap_or(p.species.0.as_str());
+        let f = stoich::parse_formula(text).unwrap();
+        for (e, n) in f.counts {
+            *el.entry(e).or_insert(0.0) += n * p.moles.0;
+        }
+        charge += f.charge * p.moles.0;
+    }
+    (el, charge)
+}
+
+fn water_h_o(v: &Vessel) -> f64 {
+    m(v, "water", Phase::Liquid)
+}
+
+#[test]
+fn bleach_and_sodium_sulfite_give_sulfate_and_chloride() {
+    let mut v = water();
+    aq(&mut v, "NaOCl", 0.001);
+    aq(&mut v, "Na2SO3", 0.0004);
+    let (el0, q0) = ledger(&v);
+    let w0 = water_h_o(&v);
+    let eq = react(&mut v);
+    assert!(!eq.is_empty());
+    assert!(m(&v, "Na2SO3", Phase::Aqueous) < 1e-15);
+    assert!((m(&v, "NaOCl", Phase::Aqueous) - 0.0006).abs() < 1e-12);
+    assert!((m(&v, "SO4-2", Phase::Aqueous) - 0.0004).abs() < 1e-12);
+    assert!((m(&v, "Cl-", Phase::Aqueous) - 0.0004).abs() < 1e-12);
+    // OCl⁻ + SO₃²⁻ → Cl⁻ + SO₄²⁻ moves no water and no protons.
+    assert!((water_h_o(&v) - w0).abs() < 1e-12);
+    assert_eq!(displacement::unspent_acidity(&v), 0.0);
+    let (el1, q1) = ledger(&v);
+    assert!((q1 - q0).abs() < 1e-12, "charge {q0} -> {q1}");
+    for (e, n) in &el0 {
+        assert!(
+            (el1.get(e).copied().unwrap_or(0.0) - n).abs() < 1e-12,
+            "{e}"
+        );
+    }
+}
+
+#[test]
+fn hypochlorous_acid_takes_thiosulfate_to_sulfate() {
+    let mut v = water();
+    // HClO limiting, so no excess is left to meet the released acid and
+    // chloride (the curated HClO + Cl⁻ + H⁺ row).
+    aq(&mut v, "HClO", 0.0008);
+    aq(&mut v, "Na2S2O3", 0.0004);
+    let w0 = water_h_o(&v);
+    let eq = react(&mut v);
+    assert_eq!(
+        eq,
+        vec!["4 HClO + Na₂S₂O₃ + H₂O → 4 Cl⁻ + 2 SO₄²⁻ + 2 Na⁺ + 6 H⁺"]
+    );
+    assert!((m(&v, "Na2S2O3", Phase::Aqueous) - 0.0002).abs() < 1e-12);
+    assert!(m(&v, "HClO", Phase::Aqueous) < 1e-15);
+    assert!((m(&v, "SO4-2", Phase::Aqueous) - 0.0004).abs() < 1e-12);
+    assert!((m(&v, "Cl-", Phase::Aqueous) - 0.0008).abs() < 1e-12);
+    assert!((w0 - water_h_o(&v) - 0.0002).abs() < 1e-12);
+    // The six released protons per extent are the ledger's strong acid.
+    assert!((displacement::unspent_acidity(&v) - 0.0012).abs() < 1e-9);
+    assert_eq!(m(&v, "S4O6-2", Phase::Aqueous), 0.0);
+}
+
+#[test]
+fn hypochlorous_acid_oxidises_ascorbic_acid() {
+    let mut v = water();
+    aq(&mut v, "HClO", 0.0003);
+    aq(&mut v, "ascorbic_acid", 0.001);
+    let eq = react(&mut v);
+    assert_eq!(
+        eq,
+        vec!["HClO + C₆H₈O₆ → Cl⁻ + C₆H₆O₆ + H₂O + H⁺"
+            .replace("C₆H₈O₆", &halogen_redox::pretty("ascorbic_acid"))
+            .replace("C₆H₆O₆", &halogen_redox::pretty("dehydroascorbic_acid"))]
+    );
+    assert!(m(&v, "HClO", Phase::Aqueous) < 1e-15);
+    assert!((m(&v, "ascorbic_acid", Phase::Aqueous) - 0.0007).abs() < 1e-12);
+    assert!((m(&v, "dehydroascorbic_acid", Phase::Aqueous) - 0.0003).abs() < 1e-12);
+    assert!((m(&v, "Cl-", Phase::Aqueous) - 0.0003).abs() < 1e-12);
+}
+
+fn note_keys(v: &Vessel) -> Vec<String> {
+    halogen_redox::unpriced_notes(v)
+        .into_iter()
+        .filter_map(|e| match e {
+            Event::NotYetModeled {
+                reason: Some(r), ..
+            } => Some(r.key),
+            _ => None,
+        })
+        .collect()
+}
+
+#[test]
+fn bleach_and_sulfite_in_ethanol_are_named_not_reacted() {
+    let mut v = Vessel::new(VesselId(0), "ethanol");
+    v.deposit(SpeciesId::new("ethanol"), Moles(1.7), Phase::Liquid);
+    v.deposit(SpeciesId::new("NaOCl"), Moles(0.001), Phase::Solid);
+    v.deposit(SpeciesId::new("Na2SO3"), Moles(0.001), Phase::Solid);
+    aq(&mut v, "Na2SO3", 0.0001);
+    assert!(react(&mut v).is_empty());
+    assert_eq!(m(&v, "SO4-2", Phase::Aqueous), 0.0);
+    assert_eq!(note_keys(&v), vec!["not-modeled.redox-pair-outside-medium"]);
+    // The honesty tail carries it.
+    let events = HonestyEquilibrator.equilibrate(&mut v).unwrap();
+    assert!(events.iter().any(|e| matches!(e,
+        Event::NotYetModeled { reason: Some(r), .. } if r.key == "not-modeled.redox-pair-outside-medium")));
+}
+
+#[test]
+fn permanganate_and_ascorbic_acid_are_named_not_silent() {
+    let mut v = water();
+    aq(&mut v, "MnO4-", 0.0002);
+    aq(&mut v, "K+", 0.0002);
+    aq(&mut v, "ascorbic_acid", 0.001);
+    assert!(react(&mut v).is_empty());
+    let notes = halogen_redox::unpriced_notes(&v);
+    assert_eq!(notes.len(), 1, "one event per step");
+    match &notes[0] {
+        Event::NotYetModeled {
+            reason: Some(r), ..
+        } => {
+            assert_eq!(r.key, "not-modeled.redox-pair-unpriced");
+            let pairs = r.text_slot("pairs").unwrap();
+            assert!(pairs.contains("MnO₄⁻"), "{pairs}");
+        }
+        other => panic!("{other:?}"),
+    }
+    let pair = halogen_redox::pairs()
+        .iter()
+        .find(|p| p.oxidant == "MnO4-" && p.reductant == "DHA/ascorbic_acid")
+        .unwrap();
+    assert_eq!(pair.status, PairStatus::NoReviewedCouple);
+}
+
+#[test]
+fn covered_pairs_raise_no_note() {
+    // Admitted (acid-limited here), owned by a curated row, or nothing at all.
+    let mut v = water();
+    aq(&mut v, "ClO-", 0.0005);
+    aq(&mut v, "Na+", 0.0005);
+    aq(&mut v, "I-", 0.002);
+    aq(&mut v, "K+", 0.002);
+    assert!(note_keys(&v).is_empty());
+    let mut v = water();
+    aq(&mut v, "I2", 0.0005);
+    aq(&mut v, "ascorbic_acid", 0.001);
+    assert!(note_keys(&v).is_empty(), "curated I2 + C6H8O6 owns it");
+    assert!(note_keys(&water()).is_empty());
+}

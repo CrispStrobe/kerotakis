@@ -24,85 +24,113 @@ registry source document and the curated/kinetic reactant tables. Do not edit by
 | SO4-2/H2SO3 | 2 | 4 | +0.1652 | +0.172 | pass | 1348, 4343, 712 | llnl.dat SO3-2, H2SO3 and O2 reactions; cited E(SO4-2/H2SO3) = +0.172 V (Bard, Parsons & Jordan 1985; Harris appendix) |
 | SO4-2/SO3-2 | 2 | 2 | -0.1073 | via SO4-2/H2SO3 | pass | 1348, 712 | llnl.dat SO3-2 and O2 reactions; cross-checked through SO4-2/H2SO3, which shares the SO3-2 line |
 | SO4-2/HSO3- | 2 | 3 | +0.1059 | via SO4-2/H2SO3 | pass | 1348, 4591, 712 | llnl.dat SO3-2, HSO3- and O2 reactions; cross-checked through SO4-2/H2SO3, which shares the SO3-2 line |
+| SO4-2/S2O3-2 | 4 | 5 | +0.2843 | +0.284 | pass | 1348, 739, 712 | llnl.dat SO3-2, S2O3-2 and O2 reactions; cited +0.284 V computed from the NBS tables (Wagman et al., J. Phys. Chem. Ref. Data 11, Suppl. 2, 1982: dfG SO4-2 -744.53, S2O3-2 -522.5, H2O(l) -237.13 kJ/mol) for 2 SO4-2 + 10 H+ + 8 e- = S2O3-2 + 5 H2O |
+| DHA/ascorbic_acid | 2 | 2 | +0.3900 | +0.390 | pass | — | cited: C6H6O6 + 2 H+ + 2 e- = C6H8O6, E = +0.390 V, CRC Handbook of Chemistry and Physics, Electrochemical Series; vendored files define no dehydroascorbate species |
 
-Counts: admitted 4, couple_rejected 5, equilibrium_limited 1, no_registry_form 36, no_reviewed_couple 6, not_favourable 1, owned_elsewhere 2, rate_not_reviewed 15, self 2.
+Counts: admitted 15, couple_rejected 5, equilibrium_limited 1, no_registry_form 42, no_reviewed_couple 13, not_favourable 1, owned_elsewhere 5, product_not_determined 2, rate_not_reviewed 12, self 2.
 
 ## Oxidant × reductant
 
 | oxidant | reductant | ΔE° (V) | status | registry oxidant forms | registry reductant forms | note |
 |---|---|---|---|---|---|---|
 | I2/I- | S4O6-2/S2O3-2 | -3.304 | owned_elsewhere | I2 | S2O3-2, Na2S2O3 | iodometric titration (Vogel's Quantitative Chemical Analysis, 6th ed., iodometry; Harris, Quantitative Chemical Analysis, iodometry) |
+| I2/I- | SO4-2/S2O3-2 | +0.251 | owned_elsewhere | I2 | S2O3-2, Na2S2O3 |  |
 | I2/I- | SO4-2/SO3-2 | +0.643 | admitted | I2 | SO3-2, Na2SO3 | iodimetric determination of sulfite (Harris, Quantitative Chemical Analysis, iodimetry table; Vogel) |
 | I2/I- | SO4-2/HSO3- | +0.430 | admitted | I2 | HSO3-, NaHSO3 | iodimetric determination of sulfite/bisulfite (Harris; Vogel) |
 | I2/I- | Fe+3/Fe+2 | -0.234 | not_favourable | I2 | Fe+2 |  |
 | I2/I- | I2/I- | +0.000 | self | I2 | I-, KI |  |
-| I2/I- | ascorbic_acid | — | no_reviewed_couple | I2 | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| I2/I- | DHA/ascorbic_acid | +0.145 | owned_elsewhere | I2 | ascorbic_acid |  |
 | I3-/I- | S4O6-2/S2O3-2 | -3.299 | no_registry_form | — | S2O3-2, Na2S2O3 | iodometric titration (Vogel; Harris) |
+| I3-/I- | SO4-2/S2O3-2 | +0.256 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | I3-/I- | SO4-2/SO3-2 | +0.648 | no_registry_form | — | SO3-2, Na2SO3 | iodimetry (Harris) |
 | I3-/I- | SO4-2/HSO3- | +0.434 | no_registry_form | — | HSO3-, NaHSO3 | iodimetry (Harris) |
 | I3-/I- | Fe+3/Fe+2 | -0.229 | no_registry_form | — | Fe+2 |  |
 | I3-/I- | I2/I- | +0.005 | no_registry_form | — | I-, KI |  |
-| I3-/I- | ascorbic_acid | — | no_registry_form | — | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| I3-/I- | DHA/ascorbic_acid | +0.150 | no_registry_form | — | ascorbic_acid |  |
 | IO3-/I- | S4O6-2/S2O3-2 | -2.742 | couple_rejected | KIO3 | S2O3-2, Na2S2O3 |  |
+| IO3-/I- | SO4-2/S2O3-2 | +0.813 | product_not_determined | KIO3 | S2O3-2, Na2S2O3 |  |
 | IO3-/I- | SO4-2/SO3-2 | +1.205 | rate_not_reviewed | KIO3 | SO3-2, Na2SO3 |  |
 | IO3-/I- | SO4-2/HSO3- | +0.992 | owned_elsewhere | KIO3 | HSO3-, NaHSO3 |  |
 | IO3-/I- | Fe+3/Fe+2 | +0.328 | rate_not_reviewed | KIO3 | Fe+2 |  |
 | IO3-/I- | I2/I- | +0.562 | rate_not_reviewed | KIO3 | I-, KI |  |
-| IO3-/I- | ascorbic_acid | — | no_reviewed_couple | KIO3 | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| IO3-/I- | DHA/ascorbic_acid | +0.708 | rate_not_reviewed | KIO3 | ascorbic_acid |  |
 | ClO-/Cl- | S4O6-2/S2O3-2 | -2.121 | couple_rejected | ClO-, NaOCl | S2O3-2, Na2S2O3 |  |
-| ClO-/Cl- | SO4-2/SO3-2 | +1.826 | rate_not_reviewed | ClO-, NaOCl | SO3-2, Na2SO3 |  |
-| ClO-/Cl- | SO4-2/HSO3- | +1.613 | rate_not_reviewed | ClO-, NaOCl | HSO3-, NaHSO3 |  |
+| ClO-/Cl- | SO4-2/S2O3-2 | +1.434 | admitted | ClO-, NaOCl | S2O3-2, Na2S2O3 | thiosulfate antichlor, to sulfate with excess hypochlorite, 4:1 (White, Handbook of Chlorination; Standard Methods 4500-Cl); writer applies the 4:1 sulfate equation at every ratio |
+| ClO-/Cl- | SO4-2/SO3-2 | +1.826 | admitted | ClO-, NaOCl | SO3-2, Na2SO3 | Cl+ transfer, second order >= 1e4 /M/s (Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989)); sulfite dechlorination (White, Handbook of Chlorination) |
+| ClO-/Cl- | SO4-2/HSO3- | +1.613 | admitted | ClO-, NaOCl | HSO3-, NaHSO3 | Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989); White, Handbook of Chlorination |
 | ClO-/Cl- | Fe+3/Fe+2 | +0.949 | rate_not_reviewed | ClO-, NaOCl | Fe+2 |  |
 | ClO-/Cl- | I2/I- | +1.183 | admitted | ClO-, NaOCl | I-, KI | iodometric determination of available chlorine in acidified iodide (Vogel, hypochlorite) |
-| ClO-/Cl- | ascorbic_acid | — | no_reviewed_couple | ClO-, NaOCl | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| ClO-/Cl- | DHA/ascorbic_acid | +1.329 | admitted | ClO-, NaOCl | ascorbic_acid | via its HOCl share (Folkes, Candeias & Wardman, Arch. Biochem. Biophys. 323, 120 (1995)) |
 | HClO/Cl- | S4O6-2/S2O3-2 | -2.345 | couple_rejected | HClO | S2O3-2, Na2S2O3 |  |
-| HClO/Cl- | SO4-2/SO3-2 | +1.602 | rate_not_reviewed | HClO | SO3-2, Na2SO3 |  |
-| HClO/Cl- | SO4-2/HSO3- | +1.389 | rate_not_reviewed | HClO | HSO3-, NaHSO3 |  |
+| HClO/Cl- | SO4-2/S2O3-2 | +1.210 | admitted | HClO | S2O3-2, Na2S2O3 | thiosulfate antichlor, 4 HOCl + S2O3-2 + H2O -> 2 SO4-2 + 4 Cl- + 6 H+ (White, Handbook of Chlorination; Standard Methods 4500-Cl) |
+| HClO/Cl- | SO4-2/SO3-2 | +1.602 | admitted | HClO | SO3-2, Na2SO3 | HOCl + SO3-2 near diffusion control (Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989)) |
+| HClO/Cl- | SO4-2/HSO3- | +1.389 | admitted | HClO | HSO3-, NaHSO3 | Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989) |
 | HClO/Cl- | Fe+3/Fe+2 | +0.725 | rate_not_reviewed | HClO | Fe+2 |  |
 | HClO/Cl- | I2/I- | +0.959 | admitted | HClO | I-, KI | iodometric determination of available chlorine in acidified iodide (Vogel, hypochlorite) |
-| HClO/Cl- | ascorbic_acid | — | no_reviewed_couple | HClO | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| HClO/Cl- | DHA/ascorbic_acid | +1.105 | admitted | HClO | ascorbic_acid | HOCl + ascorbate ~6e6 /M/s (Folkes, Candeias & Wardman, Arch. Biochem. Biophys. 323, 120 (1995)) |
 | ClO3-/Cl- | S4O6-2/S2O3-2 | -2.397 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
+| ClO3-/Cl- | SO4-2/S2O3-2 | +1.158 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | ClO3-/Cl- | SO4-2/SO3-2 | +1.549 | no_registry_form | — | SO3-2, Na2SO3 |  |
 | ClO3-/Cl- | SO4-2/HSO3- | +1.336 | no_registry_form | — | HSO3-, NaHSO3 |  |
 | ClO3-/Cl- | Fe+3/Fe+2 | +0.672 | no_registry_form | — | Fe+2 |  |
 | ClO3-/Cl- | I2/I- | +0.907 | no_registry_form | — | I-, KI |  |
-| ClO3-/Cl- | ascorbic_acid | — | no_registry_form | — | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| ClO3-/Cl- | DHA/ascorbic_acid | +1.052 | no_registry_form | — | ascorbic_acid |  |
 | Cl2/Cl- | S4O6-2/S2O3-2 | -2.481 | couple_rejected | Cl2 | S2O3-2, Na2S2O3 |  |
-| Cl2/Cl- | SO4-2/SO3-2 | +1.465 | rate_not_reviewed | Cl2 | SO3-2, Na2SO3 |  |
-| Cl2/Cl- | SO4-2/HSO3- | +1.252 | rate_not_reviewed | Cl2 | HSO3-, NaHSO3 |  |
+| Cl2/Cl- | SO4-2/S2O3-2 | +1.074 | admitted | Cl2 | S2O3-2, Na2S2O3 | thiosulfate dechlorination (White, Handbook of Chlorination; Standard Methods 4500-Cl) |
+| Cl2/Cl- | SO4-2/SO3-2 | +1.465 | admitted | Cl2 | SO3-2, Na2SO3 | sulfite dechlorination is instantaneous (White, Handbook of Chlorination; Standard Methods 4500-Cl) |
+| Cl2/Cl- | SO4-2/HSO3- | +1.252 | admitted | Cl2 | HSO3-, NaHSO3 | bisulfite dechlorination (White, Handbook of Chlorination) |
 | Cl2/Cl- | Fe+3/Fe+2 | +0.588 | rate_not_reviewed | Cl2 | Fe+2 |  |
 | Cl2/Cl- | I2/I- | +0.823 | rate_not_reviewed | Cl2 | I-, KI |  |
-| Cl2/Cl- | ascorbic_acid | — | no_reviewed_couple | Cl2 | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| Cl2/Cl- | DHA/ascorbic_acid | +0.968 | rate_not_reviewed | Cl2 | ascorbic_acid |  |
 | Br2/Br- | S4O6-2/S2O3-2 | -2.736 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
+| Br2/Br- | SO4-2/S2O3-2 | +0.820 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | Br2/Br- | SO4-2/SO3-2 | +1.211 | no_registry_form | — | SO3-2, Na2SO3 |  |
 | Br2/Br- | SO4-2/HSO3- | +0.998 | no_registry_form | — | HSO3-, NaHSO3 |  |
 | Br2/Br- | Fe+3/Fe+2 | +0.334 | no_registry_form | — | Fe+2 |  |
 | Br2/Br- | I2/I- | +0.568 | no_registry_form | — | I-, KI |  |
-| Br2/Br- | ascorbic_acid | — | no_registry_form | — | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| Br2/Br- | DHA/ascorbic_acid | +0.714 | no_registry_form | — | ascorbic_acid |  |
 | Br3-/Br- | S4O6-2/S2O3-2 | -2.777 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
+| Br3-/Br- | SO4-2/S2O3-2 | +0.778 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | Br3-/Br- | SO4-2/SO3-2 | +1.170 | no_registry_form | — | SO3-2, Na2SO3 |  |
 | Br3-/Br- | SO4-2/HSO3- | +0.957 | no_registry_form | — | HSO3-, NaHSO3 |  |
 | Br3-/Br- | Fe+3/Fe+2 | +0.293 | no_registry_form | — | Fe+2 |  |
 | Br3-/Br- | I2/I- | +0.527 | no_registry_form | — | I-, KI |  |
-| Br3-/Br- | ascorbic_acid | — | no_registry_form | — | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| Br3-/Br- | DHA/ascorbic_acid | +0.673 | no_registry_form | — | ascorbic_acid |  |
 | BrO-/Br- | S4O6-2/S2O3-2 | -2.244 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
+| BrO-/Br- | SO4-2/S2O3-2 | +1.310 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | BrO-/Br- | SO4-2/SO3-2 | +1.702 | no_registry_form | — | SO3-2, Na2SO3 |  |
 | BrO-/Br- | SO4-2/HSO3- | +1.489 | no_registry_form | — | HSO3-, NaHSO3 |  |
 | BrO-/Br- | Fe+3/Fe+2 | +0.825 | no_registry_form | — | Fe+2 |  |
 | BrO-/Br- | I2/I- | +1.059 | no_registry_form | — | I-, KI |  |
-| BrO-/Br- | ascorbic_acid | — | no_registry_form | — | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| BrO-/Br- | DHA/ascorbic_acid | +1.205 | no_registry_form | — | ascorbic_acid |  |
 | BrO3-/Br- | S4O6-2/S2O3-2 | -2.398 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
+| BrO3-/Br- | SO4-2/S2O3-2 | +1.157 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | BrO3-/Br- | SO4-2/SO3-2 | +1.548 | no_registry_form | — | SO3-2, Na2SO3 |  |
 | BrO3-/Br- | SO4-2/HSO3- | +1.335 | no_registry_form | — | HSO3-, NaHSO3 |  |
 | BrO3-/Br- | Fe+3/Fe+2 | +0.671 | no_registry_form | — | Fe+2 |  |
 | BrO3-/Br- | I2/I- | +0.905 | no_registry_form | — | I-, KI |  |
-| BrO3-/Br- | ascorbic_acid | — | no_registry_form | — | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| BrO3-/Br- | DHA/ascorbic_acid | +1.051 | no_registry_form | — | ascorbic_acid |  |
 | Fe+3/Fe+2 | S4O6-2/S2O3-2 | -3.070 | couple_rejected | Fe+3 | S2O3-2, Na2S2O3 |  |
+| Fe+3/Fe+2 | SO4-2/S2O3-2 | +0.485 | product_not_determined | Fe+3 | S2O3-2, Na2S2O3 |  |
 | Fe+3/Fe+2 | SO4-2/SO3-2 | +0.877 | rate_not_reviewed | Fe+3 | SO3-2, Na2SO3 |  |
 | Fe+3/Fe+2 | SO4-2/HSO3- | +0.664 | rate_not_reviewed | Fe+3 | HSO3-, NaHSO3 |  |
 | Fe+3/Fe+2 | Fe+3/Fe+2 | +0.000 | self | Fe+3 | Fe+2 |  |
 | Fe+3/Fe+2 | I2/I- | +0.234 | equilibrium_limited | Fe+3 | I-, KI |  |
-| Fe+3/Fe+2 | ascorbic_acid | — | no_reviewed_couple | Fe+3 | ascorbic_acid | no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case |
+| Fe+3/Fe+2 | DHA/ascorbic_acid | +0.380 | rate_not_reviewed | Fe+3 | ascorbic_acid |  |
+| MnO4- | S4O6-2/S2O3-2 | — | no_reviewed_couple | MnO4-, KMnO4 | S2O3-2, Na2S2O3 | no reviewed permanganate writer for this reductant |
+| MnO4- | SO4-2/S2O3-2 | — | no_reviewed_couple | MnO4-, KMnO4 | S2O3-2, Na2S2O3 | no reviewed permanganate writer for this reductant |
+| MnO4- | SO4-2/SO3-2 | — | no_reviewed_couple | MnO4-, KMnO4 | SO3-2, Na2SO3 | no reviewed permanganate writer for this reductant |
+| MnO4- | SO4-2/HSO3- | — | no_reviewed_couple | MnO4-, KMnO4 | HSO3-, NaHSO3 | no reviewed permanganate writer for this reductant |
+| MnO4- | Fe+3/Fe+2 | — | no_reviewed_couple | MnO4-, KMnO4 | Fe+2 | no reviewed permanganate writer for this reductant |
+| MnO4- | I2/I- | — | no_reviewed_couple | MnO4-, KMnO4 | I-, KI | no reviewed permanganate writer for this reductant |
+| MnO4- | DHA/ascorbic_acid | — | no_reviewed_couple | MnO4-, KMnO4 | ascorbic_acid | no reviewed permanganate writer for this reductant |
+| H2O2 | S4O6-2/S2O3-2 | — | no_reviewed_couple | H2O2 | S2O3-2, Na2S2O3 | no reviewed peroxide writer for this reductant |
+| H2O2 | SO4-2/S2O3-2 | — | no_reviewed_couple | H2O2 | S2O3-2, Na2S2O3 | no reviewed peroxide writer for this reductant |
+| H2O2 | SO4-2/SO3-2 | — | no_reviewed_couple | H2O2 | SO3-2, Na2SO3 | no reviewed peroxide writer for this reductant |
+| H2O2 | SO4-2/HSO3- | — | no_reviewed_couple | H2O2 | HSO3-, NaHSO3 | no reviewed peroxide writer for this reductant |
+| H2O2 | Fe+3/Fe+2 | — | no_reviewed_couple | H2O2 | Fe+2 | no reviewed peroxide writer for this reductant |
+| H2O2 | I2/I- | — | owned_elsewhere | H2O2 | I-, KI | no reviewed peroxide writer for this reductant |
+| H2O2 | DHA/ascorbic_acid | — | no_reviewed_couple | H2O2 | ascorbic_acid | no reviewed peroxide writer for this reductant |
 
 Cited values are the commonly tabulated IUPAC (Bard, Parsons & Jordan 1985) / Harris-appendix
 potentials used ONLY as independent cross-checks of the derived values (tolerance
@@ -120,4 +148,6 @@ equilibrium solve, not a limiting-reagent writer; `product_not_determined` — t
 product of the reductant depends on the oxidant beyond thermodynamics; `rate_not_reviewed` —
 favourable but no reviewed source that it is fast on the bench; `no_registry_form` — the
 registry holds neither the ion nor a Na/K salt of it; `no_reviewed_couple` — no vendored or
-cited couple. Every non-admitted pair leaves inventory untouched.
+cited couple. Every non-admitted pair leaves inventory untouched; when a form of both members
+is present, the run-time honesty tail says so with `not-modeled.redox-pair-unpriced`
+(`not_favourable`, `self` and `owned_elsewhere` pairs excepted).

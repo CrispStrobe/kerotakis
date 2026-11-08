@@ -95,19 +95,37 @@ HALVES = [
     dict(id="SO4-2/HSO3-", ox="SO4-2", red={"HSO3-": 1}, n=2, h=3, w=1, cited=None, check_via="SO4-2/H2SO3",
          combo=[("SO4-2 = SO3-2 + 0.5 O2", 1), ("SO3-2 + H+ = HSO3-", 1), ("2 H2O = O2 + 4 H+ + 4 e-", -0.5)],
          source="llnl.dat SO3-2, HSO3- and O2 reactions; cross-checked through SO4-2/H2SO3, which shares the SO3-2 line"),
+    # Thiosulfate taken all the way to sulfate (the product with excess
+    # hypochlorite/chlorine). Written per SO4-2, so half a thiosulfate.
+    dict(id="SO4-2/S2O3-2", ox="SO4-2", red={"S2O3-2": Fraction(1, 2)}, n=4, h=5, w=Fraction(5, 2), cited=0.284,
+         combo=[("SO4-2 = SO3-2 + 0.5 O2", 1), ("2 H+ + 2 SO3-2 = S2O3-2 + O2 + H2O", 0.5), ("2 H2O = O2 + 4 H+ + 4 e-", -1)],
+         source="llnl.dat SO3-2, S2O3-2 and O2 reactions; cited +0.284 V computed from the NBS tables (Wagman et al., J. Phys. Chem. Ref. Data 11, Suppl. 2, 1982: dfG SO4-2 -744.53, S2O3-2 -522.5, H2O(l) -237.13 kJ/mol) for 2 SO4-2 + 10 H+ + 8 e- = S2O3-2 + 5 H2O"),
+    dict(id="DHA/ascorbic_acid", ox="dehydroascorbic_acid", red={"ascorbic_acid": 1}, n=2, h=2, w=0, cited=0.390,
+         combo=None,
+         source="cited: C6H6O6 + 2 H+ + 2 e- = C6H8O6, E = +0.390 V, CRC Handbook of Chemistry and Physics, Electrochemical Series; vendored files define no dehydroascorbate species"),
 ]
+
+# Registry keys that are names, not formulas.
+FORMULAS = {"ascorbic_acid": "C6H8O6", "dehydroascorbic_acid": "C6H6O6"}
 
 # Oxidant halves whose OXIDISED member is an oxidant in this audit, and
 # reductant halves whose REDUCED member is a reductant in it.
 OXIDANTS = ["I2/I-", "I3-/I-", "IO3-/I-", "ClO-/Cl-", "HClO/Cl-", "ClO3-/Cl-",
             "Cl2/Cl-", "Br2/Br-", "Br3-/Br-", "BrO-/Br-", "BrO3-/Br-", "Fe+3/Fe+2"]
-REDUCTANTS = ["S4O6-2/S2O3-2", "SO4-2/SO3-2", "SO4-2/HSO3-", "Fe+3/Fe+2", "I2/I-"]
+REDUCTANTS = ["S4O6-2/S2O3-2", "SO4-2/S2O3-2", "SO4-2/SO3-2", "SO4-2/HSO3-", "Fe+3/Fe+2", "I2/I-",
+              "DHA/ascorbic_acid"]
 # Reductants named by the lane with no reviewed couple in any vendored file.
-UNCOUPLED_REDUCTANTS = {"ascorbic_acid": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"}
+UNCOUPLED_REDUCTANTS = {}
+# Oxidants the safety audit names (strong oxidiser class) with no reviewed
+# couple here: every pair with them is no_reviewed_couple unless a curated
+# row or kinetic law owns it. They exist so the run-time note names them.
+UNCOUPLED_OXIDANTS = {"MnO4-": "no reviewed permanganate writer for this reductant",
+                      "H2O2": "no reviewed peroxide writer for this reductant"}
 # Oxidised product of a reductant half that thermodynamics alone does not
 # select: thiosulfate goes to tetrathionate ONLY with iodine (iodometry);
 # stronger oxidants take it on toward sulfate.
-ONLY_WITH = {"S4O6-2/S2O3-2": ["I2/I-", "I3-/I-"]}
+ONLY_WITH = {"S4O6-2/S2O3-2": ["I2/I-", "I3-/I-"],
+             "SO4-2/S2O3-2": ["ClO-/Cl-", "HClO/Cl-", "Cl2/Cl-"]}
 # Pairs that are fast and quantitative on the bench time scale, with the
 # source that says so. Thermodynamics never admits a pair on its own.
 FAST = {
@@ -119,6 +137,17 @@ FAST = {
     ("I3-/I-", "SO4-2/HSO3-"): "iodimetry (Harris)",
     ("ClO-/Cl-", "I2/I-"): "iodometric determination of available chlorine in acidified iodide (Vogel, hypochlorite)",
     ("HClO/Cl-", "I2/I-"): "iodometric determination of available chlorine in acidified iodide (Vogel, hypochlorite)",
+    ("ClO-/Cl-", "SO4-2/SO3-2"): "Cl+ transfer, second order >= 1e4 /M/s (Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989)); sulfite dechlorination (White, Handbook of Chlorination)",
+    ("ClO-/Cl-", "SO4-2/HSO3-"): "Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989); White, Handbook of Chlorination",
+    ("HClO/Cl-", "SO4-2/SO3-2"): "HOCl + SO3-2 near diffusion control (Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989))",
+    ("HClO/Cl-", "SO4-2/HSO3-"): "Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989)",
+    ("Cl2/Cl-", "SO4-2/SO3-2"): "sulfite dechlorination is instantaneous (White, Handbook of Chlorination; Standard Methods 4500-Cl)",
+    ("Cl2/Cl-", "SO4-2/HSO3-"): "bisulfite dechlorination (White, Handbook of Chlorination)",
+    ("ClO-/Cl-", "SO4-2/S2O3-2"): "thiosulfate antichlor, to sulfate with excess hypochlorite, 4:1 (White, Handbook of Chlorination; Standard Methods 4500-Cl); writer applies the 4:1 sulfate equation at every ratio",
+    ("HClO/Cl-", "SO4-2/S2O3-2"): "thiosulfate antichlor, 4 HOCl + S2O3-2 + H2O -> 2 SO4-2 + 4 Cl- + 6 H+ (White, Handbook of Chlorination; Standard Methods 4500-Cl)",
+    ("Cl2/Cl-", "SO4-2/S2O3-2"): "thiosulfate dechlorination (White, Handbook of Chlorination; Standard Methods 4500-Cl)",
+    ("HClO/Cl-", "DHA/ascorbic_acid"): "HOCl + ascorbate ~6e6 /M/s (Folkes, Candeias & Wardman, Arch. Biochem. Biophys. 323, 120 (1995))",
+    ("ClO-/Cl-", "DHA/ascorbic_acid"): "via its HOCl share (Folkes, Candeias & Wardman, Arch. Biochem. Biophys. 323, 120 (1995))",
 }
 CATIONS = {"Na": 1, "K": 1}
 
@@ -187,7 +216,7 @@ def balance(terms):
     for sp, c in terms.items():
         if sp == "e-":
             ch -= c; continue
-        f = parse_formula("H2O" if sp == "water" else sp)
+        f = parse_formula("H2O" if sp == "water" else FORMULAS.get(sp, sp))
         for k, v in f[0].items():
             el[k] = el.get(k, 0) + c * v
         ch += c * f[1]
@@ -231,12 +260,12 @@ def registry_forms(registry, ion):
     forms = []
     if ion in comps:
         forms.append(ion)
-    ip = parse_formula(ion)
+    ip = parse_formula(FORMULAS.get(ion, ion))
     for key, formula in sorted(comps.items()):
         if key == ion:
             continue
         p = parse_formula(formula)
-        if p is None or p[1] != 0 or ip[1] >= 0:
+        if p is None or ip is None or p[1] != 0 or ip[1] >= 0:
             continue
         rest = dict(p[0])
         ok = True
@@ -287,6 +316,13 @@ def main():
 
     halves = {h["id"]: halves[h["id"]] for h in HALVES}
 
+    def num(x):
+        x = Fraction(x)
+        return int(x) if x.denominator == 1 else float(x)
+    for h in halves.values():
+        h["reduced"] = {k: num(v) for k, v in h["reduced"].items()}
+        h["water"] = num(h["water"])
+
     def forms_of(sp):
         return registry_forms(registry, sp)
 
@@ -325,6 +361,20 @@ def main():
             rows.append(dict(oxidant=o, reductant=r, delta_e_v=de, status=status,
                              oxidant_forms=ox_forms, reductant_forms=red_forms,
                              note=FAST.get((o, r), "")))
+
+    for o in UNCOUPLED_OXIDANTS:
+        ox_forms = forms_of(o)
+        for r in REDUCTANTS + sorted(UNCOUPLED_REDUCTANTS):
+            red_sp = next(iter(halves[r]["reduced"])) if r in halves else r
+            red_forms = forms_of(red_sp)
+            if not ox_forms or not red_forms:
+                status = "no_registry_form"
+            elif any(s & set(ox_forms) and s & set(red_forms) for s in owned):
+                status = "owned_elsewhere"
+            else:
+                status = "no_reviewed_couple"
+            rows.append(dict(oxidant=o, reductant=r, delta_e_v=None, status=status,
+                             oxidant_forms=ox_forms, reductant_forms=red_forms, note=UNCOUPLED_OXIDANTS[o]))
 
     doc = dict(schema="kerotakis.halogen-redox-coverage.v1", nernst_v=NERNST_V,
                complete_margin_v=FAVOURABLE_MARGIN_V, cross_check_tolerance_v=CROSS_CHECK_TOL_V,
@@ -368,7 +418,9 @@ def main():
            "product of the reductant depends on the oxidant beyond thermodynamics; `rate_not_reviewed` —",
            "favourable but no reviewed source that it is fast on the bench; `no_registry_form` — the",
            "registry holds neither the ion nor a Na/K salt of it; `no_reviewed_couple` — no vendored or",
-           "cited couple. Every non-admitted pair leaves inventory untouched.", ""]
+           "cited couple. Every non-admitted pair leaves inventory untouched; when a form of both members",
+           "is present, the run-time honesty tail says so with `not-modeled.redox-pair-unpriced`",
+           "(`not_favourable`, `self` and `owned_elsewhere` pairs excepted).", ""]
     mdtext = "\n".join(md)
 
     out_js = ROOT / "docs/halogen-redox-coverage-20261027.json"
