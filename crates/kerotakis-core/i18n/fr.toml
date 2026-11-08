@@ -959,7 +959,6 @@ hydroxylapatite = "hydroxylapatite"
 "no-cell.lv3" = "{a}–{b} : pas de pile : {why}"
 "state-changed.lv1-generic" = "Le {name} dans {vessel} {verb}."
 "reacted.lv3-catalyst" = " (catalyseur : {c})"
-"solver-failed.lv3" = "{vessel} : solveur « {solver} » en échec : {detail}"
 
 # Moved, not invented. `chromatographed.lv3` above carried this clause
 # written into its own template, so the `{method}` hole the English grew —
@@ -1879,6 +1878,8 @@ numerical-range = "le coefficient d’activité du composant {component} ne peut
 
 # Typed source-owned solver diagnostics; native technical detail stays separate.
 [solver-reason]
+"solver-failed-unconverged" = "Le solveur numérique n'a pas convergé vers une réponse pour ce mélange : aucun résultat n'est donc donné plutôt qu'un résultat deviné."
+"solver-failed-unexplained" = "Le solveur n'a pas pu produire de réponse pour ce mélange : aucun résultat n'est donc donné plutôt qu'un résultat deviné."
 "aqueous.accepted-provenance-missing" = "L’état aqueux accepté ne possède pas de provenance."
 "aqueous.activity-model-unavailable" = "Aucun jeu de données approuvé ne couvre ce modèle d’activité avec le propriétaire d’interface typé."
 "aqueous.gas-phase-unavailable" = "La base utilisée ne définit pas de phase vérifiée pour un gaz de cet espace gazeux."
