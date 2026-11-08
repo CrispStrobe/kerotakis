@@ -1436,6 +1436,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::NoCell { .. } => ("no_cell", None),
         E::Added { species, .. } => ("added", Some(species.0.as_str())),
         E::MaterialAdded { .. } => ("material_added", None),
+        E::SolutionAdded { solute, .. } => ("solution_added", Some(solute.0.as_str())),
         E::GasProduced { species, .. } => ("gas_produced", Some(species.0.as_str())),
         E::Fermented { .. } => ("fermented", None),
         E::EnzymeHydrolysed { .. } => ("enzyme_hydrolysed", None),

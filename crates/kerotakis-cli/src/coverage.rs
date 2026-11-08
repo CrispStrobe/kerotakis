@@ -519,6 +519,7 @@ fn unsupported_observation(events: &[Event]) -> Option<(Disposition, &'static st
                 event,
                 Event::Added { .. }
                     | Event::MaterialAdded { .. }
+                    | Event::SolutionAdded { .. }
                     | Event::VesselCreated { .. }
                     | Event::VesselRemoved { .. }
                     | Event::Stirred { .. }

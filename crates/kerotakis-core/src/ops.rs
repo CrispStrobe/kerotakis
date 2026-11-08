@@ -133,6 +133,20 @@ pub enum Operator {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         at: Option<Kelvin>,
     },
+    /// E1: dispense an aqueous solution of one solute at a stated
+    /// concentration — the solute *and its water*. Both amounts are pinned
+    /// at parse time, beside the concentration label and where the density
+    /// came from, so a replay never depends on today's density table.
+    AddSolution {
+        vessel: VesselId,
+        solute: SpeciesId,
+        solute_moles: Moles,
+        water_moles: Moles,
+        label: String,
+        density_basis: crate::solution_stock::SolutionDensityBasis,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        at: Option<Kelvin>,
+    },
     /// Dispense a versioned named mixture/object. The recipe identity, version,
     /// basis amount and sample seed are pinned in the operator so replay never
     /// depends on ambient randomness or whichever recipe version is newest.
@@ -878,6 +892,17 @@ pub enum Event {
         /// event logs did not carry it; clients must tolerate its absence.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         total_after: Option<Moles>,
+    },
+    /// E1: a solution dose landed; the two `Added` events beside it carry
+    /// the species. This one carries the concentration and density basis,
+    /// so an ideal-dilution approximation is disclosed with the result.
+    SolutionAdded {
+        vessel: VesselId,
+        solute: SpeciesId,
+        label: String,
+        solute_moles: Moles,
+        water_moles: Moles,
+        density_basis: crate::solution_stock::SolutionDensityBasis,
     },
     /// A named material expanded into canonical species while retaining the
     /// user-facing identity and any chemically unresolved balance.
