@@ -37,7 +37,8 @@
 //! No reaction heat is applied (no reviewed enthalpies for these rows).
 //!
 //! Every oxidant × reductant pair in the table that is present in a vessel
-//! and is NOT covered (admitted, owned elsewhere, unfavourable) is named
+//! and is NOT covered (admitted, owned elsewhere, unfavourable,
+//! equilibrium-limited) is named
 //! by [`unpriced_notes`] as `not-modeled.redox-pair-unpriced`, and an
 //! admitted pair blocked by the medium as
 //! `not-modeled.redox-pair-outside-medium`; the honesty tail emits them.
@@ -884,7 +885,8 @@ fn display(key: &str) -> String {
 /// depends on; [`UNCOUPLED_OXIDANTS`] carries that class's oxidisers
 /// that have no couple here). A pair is grouped by its two member
 /// species; it is covered when any half-pair on them is admitted, owned
-/// by a curated row or kinetic law, unfavourable, or a self pair. An
+/// by a curated row or kinetic law, unfavourable, equilibrium-limited
+/// (owned by the aqueous equilibrium solver), or a self pair. An
 /// admitted pair that cannot run because the vessel has no liquid water
 /// or is outside `DOMAIN_K` gets its own note. At most one event of
 /// each kind, so a step says it once.
@@ -916,6 +918,7 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
                 PairStatus::Admitted
                     | PairStatus::OwnedElsewhere
                     | PairStatus::NotFavourable
+                    | PairStatus::EquilibriumLimited
                     | PairStatus::SelfPair
                     | PairStatus::NoRegistryForm
             )

@@ -406,3 +406,12 @@ fn covered_pairs_raise_no_note() {
     assert!(note_keys(&v).is_empty(), "curated I2 + C6H8O6 owns it");
     assert!(note_keys(&water()).is_empty());
 }
+
+#[test]
+fn equilibrium_limited_iron_three_and_iodide_raise_no_note() {
+    // Owned by the aqueous equilibrium solver, not unpriced.
+    let mut v = water();
+    aq(&mut v, "Fe+3", 0.001);
+    aq(&mut v, "I-", 0.003);
+    assert!(note_keys(&v).is_empty());
+}

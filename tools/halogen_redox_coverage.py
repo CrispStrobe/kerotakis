@@ -420,7 +420,8 @@ def main():
            "registry holds neither the ion nor a Na/K salt of it; `no_reviewed_couple` — no vendored or",
            "cited couple. Every non-admitted pair leaves inventory untouched; when a form of both members",
            "is present, the run-time honesty tail says so with `not-modeled.redox-pair-unpriced`",
-           "(`not_favourable`, `self` and `owned_elsewhere` pairs excepted).", ""]
+           "(`not_favourable`, `self`, `owned_elsewhere` and `equilibrium_limited` pairs excepted; the",
+           "last are owned by the aqueous equilibrium solver).", ""]
     mdtext = "\n".join(md)
 
     out_js = ROOT / "docs/halogen-redox-coverage-20261027.json"
