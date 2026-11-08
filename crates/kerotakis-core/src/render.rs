@@ -4809,30 +4809,30 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The lab couldn't work out what happens in {vessel}. That's honest — better than guessing!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => match reason {
-                Some(reason) => {
-                    let owned = reason.render(locale);
-                    locale.fill(
-                        "event.solver-failed.owned.lv3",
-                        "{vessel}: solver '{solver}' failed: {reason}\nTechnical detail: {detail}",
-                        &[
-                            ("vessel", &vessel.to_string()),
-                            ("solver", solver),
-                            ("reason", &owned),
-                            ("detail", detail),
-                        ],
-                    )
-                }
-                None => locale.fill(
-                    "event.solver-failed.lv3",
-                    "{vessel}: solver '{solver}' failed: {detail}",
+            _ => {
+                // The raw solver text is never the main message at any
+                // register: an owned reason leads, and the detail follows
+                // as a labelled technical suffix only.
+                let fallback;
+                let reason = match reason {
+                    Some(reason) => reason.as_ref(),
+                    None => {
+                        fallback = solver_failed_fallback_reason(detail);
+                        &fallback
+                    }
+                };
+                let owned = reason.render(locale);
+                locale.fill(
+                    "event.solver-failed.owned.lv3",
+                    "{vessel}: solver '{solver}' failed: {reason}\nTechnical detail: {detail}",
                     &[
                         ("vessel", &vessel.to_string()),
                         ("solver", solver),
+                        ("reason", &owned),
                         ("detail", detail),
                     ],
-                ),
-            },
+                )
+            }
         },
         Event::Diluted {
             vessel,
@@ -5225,6 +5225,24 @@ fn localize_hazard(hazard: &str, locale: Locale) -> String {
         .or_else(|| locale.lookup(&format!("hazard_vapour.{hazard}")))
         .map(str::to_string)
         .unwrap_or_else(|| hazard.to_string())
+}
+
+/// The owned reason a [`Event::SolverFailed`] carries when its producer
+/// supplied none. Non-convergence (PHREEQC "has not converged" / "failed to
+/// converge") gets its own translated sentence; anything else a generic one.
+pub fn solver_failed_fallback_reason(detail: &str) -> crate::phrase::Phrase {
+    let lower = detail.to_ascii_lowercase();
+    if lower.contains("converge") {
+        crate::phrase::Phrase::bare(
+            "solver-reason.solver-failed-unconverged",
+            "the numerical solver did not converge on an answer for this mixture, so no result is reported rather than a guessed one",
+        )
+    } else {
+        crate::phrase::Phrase::bare(
+            "solver-reason.solver-failed-unexplained",
+            "the solver could not produce an answer for this mixture, so no result is reported rather than a guessed one",
+        )
+    }
 }
 
 #[cfg(test)]

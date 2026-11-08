@@ -889,6 +889,87 @@ pub fn non_water_matrix_boundary(vessel: &mut Vessel) -> Option<Event> {
     ))
 }
 
+/// The mole fraction of liquid water among EVERY owned liquid or aqueous
+/// portion, reagent solutes included (hydrogen chloride, ammonia, dissolved
+/// salts and molecules). `None` when the vessel holds no liquid/aqueous
+/// matter besides water, or none at all.
+///
+/// [`water_fraction_among_solvents`] deliberately ignores reagent-bottle
+/// solutes, so a beaker of neat hydrogen chloride plus the water a peroxide
+/// decomposition leaves behind passed that gate and reached the aqueous
+/// engine at ~50 mol/kg, where it failed to converge on every clock tick.
+/// This counts what the aqueous model would have to dissolve in that water.
+pub fn water_fraction_of_liquid(vessel: &Vessel) -> Option<f64> {
+    let (mut water, mut total) = (0.0f64, 0.0f64);
+    let mut other = false;
+    for p in &vessel.contents {
+        if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) || !(p.moles.0 > 0.0) {
+            continue;
+        }
+        let key = p.species.0.as_str();
+        if liquid_medium(key) == Some(LiquidMedium::NotAMatrix) {
+            continue;
+        }
+        if key == "water" {
+            water += p.moles.0;
+        } else {
+            other = true;
+        }
+        total += p.moles.0;
+    }
+    (other && total > 0.0).then(|| water / total)
+}
+
+/// THE shared aqueous admission predicate (non-mutating). Every aqueous
+/// route — the engine's `applies` gate, its `equilibrate`, trusted readback
+/// and continuation (which call `equilibrate`), the clock, the overlap
+/// delegation and the family/named medium gates — asks this, so no route
+/// can reach the solver over a liquid that is not a water-majority solution.
+pub fn aqueous_model_admits(vessel: &Vessel) -> bool {
+    water_fraction_among_solvents(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
+        && water_fraction_of_liquid(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
+}
+
+/// The mutating half of [`aqueous_model_admits`] for routes that must speak
+/// the refusal: the peroxide/mineral-acid matrix reasons first, then the
+/// solute-sufficiency reason `not-modeled.too-little-water`. An organic
+/// majority is left to its own `not-modeled.mostly-organic-solvent` route.
+pub fn aqueous_admission_boundary(vessel: &mut Vessel) -> Option<Event> {
+    if let Some(event) = non_water_matrix_boundary(vessel) {
+        return Some(event);
+    }
+    too_little_water_boundary(vessel)
+}
+
+/// Refuse aqueous diagnostics when the water present is too little to be the
+/// solvent for what it would have to hold. Inventory is retained.
+pub fn too_little_water_boundary(vessel: &mut Vessel) -> Option<Event> {
+    if water_fraction_among_solvents(vessel).is_some_and(|x| x < AQUEOUS_WATER_FRACTION_FLOOR) {
+        return None;
+    }
+    let water = water_fraction_of_liquid(vessel)?;
+    if water >= AQUEOUS_WATER_FRACTION_FLOOR {
+        return None;
+    }
+    let reason = Phrase::new(
+        "not-modeled.too-little-water",
+        "too little water for an aqueous solution (water is {percent}% of the liquid, by amount): the aqueous model's editorial water-majority admission boundary is not met, so aqueous pH, ionic strength and speciation are withdrawn rather than solved, and the inventory is retained",
+        vec![(
+            "percent".to_string(),
+            Slot::number(format!("{:.0}", water * 100.0)),
+        )],
+    );
+    vessel.solution = None;
+    vessel.free_proton = 0.0;
+    vessel.free_hydroxide = 0.0;
+    vessel.resolved.invalidate();
+    Some(Event::not_modeled(
+        vessel.id,
+        crate::ops::NotModelledCause::ModelBoundary,
+        reason,
+    ))
+}
+
 /// True when this rung has a computed verdict for the pair — the
 /// honesty pass consults this so a spoken answer is not followed by an
 /// apology for the same solid.

@@ -150,3 +150,81 @@ mod registry_liquid_media {
         assert!(non_water_matrix_boundary(&mut v).is_none());
     }
 }
+
+// Shared admission, solute-sufficiency half: reagent-bottle solutes are not a
+// competing matrix, but they still need water to be dissolved in.
+mod too_little_water {
+    use kerotakis_core::nonaqueous::{
+        aqueous_admission_boundary, aqueous_model_admits, too_little_water_boundary,
+        water_fraction_of_liquid,
+    };
+    use kerotakis_core::solve::{Equilibrator, HonestyEquilibrator};
+    use kerotakis_core::{Event, Moles, Phase, SpeciesId, Vessel, VesselId};
+
+    fn vessel(items: &[(&str, f64)]) -> Vessel {
+        let mut v = Vessel::new(VesselId(0), "water sufficiency");
+        for (k, n) in items {
+            v.deposit(SpeciesId::new(k), Moles(*n), Phase::Liquid);
+        }
+        v
+    }
+
+    fn is_too_little_water(e: &Event) -> bool {
+        matches!(e, Event::NotYetModeled { reason: Some(p), .. } if p.key == "not-modeled.too-little-water")
+    }
+
+    #[test]
+    fn neat_hcl_with_decomposition_water_is_refused() {
+        // Peroxide mostly decomposed: the matrix gate admits, the solutes do not.
+        let mut v = vessel(&[("HCl", 3.2638), ("H2O2", 1.0), ("water", 2.2637)]);
+        assert!(!aqueous_model_admits(&v));
+        let before = v.contents.clone();
+        let e = aqueous_admission_boundary(&mut v).expect("refusal");
+        assert!(is_too_little_water(&e), "{e:?}");
+        assert!(
+            matches!(&e, Event::NotYetModeled { what, .. } if what.contains("water is 35%")),
+            "{e:?}"
+        );
+        assert_eq!(v.contents, before);
+        assert!(v.solution.is_none());
+    }
+
+    #[test]
+    fn neat_hcl_and_peroxide_without_water_is_refused_by_the_matrix_reason() {
+        let mut v = vessel(&[("HCl", 3.2638), ("H2O2", 3.2637)]);
+        assert!(!aqueous_model_admits(&v));
+        let e = aqueous_admission_boundary(&mut v).expect("refusal");
+        assert!(
+            matches!(&e, Event::NotYetModeled { reason: Some(p), .. } if p.key == "not-modeled.peroxide-rich-medium"),
+            "{e:?}"
+        );
+    }
+
+    #[test]
+    fn honesty_tail_speaks_the_typed_reason() {
+        let mut v = vessel(&[("HCl", 1.0), ("water", 0.1)]);
+        let events = HonestyEquilibrator.equilibrate(&mut v).expect("honesty");
+        assert!(events.iter().any(is_too_little_water), "{events:?}");
+    }
+
+    #[test]
+    fn thirty_seven_percent_hcl_and_dilute_solutions_are_admitted() {
+        let mut conc = vessel(&[("HCl", 37.0 / 36.46), ("water", 63.0 / 18.015)]);
+        assert!(water_fraction_of_liquid(&conc).unwrap() > 0.7);
+        assert!(aqueous_model_admits(&conc));
+        assert!(too_little_water_boundary(&mut conc).is_none());
+        let mut floor = vessel(&[("NH3", 1.0), ("water", 1.0)]);
+        assert!(aqueous_model_admits(&floor));
+        assert!(aqueous_admission_boundary(&mut floor).is_none());
+        let pure = vessel(&[("water", 5.0)]);
+        assert_eq!(water_fraction_of_liquid(&pure), None);
+        assert!(aqueous_model_admits(&pure));
+    }
+
+    #[test]
+    fn organic_majority_keeps_its_own_route() {
+        let mut v = vessel(&[("methanol", 2.0), ("water", 1.0), ("HCl", 0.5)]);
+        assert!(!aqueous_model_admits(&v));
+        assert!(too_little_water_boundary(&mut v).is_none());
+    }
+}

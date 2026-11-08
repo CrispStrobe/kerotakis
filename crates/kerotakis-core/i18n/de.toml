@@ -979,7 +979,6 @@ hydroxylapatite = "Hydroxylapatit"
 "no-cell.lv3" = "{a}–{b}: keine Zelle: {why}"
 "state-changed.lv1-generic" = "Das {name} in {vessel} {verb}."
 "reacted.lv3-catalyst" = " (Katalysator: {c})"
-"solver-failed.lv3" = "{vessel}: Löser '{solver}' fehlgeschlagen: {detail}"
 
 # Moved, not invented. `chromatographed.lv3` above carried this clause
 # written into its own template, so the `{method}` hole the English grew —
@@ -1675,6 +1674,7 @@ indicator-optics-missing-ph = "die vollständige Absorption ist nicht verfügbar
 "liquid-partition-refused" = "Die Berechnung eines endlichen Flüssig-Flüssig-Verteilungskoeffizienten für {species} bei {temperature} K ist nicht möglich: {why}; ein nicht unterstützter Stoffübergang wird nicht durchgeführt"
 "peroxide-rich-medium" = "Diese peroxidhaltige Flüssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel. Eine durch Reaktionen entstandene Wasserspur begründet noch kein wässriges Medium. Für dieses peroxidreiche Medium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollständige Vorhersage für das Gemisch."
 "concentrated-acid-medium" = "Diese konzentrierte Mineralsäure liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel (Wasser macht {percent} % der Flüssigkeit aus). Für ein konzentriertes Säuremedium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten."
+"too-little-water" = "Zu wenig Wasser für eine wässrige Lösung (Wasser macht {percent} % der Flüssigkeit aus, nach Stoffmenge): Die redaktionell festgelegte Zulassungsgrenze des wässrigen Modells für ein überwiegend wässriges Lösungsmittel ist nicht erreicht. Wässriger pH, Ionenstärke und Speziation werden daher zurückgezogen statt berechnet, der Stoffbestand bleibt erhalten."
 "cea-temperature-range" = "der Temperaturbereich des thermochemischen Gleichgewichtswegs ({low}–{high} K): Dieses Gefäß hat {temperature} K, daher wird das Gleichgewicht verweigert, statt es bei einer abgeschnittenen Temperatur auszuwerten; der Stoffbestand bleibt erhalten"
 "silver-ammine-ligand-inventory" = "Silber-Ammoniak-Komplexe und freie Liganden sind in der Lösungsspeziation dargestellt. Die kanonischen NH3/NH4-Anteile bleiben analytische Träger des gesamten reduzierten Stickstoffs einschließlich komplexgebundenen Ammoniaks; sie sind keine gemessenen Mengen freien NH3. Ihre Verwendung für nachfolgende Ammoniakverdampfung oder die Verfügbarkeit in kuratierten Reaktionen ist noch nicht mit dem gebundenen Liganden abgeglichen. Diese Einschränkung nimmt die berichtete Gleichgewichtsverteilung der Komplexe nicht zurück."
 "metal-ammine-ligand-inventory" = "Metall-Ammoniak-Komplexe und freie Liganden sind in der Lösungsspeziation dargestellt. Die kanonischen NH3/NH4-Anteile bleiben analytische Träger des gesamten reduzierten Stickstoffs einschließlich komplexgebundenen Ammoniaks; sie sind keine gemessenen Mengen freien NH3. Ihre Verwendung für nachfolgende Ammoniakverdampfung oder die Verfügbarkeit in kuratierten Reaktionen ist noch nicht mit dem gebundenen Liganden abgeglichen. Diese Einschränkung nimmt die berichtete Gleichgewichtsverteilung der Komplexe nicht zurück."
@@ -2140,6 +2140,8 @@ numerical-range = "der Aktivitätskoeffizient für Komponente {component} lässt
 
 # Typed source-owned solver diagnostics; native technical detail stays separate.
 [solver-reason]
+"solver-failed-unconverged" = "Der numerische Löser ist für dieses Gemisch zu keinem Ergebnis konvergiert; daher wird kein Ergebnis berichtet statt eines geratenen."
+"solver-failed-unexplained" = "Der Löser konnte für dieses Gemisch kein Ergebnis liefern; daher wird kein Ergebnis berichtet statt eines geratenen."
 "aqueous.accepted-provenance-missing" = "Der angenommene wässrige Zustand enthält keine Herkunftsangabe."
 "aqueous.activity-model-unavailable" = "Kein zugelassener Datensatz deckt dieses Aktivitätsmodell zusammen mit dem typisierten Grenzflächenbesitzer ab."
 "aqueous.gas-phase-unavailable" = "Der verwendete Datensatz definiert keine geprüfte Phase für ein Gas in diesem Gasraum."
