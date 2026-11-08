@@ -21,10 +21,10 @@ const PAIRS: [[&str; 2]; 4] = [
 ];
 fn metadata(case: usize) -> (Severity, &'static str, &'static str) {
     match case {
-        0 => (Severity::Danger, "mixing bleach with vinegar or another weak acid releases chlorine, a toxic gas", "Bleach and vinegar is one of the commonest household poisonings there is — both are ordinary kitchen bottles, which is exactly why people mix them."),
-        1 => (Severity::Danger, "a strong oxidizer in the presence of a flammable gas creates an explosion risk", "Hydrogen and chlorine mixtures can detonate when exposed to light or a spark."),
-        2 => (Severity::Danger, "mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction", "Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate."),
-        3 => (Severity::Caution, "this water-reactive substance already reacted with water; combining with a strong base adds further heat", "Quicklime (CaO) generates enough heat on contact with water to cause burns; adding caustic soda on top is reckless."),
+        0 => (Severity::Danger, "mixing bleach with vinegar or another weak acid releases chlorine, a toxic gas", "Bleach mixed with an acid such as vinegar is one of the commonest household poisonings there is — both are ordinary kitchen bottles, which is exactly why people mix them."),
+        1 => (Severity::Danger, "a strong oxidizer in the presence of a flammable gas creates an explosion risk", "A flammable gas mixed with a strong oxidizer can explode from a spark, a flame or even bright light — hydrogen with chlorine is the textbook example."),
+        2 => (Severity::Danger, "mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction", "Strong oxidizers and reducing agents can react vigorously and release heat quickly; at scale, such mixtures can detonate."),
+        3 => (Severity::Caution, "this water-reactive substance already reacted with water; combining with a strong base adds further heat", "Quicklime (CaO) generates enough heat on contact with water to cause burns; adding a strong base on top is reckless."),
         _ => panic!("unfrozen case"),
     }
 }

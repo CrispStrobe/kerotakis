@@ -1104,8 +1104,8 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         severity: Severity::Danger,
         rule: "bleach-ammonia-chloramine",
         hazard: "mixing bleach with ammonia makes chloramine, a toxic gas",
-        real_world: "People are hospitalised every year from mixing \
-                     these two household cleaners.",
+        real_world: "People are hospitalised every year from mixing bleach with \
+                     ammonia-based household cleaners.",
         final_screen: FinalScreen::Screened,
     },
     // Bleach does not care how strong the acid is, and the commonest
@@ -1118,9 +1118,10 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "bleach-weak-acid-chlorine",
         hazard: "mixing bleach with vinegar or another weak acid releases \
                  chlorine, a toxic gas",
-        real_world: "Bleach and vinegar is one of the commonest household \
-                     poisonings there is — both are ordinary kitchen \
-                     bottles, which is exactly why people mix them.",
+        real_world: "Bleach mixed with an acid such as vinegar is one of the \
+                     commonest household poisonings there is — both are \
+                     ordinary kitchen bottles, which is exactly why people mix \
+                     them.",
         final_screen: FinalScreen::Screened,
     },
     Incompatibility {
@@ -1141,8 +1142,9 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "oxidizer-flammable-liquid",
         hazard: "a strong oxidizer mixed with a flammable liquid \
                  can ignite or explode",
-        real_world: "Potassium permanganate and glycerol ignite on \
-                     contact; similar mixtures cause laboratory fires.",
+        real_world: "Strong oxidizers can ignite flammable liquids on contact — \
+                     potassium permanganate with glycerol is the classic \
+                     demonstration; such mixtures cause laboratory fires.",
         final_screen: FinalScreen::Screened,
     },
     Incompatibility {
@@ -1152,8 +1154,9 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "oxidizer-flammable-gas",
         hazard: "a strong oxidizer in the presence of a flammable gas \
                  creates an explosion risk",
-        real_world: "Hydrogen and chlorine mixtures can detonate when \
-                     exposed to light or a spark.",
+        real_world: "A flammable gas mixed with a strong oxidizer can explode \
+                     from a spark, a flame or even bright light — hydrogen with \
+                     chlorine is the textbook example.",
         final_screen: FinalScreen::Screened,
     },
     Incompatibility {
@@ -1163,8 +1166,9 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "oxidizer-reducer",
         hazard: "mixing a strong oxidizer with a reducing agent can \
                  cause a violent, potentially explosive reaction",
-        real_world: "Permanganate and sulfite solutions react vigorously; \
-                     at scale, such mixtures can detonate.",
+        real_world: "Strong oxidizers and reducing agents can react vigorously \
+                     and release heat quickly; at scale, such mixtures can \
+                     detonate.",
         final_screen: FinalScreen::Screened,
     },
     // ── acid + metal → hydrogen gas ───────────────────────────────
@@ -1199,9 +1203,9 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "acid-carbonate-co2",
         hazard: "strong acid and carbonate fizz vigorously, releasing \
                  carbon dioxide — the mixture can spatter",
-        real_world: "Adding acid to chalk or baking soda foams over \
-                     if the vessel is too small. CO₂ displaces air in \
-                     enclosed spaces.",
+        real_world: "Adding acid to a carbonate such as chalk or baking soda \
+                     foams over if the vessel is too small. CO₂ displaces air \
+                     in enclosed spaces.",
         final_screen: FinalScreen::Screened,
     },
     // ── water-reactive ────────────────────────────────────────────
@@ -1212,9 +1216,9 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "water-reactive-base",
         hazard: "this water-reactive substance already reacted with \
                  water; combining with a strong base adds further heat",
-        real_world: "Quicklime (CaO) generates enough heat on contact \
-                     with water to cause burns; adding caustic soda \
-                     on top is reckless.",
+        real_world: "Quicklime (CaO) generates enough heat on contact with \
+                     water to cause burns; adding a strong base on top is \
+                     reckless.",
         final_screen: FinalScreen::Screened,
     },
 ];
@@ -1930,5 +1934,111 @@ mod tests {
             extra.is_empty(),
             "safety rows for species not in registry: {extra:?}"
         );
+    }
+
+    // ── real_world names only what the rule guarantees ───────────────
+
+    /// The reason sentence must not name a reagent the beaker may not hold.
+    ///
+    /// `oxidizer-reducer` used to say "Permanganate and sulfite solutions
+    /// react vigorously" over hydrogen peroxide and sodium sulfite, or
+    /// chlorine water and thiosulfate — a warning about two substances not
+    /// on the bench. The sentences are looked up by their exact English to
+    /// be translated, so they cannot carry the actual pair; each says what
+    /// is true of the whole group pair and names a substance only as an
+    /// example ("such as", "the classic demonstration", "the textbook
+    /// example", "the school version") or when the rule's group holds
+    /// nothing else (bleach for hypochlorite rows, quicklime for the
+    /// water-reactive row, whose only member is CaO).
+    #[test]
+    fn real_world_names_substances_only_as_examples_or_when_guaranteed() {
+        const NAMED: &[&str] = &[
+            "permanganate",
+            "sulfite",
+            "thiosulfate",
+            "glycerol",
+            "ethanol",
+            "hydrogen and",
+            "chlorine mixtures",
+            "vinegar",
+            "chalk",
+            "baking soda",
+            "caustic soda",
+            "magnesium",
+            "hydrochloric",
+            "peroxide",
+            "ammonia",
+        ];
+        const EXAMPLE: &[&str] = &[
+            "such as",
+            "classic demonstration",
+            "textbook example",
+            "school version",
+            "ammonia-based",
+        ];
+        for inc in INCOMPATIBLE {
+            let text = inc.real_world.to_lowercase();
+            let framed = EXAMPLE.iter().any(|marker| text.contains(marker));
+            for name in NAMED {
+                assert!(
+                    !text.contains(name) || framed,
+                    "rule {} names \"{name}\" as though it were present: {}",
+                    inc.rule,
+                    inc.real_world
+                );
+            }
+        }
+        // Guaranteed-name rows: the group really is that one substance.
+        assert!(groups("CaO").contains(&ReactiveGroup::WaterReactive));
+        for key in ["NaOCl", "ClO-", "HClO"] {
+            assert!(groups(key).contains(&ReactiveGroup::OxidizerHypochlorite));
+        }
+    }
+
+    fn real_world_of(keys: &[&str]) -> Option<(String, String)> {
+        match ReactiveGroupScreen.assess(&vessel_with(keys)) {
+            SafetyVerdict::Warn {
+                rule, real_world, ..
+            } => Some((rule, real_world)),
+            _ => None,
+        }
+    }
+
+    /// The reported case: hypochlorous acid and sodium sulfite. Whatever
+    /// fires, it must not talk about permanganate.
+    #[test]
+    fn hypochlorous_acid_and_sodium_sulfite_do_not_mention_permanganate() {
+        if let Some((rule, real_world)) = real_world_of(&["water", "HClO", "Na2SO3"]) {
+            assert!(
+                !real_world.to_lowercase().contains("permanganate"),
+                "{rule} names permanganate over HClO + Na2SO3: {real_world}"
+            );
+        }
+    }
+
+    #[test]
+    fn oxidizer_reducer_without_permanganate_or_sulfite_names_neither() {
+        for pair in [
+            ["H2O2", "Na2SO3"],
+            ["Cl2", "Na2S2O3"],
+            ["H2O2", "KI"],
+            ["KIO3", "ascorbic_acid"],
+        ] {
+            let (rule, real_world) = real_world_of(&pair).expect("oxidizer-reducer warns");
+            assert_eq!(rule, "oxidizer-reducer", "{pair:?}");
+            let lower = real_world.to_lowercase();
+            assert!(!lower.contains("permanganate"), "{pair:?}: {real_world}");
+            assert!(!lower.contains("sulfite"), "{pair:?}: {real_world}");
+        }
+    }
+
+    /// Positive control: the real permanganate + sulfite pair still warns
+    /// under the same rule, with the generic sentence.
+    #[test]
+    fn permanganate_and_sulfite_still_warn_as_oxidizer_reducer() {
+        let (rule, real_world) =
+            real_world_of(&["KMnO4", "Na2SO3"]).expect("oxidizer-reducer warns");
+        assert_eq!(rule, "oxidizer-reducer");
+        assert!(real_world.contains("reducing agents"), "{real_world}");
     }
 }

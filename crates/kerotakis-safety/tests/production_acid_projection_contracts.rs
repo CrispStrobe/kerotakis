@@ -41,7 +41,7 @@ fn warn(before: &Vessel, after: &Vessel, expected: &str) {
     let (level, text, context) = match expected {
         "bleach-acid-chlorine" => (Severity::Danger, "mixing bleach with acid releases chlorine, a toxic gas", "Chlorine gas was used as a chemical weapon; even small amounts damage lungs."),
         "acid-metal-hydrogen" => (Severity::Caution, "strong acid dissolves this metal, releasing hydrogen gas which is flammable", "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it."),
-        "acid-carbonate-co2" => (Severity::Caution, "strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter", "Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces."),
+        "acid-carbonate-co2" => (Severity::Caution, "strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter", "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces."),
         _ => panic!("unfrozen rule"),
     };
     match ReactiveGroupScreen.assess_equilibrated(before, after) {
