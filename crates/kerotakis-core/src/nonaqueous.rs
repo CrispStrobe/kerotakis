@@ -752,6 +752,12 @@ pub enum LiquidMedium {
     Peroxide,
     /// A concentrated mineral acid liquid (sulfuric, phosphoric).
     MineralAcid,
+    /// A neat molecular strong acid (hydrogen chloride, hydrogen iodide).
+    /// Its bottle normally arrives with its own water; neat, it is counted
+    /// in the acid term exactly like a concentrated sulfuric or phosphoric
+    /// acid once any water is present, so a little reaction water cannot
+    /// admit it as a solution (see `matrix_moles`).
+    StrongAcid,
     /// The solute of an aqueous reagent bottle; not a matrix.
     AqueousReagentSolute,
     /// Not a solvent matrix at bench conditions (a cryogen boils off).
@@ -777,8 +783,8 @@ pub const REGISTRY_LIQUID_MEDIA: &[(&str, LiquidMedium)] = &[
     ("H2O2", LiquidMedium::Peroxide),
     ("H2SO4", LiquidMedium::MineralAcid),
     ("H3PO4", LiquidMedium::MineralAcid),
-    ("HCl", LiquidMedium::AqueousReagentSolute),
-    ("HI", LiquidMedium::AqueousReagentSolute),
+    ("HCl", LiquidMedium::StrongAcid),
+    ("HI", LiquidMedium::StrongAcid),
     ("NH3", LiquidMedium::AqueousReagentSolute),
     ("NaOCl", LiquidMedium::AqueousReagentSolute),
     ("liquid_nitrogen", LiquidMedium::NotAMatrix),
@@ -794,6 +800,7 @@ pub fn liquid_medium(key: &str) -> Option<LiquidMedium> {
 /// Owned liquid/aqueous moles of each matrix class.
 fn matrix_moles(vessel: &Vessel) -> (f64, f64, f64, f64) {
     let (mut water, mut organic, mut peroxide, mut acid) = (0.0f64, 0.0f64, 0.0f64, 0.0f64);
+    let mut strong = 0.0f64;
     for p in &vessel.contents {
         if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
             continue;
@@ -811,8 +818,16 @@ fn matrix_moles(vessel: &Vessel) -> (f64, f64, f64, f64) {
             Some(LiquidMedium::Organic) => organic += p.moles.0,
             Some(LiquidMedium::Peroxide) => peroxide += p.moles.0,
             Some(LiquidMedium::MineralAcid) => acid += p.moles.0,
+            Some(LiquidMedium::StrongAcid) => strong += p.moles.0,
             _ => {}
         }
+    }
+    // A neat strong acid with no water at all is a bottle on its way into a
+    // solution (acid poured before the water) and keeps its old silence;
+    // once ANY water is present it competes as an acid matrix, so a little
+    // reaction water cannot admit ~3 mol of HCl as an aqueous solution.
+    if water > 0.0 {
+        acid += strong;
     }
     (water, organic, peroxide, acid)
 }
@@ -889,85 +904,17 @@ pub fn non_water_matrix_boundary(vessel: &mut Vessel) -> Option<Event> {
     ))
 }
 
-/// The mole fraction of liquid water among EVERY owned liquid or aqueous
-/// portion, reagent solutes included (hydrogen chloride, ammonia, dissolved
-/// salts and molecules). `None` when the vessel holds no liquid/aqueous
-/// matter besides water, or none at all.
-///
-/// [`water_fraction_among_solvents`] deliberately ignores reagent-bottle
-/// solutes, so a beaker of neat hydrogen chloride plus the water a peroxide
-/// decomposition leaves behind passed that gate and reached the aqueous
-/// engine at ~50 mol/kg, where it failed to converge on every clock tick.
-/// This counts what the aqueous model would have to dissolve in that water.
-pub fn water_fraction_of_liquid(vessel: &Vessel) -> Option<f64> {
-    let (mut water, mut total) = (0.0f64, 0.0f64);
-    let mut other = false;
-    for p in &vessel.contents {
-        if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) || !(p.moles.0 > 0.0) {
-            continue;
-        }
-        let key = p.species.0.as_str();
-        if liquid_medium(key) == Some(LiquidMedium::NotAMatrix) {
-            continue;
-        }
-        if key == "water" {
-            water += p.moles.0;
-        } else {
-            other = true;
-        }
-        total += p.moles.0;
-    }
-    (other && total > 0.0).then(|| water / total)
-}
-
-/// THE shared aqueous admission predicate (non-mutating). Every aqueous
-/// route — the engine's `applies` gate, its `equilibrate`, trusted readback
-/// and continuation (which call `equilibrate`), the clock, the overlap
-/// delegation and the family/named medium gates — asks this, so no route
-/// can reach the solver over a liquid that is not a water-majority solution.
+/// THE shared aqueous admission predicate (non-mutating): the liquid is a
+/// water-majority solvent by [`water_fraction_among_solvents`], or holds no
+/// competing matrix at all. Every aqueous route asks this one function.
 pub fn aqueous_model_admits(vessel: &Vessel) -> bool {
     water_fraction_among_solvents(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
-        && water_fraction_of_liquid(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
 }
 
 /// The mutating half of [`aqueous_model_admits`] for routes that must speak
-/// the refusal: the peroxide/mineral-acid matrix reasons first, then the
-/// solute-sufficiency reason `not-modeled.too-little-water`. An organic
-/// majority is left to its own `not-modeled.mostly-organic-solvent` route.
+/// the refusal; see [`non_water_matrix_boundary`].
 pub fn aqueous_admission_boundary(vessel: &mut Vessel) -> Option<Event> {
-    if let Some(event) = non_water_matrix_boundary(vessel) {
-        return Some(event);
-    }
-    too_little_water_boundary(vessel)
-}
-
-/// Refuse aqueous diagnostics when the water present is too little to be the
-/// solvent for what it would have to hold. Inventory is retained.
-pub fn too_little_water_boundary(vessel: &mut Vessel) -> Option<Event> {
-    if water_fraction_among_solvents(vessel).is_some_and(|x| x < AQUEOUS_WATER_FRACTION_FLOOR) {
-        return None;
-    }
-    let water = water_fraction_of_liquid(vessel)?;
-    if water >= AQUEOUS_WATER_FRACTION_FLOOR {
-        return None;
-    }
-    let reason = Phrase::new(
-        "not-modeled.too-little-water",
-        "too little water for an aqueous solution (water is {percent}% of the liquid, by amount): the aqueous model's editorial water-majority admission boundary is not met, so aqueous pH, ionic strength and speciation are withdrawn rather than solved, and the inventory is retained",
-        vec![(
-            "percent".to_string(),
-            Slot::number(format!("{:.0}", water * 100.0)),
-        )],
-    );
-    vessel.solution = None;
-    vessel.free_proton = 0.0;
-    vessel.free_hydroxide = 0.0;
-    vessel.resolved.invalidate();
-    Some(Event::not_modeled(
-        vessel.id,
-        crate::ops::NotModelledCause::ModelBoundary,
-        reason,
-    ))
+    non_water_matrix_boundary(vessel)
 }
 
 /// True when this rung has a computed verdict for the pair — the

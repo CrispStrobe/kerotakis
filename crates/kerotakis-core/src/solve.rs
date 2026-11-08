@@ -3571,13 +3571,6 @@ impl Equilibrator for HonestyEquilibrator {
             vessel.solution = None;
             return Ok(events);
         }
-        // Shared admission, solute-sufficiency half: neat reagent solutes
-        // (hydrogen chloride, ammonia) beside a little water are not an
-        // aqueous solution, however the water arrived.
-        if let Some(boundary) = crate::nonaqueous::too_little_water_boundary(vessel) {
-            events.push(boundary);
-            return Ok(events);
-        }
         if vessel
             .solution
             .as_ref()

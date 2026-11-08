@@ -1970,7 +1970,9 @@ impl Bench {
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
                     let t_new = adiabatic_mix_into(v, t_in, |t| {
                         portions_enthalpy(
-                            portions.iter().map(|(sid, moles, phase)| (sid, moles.0, *phase)),
+                            portions
+                                .iter()
+                                .map(|(sid, moles, phase)| (sid, moles.0, *phase)),
                             t_in.0,
                             t,
                         )

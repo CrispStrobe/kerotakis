@@ -131,7 +131,9 @@ mod registry_liquid_media {
 
     #[test]
     fn reagent_bottle_solutes_are_not_a_competing_matrix() {
-        for key in ["HCl", "NH3", "NaOCl", "HI"] {
+        // HCl and HI moved to the StrongAcid class (neat strong acids count
+        // in the acid term); the remaining reagent solutes keep this rule.
+        for key in ["NH3", "NaOCl"] {
             assert_eq!(liquid_medium(key), Some(LiquidMedium::AqueousReagentSolute));
             let v = vessel(&[(key, 1.0), ("water", 0.1)]);
             assert_eq!(water_fraction_among_solvents(&v), None, "{key}");
@@ -151,51 +153,61 @@ mod registry_liquid_media {
     }
 }
 
-// Shared admission, solute-sufficiency half: reagent-bottle solutes are not a
-// competing matrix, but they still need water to be dissolved in.
-mod too_little_water {
+// Neat molecular strong acids count in the acid term like H2SO4/H3PO4: the
+// live HCl + H2O2 clock bug, where decomposition water admitted neat HCl.
+mod neat_strong_acid {
     use kerotakis_core::nonaqueous::{
-        aqueous_admission_boundary, aqueous_model_admits, too_little_water_boundary,
-        water_fraction_of_liquid,
+        aqueous_admission_boundary, aqueous_model_admits, liquid_medium,
+        water_fraction_among_solvents, LiquidMedium,
     };
     use kerotakis_core::solve::{Equilibrator, HonestyEquilibrator};
     use kerotakis_core::{Event, Moles, Phase, SpeciesId, Vessel, VesselId};
 
     fn vessel(items: &[(&str, f64)]) -> Vessel {
-        let mut v = Vessel::new(VesselId(0), "water sufficiency");
+        let mut v = Vessel::new(VesselId(0), "neat strong acid");
         for (k, n) in items {
             v.deposit(SpeciesId::new(k), Moles(*n), Phase::Liquid);
         }
         v
     }
 
-    fn is_too_little_water(e: &Event) -> bool {
-        matches!(e, Event::NotYetModeled { reason: Some(p), .. } if p.key == "not-modeled.too-little-water")
+    fn key(e: &Event) -> Option<&str> {
+        match e {
+            Event::NotYetModeled {
+                reason: Some(p), ..
+            } => Some(p.key.as_str()),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn hcl_and_hi_are_strong_acid_matrix_terms() {
+        for k in ["HCl", "HI"] {
+            assert_eq!(liquid_medium(k), Some(LiquidMedium::StrongAcid), "{k}");
+        }
     }
 
     #[test]
     fn neat_hcl_with_decomposition_water_is_refused() {
-        // Peroxide mostly decomposed: the matrix gate admits, the solutes do not.
+        // Peroxide mostly decomposed: before, water outnumbered the peroxide
+        // and HCl was invisible, so the aqueous engine was asked.
         let mut v = vessel(&[("HCl", 3.2638), ("H2O2", 1.0), ("water", 2.2637)]);
         assert!(!aqueous_model_admits(&v));
         let before = v.contents.clone();
         let e = aqueous_admission_boundary(&mut v).expect("refusal");
-        assert!(is_too_little_water(&e), "{e:?}");
-        assert!(
-            matches!(&e, Event::NotYetModeled { what, .. } if what.contains("water is 35%")),
-            "{e:?}"
-        );
+        assert_eq!(key(&e), Some("not-modeled.peroxide-rich-medium"), "{e:?}");
         assert_eq!(v.contents, before);
         assert!(v.solution.is_none());
-    }
-
-    #[test]
-    fn neat_hcl_and_peroxide_without_water_is_refused_by_the_matrix_reason() {
-        let mut v = vessel(&[("HCl", 3.2638), ("H2O2", 3.2637)]);
-        assert!(!aqueous_model_admits(&v));
+        // All peroxide gone: the acid reason speaks with the water percent.
+        let mut v = vessel(&[("HCl", 3.2638), ("water", 3.2637)]);
         let e = aqueous_admission_boundary(&mut v).expect("refusal");
+        assert_eq!(
+            key(&e),
+            Some("not-modeled.concentrated-acid-medium"),
+            "{e:?}"
+        );
         assert!(
-            matches!(&e, Event::NotYetModeled { reason: Some(p), .. } if p.key == "not-modeled.peroxide-rich-medium"),
+            matches!(&e, Event::NotYetModeled { what, .. } if what.contains("water is 50%") || what.contains("water is 49%")),
             "{e:?}"
         );
     }
@@ -204,27 +216,25 @@ mod too_little_water {
     fn honesty_tail_speaks_the_typed_reason() {
         let mut v = vessel(&[("HCl", 1.0), ("water", 0.1)]);
         let events = HonestyEquilibrator.equilibrate(&mut v).expect("honesty");
-        assert!(events.iter().any(is_too_little_water), "{events:?}");
+        assert!(
+            events
+                .iter()
+                .any(|e| key(e) == Some("not-modeled.concentrated-acid-medium")),
+            "{events:?}"
+        );
     }
 
     #[test]
-    fn thirty_seven_percent_hcl_and_dilute_solutions_are_admitted() {
-        let mut conc = vessel(&[("HCl", 37.0 / 36.46), ("water", 63.0 / 18.015)]);
-        assert!(water_fraction_of_liquid(&conc).unwrap() > 0.7);
+    fn thirty_seven_percent_hcl_and_ammonia_bottles_are_admitted() {
+        let mut conc = vessel(&[("HCl", 1.0148), ("water", 63.0 / 18.015)]);
+        assert!(water_fraction_among_solvents(&conc).unwrap() > 0.75);
         assert!(aqueous_model_admits(&conc));
-        assert!(too_little_water_boundary(&mut conc).is_none());
-        let mut floor = vessel(&[("NH3", 1.0), ("water", 1.0)]);
-        assert!(aqueous_model_admits(&floor));
-        assert!(aqueous_admission_boundary(&mut floor).is_none());
-        let pure = vessel(&[("water", 5.0)]);
-        assert_eq!(water_fraction_of_liquid(&pure), None);
-        assert!(aqueous_model_admits(&pure));
-    }
-
-    #[test]
-    fn organic_majority_keeps_its_own_route() {
-        let mut v = vessel(&[("methanol", 2.0), ("water", 1.0), ("HCl", 0.5)]);
-        assert!(!aqueous_model_admits(&v));
-        assert!(too_little_water_boundary(&mut v).is_none());
+        assert!(aqueous_admission_boundary(&mut conc).is_none());
+        // Neat acid with no water keeps the old silence (poured first).
+        let neat = vessel(&[("HCl", 1.0)]);
+        assert_eq!(water_fraction_among_solvents(&neat), None);
+        let ammonia = vessel(&[("NH3", 1.0), ("water", 0.1)]);
+        assert_eq!(water_fraction_among_solvents(&ammonia), None);
+        assert!(aqueous_model_admits(&ammonia));
     }
 }

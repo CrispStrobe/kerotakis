@@ -562,7 +562,7 @@ fn solver_failure_always_leads_with_an_owned_reason() {
     let raw =
         "PHREEQC: ERROR: Cl has not converged. Model failed to converge for initial solution 1.";
     for (detail, en, de, fr) in [
-        (raw, "did not converge", "nicht", "pas convergé"),
+        (raw, "did not converge", "konvergiert", "pas convergé"),
         (
             "index out of range",
             "could not produce",

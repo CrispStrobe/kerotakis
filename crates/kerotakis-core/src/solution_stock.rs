@@ -289,7 +289,11 @@ fn fraction_and_density(
                 let lo0 = t.points.first().map_or(0.0, |p| p[0]);
                 let hi0 = t.points.last().map_or(0.0, |p| p[0]);
                 let load = |w: f64| density_at(solute.key, w).map_or(f64::NAN, |(r, _)| r * w);
-                if !(target <= load(hi0) + 1e-12) || target < load(lo0) - 1e-12 {
+                if !matches!(
+                    target.partial_cmp(&(load(hi0) + 1e-12)),
+                    Some(std::cmp::Ordering::Less | std::cmp::Ordering::Equal)
+                ) || target < load(lo0) - 1e-12
+                {
                     return Err(Refusal::new(
                         "error.solution-beyond-table",
                         "{molarity} M {species} lies outside the reviewed density table",

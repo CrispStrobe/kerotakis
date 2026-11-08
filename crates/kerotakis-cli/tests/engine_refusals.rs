@@ -64,7 +64,7 @@ fn neat_hcl_and_peroxide_refuse_without_a_solver_failure() {
     );
     let text = serde_json::to_string(&all).unwrap();
     assert!(
-        text.contains("not-modeled.too-little-water")
+        text.contains("not-modeled.concentrated-acid-medium")
             || text.contains("not-modeled.peroxide-rich-medium"),
         "a typed medium refusal must be spoken: {text}"
     );
@@ -84,5 +84,8 @@ fn concentrated_37_percent_hydrochloric_acid_still_solves() {
         "{all:?}"
     );
     let text = serde_json::to_string(&all).unwrap();
-    assert!(!text.contains("not-modeled.too-little-water"), "{text}");
+    assert!(
+        !text.contains("not-modeled.concentrated-acid-medium"),
+        "{text}"
+    );
 }
