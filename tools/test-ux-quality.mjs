@@ -3069,7 +3069,7 @@ try {
     // that order is not even stable across releases: this check would then
     // pour bleach, silently, and fail three steps later on something else.
     const row = [...document.querySelectorAll('nav.shelf-pane button.species')]
-      .find((button) => button.querySelector('.formula')?.textContent.trim() === "H2O");
+      .find((button) => button.querySelector('.formula')?.textContent.trim() === "H₂O");
     if (!row) return "";
     row.click();
     return row.textContent.trim();

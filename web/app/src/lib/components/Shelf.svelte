@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { typesetFormulaTokens } from "../formula";
   import type { ShelfItem } from "../session.svelte";
   import { amountUnits, suggestedAmount, type AmountUnit } from "../amounts";
   import { reagentMatches } from "../catalogSearch";
@@ -394,7 +395,7 @@
       >
         <SpeciesChip {item} />
         <span class="name">{t(item.name)}</span>
-        <span class="formula">{item.formula}</span>
+        <span class="formula">{typesetFormulaTokens(item.formula)}</span>
       <!-- GUI-093: the warning arrives at CHOOSING time rather than at
            pouring time. It is a glyph and not a word because this row is
            ninety rows long and was already "mostly badge" once; the

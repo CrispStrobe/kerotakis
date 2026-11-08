@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { typesetFormulaTokens } from "../formula";
   import { onMount } from "svelte";
   import {
     ELEMENTS,
@@ -231,7 +232,7 @@
                 <button class="add" data-key={item.key} onclick={() => onadd(item)}>
                   <SpeciesChip {item} />
                   <span>{t(item.name)}</span>
-                  <span class="formula">{item.formula}</span>
+                  <span class="formula">{typesetFormulaTokens(item.formula)}</span>
                 </button>
               </li>
             {/each}
