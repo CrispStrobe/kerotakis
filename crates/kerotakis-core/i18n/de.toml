@@ -1681,6 +1681,8 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+redox-pair-unpriced = "{pairs}: Ein Oxidationsmittel und ein Reduktionsmittel sind hier zusammen, aber kein geprüfter schneller Reaktionsschreiber, keine kuratierte Reaktion und kein Geschwindigkeitsgesetz bepreist dieses Paar, daher bleibt es unreagiert. Das ist eine Lücke im Modell, kein Beleg dafür, dass nichts geschieht"
+redox-pair-outside-medium = "{pairs}: Der geprüfte Schreiber dieses Paares ist wässrig und gilt zwischen 0 und 60 °C; dieses Gefäß enthält kein flüssiges Wasser oder liegt außerhalb dieses Bereichs, daher bleibt das Paar unreagiert"
 indicator-optics-missing-ph = "die vollständige Absorption ist nicht verfügbar: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt"
 "liquid-partition-refused" = "Die Berechnung eines endlichen Flüssig-Flüssig-Verteilungskoeffizienten für {species} bei {temperature} K ist nicht möglich: {why}; ein nicht unterstützter Stoffübergang wird nicht durchgeführt"
 "peroxide-rich-medium" = "Diese peroxidhaltige Flüssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel. Eine durch Reaktionen entstandene Wasserspur begründet noch kein wässriges Medium. Für dieses peroxidreiche Medium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollständige Vorhersage für das Gemisch."

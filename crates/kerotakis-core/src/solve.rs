@@ -3530,7 +3530,10 @@ impl Equilibrator for HonestyEquilibrator {
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
-        let mut events = Vec::new();
+        // Oxidant/reductant pairs no writer prices are said first, before
+        // any early return below: a silent unreacted pair reads as
+        // "nothing happens" (halogen_redox::unpriced_notes owns the table).
+        let mut events = crate::halogen_redox::unpriced_notes(vessel);
         // What the reader was last told about each solid here, and what
         // will be standing when this pass ends. See `Vessel::honesty_said`:
         // these sentences answer the same question every step and used to
@@ -3554,7 +3557,8 @@ impl Equilibrator for HonestyEquilibrator {
         // decided this vessel is not a settled solution; this is where
         // that decision reaches the reader and the meter.
         if let Some(boundary) = crate::nonaqueous::non_water_matrix_boundary(vessel) {
-            return Ok(vec![boundary]);
+            events.push(boundary);
+            return Ok(events);
         }
         let state = solvent_state(vessel);
         if let Some((reason, cause)) = state.boundary() {
@@ -3793,7 +3797,7 @@ impl Equilibrator for HonestyEquilibrator {
         vessel: &Vessel,
     ) -> Result<(crate::delta::StateDelta, Vec<Event>), SolveError> {
         let delta = crate::delta::StateDelta::new("honesty");
-        let mut events = Vec::new();
+        let mut events = crate::halogen_redox::unpriced_notes(vessel);
 
         // Same order and same reason as `equilibrate` above: the solvent's
         // state is asked before a standing answer can short-circuit it.

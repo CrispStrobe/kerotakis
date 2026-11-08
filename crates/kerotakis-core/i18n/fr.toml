@@ -1473,6 +1473,8 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+redox-pair-unpriced = "{pairs} : un oxydant et un réducteur sont ici ensemble, mais aucune écriture rapide vérifiée, aucune réaction répertoriée et aucune loi de vitesse ne chiffre ce couple ; il reste donc sans réaction. C'est une lacune du modèle, pas la preuve que rien ne se passe"
+redox-pair-outside-medium = "{pairs} : l'écriture vérifiée de ce couple est aqueuse, entre 0 et 60 °C, et ce récipient ne contient pas d'eau liquide ou sort de cet intervalle ; le couple reste donc sans réaction"
 indicator-optics-missing-ph = "l’absorbance complète est indisponible : un pH aqueux fini est nécessaire pour {species}"
 "liquid-partition-refused" = "Un coefficient de partage liquide/liquide fini pour {species} à {temperature} K est indisponible : {why} ; aucun transfert de soluté non pris en charge n’est appliqué"
 "peroxide-rich-medium" = "Ce liquide contenant du peroxyde est sous le seuil éditorial d'admission d'un solvant majoritairement aqueux. Une trace d'eau produite par une réaction ne suffit pas à établir un milieu aqueux. Aucun modèle d'activité validé n'est disponible pour ce milieu riche en peroxyde : le pH aqueux, la force ionique et la spéciation sont retirés, l'inventaire est conservé, et les avancements de réaction représentés séparément ne constituent pas une prédiction complète du mélange."
