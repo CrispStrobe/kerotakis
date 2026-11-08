@@ -101,6 +101,7 @@ pub mod script;
 pub mod selectivity;
 pub mod senses;
 pub mod solution_optics;
+pub mod solution_stock;
 pub mod solve;
 pub mod species;
 pub mod species_loader;

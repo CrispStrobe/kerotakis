@@ -1107,6 +1107,45 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::SolutionAdded {
+            vessel,
+            solute,
+            label,
+            solute_moles,
+            water_moles,
+            density_basis,
+        } => {
+            let name = species_name(locale, solute);
+            let line = match register.level() {
+                1 => locale.fill(
+                    "event.solution-added.lv1",
+                    "It was {label} {what} solution: the water came with it.",
+                    &[("label", label.as_str()), ("what", name)],
+                ),
+                _ => locale.fill(
+                    "event.solution-added.lv2",
+                    "{vessel}: {label} {what} solution — {solute} solute, {water} water",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("label", label.as_str()),
+                        ("what", name),
+                        ("solute", &moles_amount(locale, solute_moles.0)),
+                        ("water", &moles_amount(locale, water_moles.0)),
+                    ],
+                ),
+            };
+            match density_basis {
+                crate::solution_stock::SolutionDensityBasis::IdealDilution => format!(
+                    "{line} {}",
+                    locale.fill(
+                        "event.solution-added.ideal-dilution",
+                        "(no reviewed density table: water estimated by ideal dilution, volumes taken as additive)",
+                        &[],
+                    )
+                ),
+                _ => line,
+            }
+        }
         Event::ObjectSpillBoundary { vessel, object_count } => locale.fill(
             "event.object-spill-boundary.lv1",
             "{vessel}: {count} coherent object(s) remain in the vessel; this spill model moves bulk phases only",

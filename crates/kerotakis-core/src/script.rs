@@ -1070,7 +1070,8 @@ pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
         ["add", _, species, ..]
             if species::lookup_key(species).is_none()
                 && crate::nuclide::lookup_notation(species).is_none()
-                && material::lookup_input(species, None).is_none() =>
+                && material::lookup_input(species, None).is_none()
+                && crate::solution_stock::lookup_stock(species).is_none() =>
         {
             ParseErrorKind::UnknownSpecies
         }
@@ -1204,7 +1205,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         }
         "add" => {
             if words.len() < 4 {
-                return Err(usage("add <vessel> <species> <amount><mol|g|mL> [@ <T>C]"));
+                return Err(usage(
+                    "add <vessel> <species> <amount><mol|g|mL> [<n>%|<n>M] [@ <T>C]",
+                ));
             }
             let vessel = parse_vessel(words[1])?;
             // EXP-49: El-A notation with a curated nuclide entry routes
@@ -1232,7 +1235,37 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     moles: Moles(moles),
                 }));
             }
-            if let Some(data) = species::lookup_key(words[2]).filter(|_| !words[2].contains('@')) {
+            // E1: a listed shelf stock (`hydrochloric_acid_37_percent`) or a
+            // species followed by a concentration (`HCl 10mL 37%`) is a
+            // solution: the solute and its water, pinned here.
+            let stock = crate::solution_stock::lookup_stock(words[2]);
+            let solution = match stock {
+                Some(stock) => Some((
+                    species::lookup_key(&stock.species)
+                        .ok_or_else(|| unknown_ingredient(&stock.species))?,
+                    stock.concentration(),
+                    0,
+                )),
+                None => match species::lookup_key(words[2]).filter(|_| !words[2].contains('@')) {
+                    Some(data) => crate::solution_stock::parse_concentration(&words[4..])?
+                        .map(|(concentration, used)| (data, concentration, used)),
+                    None => None,
+                },
+            };
+            if let Some((data, concentration, used)) = solution {
+                let portion = crate::solution_stock::resolve(data, words[3], concentration)?;
+                Operator::AddSolution {
+                    vessel,
+                    solute: SpeciesId::new(data.key),
+                    solute_moles: Moles(portion.solute_moles),
+                    water_moles: Moles(portion.water_moles),
+                    label: portion.label,
+                    density_basis: portion.density_basis,
+                    at: parse_at(&words[4 + used..])?,
+                }
+            } else if let Some(data) =
+                species::lookup_key(words[2]).filter(|_| !words[2].contains('@'))
+            {
                 Operator::Add {
                     vessel,
                     species: SpeciesId::new(data.key),
@@ -1980,6 +2013,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
 fn finite_operator_quantities(op: &Operator) -> Result<(), Refusal> {
     let numbers = match op {
         Operator::Add { moles, at, .. } => [moles.0, at.map_or(0.0, |t| t.0), 0.0, 0.0],
+        Operator::AddSolution {
+            solute_moles,
+            water_moles,
+            at,
+            ..
+        } => [solute_moles.0, water_moles.0, at.map_or(0.0, |t| t.0), 0.0],
         Operator::AddMaterial {
             total_amount, at, ..
         } => [*total_amount, at.map_or(0.0, |t| t.0), 0.0, 0.0],
