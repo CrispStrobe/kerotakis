@@ -1,0 +1,3762 @@
+{
+ "first_round": [
+  {
+   "id": "batch2:ab-031",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Selective NH3 removal lowers pH vs sealed control",
+     "verdict": "FAIL",
+     "evidence": "final swept v2 pH 9.287908 > sealed v1 9.286276; sweep exported NH3(g) only 6.92e-7 mol plus air and CO2 1.64e-6"
+    },
+    {
+     "id": "AB-031-C1",
+     "text": "pH decrease with N loss through gas boundary",
+     "verdict": "FAIL",
+     "evidence": "N exported 6.9e-7 mol but pH rose by +0.0016"
+    },
+    {
+     "id": "AB-031-C2",
+     "text": "Chloride retained",
+     "verdict": "PASS",
+     "evidence": "Cl- 0.001 mol in both vessels at end"
+    }
+   ],
+   "closure": {
+    "elements": "Cl 0.002, C 3.27e-6, N 0.01692 (incl. trapped-air N2) closed incl. gas_evolved, rel err <1e-9",
+    "charge": "<=1.6e-19 mol",
+    "energy": "n/a"
+   },
+   "observed_result": "Sweeping the NH4Cl/NH3 buffer exported 6.9e-7 mol NH3 and 1.6e-6 mol CO2; pH ended 9.2879 vs 9.2863 sealed (higher, not lower).",
+   "limitations": "Sweep is a one-shot headspace export; no continued dissolved NH3 stripping during wait.",
+   "doubts": "Competing CO2 venting dominates pH shift; matches earlier frozen AB031 failure."
+  },
+  {
+   "id": "batch2:ec-009",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "1 mmol Fe(II) consumes 0.2 mmol MnO4- (~10 mL 0.02 M) to Mn2+",
+     "verdict": "PASS",
+     "evidence": "endpoint colour_persists reached at 10.1 mL (KMnO4 2.02e-4 mol); Mn2+ 2.00e-4, MnO4- excess 2e-6"
+    },
+    {
+     "id": "EC-009-C1",
+     "text": "Fe(II) loss, Fe(III) formation, Mn endpoint",
+     "verdict": "PASS",
+     "evidence": "Fe+2 1.10e-6 left, Fe+3 9.989e-4 formed; Mn present only as Mn+2 2.0e-4 and MnO4- 2e-6"
+    },
+    {
+     "id": "EC-009-C2",
+     "text": "Do not apply 5:1 if MnO2 dominates",
+     "verdict": "PASS",
+     "evidence": "no MnO2 or other Mn solid; electron ratio Fe(III)/Mn(II)=4.99"
+    }
+   ],
+   "closure": {
+    "elements": "Fe 0.001, Mn=K 2.02e-4, S 0.006 constant; rel err 0",
+    "charge": "aqueous sum -1.1e-6 mol vs 0.012 eq sulfate (9e-5 rel)",
+    "energy": "n/a"
+   },
+   "observed_result": "Titrating 1 mmol FeSO4 in 5 mmol H2SO4 with 0.02 M KMnO4 reached a persistent-colour endpoint at 10.1 mL; 0.999 mmol Fe(III) and 0.200 mmol Mn2+ formed, H+ fell 10.0 to 8.4 mmol.",
+   "limitations": "Uncompensated-charge adapter warning during titration; uvvis unavailable for Fe/Mn species; no air oxidation modelled.",
+   "doubts": "Check the uncompensated-charge note does not bias speciation; endpoint overshoot is one 0.1 mL increment."
+  },
+  {
+   "id": "batch2:ki-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Larger thiosulfate sink delays iodine accumulation",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no I2 accumulates in either arm through t=100 s (I2 absent); S2O3 remaining 2.43e-5 vs 9.05e-5, so no delay can be observed"
+    },
+    {
+     "id": "KI-011-C1",
+     "text": "Gross vs surviving iodine",
+     "verdict": "PASS",
+     "evidence": "gross I2 from S4O6 formed 2.27e-5 vs 2.22e-5; surviving I2 0 both"
+    },
+    {
+     "id": "KI-011-C2",
+     "text": "Compare sink exhaustion and precursor consumption",
+     "verdict": "UNSUPPORTED",
+     "evidence": "neither sink exhausted; uvvis NYM (sulfur absorbance unmodelled)"
+    }
+   ],
+   "closure": {
+    "elements": "S 0.0026, I 0.004, Na 6e-4, K 0.004 constant; rel err 0",
+    "charge": "<=5e-18 mol",
+    "energy": "peroxide-decomposition heat events reported, not assessed"
+   },
+   "observed_result": "Over 100 s neither arm accumulated iodine; tetrathionate 2.27e-5 vs 2.22e-5 mol, thiosulfate left 2.4e-5 vs 9.0e-5 mol, acid decomposition gave S/SO2 3.0e-5 vs 6.5e-5 mol.",
+   "limitations": "Sampling window ends before sink exhaustion; absorbance unavailable.",
+   "doubts": "Most H2O2 loss is catalytic decomposition to O2 (5e-4 mol)."
+  },
+  {
+   "id": "batch2:mo-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Copper additions raise a supported copper optical signal",
+     "verdict": "UNSUPPORTED",
+     "evidence": "all three uvvis measurements NYM: no absorption spectrum for copper sulfate/CuOH+"
+    },
+    {
+     "id": "MO-008-C1",
+     "text": "Response relation with measured volumes, same feature",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no spectral values; volume_meter NYM (open vessel)"
+    },
+    {
+     "id": "MO-008-C2",
+     "text": "Extrapolated starting amount vs budget",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no signal to extrapolate"
+    }
+   ],
+   "closure": {
+    "elements": "Cu 0.0005->0.00075->0.001, Na/N 0.01, S per additions; rel err 0",
+    "charge": "<=1e-14",
+    "energy": "n/a"
+   },
+   "observed_result": "Copper inventory rose 0.5->0.75->1.0 mmol but no optical signal was produced.",
+   "limitations": "No copper spectrum implemented.",
+   "doubts": "None."
+  },
+  {
+   "id": "batch2:pq-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "SCN- increases complex-bound Fe",
+     "verdict": "FAIL",
+     "evidence": "final Fe+3 1.0e-4 and SCN- 1.0e-3 free; no Fe-SCN species in inventory"
+    },
+    {
+     "id": "PQ-001-C1",
+     "text": "Explicit Fe-SCN complex",
+     "verdict": "FAIL",
+     "evidence": "none reported"
+    },
+    {
+     "id": "PQ-001-C2",
+     "text": "Total Fe 0.1 mmol",
+     "verdict": "PASS",
+     "evidence": "Fe+3 1.0e-4"
+    }
+   ],
+   "closure": {
+    "elements": "Fe 1e-4, K/SCN 1e-3, Cl 1.3e-3 constant",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Fe stayed 0.1 mmol free Fe3+ with 1 mmol free SCN-; no complex formed.",
+   "limitations": "Fe-SCN equilibrium not represented.",
+   "doubts": "Fe(OH)2.7Cl.3 unclassified supersaturation warnings."
+  },
+  {
+   "id": "batch2:qa-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Stock 1.5 and aliquot 0.5 mmol acid; normalised concentrations agree",
+     "verdict": "PASS",
+     "evidence": "NaOH to pH 7: 1.5000 mmol (v1, pH 6.99999) and 0.5000 mmol (v2, pH 6.99993)"
+    },
+    {
+     "id": "QA-003-C1",
+     "text": "Base demands ~3:1",
+     "verdict": "PASS",
+     "evidence": "1.50000056e-3 / 5.0000019e-4 = 3.000"
+    },
+    {
+     "id": "QA-003-C2",
+     "text": "Demand / pre-titration volume agree",
+     "verdict": "PASS",
+     "evidence": "pre-titration liquid volumes from scene 0.15 L and 0.05 L (masses 149.60 g / 49.87 g); 0.0100 M both, within one 0.01 mmol dose"
+    }
+   ],
+   "closure": {
+    "elements": "Cl 0.002, Na 0.0020 constant; rel err <4e-7",
+    "charge": "<=5.6e-10 mol (base_equivalents)",
+    "energy": "n/a"
+   },
+   "observed_result": "A 0.25 decant split 2 mmol HCl; titration to pH 7 needed 1.50 and 0.50 mmol NaOH, i.e. 0.0100 M for both 0.15 L and 0.05 L portions.",
+   "limitations": "volume_meter returned NYM for open vessels; volumes taken from the scene vessel line.",
+   "doubts": "Second reviewer: confirm scene liquid volume counts as the measured pre-titration volume."
+  },
+  {
+   "id": "batch2:qa-008",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "After 0.4 mmol thiosulfate vitC arm near exhaustion, blank retains ~0.1 mmol I2; difference = 0.1 mmol vitC",
+     "verdict": "PASS",
+     "evidence": "after 0.4 mmol: blank I2 1.0e-4, vitC arm I2 0; ascorbate consumed 1e-4 -> dehydroascorbic 1e-4"
+    },
+    {
+     "id": "QA-008-C1",
+     "text": "Arms differ by 0.2 mmol thiosulfate demand",
+     "verdict": "PASS",
+     "evidence": "blank total demand 0.6 mmol (S4O6 3e-4) vs vitC arm 0.4 mmol (S4O6 2e-4)"
+    },
+    {
+     "id": "QA-008-C2",
+     "text": "Carbon and iodine balances",
+     "verdict": "PASS",
+     "evidence": "C 6e-4 conserved as dehydroascorbic acid; I 0.0026 per vessel conserved"
+    }
+   ],
+   "closure": {
+    "elements": "C 6e-4, I 0.0052, K 0.004, Na/S per additions; rel err 0",
+    "charge": "<=1.6e-19",
+    "energy": "n/a"
+   },
+   "observed_result": "Blank kept 0.1 mmol I2 after 0.4 mmol thiosulfate and needed 0.2 mmol more; the 0.1 mmol ascorbate arm was exhausted at 0.4 mmol, a 0.2 mmol thiosulfate difference.",
+   "limitations": "Iodine absorbance unavailable; triiodide not speciated.",
+   "doubts": "I2 flagged supersaturated (capacity 1.34e-4) despite KI; no solid formed, check triiodide handling."
+  },
+  {
+   "id": "batch2:se-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Acetic acid enters the condensate and lowers pH",
+     "verdict": "FAIL",
+     "evidence": "acetic distillate receiver v4 (id 3) is empty; all acetic acid 0.005 retained in v2"
+    },
+    {
+     "id": "SE-007-C1",
+     "text": "Identify acid in v4",
+     "verdict": "FAIL",
+     "evidence": "no acid in v4"
+    },
+    {
+     "id": "SE-007-C2",
+     "text": "Compare Na/Cl carryover with volatile acid",
+     "verdict": "UNSUPPORTED",
+     "evidence": "v3 has pure water 1.107 mol, pH 6.998, 0.055 uS/cm; acid budget absent"
+    }
+   ],
+   "closure": {
+    "elements": "Na/Cl 0.005 retained; C 0.01 retained; rel err 0",
+    "charge": "0",
+    "energy": "not assessed"
+   },
+   "observed_result": "NaCl was rejected (pure-water distillate, 0.055 uS/cm), but the acetic-acid distillation produced no distillate at all.",
+   "limitations": "Distil of acetic arm empty.",
+   "doubts": "Why distil v2 v4 produced nothing should be traced."
+  },
+  {
+   "id": "batch2:tc-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Enriched brine filtrate and lower-salt melt",
+     "verdict": "PASS",
+     "evidence": "cool 10 kJ froze 1.2773 mol ice at -0.76 C; filtrate v2 holds all NaCl 0.017111 in 4.274 mol water (0.222 mol/kg); melt v1 1.277 mol water with 0 NaCl"
+    },
+    {
+     "id": "TC-004-C1",
+     "text": "Ice present and filtration separates pools",
+     "verdict": "PASS",
+     "evidence": "state_changed freezing 1.27735 mol; after filter ice in v1, liquid brine in v2"
+    },
+    {
+     "id": "TC-004-C2",
+     "text": "Reconcile Na/Cl; salinity at matched T",
+     "verdict": "PASS",
+     "evidence": "Na=Cl=0.0171107 total = added; salinity compared by inventory (temperature-independent); melt conductivity NYM (no solution)"
+    }
+   ],
+   "closure": {
+    "elements": "Na/Cl 0.0171107, H/O water constant across freeze/filter/melt; rel err 0",
+    "charge": "0",
+    "energy": "cool: sensible 100.0 g*4.18*5.6 K~2.34 kJ + 1.2773 mol*~6.0 kJ latent ~7.66 kJ = 10.0 kJ (event delivered 10000 J); heat: sensible 2360 J + latent 7640 J = 10000 J (23.0 g 272.39->296.87 K)"
+   },
+   "observed_result": "Removing 10 kJ from 100 g water + 1 g NaCl froze 23.0 g salt-free ice at -0.76 C; the 77 g filtrate kept all 17.11 mmol NaCl (0.222 mol/kg) and the melted ice contained none.",
+   "limitations": "Ice exclusion is ideal (zero salt inclusion); melt conductivity unreadable; conductivities at different temperatures not corrected.",
+   "doubts": "Perfect exclusion is a model idealisation; check whether coverage criterion should note it."
+  },
+  {
+   "id": "batch3-diverse:an-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Silver distinguishes Cl/Br/I",
+     "verdict": "FAIL",
+     "evidence": "AgCl 9.956e-5 precipitated; Br and I vessels kept Ag+ 1e-4 with Br-/I- 1e-4 dissolved, no AgBr/AgI"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "elements closed"
+    },
+    {
+     "id": "coverage",
+     "text": "Unsupported vs negative",
+     "verdict": "FAIL",
+     "evidence": "no refusal for missing AgBr/AgI; silently reported as soluble"
+    }
+   ],
+   "closure": {
+    "elements": "Ag/Na/K/halide/NO3 closed",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Only AgCl precipitated; AgBr and AgI did not form.",
+   "limitations": "AgBr/AgI phase coverage missing.",
+   "doubts": "None."
+  },
+  {
+   "id": "batch3-diverse:an-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Density + transition properties distinguish solvents",
+     "verdict": "UNSUPPORTED",
+     "evidence": "densities 0.789/0.785/0.7845 g/mL; boiling points 78.24/82.21/56.05 C are curated identity lookups with withdrawn provenance; melting points verdict nothing_to_test for all"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "pure stocks unchanged"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "UNSUPPORTED",
+     "evidence": "melting observable absent"
+    }
+   ],
+   "closure": {
+    "elements": "single pure liquids unchanged",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Densities 0.789/0.785/0.7845 g/mL; lookup boiling points 78.2/82.2/56.1 C; no melting points.",
+   "limitations": "Transition values are identity lookups, not sample-derived.",
+   "doubts": "None."
+  },
+  {
+   "id": "batch3-diverse:bd-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Peak list vs salt/protein inventories",
+     "verdict": "PASS",
+     "evidence": "only ethanol peak; Na+/Cl- outside_method"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory incl. unresolved pools",
+     "verdict": "FAIL",
+     "evidence": "albumin 0.188 g unresolved pool absent from vessel contents; balance 39.9965 g equals water+EtOH+NaCl+0.012 g albumin water, omitting 0.188 g (expected ~40.185 g)"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "protein not flagged by chromatograph"
+    }
+   ],
+   "closure": {
+    "elements": "Na/Cl 1e-3, EtOH 1e-3 retained; albumin mass 0.188 g missing from balance (0.47% of mass)",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Chromatogram showed ethanol only, salts marked outside method; balance read 39.9965 g, omitting the unresolved albumin.",
+   "limitations": "Unresolved material not weighed.",
+   "doubts": "Confirm whether balance is meant to exclude unresolved pools."
+  },
+  {
+   "id": "batch3-diverse:en-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Lactase on lactose, protease on gelatin",
+     "verdict": "PASS",
+     "evidence": "lactase converted 0.507 (0.730 g) of milk lactose; protease 0.907 (0.408 g) of gelatin; combined arm both"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "FAIL",
+     "evidence": "uncompensated ionic charge -4.4e-6 mol per vessel; octacalcium phosphate settled 26.6 m in 45 min; hydrolysis products not in species inventory"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "held scoped milk-matrix physical boundary"
+    }
+   ],
+   "closure": {
+    "elements": "products only as event mass, not inventory",
+    "charge": "-4.38e-6 mol per vessel",
+    "energy": "n/a"
+   },
+   "observed_result": "Lactase hydrolysed 51% of lactose and protease 91% of gelatin independently in 45 min.",
+   "limitations": "Milk matrix physical closure hold remains.",
+   "doubts": "Same milk hold as EN002/FE006."
+  },
+  {
+   "id": "batch3-diverse:fo-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Ascorbate reduces browning",
+     "verdict": "PASS",
+     "evidence": "browned 0.982 vs 0.491 at 30 min"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "FAIL",
+     "evidence": "cut-apple components absent from v1 contents (empty), look 'nothing to see'; ascorbic acid 1e-4 stays as dry solid, not consumed; no O2 ledger"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "UNSUPPORTED",
+     "evidence": "browning is a scalar factor"
+    }
+   ],
+   "closure": {
+    "elements": "apple material components not in contents",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Browned fraction 0.98 without vs 0.49 with ascorbate after 30 min, while ascorbate remained unconsumed as solid.",
+   "limitations": "No oxygen/ascorbate stoichiometry.",
+   "doubts": "Why material pool is invisible to look/contents."
+  },
+  {
+   "id": "batch3-diverse:li-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Band-specific attenuation incl. visible",
+     "verdict": "UNSUPPORTED",
+     "evidence": "UV-B transmitted 0.0333, UV-A 0.10; 550 nm and water control give no attenuated/transmitted record"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "FAIL",
+     "evidence": "0.4 g sunscreen unresolved, contents only water"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "UNSUPPORTED",
+     "evidence": "visible band absent"
+    }
+   ],
+   "closure": {
+    "elements": "water only",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Sunscreen transmitted 3.3% at 305 nm and 10% at 365 nm; nothing reported for 550 nm or the water control.",
+   "limitations": "Visible band not reported.",
+   "doubts": "None."
+  },
+  {
+   "id": "batch3-diverse:po-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Density classes from installed densities and phase inventory",
+     "verdict": "UNSUPPORTED",
+     "evidence": "densitometer returned water 0.997 for both; PE/PP float, but PET/PS vessel only 'white, opaque', no sink deposit; particles empty"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "polymer moles unchanged"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no polymer densities"
+    }
+   ],
+   "closure": {
+    "elements": "constant",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "PE/PP floated; PET/PS gave an opaque white liquid without a reported sink; densitometer read 0.997 g/mL (water).",
+   "limitations": "Polymer densities not observable.",
+   "doubts": "PET/PS should sink, not cloud."
+  },
+  {
+   "id": "batch3-diverse:so-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Ethanol cool vs ethene hot",
+     "verdict": "FAIL",
+     "evidence": "bromoethane 2e-4 unreacted in both; no ethanol/ethene/bromide"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "closed"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "no refusal"
+    }
+   ],
+   "closure": {
+    "elements": "Br 2e-4 retained as bromoethane",
+    "charge": "base_equivalents balanced",
+    "energy": "n/a"
+   },
+   "observed_result": "No substitution or elimination occurred at 25 or 90 C.",
+   "limitations": "Strong-base selectivity gap (MODEL-006).",
+   "doubts": "None."
+  },
+  {
+   "id": "batch3-diverse:so-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Organic solubility verdicts",
+     "verdict": "UNSUPPORTED",
+     "evidence": "NaCl/EtOH 2.22e-4 dissolved, CaCl2 all, NaCl/acetone 0, all with withdrawn provenance"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "elements closed"
+    },
+    {
+     "id": "coverage",
+     "text": "Energy/phase",
+     "verdict": "FAIL",
+     "evidence": "stir step 'froze' dissolved NaCl(liquid) at 1073.85 K, heating v1 by +0.194 K"
+    }
+   ],
+   "closure": {
+    "elements": "constant",
+    "charge": "n/a",
+    "energy": "spurious +0.19 K from NaCl fusion latent heat"
+   },
+   "observed_result": "NaCl 2.6% dissolved in ethanol, CaCl2 fully, NaCl insoluble in acetone; stirring applied a spurious fusion-heat event.",
+   "limitations": "Withdrawn solubility provenance.",
+   "doubts": "Dissolved salt treated as molten liquid phase."
+  },
+  {
+   "id": "batch3-diverse:th-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "CO2 acidifies, N2 does not",
+     "verdict": "FAIL",
+     "evidence": "dry-ice arm pH 7.005 -> 7.004 (higher than N2 arm 7.000/6.9996); no carbon in final inventory"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "FAIL",
+     "evidence": "0.10 g dry ice / LN2 absent from all pools"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "no venting record"
+    }
+   ],
+   "closure": {
+    "elements": "C from dry ice missing",
+    "charge": "0",
+    "energy": "T 24.54 vs 24.84 C"
+   },
+   "observed_result": "Dry ice cooled to 24.54 C, LN2 to 24.84 C; no CO2 remained and pH did not drop.",
+   "limitations": "Cryogen handoff unverified.",
+   "doubts": "None."
+  },
+  {
+   "id": "batch3-diverse:tr-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Acid front",
+     "verdict": "UNSUPPORTED",
+     "evidence": "run refused at line 16: inlet 0.02 L vs 0.0199999686 L cell"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "UNSUPPORTED",
+     "evidence": "refused"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "refusal"
+    }
+   ],
+   "closure": {
+    "elements": "n/a",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Refused: inlet volume rounding mismatch.",
+   "limitations": "Refusal.",
+   "doubts": "Tolerance bug."
+  },
+  {
+   "id": "batch3-diverse:tr-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Cu reduced on Fe cell, Fe(II) leaves",
+     "verdict": "FAIL",
+     "evidence": "Cu plated 1.853e-4 and Fe2+ 5.72e-5 in effluent, but Cu2+ bypassed the excess-Fe cell: after first transport cells 2/3 hold Cu2+ 4.98e-5/1.25e-5 with Fe still 9.1e-4; effluent Cu2+ 1.03e-4 (23% of 4.48e-4 injected)"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "Cu 5.480e-4 = inlet 9.96e-5 + 9*0.5*9.96e-5 injected; Fe 0.001 constant"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "UNSUPPORTED",
+     "evidence": "uvvis NYM; reaction applied once per transport command, not per step"
+    }
+   ],
+   "closure": {
+    "elements": "Fe 0.001 rel 0; Cu/S match injection; rel <1e-6",
+    "charge": "<=1.5e-8 mol",
+    "energy": "n/a"
+   },
+   "observed_result": "Iron bed plated 0.185 mmol Cu and released Fe2+ downstream, but 0.103 mmol Cu2+ broke through despite 0.81 mmol Fe remaining.",
+   "limitations": "Reaction-transport operator splitting.",
+   "doubts": "Breakthrough is an artefact of per-command reaction."
+  },
+  {
+   "id": "new120:kn-010",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Larger scavenger delays oxidised-iodine accumulation",
+     "verdict": "PASS",
+     "evidence": "small sink: S2O3 exhausted, I2 1.36e-5 at 5 s; large sink: I2 0, S2O3 4.89e-5 at 5 s, I2 1.75e-5 at 15 s"
+    },
+    {
+     "id": "KN-010-C1",
+     "text": "I2 with remaining thiosulfate each timepoint",
+     "verdict": "PASS",
+     "evidence": "5/15/45 s: v1 I2 1.36e-5/5.31e-5/1.33e-4 S2O3 0; v2 I2 0/1.75e-5/9.80e-5, S2O3 4.89e-5/0/0"
+    },
+    {
+     "id": "KN-010-C2",
+     "text": "Later accumulation threshold in larger case",
+     "verdict": "PASS",
+     "evidence": "onset between 0-5 s vs 5-15 s"
+    }
+   ],
+   "closure": {
+    "elements": "I 0.01, S 2.4e-4 (S4O6+S+SO2+S(aq)), Na, K, Cl constant; rel err 0",
+    "charge": "<=1.7e-18",
+    "energy": "peroxide-decomposition heat events, T 298.76 K, not forecast-relevant"
+   },
+   "observed_result": "With 0.02 mmol thiosulfate iodine appeared by 5 s (1.4e-5 mol); with 0.1 mmol none at 5 s (4.9e-5 thiosulfate left) and 1.75e-5 mol by 15 s.",
+   "limitations": "Teaching-model rates; acid decomposition consumed 1e-5 mol thiosulfate in the larger arm.",
+   "doubts": "S(aq) 3.12e-7 identical in both vessels."
+  },
+  {
+   "id": "new120:pr-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "BaCO3 acid-labile vs BaSO4 persists",
+     "verdict": "UNSUPPORTED",
+     "evidence": "BaCO3/witherite never formed (SI +3.0, no registry solid)"
+    },
+    {
+     "id": "PR-008-C1",
+     "text": "Verify each solid formed",
+     "verdict": "FAIL",
+     "evidence": "only BaSO4 4.984e-4"
+    },
+    {
+     "id": "PR-008-C2",
+     "text": "Carbonate loss >> sulfate loss",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no carbonate solid; BaSO4 lost 1.1e-6"
+    }
+   ],
+   "closure": {
+    "elements": "Ba/Cl/Na/S closed; C 5e-4 exported as CO2 gas",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "BaSO4 formed and lost 1.1e-6 mol to acid; barium carbonate never precipitated.",
+   "limitations": "Witherite missing from registry.",
+   "doubts": "None."
+  },
+  {
+   "id": "new120:rx-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Fe3+ oxidises Cu",
+     "verdict": "FAIL",
+     "evidence": "Cu solid 1e-3 unchanged, Fe+3 2e-3 unchanged"
+    },
+    {
+     "id": "RX-002-C1",
+     "text": "Cu(II) with Fe(III)->Fe(II)",
+     "verdict": "FAIL",
+     "evidence": "none"
+    },
+    {
+     "id": "RX-002-C2",
+     "text": "Budget",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no reaction"
+    }
+   ],
+   "closure": {
+    "elements": "closed",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "No Cu oxidation by Fe3+.",
+   "limitations": "Couple not implemented.",
+   "doubts": "None."
+  },
+  {
+   "id": "new120:rx-007",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Finite ascorbate; iodine persists after exhaustion",
+     "verdict": "PASS",
+     "evidence": "additions 1-2 consumed 5e-5 each (ascorbate 1e-4->5e-5->0); third leaves I2 5e-5"
+    },
+    {
+     "id": "RX-007-C1",
+     "text": "Early additions reduced",
+     "verdict": "PASS",
+     "evidence": "I2 0 after additions 1 and 2"
+    },
+    {
+     "id": "RX-007-C2",
+     "text": "Final excess without regenerating ascorbate",
+     "verdict": "PASS",
+     "evidence": "dehydroascorbic 1e-4, ascorbic 0, I2 5e-5"
+    }
+   ],
+   "closure": {
+    "elements": "C 6e-4, I 0.0013, K 0.001 constant; rel err 0",
+    "charge": "H+ 2e-4 + K+ 1e-3 - I- 1.2e-3 = 0",
+    "energy": "n/a"
+   },
+   "observed_result": "0.1 mmol ascorbic acid reduced two 0.05 mmol iodine portions; the third remained as 0.05 mmol I2.",
+   "limitations": "Uvvis unavailable for I2; instantaneous stoichiometric reaction.",
+   "doubts": "None."
+  },
+  {
+   "id": "new120:sp-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-011-C1",
+     "text": "Redox conversion",
+     "verdict": "PASS",
+     "evidence": "I2 1e-4 -> 0, S4O6 1e-4"
+    },
+    {
+     "id": "SP-011-C2",
+     "text": "Reduced receiver less oxidised iodine than control",
+     "verdict": "UNSUPPORTED",
+     "evidence": "reduced-feed receiver v3 is empty: 0.1 mol hexane never dispensed (no extraction, NYM); control receiver 9.17e-5 I2"
+    },
+    {
+     "id": "forecast",
+     "text": "Reduction diminishes extractable I2",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no organic phase in reduced arm"
+    }
+   ],
+   "closure": {
+    "elements": "I 0.0024 closed; C: 0.6 of declared 1.2 mol (hexane 0.1 mol missing)",
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Thiosulfate removed all I2; control extraction moved 9.17e-5 mol I2 (K=85) into hexane, but the reduced arm received no hexane.",
+   "limitations": "Declared solvent absent.",
+   "doubts": "I2 in hexane reported with 'aqueous' phase."
+  },
+  {
+   "id": "new120:th-009",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "TH-009-C1",
+     "text": "Oxide converts to hydroxide/Ca2+",
+     "verdict": "PASS",
+     "evidence": "CaO 0.01 -> Ca(OH)2(s) 8.047e-3 + Ca2+ 1.953e-3, pH 12.40"
+    },
+    {
+     "id": "TH-009-C2",
+     "text": "Implemented heat contribution",
+     "verdict": "PASS",
+     "evidence": "T 25.00 -> 26.69 C with water and CaO at 25 C"
+    },
+    {
+     "id": "forecast",
+     "text": "Exothermic hydration",
+     "verdict": "PASS",
+     "evidence": "dT +1.689 K"
+    }
+   ],
+   "closure": {
+    "elements": "Ca 0.01; O/H consistent (OH in base_equivalents 3.906e-3)",
+    "charge": "Ca2+ 2*1.953e-3 = base_equivalents 3.906e-3",
+    "energy": "~705 J (100 g*4.18*1.689) vs literature ~685 J (8.05e-3*65.2 + 1.95e-3*81.9 kJ/mol): +3%"
+   },
+   "observed_result": "0.01 mol CaO in 100 g water formed 8.05 mmol Ca(OH)2 solid and 1.95 mmol Ca2+ (pH 12.40), warming 25.00 -> 26.69 C.",
+   "limitations": "No explicit reaction-heat event; T inferred.",
+   "doubts": "Heat check uses literature enthalpies, ~3% high."
+  },
+  {
+   "id": "batch2:ab-035",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "AB-035-C1",
+     "text": "Compare carbon species distributions as well as pH.",
+     "verdict": "PASS",
+     "evidence": "acid arm pH 6.720, CO2(aq) 0.1931/HCO3- 0.4990/CO3 1.66e-4 mmol, CO2(g) 0.2320 mmol; base arm pH 10.273, HCO3- 0.4017/CO3-2 0.5226 mmol, CO2(g) 4.7e-5 mmol"
+    },
+    {
+     "id": "AB-035-C2",
+     "text": "Acid arm different gas carbon allocation while both closed total carbon budgets remain 1 mmol.",
+     "verdict": "FAIL",
+     "evidence": "each arm vents 7.7277e-5 mol CO2 before sealing (gas_evolved step1/5); retained carbon per arm ~0.9244 mmol incl. ~1.6 umol trapped-air CO2, not 1 mmol"
+    },
+    {
+     "id": "forecast",
+     "text": "Acid favours CO2, base favours carbonate",
+     "verdict": "PASS",
+     "evidence": "direction observed as above"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "1.8e-3 rel over-count vs additions-minus-vented explained by trapped-air CO2 (not in 'added' events); Na,Cl,H 0",
+     "O": "3.1e-4 rel (trapped-air O2)"
+    },
+    "charge": "aqueous sum ~1e-17 eq",
+    "energy": "not requested"
+   },
+   "observed_result": "Same 1 mmol NaHCO3: +0.5 mmol HCl gives pH 6.72 with 0.232 mmol headspace CO2; +0.5 mmol NaOH gives pH 10.27 with 0.523 mmol carbonate; but 77.3 umol CO2 per arm vents before sealing so closed carbon is ~0.924 mmol.",
+   "limitations": "Open pre-seal degassing in original protocol.",
+   "doubts": "Original closed-carbon criterion fails by protocol; do not substitute post-loss budget."
+  },
+  {
+   "id": "batch2:gs-013",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "GS-013-C1",
+     "text": "Compare initial CO2 allocation rather than total pressure alone.",
+     "verdict": "PASS",
+     "evidence": "after 0.5 mmol HCl bicarbonate arm liberates more CO2 than carbonate arm (carbonate largely -> HCO3-)"
+    },
+    {
+     "id": "GS-013-C2",
+     "text": "Final retained carbon remains 1 mmol per closed vessel.",
+     "verdict": "FAIL",
+     "evidence": "final carbonate arm C=0.4525+0.5491 mmol ~1.0016 mmol (incl. air CO2); bicarbonate arm 0.4183+0.5060 ~0.924 mmol after 77.3 umol pre-seal vent"
+    },
+    {
+     "id": "forecast",
+     "text": "same original carbon budget with excess acid",
+     "verdict": "FAIL",
+     "evidence": "budgets differ by ~0.077 mmol"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "1.7e-3 rel (trapped air CO2 unlisted as addition)",
+     "Na,Cl,H": "<1e-15",
+     "O": "3.1e-4 (air O2)"
+    },
+    "charge": "~1e-18",
+    "energy": "not requested"
+   },
+   "observed_result": "Bicarbonate arm releases more early CO2; final retained carbon 1.0016 vs 0.924 mmol because bicarbonate degassed before sealing.",
+   "limitations": "Pre-seal open vent.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:mo-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "MO-003-C1",
+     "text": "Ethanol appears after hydrolysis and decreases only after oxidation.",
+     "verdict": "FAIL",
+     "evidence": "ethyl_acetate(liquid) remains 0.001 mol at end; no ethanol or acetate at any step; NaOH remains as base_equivalents 0.99 mmol"
+    },
+    {
+     "id": "MO-003-C2",
+     "text": "Sum carbon across pools.",
+     "verdict": "FAIL",
+     "evidence": "4 mmol ester carbon all in unreacted ester; no transformation products to account"
+    },
+    {
+     "id": "forecast",
+     "text": "sequential hydrolysis/oxidation",
+     "verdict": "FAIL",
+     "evidence": "neither transformation occurred"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": 0,
+     "H": 0,
+     "O": "7.7e-4 (trapped air O2)",
+     "C": "4.09 umol extra = trapped-air CO2 as carbonate"
+    },
+    "charge": "1.6e-11",
+    "energy": "n/a"
+   },
+   "observed_result": "Sealed saponification did not occur: 1 mmol ethyl acetate and ~0.99 mmol base equivalents remain; no ethanol/acetate formed, pH 11.95.",
+   "limitations": "Known carbonate-reserve admission lane for sealed staged synthesis.",
+   "doubts": "Confirm react-step events refusal reason (strong-base capacity with trapped-air carbonate)."
+  },
+  {
+   "id": "batch2:mo-010",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "MO-010-C1",
+     "text": "Constant retained salt totals; inspect water loss/volume.",
+     "verdict": "PASS",
+     "evidence": "Na/Cl 0.005 mol and water 5.534277 mol unchanged; volume meter refused (open vessel, headspace only)"
+    },
+    {
+     "id": "MO-010-C2",
+     "text": "Identify temperature-compensated vs in-situ conductivity.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "readings 5678.7639 (19.95C), 5678.8284 (43.94C), 5678.7639 uS/cm carry no compensation/in-situ label"
+    },
+    {
+     "id": "forecast",
+     "text": "temperature-dependent transport changes conductivity",
+     "verdict": "UNSUPPORTED",
+     "evidence": "near-flat 0.001% change consistent with 25C-reference mobilities"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na,Cl,H,O": 0
+    },
+    "charge": 0,
+    "energy": "10 kJ heat then 10 kJ cool returns 19.9535C (residual ~2e-11 K)"
+   },
+   "observed_result": "NaCl 5 mmol in 100 mL: conductivity 5678.76 -> 5678.83 -> 5678.76 uS/cm across 20->44->20 C, inventory constant.",
+   "limitations": "No temperature-dependent mobilities; reading basis unlabelled.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:pq-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PQ-004-C1",
+     "text": "Loss of AgCl and formation of AgI.",
+     "verdict": "FAIL",
+     "evidence": "final v1 AgCl(solid) 0.2546 mmol, no AgI; I- 0.6 mmol unchanged"
+    },
+    {
+     "id": "PQ-004-C2",
+     "text": "Silver does not increase.",
+     "verdict": "PASS",
+     "evidence": "Ag 0.5 mmol closes (rel 1e-13) across retained solid and filtrate"
+    },
+    {
+     "id": "forecast",
+     "text": "AgCl converts to AgI",
+     "verdict": "FAIL",
+     "evidence": "no AgI phase"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": "<=1.3e-13"
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Retained AgCl partly redissolves on rewetting (0.2439 mmol Ag+ aq) but no AgI forms; 0.6 mmol iodide unchanged.",
+   "limitations": "AgI phase not represented.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:qa-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "QA-004-C1",
+     "text": "Save first and second doses; T cumulative.",
+     "verdict": "PASS",
+     "evidence": "P=0.85453 mmol HCl (86 steps), additional 0.14923 mmol, T=1.00376 mmol (Cl- inventories)"
+    },
+    {
+     "id": "QA-004-C2",
+     "text": "Reconstruction nonnegative ~0.3/0.4 mmol.",
+     "verdict": "FAIL",
+     "evidence": "carbonate=P=0.855 mmol; bicarbonate=T-2P=-0.705 mmol"
+    },
+    {
+     "id": "forecast",
+     "text": "first endpoint ~0.3 mmol",
+     "verdict": "FAIL",
+     "evidence": "0.855 mmol (open CO2 venting during first stage)"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "closes with vented CO2 (rel 3e-13)",
+     "Na": 0,
+     "Cl": "titrant-carried, 1.0038 mmol"
+    },
+    "charge": "4e-18",
+    "energy": "n/a"
+   },
+   "observed_result": "pH 8.3 endpoint needs 0.855 mmol HCl and pH 4.5 1.004 mmol cumulative; ideal reconstruction gives -0.705 mmol bicarbonate.",
+   "limitations": "Open-vessel CO2 loss during first stage.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:se-001",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "SE-001-C1",
+     "text": "Track iodine atoms across raffinate, extract and stripping water.",
+     "verdict": "PASS",
+     "evidence": "raffinate I2 2.778e-6 mol (5.56e-6 I); extract 4.7222e-5 mol I2 (K=85, 20mL hexane) then 0 after stripping; drained aqueous I- 9.444e-5 mol; total I 1.0000e-4 mol (rel 1e-16)"
+    },
+    {
+     "id": "SE-001-C2",
+     "text": "Require iodide formation.",
+     "verdict": "PASS",
+     "evidence": "reaction_occurred I2 + 2 S2O3 -> 2 I- + S4O6; S4O6-2 4.722e-5 mol = I2 consumed; S2O3-2 1.0556e-4 = 2e-4 - 2*4.722e-5"
+    },
+    {
+     "id": "forecast",
+     "text": "reduction enables reactive back-extraction into the new aqueous phase",
+     "verdict": "PASS",
+     "evidence": "hexane retains 0 iodine; all extracted iodine appears as I- in drained aqueous"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I": "1e-16",
+     "S": "1e-16",
+     "Na": 0,
+     "H": 0,
+     "O": 0
+    },
+    "charge": "drained aqueous: Na+ 4e-4 = I- 9.444e-5 + 2(4.722e-5) + 2(1.0556e-4); sum 5e-20",
+    "energy": "reaction heat explicitly not modelled (no reviewed I2 enthalpy); temperature held; not a forecast observable"
+   },
+   "observed_result": "Single hexane extraction takes 94.4% of 0.05 mmol I2 (K=85); 0.2 mmol thiosulfate then reduces all 47.2 umol extracted I2 to 94.4 umol aqueous iodide plus 47.2 umol tetrathionate, leaving the hexane iodine-free.",
+   "limitations": "Interfacial kinetics not modelled (instant equilibrium); reaction enthalpy not charged.",
+   "doubts": "Confirm the instantaneous organic-phase I2 reaction is an intended ownership rule rather than an aqueous-only route admitting organic I2; heat unmodelled."
+  },
+  {
+   "id": "batch2:se-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SE-008-C1",
+     "text": "KNO3:NaCl ratio in retained solids vs feed.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no solid retained: final filtrate holds all K/NO3 0.49454 mol and Na/Cl 0.08555 mol; filter residue vessel empty"
+    },
+    {
+     "id": "SE-008-C2",
+     "text": "Purity improvement vs complete recovery.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no crystals"
+    },
+    {
+     "id": "forecast",
+     "text": "cooling favours KNO3 crystallisation",
+     "verdict": "FAIL",
+     "evidence": "at 3.36C (276.51 K) 50 g KNO3/100 g water remains fully dissolved"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": 0
+    },
+    "charge": 0,
+    "energy": "10 kJ heat / 20 kJ cool delivered; final 276.51 K"
+   },
+   "observed_result": "Cooling to 3.4 C leaves all 50 g KNO3 and 5 g NaCl dissolved; no crystals to filter.",
+   "limitations": "Mixed-salt solid admission/activity (database lacks niter).",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:tc-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "TC-005-C1",
+     "text": "Check actual pressure and phase inventories.",
+     "verdict": "PASS",
+     "evidence": "100/200 kPa; water vapour 0.04275/0.04177 mol + liquid closes 1.110 mol; no export"
+    },
+    {
+     "id": "TC-005-C2",
+     "text": "Compare boiling points with operative pressure.",
+     "verdict": "FAIL",
+     "evidence": "2 bar route 'pressure_outside_cleared_window', shifted_by 0; plateau 100.000C vs 99.633C at 1 bar; boiling_point apparatus returns value null (not_isolated)"
+    },
+    {
+     "id": "forecast",
+     "text": "higher boiling temperature at 2 bar",
+     "verdict": "FAIL",
+     "evidence": "no elevation (~120C expected)"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0,
+     "O": "2.3e-3 (trapped air)"
+    },
+    "charge": "~1e-18",
+    "energy": "8 kJ: sensible 6129/6171 J, remainder latent"
+   },
+   "observed_result": "Both arms boil near 100C (99.63C at 1 bar, 100.00C at 2 bar) with ~0.042 mol vapour; 2 bar is outside the cleared correlation and gets zero shift.",
+   "limitations": "Pressure outside cleared Antoine window.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:an-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Reductant weak iodine signal with starch present",
+     "verdict": "UNSUPPORTED",
+     "evidence": "ascorbate consumes first 20 umol I2 (dehydroascorbic 20 umol); but uvvis reads 0.0 at 405 nm and later 'absorbance unavailable: iodine has no reviewed molar absorptivity'; no starch-iodine signal modelled"
+    },
+    {
+     "id": "inventory",
+     "text": "Account inventories",
+     "verdict": "PASS",
+     "evidence": "I 0.52 mmol, K closed; H residual only from parser not counting ascorbic acid"
+    },
+    {
+     "id": "coverage",
+     "text": "unsupported vs negative",
+     "verdict": "PASS",
+     "evidence": "not_yet_modeled labels explicit"
+    },
+    {
+     "id": "controls",
+     "text": "v2/v3 controls",
+     "verdict": "UNSUPPORTED",
+     "evidence": "v2 starch control spectral reading unavailable"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I": 0,
+     "K": 0
+    },
+    "charge": "~1e-19",
+    "energy": "n/a"
+   },
+   "observed_result": "Ascorbate reduces 30 umol I2 stoichiometrically, leaving 40 umol I2 after excess; no starch-iodine optical response is available.",
+   "limitations": "No iodine/starch-iodine absorptivity.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:bd-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Model preserves retention after salt?",
+     "verdict": "UNSUPPORTED",
+     "evidence": "polymer_swelled 20 g/0.2 g both arms but evaluated before NaCl added in v2; no post-salt retention readout (particles/look give no gel state)"
+    },
+    {
+     "id": "inventory",
+     "text": "Account inventories",
+     "verdict": "PASS",
+     "evidence": "water 1.665 mol, NaCl 17.11 mmol closed; polymer 0.2 g kept as unresolved material"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "boundary"
+    },
+    {
+     "id": "controls",
+     "text": "v1 no salt",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no comparable post-salt observable"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na,Cl,H,O": 0
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Both 0.2 g polymer portions record 20 g retained water when water is added; salt is added afterwards and retention is not re-reported.",
+   "limitations": "Fixed-capacity swelling; also intentionally a boundary demonstration excluded from scientific counts.",
+   "doubts": "Earlier review counted it as confirmed boundary; I find no post-salt retention observable."
+  },
+  {
+   "id": "batch3-diverse:co-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Scattering vs pigment after centrifugation",
+     "verdict": "UNSUPPORTED",
+     "evidence": "run refused exit 1 at centrifuge: 60.09 g out of balance; no post-centrifugation data"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "UNSUPPORTED",
+     "evidence": "refused run"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "UNSUPPORTED",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "UNSUPPORTED",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": "not assessed (refused)",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Original script refused at centrifuge (counterbalance 100 g vs 39.91 g sample).",
+   "limitations": "Protocol error.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:fe-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "matched solids vs equal mass",
+     "verdict": "PASS",
+     "evidence": "dry 0.30 g vs fresh 1.0 g: active 0.2774/0.2768 g, ethanol 1.765/1.762 mmol; fresh 0.30 g: 0.558 mmol"
+    },
+    {
+     "id": "inventory",
+     "text": "incl. gas loss",
+     "verdict": "FAIL",
+     "evidence": "carbon closes (rel 8e-16) but open vessels retain ~1.68 mmol CO2(aq) in 50 mL (~34 mM, at/above 1-atm CO2 saturation) with only ~79/75/0 umol vented; finite-gas-dose 'rate-not-modelled'; balance 50.8465/50.8488 g therefore not a physical mass-loss readout"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "hydration lag and degassing gaps labelled"
+    },
+    {
+     "id": "controls",
+     "text": "v2/v3",
+     "verdict": "PASS",
+     "evidence": "as question"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "8e-16",
+     "H/O": "closed after including 50.5 mmol water carried by fresh-yeast recipes"
+    },
+    "charge": "4e-16",
+    "energy": "vessels relax 30C->25.4C; no requested heat observable"
+   },
+   "observed_result": "Solids-matched dry/fresh yeast give 1.765 vs 1.762 mmol ethanol in 1 h, versus 0.558 mmol for an equal 0.30 g fresh mass.",
+   "limitations": "No hydration-state lag; CO2 kept supersaturated in open vessel.",
+   "doubts": "Second reviewer may judge the CO2 retention outside the forecast observable and qualify."
+  },
+  {
+   "id": "batch3-diverse:fo-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "starch response in baking powder vs bicarbonate",
+     "verdict": "UNSUPPORTED",
+     "evidence": "both uvvis readings 'absorbance unavailable: I2 no reviewed absorptivity'"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "I/K closed; formulation released starch 0.771 mmol and bicarbonate"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "labelled"
+    },
+    {
+     "id": "controls",
+     "text": "v2",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no optical readout"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I,K": "<5e-14"
+    },
+    "charge": "7e-13",
+    "energy": "n/a"
+   },
+   "observed_result": "Baking powder releases starch and bicarbonate matching the 0.15 g NaHCO3 arm, but no starch-iodine signal is computed.",
+   "limitations": "No iodine optics; acid component inert.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:mi-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "retrograde gypsum vs KNO3",
+     "verdict": "FAIL",
+     "evidence": "gypsum dissolved 0.7645 mmol at 20C -> 0.7688 mmol at 67.9C (increase, not retrograde); KNO3 0.2 mol fully dissolved already before heating (cooled to 260 K by dissolution) so no increasing-solubility contrast"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "Ca/S/K/N close; extra water = gypsum hydrate water"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "v2",
+     "verdict": "FAIL",
+     "evidence": "control fully dissolved before heat"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "K,N": 0,
+     "Ca,S": "closed with gypsum solid 4.2312 mmol"
+    },
+    "charge": 0,
+    "energy": "10 kJ each; 67.9C and 34.9C"
+   },
+   "observed_result": "Heating gypsum slurry to 67.9C slightly raises dissolved CaSO4 (0.7645->0.7688 mmol); KNO3 control fully dissolved at 260 K before heating.",
+   "limitations": "Two-point gypsum relation.",
+   "doubts": "Check whether supersaturated 0.2 mol KNO3 at 260 K is accepted by the solubility model."
+  },
+  {
+   "id": "batch3-diverse:po-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "brine density crosses PS threshold",
+     "verdict": "FAIL",
+     "evidence": "densitometer: water 0.997, 16% NaCl brine 0.99741 g/mL; 'ions carry water density' not_yet_modeled"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "all closed"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "labelled"
+    },
+    {
+     "id": "controls",
+     "text": "v1",
+     "verdict": "FAIL",
+     "evidence": "no density difference"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": 0
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "8 g NaCl in 50 mL reads 0.9974 g/mL vs 0.997 for water; ion density contribution not modelled, so no PS/PET reclassification.",
+   "limitations": "Solution density unmodelled.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:so-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "tert-butanol and acid",
+     "verdict": "FAIL",
+     "evidence": "script never calls react; tert_butyl_bromide 0.2 mmol unchanged, pH 6.997 same as blank"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "closed"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "v2",
+     "verdict": "FAIL",
+     "evidence": "no difference"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H,O": 0
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Without a react command 0.2 mmol t-BuBr remains; pH 6.997 equal to blank.",
+   "limitations": "Protocol omits reaction request.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:so-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "iodide increases dissolved iodine",
+     "verdict": "UNSUPPORTED",
+     "evidence": "KI vessel keeps 0.3 mmol I2(aq) but event 'supersaturated' (capacity 4.01e-5) and 'no wired engine speciates' iodine; no I3-/polyiodide species; KCl arm 40.1 umol dissolved + 259.9 umol solid"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "I,K,Cl closed"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "labelled"
+    },
+    {
+     "id": "controls",
+     "text": "v2",
+     "verdict": "UNSUPPORTED",
+     "evidence": "uvvis unavailable both arms"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": "<1.5e-16"
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Iodide arm retains all 0.3 mmol I2 dissolved only as flagged supersaturation; KCl arm dissolves 40 umol. No triiodide association is modelled.",
+   "limitations": "No polyiodide speciation or iodine optics.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:th-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "different phase behaviour",
+     "verdict": "FAIL",
+     "evidence": "hexadecane stocked at 10C (below 18C mp) as liquid; both remain liquid; melting_point readings not resolved; both warm to ~37C"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "closed"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "solid phase not represented"
+    }
+   ],
+   "closure": {
+    "elements": "closed",
+    "charge": 0,
+    "energy": "0.3 kJ sensible only"
+   },
+   "observed_result": "Dodecane and hexadecane both stay liquid and warm to 37.2/37.1C; no solid/liquid transition shown.",
+   "limitations": "Cold stock phase tagging.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:tr-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "AgCl formed and retained",
+     "verdict": "PASS",
+     "evidence": "AgCl 24.99 umol forms in cell 2 and persists (24.98 umol) after 6 more steps; mobile Ag+ 25 umol exits; receiver gains 74.19 umol AgCl"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "inlet vessel delivers 4 pore volumes (0.8 mmol NaCl, 4.43 mol water) while its own 0.2 mmol/1.107 mol remain undepleted; no inflow source event; totals close only if inlet treated as implicit infinite reservoir"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ag": "9e-14",
+     "N": "4e-13",
+     "Na,Cl": "close to 0.8 mmol only with inferred inlet supply"
+    },
+    "charge": "~1e-18",
+    "energy": "n/a"
+   },
+   "observed_result": "Transport precipitates ~25 umol AgCl in the silver cell which stays put while remaining Ag+/NO3- move on; most silver (74 umol) precipitates in the receiver.",
+   "limitations": "Constant-composition inlet not ledgered.",
+   "doubts": "If inlet is a documented constant boundary, a second reviewer may pass inventory and qualify."
+  },
+  {
+   "id": "new120:ab-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "AB-002-C1",
+     "text": "Equivalence conductivity exceeds initial.",
+     "verdict": "PASS",
+     "evidence": "475.06 vs 145.20 uS/cm"
+    },
+    {
+     "id": "AB-002-C2",
+     "text": "Final equal-size addition stronger than an equal-size addition well before equivalence.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "final 0.5 mmol gives +1162.3 uS/cm; only pre-equivalence single additions are 0.25 mmol (-3.7, +106.7); the 0.5 mmol addition ends at equivalence (+226.9)"
+    },
+    {
+     "id": "forecast",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "acetate formation raises conductivity; post-equivalence steeper"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": 0
+    },
+    "charge": "4e-19",
+    "energy": "n/a"
+   },
+   "observed_result": "Conductivity 145.2 -> 141.5 -> 248.2 -> 475.1 (equivalence, pH 8.33) -> 1637.3 uS/cm (pH 11.63).",
+   "limitations": "Protocol lacks matched early dose.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:kn-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "KN-011-C1",
+     "text": "Compare pH and sulfur at common time.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "pH 1.413 vs 3.042; HCl arm 122.9 umol S in 10 s; acetic arm rate explicitly withheld (proton-consuming kinetics needs coupled buffer)"
+    },
+    {
+     "id": "KN-011-C2",
+     "text": "More acidic faster; matched thiosulfate",
+     "verdict": "UNSUPPORTED",
+     "evidence": "zero from withheld pathway, not a rate"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": "<2e-16"
+    },
+    "charge": "2e-18",
+    "energy": "n/a"
+   },
+   "observed_result": "HCl arm forms 0.123 mmol S/SO2 in 10 s at pH 1.41; acetic arm (pH 3.04) rate is withheld.",
+   "limitations": "Weak-acid rate branch unsupported.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:pr-016",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PR-016-C1",
+     "text": "AgCl in both; distinguish starting salt.",
+     "verdict": "PASS",
+     "evidence": "water: AgCl 0.99921 mmol; ethanol: AgCl 0.5561 mmol, residual AgNO3/NaCl 0.4439 mmol"
+    },
+    {
+     "id": "PR-016-C2",
+     "text": "Report actual conversion.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "ethanol conversion 55.6% controlled by withdrawn-provenance solubility values (not_yet_modeled: yields provisional)"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "per vessel": "closed (bench scoped to inspected vessel)"
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Water: 99.9% AgCl; ethanol: provisional 55.6% AgCl.",
+   "limitations": "Withdrawn organic solubility data.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:rx-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "RX-004-C1",
+     "text": "Iodine production with ferric->ferrous",
+     "verdict": "FAIL",
+     "evidence": "Fe3+ 0.4 mmol, I- 0.4 mmol unchanged; no Fe2+ or I2"
+    },
+    {
+     "id": "RX-004-C2",
+     "text": "Distinguish I2/I3-",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no iodine; uvvis not informative"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": 0
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "No ferric/iodide redox occurs.",
+   "limitations": "Cross-element redox missing.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:rx-012",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "RX-012-C1",
+     "text": "Opposite signs",
+     "verdict": "FAIL",
+     "evidence": "both orders +0.040039 V, anode v1 cathode v2"
+    },
+    {
+     "id": "RX-012-C2",
+     "text": "Zinc activity",
+     "verdict": "PASS",
+     "evidence": "0.0400 V vs ideal 0.0592 V from molarity ratio consistent with activity correction"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": "<2e-13"
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Zn concentration cell 0.0400 V; swapped order returns the same positive value.",
+   "limitations": "cell sorts electrodes.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:sp-012",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-012-C1",
+     "text": "Supported peaks; absent parameters distinguished.",
+     "verdict": "PASS",
+     "evidence": "ethanol peak 68.25 s; ethyl_acetate/glucose explicitly 'no curated group decomposition'"
+    },
+    {
+     "id": "SP-012-C2",
+     "text": "Inventory unchanged.",
+     "verdict": "PASS",
+     "evidence": "before/after identical"
+    },
+    {
+     "id": "forecast",
+     "text": "differing retention for neutral solutes",
+     "verdict": "UNSUPPORTED",
+     "evidence": "only one peak; no retention comparison"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": 0
+    },
+    "charge": 0,
+    "energy": "n/a"
+   },
+   "observed_result": "Only ethanol elutes (68.25 s); other two lack parameters; inventory unchanged.",
+   "limitations": "Missing retention parameters.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:th-010",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "TH-010-C1",
+     "text": "Carbonate product and carbon accounting.",
+     "verdict": "PASS",
+     "evidence": "Na2CO3 5.952 mmol solid + 5.952 mmol CO2 vented = 11.904 mmol NaHCO3"
+    },
+    {
+     "id": "TH-010-C2",
+     "text": "Mass loss vs water leaving",
+     "verdict": "FAIL",
+     "evidence": "balance 0.73805 g = only CO2 lost; 5.95 mmol water kept liquid at 394 K in open vessel; phreeqc solver_failed on the water pool"
+    },
+    {
+     "id": "energy",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "100 J delivered; sensible 111.7 J; ~0.77 kJ decomposition enthalpy not charged"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "all": 0
+    },
+    "charge": 0,
+    "energy": "endothermic decomposition unpriced"
+   },
+   "observed_result": "1 g NaHCO3 with 100 J reaches 394 K, fully decomposes to 5.95 mmol Na2CO3 + CO2 vented; mass 0.738 g with water retained.",
+   "limitations": "Teaching threshold, no reaction enthalpy, scant-water solver failure.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:ec-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "EC-004-C1",
+     "text": "AgCl phase and lowered free Ag+",
+     "verdict": "PASS",
+     "evidence": "AgCl(s)=9.994e-5 mol; Ag+ 1e-4 -> 5.588e-8 mol in v2"
+    },
+    {
+     "id": "EC-004-C2",
+     "text": "sign convention vs existence of potential difference",
+     "verdict": "UNSUPPORTED",
+     "evidence": "second cell op returns no_cell ('none of its ion in solution'); no voltage observable"
+    },
+    {
+     "id": "FORECAST",
+     "text": "concentration-related voltage",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no cell reading"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "AgCl forms (9.994e-5 mol) and free Ag+ falls to 5.6e-8 mol, but the cell returns no_cell.",
+   "limitations": "no cell potential",
+   "doubts": "Ag closure: v2 Ag+ 5.588e-8 + AgCl 9.9944e-5 = 1.0000e-4 (exact); Cl 1.001e-4+9.994e-5=2.0e-4 exact."
+  },
+  {
+   "id": "batch2:ki-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "KI-003-C1",
+     "text": "fractional consumption at same times",
+     "verdict": "FAIL",
+     "evidence": "only final 30 s inspects at both times show v1 2.35% vs v2 0.96% consumed (H2O2 0.0009765 vs 0.0009904); 2.4x different, forecast 'similar' not met"
+    },
+    {
+     "id": "KI-003-C2",
+     "text": "diameters used",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no rate/area readback per vessel"
+    },
+    {
+     "id": "FORECAST",
+     "text": "matched m/d -> similar response",
+     "verdict": "FAIL",
+     "evidence": "2.35% vs 0.96%"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Matched mass/diameter MnO2 doses give 2.35% vs 0.96% H2O2 decomposition after 30 s.",
+   "limitations": "",
+   "doubts": "O2 closure: 2*O2 1.177e-5 vs H2O2 lost 2.35e-5 ok."
+  },
+  {
+   "id": "batch2:mo-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "MO-004-C1",
+     "text": "separate recovery fraction per family",
+     "verdict": "UNSUPPORTED",
+     "evidence": "extract receiver v2 empty; no hexane/organic phase"
+    },
+    {
+     "id": "MO-004-C2",
+     "text": "no automatic equilibrium shift",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no extraction occurred"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Esterification gives 0.6667 mmol ethyl acetate; extraction leaves receiver empty.",
+   "limitations": "extraction did not run",
+   "doubts": ""
+  },
+  {
+   "id": "batch2:mo-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "MO-011-C1",
+     "text": "peak identities vs inventories",
+     "verdict": "FAIL",
+     "evidence": "ethyl_acetate never produces a peak (not_yet_modeled: no group decomposition); stage 0 zero peaks"
+    },
+    {
+     "id": "MO-011-C2",
+     "text": "no raw area stoichiometry",
+     "verdict": "PASS",
+     "evidence": "relative_area normalised 1.0"
+    },
+    {
+     "id": "FORECAST",
+     "text": "ester features decrease, ethanol increase",
+     "verdict": "UNSUPPORTED",
+     "evidence": "ester feature absent; ethanol relative_area 1.0 at both stages"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Saponification extents 0.5+0.5 mmol give 1.0 mmol ethanol/acetate; chromatograph shows only an ethanol peak.",
+   "limitations": "",
+   "doubts": "Inventory closes (C 4e-3, Na 1e-3)."
+  },
+  {
+   "id": "batch2:pq-009",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PQ-009-C1",
+     "text": "Ba summed",
+     "verdict": "PASS",
+     "evidence": "v1 6.2e-8+3.999e-4; v2 3.0e-4+5.0e-4 = inputs"
+    },
+    {
+     "id": "PQ-009-C2",
+     "text": "phase allocation both arms",
+     "verdict": "FAIL",
+     "evidence": "Ba-excess arm: Ba2+ 3.0e-3 M with CO3 4.05e-3 M (IAP >> Ksp witherite ~10^-8.6) yet no BaCO3"
+    },
+    {
+     "id": "FORECAST",
+     "text": "carbonate precipitation coexists after excess Ba",
+     "verdict": "FAIL",
+     "evidence": "BaCO3 absent"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "BaSO4 takes Ba in both arms; 0.3 mmol Ba2+ stays dissolved with 0.4 mmol carbonate, no BaCO3.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch2:qa-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "QA-005-C1",
+     "text": "first endpoint > half total",
+     "verdict": "PASS",
+     "evidence": "P=0.855 mmol, T=1.004 mmol"
+    },
+    {
+     "id": "QA-005-C2",
+     "text": "OH/CO3 ~0.4/0.3 mmol",
+     "verdict": "FAIL",
+     "evidence": "2P-T=0.706, T-P=0.149 mmol"
+    },
+    {
+     "id": "FORECAST",
+     "text": "P~0.7,T~1.0",
+     "verdict": "FAIL",
+     "evidence": "P=0.855; CO2 evolved during first-stage titration at pH 11.5-8.3"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Endpoints P=0.855, T=1.004 mmol HCl; reconstruction 0.71/0.15 mmol OH/CO3 vs 0.4/0.3.",
+   "limitations": "",
+   "doubts": "Carbon lost as CO2 gas_evolved events at pH>8.3, physically implausible."
+  },
+  {
+   "id": "batch2:se-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SE-002-C1",
+     "text": "naphthalene dissolved before filtration",
+     "verdict": "PASS",
+     "evidence": "naphthalene(aq) 5e-6 in filtrate"
+    },
+    {
+     "id": "SE-002-C2",
+     "text": "track through extraction",
+     "verdict": "UNSUPPORTED",
+     "evidence": "extract receiver empty; no hexane added"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Naphthalene passes filter dissolved; extraction yields empty receiver.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch2:se-012",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SE-012-C1",
+     "text": "extracted fraction",
+     "verdict": "UNSUPPORTED",
+     "evidence": "both receivers empty; naphthalene unchanged in feeds"
+    },
+    {
+     "id": "SE-012-C2",
+     "text": "below saturation",
+     "verdict": "PASS",
+     "evidence": "2e-6 and 4e-6 mol aqueous"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Neither extraction moves naphthalene; receivers empty.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:an-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Na salts share signature, K differs",
+     "verdict": "UNSUPPORTED",
+     "evidence": "NaBr: cea-thermal solver_failed, did_not_ignite, no flame_test; NaCl yellow, KCl lilac"
+    },
+    {
+     "id": "inventory",
+     "text": "account",
+     "verdict": "FAIL",
+     "evidence": "NaCl/KCl report liquid pools (5.19e-4, 5.20e-4 mol) at 298.15 K after ignite"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "not_yet_modeled stated"
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "UNSUPPORTED",
+     "evidence": "v2 control has no signature"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "NaCl yellow, KCl lilac; NaBr gives no flame signature (solver failure).",
+   "limitations": "",
+   "doubts": "Molar totals conserved (1.711e-3, 9.72e-4, 1.341e-3)."
+  },
+  {
+   "id": "batch3-diverse:an-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "distinguish alcohol, ester, ketone",
+     "verdict": "UNSUPPORTED",
+     "evidence": "ethyl_acetate has no group decomposition, no peak"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "all pools unchanged"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "explicit not_yet_modeled"
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "mixture ethanol 68.25 s, propanone 114.81 s match references"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Mixture shows ethanol 68.25 s and propanone 114.81 s matching references; ester unparameterised.",
+   "limitations": "",
+   "doubts": "Unsupported component is part of the requested observable, so coverage cannot rescue it."
+  },
+  {
+   "id": "batch3-diverse:bd-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "coupling or separate emulsion state",
+     "verdict": "PASS",
+     "evidence": "identical converted_fraction 0.4914 both arms despite dispersed 0.552 vs 0"
+    },
+    {
+     "id": "inventory",
+     "text": "account incl. unresolved pools",
+     "verdict": "FAIL",
+     "evidence": "0.49 g oil hydrolysed but neither oil, fatty acid nor glycerol appears in contents; oil fully unresolved material, water not consumed"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "v2 no emulsifier"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Hydrolysis 49.1% in both arms regardless of emulsion (dispersed fraction 0.55 vs 0); products not in inventory.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:en-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "starch test distinguishes",
+     "verdict": "UNSUPPORTED",
+     "evidence": "uvvis: I2 has no reviewed absorptivity in all three vessels"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "maltose control left solid, no dissolution solver; starch->maltose consumes no water"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "stated"
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no colour readout"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Amylase converts 1.234 mmol starch units to 0.617 mmol maltose; no starch-iodine absorbance available.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:fe-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "pH comparable conversion assay",
+     "verdict": "UNSUPPORTED",
+     "evidence": "milk substrate (lactose) pool not in inventory; conversion in milk not recorded"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "milk vessel reported charge -2.7e-4 mol uncompensated; adapter warns uncompensated ionic charge"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "casein buffer gap stated"
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "v3 pH 6.56"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Milk pH 6.47->4.62, sucrose 6.77->2.65 after 8 h; sucrose arm consumed 0.42 mmol to 1.68 mmol lactate.",
+   "limitations": "",
+   "doubts": "Incubation vessels end at 298.15 K although added at 40 C."
+  },
+  {
+   "id": "batch3-diverse:li-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "colour vs spectroscopic fingerprint",
+     "verdict": "UNSUPPORTED",
+     "evidence": "chlorophyll absorbance unavailable; single-wavelength reads only, no band pattern"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "explicitly unparameterised"
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "blanks 0.0"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Betanin A525=1.040; chlorophyll unparameterised and looks colourless.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:mi-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "same Cu units, different water",
+     "verdict": "FAIL",
+     "evidence": "langite registered 470.297 g/mol (monohydrate) vs mineral Cu4SO4(OH)6.2H2O 488.3; balance difference 0.0036 g vs expected 0.0072 g; only 2e-4 mol H2O released"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "v0 H/O short by 2e-4 mol H2O vs dihydrate"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "langite instantly converted to brochantite (precipitated 1.998e-4) contrary to stated no-transition limitation"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Both dissolve in HCl to 0.8 mmol Cu2+, pH 2.13; langite immediately becomes brochantite.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:po-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "nylon vs soluble small molecule",
+     "verdict": "UNSUPPORTED",
+     "evidence": "nylon: no dissolution solver; PVA event says dissolves but inventory solid"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "moles conserved"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "PVA phase contradictory"
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "sucrose dissolved 1.461 mmol"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Nylon/PVA remain solid (no solver / unspeciated), sucrose dissolves.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:so-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "primary substitution vs tertiary elimination",
+     "verdict": "FAIL",
+     "evidence": "neither substrate reacts; bromoethane and tert_butyl_bromide 2e-4 mol unchanged"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "no branch selected"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "No reaction in either arm with 0.3 mmol NaOH.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:su-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "protection after zinc consumed",
+     "verdict": "UNSUPPORTED",
+     "evidence": "Zn not depleted: 1.456e-5 of 5e-5 mol remains after 240 h; Fe 0.001 untouched"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": "Zn 1.456e-5+4.08e-6+3.136e-5=5.0e-5"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "UNSUPPORTED",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "After 240 h 71% of Zn oxidised, Fe intact, O2 0.00727 mol remains.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:th-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "phase test distinguishes",
+     "verdict": "FAIL",
+     "evidence": "tert-butanol (mp 25.5 C) is liquid at 15 C; melting_point returns nothing_to_test"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "no fusion during 0.4 kJ heating (sensible_j 400)"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Both alcohols liquid at 15 C; 0.4 kJ heats them to 315.3/319.7 K sensibly.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch3-diverse:tr-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "dye lags tracer",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no bound-dye pool; effluent v5 empty"
+    },
+    {
+     "id": "inventory",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": "NaCl total 2.0e-4 vs 1e-4 added (source v4 still 1e-4); methyl orange 4.06e-6 vs 3.05e-6 added"
+    },
+    {
+     "id": "coverage",
+     "text": "",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "controls",
+     "text": "",
+     "verdict": "FAIL",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Transport duplicates NaCl and dye (2x Na) and leaves effluent empty.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "new120:ab-017",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "AB-017-C1",
+     "text": "pH between NH4Cl-only and NaOAc-only expectations",
+     "verdict": "PASS",
+     "evidence": "same-vessel NH4Cl-only state pH 5.503; mixture 6.875; NaOAc-only 0.01 M expectation ~8.4 (pKa 4.76)"
+    },
+    {
+     "id": "AB-017-C2",
+     "text": "ammonia partitioning and activity",
+     "verdict": "PASS",
+     "evidence": "NH3(aq) 3.668e-6, NH3(g) 1.277e-8, NH4+ 9.963e-4; I=0.01997; pH 6.875 not 7 (headspace CO2 4.53e-6 g + 3.6e-6 aq carbon)"
+    },
+    {
+     "id": "FORECAST",
+     "text": "near-neutral with both equilibria active",
+     "verdict": "PASS",
+     "evidence": "CH3COOH 6.6e-6 and NH3 3.7e-6 both present"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "N": "(3.668e-6+9.963e-4+1.277e-8)/1e-3-1 ~ <1e-4",
+     "Ac": "(6.597e-6+9.934e-4)/1e-3-1 ~ 0",
+     "Na": 0,
+     "Cl": 0
+    },
+    "charge": "cations 1.9963e-3 vs anions 1.9963e-3 (rel <1e-4)",
+    "energy": "n/a (dT -0.0012 K)"
+   },
+   "observed_result": "0.001 mol NH4Cl + 0.001 mol NaOAc in 100 mL (sealed, 500 mL air) gives pH 6.875 (NH4Cl-only step 5.503), with 3.7 umol NH3(aq), 12.8 nmol NH3(g) and 6.6 umol acetic acid.",
+   "limitations": "NaOAc-only comparator is a calculated expectation, not a run; headspace CO2 slightly acidifies.",
+   "doubts": "Earlier review held C1 for lack of a same-boundary NaOAc-only run; dataset route switches wateq4f->minteq at NaOAc addition (known AB-017 NH3(g)/minteq regression lane) - second reviewer should confirm."
+  },
+  {
+   "id": "new120:kn-013",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "KN-013-C1",
+     "text": "residual thiosulfate with depleted acid",
+     "verdict": "PASS",
+     "evidence": "before pulse S2O3 7.998e-4, H+ 9.95e-5 of 5e-4"
+    },
+    {
+     "id": "KN-013-C2",
+     "text": "further S; account SO2/bisulfite acidity",
+     "verdict": "FAIL",
+     "evidence": "S rises 2.0e-4->3.21e-4 but all SO2 (3.2e-4) placed in gas, no SO2(aq)/HSO3- acidity accounted"
+    },
+    {
+     "id": "FORECAST",
+     "text": "slows then restored",
+     "verdict": "PASS",
+     "evidence": "rate 1.27e-6/s ->5.4e-7/s ->4.0e-6/s"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Thiosulfate decomposition slows as 0.5 mmol HCl depletes and restarts after 2 mmol HCl; total 0.32 mmol S.",
+   "limitations": "",
+   "doubts": "H closure exact: 2.5e-3-2*3.217e-4=1.857e-3."
+  },
+  {
+   "id": "new120:pr-017",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PR-017-C1",
+     "text": "AgI solid or explicit unsupported phase",
+     "verdict": "PASS",
+     "evidence": "not_yet_modeled: Iodyrite SI +6.7 not in registry"
+    },
+    {
+     "id": "PR-017-C2",
+     "text": "no generic precipitate",
+     "verdict": "PASS",
+     "evidence": "none"
+    },
+    {
+     "id": "FORECAST",
+     "text": "AgI precipitate forms",
+     "verdict": "UNSUPPORTED",
+     "evidence": "Ag+ and I- stay 2e-4 mol aqueous, clear colourless"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "AgI not formed; supersaturation (Iodyrite SI +6.7) reported as unsupported.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "new120:rx-005",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "RX-005-C1",
+     "text": "track oxidised iodine I2/I3-",
+     "verdict": "PASS",
+     "evidence": "I2 1e-4 -> 5e-5 after half dose -> 0 after full; no separate I3- representation, total oxidised I tracked as I2"
+    },
+    {
+     "id": "RX-005-C2",
+     "text": "2:1 thiosulfate:iodine, tetrathionate",
+     "verdict": "PASS",
+     "evidence": "each 1e-4 S2O3 consumed 5e-5 I2, forms 5e-5 S4O6 2-; final S4O6 1e-4, no S2O3, no sulfate"
+    },
+    {
+     "id": "FORECAST",
+     "text": "half dose leaves I2, full removes most",
+     "verdict": "PASS",
+     "evidence": "5e-5 then 0 mol I2"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I": "1.2e-3 vs 1e-3+2e-4: 0",
+     "S": "4e-4 vs 4e-4: 0",
+     "Na": 0,
+     "K": 0
+    },
+    "charge": "cations 1.4e-3 vs anions 1.2e-3+2e-4 = 1.4e-3, rel ~1e-16",
+    "energy": "heat explicitly not modelled; not a criterion"
+   },
+   "observed_result": "0.1 mmol Na2S2O3 reduces half of 0.1 mmol I2 (5e-5 mol I2 left, 5e-5 mol S4O6 2-); the second 0.1 mmol removes the rest, ending with 1.2 mmol I- and 0.1 mmol tetrathionate.",
+   "limitations": "Instantaneous stoichiometric reaction, no rate; I3- not separately represented; initial iodine absorbance unavailable.",
+   "doubts": "Final A405=0.0 is trivially consistent but initial absorbance unsupported; confirm I3- omission acceptable under 'any I3- representation'."
+  },
+  {
+   "id": "new120:th-015",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "TH-015-C1",
+     "text": "mixed T vs heat-capacity-weighted baseline",
+     "verdict": "PASS",
+     "evidence": "pre-mix 298.150 and 299.214 K; engine baseline 298.682 K; mixed 299.349 K, +0.667 K"
+    },
+    {
+     "id": "TH-015-C2",
+     "text": "no double-charged dissolution heat; H+/OH- consumed",
+     "verdict": "PASS",
+     "evidence": "H+ 5e-3 and base 5e-3 removed, water 5.5509->5.5559 (+5.0e-3); NaOH dissolution rise 1.064 K occurs only at preparation"
+    },
+    {
+     "id": "FORECAST",
+     "text": "neutralisation heat in addition to sensible heat",
+     "verdict": "PASS",
+     "evidence": "0.667 K * ~418 J/K = 279 J = 55.8 kJ/mol"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": 0,
+     "Cl": 0,
+     "H": "water +5.0e-3 matches H+ 5e-3, rel ~0",
+     "O": "base_eq O to water, rel ~0"
+    },
+    "charge": "Na+ 5e-3 = Cl- 5e-3",
+    "energy": "Q = 0.667 K * 5.556 mol * 75.3 J/mol/K = 279 J -> 55.8 kJ/mol neutralisation (lit 55.8-57)"
+   },
+   "observed_result": "Mixing 50 g of 0.1 M HCl (298.15 K) with 50 g of 0.1 M NaOH (299.21 K) gives 299.35 K, 0.667 K above the 298.68 K no-reaction baseline, i.e. ~279 J or 55.8 kJ/mol water formed.",
+   "limitations": "HCl addition charged no dissolution heat (stays 298.150 K) while NaOH dissolution heated its solution 1.06 K.",
+   "doubts": "Check whether HCl reagent is treated as gas (would need ~-75 kJ/mol dissolution heat) or as solution; not part of the criteria."
+  },
+  {
+   "id": "new120:sp-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-003-C1",
+     "text": "product compositions at equal cuts",
+     "verdict": "UNSUPPORTED",
+     "evidence": "4-stage receiver v4 empty, its feed unchanged (2.775 water/0.1085 EtOH)"
+    },
+    {
+     "id": "SP-003-C2",
+     "text": "no extra ethanol",
+     "verdict": "PASS",
+     "evidence": "ethanol 0.03941+0.1085+0.06912=0.2170 = 10 g input"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "One-stage cut gives 0.219 mol water/0.069 mol ethanol; four-stage distillation produces nothing.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "new120:th-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "TH-007-C1",
+     "text": "dissolved/solid before cooling",
+     "verdict": "PASS",
+     "evidence": "all 0.2967 mol dissolved at 90 C"
+    },
+    {
+     "id": "TH-007-C2",
+     "text": "cooling recovers crystals",
+     "verdict": "FAIL",
+     "evidence": "at 264.5 K all KNO3 still aqueous (30 g/50 g water, solubility ~13 g/100 g at 0 C); filter recovers nothing"
+    }
+   ],
+   "closure": {
+    "elements": "not decisive; rejected on criterion",
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Cooling by 12 kJ to 264.5 K leaves all 30 g KNO3 dissolved; no crystals.",
+   "limitations": "",
+   "doubts": ""
+  },
+  {
+   "id": "batch2:ec-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Fe(III) oxidises iodide; Fe(II) does not",
+     "verdict": "FAIL",
+     "evidence": "v0 final Fe+3 0.0004, I- 0.001, no I2/I3-/Fe2+ formed; v1 Fe+2 0.0004 I- 0.001; both arms identical iodide"
+    },
+    {
+     "id": "EC-008-C1",
+     "text": "Link I2 to Fe(III) reduction",
+     "verdict": "FAIL",
+     "evidence": "no iodine produced in either arm"
+    },
+    {
+     "id": "EC-008-C2",
+     "text": "Check O2/oxidants",
+     "verdict": "UNSUPPORTED",
+     "evidence": "open vessels, modelled O2 inventory zero; uvvis unavailable for Fe species"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Fe,I,K,Cl,S,H,O": 0.0
+    },
+    "charge": "contents neutral (solute_charge field -0.002 in both, bookkeeping)",
+    "energy": "FeCl3/KI heats not modelled"
+   },
+   "observed_result": "0.4 mmol FeCl3 + 1 mmol KI in acid gives no iodine; Fe(III) unchanged.",
+   "limitations": "Fe(III)/iodide redox not implemented; absorbance unavailable.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:ki-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Equal fractional peroxide depletion after split",
+     "verdict": "UNSUPPORTED",
+     "evidence": "all H2O2 decomposed in first 5 s (O2 0.0005 mol from 0.001 H2O2); post-split H2O2 7.5e-12 / 2.5e-12 mol unchanged over 20 s: no measurable post-split kinetics"
+    },
+    {
+     "id": "KI-005-C1",
+     "text": "Proportional enzyme/substrate transfer",
+     "verdict": "PASS",
+     "evidence": "catalase 3.125e-12/1.042e-12, water 4.151/1.384 (3:1)"
+    },
+    {
+     "id": "KI-005-C2",
+     "text": "Fractional loss from post-split amounts",
+     "verdict": "UNSUPPORTED",
+     "evidence": "substrate exhausted before split; residual 1e-11 mol does not react at all (zero loss both)"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0.0,
+     "O": 0.0
+    },
+    "charge": "0",
+    "energy": "98.2 J for 5e-4 mol O2 (196.4 kJ/mol) ; dT 0.235 K ~ 98.2/(100 g*4.18) OK"
+   },
+   "observed_result": "Catalase decomposed all 1 mmol H2O2 within 5 s before the split; nothing left to compare.",
+   "limitations": "Design exhausts substrate before split; residual peroxide frozen.",
+   "doubts": "residual H2O2 1e-11 not reacting during 20 s wait looks like a kinetic cutoff"
+  },
+  {
+   "id": "batch2:mo-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Absorbance falls on dilution",
+     "verdict": "UNSUPPORTED",
+     "evidence": "every uvvis: 'complete absorbance unavailable: no spectrum for copper sulfate and CuOH+'"
+    },
+    {
+     "id": "MO-007-C1",
+     "text": "Actual volumes/concentrations",
+     "verdict": "PASS",
+     "evidence": "water 5.534 -> 11.07 -> 22.14 mol; Cu 0.001 constant"
+    },
+    {
+     "id": "MO-007-C2",
+     "text": "Same spectral feature",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no spectrum"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cu,S,H,O (incl. dilution water)": 0.0
+    },
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Copper inventory constant 1 mmol across two dilutions; eyes report blue; no absorbance values.",
+   "limitations": "Copper sulfate spectra not parameterised.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:mo-012",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Both treatments weaken iodine colour; dilution conserves, ascorbate reduces",
+     "verdict": "UNSUPPORTED",
+     "evidence": "dilution arm absorbance unavailable (no I2 molar absorptivity); eyes still brown; no pre-dilution colour observation"
+    },
+    {
+     "id": "MO-012-C1",
+     "text": "Compare I2+I3- equivalents",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no I3- species represented; v0 I2 1e-5 retained"
+    },
+    {
+     "id": "MO-012-C2",
+     "text": "Reconcile total iodine; oxidation of reductant only in chemical arm",
+     "verdict": "PASS",
+     "evidence": "v1 dehydroascorbic 1e-5, I- 0.00102, H+ 2e-5; total I 0.00102 both arms"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I,K,C,H,O": 0.0
+    },
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Ascorbic acid fully reduced 1e-5 mol I2 to iodide (colourless, A405=0); diluted arm keeps I2 1e-5 mol, colour unmeasured.",
+   "limitations": "No iodine absorptivity; no triiodide speciation.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:pq-010",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PQ-010-C1",
+     "text": "Carbonate-bearing solid present before acid",
+     "verdict": "FAIL",
+     "evidence": "Ag2CO3 (SI +3.1) and Ag2O not in registry -> not precipitated; only AgCl 3.0e-4"
+    },
+    {
+     "id": "forecast",
+     "text": "Acid destabilises carbonate solid, AgCl retained",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no carbonate solid to destabilise"
+    },
+    {
+     "id": "PQ-010-C2",
+     "text": "Silver redistribution and carbon loss",
+     "verdict": "UNSUPPORTED",
+     "evidence": "CO2 evolved 1.99e-4 from aqueous carbonate, not from a solid"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ag,Cl,Na,N": 0.0,
+     "C": "closes incl. evolved CO2 (tool residual from unparsed CO2(aq))"
+    },
+    "charge": "~0",
+    "energy": "n/a"
+   },
+   "observed_result": "Only AgCl precipitates; Ag2CO3 phase absent, so acid test inconclusive.",
+   "limitations": "Silver carbonate/oxide not in registry.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch2:qa-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "QA-007-C1",
+     "text": "Iodine inventory decreases and exhausted near 0.2 mmol",
+     "verdict": "PASS",
+     "evidence": "I2: 1e-4 -> 2.5e-5 (0.15 mmol) -> 5e-6 (0.19) -> 9.3e-21 (0.20); S4O6 1e-4"
+    },
+    {
+     "id": "QA-007-C2",
+     "text": "Extra 0.02 mmol as excess reductant",
+     "verdict": "PASS",
+     "evidence": "final S2O3-2 2e-5, no further reaction"
+    },
+    {
+     "id": "forecast",
+     "text": "Endpoint interval from last coloured / first decolourised dose",
+     "verdict": "UNSUPPORTED",
+     "evidence": "colour never observed: all uvvis 'no reviewed molar absorptivity', no eyes measurement; interval inferable only from inventory"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I,S,Na,K,H,O": 0.0
+    },
+    "charge": "0 (K+Na 0.00244 = I- + 2S4O6 + 2S2O3)",
+    "energy": "thiosulfate heat not modelled"
+   },
+   "observed_result": "Thiosulfate removes I2 stoichiometrically; I2 exhausted between 0.19 and 0.20 mmol; 0.02 mmol excess left as S2O3.",
+   "limitations": "No iodine optical response; no I3- speciation.",
+   "doubts": "Near-qualify: if the colour observable is waived in favour of inventory, both criteria pass"
+  },
+  {
+   "id": "batch2:se-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SE-003-C1",
+     "text": "Dissolved and solid KNO3 at both filtrations",
+     "verdict": "FAIL",
+     "evidence": "no solid at any step; 'no validated potassium nitrate phase', crystallisation not modelled; v2 holds all 0.3956 mol"
+    },
+    {
+     "id": "SE-003-C2",
+     "text": "Crystal recovery from phase inventories",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no crystals"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "K,N,H,O": 0.0
+    },
+    "charge": "0",
+    "energy": "8 kJ heat 299.6->318.7 K; cool 15 kJ to 282.8 K sensible only"
+   },
+   "observed_result": "40 g KNO3 stays dissolved through cooling to 9.7 C; no crystals.",
+   "limitations": "KNO3 crystallisation not modelled.",
+   "doubts": "40 g/100 g at 26 C after dissolution cooling should already be near saturation"
+  },
+  {
+   "id": "batch2:tc-001",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "TC-001-C1",
+     "text": "Full-route energy ledgers",
+     "verdict": "PASS",
+     "evidence": "route1 calorimeter 0.193803 kJ; route2 0.089873 kJ after CaO then 0.193802 kJ after HCl; rel diff 5e-6"
+    },
+    {
+     "id": "TC-001-C2",
+     "text": "Final inventories match",
+     "verdict": "PASS",
+     "evidence": "both Ca+2 0.001, Cl- 0.002, water 5.53528 mol, T 298.6147 K"
+    },
+    {
+     "id": "forecast",
+     "text": "Totals agree, intermediates differ",
+     "verdict": "PASS",
+     "evidence": "totals equal; intermediate 0.0899 vs 0.1938 kJ"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ca,Cl,H,O": 0.0
+    },
+    "charge": "0",
+    "energy": "total -193.8 J vs NBS CaO+2HCl(aq) -193.5 kJ/mol*1 mmol; dT 0.4647 K ~ 193.8/(100 g*4.18)"
+   },
+   "observed_result": "Both orders give 0.1938 kJ released (dT 0.465 K) and identical CaCl2(aq) inventories; hydration-first route shows 0.0899 kJ intermediate.",
+   "limitations": "Calorimeter reads cumulative route heat; no losses modelled.",
+   "doubts": "confirm calorimeter semantics (cumulative); slight 0.08 mK dip on HCl addition in route 2"
+  },
+  {
+   "id": "batch3-diverse:an-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Mixed sample not labelled pure Na",
+     "verdict": "UNSUPPORTED",
+     "evidence": "mixture flame_test reports only 'bright yellow' NaCl; no K signal or mixture flag"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory accounting",
+     "verdict": "FAIL",
+     "evidence": "after ignite vessels back at 298.15 K but NaCl(liquid) 5.19e-4/4.36e-4 and KCl(liquid) remain at room temperature"
+    },
+    {
+     "id": "coverage",
+     "text": "Unsupported vs negative",
+     "verdict": "PASS",
+     "evidence": "'no wired solver' noted for melt contact"
+    },
+    {
+     "id": "controls",
+     "text": "Pure references",
+     "verdict": "PASS",
+     "evidence": "NaCl yellow, KCl lilac"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na,K,Cl": 0.0
+    },
+    "charge": "0",
+    "energy": "melt fractions retained at 298 K inconsistent"
+   },
+   "observed_result": "Flame tests: NaCl yellow, KCl lilac, 10:1 mixture yellow only; molten salt persists at 25 C.",
+   "limitations": "No minor-component flame signal.",
+   "doubts": "liquid salts at 298 K"
+  },
+  {
+   "id": "batch3-diverse:an-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Salt conversion changes neutral chromatogram",
+     "verdict": "UNSUPPORTED",
+     "evidence": "CH3COOH has no curated group decomposition: no acid peak even in acid arm (9.70e-4 mol neutral); both arms only ethanol peak"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "C,H,O,Na close <1e-7; acetate 9.998e-4 in v2"
+    },
+    {
+     "id": "coverage",
+     "text": "Gap labelled",
+     "verdict": "PASS",
+     "evidence": "not-parameterised gap stated; ions outside_method"
+    },
+    {
+     "id": "controls",
+     "text": "Acid vs salt",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no neutral-acid peak to lose"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C,H,O,Na": "<3e-8"
+    },
+    "charge": "~0",
+    "energy": "n/a"
+   },
+   "observed_result": "Acid arm pH 3.23, salt arm pH 8.46; chromatograms show only ethanol in both; acetic acid not parameterised.",
+   "limitations": "Acetic acid column parameters missing.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:bd-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Light coupled to peroxide conversion?",
+     "verdict": "PASS",
+     "evidence": "irradiated event photolysis_coupled:false; lit v1 and dark v2 identical H2O2 9.95137e-5, O2 0.0042818, P 101.32336 kPa"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "H/O close; headspace air 0.020437 mol accounted (N2 0.016147, O2, CO2); v1-v3 O2 difference 2.4e-7 = half of 4.86e-7 H2O2 lost"
+    },
+    {
+     "id": "coverage",
+     "text": "Unsupported vs negative",
+     "verdict": "PASS",
+     "evidence": "explicit photolysis_coupled:false"
+    },
+    {
+     "id": "controls",
+     "text": "Dark and water-only controls",
+     "verdict": "PASS",
+     "evidence": "dark identical to lit; v3 no H2O2, P 101.32206"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H,O (with trapped air)": 0.0
+    },
+    "charge": "0",
+    "energy": "v1-v3 dT 2.9e-4 K ~ 4.86e-7 mol*98 kJ/mol/(40 g*4.18)"
+   },
+   "observed_result": "254 nm irradiation stored but not coupled (photolysis_coupled false); lit and dark peroxide identical (0.5% thermal loss each), no light-dependent conversion.",
+   "limitations": "No photochemistry; small dark decomposition only.",
+   "doubts": "v3 warmed 6.8e-5 K without reaction (sealing/CO2)"
+  },
+  {
+   "id": "batch3-diverse:en-002",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Lactase distinguishes milk from glucose",
+     "verdict": "PASS",
+     "evidence": "v1 milk enzyme_hydrolysed converted_fraction 0.2977 (0.5716 g); v2 milk no hydrolysis state; v3 glucose 0.0111 mol unchanged, no event"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "Ca,P close with OCP as Ca4H(PO4)3 (Ca 9.859e-4 in/out); balance 40.050 g/40.000 g"
+    },
+    {
+     "id": "coverage",
+     "text": "Unresolved annotation",
+     "verdict": "PASS",
+     "evidence": "hydrolysis carried on unresolved_materials; no glucose/galactose species created"
+    },
+    {
+     "id": "controls",
+     "text": "Milk-no-enzyme and glucose controls",
+     "verdict": "PASS",
+     "evidence": "as above"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ca,P,K,Na,Cl,C": 0.0
+    },
+    "charge": "recipe carries +2.497e-4 uncompensated charge, conserved exactly in/out (engine flags)",
+    "energy": "hydrolysis heat not modelled (v1 and v2 T identical 298.1485)"
+   },
+   "observed_result": "Lactase on 40 g milk converts 29.8% of lactose (0.572 g) in 30 min as an unresolved annotation; enzyme-free milk and glucose controls show no hydrolysis.",
+   "limitations": "Hydrolysis is aggregate annotation; no sugars resolved.",
+   "doubts": "recipe charge imbalance; gravity settling distance 17.8 m in a beaker"
+  },
+  {
+   "id": "batch3-diverse:fo-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Formulation release accounted beyond bicarbonate",
+     "verdict": "FAIL",
+     "evidence": "baking powder surrogate = NaHCO3 + starch only; no acid/heat-activated component; cold CO2 4.0575e-4 vs 4.0573e-4 and hot 3.597e-4 vs 3.599e-4 identical to bicarbonate"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "Na, C incl. evolved CO2 close"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "no statement that the activated acid is absent"
+    },
+    {
+     "id": "controls",
+     "text": "Bicarbonate control",
+     "verdict": "PASS",
+     "evidence": "matched"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na,C,H,O": "close incl. evolved CO2"
+    },
+    "charge": "0",
+    "energy": "8 kJ -> +63.8 K both"
+   },
+   "observed_result": "Baking powder behaves exactly like 0.15 g NaHCO3 (pH 9.61, same CO2 cold and hot).",
+   "limitations": "Heat-activated acid not represented.",
+   "doubts": "instant 23% CO2 loss from NaHCO3 at 20 C with zero pCO2 is questionable"
+  },
+  {
+   "id": "batch3-diverse:li-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Pigment response vs solvent",
+     "verdict": "FAIL",
+     "evidence": "curcumin A425 1.1 -> 1.1000024 at pH 10.11: no alkaline response"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage label",
+     "verdict": "FAIL",
+     "evidence": "no not_yet_modeled for curcumin acid-base spectrum"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "Na,C,H,O close"
+    },
+    {
+     "id": "controls",
+     "text": "Blank",
+     "verdict": "PASS",
+     "evidence": "blank A405 0.0"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na,C,H,O": "<3e-6"
+    },
+    "charge": "~0",
+    "energy": "n/a"
+   },
+   "observed_result": "Curcumin absorbance stays 1.10 after Na2CO3 to pH 10.1; blank 0.",
+   "limitations": "No curcumin pH spectra; silent.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:mi-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "Fe metal gives H2; oxide does not",
+     "verdict": "FAIL",
+     "evidence": "Fe 'kinetically blocked' (inert) in 0.05 M HCl: no H2, Fe 4.96e-4 left; Fe2O3 not dissolved"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "Fe, Cl, H close; 2e-6 Fe2O3 from O2 corrosion"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "PASS",
+     "evidence": "no-solver for hematite stated"
+    },
+    {
+     "id": "controls",
+     "text": "Oxide control",
+     "verdict": "UNSUPPORTED",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Fe,Cl,H,O (incl. air)": 0.0
+    },
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Neither iron nor hematite reacts with HCl in 10 min; pressure 101.31 vs 101.32 kPa.",
+   "limitations": "Fe/HCl blocked by overpotential model.",
+   "doubts": "Fe in HCl should evolve H2"
+  },
+  {
+   "id": "batch3-diverse:po-009",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Mixture melting report",
+     "verdict": "UNSUPPORTED",
+     "evidence": "pure PE and PP: verdict no_data"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "FAIL",
+     "evidence": "mixture heated to 193.9 C remains PE/PP solid, no fusion"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "PASS",
+     "evidence": "mixture reading states only direction"
+    },
+    {
+     "id": "controls",
+     "text": "Pure references",
+     "verdict": "UNSUPPORTED",
+     "evidence": "no data"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "PE,PP": 0.0
+    },
+    "charge": "0",
+    "energy": "300 J all sensible, no latent heat"
+   },
+   "observed_result": "No melting data for PE/PP; blend still solid at 194 C.",
+   "limitations": "Polymer melting not parameterised.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:so-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "forecast",
+     "text": "tert-butanol cool / isobutylene hot",
+     "verdict": "FAIL",
+     "evidence": "tert_butyl_bromide 2e-4 unchanged in both vessels; no products, no HBr"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": "close"
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "no not-modelled note"
+    },
+    {
+     "id": "controls",
+     "text": "Branches",
+     "verdict": "FAIL",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H,O (+air)": 0.0
+    },
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "tert-Butyl bromide does not solvolyse at 25 or 90 C; pH 5.6/5.8 from CO2 only.",
+   "limitations": "Solvolysis not wired.",
+   "doubts": "silent no-reaction"
+  },
+  {
+   "id": "batch3-diverse:su-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Graphite vs diamond electrical descriptors",
+     "verdict": "UNSUPPORTED",
+     "evidence": "graphite 1e5 S/m, Cu 5.96e7 S/m; diamond and PE: no reviewed resistivity"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "PASS",
+     "evidence": "explicitly not interpreted as zero"
+    },
+    {
+     "id": "controls",
+     "text": "Metal/polymer",
+     "verdict": "UNSUPPORTED",
+     "evidence": "PE missing"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C,Cu": 0.0
+    },
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "Graphite 1e5 S/m, copper 6.0e7 S/m; diamond/PE unsupported.",
+   "limitations": "No diamond resistivity.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:th-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Paraffin vs hexadecane latent heat",
+     "verdict": "FAIL",
+     "evidence": "paraffin melting no_data; heated to 73.0 C stays solid with 500 J all sensible"
+    },
+    {
+     "id": "inventory",
+     "text": "Inventory",
+     "verdict": "PASS",
+     "evidence": ""
+    },
+    {
+     "id": "coverage",
+     "text": "Coverage",
+     "verdict": "FAIL",
+     "evidence": "no latent-heat note"
+    },
+    {
+     "id": "controls",
+     "text": "Hexadecane",
+     "verdict": "UNSUPPORTED",
+     "evidence": "nothing_to_test"
+    }
+   ],
+   "closure": {
+    "elements": {},
+    "charge": "0",
+    "energy": "500 J sensible only both"
+   },
+   "observed_result": "Paraffin heated to 73 C remains solid; no transition data.",
+   "limitations": "Wax transition not modelled.",
+   "doubts": "none"
+  },
+  {
+   "id": "batch3-diverse:tr-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Gypsum transport mass",
+     "verdict": "UNSUPPORTED",
+     "evidence": "refused: 'transport cell 1 has 0.02 L; uniform chain requires 0.020011 L'"
+    }
+   ],
+   "closure": {
+    "elements": {},
+    "charge": "",
+    "energy": ""
+   },
+   "observed_result": "Run refused at transport.",
+   "limitations": "Refusal.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:gs-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "GS-007-C1",
+     "text": "CO2 dissolved Ca",
+     "verdict": "PASS",
+     "evidence": "CaCO3 3.96e-4 of 5e-4 dissolved"
+    },
+    {
+     "id": "GS-007-C2",
+     "text": "Increased CaCO3 after sweep",
+     "verdict": "FAIL",
+     "evidence": "after sweep all CaCO3 dissolved, no solid; carbon removed (CO2 3.508e-3 swept = 0.0035 input) leaving Ca 5e-4 with base_equivalents 1e-3, pH 11.93"
+    },
+    {
+     "id": "forecast",
+     "text": "Reprecipitation",
+     "verdict": "FAIL",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ca": 0.0,
+     "C": "closes with swept CO2 0.003508"
+    },
+    "charge": "via base_equivalents",
+    "energy": "n/a"
+   },
+   "observed_result": "Sweeping strips all carbon including calcite carbonate, leaving Ca(OH)2-like pH 11.9 solution; no CaCO3 reprecipitation.",
+   "limitations": "CO2-free sweep boundary.",
+   "doubts": "carbonate carbon degassed from CaCO3 at 25 C"
+  },
+  {
+   "id": "new120:pr-005",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PR-005-C1",
+     "text": "Metal fractions",
+     "verdict": "FAIL",
+     "evidence": "no Fe solid: filtrate Fe+3 2.0e-4, Cu 2e-4; hematite/goethite not offered"
+    },
+    {
+     "id": "PR-005-C2",
+     "text": "Fe retained > Cu",
+     "verdict": "FAIL",
+     "evidence": "both 0 retained"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Fe,Cu,S,Cl,Na": 0.0
+    },
+    "charge": "~0",
+    "energy": "n/a"
+   },
+   "observed_result": "Titration to pH 4 precipitates no ferric hydroxide; all Fe and Cu pass the filter.",
+   "limitations": "Ferric solids excluded.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:pr-018",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "PR-018-C1",
+     "text": "Conservation + AgBr solid",
+     "verdict": "FAIL",
+     "evidence": "Ag+ 2e-4, Br- 2e-4 aqueous; Bromyrite SI +5.1 not in registry"
+    },
+    {
+     "id": "PR-018-C2",
+     "text": "Missing phase recorded unsupported",
+     "verdict": "PASS",
+     "evidence": "phase-not-in-registry note"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ag,Br,N,H,O": 0.0
+    },
+    "charge": "0",
+    "energy": "n/a"
+   },
+   "observed_result": "No AgBr precipitate; solution clear, SI +5.1 reported.",
+   "limitations": "AgBr phase missing.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:rx-006",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "RX-006-C1",
+     "text": "I2 decrease with DHA formation",
+     "verdict": "PASS",
+     "evidence": "I2 1e-4 -> 0, dehydroascorbic 1e-4, I- 0.001 -> 0.0012, H+ 2e-4; A405 0.0"
+    },
+    {
+     "id": "RX-006-C2",
+     "text": "1:1 ratio, iodine complexes",
+     "verdict": "PASS",
+     "evidence": "1e-4 ascorbate : 1e-4 I2; no residual I2 so no I3- pool"
+    },
+    {
+     "id": "forecast",
+     "text": "Ascorbate oxidised as iodine reduced",
+     "verdict": "PASS",
+     "evidence": ""
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C,H,O,I,K": 0.0
+    },
+    "charge": "0 (K 0.001 + H 0.0002 = I- 0.0012)",
+    "energy": "not modelled (stated)"
+   },
+   "observed_result": "0.1 mmol ascorbic acid reduces 0.1 mmol I2 completely to iodide, forming 0.1 mmol dehydroascorbic acid and 0.2 mmol H+.",
+   "limitations": "Instant stoichiometric template; no rate, no I3- speciation, heat not modelled.",
+   "doubts": "I3- never represented before reaction"
+  },
+  {
+   "id": "new120:sp-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-004-C1",
+     "text": "Collected vs remaining",
+     "verdict": "PASS",
+     "evidence": "10 kJ: 0.1801 water+0.0694 EtOH; 20 kJ: 0.3741+0.1241; sources 5.3708/0.1477 and 5.1768/0.0929"
+    },
+    {
+     "id": "SP-004-C2",
+     "text": "Energy not solely latent",
+     "verdict": "FAIL",
+     "evidence": "collected latent 0.180*40.65+0.0694*38.56=10.0 kJ = whole budget; preheat 70->91 C (~9.3 kJ) unpaid; source and distillate reset to 343.15 K"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C,H,O": 0.0
+    },
+    "charge": "0",
+    "energy": "~9.3 kJ (93%) sensible heat not charged in each run"
+   },
+   "observed_result": "Doubling energy doubles distillate (0.25 -> 0.50 mol), but all joules go to latent heat and preheating is free.",
+   "limitations": "Distillation energy ledger incomplete.",
+   "doubts": "none"
+  },
+  {
+   "id": "new120:th-008",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "TH-008-C1",
+     "text": "Pentahydrate adds 5 H2O",
+     "verdict": "PASS",
+     "evidence": "v1 water 5.58423 vs 5.53428 (+0.04995 = 5*0.01 minus antlerite OH)"
+    },
+    {
+     "id": "TH-008-C2",
+     "text": "Anhydrous warms more",
+     "verdict": "PASS",
+     "evidence": "CuSO4 +1.753 K; pentahydrate -0.143 K"
+    },
+    {
+     "id": "forecast",
+     "text": "Same Cu/SO4, different hydration/enthalpy",
+     "verdict": "PASS",
+     "evidence": "Cu 0.01 each (antlerite 1.1e-5 included)"
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cu,S,H,O": "0 with antlerite Cu3SO4(OH)4"
+    },
+    "charge": "0",
+    "energy": "-73.1 kJ/mol (NBS) *0.01/418 J/K = 1.75 K; +6.0 kJ/mol -> -0.14 K"
+   },
+   "observed_result": "0.01 mol anhydrous CuSO4 warms 100 mL water by 1.75 K; pentahydrate cools it by 0.14 K and adds 0.05 mol water; Cu/SO4 equal.",
+   "limitations": "Small antlerite precipitate; NBS-based enthalpies (pentahydrate lit. ~+11.5 kJ/mol).",
+   "doubts": "pentahydrate \u0394solH 6 kJ/mol vs literature ~11.5"
+  }
+ ],
+ "second_review": [
+  {
+   "id": "batch2:ec-009",
+   "verdict": "REJECTED",
+   "reason": "Electron/charge balance still open: Fe(III) 9.989e-4 vs 5*Mn2+ 1.000e-3 (1.1 umol mismatch), Fe2+ 1.1e-6 left, uncompensated-charge adapter warning; same 1.109 umol defect that held EC009 earlier.",
+   "evidence": "first-round evidence; scientific-coverage-expansion-20261020 EC009 hold"
+  },
+  {
+   "id": "batch2:qa-003",
+   "verdict": "REJECTED",
+   "reason": "C2 requires each MEASURED pre-titration volume; volume_meter refused (NYM) and scene vessel volume was substituted, explicitly ruled not a replacement in prior QA003 hold.",
+   "evidence": "dossier; batch2-selection-review-fifth README QA003"
+  },
+  {
+   "id": "batch2:qa-008",
+   "verdict": "CONFIRMED",
+   "reason": "Blank 0.1 mmol I2 retained, 0.2 mmol thiosulfate difference, C/I closure exact; I2 supersaturation flag does not touch criteria.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "batch2:tc-004",
+   "verdict": "CONFIRMED",
+   "reason": "Ice forms, filtrate holds all NaCl, Na/Cl and energy close (10 kJ each way); idealised exclusion is reported limitation.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "new120:kn-010",
+   "verdict": "CONFIRMED",
+   "reason": "Larger scavenger delays I2 onset (0-5 s vs 5-15 s) with per-timepoint I2/S2O3 and exact closure.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "new120:rx-007",
+   "verdict": "CONFIRMED",
+   "reason": "Two portions reduced, third persists as 5e-5 I2, no ascorbate regeneration; closure exact.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "new120:th-009",
+   "verdict": "CONFIRMED",
+   "reason": "CaO -> Ca(OH)2/Ca2+, dT +1.69 K within ~3% of literature heat.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "batch2:se-001",
+   "verdict": "CONFIRMED",
+   "reason": "Iodine tracked across raffinate/extract/strip, iodide+tetrathionate formed, closure 1e-16.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "new120:ab-017",
+   "verdict": "REJECTED",
+   "reason": "C1 passed against a calculated NaOAc-only expectation, not a same-boundary control (prior review held exactly this); plus wateq4f->minteq dataset switch / NH3(g) regression lane open.",
+   "evidence": "first-round doubts; saved-assessment-first120-ab README AB-017 hold"
+  },
+  {
+   "id": "new120:rx-005",
+   "verdict": "CONFIRMED",
+   "reason": "2:1 thiosulfate:I2 with tetrathionate, half dose leaves 5e-5 I2; total oxidised iodine tracked satisfies 'any I3- representation'.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "new120:th-015",
+   "verdict": "CONFIRMED",
+   "reason": "Mixed T 0.667 K above Cp-weighted pre-mix baseline = 55.8 kJ/mol, matches literature; H+/OH- consumed. HCl was added as bare HCl with no dissolution heat (asymmetry vs NaOH) but baseline is taken from recorded pre-mix states, so neutralisation increment is unaffected; record as limitation.",
+   "evidence": "dossier steps [1],[5],[8]; first-round energy"
+  },
+  {
+   "id": "batch2:tc-001",
+   "verdict": "CONFIRMED",
+   "reason": "Both routes total 0.1938 kJ (rel 5e-6), identical final inventories, intermediates differ; cumulative calorimeter semantics read correctly (route-2 0.0899 then 0.1938 cumulative) and total matches NBS ~193.5 J; earlier 103.8 J route discrepancy not present in this run.",
+   "evidence": "first-round evidence; dossier limitation on calorimeter semantics"
+  },
+  {
+   "id": "batch3-diverse:bd-003",
+   "verdict": "CONFIRMED",
+   "reason": "Forecast expects no photochemistry claim without coupled route; runtime reports photolysis_coupled:false and lit==dark peroxide, water control clean.",
+   "evidence": "dossier forecast; first-round evidence"
+  },
+  {
+   "id": "batch3-diverse:en-002",
+   "verdict": "REJECTED",
+   "reason": "Standing milk matrix physical hold: recipe emits uncompensated +2.497e-4 charge, adapter imposes pH; EN002 previously held on exactly this.",
+   "evidence": "raw step [2] not_yet_modeled uncompensated charge; docs/milk-matrix-physical-closure-20261026.md"
+  },
+  {
+   "id": "new120:rx-006",
+   "verdict": "CONFIRMED",
+   "reason": "1:1 ascorbate:I2 to DHA, closure exact; I3- absence acceptable as no residual I2.",
+   "evidence": "first-round evidence"
+  },
+  {
+   "id": "new120:th-008",
+   "verdict": "CONFIRMED",
+   "reason": "Five waters added, Cu/S equal, anhydrous warms more. Pentahydrate +6.0 kJ/mol equals NBS infinite-dilution value (dfH: -2279.65 -> Cu2+ 64.77 + SO4 -909.27 + 5*-285.83); ~11.5 is a finite-concentration figure, so consistent with declared data.",
+   "evidence": "NBS arithmetic; criterion 'subject to declared enthalpy data'"
+  }
+ ]
+}
