@@ -86,7 +86,7 @@ impl ActivityModel {
     pub fn describe(self) -> &'static str {
         match self {
             ActivityModel::Pitzer => {
-                "Pitzer specific-ion-interaction model (valid at high ionic strength)"
+                "Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)"
             }
             ActivityModel::WateqDebyeHuckel => {
                 "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)"
@@ -116,7 +116,7 @@ impl ActivityModel {
         match self {
             ActivityModel::Pitzer => Phrase::new(
                 "provenance.model.ion-interaction",
-                "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
                 vec![("name".to_string(), Slot::text("Pitzer"))],
             ),
             ActivityModel::WateqDebyeHuckel => Phrase::new(

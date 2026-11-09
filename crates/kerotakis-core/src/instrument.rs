@@ -130,6 +130,11 @@ impl InstrumentContract for PhMeter {
     }
 
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        // A solution withdrawn for lying outside its activity model's
+        // stated range has no pH to read, and no blank stands in for it.
+        if vessel.solution.is_none() && vessel.activity_range_refusal.is_some() {
+            return None;
+        }
         let value = vessel
             .solution
             .as_ref()

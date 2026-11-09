@@ -4411,6 +4411,18 @@ impl Bench {
                             note: None,
                             note_reason: None,
                         }),
+                        // The solution was withdrawn because the activity
+                        // model was outside its stated range: say which
+                        // range, not "no solution", and never a number.
+                        None if v.activity_range_refusal.is_some() => {
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                v.activity_range_refusal
+                                    .clone()
+                                    .expect("guard established a recorded refusal"),
+                            ))
+                        }
                         None if crate::conductivity::neutral_aqueous_ph(v).is_some() => {
                             let reason = Phrase::bare(
                                 "measured.neutral-water-baseline",

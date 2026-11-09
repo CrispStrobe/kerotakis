@@ -2886,6 +2886,7 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
     announce_routing(vessel, &provenance, &mut events);
     vessel.free_proton = activity * solvent_kg.unwrap_or(0.0);
     vessel.free_hydroxide = activity * solvent_kg.unwrap_or(0.0);
+    vessel.activity_range_refusal = None;
     vessel.solution = Some(SolutionInfo {
         solvent_activity: None,
         scope: SolutionScope::SolventOnly,
@@ -4961,6 +4962,11 @@ impl Equilibrator for PhreeqcEquilibrator {
         // characterisation: the reader is told what happened, then where
         // the numbers for it came from.
         announce_routing(vessel, &provenance, &mut events);
+        vessel.activity_range_refusal = if db_tag == "pitzer" {
+            crate::activity_range::breach(&merged_problem.elements, &value).map(|b| b.phrase())
+        } else {
+            None
+        };
         vessel.solution = Some(SolutionInfo {
             solvent_activity: None,
             scope: Default::default(),
@@ -4975,11 +4981,13 @@ impl Equilibrator for PhreeqcEquilibrator {
             provenance: Some(provenance),
         });
 
-        events.push(Event::SolutionCharacterized {
-            vessel: vessel.id,
-            ph,
-            ionic_strength: mu,
-        });
+        if vessel.activity_range_refusal.is_none() {
+            events.push(Event::SolutionCharacterized {
+                vessel: vessel.id,
+                ph,
+                ionic_strength: mu,
+            });
+        }
 
         Some(Ok(events))
     }
@@ -10575,6 +10583,15 @@ impl PhreeqcEquilibrator {
         // other paths write a provenance and had to obey it: see there for
         // what is compared and why it is held on the vessel.
         announce_routing(vessel, &provenance, events);
+        // The Pitzer parameters are fitted per electrolyte to a stated
+        // molality; past it the answer is an extrapolation and the honesty
+        // pass withdraws it (`activity_range`). Recorded on every
+        // characterisation, so a later dilute answer clears it.
+        vessel.activity_range_refusal = if db_tag == "pitzer" {
+            crate::activity_range::breach(&problem.elements, value).map(|b| b.phrase())
+        } else {
+            None
+        };
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
@@ -10593,7 +10610,9 @@ impl PhreeqcEquilibrator {
             .map(|prev| (prev.ph - ph).abs() > 0.01 || (prev.ionic_strength - mu).abs() > 1e-4)
             .unwrap_or(true);
         vessel.solution = Some(info);
-        if changed {
+        // An answer outside the activity model's stated range is not put on
+        // the wire as a pH; the honesty pass states the refusal instead.
+        if changed && vessel.activity_range_refusal.is_none() {
             events.push(Event::SolutionCharacterized {
                 vessel: vessel.id,
                 ph,

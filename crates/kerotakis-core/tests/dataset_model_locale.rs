@@ -125,7 +125,7 @@ fn the_model_field_still_carries_the_prefix_the_solver_matches_on() {
         "pitzer.dat",
         Phrase::new(
             "provenance.model.ion-interaction",
-            "{name} specific-ion-interaction model (valid at high ionic strength)",
+            "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
             vec![("name".to_string(), Slot::text("Pitzer"))],
         ),
         Vec::new(),
@@ -146,9 +146,7 @@ fn the_model_field_still_carries_the_prefix_the_solver_matches_on() {
     );
     // The German is not the English.
     assert!(
-        !pitzer
-            .model_in(de())
-            .contains("valid at high ionic strength"),
+        !pitzer.model_in(de()).contains("fitted per electrolyte"),
         "{}",
         pitzer.model_in(de())
     );

@@ -1,0 +1,58 @@
+{
+  "about": "Maximum stoichiometric molality (mol/kg water, 25 C) to which the Pitzer ion-interaction parameters of each binary electrolyte were fitted. The shipped pitzer.dat states no molality range in its header or comments (it cites Appelo, Parkhurst and Post 2014 and Appelo 2015 for the T/P and volume terms only), so each range is taken from the primary fit the parameter set descends from. A row with max_molality null has no stated range: the engine keeps answering it but does not claim validity. Composition rule and runtime use: crates/kerotakis-phreeqc/src/activity_range.rs. Coverage table: docs/activity-model-range-coverage-20261109.md (tools/activity_range_coverage.py).",
+  "sources": {
+    "PM73": "Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. II. Activity and osmotic coefficients for strong electrolytes with one or both ions univalent. J. Phys. Chem. 1973, 77, 2300-2308, Tables I-III (column max m).",
+    "PM74": "Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. III. Activity and osmotic coefficients for 2-2 electrolytes. J. Solution Chem. 1974, 3, 539-546 (stated fit range).",
+    "PPB84": "Pitzer, K. S.; Peiper, J. C.; Busey, R. H. Thermodynamic properties of aqueous sodium chloride solutions. J. Phys. Chem. Ref. Data 1984, 13, 1-102 (equations valid to halite saturation, 6.15 mol/kg at 25 C).",
+    "PRS77": "Pitzer, K. S.; Roy, R. N.; Silvester, L. F. Thermodynamics of electrolytes. 7. Sulfuric acid. J. Am. Chem. Soc. 1977, 99, 4930-4936 (fit range 0-6 mol/kg at 25 C).",
+    "none": "No stated range transcribed for the shipped parameters (Kim and Frederick 1988, J. Chem. Eng. Data 33, 177-184, tabulates ranges for many single salts; a row moves out of this class only when its value is transcribed from that table with the page cited)."
+  },
+  "ions": {
+    "H": 1, "Li": 1, "Na": 1, "K": 1,
+    "Ca": 2, "Mg": 2, "Sr": 2, "Ba": 2, "Mn": 2, "Fe": 2,
+    "Cl": -1, "Br": -1, "S": -2, "OH": -1
+  },
+  "weak_acid_capacity": {
+    "C": 2, "B": 1, "Si": 1
+  },
+  "electrolytes": [
+    {"electrolyte": "HCl",   "cation": "H",  "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.0, "source": "PM73"},
+    {"electrolyte": "HBr",   "cation": "H",  "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 3.0, "source": "PM73"},
+    {"electrolyte": "H2SO4", "cation": "H",  "anion": "S",  "nu_cation": 2, "nu_anion": 1, "max_molality": 6.0, "source": "PRS77"},
+    {"electrolyte": "LiOH",  "cation": "Li", "anion": "OH", "nu_cation": 1, "nu_anion": 1, "max_molality": null, "source": "none"},
+    {"electrolyte": "NaOH",  "cation": "Na", "anion": "OH", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.0, "source": "PM73"},
+    {"electrolyte": "KOH",   "cation": "K",  "anion": "OH", "nu_cation": 1, "nu_anion": 1, "max_molality": 5.5, "source": "PM73"},
+    {"electrolyte": "LiCl",  "cation": "Li", "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.0, "source": "PM73"},
+    {"electrolyte": "LiBr",  "cation": "Li", "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 2.5, "source": "PM73"},
+    {"electrolyte": "NaCl",  "cation": "Na", "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.2, "source": "PPB84"},
+    {"electrolyte": "NaBr",  "cation": "Na", "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 4.0, "source": "PM73"},
+    {"electrolyte": "KCl",   "cation": "K",  "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 4.8, "source": "PM73"},
+    {"electrolyte": "KBr",   "cation": "K",  "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 5.5, "source": "PM73"},
+    {"electrolyte": "CaCl2", "cation": "Ca", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 2.5, "source": "PM73"},
+    {"electrolyte": "MgCl2", "cation": "Mg", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 4.5, "source": "PM73"},
+    {"electrolyte": "SrCl2", "cation": "Sr", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 4.0, "source": "PM73"},
+    {"electrolyte": "BaCl2", "cation": "Ba", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 1.8, "source": "PM73"},
+    {"electrolyte": "MnCl2", "cation": "Mn", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 2.5, "source": "PM73"},
+    {"electrolyte": "FeCl2", "cation": "Fe", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 2.0, "source": "PM73"},
+    {"electrolyte": "CaBr2", "cation": "Ca", "anion": "Br", "nu_cation": 1, "nu_anion": 2, "max_molality": null, "source": "none"},
+    {"electrolyte": "MgBr2", "cation": "Mg", "anion": "Br", "nu_cation": 1, "nu_anion": 2, "max_molality": null, "source": "none"},
+    {"electrolyte": "Li2SO4","cation": "Li", "anion": "S",  "nu_cation": 2, "nu_anion": 1, "max_molality": 3.0, "source": "PM73"},
+    {"electrolyte": "Na2SO4","cation": "Na", "anion": "S",  "nu_cation": 2, "nu_anion": 1, "max_molality": 4.0, "source": "PM73"},
+    {"electrolyte": "K2SO4", "cation": "K",  "anion": "S",  "nu_cation": 2, "nu_anion": 1, "max_molality": 0.7, "source": "PM73"},
+    {"electrolyte": "MgSO4", "cation": "Mg", "anion": "S",  "nu_cation": 1, "nu_anion": 1, "max_molality": 3.0, "source": "PM74"},
+    {"electrolyte": "MnSO4", "cation": "Mn", "anion": "S",  "nu_cation": 1, "nu_anion": 1, "max_molality": null, "source": "none"},
+    {"electrolyte": "CaSO4", "cation": "Ca", "anion": "S",  "nu_cation": 1, "nu_anion": 1, "max_molality": null, "source": "none"},
+    {"electrolyte": "Ca(OH)2","cation": "Ca", "anion": "OH", "nu_cation": 1, "nu_anion": 2, "max_molality": null, "source": "none"},
+    {"electrolyte": "Mg(OH)2","cation": "Mg", "anion": "OH", "nu_cation": 1, "nu_anion": 2, "max_molality": null, "source": "none"},
+    {"electrolyte": "Ba(OH)2","cation": "Ba", "anion": "OH", "nu_cation": 1, "nu_anion": 2, "max_molality": null, "source": "none"}
+  ],
+  "absent_from_dataset": [
+    {"electrolyte": "HI",     "missing": "I"},
+    {"electrolyte": "HNO3",   "missing": "N"},
+    {"electrolyte": "HClO4",  "missing": "Cl(7)"},
+    {"electrolyte": "NaI",    "missing": "I"},
+    {"electrolyte": "NaNO3",  "missing": "N"},
+    {"electrolyte": "KNO3",   "missing": "N"},
+    {"electrolyte": "NH4Cl",  "missing": "N"}
+  ]
+}
