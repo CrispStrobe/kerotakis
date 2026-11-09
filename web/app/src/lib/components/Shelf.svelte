@@ -508,7 +508,7 @@
                 type="text"
                 required
                 aria-label={t("concentration, e.g. 37% or 1M")}
-                placeholder="37% / 1M"
+                placeholder={t("37% / 1M")}
                 aria-invalid={customConcentration !== "" && !normaliseConcentration(customConcentration)}
                 bind:value={customConcentration}
               />

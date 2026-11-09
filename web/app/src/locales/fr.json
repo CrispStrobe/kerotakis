@@ -2,6 +2,7 @@
  "@@locale": "fr",
  "@@name": "Français",
  "terms": {
+  "37% / 1M": "37 % / 1 M",
   "dilute the current carriers": "diluer les porteurs de courant",
   "follow the salt through staged transfers": "suivre le sel à travers des transferts successifs",
   "filter cannot catch dissolved": "un filtre ne retient pas le dissous",
