@@ -436,14 +436,23 @@ pub enum Operator {
     /// magnet and are dropped into `to`; everything else stays behind.
     Magnet { from: VesselId, to: VesselId },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
-    /// transport with an explicit Courant fraction. The inlet provides the
-    /// feed composition (unchanged); the effluent collects in the receiver.
+    /// transport with an explicit Courant fraction. The inlet is an external
+    /// constant-composition reservoir (a representative full-cell boundary
+    /// composition, not consumed), unless `drain` declares it a finite feed
+    /// vessel debited by exactly what it injects. Local equilibrium is
+    /// re-established in every cell after every step; the effluent collects
+    /// in the receiver.
     Transport {
         chain: Vec<VesselId>,
         inlet: VesselId,
         receiver: VesselId,
         steps: u32,
         courant: f64,
+        /// The protocol states a finite feed: the inlet vessel is drained by
+        /// exactly what enters the column, and a feed that cannot supply a
+        /// step is refused. Off by default (constant reservoir).
+        #[serde(default, skip_serializing_if = "is_false")]
+        drain: bool,
     },
 }
 
@@ -2314,6 +2323,15 @@ pub enum Event {
         steps: u32,
         courant: f64,
         effluent_moles: Vec<(SpeciesId, Moles)>,
+        /// What entered the first cell over the whole command: the boundary
+        /// source term of the open-column ledger. For a drained feed this is
+        /// exactly what the inlet vessel lost; for the default reservoir it
+        /// is matter the reservoir supplied from outside the bench.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        inflow_moles: Vec<(SpeciesId, Moles)>,
+        /// The inflow was debited from a finite feed vessel.
+        #[serde(default, skip_serializing_if = "is_false")]
+        drain: bool,
     },
 }
 

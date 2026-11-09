@@ -952,7 +952,7 @@ impl Bench {
             _ => None,
         };
         let mut disposition = ApplyDisposition::Reequilibrate;
-        let mut events = self.apply(&op, screen, &mut disposition)?;
+        let mut events = self.apply(&op, solver, screen, &mut disposition)?;
         if disposition == ApplyDisposition::Unchanged {
             self.log.push(LogEntry {
                 step: self.log.len(),
@@ -1779,6 +1779,7 @@ impl Bench {
     fn apply(
         &mut self,
         op: &Operator,
+        solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
         disposition: &mut ApplyDisposition,
     ) -> Result<Vec<Event>, BenchError> {
@@ -5898,7 +5899,9 @@ impl Bench {
                 receiver,
                 steps,
                 courant,
+                drain,
             } => {
+                let drain = *drain;
                 if chain.is_empty() {
                     return Err(BenchError::NonPositiveAmount);
                 }
@@ -5950,27 +5953,35 @@ impl Bench {
                 // mark this as Unchanged to preserve caches and still emit
                 // Transported with zero effluent.
                 if *courant == 0.0 {
-                    let inlet_vessel = self.vessel(*inlet)?.clone();
+                    let mut inlet_vessel = self.vessel(*inlet)?.clone();
                     let chain_vessels: Vec<crate::vessel::Vessel> = chain
                         .iter()
                         .map(|id| self.vessel(*id).cloned())
                         .collect::<Result<_, _>>()?;
                     let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
-                    let total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
                     // With zero movement every requested step has identical
                     // inputs, so validate once rather than repeat a no-op.
-                    cell_chain.advance(&inlet_vessel, *courant)?;
+                    if drain {
+                        cell_chain.advance_from_feed(&mut inlet_vessel, *courant, 1)?;
+                    } else {
+                        cell_chain.advance(&inlet_vessel, *courant)?;
+                    }
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::Transported {
                         chain: chain.clone(),
                         receiver: *receiver,
                         steps: *steps,
                         courant: *courant,
-                        effluent_moles: total_effluent,
+                        effluent_moles: Vec::new(),
+                        inflow_moles: Vec::new(),
+                        drain,
                     });
                     return Ok(events);
                 }
-                let inlet_vessel = self.vessel(*inlet)?.clone();
+                // Every vessel below is a local proposal; nothing is published
+                // until all steps succeeded, and `step_with` restores the
+                // checkpoint on any error.
+                let mut inlet_vessel = self.vessel(*inlet)?.clone();
                 let chain_vessels: Vec<crate::vessel::Vessel> = chain
                     .iter()
                     .map(|id| self.vessel(*id).cloned())
@@ -5986,19 +5997,56 @@ impl Bench {
                 let mut receiver_proposal = self.vessel(*receiver)?.clone();
                 let temp_before = receiver_proposal.temperature;
                 let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                let mut total_inflow: Vec<(SpeciesId, Moles)> = Vec::new();
+                let accumulate =
+                    |total: &mut Vec<(SpeciesId, Moles)>,
+                     parcel: &crate::transport::MobileParcel| {
+                        for portion in &parcel.contents {
+                            if let Some(entry) =
+                                total.iter_mut().find(|(s, _)| *s == portion.species)
+                            {
+                                entry.1 = Moles(entry.1 .0 + portion.moles.0);
+                            } else {
+                                total.push((portion.species.clone(), portion.moles));
+                            }
+                        }
+                    };
                 let mut has_movement = false;
-                for _ in 0..*steps {
-                    let step = cell_chain.advance(&inlet_vessel, *courant)?;
-                    for portion in &step.effluent.contents {
-                        if let Some(entry) = total_effluent
-                            .iter_mut()
-                            .find(|(s, _)| *s == portion.species)
-                        {
-                            entry.1 = Moles(entry.1 .0 + portion.moles.0);
-                        } else {
-                            total_effluent.push((portion.species.clone(), portion.moles));
+                for step_index in 0..*steps {
+                    // Operator splitting per step: the cells re-equilibrate
+                    // after EVERY transport step, not once per command, so a
+                    // reactive bed (cementation, precipitation, sorption,
+                    // mineral dissolution) acts on each pore volume as it
+                    // arrives. The last step's solve is the ordinary
+                    // post-operator pass over the touched vessels.
+                    if step_index > 0 {
+                        for (offset, cell) in cell_chain.cells_mut().iter_mut().enumerate() {
+                            cell.mark_liquid_contact();
+                            cell.solution = None;
+                            cell.step_start = Some(crate::vessel::StepStart::capture(cell));
+                            if solver.applies(cell) {
+                                match solver.equilibrate(cell) {
+                                    Ok(mut more) => events.append(&mut more),
+                                    Err(e) => events.push(Event::SolverFailed {
+                                        reason: e.owned_reason().cloned().map(Box::new),
+                                        vessel: chain[offset],
+                                        solver: solver.name().to_string(),
+                                        detail: e.to_string(),
+                                    }),
+                                }
+                            }
+                            cell.step_start = None;
+                            cell.heat_input = None;
+                            cell.refresh_pressure();
                         }
                     }
+                    let step = if drain {
+                        cell_chain.advance_from_feed(&mut inlet_vessel, *courant, step_index + 1)?
+                    } else {
+                        cell_chain.advance(&inlet_vessel, *courant)?
+                    };
+                    accumulate(&mut total_inflow, &step.injected);
+                    accumulate(&mut total_effluent, &step.effluent);
                     let effluent = step.effluent;
                     let is_empty = effluent.contents.is_empty()
                         && effluent.solute_charge == 0.0
@@ -6026,19 +6074,14 @@ impl Bench {
                     receiver_proposal.free_hydroxide += effluent.free_hydroxide;
                     receiver_proposal.free_proton += effluent.free_proton;
                 }
-                // Publish chain only after every domain check succeeded;
-                // CellChain already carries correct cache semantics (zero
-                // Courant leaves solution intact, movement clears it).
+                // Publish chain only after every domain check succeeded. The
+                // whole cell is published: the intermediate solves may have
+                // moved interfaces, solids or gas, not just the mobile phase.
                 for (i, cid) in chain.iter().enumerate() {
-                    let updated = &cell_chain.cells()[i];
-                    let v = self.vessel_mut(*cid)?;
-                    v.contents = updated.contents.clone();
-                    v.temperature = updated.temperature;
-                    v.solute_charge = updated.solute_charge;
-                    v.free_hydroxide = updated.free_hydroxide;
-                    v.free_proton = updated.free_proton;
-                    v.solution = updated.solution.clone();
-                    v.resolved = updated.resolved.clone();
+                    *self.vessel_mut(*cid)? = cell_chain.cells()[i].clone();
+                }
+                if drain {
+                    *self.vessel_mut(*inlet)? = inlet_vessel;
                 }
                 if has_movement {
                     receiver_proposal.solution = None;
@@ -6060,6 +6103,8 @@ impl Bench {
                     steps: *steps,
                     courant: *courant,
                     effluent_moles: total_effluent,
+                    inflow_moles: total_inflow,
+                    drain,
                 });
             }
             Operator::Titrate { .. } => {
@@ -7236,10 +7281,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::TestGas { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
-            chain, receiver, ..
+            chain,
+            inlet,
+            receiver,
+            drain,
+            ..
         } => {
             let mut touched = chain.clone();
             touched.push(*receiver);
+            // A finite feed is drained, so its solution state is stale too.
+            if *drain {
+                touched.push(*inlet);
+            }
             touched
         }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],

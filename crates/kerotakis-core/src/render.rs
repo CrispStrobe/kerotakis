@@ -4994,6 +4994,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             steps,
             courant,
             effluent_moles,
+            ..
         } => {
             let cells = chain.len();
             let total: f64 = effluent_moles.iter().map(|(_, m)| m.0).sum();

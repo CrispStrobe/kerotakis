@@ -261,7 +261,8 @@ fn reactive_surface_reference_water_has_a_capacity_bounded_geometry_allowance() 
     );
 
     let mut beyond_capacity = CellChain::new(vec![first, second]).unwrap();
-    beyond_capacity.cells_mut()[1].deposit(SpeciesId::new("water"), Moles(5e-4), Phase::Liquid);
+    // Beyond site capacity AND the documented 0.1 % hydraulic tolerance.
+    beyond_capacity.cells_mut()[1].deposit(SpeciesId::new("water"), Moles(1e-2), Phase::Liquid);
     assert!(matches!(
         beyond_capacity.advance(&inlet, 0.0),
         Err(TransportError::NonUniformCellVolume { cell: 1, .. })

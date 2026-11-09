@@ -67,6 +67,7 @@ fn salt_pulse_disperses_through_column() {
             receiver: VesselId(4),
             steps: 3,
             courant: 0.5,
+            drain: false,
         })
         .unwrap();
 
@@ -112,6 +113,7 @@ fn binomial_profile_after_two_steps() {
             receiver: VesselId(4),
             steps: 2,
             courant: 0.5,
+            drain: false,
         })
         .unwrap();
 
@@ -165,6 +167,7 @@ fn transport_refuses_empty_chain() {
         receiver: VesselId(4),
         steps: 3,
         courant: 0.5,
+        drain: false,
     });
     assert!(result.is_err());
 }
@@ -178,6 +181,7 @@ fn transport_refuses_zero_steps() {
         receiver: VesselId(4),
         steps: 0,
         courant: 0.5,
+        drain: false,
     });
     assert!(result.is_err());
 }
@@ -198,6 +202,7 @@ fn water_volume_conserved_in_chain_cells() {
             receiver: VesselId(4),
             steps: 3,
             courant: 0.5,
+            drain: false,
         })
         .unwrap();
 
@@ -222,6 +227,7 @@ fn receiver_collects_effluent() {
             receiver: VesselId(4),
             steps: 3,
             courant: 0.5,
+            drain: false,
         })
         .unwrap();
 
