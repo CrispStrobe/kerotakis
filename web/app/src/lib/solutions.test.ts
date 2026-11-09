@@ -67,8 +67,9 @@ describe("stock solution commands", () => {
     expect(shelfVisibleAt("lv1", bottle)).toBe(true);
     expect(shelfVisibleAt("lv2", bottle)).toBe(true);
     expect(shelfVisibleAt("lv3", bottle)).toBe(false);
+    const compound = { key: "HCl" };
     for (const register of ["lv1", "lv2", "lv3"]) {
-      expect(shelfVisibleAt(register, { key: "HCl" })).toBe(true);
+      expect(shelfVisibleAt(register, compound)).toBe(true);
     }
     // The bottle carries its concentration in its key, so the command has
     // no concentration token and is the grammar the engine parses.
