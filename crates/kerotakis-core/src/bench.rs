@@ -6181,6 +6181,10 @@ impl Bench {
             );
             v.solution = None;
             v.step_start = Some(crate::vessel::StepStart::capture(&v));
+            // One increment is delivered with no elapsed time: an open
+            // boundary may release only effervescing gas, not relax the
+            // solution to room air (see `Vessel::zero_time_dose`).
+            v.zero_time_dose = true;
             // Both the full dose and every refinement candidate are checked
             // before safety, applicability or equilibrium hooks see them.
             validate_trial(&v)?;
@@ -6210,6 +6214,7 @@ impl Bench {
             };
             v.step_start = None;
             v.heat_input = None;
+            v.zero_time_dose = false;
             v.refresh_pressure();
             let mut solved_events = result.map_err(TrialFailure::Solver)?;
             validate_trial(&v)?;
