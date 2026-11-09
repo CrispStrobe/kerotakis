@@ -27,7 +27,7 @@ fn sample(solver: &mut PhreeqcEquilibrator, parts: &[(&str, f64)]) -> Bench {
     );
     for (name, mmol) in parts {
         v.deposit(
-            SpeciesId::new(*name),
+            SpeciesId::new(name),
             Moles(mmol * MMOL),
             species::lookup_key(name).unwrap().standard_phase,
         );

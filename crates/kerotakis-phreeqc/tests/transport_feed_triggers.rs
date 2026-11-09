@@ -100,10 +100,17 @@ transport v1 v2 v3 from v4 to v5 steps 3 courant 0.5
 inspect
 transport v1 v2 v3 from v4 to v5 steps 6 courant 0.5";
 
+/// The production stack, built exactly as the CLI builds it: the PHREEQC
+/// tail wrapped by metal displacement and then by the phase pass. A bare
+/// PHREEQC tail has no metal-displacement step at all, so Fe(s) + Cu2+
+/// would never cement whatever the transport coupling did.
 fn solver() -> SolverStack {
-    SolverStack::new(kerotakis_stack::standard_solvers(vec![Box::new(
-        PhreeqcEquilibrator::new().expect("native engine"),
-    )]))
+    let aqueous: Box<dyn Equilibrator> =
+        Box::new(PhreeqcEquilibrator::new().expect("native engine"));
+    let tail: Vec<Box<dyn Equilibrator>> = vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        DisplacementEquilibrator::wrapping(aqueous),
+    )))];
+    SolverStack::new(kerotakis_stack::standard_solvers(tail))
 }
 
 fn elements(bench: &Bench, vessels: &[usize]) -> BTreeMap<String, f64> {
