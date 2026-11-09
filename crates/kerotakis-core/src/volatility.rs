@@ -62,6 +62,27 @@ use crate::vessel::Vessel;
 /// over 101.325 J/(L·atm).
 pub const R_LITRE_ATM: f64 = 0.082_057_366;
 
+const CHRIS_STILL: &str = include_str!("../../../data/thermo/uscg-chris-still.tsv");
+
+/// Which reviewed property set, if any, lets `distil` carry `key` overhead:
+/// the ethanol/water UNIFAC binary still, or a USCG CHRIS boiling-point and
+/// latent-heat row for the ideal-liquid still. `None` is the typed
+/// `not-modeled.no-reviewed-still-properties` refusal for any condensed
+/// volatile owner. Runtime half of `docs/separation-coverage-20261109.json`.
+pub fn still_property_basis(key: &str) -> Option<&'static str> {
+    if key == "water" || key == "ethanol" {
+        return Some("binary-unifac-still");
+    }
+    CHRIS_STILL
+        .lines()
+        .filter(|line| !line.starts_with('#'))
+        .any(|line| {
+            let fields: Vec<_> = line.split_whitespace().collect();
+            fields.len() == 5 && fields[0] == key
+        })
+        .then_some("uscg-chris-ideal-still")
+}
+
 /// Plan a non-binary cut before changing either vessel. `None` retains the
 /// established ethanol/water activity-coefficient owner. Unknown liquid
 /// components are refusals, never silently dropped from the volatile inventory.
@@ -134,7 +155,7 @@ pub fn additional_solvent_cut(
             _ => None,
         };
         let properties = existing.or_else(|| {
-            include_str!("../../../data/thermo/uscg-chris-still.tsv")
+            CHRIS_STILL
                 .lines().filter(|l| !l.starts_with('#')).find_map(|line| {
                     let fields: Vec<_> = line.split_whitespace().collect();
                     if fields.len() != 5 || fields[0] != key { return None; }
@@ -188,7 +209,7 @@ fn ideal_still_refusal_phrase(error: kerotakis_thermo::vle::StillError) -> Phras
         ),
         StillError::UnrepresentableCondensate => Phrase::bare(
             "not-modeled.ideal-still-condensate-precision",
-            "a positive component cannot be retained in the accumulated condensate; no material was transferred",
+            "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred",
         ),
         StillError::UnrepresentableResidue => Phrase::bare(
             "not-modeled.ideal-still-residue-precision",

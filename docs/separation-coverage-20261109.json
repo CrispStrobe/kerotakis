@@ -1,0 +1,148 @@
+{
+  "schema": "kerotakis.separation-coverage.v1",
+  "extract_solvent": "hexane",
+  "counts": {
+    "extract": 4,
+    "distil": 4,
+    "liquid_owner_admitted": 3
+  },
+  "species": [
+    {
+      "species": "I2",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "empirical",
+        "k": 85.0,
+        "reference_temperature_k": 298.15,
+        "tolerance_k": 0.5
+      },
+      "liquid_owner_admitted": false,
+      "distil": null
+    },
+    {
+      "species": "ethanol",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": true,
+      "distil": {
+        "basis": "binary-unifac-still"
+      }
+    },
+    {
+      "species": "isopropanol",
+      "registered": true,
+      "extract_hexane": null,
+      "liquid_owner_admitted": false,
+      "distil": {
+        "basis": "uscg-chris-ideal-still",
+        "boiling_k": 355.5,
+        "latent_j_per_kg": 666000.0
+      }
+    },
+    {
+      "species": "methanol",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": true,
+      "distil": {
+        "basis": "uscg-chris-ideal-still",
+        "boiling_k": 337.7,
+        "latent_j_per_kg": 1100000.0
+      }
+    },
+    {
+      "species": "propanone",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": true,
+      "distil": null
+    },
+    {
+      "species": "water",
+      "registered": true,
+      "extract_hexane": null,
+      "liquid_owner_admitted": false,
+      "distil": {
+        "basis": "binary-unifac-still"
+      }
+    }
+  ],
+  "watched": [
+    {
+      "species": "CH3COO-",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "CH3COOH",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: no K; distil: no reviewed vapour pressure/latent heat (vapour dimerises)"
+    },
+    {
+      "species": "Cl-",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "H+",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "I-",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "K+",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "Na+",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "S4O6-2",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: ion, no reviewed ion-pair partition"
+    },
+    {
+      "species": "ethyl_acetate",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: liquid owner not admitted (partly miscible) and no K"
+    },
+    {
+      "species": "naphthalene",
+      "registered": true,
+      "extract_hexane": null,
+      "distil": null,
+      "gap": "extract: no hexane/water K (no empirical row, no UNIFAC decomposition)"
+    }
+  ]
+}

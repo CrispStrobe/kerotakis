@@ -4032,7 +4032,17 @@ impl Bench {
                 // A distribution coefficient acts on the first. A solid
                 // can join only when the empirical row also carries a
                 // reviewed aqueous solubility bound.
+                //
+                // A minor liquid-labelled component of this single liquid
+                // phase is owned matter too (the layered-pair gate above
+                // already refused a second liquid layer). A reviewed
+                // water-miscible liquid such as ethanol is dissolved in the
+                // aqueous phase whatever its label; any other liquid owner is
+                // named as unsupported rather than silently left behind, the
+                // defect that skipped the ester and ethanol of an
+                // esterification mixture without a word.
                 let mut inventory = std::collections::BTreeMap::<SpeciesId, (f64, f64)>::new();
+                let mut unadmitted_liquids = std::collections::BTreeSet::<SpeciesId>::new();
                 for portion in &source.contents {
                     if portion.moles.0 > 0.0
                         && portion.species != water
@@ -4043,12 +4053,25 @@ impl Bench {
                             entry.0 += portion.moles.0;
                         } else if portion.phase == Phase::Solid {
                             entry.1 += portion.moles.0;
+                        } else if portion.phase == Phase::Liquid {
+                            if crate::apparatus::is_water_miscible_liquid(&portion.species) {
+                                entry.0 += portion.moles.0;
+                            } else {
+                                unadmitted_liquids.insert(portion.species.clone());
+                            }
                         }
                     }
                 }
                 let mut splits = Vec::new();
                 let mut outside = Vec::new();
                 for (solute, (aqueous_moles, solid_moles)) in inventory {
+                    if unadmitted_liquids.contains(&solute) {
+                        // A separate or unreviewed liquid owner has no
+                        // admitted dissolved share; its partition is not
+                        // computed from the other labels of the same key.
+                        outside.push(solute);
+                        continue;
+                    }
                     let empirical =
                         crate::apparatus::partition_coefficient_row(&solute, solvent, &water);
                     if let Some(row) = empirical {
@@ -4191,7 +4214,7 @@ impl Bench {
                                         crate::ops::NotModelledCause::NotParameterised,
                                         Phrase::new(
                                             "not-modeled.no-distribution-coefficient",
-                                            "no reviewed {solvent}/water distribution coefficient for {solutes}",
+                                            "no reviewed {solvent}/water distribution coefficient for {solutes}; no solvent was dispensed and the receiver is unchanged",
                                             vec![
                                                 (
                                                     "solvent".to_string(),
@@ -6824,7 +6847,7 @@ fn binary_still_refusal_phrase(error: kerotakis_thermo::vle::StillError) -> Phra
         ),
         StillError::UnrepresentableCondensate => Phrase::bare(
             "not-modeled.still-condensate-precision",
-            "a positive component cannot be retained in the accumulated condensate; no material was transferred",
+            "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred",
         ),
         StillError::UnrepresentableResidue => Phrase::bare(
             "not-modeled.still-residue-precision",
@@ -7410,6 +7433,24 @@ pub(crate) fn liquid_partition_refusal(
             ("why".into(), Slot::phrase(partition_input_refusal(error))),
         ],
     )
+}
+
+/// Which reviewed authority, if any, gives `extract` a distribution
+/// coefficient for `solute` between `organic_solvent` and water: an
+/// empirical row of [`crate::apparatus::PARTITION_COEFFICIENTS`] or the
+/// curated UNIFAC group model. `None` is the typed
+/// `not-modeled.no-distribution-coefficient` refusal. This is the runtime
+/// half of `docs/separation-coverage-20261109.json`.
+pub fn extraction_partition_basis(
+    solute: &SpeciesId,
+    organic_solvent: &SpeciesId,
+) -> Option<&'static str> {
+    let water = SpeciesId::new("water");
+    if crate::apparatus::partition_coefficient_row(solute, organic_solvent, &water).is_some() {
+        return Some("empirical");
+    }
+    (organic_solvent.0 == "hexane" && partition_groups(solute).is_some())
+        .then_some("unifac-group-model")
 }
 
 fn try_partition_k(
