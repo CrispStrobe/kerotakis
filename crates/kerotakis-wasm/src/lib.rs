@@ -943,7 +943,7 @@ impl Lab {
                     "solution_srgb": solution_srgb,
                     "flame": serde_json::Value::Null,
                     "density": kerotakis_core::solution_stock::stock_density(stock),
-                    "provenance": serde_json::Value::Null,
+                    "provenance": kerotakis_core::solution_stock::stock_provenance(stock),
                     "hazards": hazards,
                     "hazard_assessed": assessed,
                     "reactive_groups": kerotakis_safety::groups(solute.key),

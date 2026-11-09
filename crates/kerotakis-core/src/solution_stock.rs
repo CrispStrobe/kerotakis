@@ -163,6 +163,22 @@ pub fn stock_density(stock: &Stock) -> Option<f64> {
         .and_then(|(_, density)| density.map(|(rho, _)| rho))
 }
 
+/// Where a listed stock's numbers come from: the solute's own provenance
+/// and, after it, the source of the solution density the dose is resolved
+/// through (a reviewed table's id, or the disclosed ideal dilution). Never
+/// empty: every shelf item in the species export carries provenance.
+pub fn stock_provenance(stock: &Stock) -> Option<String> {
+    let solute = species::lookup_key(&stock.species)?;
+    let density = match fraction_and_density(solute, stock.concentration()) {
+        Ok((_, Some((_, SolutionDensityBasis::Reviewed { source })))) => source,
+        _ => "ideal dilution in water".to_string(),
+    };
+    Some(format!(
+        "{}; solution density: {density}",
+        solute.provenance
+    ))
+}
+
 /// The common (default) stock for a solute, if one is listed.
 pub fn common_stock(species_key: &str) -> Option<&'static Stock> {
     stocks()
@@ -511,6 +527,12 @@ mod tests {
             );
             let rho = stock_density(stock).unwrap_or_else(|| panic!("{} density", stock.key));
             assert!((0.8..2.0).contains(&rho), "{} {rho}", stock.key);
+            let provenance = stock_provenance(stock).unwrap();
+            assert!(
+                !provenance.trim().is_empty() && !provenance.starts_with(';'),
+                "{} provenance {provenance:?}",
+                stock.key
+            );
         }
         let hcl37 = lookup_stock("hydrochloric_acid_37_percent").unwrap();
         assert_eq!(hcl37.name, "hydrochloric acid 37 %");
