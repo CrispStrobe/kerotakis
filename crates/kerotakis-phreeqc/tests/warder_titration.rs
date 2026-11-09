@@ -70,7 +70,7 @@ fn titrate_to(bench: &mut Bench, solver: &mut PhreeqcEquilibrator, ph: f64) -> (
             _ => None,
         })
         .expect("titration event");
-    assert!(reached, "endpoint pH {ph} not reached");
+    assert_eq!(reached, Some(true), "endpoint pH {ph} not reached");
     let vented: f64 = events
         .iter()
         .filter_map(|e| match e {
