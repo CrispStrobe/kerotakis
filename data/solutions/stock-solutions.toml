@@ -4,22 +4,25 @@
 # FRACTION. The parser interpolates linearly between points and refuses
 # outside a table's range; it never extrapolates.
 #
-# REVIEW STATUS: values were transcribed for this change and must be checked
-# against the cited table rows before release (see `review` per source).
+# REVIEW STATUS (2026-11-09): every table carries its own `review` line naming
+# the public reproduction it was checked against and the precision of that
+# check. The CRC section itself is not openly published; rows a reproduction
+# could not confirm are listed as unverified, never silently passed.
 
 [[source]]
 id = "crc-concentrative-properties"
 citation = "Haynes, W. M. (ed.), CRC Handbook of Chemistry and Physics, 97th ed., CRC Press, 2016, Section 5: Concentrative Properties of Aqueous Solutions: Density, Refractive Index, Freezing Point Depression, and Viscosity (density column, 20 °C)"
-review = "transcribed; pending row-by-row check"
+review = "partially checked 2026-11-09 against open reproductions, per table below; the 4-decimal CRC rows themselves were not available to compare"
 
 [[source]]
 id = "crc-water-density"
 citation = "Haynes, W. M. (ed.), CRC Handbook of Chemistry and Physics, 97th ed., CRC Press, 2016, Section 6: Properties of Water in the Range 0-100 °C (0.99820 g/mL at 20 °C)"
-review = "transcribed; pending row-by-row check"
+review = "consistent 2026-11-09 with the widely reproduced IAPWS-95 value 0.998207 g/mL at 20 °C (not re-fetched)"
 
 [[density]]
 species = "HCl"
 source = "crc-concentrative-properties"
+review = "checked 2026-11-09 to 3 decimals: Wikipedia, Hydrochloric acid, Physical properties table (kg/L at 20 °C: 10 % 1.048, 20 % 1.098, 30 % 1.149, 32 % 1.159, 34 % 1.169, 36 % 1.179, 38 % 1.189); tabulated and interpolated values agree. Rows below 10 % and 40 % unverified"
 points = [
   [0.0, 0.99820], [0.01, 1.0032], [0.02, 1.0082], [0.04, 1.0181], [0.06, 1.0279],
   [0.08, 1.0376], [0.10, 1.0474], [0.12, 1.0574], [0.14, 1.0675], [0.16, 1.0776],
@@ -30,6 +33,7 @@ points = [
 [[density]]
 species = "H2SO4"
 source = "crc-concentrative-properties"
+review = "partially checked 2026-11-09, 2 decimals only: Wikipedia, Sulfuric acid, Grades table (62-70 % 1.52-1.60, 78-80 % 1.70-1.73, 93.2 % 1.83, 98.3 % 1.84) and chembox 100 % 1.8302 (CRC). The same grades table puts 29-32 % at 1.25-1.28, which the 0.30 row (1.2185) does not meet; that encyclopedia range is coarse and not adopted, so rows 0.01-0.50 are unverified"
 points = [
   [0.0, 0.99820], [0.01, 1.0051], [0.02, 1.0118], [0.04, 1.0250], [0.06, 1.0385],
   [0.08, 1.0522], [0.10, 1.0661], [0.15, 1.1020], [0.20, 1.1394], [0.25, 1.1783],
@@ -41,6 +45,7 @@ points = [
 [[density]]
 species = "NaOH"
 source = "crc-concentrative-properties"
+review = "checked 2026-11-09 to 3 decimals for 4, 10, 20, 30, 40 %: Wikipedia, Sodium hydroxide, solution table (1.043, 1.109, 1.219, 1.328, 1.430). UNVERIFIED CONFLICT: the same table gives 50 % 1.524 against 1.5253 here; kept pending the CRC row"
 points = [
   [0.0, 0.99820], [0.01, 1.0095], [0.02, 1.0207], [0.04, 1.0428], [0.08, 1.0869],
   [0.10, 1.1089], [0.12, 1.1309], [0.16, 1.1751], [0.20, 1.2191], [0.30, 1.3279],
@@ -50,6 +55,7 @@ points = [
 [[density]]
 species = "NH3"
 source = "crc-concentrative-properties"
+review = "unverified 2026-11-09: no open reproduction of the CRC rows was readable (a search snippet of a CRC-derived table quoted 1 % 0.9938 and 20 % 0.9228, 1e-4 below these rows; not adopted from a snippet)"
 points = [
   [0.0, 0.99820], [0.01, 0.9939], [0.02, 0.9895], [0.04, 0.9811], [0.08, 0.9651],
   [0.10, 0.9575], [0.12, 0.9501], [0.16, 0.9362], [0.20, 0.9229], [0.24, 0.9101],
@@ -59,6 +65,7 @@ points = [
 [[density]]
 species = "H2O2"
 source = "crc-concentrative-properties"
+review = "partially checked 2026-11-09, 2 decimals: Wikipedia, Hydrogen peroxide, density table (27 % 1.10, 20 °C) and Easton, Mitchell and Wynne-Jones, Trans. Faraday Soc. 1952 (30 % 1.11, 20 °C). Other rows unverified"
 points = [
   [0.0, 0.99820], [0.01, 1.0022], [0.02, 1.0058], [0.04, 1.0131], [0.08, 1.0277],
   [0.10, 1.0351], [0.12, 1.0425], [0.16, 1.0575], [0.20, 1.0728], [0.24, 1.0884],
@@ -68,6 +75,7 @@ points = [
 [[density]]
 species = "CH3COOH"
 source = "crc-concentrative-properties"
+review = "partially checked 2026-11-09: 100 % against Wikipedia, Acetic acid chembox 1.049 g/cm3; rows 0.01-0.90 unverified"
 points = [
   [0.0, 0.99820], [0.01, 0.9996], [0.02, 1.0012], [0.04, 1.0040], [0.06, 1.0069],
   [0.08, 1.0097], [0.10, 1.0125], [0.20, 1.0263], [0.30, 1.0384], [0.40, 1.0488],

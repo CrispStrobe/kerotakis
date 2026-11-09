@@ -91,6 +91,9 @@ pub struct DensityTable {
     pub source: String,
     /// `[mass_fraction, density g/mL]`, ascending in mass fraction.
     pub points: Vec<[f64; 2]>,
+    /// What this table was checked against, and to what precision; rows
+    /// no reproduction confirmed are named as unverified.
+    pub review: String,
 }
 
 /// One common laboratory stock, offered as a shelf item.
@@ -426,6 +429,11 @@ mod tests {
         for t in density_tables() {
             assert!(species::lookup_key(&t.species).is_some(), "{}", t.species);
             assert!(sources().iter().any(|s| s.id == t.source), "{}", t.source);
+            assert!(
+                t.review.contains("checked") || t.review.starts_with("unverified"),
+                "{} density table states no review",
+                t.species
+            );
             assert!(
                 t.points.windows(2).all(|p| p[1][0] > p[0][0]),
                 "{}",
