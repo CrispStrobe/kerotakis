@@ -49,6 +49,62 @@ pub struct Electrolyte {
     pub nu_anion: f64,
     pub max_molality: Option<f64>,
     pub source: String,
+    /// Cited validity to saturation over a temperature range (see the
+    /// table's `sources.saturation_scope`).
+    #[serde(default)]
+    pub saturation_scope: Option<SaturationScope>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct SaturationScope {
+    /// The PHREEQC phase whose saturation index bounds the scope.
+    pub phase: String,
+    pub t_min_c: f64,
+    pub t_max_c: f64,
+    pub source: String,
+}
+
+/// Saturation index tolerance for "at or below saturation".
+pub const SATURATION_SI_TOLERANCE: f64 = 0.01;
+
+/// What the same solve says about the conditions a saturation scope needs.
+#[derive(Debug, Clone, Copy)]
+pub struct Conditions<'a> {
+    pub temperature_c: f64,
+    /// (phase, saturation index) from the same solve.
+    pub saturation: &'a [(String, f64)],
+}
+
+impl Conditions<'_> {
+    /// 25 C with no saturation information: only the 25 C molality applies.
+    pub const STANDARD: Conditions<'static> = Conditions {
+        temperature_c: 25.0,
+        saturation: &[],
+    };
+}
+
+impl Electrolyte {
+    /// Is `m` inside this row's stated range under `conditions`?
+    pub fn admits(&self, m: f64, conditions: Conditions<'_>) -> bool {
+        let Some(max) = self.max_molality else {
+            return true;
+        };
+        if m <= max {
+            return true;
+        }
+        let Some(scope) = &self.saturation_scope else {
+            return false;
+        };
+        let t = conditions.temperature_c;
+        if !(scope.t_min_c..=scope.t_max_c).contains(&t) {
+            return false;
+        }
+        conditions
+            .saturation
+            .iter()
+            .find(|(phase, _)| *phase == scope.phase)
+            .is_some_and(|(_, si)| si.is_finite() && *si <= SATURATION_SI_TOLERANCE)
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -133,12 +189,12 @@ pub fn electrolyte_molalities(totals: &BTreeMap<String, f64>) -> Vec<(&'static E
 }
 
 /// The electrolyte furthest outside its stated range, if any is.
-pub fn breach_of(totals: &BTreeMap<String, f64>) -> Option<Breach> {
+pub fn breach_of(totals: &BTreeMap<String, f64>, conditions: Conditions<'_>) -> Option<Breach> {
     electrolyte_molalities(totals)
         .into_iter()
         .filter_map(|(row, m)| {
             let max = row.max_molality?;
-            (m > max).then_some((row, m, m / max))
+            (!row.admits(m, conditions)).then_some((row, m, m / max))
         })
         .max_by(|a, b| a.2.total_cmp(&b.2))
         .map(|(row, m, _)| Breach {
@@ -152,7 +208,11 @@ pub fn breach_of(totals: &BTreeMap<String, f64>) -> Option<Breach> {
 /// Read the solved dissolved totals for `elements` through the solver's
 /// selected-output reader and check them. A valence-tagged column is used
 /// only when its base element has no untagged column of its own.
-pub fn breach(elements: &[String], value: &dyn Fn(&str) -> Option<f64>) -> Option<Breach> {
+pub fn breach(
+    elements: &[String],
+    value: &dyn Fn(&str) -> Option<f64>,
+    conditions: Conditions<'_>,
+) -> Option<Breach> {
     let mut totals: BTreeMap<String, f64> = BTreeMap::new();
     let untagged: Vec<&str> = elements
         .iter()
@@ -168,7 +228,7 @@ pub fn breach(elements: &[String], value: &dyn Fn(&str) -> Option<f64>) -> Optio
             *totals.entry(base.to_string()).or_insert(0.0) += m;
         }
     }
-    breach_of(&totals)
+    breach_of(&totals, conditions)
 }
 
 #[cfg(test)]
@@ -184,6 +244,10 @@ mod tests {
         let t = table();
         for row in &t.electrolytes {
             assert!(t.sources.contains_key(&row.source), "{}", row.electrolyte);
+            if let Some(scope) = &row.saturation_scope {
+                assert!(t.sources.contains_key(&scope.source), "{}", row.electrolyte);
+                assert!(scope.t_min_c < scope.t_max_c, "{}", row.electrolyte);
+            }
             assert!(t.ions.contains_key(&row.cation), "{}", row.electrolyte);
             assert!(t.ions.contains_key(&row.anion), "{}", row.electrolyte);
             assert_eq!(
@@ -204,7 +268,8 @@ mod tests {
 
     #[test]
     fn concentrated_hydrochloric_acid_is_outside_the_hcl_range() {
-        let b = breach_of(&totals(&[("Cl", 16.1)])).expect("16 m HCl is outside 6 m");
+        let b = breach_of(&totals(&[("Cl", 16.1)]), Conditions::STANDARD)
+            .expect("16 m HCl is outside 6 m");
         assert_eq!(b.electrolyte, "HCl");
         assert!((b.molality - 16.1).abs() < 1e-9);
         assert_eq!(b.max_molality, 6.0);
@@ -212,28 +277,102 @@ mod tests {
 
     #[test]
     fn one_molal_hcl_and_saturated_brine_are_inside() {
-        assert_eq!(breach_of(&totals(&[("Cl", 1.0)])), None);
-        assert_eq!(breach_of(&totals(&[("Na", 6.15), ("Cl", 6.15)])), None);
+        assert_eq!(
+            breach_of(&totals(&[("Cl", 1.0)]), Conditions::STANDARD),
+            None
+        );
+        assert_eq!(
+            breach_of(&totals(&[("Na", 6.15), ("Cl", 6.15)]), Conditions::STANDARD),
+            None
+        );
     }
 
     #[test]
     fn ten_molal_sodium_hydroxide_is_outside_its_range() {
-        let b = breach_of(&totals(&[("Na", 10.0)])).expect("10 m NaOH > 6 m");
+        let b = breach_of(&totals(&[("Na", 10.0)]), Conditions::STANDARD).expect("10 m NaOH > 6 m");
         assert_eq!(b.electrolyte, "NaOH");
         assert_eq!(b.max_molality, 6.0);
-        assert_eq!(breach_of(&totals(&[("Na", 5.0)])), None);
+        assert_eq!(
+            breach_of(&totals(&[("Na", 5.0)]), Conditions::STANDARD),
+            None
+        );
+    }
+
+    #[test]
+    fn hot_saturated_brine_is_inside_its_saturation_scope() {
+        let hot = |t: f64, si: f64| (t, vec![("Halite".to_string(), si)]);
+        let brine = totals(&[("Na", 7.0), ("Cl", 7.0)]);
+        let (t, sat) = hot(100.0, 0.0);
+        let at = Conditions {
+            temperature_c: t,
+            saturation: &sat,
+        };
+        assert_eq!(breach_of(&brine, at), None, "saturated at 100 C");
+        let (t, sat) = hot(100.0, 0.2);
+        let over = Conditions {
+            temperature_c: t,
+            saturation: &sat,
+        };
+        assert_eq!(breach_of(&brine, over).unwrap().electrolyte, "NaCl");
+        let (t, sat) = hot(320.0, 0.0);
+        let beyond = Conditions {
+            temperature_c: t,
+            saturation: &sat,
+        };
+        assert_eq!(breach_of(&brine, beyond).unwrap().electrolyte, "NaCl");
+        // No saturation index from the solve: not claimed.
+        assert!(breach_of(
+            &brine,
+            Conditions {
+                temperature_c: 100.0,
+                saturation: &[]
+            }
+        )
+        .is_some());
+        // KCl's scope stops at 250 C.
+        let kcl = totals(&[("K", 7.0), ("Cl", 7.0)]);
+        let sat = vec![("Sylvite".to_string(), 0.0)];
+        assert!(breach_of(
+            &kcl,
+            Conditions {
+                temperature_c: 100.0,
+                saturation: &sat
+            }
+        )
+        .is_none());
+        assert!(breach_of(
+            &kcl,
+            Conditions {
+                temperature_c: 260.0,
+                saturation: &sat
+            }
+        )
+        .is_some());
+        // HCl has no saturation scope: hot does not help.
+        let acid = totals(&[("Cl", 16.0)]);
+        assert!(breach_of(
+            &acid,
+            Conditions {
+                temperature_c: 100.0,
+                saturation: &sat
+            }
+        )
+        .is_some());
     }
 
     #[test]
     fn weak_acid_buffering_is_not_read_as_strong_base() {
         // 3 m Na2CO3: Na 6 m unbalanced by strong anions, but carbonate can
         // absorb 6 equivalents; no NaOH is claimed.
-        assert_eq!(breach_of(&totals(&[("Na", 6.0), ("C", 3.0)])), None);
+        assert_eq!(
+            breach_of(&totals(&[("Na", 6.0), ("C", 3.0)]), Conditions::STANDARD),
+            None
+        );
     }
 
     #[test]
     fn the_refusal_names_the_electrolyte_and_both_molalities() {
-        let b = breach_of(&totals(&[("Cl", 16.1)])).unwrap();
+        let b = breach_of(&totals(&[("Cl", 16.1)]), Conditions::STANDARD).unwrap();
         let en = b.phrase().render(kerotakis_core::Locale::EN);
         assert!(
             en.contains("HCl") && en.contains("16.1") && en.contains("6"),

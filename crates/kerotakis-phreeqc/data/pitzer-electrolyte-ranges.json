@@ -4,7 +4,9 @@
     "PM73": "Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. II. Activity and osmotic coefficients for strong electrolytes with one or both ions univalent. J. Phys. Chem. 1973, 77, 2300-2308, Tables I-III (column max m).",
     "PM74": "Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. III. Activity and osmotic coefficients for 2-2 electrolytes. J. Solution Chem. 1974, 3, 539-546 (stated fit range).",
     "PPB84": "Pitzer, K. S.; Peiper, J. C.; Busey, R. H. Thermodynamic properties of aqueous sodium chloride solutions. J. Phys. Chem. Ref. Data 1984, 13, 1-102 (equations valid to halite saturation, 6.15 mol/kg at 25 C).",
+    "HM83": "Holmes, H. F.; Mesmer, R. E. Thermodynamic properties of aqueous solutions of the alkali metal chlorides to 250 C. J. Phys. Chem. 1983, 87, 1242-1255 (KCl valid to saturation, 0-250 C).",
     "PRS77": "Pitzer, K. S.; Roy, R. N.; Silvester, L. F. Thermodynamics of electrolytes. 7. Sulfuric acid. J. Am. Chem. Soc. 1977, 99, 4930-4936 (fit range 0-6 mol/kg at 25 C).",
+    "saturation_scope": "A row with saturation_scope is also in range above max_molality (the 25 C figure) when the temperature is inside the scope and the same solve puts the named phase at or below saturation (SI <= 0.01). The shipped pitzer.dat Na+/Cl- and K+/Cl- B0, B1, C0 rows carry full temperature terms (its ref. 3, Appelo 2015, Appl. Geochem. 55, 62, refitted to solubilities over temperature), consistent with the cited to-saturation fits; supersaturated or out-of-temperature solutions stay refused.",
     "none": "No stated range transcribed for the shipped parameters (Kim and Frederick 1988, J. Chem. Eng. Data 33, 177-184, tabulates ranges for many single salts; a row moves out of this class only when its value is transcribed from that table with the page cited)."
   },
   "ions": {
@@ -24,9 +26,11 @@
     {"electrolyte": "KOH",   "cation": "K",  "anion": "OH", "nu_cation": 1, "nu_anion": 1, "max_molality": 5.5, "source": "PM73"},
     {"electrolyte": "LiCl",  "cation": "Li", "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.0, "source": "PM73"},
     {"electrolyte": "LiBr",  "cation": "Li", "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 2.5, "source": "PM73"},
-    {"electrolyte": "NaCl",  "cation": "Na", "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.2, "source": "PPB84"},
+    {"electrolyte": "NaCl",  "cation": "Na", "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 6.2, "source": "PPB84",
+     "saturation_scope": {"phase": "Halite", "t_min_c": 0.0, "t_max_c": 300.0, "source": "PPB84"}},
     {"electrolyte": "NaBr",  "cation": "Na", "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 4.0, "source": "PM73"},
-    {"electrolyte": "KCl",   "cation": "K",  "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 4.8, "source": "PM73"},
+    {"electrolyte": "KCl",   "cation": "K",  "anion": "Cl", "nu_cation": 1, "nu_anion": 1, "max_molality": 4.8, "source": "PM73",
+     "saturation_scope": {"phase": "Sylvite", "t_min_c": 0.0, "t_max_c": 250.0, "source": "HM83"}},
     {"electrolyte": "KBr",   "cation": "K",  "anion": "Br", "nu_cation": 1, "nu_anion": 1, "max_molality": 5.5, "source": "PM73"},
     {"electrolyte": "CaCl2", "cation": "Ca", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 2.5, "source": "PM73"},
     {"electrolyte": "MgCl2", "cation": "Mg", "anion": "Cl", "nu_cation": 1, "nu_anion": 2, "max_molality": 4.5, "source": "PM73"},

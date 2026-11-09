@@ -1928,11 +1928,15 @@ owning_task = "BRD-014"
 outcome = "computed"
 reason_code = "computed-route"
 
+# mat-072: battery_electrolyte is 30 % w/w KOH (registry recipe), 7.6 mol/kg,
+# above the 5.5 mol/kg KOH Pitzer range (Pitzer & Mayorga 1973); the pitzer
+# route now refuses pH/activities instead of extrapolating
+# (docs/activity-model-range-coverage-20261109.md).
 [[observation]]
 id = "mat-072"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "missing"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-073"

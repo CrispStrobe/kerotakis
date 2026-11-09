@@ -64,6 +64,7 @@ def build(database_dir: Path) -> dict:
             "class": "ranged" if row["max_molality"] is not None else "no-stated-range",
             "max_molality": row["max_molality"],
             "source": row["source"],
+            "saturation_scope": row.get("saturation_scope"),
         })
     for row in table["absent_from_dataset"]:
         if elements is not None and row["missing"].split("(")[0] in elements and "(" not in row["missing"]:
@@ -73,6 +74,7 @@ def build(database_dir: Path) -> dict:
             "class": "absent",
             "max_molality": None,
             "source": f"pitzer.dat has no {row['missing']}",
+            "saturation_scope": None,
         })
     counts = {c: sum(r["class"] == c for r in rows) for c in ("ranged", "no-stated-range", "absent")}
     return {"rows": rows, "counts": counts, "sources": table["sources"]}
@@ -97,12 +99,14 @@ def render_md(doc: dict) -> str:
         f"Counts: {doc['counts']['ranged']} ranged, {doc['counts']['no-stated-range']} no stated range, "
         f"{doc['counts']['absent']} absent from the dataset.",
         "",
-        "| Electrolyte | Class | Max molality (mol/kg) | Source |",
-        "|---|---|---|---|",
+        "| Electrolyte | Class | Max molality at 25 C (mol/kg) | Source | Valid to saturation |",
+        "|---|---|---|---|---|",
     ]
     for r in doc["rows"]:
         m = "" if r["max_molality"] is None else f"{r['max_molality']}"
-        out.append(f"| {r['electrolyte']} | {r['class']} | {m} | {r['source']} |")
+        sc = r["saturation_scope"]
+        scope = "" if not sc else f"{sc['phase']} SI <= 0.01, {sc['t_min_c']:g}-{sc['t_max_c']:g} C ({sc['source']})"
+        out.append(f"| {r['electrolyte']} | {r['class']} | {m} | {r['source']} | {scope} |")
     out += ["", "## Sources", ""]
     for key, text in doc["sources"].items():
         out.append(f"- **{key}**: {text}")
@@ -112,7 +116,9 @@ def render_md(doc: dict) -> str:
         "",
         "- Only binary ranges are checked. A mixed brine whose every pair is inside its",
         "  range is answered, although mixing terms (theta, psi) carry their own fits.",
-        "- Ranges are for 25 C; temperature dependence of the fitted range is not modelled.",
+        "- Ranges are 25 C figures. Only rows with a cited saturation scope extend above",
+        "  them, and only while the same solve puts that salt at or below saturation inside",
+        "  the scope's temperature range; supersaturated or out-of-range solutions refuse.",
         "- `no-stated-range` rows keep their previous behaviour; the provenance sentence no",
         "  longer claims the model is valid at high ionic strength.",
         "",

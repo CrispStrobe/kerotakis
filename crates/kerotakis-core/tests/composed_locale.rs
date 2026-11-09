@@ -53,6 +53,10 @@ const COMPOSERS: &[(&str, &str)] = &[
         include_str!("../../kerotakis-phreeqc/src/aqueous.rs"),
     ),
     (
+        "kerotakis-phreeqc/activity_range.rs",
+        include_str!("../../kerotakis-phreeqc/src/activity_range.rs"),
+    ),
+    (
         "kerotakis-phreeqc/phase_diagnostics.rs",
         include_str!("../../kerotakis-phreeqc/src/phase_diagnostics.rs"),
     ),

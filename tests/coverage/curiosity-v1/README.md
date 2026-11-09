@@ -2510,3 +2510,14 @@ requires their complete primary-event traces, retaining the model-limit notes
 and showing no calculated transformation; a passing grade alone is insufficient.
 Together the two reviews change exactly six descriptive records; the other494
 remain exact. Neither refresh adds a scientific-catalog selection.
+
+## Refresh 2026-11-09 — activity-model range refusal
+
+`mat-072` changes `computed / computed-route` to `missing / not-yet-modeled`.
+Its `battery_electrolyte` is the registry's 30 % w/w KOH teaching surrogate
+(1.29 g/mL): 20 mL holds 0.138 mol KOH in 18.1 g water, 7.6 mol/kg, above the
+5.5 mol/kg to which the KOH Pitzer parameters are fitted (Pitzer & Mayorga
+1973). The pitzer route now withdraws pH, activities and saturation indices
+outside a cited electrolyte range instead of extrapolating
+(`docs/activity-model-range-coverage-20261109.md`). No question, script or
+requirement changes; the other 499 records are unchanged.

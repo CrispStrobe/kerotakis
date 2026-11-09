@@ -4963,7 +4963,15 @@ impl Equilibrator for PhreeqcEquilibrator {
         // the numbers for it came from.
         announce_routing(vessel, &provenance, &mut events);
         vessel.activity_range_refusal = if db_tag == "pitzer" {
-            crate::activity_range::breach(&merged_problem.elements, &value).map(|b| b.phrase())
+            crate::activity_range::breach(
+                &merged_problem.elements,
+                &value,
+                crate::activity_range::Conditions {
+                    temperature_c: vessel.temperature.0 - 273.15,
+                    saturation: &cached.saturation,
+                },
+            )
+            .map(|b| b.phrase())
         } else {
             None
         };
@@ -10588,7 +10596,15 @@ impl PhreeqcEquilibrator {
         // pass withdraws it (`activity_range`). Recorded on every
         // characterisation, so a later dilute answer clears it.
         vessel.activity_range_refusal = if db_tag == "pitzer" {
-            crate::activity_range::breach(&problem.elements, value).map(|b| b.phrase())
+            crate::activity_range::breach(
+                &problem.elements,
+                value,
+                crate::activity_range::Conditions {
+                    temperature_c: vessel.temperature.0 - 273.15,
+                    saturation,
+                },
+            )
+            .map(|b| b.phrase())
         } else {
             None
         };

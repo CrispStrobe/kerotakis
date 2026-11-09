@@ -99,6 +99,29 @@ fn saturated_brine_inside_the_nacl_range_still_answers() {
 }
 
 #[test]
+fn hot_saturated_brine_answers_inside_its_saturation_scope() {
+    // Halite saturates near 6.6 mol/kg at 90 C, above the 25 C figure; the
+    // NaCl row is valid to saturation 0-300 C (Pitzer, Peiper & Busey 1984).
+    let mut bench = Bench::new();
+    let mut solver = stack();
+    for line in ["add v1 water 100mL", "add v1 NaCl 45g", "measure v1 ph"] {
+        if line.starts_with("add v1 NaCl") {
+            bench.vessels[0].thermal_mode = ThermalMode::Thermostatted(Kelvin(363.15));
+        }
+        let op = script::parse_op(line).unwrap().expect(line);
+        let events = bench.step_with(op, &mut solver, &PermissiveScreen).unwrap();
+        assert!(refusal(&events).is_none(), "{line}: {events:?}");
+        if line.starts_with("measure") {
+            assert!(
+                measured_ph(&events).is_some_and(f64::is_finite),
+                "{events:?}"
+            );
+        }
+    }
+    assert!(bench.vessels[0].activity_range_refusal.is_none());
+}
+
+#[test]
 fn ten_molal_sodium_hydroxide_is_outside_its_six_molal_range() {
     let (_, events) = run(&["add v1 water 100mL", "add v1 NaOH 1mol", "measure v1 ph"]);
     assert_eq!(measured_ph(&events), None, "{events:?}");
@@ -135,5 +158,11 @@ fn activity_range_coverage_is_current() {
             row.electrolyte
         );
         assert_eq!(json["source"], row.source.as_str());
+        assert_eq!(
+            json["saturation_scope"]["phase"].as_str(),
+            row.saturation_scope.as_ref().map(|s| s.phase.as_str()),
+            "{}",
+            row.electrolyte
+        );
     }
 }
