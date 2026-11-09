@@ -85,59 +85,71 @@ points = [
 
 # Common stocks. Exactly one of `percent` (w/w) or `molar` (mol/L).
 # `common = true` marks the default concentration the shelf offers at
-# lv1/lv2 for that solute; the pure compound stays available at lv3.
+# lv1/lv2 for that solute; the pure compound stays available at lv3. A
+# common stock is also its own shelf bottle at lv1/lv2, labelled `name`
+# (translated by that English text in the web locales).
 [[stock]]
 key = "hydrochloric_acid_37_percent"
+name = "hydrochloric acid 37 %"
 species = "HCl"
 percent = 37.0
 common = true
 
 [[stock]]
 key = "hydrochloric_acid_6_molar"
+name = "hydrochloric acid 6 M"
 species = "HCl"
 molar = 6.0
 
 [[stock]]
 key = "hydrochloric_acid_1_molar"
+name = "hydrochloric acid 1 M"
 species = "HCl"
 molar = 1.0
 
 [[stock]]
 key = "sulfuric_acid_96_percent"
+name = "sulfuric acid 96 %"
 species = "H2SO4"
 percent = 96.0
 common = true
 
 [[stock]]
 key = "sulfuric_acid_1_molar"
+name = "sulfuric acid 1 M"
 species = "H2SO4"
 molar = 1.0
 
 [[stock]]
 key = "hydrogen_peroxide_30_percent"
+name = "hydrogen peroxide 30 %"
 species = "H2O2"
 percent = 30.0
 common = true
 
 [[stock]]
 key = "ammonia_25_percent"
+name = "ammonia solution 25 %"
 species = "NH3"
 percent = 25.0
 common = true
 
 [[stock]]
 key = "sodium_hydroxide_1_molar"
+name = "sodium hydroxide solution 1 M"
 species = "NaOH"
 molar = 1.0
 common = true
 
 [[stock]]
 key = "glacial_acetic_acid"
+name = "glacial acetic acid"
 species = "CH3COOH"
 percent = 100.0
 
 [[stock]]
 key = "acetic_acid_5_percent"
+name = "acetic acid 5 %"
 species = "CH3COOH"
 percent = 5.0
 common = true

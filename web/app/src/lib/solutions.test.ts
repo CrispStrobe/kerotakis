@@ -6,8 +6,12 @@ import {
   concentrationOptions,
   defaultConcentration,
   normaliseConcentration,
+  shelfVisibleAt,
   solutionCommand,
 } from "./solutions";
+
+const readRepo = (path: string) =>
+  readFileSync(fileURLToPath(new URL(`../../../../${path}`, import.meta.url)), "utf8");
 
 describe("stock solution commands", () => {
   it("defaults the shelf bottle to the common stock below lv3", () => {
@@ -56,5 +60,35 @@ describe("stock solution commands", () => {
     expect(mirrored.sort((a, b) => a.key!.localeCompare(b.key!))).toEqual(
       rows.sort((a, b) => a.key!.localeCompare(b.key!)),
     );
+  });
+
+  it("shows a stock bottle at lv1/lv2 and leaves lv3 to the pure compound", () => {
+    const bottle = { key: "hydrochloric_acid_37_percent", stock: { species: "HCl", label: "37% w/w" } };
+    expect(shelfVisibleAt("lv1", bottle)).toBe(true);
+    expect(shelfVisibleAt("lv2", bottle)).toBe(true);
+    expect(shelfVisibleAt("lv3", bottle)).toBe(false);
+    for (const register of ["lv1", "lv2", "lv3"]) {
+      expect(shelfVisibleAt(register, { key: "HCl" })).toBe(true);
+    }
+    // The bottle carries its concentration in its key, so the command has
+    // no concentration token and is the grammar the engine parses.
+    expect(concentrationOptions("lv1", bottle.key)).toEqual([]);
+    expect(solutionCommand(0, bottle.key, "10mL", "")).toBe("add v1 hydrochloric_acid_37_percent 10mL");
+  });
+
+  it("names and translates every common stock bottle", () => {
+    const toml = readRepo("data/solutions/stock-solutions.toml");
+    const common = [...toml.matchAll(/\[\[stock\]\]\n([\s\S]*?)(?=\n\[\[|\s*$)/g)]
+      .map((m) => m[1]!)
+      .filter((body) => /^common = true$/m.test(body))
+      .map((body) => /^name = "([^"]+)"$/m.exec(body)?.[1]);
+    expect(common.length).toBe(Object.keys(STOCKS).length);
+    for (const locale of ["de", "fr"]) {
+      const json = JSON.parse(readRepo(`web/app/src/locales/${locale}.json`));
+      for (const name of common) {
+        expect(name, "common stock without a name").toBeTruthy();
+        expect(json.terms[name!], `${locale}: ${name}`).toBeTruthy();
+      }
+    }
   });
 });

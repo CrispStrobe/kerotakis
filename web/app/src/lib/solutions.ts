@@ -43,6 +43,16 @@ export function concentrationOptions(register: string, species: string): StockOp
   return register === "lv3" ? [...stocks, { token: "" }] : [...stocks];
 }
 
+/**
+ * Whether a shelf item is shown at this register. A stock bottle
+ * ("hydrochloric acid 37 %") is the lv1/lv2 shelf's way of offering the
+ * common concentration; lv3 offers the pure compound with every listed
+ * concentration instead, so the bottle is not repeated there.
+ */
+export function shelfVisibleAt(register: string, item: { stock?: unknown }): boolean {
+  return !item.stock || register !== "lv3";
+}
+
 /** The default selection: the common stock. */
 export function defaultConcentration(register: string, species: string): string {
   const options = concentrationOptions(register, species);

@@ -624,6 +624,12 @@ impl Lab {
                 let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                 (s.key, hazards, assessed)
             })
+            // A shelf stock is tiered as its solute is: the same bottle of
+            // acid, already diluted, unlocks with the acid.
+            .chain(kerotakis_core::solution_stock::shelf_stocks().map(|stock| {
+                let (hazards, assessed) = kerotakis_safety::hazard_assessment(&stock.species);
+                (stock.key.as_str(), hazards, assessed)
+            }))
             .collect();
         let reagents: Vec<kerotakis_core::catalog::ReagentFacts<'_>> = assessed
             .iter()
@@ -917,6 +923,38 @@ impl Lab {
                 },
             })
         }));
+        // E1: each common stock is a bottle of its own on the lv1/lv2
+        // shelf ("hydrochloric acid 37 %"). It is the solute's chemistry
+        // and hazards, a liquid, and its density is the reviewed solution
+        // density the dose is resolved through; `add v1 <key> 10mL` is the
+        // grammar the engine already parses for it.
+        list.extend(
+            kerotakis_core::solution_stock::shelf_stocks().filter_map(|stock| {
+                let solute = kerotakis_core::species::lookup_key(&stock.species)?;
+                let (hazards, assessed) = kerotakis_safety::hazard_assessment(solute.key);
+                let (_, solution_srgb) = kerotakis_core::species::shelf_swatch(solute);
+                Some(serde_json::json!({
+                    "key": stock.key,
+                    "name": stock.name,
+                    "formula": solute.formula,
+                    "phase": "liquid",
+                    "appearance": serde_json::Value::Null,
+                    "srgb": serde_json::Value::Null,
+                    "solution_srgb": solution_srgb,
+                    "flame": serde_json::Value::Null,
+                    "density": kerotakis_core::solution_stock::stock_density(stock),
+                    "provenance": serde_json::Value::Null,
+                    "hazards": hazards,
+                    "hazard_assessed": assessed,
+                    "reactive_groups": kerotakis_safety::groups(solute.key),
+                    "components": [solute.key],
+                    "stock": {
+                        "species": solute.key,
+                        "label": stock.concentration().label(),
+                    },
+                }))
+            }),
+        );
         serde_json::Value::Array(list).to_string()
     }
 
