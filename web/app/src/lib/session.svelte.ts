@@ -118,6 +118,12 @@ export type ShelfItem = {
   molar_volume_l_per_mol?: number;
   /** A versioned named mixture/object rather than a pure species. */
   material?: boolean;
+  /**
+   * E1: a common stock solution standing as its own bottle (lv1/lv2 shelf,
+   * key `hydrochloric_acid_37_percent`): the solute key and the
+   * concentration label the engine composes.
+   */
+  stock?: { species: string; label: string };
   /** Engine-owned recipe explanation for named mixtures and objects. */
   material_details?: {
     basis: "mass_fraction" | "mole_fraction" | "volume_fraction";

@@ -350,6 +350,18 @@ pub const PARTITION_COEFFICIENTS: &[PartitionCoefficient] = &[PartitionCoefficie
     source: "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model",
 }];
 
+/// Liquids that are miscible with water in all proportions at room
+/// temperature (CRC Handbook of Chemistry and Physics, aqueous solubility
+/// "miscible"). A liquid-labelled portion of one of these in a single liquid
+/// phase is dissolved, so extraction owns it as aqueous solute. Every other
+/// liquid owner stays unadmitted: a partly miscible liquid such as ethyl
+/// acetate may be a separate layer, and nothing here decides that.
+pub const WATER_MISCIBLE_LIQUIDS: &[&str] = &["ethanol", "methanol", "propanone"];
+
+pub fn is_water_miscible_liquid(species: &SpeciesId) -> bool {
+    WATER_MISCIBLE_LIQUIDS.contains(&species.0.as_str())
+}
+
 pub fn partition_coefficient(
     solute: &SpeciesId,
     organic_solvent: &SpeciesId,

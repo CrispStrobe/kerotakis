@@ -159,6 +159,7 @@ struct AuxiliaryPoseWitness {
     solute_charge: f64,
     co2_partial_pressure_atm: Option<f64>,
     pending_co2_transfer_mol: f64,
+    zero_time_dose: bool,
     elapsed_seconds: f64,
     excess_enthalpy_j: f64,
     step_start: Option<kerotakis_core::vessel::StepStart>,
@@ -187,6 +188,7 @@ impl AuxiliaryPoseWitness {
             solute_charge: vessel.solute_charge,
             co2_partial_pressure_atm: vessel.co2_partial_pressure_atm,
             pending_co2_transfer_mol: vessel.pending_co2_transfer_mol,
+            zero_time_dose: vessel.zero_time_dose,
             elapsed_seconds: vessel.elapsed_seconds,
             excess_enthalpy_j: vessel.excess_enthalpy_j,
             step_start: vessel.step_start.clone(),
@@ -3641,6 +3643,13 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         // sees room-air partial pressures; an inert nitrogen sweep drives
         // volatile products toward a near-zero partial pressure.
         let target = match vessel.headspace {
+            // A zero-time dose (titration increment) has no time for
+            // diffusive exchange with room air: only gas above the bubble
+            // threshold (SI = log10 of total pressure in atm) leaves.
+            // See `Vessel::zero_time_dose`.
+            Headspace::Open if vessel.zero_time_dose => {
+                Some(effervescence_log_partial_pressure(vessel))
+            }
             Headspace::Open => None,
             Headspace::Swept { .. } => Some(SWEPT_LOG_PARTIAL_PRESSURE),
             _ => unreachable!("finite gas boundaries handled above"),
@@ -12639,6 +12648,18 @@ const ATMOSPHERIC_LOG_PO2: &str = "-0.68";
 /// Effective volatile-gas partial pressure under an ideal continuous purge.
 /// It is small rather than zero because equilibrium constants are logarithmic.
 const SWEPT_LOG_PARTIAL_PRESSURE: f64 = -12.0;
+
+/// Saturation index at which a dissolved gas can form bubbles against the
+/// vessel's total pressure: log10(P_total / 1 atm). Falls back to 1 atm for
+/// a non-finite or non-positive recorded pressure.
+fn effervescence_log_partial_pressure(vessel: &Vessel) -> f64 {
+    let atm = vessel.pressure.0 / 101_325.0;
+    if atm.is_finite() && atm > 0.0 {
+        atm.log10()
+    } else {
+        0.0
+    }
+}
 
 /// What the electrons in a vessel add up to, and the input that lets
 /// PHREEQC redistribute them.

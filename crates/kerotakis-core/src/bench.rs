@@ -952,7 +952,7 @@ impl Bench {
             _ => None,
         };
         let mut disposition = ApplyDisposition::Reequilibrate;
-        let mut events = self.apply(&op, screen, &mut disposition)?;
+        let mut events = self.apply(&op, solver, screen, &mut disposition)?;
         if disposition == ApplyDisposition::Unchanged {
             self.log.push(LogEntry {
                 step: self.log.len(),
@@ -1329,8 +1329,12 @@ impl Bench {
                 .map(|v| solver.chemistry_applies(v))
                 .unwrap_or(false);
             if !caught {
+                let mut refrozen = Vec::new();
                 if let Ok(v) = self.vessel_mut(*vessel) {
                     v.temperature = temperature_before;
+                    // The flame's heat is gone, so what it melted freezes
+                    // back: see `phase_route::refreeze_flame_melts`.
+                    refrozen = crate::phase_route::refreeze_flame_melts(v, &events);
                 }
                 events.retain(|e| {
                     !matches!(
@@ -1340,6 +1344,7 @@ impl Bench {
                             | Event::ThermalEquilibrium { .. }
                     )
                 });
+                events.extend(refrozen);
                 // It would not burn — but a metal salt still colours the
                 // flame, which is the flame test and worth seeing.
                 let painted = self.vessel(*vessel).ok().and_then(|v| {
@@ -1774,6 +1779,7 @@ impl Bench {
     fn apply(
         &mut self,
         op: &Operator,
+        solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
         disposition: &mut ApplyDisposition,
     ) -> Result<Vec<Event>, BenchError> {
@@ -1828,9 +1834,21 @@ impl Bench {
                 let data =
                     species::lookup(sid).ok_or_else(|| BenchError::UnknownSpecies(sid.clone()))?;
 
+                // A reagent arrives at the room's temperature unless the
+                // learner said otherwise — or unless it is a condensed gas,
+                // which arrives at its own sublimation or boiling point,
+                // because dry ice at 25 °C is not a thing a bottle can hold.
+                let t_in = at.unwrap_or_else(|| {
+                    crate::phase_route::arrives_at_k(&sid.0).map_or(Kelvin::STANDARD, Kelvin)
+                });
+                // And it arrives in the phase its own melting point gives at
+                // that temperature, not the 25 °C `standard_phase`: cetane
+                // poured at 10 °C is a solid (see `stocked_phase`).
+                let arriving = crate::phase_route::stocked_phase(data, t_in.0);
+
                 // L0 runs against the prospective state, before mutation.
                 let mut probe = self.vessel(*vessel)?.clone();
-                probe.deposit(sid.clone(), *moles, data.standard_phase);
+                probe.deposit(sid.clone(), *moles, arriving);
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
@@ -1860,14 +1878,6 @@ impl Bench {
                     return Ok(events);
                 }
 
-                // A reagent arrives at the room's temperature unless the
-                // learner said otherwise — or unless it is a condensed gas,
-                // which arrives at its own sublimation or boiling point,
-                // because dry ice at 25 °C is not a thing a bottle can hold.
-                let t_in = at.unwrap_or_else(|| {
-                    crate::phase_route::arrives_at_k(&sid.0).map_or(Kelvin::STANDARD, Kelvin)
-                });
-                let arriving = data.standard_phase;
                 let v = self.vessel_mut(*vessel)?;
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
                     let t_new = adiabatic_mix_into(v, t_in, |t| {
@@ -1885,7 +1895,7 @@ impl Bench {
                 v.deposit_lot(
                     sid.clone(),
                     *moles,
-                    data.standard_phase,
+                    arriving,
                     Some("reagent bottle".to_string()),
                     None,
                 );
@@ -4032,7 +4042,17 @@ impl Bench {
                 // A distribution coefficient acts on the first. A solid
                 // can join only when the empirical row also carries a
                 // reviewed aqueous solubility bound.
+                //
+                // A minor liquid-labelled component of this single liquid
+                // phase is owned matter too (the layered-pair gate above
+                // already refused a second liquid layer). A reviewed
+                // water-miscible liquid such as ethanol is dissolved in the
+                // aqueous phase whatever its label; any other liquid owner is
+                // named as unsupported rather than silently left behind, the
+                // defect that skipped the ester and ethanol of an
+                // esterification mixture without a word.
                 let mut inventory = std::collections::BTreeMap::<SpeciesId, (f64, f64)>::new();
+                let mut unadmitted_liquids = std::collections::BTreeSet::<SpeciesId>::new();
                 for portion in &source.contents {
                     if portion.moles.0 > 0.0
                         && portion.species != water
@@ -4043,12 +4063,25 @@ impl Bench {
                             entry.0 += portion.moles.0;
                         } else if portion.phase == Phase::Solid {
                             entry.1 += portion.moles.0;
+                        } else if portion.phase == Phase::Liquid {
+                            if crate::apparatus::is_water_miscible_liquid(&portion.species) {
+                                entry.0 += portion.moles.0;
+                            } else {
+                                unadmitted_liquids.insert(portion.species.clone());
+                            }
                         }
                     }
                 }
                 let mut splits = Vec::new();
                 let mut outside = Vec::new();
                 for (solute, (aqueous_moles, solid_moles)) in inventory {
+                    if unadmitted_liquids.contains(&solute) {
+                        // A separate or unreviewed liquid owner has no
+                        // admitted dissolved share; its partition is not
+                        // computed from the other labels of the same key.
+                        outside.push(solute);
+                        continue;
+                    }
                     let empirical =
                         crate::apparatus::partition_coefficient_row(&solute, solvent, &water);
                     if let Some(row) = empirical {
@@ -4191,7 +4224,7 @@ impl Bench {
                                         crate::ops::NotModelledCause::NotParameterised,
                                         Phrase::new(
                                             "not-modeled.no-distribution-coefficient",
-                                            "no reviewed {solvent}/water distribution coefficient for {solutes}",
+                                            "no reviewed {solvent}/water distribution coefficient for {solutes}; no solvent was dispensed and the receiver is unchanged",
                                             vec![
                                                 (
                                                     "solvent".to_string(),
@@ -5866,7 +5899,9 @@ impl Bench {
                 receiver,
                 steps,
                 courant,
+                drain,
             } => {
+                let drain = *drain;
                 if chain.is_empty() {
                     return Err(BenchError::NonPositiveAmount);
                 }
@@ -5918,27 +5953,35 @@ impl Bench {
                 // mark this as Unchanged to preserve caches and still emit
                 // Transported with zero effluent.
                 if *courant == 0.0 {
-                    let inlet_vessel = self.vessel(*inlet)?.clone();
+                    let mut inlet_vessel = self.vessel(*inlet)?.clone();
                     let chain_vessels: Vec<crate::vessel::Vessel> = chain
                         .iter()
                         .map(|id| self.vessel(*id).cloned())
                         .collect::<Result<_, _>>()?;
                     let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
-                    let total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
                     // With zero movement every requested step has identical
                     // inputs, so validate once rather than repeat a no-op.
-                    cell_chain.advance(&inlet_vessel, *courant)?;
+                    if drain {
+                        cell_chain.advance_from_feed(&mut inlet_vessel, *courant, 1)?;
+                    } else {
+                        cell_chain.advance(&inlet_vessel, *courant)?;
+                    }
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::Transported {
                         chain: chain.clone(),
                         receiver: *receiver,
                         steps: *steps,
                         courant: *courant,
-                        effluent_moles: total_effluent,
+                        effluent_moles: Vec::new(),
+                        inflow_moles: Vec::new(),
+                        drain,
                     });
                     return Ok(events);
                 }
-                let inlet_vessel = self.vessel(*inlet)?.clone();
+                // Every vessel below is a local proposal; nothing is published
+                // until all steps succeeded, and `step_with` restores the
+                // checkpoint on any error.
+                let mut inlet_vessel = self.vessel(*inlet)?.clone();
                 let chain_vessels: Vec<crate::vessel::Vessel> = chain
                     .iter()
                     .map(|id| self.vessel(*id).cloned())
@@ -5954,19 +5997,56 @@ impl Bench {
                 let mut receiver_proposal = self.vessel(*receiver)?.clone();
                 let temp_before = receiver_proposal.temperature;
                 let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                let mut total_inflow: Vec<(SpeciesId, Moles)> = Vec::new();
+                let accumulate =
+                    |total: &mut Vec<(SpeciesId, Moles)>,
+                     parcel: &crate::transport::MobileParcel| {
+                        for portion in &parcel.contents {
+                            if let Some(entry) =
+                                total.iter_mut().find(|(s, _)| *s == portion.species)
+                            {
+                                entry.1 = Moles(entry.1 .0 + portion.moles.0);
+                            } else {
+                                total.push((portion.species.clone(), portion.moles));
+                            }
+                        }
+                    };
                 let mut has_movement = false;
-                for _ in 0..*steps {
-                    let step = cell_chain.advance(&inlet_vessel, *courant)?;
-                    for portion in &step.effluent.contents {
-                        if let Some(entry) = total_effluent
-                            .iter_mut()
-                            .find(|(s, _)| *s == portion.species)
-                        {
-                            entry.1 = Moles(entry.1 .0 + portion.moles.0);
-                        } else {
-                            total_effluent.push((portion.species.clone(), portion.moles));
+                for step_index in 0..*steps {
+                    // Operator splitting per step: the cells re-equilibrate
+                    // after EVERY transport step, not once per command, so a
+                    // reactive bed (cementation, precipitation, sorption,
+                    // mineral dissolution) acts on each pore volume as it
+                    // arrives. The last step's solve is the ordinary
+                    // post-operator pass over the touched vessels.
+                    if step_index > 0 {
+                        for (offset, cell) in cell_chain.cells_mut().iter_mut().enumerate() {
+                            cell.mark_liquid_contact();
+                            cell.solution = None;
+                            cell.step_start = Some(crate::vessel::StepStart::capture(cell));
+                            if solver.applies(cell) {
+                                match solver.equilibrate(cell) {
+                                    Ok(mut more) => events.append(&mut more),
+                                    Err(e) => events.push(Event::SolverFailed {
+                                        reason: e.owned_reason().cloned().map(Box::new),
+                                        vessel: chain[offset],
+                                        solver: solver.name().to_string(),
+                                        detail: e.to_string(),
+                                    }),
+                                }
+                            }
+                            cell.step_start = None;
+                            cell.heat_input = None;
+                            cell.refresh_pressure();
                         }
                     }
+                    let step = if drain {
+                        cell_chain.advance_from_feed(&mut inlet_vessel, *courant, step_index + 1)?
+                    } else {
+                        cell_chain.advance(&inlet_vessel, *courant)?
+                    };
+                    accumulate(&mut total_inflow, &step.injected);
+                    accumulate(&mut total_effluent, &step.effluent);
                     let effluent = step.effluent;
                     let is_empty = effluent.contents.is_empty()
                         && effluent.solute_charge == 0.0
@@ -5994,19 +6074,14 @@ impl Bench {
                     receiver_proposal.free_hydroxide += effluent.free_hydroxide;
                     receiver_proposal.free_proton += effluent.free_proton;
                 }
-                // Publish chain only after every domain check succeeded;
-                // CellChain already carries correct cache semantics (zero
-                // Courant leaves solution intact, movement clears it).
+                // Publish chain only after every domain check succeeded. The
+                // whole cell is published: the intermediate solves may have
+                // moved interfaces, solids or gas, not just the mobile phase.
                 for (i, cid) in chain.iter().enumerate() {
-                    let updated = &cell_chain.cells()[i];
-                    let v = self.vessel_mut(*cid)?;
-                    v.contents = updated.contents.clone();
-                    v.temperature = updated.temperature;
-                    v.solute_charge = updated.solute_charge;
-                    v.free_hydroxide = updated.free_hydroxide;
-                    v.free_proton = updated.free_proton;
-                    v.solution = updated.solution.clone();
-                    v.resolved = updated.resolved.clone();
+                    *self.vessel_mut(*cid)? = cell_chain.cells()[i].clone();
+                }
+                if drain {
+                    *self.vessel_mut(*inlet)? = inlet_vessel;
                 }
                 if has_movement {
                     receiver_proposal.solution = None;
@@ -6028,6 +6103,8 @@ impl Bench {
                     steps: *steps,
                     courant: *courant,
                     effluent_moles: total_effluent,
+                    inflow_moles: total_inflow,
+                    drain,
                 });
             }
             Operator::Titrate { .. } => {
@@ -6181,6 +6258,10 @@ impl Bench {
             );
             v.solution = None;
             v.step_start = Some(crate::vessel::StepStart::capture(&v));
+            // One increment is delivered with no elapsed time: an open
+            // boundary may release only effervescing gas, not relax the
+            // solution to room air (see `Vessel::zero_time_dose`).
+            v.zero_time_dose = true;
             // Both the full dose and every refinement candidate are checked
             // before safety, applicability or equilibrium hooks see them.
             validate_trial(&v)?;
@@ -6210,6 +6291,7 @@ impl Bench {
             };
             v.step_start = None;
             v.heat_input = None;
+            v.zero_time_dose = false;
             v.refresh_pressure();
             let mut solved_events = result.map_err(TrialFailure::Solver)?;
             validate_trial(&v)?;
@@ -6824,7 +6906,7 @@ fn binary_still_refusal_phrase(error: kerotakis_thermo::vle::StillError) -> Phra
         ),
         StillError::UnrepresentableCondensate => Phrase::bare(
             "not-modeled.still-condensate-precision",
-            "a positive component cannot be retained in the accumulated condensate; no material was transferred",
+            "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred",
         ),
         StillError::UnrepresentableResidue => Phrase::bare(
             "not-modeled.still-residue-precision",
@@ -7199,10 +7281,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::TestGas { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
-            chain, receiver, ..
+            chain,
+            inlet,
+            receiver,
+            drain,
+            ..
         } => {
             let mut touched = chain.clone();
             touched.push(*receiver);
+            // A finite feed is drained, so its solution state is stale too.
+            if *drain {
+                touched.push(*inlet);
+            }
             touched
         }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
@@ -7410,6 +7500,24 @@ pub(crate) fn liquid_partition_refusal(
             ("why".into(), Slot::phrase(partition_input_refusal(error))),
         ],
     )
+}
+
+/// Which reviewed authority, if any, gives `extract` a distribution
+/// coefficient for `solute` between `organic_solvent` and water: an
+/// empirical row of [`crate::apparatus::PARTITION_COEFFICIENTS`] or the
+/// curated UNIFAC group model. `None` is the typed
+/// `not-modeled.no-distribution-coefficient` refusal. This is the runtime
+/// half of `docs/separation-coverage-20261109.json`.
+pub fn extraction_partition_basis(
+    solute: &SpeciesId,
+    organic_solvent: &SpeciesId,
+) -> Option<&'static str> {
+    let water = SpeciesId::new("water");
+    if crate::apparatus::partition_coefficient_row(solute, organic_solvent, &water).is_some() {
+        return Some("empirical");
+    }
+    (organic_solvent.0 == "hexane" && partition_groups(solute).is_some())
+        .then_some("unifac-group-model")
 }
 
 fn try_partition_k(

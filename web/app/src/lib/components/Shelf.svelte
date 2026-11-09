@@ -7,6 +7,7 @@
     concentrationOptions,
     defaultConcentration,
     normaliseConcentration,
+    shelfVisibleAt,
     solutionCommand,
   } from "../solutions";
   import { reagentMatches } from "../catalogSearch";
@@ -77,6 +78,7 @@
 
   let query = $state("");
   const visible = $derived(items.filter((item) => {
+    if (!shelfVisibleAt(register, item)) return false;
     if (scope === "all") return true;
     if (scope === "mission") return kit?.includes(item.key) ?? false;
     if (mode === "sandbox") return true;
@@ -106,6 +108,8 @@
     concentration = defaultConcentration(register, item.key);
     customConcentration = "";
     if (concentration && item.phase !== "liquid") amountUnit = "mL";
+    // A stock bottle is measured as a solution: never a drop or a pinch.
+    if (item.stock && !(SOLUTION_UNITS as readonly string[]).includes(amountUnit)) amountUnit = "mL";
   }
 
   /** One tap narrows to a phase; the chips only exist when useful. */
@@ -492,7 +496,7 @@
             >+</button>
           </div>
           <select aria-label={t("unit")} bind:value={amountUnit}>
-            {#each concentration ? SOLUTION_UNITS : amountUnits(register, item.phase) as unit (unit)}
+            {#each concentration || item.stock ? SOLUTION_UNITS : amountUnits(register, item.phase) as unit (unit)}
               <option value={unit}>{unit}</option>
             {/each}
           </select>

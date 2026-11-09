@@ -298,6 +298,33 @@ mod tests {
         );
     }
 
+    /// LiOH, CaBr2 and Ba(OH)2 carry exactly the Pitzer-Mayorga 1973
+    /// parameters in the shipped pitzer.dat, so they inherit its max m
+    /// (4, 2, 0.1 mol/kg) and are checked like every other ranged row.
+    #[test]
+    fn rows_ranged_at_the_2026_11_09_check_refuse_past_their_fit() {
+        let b = breach_of(&totals(&[("Li", 5.0)]), Conditions::STANDARD).expect("5 m LiOH > 4 m");
+        assert_eq!((b.electrolyte.as_str(), b.max_molality), ("LiOH", 4.0));
+        assert_eq!(
+            breach_of(&totals(&[("Li", 3.5)]), Conditions::STANDARD),
+            None
+        );
+        let b = breach_of(&totals(&[("Ca", 2.5), ("Br", 5.0)]), Conditions::STANDARD)
+            .expect("2.5 m CaBr2 > 2 m");
+        assert_eq!((b.electrolyte.as_str(), b.max_molality), ("CaBr2", 2.0));
+        assert_eq!(
+            breach_of(&totals(&[("Ca", 1.5), ("Br", 3.0)]), Conditions::STANDARD),
+            None
+        );
+        let b = breach_of(&totals(&[("Ba", 0.2)]), Conditions::STANDARD)
+            .expect("0.2 m Ba(OH)2 > 0.1 m");
+        assert_eq!((b.electrolyte.as_str(), b.max_molality), ("Ba(OH)2", 0.1));
+        assert_eq!(
+            breach_of(&totals(&[("Ba", 0.05)]), Conditions::STANDARD),
+            None
+        );
+    }
+
     #[test]
     fn hot_saturated_brine_is_inside_its_saturation_scope() {
         let hot = |t: f64, si: f64| (t, vec![("Halite".to_string(), si)]);

@@ -236,7 +236,11 @@ pub fn equipment_requirement(id: &str) -> u32 {
 /// known to be dangerous, but because it is not known to be safe, and the
 /// catalog must not promote silence to a clearance.
 pub fn reagent_requirement(facts: &ReagentFacts) -> u32 {
-    if STARTER_STOCK.contains(&facts.key) {
+    // A shelf stock (`acetic_acid_5_percent`) is its solute already
+    // diluted: it is starter stock exactly when the solute is.
+    let solute = crate::solution_stock::lookup_stock(facts.key)
+        .map_or(facts.key, |stock| stock.species.as_str());
+    if STARTER_STOCK.contains(&solute) {
         return 0;
     }
     if !facts.assessed {
@@ -475,6 +479,27 @@ mod tests {
         );
         // Unassessed is not safe. It is unknown, and unknown sits last.
         assert_eq!(reagent_requirement(&facts("mystery", &none, false)), 4);
+    }
+
+    /// A shelf stock is tiered as its solute: vinegar-strength acetic acid
+    /// is starter stock because acetic acid is, 37 % hydrochloric acid sits
+    /// with hydrochloric acid on the corrosive rung.
+    #[test]
+    fn shelf_stocks_take_their_solutes_rung() {
+        let none: Vec<&str> = vec![];
+        let corrosive = vec!["corrosive"];
+        assert_eq!(
+            reagent_requirement(&facts("acetic_acid_5_percent", &none, true)),
+            reagent_requirement(&facts("CH3COOH", &none, true))
+        );
+        assert_eq!(
+            reagent_requirement(&facts("acetic_acid_5_percent", &none, true)),
+            0
+        );
+        assert_eq!(
+            reagent_requirement(&facts("hydrochloric_acid_37_percent", &corrosive, true)),
+            reagent_requirement(&facts("HCl", &corrosive, true))
+        );
     }
 
     #[test]

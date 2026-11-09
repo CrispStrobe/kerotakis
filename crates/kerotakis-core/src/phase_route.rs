@@ -266,6 +266,152 @@ pub fn arrives_at_k(key: &str) -> Option<f64> {
     sublimes_at(&SpeciesId::new(key)).or_else(|| boils_at(key))
 }
 
+/// The phase a pure reagent is in when it leaves its bottle at `t_k`.
+///
+/// The registry's `standard_phase` is the phase at 25 °C, and `add` used
+/// to deposit every reagent in it whatever the bench temperature was: a
+/// bottle of hexadecane at 10 °C arrived liquid although it melts at
+/// 18 °C, and tert-butanol at 15 °C arrived liquid although it melts at
+/// 25.8 °C. A reagent is stocked in the phase its OWN sourced melting point
+/// says it is in at the temperature it arrives at.
+///
+/// The derivation only runs for a condensed reagent whose fusion this
+/// bench can pay for in both directions — a [`FUSION_ENTHALPIES`] row, or
+/// the solvent, whose ice `solve::StateEquilibrator` owns. Stocking a
+/// solid the fusion ledger cannot later melt would trade one wrong phase
+/// for a permanently stuck one, so a melting point without a latent heat
+/// falls back to `standard_phase`, as does every reagent with no melting
+/// point at all; `docs/stocking-phase-coverage-20261109.md` lists which
+/// species are in which case. Exactly AT the melting point the standard
+/// phase is kept, since either phase may coexist there.
+///
+/// The boiling point is deliberately not used to stock a vapour: a liquid
+/// arriving above its boiling point is deposited liquid and boiled by the
+/// vaporising route on the same step, so the latent heat is paid out of
+/// the vessel rather than assumed. Gases and aqueous reagents are never
+/// rephased here.
+pub fn stocked_phase(data: &crate::species::SpeciesData, t_k: f64) -> Phase {
+    let standard = data.standard_phase;
+    if stocking_basis(data) != StockingBasis::Derived || !t_k.is_finite() {
+        return standard;
+    }
+    let Some(melting) = data.transitions.and_then(|t| t.melting_k) else {
+        return standard;
+    };
+    if t_k < melting {
+        Phase::Solid
+    } else if t_k > melting {
+        Phase::Liquid
+    } else {
+        standard
+    }
+}
+
+/// Why [`stocked_phase`] gives what it gives for a species: the row the
+/// generated coverage table (`tools/stocking_phase_coverage.py`) prints.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StockingBasis {
+    /// Sourced melting point and a fusion owner: the phase is derived.
+    Derived,
+    /// A melting point is sourced but no latent heat is, so the bench
+    /// could not pay to cross it later: `standard_phase` is used.
+    MeltingPointWithoutLatentHeat,
+    /// No melting point is sourced: `standard_phase` is used.
+    NoMeltingPoint,
+    /// A gas, an aqueous reagent, or a condensed gas (which arrives at its
+    /// own transition point instead): never rephased.
+    NotCondensed,
+}
+
+impl StockingBasis {
+    pub fn key(self) -> &'static str {
+        match self {
+            Self::Derived => "derived",
+            Self::MeltingPointWithoutLatentHeat => "melting_point_without_latent_heat",
+            Self::NoMeltingPoint => "no_melting_point",
+            Self::NotCondensed => "not_condensed",
+        }
+    }
+}
+
+/// The [`StockingBasis`] of a registry species.
+pub fn stocking_basis(data: &crate::species::SpeciesData) -> StockingBasis {
+    if !matches!(data.standard_phase, Phase::Solid | Phase::Liquid) || is_condensed_gas(data.key) {
+        return StockingBasis::NotCondensed;
+    }
+    if data.transitions.and_then(|t| t.melting_k).is_none() {
+        return StockingBasis::NoMeltingPoint;
+    }
+    // The solvent's ice belongs to `solve::StateEquilibrator`, which is why
+    // water has no row in FUSION_ENTHALPIES and still owns its fusion.
+    if fusion_enthalpy(data.key).is_some() || data.key == "water" {
+        StockingBasis::Derived
+    } else {
+        StockingBasis::MeltingPointWithoutLatentHeat
+    }
+}
+
+/// Refreeze what a flame that has been taken away melted.
+///
+/// `ignite` over something that does not burn puts the vessel back at the
+/// temperature it had before the spark — the flame's heat is undone. But
+/// the fusion route ran while the vessel sat at flame temperature, and a
+/// pinch of salt held in a Bunsen flame really does melt at its edge. Left
+/// alone, that melt survived the revert: NaCl and KCl ended the step as
+/// molten pools at 25 °C (an-001/an-002), a state no bench can hold.
+///
+/// The latent heat the melt was paid with came from the same flame whose
+/// heat the revert removes, so the refreeze returns it to the same place
+/// and the energy books are unchanged by it: the vessel ends where it
+/// started, solid and at its starting temperature, and the step's events
+/// say both halves — it melted at the melting point, and it froze again
+/// at the melting point as the flame was withdrawn. Only melts announced
+/// in `step` are undone, and only where the restored temperature is below
+/// the substance's melting point; nothing that was already liquid before
+/// the spark is touched.
+pub(crate) fn refreeze_flame_melts(vessel: &mut Vessel, step: &[Event]) -> Vec<Event> {
+    let melted: Vec<(SpeciesId, f64, f64)> = step
+        .iter()
+        .filter_map(|event| match event {
+            Event::StateChanged {
+                vessel: id,
+                species,
+                from: Phase::Solid,
+                to: Phase::Liquid,
+                at,
+                moles: Some(moles),
+                ..
+            } if *id == vessel.id => Some((species.clone(), at.0, moles.0)),
+            _ => None,
+        })
+        .collect();
+    let mut events = Vec::new();
+    for (species, at, moles) in melted {
+        let Some(melting) = melts_at(&species.0) else {
+            continue;
+        };
+        if vessel.temperature.0 >= melting {
+            continue;
+        }
+        let n = moles.min(moles_in_phase(vessel, &species, Phase::Liquid));
+        if n <= TRACE {
+            continue;
+        }
+        withdraw_phase(vessel, &species, Phase::Liquid, n);
+        vessel.deposit(species.clone(), Moles(n), Phase::Solid);
+        events.push(Event::state_changed(
+            vessel.id,
+            species,
+            Phase::Liquid,
+            Phase::Solid,
+            crate::units::Kelvin(at),
+            0.0,
+            Moles(n),
+        ));
+    }
+    events
+}
+
 fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
     vessel
         .contents
@@ -474,6 +620,18 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
         // 18.98 kJ/mol.
         kj_per_mol: 18.98,
         provenance: "Naphthalene enthalpy of fusion 18.98 kJ/mol at its 353.40 K melting point. J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, 'The low-temperature thermodynamic properties of naphthalene...', J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016: 18.98 kJ/mol at 353.40 K. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. INDEPENDENTLY CORROBORATED BY A PUBLIC-DOMAIN DOCUMENT read in full: NIPER-678 (1993), doi:10.2172/10181459, reports its own measurement of 18.99 kJ/mol at 353.40 K. THE VALUE MOVED, 19.01 to 18.98, and the reason to distrust where 19.01 came from is worth writing down: the NIST WebBook's row for this very paper prints 18.226 kJ/mol, which is a 4536-to-4356 digit transposition and sits 4.2 per cent below every determination since 1926 - and its companion entropy of fusion is derived from the same bad number, so the page corroborates itself. A source that can agree with itself while being wrong is a source this bench should not be reading. Naphthalene is the substance school cooling-curve experiments are actually run on, because the plateau sits in a water bath's reach. No enthalpy of vaporisation is claimed for it here: its 491 K boiling point is outside what that experiment goes near, and a row would install a boil this tranche has not checked",
+    },
+    LatentHeat {
+        species: "hexadecane",
+        // 53.36 kJ/mol.
+        kj_per_mol: 53.36,
+        provenance: "n-Hexadecane enthalpy of fusion 53.36 kJ/mol at its 291.3 K melting point. H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, 'Low-temperature thermal data for the nine normal paraffin hydrocarbons from octane to hexadecane', J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a009: about 12.75 kcal/mol at the triple point. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO: the publication is the primary adiabatic calorimetry and its DOI resolves, but the figure was transcribed from the reviewer's reading of that work rather than checked against a scan of the table, so it is PENDING REVIEW in the same lane as propan-2-ol's boil. The CRC Handbook of Chemistry and Physics, 'Enthalpy of Fusion' table, carries the same order of value and is the commercial fallback. This row exists so a bottle of cetane stocked below 18 degrees Celsius can be a solid that a warming step pays to melt (stocking-phase lane, 2026-11-09); without it the registry's melting point was a number the bench could read but never act on",
+    },
+    LatentHeat {
+        species: "tert_butanol",
+        // 6.70 kJ/mol.
+        kj_per_mol: 6.70,
+        provenance: "2-Methylpropan-2-ol (tert-butanol) enthalpy of fusion 6.70 kJ/mol at its 298.97 K melting point. F. L. Oetting, 'The heat capacity and entropy of 2-methyl-2-propanol from 15 to 330 K', J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061: 1602 cal/mol for the stable crystal to liquid. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO: primary calorimetry, DOI resolves, value not yet checked against a scan of the paper - PENDING REVIEW. tert-Butanol has solid-solid transitions below its melting point that this row does not claim. The registry's 298.96 K melting point and this 298.97 agree to a hundredth of a kelvin. This is the alcohol whose bottle is a solid on a cool morning and a liquid on a warm one, which is the whole of th-003's question (stocking-phase lane, 2026-11-09)",
     },
     LatentHeat {
         species: "Pb",

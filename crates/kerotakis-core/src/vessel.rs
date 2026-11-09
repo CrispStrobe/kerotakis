@@ -1390,6 +1390,19 @@ pub struct Vessel {
     /// from persistence so a later operation cannot spend the same joules.
     #[serde(skip)]
     pub heat_input: Option<HeatInput>,
+    /// Step-local: this solve prices a dose delivered with NO elapsed time
+    /// (one titration increment). An open boundary then releases only gas
+    /// whose partial pressure exceeds the vessel's total pressure — the
+    /// effervescence threshold at which bubbles can nucleate — and does not
+    /// relax a supersaturated solution to the room's partial pressure.
+    /// Diffusive exchange with room air is a rate, owned by the gas-exchange
+    /// clock when time actually passes. Without this, every 0.1 mL of acid
+    /// vented the CO2 that carbonate alkalinity was still holding at pH 9-10,
+    /// each vented mole spending a proton, so a Warder titration read the
+    /// phenolphthalein endpoint at total alkalinity minus residual carbon
+    /// rather than at OH- + CO3^2-. Never persisted; cleared after the solve.
+    #[serde(skip)]
+    pub zero_time_dose: bool,
     /// Free hydroxide the aqueous solver last MEASURED, in moles.
     ///
     /// Kept beside `solute_charge` and for the same reason — the heat
@@ -1605,6 +1618,7 @@ impl Vessel {
             step_start: None,
             aqueous_heat: AqueousHeatOwnership::WholeStep,
             heat_input: None,
+            zero_time_dose: false,
             free_hydroxide: 0.0,
             free_proton: 0.0,
             co2_partial_pressure_atm: None,
