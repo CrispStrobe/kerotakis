@@ -698,6 +698,8 @@ fn design_counts_the_stages_actually_connected() {
             steps: 3,
             courant: 0.5,
             effluent_moles: vec![],
+            inflow_moles: vec![],
+            reservoir: false,
         }]
     };
     assert_eq!(ask(&spec, &[], &bench).unmet, Some(Unmet::NothingYet));

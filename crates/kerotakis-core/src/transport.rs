@@ -6,6 +6,12 @@
 //! a Courant fraction in `[0, 1]`. Every outflow is snapshotted before any cell
 //! mutates, so the result does not depend on iteration order.
 //!
+//! The boundary is either a finite feed vessel, debited by exactly the parcel
+//! it injects ([`CellChain::advance_from_feed`], the default for the bench
+//! verb), or an explicitly declared constant-composition reservoir
+//! ([`CellChain::advance`], `transport ... reservoir`). In both cases the
+//! per-step ledger is `old + injected = new + effluent` for every species.
+//!
 //! [`CellChain::advance`] deliberately performs no chemistry and invalidates
 //! stale solution metadata after matter moves. [`CellChain::advance_reactive`]
 //! adds the operator-splitting seam: transport first, then local equilibrium,
@@ -19,12 +25,21 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles};
 use crate::vessel::{Portion, ThermalMode, Vessel, VesselId};
 
+// Hydraulic geometry tolerance, relative to the first cell's liquid volume.
+//
 // `Vessel::liquid_volume` is an additive solvent-volume proxy and deliberately
-// excludes solute volume. Aqueous/exchange bookkeeping can therefore move it
-// by tenths of a part per million without changing the hydraulic cell. Treat
-// that scale as the same geometry; a material volume change remains an error
-// and the absolute floor still protects very small cells.
-const VOLUME_RELATIVE_TOLERANCE: f64 = 1e-6;
+// excludes solute volume. Ordinary chemistry moves it without changing the
+// physical cell: aqueous readback shifts it by ppm, and a dissolving hydrate
+// (gypsum releases 2 H2O per CaSO4) adds a few hundred ppm to a dilute cell.
+// The ledger does not depend on uniform volumes - every outflow is a fraction
+// of the cell's OWN mobile inventory and every inflow is exactly what left the
+// neighbour or the inlet - so matter and charge close exactly whatever the
+// mismatch. The tolerance therefore only bounds the hydraulic interpretation
+// of one Courant number for the whole column: a 0.1 % volume mismatch changes
+// the replaced fraction of a cell by at most 0.1 % per step, far below any
+// observable the column is asked to show. A cell that differs by more than
+// that is a different geometry and is still refused.
+pub const HYDRAULIC_VOLUME_RELATIVE_TOLERANCE: f64 = 1e-3;
 const VOLUME_ABSOLUTE_TOLERANCE_L: f64 = 1e-12;
 
 #[derive(Debug, thiserror::Error)]
@@ -47,6 +62,16 @@ pub enum TransportError {
         "the inlet represents {actual_l} L of liquid; one full transport cell requires {expected_l} L"
     )]
     InletVolume { expected_l: f64, actual_l: f64 },
+    #[error(
+        "the feed vessel holds {available_l} L of liquid but transport step {step} needs {required_l} L; \
+         a feed vessel is finite and is drained as it flows (add more feed, or write 'reservoir' to \
+         declare a constant-composition source)"
+    )]
+    InletExhausted {
+        step: u32,
+        required_l: f64,
+        available_l: f64,
+    },
     #[error("{location} contains a non-finite temperature, charge, or mobile amount")]
     InvalidMobileState { location: String },
     #[error("transport cell {cell} is thermostatted; conservative AQ-011 transport requires adiabatic cells")]
@@ -272,39 +297,92 @@ impl CellChain {
         Joules(self.cells.iter().map(|cell| cell.enthalpy().0).sum())
     }
 
-    /// Advance one explicit upwind step.
+    /// Advance one explicit upwind step from a constant-composition reservoir.
     ///
-    /// `inlet` represents one complete cell volume at the boundary
-    /// composition. `courant_fraction` is the fraction of each cell volume
-    /// replaced during this step. The update is simultaneous and keeps cell
-    /// liquid volumes fixed when the validated uniform-volume contract holds.
+    /// `inlet` is a representative boundary composition and is NOT consumed:
+    /// it is scaled to exactly `courant_fraction` of one cell volume, whatever
+    /// its own volume. This is the explicit `reservoir` boundary. A finite
+    /// feed vessel that is drained as it flows uses
+    /// [`CellChain::advance_from_feed`].
     pub fn advance(
         &mut self,
         inlet: &Vessel,
         courant_fraction: f64,
     ) -> Result<TransportStep, TransportError> {
-        if !courant_fraction.is_finite() || !(0.0..=1.0).contains(&courant_fraction) {
-            return Err(TransportError::InvalidCourant {
-                fraction: courant_fraction,
-            });
-        }
-
+        check_courant(courant_fraction)?;
         let cell_volume = self.uniform_cell_volume(true)?;
         let inlet = MobileParcel::from_vessel(inlet);
         inlet.validate("transport inlet")?;
         let inlet_volume = inlet.liquid_volume().0;
-        let surface_reference_tolerance = self
-            .cells
-            .first()
-            .map(surface_reference_volume)
-            .unwrap_or(0.0);
-        if !same_volume(cell_volume, inlet_volume, surface_reference_tolerance) {
+        if !inlet_volume.is_finite() || inlet_volume <= 0.0 {
             return Err(TransportError::InletVolume {
                 expected_l: cell_volume,
                 actual_l: inlet_volume,
             });
         }
+        // A representative inlet within the hydraulic tolerance of one cell
+        // volume IS one cell volume (the historical contract, unchanged);
+        // any other volume is rescaled so the column still receives exactly
+        // `courant_fraction` of a cell volume of that composition.
+        let surface_reference_tolerance = self
+            .cells
+            .first()
+            .map(surface_reference_volume)
+            .unwrap_or(0.0);
+        let scale = if same_volume(cell_volume, inlet_volume, surface_reference_tolerance) {
+            courant_fraction
+        } else {
+            courant_fraction * (cell_volume / inlet_volume)
+        };
+        let injected = inlet.scaled(scale);
+        self.advance_parcel(injected, courant_fraction)
+    }
 
+    /// Advance one explicit upwind step from a finite feed vessel.
+    ///
+    /// The injected parcel is `courant_fraction` of one cell volume taken
+    /// from the feed's mobile (liquid + aqueous) inventory in proportion to
+    /// its composition, and exactly that parcel is debited from `feed`. Solids
+    /// and interfaces in the feed stay there. A feed that cannot supply the
+    /// step (beyond [`HYDRAULIC_VOLUME_RELATIVE_TOLERANCE`]) is refused before
+    /// anything mutates; `step` only labels the refusal.
+    pub fn advance_from_feed(
+        &mut self,
+        feed: &mut Vessel,
+        courant_fraction: f64,
+        step: u32,
+    ) -> Result<TransportStep, TransportError> {
+        check_courant(courant_fraction)?;
+        let cell_volume = self.uniform_cell_volume(true)?;
+        let parcel = MobileParcel::from_vessel(feed);
+        parcel.validate("transport inlet")?;
+        let available = parcel.liquid_volume().0;
+        let required = courant_fraction * cell_volume;
+        if courant_fraction == 0.0 {
+            return self.advance_parcel(parcel.scaled(0.0), courant_fraction);
+        }
+        if !available.is_finite()
+            || available <= 0.0
+            || required > available * (1.0 + HYDRAULIC_VOLUME_RELATIVE_TOLERANCE)
+        {
+            return Err(TransportError::InletExhausted {
+                step,
+                required_l: required,
+                available_l: available,
+            });
+        }
+        let fraction = (required / available).min(1.0);
+        let injected = parcel.scaled(fraction);
+        let result = self.advance_parcel(injected.clone(), courant_fraction)?;
+        debit(feed, &injected, fraction >= 1.0);
+        Ok(result)
+    }
+
+    fn advance_parcel(
+        &mut self,
+        injected: MobileParcel,
+        courant_fraction: f64,
+    ) -> Result<TransportStep, TransportError> {
         let outgoing: Vec<MobileParcel> = self
             .cells
             .iter()
@@ -315,7 +393,6 @@ impl CellChain {
                 Ok(parcel.scaled(courant_fraction))
             })
             .collect::<Result<_, TransportError>>()?;
-        let injected = inlet.scaled(courant_fraction);
         let effluent = outgoing
             .last()
             .cloned()
@@ -329,18 +406,10 @@ impl CellChain {
             });
         }
 
-        for cell in &mut self.cells {
-            for portion in &mut cell.contents {
-                if is_mobile(portion.phase) {
-                    portion.moles = Moles(portion.moles.0 * (1.0 - courant_fraction));
-                }
-            }
-            cell.contents.retain(|portion| portion.moles.0 > 1e-15);
-            cell.solute_charge *= 1.0 - courant_fraction;
-            cell.free_hydroxide *= 1.0 - courant_fraction;
-            cell.free_proton *= 1.0 - courant_fraction;
-            cell.solution = None;
-            cell.resolved.invalidate();
+        // Debit exactly the parcel that leaves, so `old = kept + outgoing`
+        // holds portion by portion rather than through a second rounding.
+        for (cell, out) in self.cells.iter_mut().zip(&outgoing) {
+            debit(cell, out, courant_fraction >= 1.0);
         }
 
         for index in 0..self.cells.len() {
@@ -448,6 +517,51 @@ impl CellChain {
     }
 }
 
+fn check_courant(courant_fraction: f64) -> Result<(), TransportError> {
+    if !courant_fraction.is_finite() || !(0.0..=1.0).contains(&courant_fraction) {
+        return Err(TransportError::InvalidCourant {
+            fraction: courant_fraction,
+        });
+    }
+    Ok(())
+}
+
+/// Remove exactly `parcel` (a scaled copy of `vessel`'s own mobile phase)
+/// from `vessel`. With `whole`, the mobile phase leaves completely and no
+/// rounding residue is left behind. Measured solution state is stale.
+fn debit(vessel: &mut Vessel, parcel: &MobileParcel, whole: bool) {
+    for portion in &mut vessel.contents {
+        if !is_mobile(portion.phase) {
+            continue;
+        }
+        if whole {
+            portion.moles = Moles(0.0);
+            continue;
+        }
+        let leaving: f64 = parcel
+            .contents
+            .iter()
+            .filter(|p| p.species == portion.species && p.phase == portion.phase)
+            .map(|p| p.moles.0)
+            .sum();
+        portion.moles = Moles((portion.moles.0 - leaving).max(0.0));
+    }
+    vessel
+        .contents
+        .retain(|portion| !is_mobile(portion.phase) || portion.moles.0 > 0.0);
+    if whole {
+        vessel.solute_charge = 0.0;
+        vessel.free_hydroxide = 0.0;
+        vessel.free_proton = 0.0;
+    } else {
+        vessel.solute_charge -= parcel.solute_charge;
+        vessel.free_hydroxide = (vessel.free_hydroxide - parcel.free_hydroxide).max(0.0);
+        vessel.free_proton = (vessel.free_proton - parcel.free_proton).max(0.0);
+    }
+    vessel.solution = None;
+    vessel.resolved.invalidate();
+}
+
 fn is_mobile(phase: Phase) -> bool {
     matches!(phase, Phase::Liquid | Phase::Aqueous)
 }
@@ -487,6 +601,6 @@ fn surface_reference_volume(vessel: &Vessel) -> f64 {
 
 fn same_volume(expected: f64, actual: f64, additional_absolute_tolerance_l: f64) -> bool {
     (expected - actual).abs()
-        <= (expected.abs() * VOLUME_RELATIVE_TOLERANCE).max(VOLUME_ABSOLUTE_TOLERANCE_L)
+        <= (expected.abs() * HYDRAULIC_VOLUME_RELATIVE_TOLERANCE).max(VOLUME_ABSOLUTE_TOLERANCE_L)
             + additional_absolute_tolerance_l
 }

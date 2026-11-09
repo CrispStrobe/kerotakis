@@ -436,14 +436,22 @@ pub enum Operator {
     /// magnet and are dropped into `to`; everything else stays behind.
     Magnet { from: VesselId, to: VesselId },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
-    /// transport with an explicit Courant fraction. The inlet provides the
-    /// feed composition (unchanged); the effluent collects in the receiver.
+    /// transport with an explicit Courant fraction. The inlet is a finite
+    /// feed vessel, drained by exactly what it injects, unless `reservoir`
+    /// declares it a constant-composition source. Local equilibrium is
+    /// re-established in every cell after every step; the effluent collects
+    /// in the receiver.
     Transport {
         chain: Vec<VesselId>,
         inlet: VesselId,
         receiver: VesselId,
         steps: u32,
         courant: f64,
+        /// The protocol states a constant-composition boundary reservoir:
+        /// the inlet vessel is a representative composition and is not
+        /// consumed. Off by default.
+        #[serde(default, skip_serializing_if = "is_false")]
+        reservoir: bool,
     },
 }
 
@@ -2314,6 +2322,13 @@ pub enum Event {
         steps: u32,
         courant: f64,
         effluent_moles: Vec<(SpeciesId, Moles)>,
+        /// What entered the first cell over the whole command. For a finite
+        /// feed this is exactly what the inlet vessel lost.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        inflow_moles: Vec<(SpeciesId, Moles)>,
+        /// The inflow came from a declared constant-composition reservoir.
+        #[serde(default, skip_serializing_if = "is_false")]
+        reservoir: bool,
     },
 }
 
