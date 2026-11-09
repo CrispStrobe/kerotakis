@@ -1557,6 +1557,18 @@ pub struct Vessel {
     /// once.
     #[serde(skip)]
     pub honesty_said: Vec<String>,
+    /// The activity model's stated range, when the last aqueous
+    /// characterisation lay outside it (a binary electrolyte past the
+    /// molality its Pitzer parameters were fitted to).
+    ///
+    /// Written by the aqueous solver beside `solution`, read by the
+    /// honesty pass, which withdraws `solution` (pH, activities and
+    /// saturation indices) and states this reason, and by the pH meter,
+    /// which reports it instead of a number. The inventory is untouched:
+    /// this is a statement about the model, not about the beaker.
+    /// Persisted so a resumed session still refuses; omitted when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub activity_range_refusal: Option<crate::phrase::Phrase>,
 }
 
 impl Vessel {
@@ -1564,6 +1576,7 @@ impl Vessel {
         Vessel {
             aqueous_routing_said: None,
             honesty_said: Vec::new(),
+            activity_range_refusal: None,
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,

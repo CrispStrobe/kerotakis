@@ -155,7 +155,7 @@ fn routed_by_pitzer() -> Vessel {
         "llnl.dat",
         Phrase::new(
             "provenance.model.ion-interaction",
-            "{name} specific-ion-interaction model (valid at high ionic strength)",
+            "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
             vec![("name".to_string(), Slot::text("Pitzer"))],
         ),
         Vec::new(),
@@ -180,7 +180,7 @@ fn the_provenance_line_is_german_and_keeps_its_names() {
     assert_eq!(
         provenance,
         "PHREEQC (IPhreeqc, USGS) · llnl.dat · Pitzer-Modell der spezifischen \
-         Ionenwechselwirkung (gültig bei hoher Ionenstärke)"
+         Ionenwechselwirkung (je Elektrolyt bis zu angegebenen Molalitäten angepasst)"
     );
     assert!(
         !provenance.contains("specific-ion-interaction"),
@@ -196,7 +196,7 @@ fn english_says_exactly_what_it_said_before() {
     assert_eq!(
         net.provenance.as_deref(),
         Some(
-            "PHREEQC (IPhreeqc, USGS) · llnl.dat · Pitzer specific-ion-interaction model (valid at high ionic strength)"
+            "PHREEQC (IPhreeqc, USGS) · llnl.dat · Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)"
         )
     );
 }

@@ -3571,6 +3571,30 @@ impl Equilibrator for HonestyEquilibrator {
             vessel.solution = None;
             return Ok(events);
         }
+        // The aqueous solver answered on a dataset whose activity model is
+        // fitted only to a stated molality, and this solution lies past it
+        // (`kerotakis_phreeqc::activity_range`). Same shape as the boundary
+        // above: state the reason and withdraw the activity-derived answer,
+        // so the pH meter and badge refuse instead of reporting an
+        // extrapolated number. Contents are not touched. The provenance
+        // check keeps a stale record from another route from withdrawing a
+        // valid answer.
+        if let Some(reason) = vessel.activity_range_refusal.clone() {
+            let routed_here = vessel
+                .solution
+                .as_ref()
+                .and_then(|solution| solution.provenance.as_ref())
+                .is_some_and(|provenance| provenance.dataset.contains("pitzer.dat"));
+            if routed_here {
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    reason,
+                ));
+                vessel.solution = None;
+                return Ok(events);
+            }
+        }
         if vessel
             .solution
             .as_ref()

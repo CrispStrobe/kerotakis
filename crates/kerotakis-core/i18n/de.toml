@@ -1802,6 +1802,7 @@ family-declined-at-gate = "{family} v{version} passte, wurde aber an {gate} abge
 # rows rather than one with a `{route}` hole doing the work.
 activity-range-ion-interaction = "der angegebene Gültigkeitsbereich des Lösungsmittel-Aktivitätsmodells, auf dem dieser Übergang beruht ({route}): der Ionenwechselwirkungs-Datensatz ist bis etwa I = {fitted} mol/kgw angepasst, was diese Lösung bei {ceiling} mol/kgw gelöster Teilchen erreicht — sie liegt bei {molality}"
 activity-range-ideal = "der angegebene Gültigkeitsbereich des Lösungsmittel-Aktivitätsmodells, auf dem dieser Übergang beruht ({route}): da kein Aktivitätsmodell diese Lösung abdeckt, rechnet das Labor nach dem Raoultschen Gesetz, und das trägt es nicht über {ceiling} mol/kgw gelöster Teilchen hinaus — diese Lösung liegt bei {molality}"
+activity-model-outside-range = "der angegebene Gültigkeitsbereich des Aktivitätsmodells: die Pitzer-Parameter für {electrolyte} sind bis etwa {range} mol/kg Wasser angepasst, und diese Lösung enthält {molality} mol/kg davon — pH-Wert, Aktivitäten und Sättigungsindizes werden daher nicht angegeben (das Inventar bleibt unverändert)"
 partial-freezing-cap = "die Modellgrenze für teilweises Gefrieren bei {temperature} °C: weiteres Abkühlen erfordert Salzkristallisation und ein stoffspezifisches eutektisches Phasendiagramm"
 # `{boundary}` is one of the three rows above, whole. A subordinate
 # clause, not an interpolated fragment: a language that wants it first can
@@ -1939,7 +1940,7 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 # `kerotakis-phreeqc/src/dbindex.rs`, which is the only place their
 # descriptions exist; the other three are composed where the solver that
 # applies them is.
-"model.ion-interaction" = "{name}-Modell der spezifischen Ionenwechselwirkung (gültig bei hoher Ionenstärke)"
+"model.ion-interaction" = "{name}-Modell der spezifischen Ionenwechselwirkung (je Elektrolyt bis zu angegebenen Molalitäten angepasst)"
 "model.wateq-debye-huckel" = "{name}-Erweiterung (verlässlich bis etwa I = {ionic_strength} mol/kgw)"
 "model.davies" = "{name}-Gleichung (verlässlich bis etwa I = {ionic_strength} mol/kgw)"
 "model.water-autoionisation" = "ideal verdünnte Autoprotolyse des Wassers ({engine}-Beziehung für log K mit sechs Koeffizienten)"

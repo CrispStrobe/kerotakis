@@ -92,6 +92,7 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/states.rs",
     ROOT / "crates/kerotakis-core/src/volatility.rs",
     ROOT / "crates/kerotakis-phreeqc/src/aqueous.rs",
+    ROOT / "crates/kerotakis-phreeqc/src/activity_range.rs",
     ROOT / "crates/kerotakis-phreeqc/src/inventory.rs",
     ROOT / "crates/kerotakis-core/src/orchestrator.rs",
     ROOT / "crates/kerotakis-phreeqc/src/phase_diagnostics.rs",

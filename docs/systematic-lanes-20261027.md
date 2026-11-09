@@ -18,6 +18,7 @@ data does not support an answer.
 | Input aliases | [input-alias-coverage](input-alias-coverage-20261027.md) | generated aliases for typed input only; REST multi-word list derived from the same table |
 | Strong reserve and media | [reserve-coverage](reserve-coverage-20261027.md), [medium-admission-coverage](medium-admission-coverage-20261027.md) | one carrier table; phase-aware withdrawal with a lint |
 | Model domains | [model-domain-refusal-coverage](model-domain-refusal-coverage-20261027.md) | refuse instead of clamping (CEA record ranges, luminol) |
+| Activity-model ranges (2026-11-09) | [activity-model-range-coverage](activity-model-range-coverage-20261109.md) | Pitzer route withdraws pH/activities/SI past each binary electrolyte's cited fitted molality (`not-modeled.activity-model-outside-range`); `tools/activity_range_coverage.py --check` |
 
 ## Whole-step heat ledger
 
