@@ -49,7 +49,7 @@ export function concentrationOptions(register: string, species: string): StockOp
  * common concentration; lv3 offers the pure compound with every listed
  * concentration instead, so the bottle is not repeated there.
  */
-export function shelfVisibleAt(register: string, item: { stock?: unknown }): boolean {
+export function shelfVisibleAt(register: string, item: { key?: string; stock?: unknown }): boolean {
   return !item.stock || register !== "lv3";
 }
 
