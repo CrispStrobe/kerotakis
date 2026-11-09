@@ -1,0 +1,501 @@
+{
+ "formal": [
+  {
+   "id": "batch2:qa-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "QA-004-C1",
+     "text": "Save first-stage and additional second-stage doses separately; cumulative T includes both.",
+     "verdict": "PASS",
+     "evidence": "Step3 titrate to pH 8.29994: Cl- 2.97100e-4 mol => P=0.29710 mmol; step5 to pH 4.49994: Cl- 9.93047e-4 => second-stage 0.69595 mmol, T=0.99305 mmol (cumulative)."
+    },
+    {
+     "id": "QA-004-C2",
+     "text": "Reconstructed amounts nonnegative and approximate 0.3/0.4 mmol inputs.",
+     "verdict": "PASS",
+     "evidence": "carbonate=P=0.2971 mmol (-1.0% vs 0.3); bicarbonate=T-2P=0.3989 mmol (-0.3% vs 0.4); both nonnegative. Prior failure (P=0.855 from CO2 venting) is gone."
+    },
+    {
+     "id": "forecast",
+     "text": "First endpoint ~0.3 mmol, cumulative ~1.0 mmol.",
+     "verdict": "PASS",
+     "evidence": "P=0.2971 mmol, T=0.9930 mmol."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": "1.000e-3 in/out, rel err <1e-15",
+     "C": "step3 0.700000 mmol (CO2aq 6.97e-6+HCO3 6.8441e-4+CO3 8.62e-6) vs 0.7 in, rel err ~1e-6; step6 6.8931e-4+1.069e-5=0.700000 mmol, rel err ~1e-6",
+     "Cl": "equals cumulative titrant (0.99305 mmol)",
+     "H/O": "not independently closable (titrant water amount not reported separately); water increase 0.1645 mol (step3) and 0.3858 mol (step5) consistent with ~2.97 mL and ~6.96 mL 0.1 M titrant"
+    },
+    "charge": "step3 cations Na 1.000 mmol vs anions Cl .29710+HCO3 .68441+2*CO3 .01723+base_equiv .00126 = 1.00000 (rel err <1e-5); step6 Na+H 1.00374 vs Cl+HCO3 1.00374 (rel err <1e-6)",
+    "energy": "not a heat criterion; T drift 298.15->298.176 K"
+   },
+   "observed_result": "Two-endpoint HCl titration (0.1 M, 0.1 mL steps) of 0.3 mmol Na2CO3 + 0.4 mmol NaHCO3 in 100 mL water gave P=0.297 mmol to pH 8.30 and T=0.993 mmol to pH 4.50, reconstructing carbonate 0.297 mmol and bicarbonate 0.399 mmol.",
+   "limitations": "Ideal two-component alkalinity approximation; dissolved carbon is fully retained (CO2(aq) 6.9 mM, reported pCO2 0.185 atm at pH 4.5) in an open beaker, i.e. no degassing within the titration.",
+   "doubts": "Open-boundary vessel retains all CO2 despite supersaturation (pCO2 0.185 atm); the earlier failure was the opposite (venting). Check this is a deliberate titration-timescale choice rather than gas transfer being switched off."
+  },
+  {
+   "id": "batch2:qa-005",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "QA-005-C1",
+     "text": "First endpoint accounts for more than half of total alkalinity.",
+     "verdict": "PASS",
+     "evidence": "P=0.69864 mmol (Cl- at pH 8.29997), T=0.99918 mmol (pH 4.50004); P/T=0.699>0.5."
+    },
+    {
+     "id": "QA-005-C2",
+     "text": "Reconstructed hydroxide/carbonate approximate 0.4/0.3 mmol.",
+     "verdict": "PASS",
+     "evidence": "OH=2P-T=0.3981 mmol (-0.5%); CO3=T-P=0.3005 mmol (+0.2%). Prior failure (P=0.855, CO2 loss) is gone."
+    },
+    {
+     "id": "FORECAST",
+     "text": "P near 0.7 mmol, T near 1.0 mmol.",
+     "verdict": "PASS",
+     "evidence": "P=0.699, T=0.999 mmol."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": "1.000e-3 exact",
+     "C": "step3 2.99e-6+2.9333e-4+3.68e-6=0.30000 mmol; step6 2.9541e-4+4.59e-6=0.30000 mmol (rel err ~1e-6)",
+     "Cl": "equals titrant 0.99918 mmol",
+     "H/O": "not independently closable; water increase consistent with titrant volume"
+    },
+    "charge": "step3 Na 1.000 vs Cl .69864+HCO3 .29333+2*CO3 .00736+base_eq .00067=1.00000; step6 Na+H 1.00377 vs Cl+HCO3 1.00377 (rel err <1e-6)",
+    "energy": "not applicable"
+   },
+   "observed_result": "Titration of 0.4 mmol NaOH + 0.3 mmol Na2CO3 in 100 mL with 0.1 M HCl gave P=0.699 mmol to pH 8.30 and T=0.999 mmol to pH 4.50, reconstructing hydroxide 0.398 mmol and carbonate 0.300 mmol.",
+   "limitations": "Ideal hydroxide/carbonate formula; no atmospheric carbonation or CO2 degassing occurs during the run (pCO2 0.079 atm retained at pH 4.5).",
+   "doubts": "Same CO2-retention question as qa-004."
+  },
+  {
+   "id": "batch2:mo-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "MO-004-C1",
+     "text": "Calculate a separate recovery fraction for each feed-derived molecular family.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "Only ethanol partitioned (K=0.0381, 2.52e-6 of 3.33e-4 mol =0.756% to hexane). Event not_yet_modeled: no hexane/water coefficient for CH3COOH, CH3COO-, ethyl_acetate; acid (0.3333 mmol) and ester (0.6667 mmol) stay 100% in v1, so their recovery is unmodelled, not measured. v2 chromatograph refused (needs aqueous sample)."
+    },
+    {
+     "id": "MO-004-C2",
+     "text": "Do not assume extraction shifts equilibrium; check whether additional conversion occurs.",
+     "verdict": "PASS",
+     "evidence": "Ester 6.6667e-4 mol and acid+acetate 3.3333e-4 mol unchanged from step2 through step9; no further conversion."
+    },
+    {
+     "id": "forecast",
+     "text": "Ester, acid and ethanol have distinguishable extraction fractions, reconciled across both vessels.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "Only ethanol fraction modelled; ester/acid explicitly unparameterised."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "4.0000 mmol in; after: acid 2*0.33333+ethanol 2*(0.330812+0.002521)+ester 4*0.66667=4.0000 mmol (rel err <1e-12)",
+     "O": "in 2+1=3 mmol (+water); closes with esterification water 0.6667 mmol",
+     "hexane": "0.153311 mol all in v2"
+    },
+    "charge": "v1 CH3COO- 2.3661e-5 = H+ 2.3661e-5",
+    "energy": "not applicable (reaction heat explicitly not modelled)"
+   },
+   "observed_result": "Esterification of 1 mmol acetic acid + 1 mmol ethanol gave 0.667 mmol ethyl acetate (K~4); hexane extraction (20 mL) moved only 0.76% of ethanol, while acid and ester were reported as lacking hexane/water partition coefficients.",
+   "limitations": "No reviewed hexane/water distribution for acetic acid, acetate or ethyl acetate; ethyl acetate remains as a separate 'liquid' pool in the aqueous vessel; organic-phase chromatography unsupported.",
+   "doubts": "Ethanol in the hexane vessel is labelled phase 'aqueous'; the not_yet_modeled text says the extraction 'moved the supported solutes' while listing species that were not moved."
+  },
+  {
+   "id": "batch3-diverse:an-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Do two sodium salts share a signature while a potassium salt differs?",
+     "verdict": "UNSUPPORTED",
+     "evidence": "NaCl flame_test 'bright yellow', KCl 'lilac'; NaBr: cea-thermal solver_failed (1 iteration), did_not_ignite reason no_fuel, no flame_test event. NaBr signature missing and not reported as unparameterised."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for all material.",
+     "verdict": "PASS",
+     "evidence": "Final NaCl 1.71107e-3, NaBr 9.7187e-4, KCl 1.34136e-3 mol all solid at 298.15 K = additions (0.1 g each, balance 0.1 g). Prior liquid-at-298K failure gone; salts not consumed as fuel."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observable from negative result.",
+     "verdict": "FAIL",
+     "evidence": "NaBr outcome presented as 'did_not_ignite/no_fuel' after a solver failure, not as an unsupported flame signature."
+    },
+    {
+     "id": "controls",
+     "text": "v2 same cation, v3 changed cation.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "v2 control has no signature."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na/K/Cl/Br": "all vessel inventories equal additions, rel err 0"
+    },
+    "charge": "neutral salts only",
+    "energy": "ignite transient melt 5.19e-4/5.20e-4 mol then refreeze; end T 298.15 K"
+   },
+   "observed_result": "Flame tests gave bright yellow for NaCl and lilac for KCl; NaBr produced a CEA solver failure and no flame signature. Inventories closed exactly.",
+   "limitations": "NaBr flame signature not produced; simulator flame-signature, not calibrated emission.",
+   "doubts": "Partial melt (0.52 of 1.71 mmol) then refreeze during ignite is unexplained."
+  },
+  {
+   "id": "batch3-diverse:an-002",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a dominant sodium signal make a K-containing sample unsafe to label as pure sodium salt?",
+     "verdict": "UNSUPPORTED",
+     "evidence": "v3 (NaCl 1.711e-3 + KCl 1.34e-4 mol) flame_test = 'bright yellow', species 'NaCl', identical to v1 reference; v2 KCl reference 'lilac'. No K contribution, no mixture flag; output itself labels the mixture signal as a single species NaCl. Whether this is modelled masking or simply ignoring the minor cation is not stated."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for all material.",
+     "verdict": "PASS",
+     "evidence": "Final v0 NaCl 1.7111e-3, v1 KCl 1.3414e-3, v2 NaCl 1.7111e-3 + KCl 1.341e-4 mol, all solid at 298.15 K = additions; particles shows both populations (28/2 glyphs). Prior liquid-at-298K failure gone."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observable from negative result.",
+     "verdict": "FAIL",
+     "evidence": "Absence of K emission in v3 carries no coverage label; cannot tell an unmodelled mixed-emission observable from a modelled masking result."
+    },
+    {
+     "id": "controls",
+     "text": "v1/v2 pure-salt references.",
+     "verdict": "PASS",
+     "evidence": "v1 bright yellow, v2 lilac."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na/K/Cl": "exact, rel err 0"
+    },
+    "charge": "neutral salts",
+    "energy": "v3 ignite shows a cascade of partial melt/freeze events (NaCl 5.59e-4, KCl 1.29e-4 ...) ending fully solid at 298.15 K"
+   },
+   "observed_result": "NaCl and KCl references gave bright yellow and lilac; a 10:1 NaCl/KCl mass mixture gave only 'bright yellow' attributed to NaCl, with no potassium contribution or mixture flag; inventories closed.",
+   "limitations": "No mixed-emission model or minor-component flag; visual masking not calibrated.",
+   "doubts": "A reviewer could argue the identical-yellow output itself demonstrates the masking hazard; I rejected because the engine attributes the signal to a single species without a coverage label."
+  },
+  {
+   "id": "batch3-diverse:th-002",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can two straight-chain hydrocarbons respond differently to the same cool/warm cycle?",
+     "verdict": "PASS",
+     "evidence": "At 10 C dodecane (0.029353 mol) is liquid, hexadecane (0.022080 mol) solid ('white n-hexadecane'); melting_point v1 reports 18.2 C (melts), v0 'nothing_to_test' (liquid). After 300 J each: dodecane 37.20 C all liquid; hexadecane pinned at 18.20 C with 3.920e-3 mol melted (17.8%) and 1.8160e-2 mol solid. Prior failure (hexadecane liquid at 10 C) is gone."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for all material.",
+     "verdict": "PASS",
+     "evidence": "5 g/170.33=0.029353 mol dodecane retained; hexadecane solid+liquid 0.0181599+0.0039202=0.0220801 mol = addition (rel err <1e-15). No losses."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observable from negative result.",
+     "verdict": "PASS",
+     "evidence": "Melting point is labelled as a curated constant (not simulated) with explicit provenance caveat; dodecane mp test returns nothing_to_test rather than a guessed value; a spurious 'no dissolution solver' notice for hexadecane in its own melt is labelled not_yet_modeled and does not touch phase/temperature observables."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C/H": "species amounts conserved exactly in both vessels"
+    },
+    "charge": "n/a",
+    "energy": "dodecane: 300 J sensible, dT=27.196 K over 5 g => cp 2.206 J/g/K (liquid dodecane ~2.21); hexadecane: 90.82 J sensible over 8.2 K (cp 2.215 J/g/K) + 209.18 J latent for 3.9202e-3 mol => dHfus 53.36 kJ/mol (lit ~53 kJ/mol); 300 J total, rel err <1e-12"
+   },
+   "observed_result": "Starting at 10 C, 5 g dodecane is liquid and 5 g hexadecane solid; 300 J heats dodecane to 37.2 C but brings hexadecane only to its 18.2 C melting plateau with 17.8% (3.92 mmol) melted, consuming 209 J as latent heat (53.4 kJ/mol).",
+   "limitations": "Transition temperatures are curated constants without a primary reference; no heat loss to surroundings modelled.",
+   "doubts": "Dodecane has no reported melting/freezing descriptor (only nothing_to_test); check whether the brief requires the lower homologue's descriptor. Heat source labelled Bunsen burner with no loss term."
+  },
+  {
+   "id": "batch3-diverse:th-003",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can tert-butanol and isopropanol be distinguished by a low-temperature phase test even when both are alcohols? (forecast: compare melting AND boiling descriptors; warming step tests near-ambient phase change)",
+     "verdict": "UNSUPPORTED",
+     "evidence": "Prior failure gone: tBuOH now added as solid at 288.15 K (0.067455 mol solid), melting_point v0 = 25.81 C 'melts'; 0.4 kJ warming gives sensible 159.40 J + fusion of 0.035910 mol (240.60 J => 6.70 kJ/mol) and holds at 298.96 K with 0.031545 mol solid left; iPrOH stays liquid, 288.15->319.74 K all sensible. But two of four requested descriptors missing: melting_point v1 (iPrOH) = nothing_to_test and boiling_point v0 (tBuOH) = nothing_to_test; only iPrOH bp 82.21 C reported. The forecast's melting-vs-boiling descriptor comparison (similar boiling behaviour) cannot be made."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "tBuOH solid+liquid 0.031545+0.035910=0.067455 mol = added; iPrOH 0.083200 = added; no transfers/losses. Energy: v0 159.40+240.60=400.00 J delivered; v1 sensible 400.00 J."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "nothing_to_test verdicts and 'no dissolution solver' for solid tBuOH in its melt are reported labels, not chemistry negatives; but they leave the forecast observable incomplete (see question)."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "tert_butanol": 0.0,
+     "isopropanol": 0.0
+    },
+    "charge": 0.0,
+    "energy": {
+     "v0_rel_err": "<1e-15 (159.40 sensible + 240.60 latent = 400 J)",
+     "v1_rel_err": "1e-15"
+    }
+   },
+   "observed_result": "tert-Butanol added at 15 C is solid; melting apparatus reports 25.81 C and 0.4 kJ melts 0.0359 of 0.0675 mol at 298.96 K (6.70 kJ/mol fusion), while isopropanol stays liquid and warms to 319.74 K; isopropanol bp 82.21 C reported.",
+   "limitations": "Melting point of liquid iPrOH and boiling point of solid tBuOH return nothing_to_test; transition points are curated constants, not simulated.",
+   "doubts": "Sensible heat of solid tBuOH 288.15->298.96 K implies Cp ~218.6 J/mol/K, close to the liquid value; check whether solid Cp is used. A second reviewer may decide the missing two descriptors are a coverage limitation rather than a missing forecast observable."
+  },
+  {
+   "id": "batch3-diverse:tr-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can local mineral consumption delay acid breakthrough through consecutive reactive cells?",
+     "verdict": "PASS",
+     "evidence": "Prior refusal (uniform-volume) gone; both transports completed. After 3 steps (0.6 mmol HCl injected) cell1 CaCO3 0.0005->1.845e-4 mol, cells 2/3 4.976e-4; all three cells pH 7.78; effluent carries only Ca 7.34e-6/HCO3 5.2e-6 (alkaline pore water), no H+. During the next 15 steps cells exhaust sequentially (cell1 pH 2.74 then 2.04, cell2 2.40, cell3 2.20/2.04); all 1.5 mmol CaCO3 dissolved (2:1 with 3.0 mmol HCl neutralised); effluent H+ only 1.37e-4 mol after cell3 exhausted; receiver final pH 5.60."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Closure incl. inflow_moles (HCl 0.6+3.0 mmol, water) and CO2 gas_evolved sinks: Ca rel err 0, C 9e-15, Cl 1e-16, H/O 3e-16, net charge 2e-19 mol (base_equivalents counted as OH-)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No not_yet_modeled warnings; open-gas boundary CO2 loss explicitly evented; limitation (default gas boundary) recorded."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ca": 0.0,
+     "C": 9.1e-15,
+     "Cl": 1.1e-16,
+     "H": 2.9e-16,
+     "O": 2.9e-16
+    },
+    "charge": "2e-19 mol absolute",
+    "energy": "not forecast; temperature drift <0.02 K"
+   },
+   "observed_result": "Three CaCO3 cells (0.5 mmol each) neutralise 0.01 M HCl at pH 7.78 while effluent stays alkaline; acid breaks through cell by cell only after each cell's CaCO3 is consumed (2 HCl per CaCO3), all 1.5 mmol dissolved over 18 pore steps, cumulative effluent pH 5.60 with 1.37e-4 mol H+.",
+   "limitations": "Open CO2 boundary and equilibrium-per-step operator splitting; not a field column design.",
+   "doubts": "Downstream cells show per-step paired dissolve/precipitate of 2.598e-6 mol CaCO3 (net ~0); cosmetic. base_equivalents treated as OH- for closure."
+  },
+  {
+   "id": "batch3-diverse:tr-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can transport produce a solid phase that stays in a cell while the remaining aqueous species move onward?",
+     "verdict": "PASS",
+     "evidence": "Cell2 (initial AgNO3) precipitates 2.499e-5 mol AgCl when Cl- front arrives; persists 2.495e-5 after 6 further steps (redissolution 3.9e-8). Mobile Ag+ that moved ahead precipitates later in cell3 (1.874e-5) and receiver (5.624e-5); NO3- and Na+ move onward (NO3- in cell2 falls 2.5e-5->3.9e-7). Location emerges from coupled update."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Prior inventory failure (undocumented inlet) resolved: inflow_moles now recorded (NaCl 0.2+0.6 mmol). Closure: Ag 1e-13, Cl 3e-14, N 3e-13, Na 4e-14, H/O 0; charge ~1e-19."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No not_yet_modeled warnings; looks show haze/deposit in cells 2-3; particles v5 reports AgCl solid."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ag": 1.1e-13,
+     "Cl": 2.9e-14,
+     "N": 2.6e-13,
+     "Na": 4.2e-14,
+     "H": 0.0,
+     "O": 0.0
+    },
+    "charge": "<1e-17 mol",
+    "energy": "not forecast"
+   },
+   "observed_result": "AgCl (2.50e-5 mol) forms in the AgNO3 cell when the NaCl front arrives and stays there through 6 more steps (2.495e-5 mol), while NO3-/Na+ move on; Ag+ that had already migrated precipitates downstream (1.87e-5 mol in cell 3, 5.62e-5 mol in the receiver).",
+   "limitations": "Operator-split equilibrium per step; deposition pattern depends on splitting; inlet is a constant external reservoir.",
+   "doubts": "None material."
+  },
+  {
+   "id": "batch3-diverse:tr-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does a local adsorbent produce different transport behavior for a supported dye and dissolved sodium chloride?",
+     "verdict": "FAIL",
+     "evidence": "Dye does lag on loading: 2.641e-6 of 6.11e-6 mol methyl orange bound on charcoal (43.2 mg/g), effluent MO 2.9e-7 vs NaCl 7.15e-5 of 1e-4. But the adsorption equilibrium is NOT refreshed during the clean-water flush: bound stays exactly 2.6407761e-6 while free dye in the sorbent cell falls 3.37e-7 -> 5.3e-9 mol (2.6e-7 M), no adsorbed/desorbed event. The model's own loading points (22.5 mg/g at 7.7e-6 M, 43.2 mg/g at 1.7e-5 M) make 43.2 mg/g at 2.6e-7 M non-equilibrium; the forecast conditions the lag on transport refreshing the installed equilibrium, which the flush inventory does not demonstrate."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Prior failures (doubled NaCl/MO) gone with inflow_moles recorded; MO closes only when vessel.adsorbed (2.6408e-6) is included: free 3.4692e-6 + bound 2.6408e-6 = 6.1100e-6 (rel err <1e-15); Na, Cl, H, O exact."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "methyl orange not-speciated warning (24x) reported; conductivity 111.6 uS/cm excludes dye; uvvis A465=0.094 reported."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "methyl_orange_incl_adsorbed": 0.0,
+     "Na": 0.0,
+     "Cl": 0.0,
+     "H": 0.0,
+     "O": 0.0,
+     "charcoal": 0.0
+    },
+    "charge": 0.0,
+    "energy": "not forecast"
+   },
+   "observed_result": "Charcoal cell binds 2.64e-6 of 6.11e-6 mol methyl orange (43.2 mg/g) while NaCl passes (7.15e-5 mol in effluent vs 2.9e-7 mol dye), but the bound pool stays frozen during a 3-pore-volume clean-water flush.",
+   "limitations": "Equilibrium Langmuir-type split applied only when dye arrives; no desorption on flush; dye not speciated.",
+   "doubts": "Whether irreversible binding is an intended contract; if the adsorption contract is documented as contact-only, the question verdict could be revisited, but the forecast explicitly requires equilibrium refresh."
+  },
+  {
+   "id": "batch3-diverse:tr-007",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a mineral-bearing cell feed ions into flowing clean water without creating mass?",
+     "verdict": "PASS",
+     "evidence": "Prior uniform-volume refusal gone. Gypsum 0.001 mol dissolves 3.12e-4 per pore volume (saturation) and is exhausted in the 3rd step (final 6.38e-5); Ca/SO4 exported: 3.12e-4 in first effluent, 6.88e-4 later; receiver ends with exactly 1.000e-3 Ca and SO4 = gypsum decrease. Hydrate water 2e-3 mol appears as extra effluent water (3.32119 vs 3.32057 inflow)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Closure including inflow water: Ca/S rel err 1.7e-14, H 0, O 1.3e-16, charge 0."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No warnings; conductivity 1227 uS/cm and particles (Ca2+, SO4 2-, CaSO4 ion pair) reported."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ca": 1.7e-14,
+     "S": 1.7e-14,
+     "H": 0.0,
+     "O": 1.3e-16
+    },
+    "charge": 0.0,
+    "energy": "not forecast; dT<0.002 K"
+   },
+   "observed_result": "Clean water dissolves gypsum at saturation (3.12e-4 mol per 20 mL pore volume) until the 1.0 mmol bed is exhausted in the third step; receiver collects exactly 1.0e-3 mol Ca2+ and SO4 2- plus the 2e-3 mol hydrate water (1227 uS/cm).",
+   "limitations": "Equilibrium dissolution per step (no kinetics); inlet is a constant external reservoir.",
+   "doubts": "None material."
+  },
+  {
+   "id": "batch3-diverse:tr-008",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can incoming copper ions be reduced on an iron-bearing cell while an iron-containing aqueous product leaves it?",
+     "verdict": "PASS",
+     "evidence": "Prior bypass failure gone: reaction applied each step. Cu plated in iron cell 4.4831e-4 mol = Fe consumed 4.4831e-4 (Fe 0.001->5.517e-4); Cu leaving the iron cell only ~1.3e-8 mol/cell, effluent Cu2++Cu+ 2.2e-8 mol; Fe2+ exported to cells 2-3 (9.77e-5, 9.07e-5) and receiver 1.605e-4; total aqueous Fe2+ 4.483e-4 = Fe0 oxidised (Fe3+ ~1e-9). Electron balance 2x4.4831e-4 both sides."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Including inflow_moles (Cu2+, SO4, H+, water) and inlet antlerite: Cu 1e-14, Fe 0, S 9e-15, H 2e-16, O 0; charge residual 3.6e-9 mol (~3e-6 of ionic equivalents)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "uvvis returns not_yet_modeled (missing spectra) - forecast relies on element/oxidation-state accounting, not colour; reaction heat and Fe-oxide supersaturation (hematite/magnetite) explicitly labelled not modelled."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cu": 1e-14,
+     "Fe": 0.0,
+     "S": 8.7e-15,
+     "H": 1.9e-16,
+     "O": 0.0
+    },
+    "charge": "-3.6e-9 mol residual (~3e-6 relative)",
+    "energy": "reaction heat not modelled (labelled)"
+   },
+   "observed_result": "An iron cell (1 mmol Fe) cements all incoming Cu2+ (4.48e-4 mol Cu plated, equal to Fe consumed) while 4.48e-4 mol Fe2+ is exported downstream; effluent copper stays ~2e-8 mol.",
+   "limitations": "Reaction heat not modelled; iron-oxide precipitation excluded despite reported supersaturation; no surface-area/passivation kinetics; uvvis spectra missing.",
+   "doubts": "Small charge residual 3.6e-9 mol; Fe(III) oxide supersaturation (SI up to +10) is excluded rather than solved."
+  }
+ ],
+ "verify": [
+  {
+   "id": "batch2:qa-004",
+   "confirmed": true,
+   "reason": "Both criteria pass on raw values; no criterion depends on degassing (formula uses titrant doses only), and carbon is fully retained so closure is exact.",
+   "evidence": "Stage 1 Cl- 2.9710e-4 mol (P=0.297 mmol, pH 8.2999); cumulative Cl- 9.9305e-4 (T=0.993 mmol, pH 4.4999); saved separately (obs 3/4 vs 5/6). Reconstruction CO3=P=0.297, HCO3=T-2P=0.399 mmol vs 0.3/0.4 inputs, both nonnegative. C total 7.000e-4 at steps 2/3/5 (rel err <1e-15); Na 1.000e-3; charge residual <1e-18 including base_equivalents/H+. pCO2 0.185 atm is the reported equilibrium pressure of retained CO2(aq)=6.893e-4; no gas_evolved event, so carbon is not lost. The dossier's own limitation names gas exchange as a source of shift, so retention does not touch the requested observable. Water delta 0.5503 mol vs titrant ~9.93 mL, consistent."
+  },
+  {
+   "id": "batch2:qa-005",
+   "confirmed": true,
+   "reason": "P>T/2 and reconstruction 0.398/0.301 mmol approximates 0.4/0.3; criteria use doses only; carbon closes exactly.",
+   "evidence": "P=Cl- 6.9864e-4 (pH 8.29997), T=9.9918e-4 (pH 4.50004); P/T=0.699>0.5. OH=2P-T=0.3981 mmol, CO3=T-P=0.3005 mmol. C total 3.000e-4 at steps 2/3/5; charge residual <3e-18. pCO2 0.079 atm is retained CO2(aq) 2.954e-4 with no gas loss event; no criterion depends on degassing, and no atmospheric carbonation occurred (pCO2 0 after NaOH step), satisfying the limitation."
+  },
+  {
+   "id": "batch3-diverse:th-002",
+   "confirmed": true,
+   "reason": "Phase distinction is shown by actual inventories; dodecane mp reading 'nothing_to_test' is the correct refusal for an already-liquid sample and the forecast observable (liquid vs crossing solid/liquid transition) does not need it. Energy closes.",
+   "evidence": "At 10 C: dodecane 0.029353 mol liquid; hexadecane 0.022080 mol solid; hexadecane mp reading 18.2 C (curated constant, labelled). After 300 J each: dodecane 37.196 C, sensible 300 J -> cp 2.206 J/g/K (lit ~2.21); hexadecane sensible 90.82 J to 18.2 C (8.2 K, 2.215 J/g/K) + 209.18 J latent melting 3.9202e-3 mol -> 53.36 kJ/mol (lit ~52-53), plateau at 291.35 K with 1.8160e-2 solid remaining; inventory 0.0220801 mol exact. Caveat: lower-homologue descriptor absent (dodecane is liquid, mp -9.6 C), a spurious not_yet_modeled 'no dissolution solver' notice for hexadecane in its own melt is a coverage label only; no heat loss modelled."
+  },
+  {
+   "id": "batch3-diverse:tr-003",
+   "confirmed": true,
+   "reason": "Delayed breakthrough shown (all cells pH 7.78 and alkaline effluent pH 9.91 after 3 steps; acid breaks through only after CaCO3 is exhausted, cells pH 2.04); Ca, C, Cl, H close exactly including CO2 gas.",
+   "evidence": "C: 1.5e-3 initial; -2.8658e-4 gas_evolved (step 12) -> 1.21342e-3 reported; -1.20767e-3 gas (step 17) -> 5.745e-6 reported (closure exact to ~1e-16). Ca 1.5e-3 conserved (final all aqueous in receiver). Cl 3.8e-3 = 19 x 2e-4 (initial+18 injections). H+: 3.8e-3 injected = 2x1.5e-3 consumed by CaCO3 + 8e-4 remaining in cells (+~1e-6 receiver). Receiver final pH 5.60 at open-boundary pCO2 3.9e-4. Gas loss is event-logged, not hidden."
+  },
+  {
+   "id": "batch3-diverse:tr-004",
+   "confirmed": true,
+   "reason": "AgCl forms in the cells where Ag+ meets Cl- (V1, then V2) and stays there while Na+/NO3-/excess Cl- and some Ag+ move on; Ag, Cl, Na, NO3 close.",
+   "evidence": "Step 10: AgCl 2.4989e-5 precipitated in V1, Ag+ 2.5e-5 carried to receiver. Step 12: V1 AgCl 2.4951e-5 retained (only -3.9e-8 re-dissolution, not transported - effluent lists no solids), V2 +1.8744e-5, receiver +5.6238e-5. Totals: Ag 9.9934e-5 solid + 6.6e-8 aq = 1.0000e-4; Cl 9.0007e-4 aq + 9.9934e-5 solid = 1.0000e-3 (2e-4 initial + 8e-4 inflow); Na 1.0e-3; NO3 1.0e-4. Charge per vessel <1e-17. Note: the majority of AgCl (56%) ends up in the receiver from mobile Ag+ - consistent with forecast that location comes from the coupled update; minor unlogged 3.9e-8 dissolution in V1 is within closure."
+  },
+  {
+   "id": "batch3-diverse:tr-007",
+   "confirmed": true,
+   "reason": "Exported Ca/SO4 (1.000e-3 mol in receiver) equals gypsum loss (1.000e-3); hydrate water accounted; no mass created.",
+   "evidence": "Gypsum 1e-3 added: 3.1207e-4 dissolved, 6.8793e-4 solid; step 9 dissolved remaining 6.8793e-4 (all gypsum gone, Ca total 6.378e-5+3x3.1207e-4=1.0000e-3). Final receiver Ca 1.0e-3, SO4 1.0e-3, all cells empty. Water closure: +0.00200 mol = 2 H2O x 1e-3 hydrate (7.74999 vs 7.74799 after step 9). Conductivity 1227 uS/cm reported. Clean inlet water carried no solute. Caveat: mineral exhausted within the first 3 steps, so 'sustained while mineral remains' is shown only over that window."
+  },
+  {
+   "id": "batch3-diverse:tr-008",
+   "confirmed": true,
+   "reason": "Cu reduced and retained on Fe bed (Cu(s) 4.483e-4 = Fe consumed), Fe2+ exported; Cu/Fe/S/H close; 3.6e-9 mol charge residual is immaterial (~8e-6 relative) and is exactly the Cu+/Fe3+ redox-speciation mismatch.",
+   "evidence": "Cu inflow 4.4837e-4 = Cu(s) 4.48312e-4 + Cu+ 5.47e-9 + Cu2+ 5.53e-8. Fe 5.51688e-4 solid + 4.48310e-4 Fe2+ + 1.8e-9 Fe3+ = 1.0000e-3. S inflow 4.49458e-4 = aqueous total. H+ inflow 2.1693e-6 = total. Receiver Fe2+ 1.605e-4, Cu aq 2.2e-8 only. Plated Cu = consumed Fe in every event (2-electron). Summed ionic charge -3.65e-9 mol vs ~9e-4 eq total (4e-6 rel); equals Cu+ (5.47e-9) - Fe3+ (1.82e-9) electron mismatch, far below any observable. UV-vis incomplete (no spectra for FeSO4 etc.) - labelled not_yet_modeled; forecast explicitly requires element/oxidation-state accounting, not colour, so not required. Antlerite 1.2e-7 in inlet vessel is not part of inflow."
+  }
+ ]
+}
