@@ -2459,15 +2459,17 @@
     flex-basis: 100%;
   }
   /* Was a label on its own row above three buttons; the label now sits
-     in the row it names. */
+     in the row it names. It is laid out exactly like `.utility-locale`
+     beside it — same caption size and colour, same top spacing, no
+     divider of its own — so the two settings read as one block. */
   .theme-choice {
     flex-basis: 100%;
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    margin-top: 0.3rem;
-    padding-top: 0.55rem;
-    border-top: 1px solid var(--edge);
+    gap: 0.4rem;
+    padding-top: 0.5rem;
+    color: var(--dim);
+    font-size: 0.7rem;
   }
   /* The quest picker had no rules of its own at all. It inherited `font:
      inherit` from app.css and nothing else, so it drew as a raw OS control
@@ -2523,18 +2525,23 @@
   .theme-choice > span {
     flex: none;
     margin-right: auto;
-    color: var(--dim);
-    font-size: 0.68rem;
   }
+  /* Same height, radius and type as the drawer's other controls
+     (`.tool`, the locale and quest selects): 40px, --radius-sm. */
   .theme-button {
     min-width: 4.5rem;
-    min-height: 34px;
+    min-height: 40px;
+    padding: 0.25rem 0.6rem;
     border: 1px solid var(--edge);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     color: var(--dim);
-    background: var(--surface);
+    background: var(--surface-raised);
     cursor: pointer;
-    font-size: 0.7rem;
+    font: inherit;
+    font-size: 0.78rem;
+  }
+  .theme-button:hover:not(.active) {
+    border-color: var(--primary);
   }
   .theme-button.active {
     border-color: var(--primary);

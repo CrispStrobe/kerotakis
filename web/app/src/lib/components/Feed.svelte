@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { typesetFormulaTokens } from "../formula";
   import { i18n, t } from "../i18n.svelte";
   import type { FeedEntry } from "../session.svelte";
   import Chart from "./Chart.svelte";
@@ -109,9 +110,9 @@
       <div class="hazard" role="alert">
         <span class="chip">{t(entry.severity || "hazard")}</span>
         {#if entry.hazardText && entry.realWorld}
-          {engineText(entry.hazardText)} — {engineText(entry.realWorld)}
+          {typesetFormulaTokens(engineText(entry.hazardText))} — {typesetFormulaTokens(engineText(entry.realWorld))}
         {:else}
-          {engineText(entry.text)}
+          {typesetFormulaTokens(engineText(entry.text))}
         {/if}
       </div>
     {:else if entry.kind === "chart" && entry.chart}
@@ -157,7 +158,7 @@
              selected is marked so its lines are findable in a long log,
              and every other vessel's lines stay exactly where they are. -->
         {#if vesselId !== null}<span class="vessel-chip" class:current={vesselId === selectedVessel}>v{vesselId + 1}</span>{/if}
-        {engineText(displayText(entry))}
+        {entry.kind === "command" ? engineText(displayText(entry)) : typesetFormulaTokens(engineText(displayText(entry)))}
       </p>
     {/if}
   {/each}

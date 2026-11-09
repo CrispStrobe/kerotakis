@@ -752,6 +752,12 @@ pub enum LiquidMedium {
     Peroxide,
     /// A concentrated mineral acid liquid (sulfuric, phosphoric).
     MineralAcid,
+    /// A neat molecular strong acid (hydrogen chloride, hydrogen iodide).
+    /// Its bottle normally arrives with its own water; neat, it is counted
+    /// in the acid term exactly like a concentrated sulfuric or phosphoric
+    /// acid once any water is present, so a little reaction water cannot
+    /// admit it as a solution (see `matrix_moles`).
+    StrongAcid,
     /// The solute of an aqueous reagent bottle; not a matrix.
     AqueousReagentSolute,
     /// Not a solvent matrix at bench conditions (a cryogen boils off).
@@ -777,8 +783,8 @@ pub const REGISTRY_LIQUID_MEDIA: &[(&str, LiquidMedium)] = &[
     ("H2O2", LiquidMedium::Peroxide),
     ("H2SO4", LiquidMedium::MineralAcid),
     ("H3PO4", LiquidMedium::MineralAcid),
-    ("HCl", LiquidMedium::AqueousReagentSolute),
-    ("HI", LiquidMedium::AqueousReagentSolute),
+    ("HCl", LiquidMedium::StrongAcid),
+    ("HI", LiquidMedium::StrongAcid),
     ("NH3", LiquidMedium::AqueousReagentSolute),
     ("NaOCl", LiquidMedium::AqueousReagentSolute),
     ("liquid_nitrogen", LiquidMedium::NotAMatrix),
@@ -794,6 +800,7 @@ pub fn liquid_medium(key: &str) -> Option<LiquidMedium> {
 /// Owned liquid/aqueous moles of each matrix class.
 fn matrix_moles(vessel: &Vessel) -> (f64, f64, f64, f64) {
     let (mut water, mut organic, mut peroxide, mut acid) = (0.0f64, 0.0f64, 0.0f64, 0.0f64);
+    let mut strong = 0.0f64;
     for p in &vessel.contents {
         if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
             continue;
@@ -811,8 +818,16 @@ fn matrix_moles(vessel: &Vessel) -> (f64, f64, f64, f64) {
             Some(LiquidMedium::Organic) => organic += p.moles.0,
             Some(LiquidMedium::Peroxide) => peroxide += p.moles.0,
             Some(LiquidMedium::MineralAcid) => acid += p.moles.0,
+            Some(LiquidMedium::StrongAcid) => strong += p.moles.0,
             _ => {}
         }
+    }
+    // A neat strong acid with no water at all is a bottle on its way into a
+    // solution (acid poured before the water) and keeps its old silence;
+    // once ANY water is present it competes as an acid matrix, so a little
+    // reaction water cannot admit ~3 mol of HCl as an aqueous solution.
+    if water > 0.0 {
+        acid += strong;
     }
     (water, organic, peroxide, acid)
 }
@@ -887,6 +902,19 @@ pub fn non_water_matrix_boundary(vessel: &mut Vessel) -> Option<Event> {
         crate::ops::NotModelledCause::ModelBoundary,
         reason,
     ))
+}
+
+/// THE shared aqueous admission predicate (non-mutating): the liquid is a
+/// water-majority solvent by [`water_fraction_among_solvents`], or holds no
+/// competing matrix at all. Every aqueous route asks this one function.
+pub fn aqueous_model_admits(vessel: &Vessel) -> bool {
+    water_fraction_among_solvents(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
+}
+
+/// The mutating half of [`aqueous_model_admits`] for routes that must speak
+/// the refusal; see [`non_water_matrix_boundary`].
+pub fn aqueous_admission_boundary(vessel: &mut Vessel) -> Option<Event> {
+    non_water_matrix_boundary(vessel)
 }
 
 /// True when this rung has a computed verdict for the pair — the

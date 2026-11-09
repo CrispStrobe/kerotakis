@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { typesetFormula } from "../formula";
   import type { SceneVessel } from "../host/EngineHost";
   import { KINDS, depositDisplayHeight, solidLayers, fillHeight, graduationTicks } from "../glassware";
   import { footingY } from "../benchFooting";
@@ -1624,7 +1625,7 @@
           <text class="waft-rule" x="75.5" y="38" text-anchor="middle">{t("waft — never smell directly")}</text>
           {#if waftEffect.waft.notes.length > 0}
             {#each waftEffect.waft.notes.slice(0, 2) as note, i (note.species)}
-              <text class="waft-note" x="75.5" y={44 + i * 6} text-anchor="middle">{t(note.species)}</text>
+              <text class="waft-note" x="75.5" y={44 + i * 6} text-anchor="middle">{typesetFormula(t(note.species))}</text>
             {/each}
           {:else}
             <text class="waft-note" x="75.5" y="46" text-anchor="middle">{t("no odour detected")}</text>
@@ -2700,7 +2701,7 @@
           {/each}
           {#if appearance.deposit}
             <path class="inspection-deposit" fill={rgb(appearance.deposit.rgb)} d="M58 53 Q67 48 76 53 Q85 47 96 53 V60 H58 Z">
-              <title>{t(appearance.deposit.species)}</title>
+              <title>{typesetFormula(t(appearance.deposit.species))}</title>
             </path>
           {/if}
           {#if appearance.bubbling}
@@ -3317,7 +3318,7 @@
         })}
         title={`${split.boundary} · ${split.provenance}`}
       >
-        <small>{t(split.species)} · {t("equilibrium split")}</small>
+        <small>{typesetFormula(t(split.species))} · {t("equilibrium split")}</small>
         <strong>{split.lowerPercent}% ↓ / {split.upperPercent}% ↑</strong>
         <span>{t(split.lower_solvent)} / {t(split.upper_solvent)}</span>
       </span>
@@ -3344,7 +3345,7 @@
         <span>{electrode.geometric_area_m2.toExponential(2)} m² · R<sub>a</sub> {electrode.roughness.toFixed(2)}</span>
         {#if electrode.surface_preparation}<em>{t(electrode.surface_preparation)}</em>{/if}
         {#each electrode.surface_species ?? [] as state (state.reaction_id + state.species)}
-          <span>{t(state.species)} @ {t(state.reaction_id)}: {state.concentration_mol_per_m3.toPrecision(4)} mol/m³</span>
+          <span>{typesetFormula(t(state.species))} @ {t(state.reaction_id)}: {state.concentration_mol_per_m3.toPrecision(4)} mol/m³</span>
         {/each}
         {#if electrode.diagnostics}
           <span>{t("terminal / interface potential")}: {electrode.diagnostics.balance.terminal_potential_v.toFixed(4)} / {electrode.diagnostics.balance.electrode_potential_v.toFixed(4)} V</span>
@@ -3352,7 +3353,7 @@
             <span data-partial-current={partial.reaction_id}>{t(partial.reaction_id)}: {partial.current_density_a_per_m2.toPrecision(4)} A/m²{partial.parameter_record_id ? ` · ${partial.parameter_record_id}` : ""}</span>
           {/each}
           {#each electrode.diagnostics.interfacial_conditions as condition (condition.reaction_id + condition.species)}
-            <span data-surface-activity={condition.species}>{t(condition.species)} a<sub>s</sub> {condition.surface_activity.toPrecision(4)} / a<sub>b</sub> {condition.bulk_activity.toPrecision(4)}{condition.depleted_at_surface ? ` · ${t("transport limited")}` : ""}</span>
+            <span data-surface-activity={condition.species}>{typesetFormula(t(condition.species))} a<sub>s</sub> {condition.surface_activity.toPrecision(4)} / a<sub>b</sub> {condition.bulk_activity.toPrecision(4)}{condition.depleted_at_surface ? ` · ${t("transport limited")}` : ""}</span>
           {/each}
           {#each electrode.diagnostics.applied_parameters as parameters (parameters.reaction_id)}
             <em data-potential-frame={parameters.nominal.transition_potential_frame?.kind ?? "overpotential"}>

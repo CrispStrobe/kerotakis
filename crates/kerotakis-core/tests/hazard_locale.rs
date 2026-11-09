@@ -32,7 +32,7 @@ fn parts(event: &Event) -> (String, String) {
 fn a_static_hazard_and_its_reason_are_translated() {
     let event = warn(
         "mixing bleach with ammonia makes chloramine, a toxic gas",
-        "People are hospitalised every year from mixing these two household cleaners.",
+        "People are hospitalised every year from mixing bleach with ammonia-based household cleaners.",
     );
     let (hazard, real_world) = parts(&localize_event(&event, Locale::parse("de")));
     assert!(

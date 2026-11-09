@@ -490,6 +490,9 @@ hydroxylapatite = "Hydroxylapatit"
 # The journal, converted in bulk (63 sentences). Placeholders are named,
 # so German puts them where German wants them.
 "material-added.lv1" = "Du gibst {material} in {vessel}."
+"solution-added.lv1" = "Es war {label} {what}-Lösung: das Wasser kam mit."
+"solution-added.lv2" = "{vessel}: {label} {what}-Lösung — {solute} gelöster Stoff, {water} Wasser"
+"solution-added.ideal-dilution" = "(keine geprüfte Dichtetabelle: Wasser über ideale Verdünnung geschätzt, Volumina als additiv angenommen)"
 "gas-produced.lv1" = "{vessel}: {species}-Blasen bilden sich."
 "reaction-heat-released.lv1" = "{vessel} wird wärmer, während die Reaktion abläuft."
 "foam-changed.lv1" = "Schaum steigt in {vessel} auf."
@@ -979,7 +982,6 @@ hydroxylapatite = "Hydroxylapatit"
 "no-cell.lv3" = "{a}–{b}: keine Zelle: {why}"
 "state-changed.lv1-generic" = "Das {name} in {vessel} {verb}."
 "reacted.lv3-catalyst" = " (Katalysator: {c})"
-"solver-failed.lv3" = "{vessel}: Löser '{solver}' fehlgeschlagen: {detail}"
 
 # Moved, not invented. `chromatographed.lv3` above carried this clause
 # written into its own template, so the `{method}` hole the English grew —
@@ -1128,6 +1130,14 @@ boiled = "siedete"
 "vessels-start-at-one" = "Gefäße werden ab v1 gezählt"
 "unknown-amount" = "unbekannte Menge '{unit}' — versuch g, mL, L, mol oder ein Küchenmaß: spoon, pinch, cup, splash, drop"
 "material-amount-positive" = "die Materialmenge muss positiv sein"
+"solution-molarity-positive" = "die Molarität einer Lösung muss eine positive Zahl sein (bekommen: '{token}')"
+"solution-percent-range" = "ein Massenanteil muss über 0 und höchstens 100 liegen (bekommen: '{token}')"
+"solution-needs-concentration" = "gib die Konzentration der Lösung als Massenprozent (37%) oder Molarität (1M) an"
+"solution-needs-density" = "für wässriges {species} ist bei dieser Konzentration keine geprüfte Dichte hinterlegt; gib es nach Masse (g) oder mol zu"
+"solution-needs-solubility" = "für wässriges {species} ist keine geprüfte Löslichkeit oder Dichtetabelle hinterlegt; gib es als Reinstoff zu"
+"solution-beyond-table" = "{molarity} M {species} liegt außerhalb der geprüften Dichtetabelle"
+"solution-amount-positive" = "die Menge einer Lösung muss positiv sein"
+"solution-amount-unit" = "eine Lösung wird in g, mL oder L Lösung oder mol gelöstem Stoff gemessen (bekommen: '{unit}')"
 "no-reviewed-bulk-density" = "für das Material '{material}' ist keine geprüfte Schüttdichte hinterlegt; gib es nach Masse (g) zu"
 "material-takes-mass-or-volume" = "das massenanteilige Material '{material}' nimmt g, mL oder L (bekommen: '{unit}')"
 "material-takes-moles" = "das stoffmengenanteilige Material '{material}' nimmt mol (bekommen: '{unit}')"
@@ -1217,15 +1227,15 @@ Danger = "Gefahr"
 # Why it matters outside the simulation. The most important prose in the app
 # to not leave in English: it is the sentence explaining the danger.
 [real_world]
-"People are hospitalised every year from mixing these two household cleaners." = "Jedes Jahr kommen Menschen ins Krankenhaus, weil sie diese beiden Haushaltsreiniger gemischt haben."
+"People are hospitalised every year from mixing bleach with ammonia-based household cleaners." = "Jedes Jahr kommen Menschen ins Krankenhaus, weil sie Bleichmittel mit ammoniakhaltigen Haushaltsreinigern gemischt haben."
 "Chlorine gas was used as a chemical weapon; even small amounts damage lungs." = "Chlorgas wurde als chemische Waffe eingesetzt; schon kleine Mengen schädigen die Lunge."
-"Bleach and vinegar is one of the commonest household poisonings there is — both are ordinary kitchen bottles, which is exactly why people mix them." = "Bleichmittel und Essig ist eine der häufigsten Vergiftungen im Haushalt überhaupt — beides sind ganz gewöhnliche Küchenflaschen, und genau deshalb werden sie zusammengeschüttet."
-"Potassium permanganate and glycerol ignite on contact; similar mixtures cause laboratory fires." = "Kaliumpermanganat und Glycerin entzünden sich bei Kontakt; ähnliche Gemische verursachen Laborbrände."
-"Hydrogen and chlorine mixtures can detonate when exposed to light or a spark." = "Gemische aus Wasserstoff und Chlor können bei Licht oder einem Funken detonieren."
-"Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate." = "Permanganat- und Sulfitlösungen reagieren heftig; in größerem Maßstab können solche Gemische detonieren."
+"Bleach mixed with an acid such as vinegar is one of the commonest household poisonings there is — both are ordinary kitchen bottles, which is exactly why people mix them." = "Bleichmittel mit einer Säure wie Essig ist eine der häufigsten Vergiftungen im Haushalt überhaupt — beides sind ganz gewöhnliche Küchenflaschen, und genau deshalb werden sie zusammengeschüttet."
+"Strong oxidizers can ignite flammable liquids on contact — potassium permanganate with glycerol is the classic demonstration; such mixtures cause laboratory fires." = "Starke Oxidationsmittel können brennbare Flüssigkeiten bei Kontakt entzünden — Kaliumpermanganat mit Glycerin ist der klassische Versuch; solche Gemische verursachen Laborbrände."
+"A flammable gas mixed with a strong oxidizer can explode from a spark, a flame or even bright light — hydrogen with chlorine is the textbook example." = "Ein brennbares Gas im Gemisch mit einem starken Oxidationsmittel kann durch einen Funken, eine Flamme oder sogar helles Licht explodieren — Wasserstoff mit Chlor ist das Lehrbuchbeispiel."
+"Strong oxidizers and reducing agents can react vigorously and release heat quickly; at scale, such mixtures can detonate." = "Starke Oxidationsmittel und Reduktionsmittel können heftig miteinander reagieren und schnell Wärme freisetzen; in größerem Maßstab können solche Gemische detonieren."
 "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it." = "Jedes Metall, das in der Spannungsreihe über dem Wasserstoff steht, entwickelt in Säure Wasserstoffgas; Magnesiumband in Salzsäure ist die Schulversion, bei der das Gas mit dem brennenden Span verpufft. Welches Metall und welche Säure es auch bilden — das Gas ist wirklich brennbar."
-"Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces." = "Säure auf Kalk oder Natron schäumt über, wenn das Gefäß zu klein ist. CO₂ verdrängt in geschlossenen Räumen die Luft."
-"Quicklime (CaO) generates enough heat on contact with water to cause burns; adding caustic soda on top is reckless." = "Branntkalk (CaO) entwickelt bei Kontakt mit Wasser genug Wärme für Verbrennungen; zusätzlich Natronlauge zuzugeben ist leichtsinnig."
+"Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces." = "Säure auf ein Carbonat wie Kalk oder Natron schäumt über, wenn das Gefäß zu klein ist. CO₂ verdrängt in geschlossenen Räumen die Luft."
+"Quicklime (CaO) generates enough heat on contact with water to cause burns; adding a strong base on top is reckless." = "Branntkalk (CaO) entwickelt bei Kontakt mit Wasser genug Wärme für Verbrennungen; zusätzlich eine starke Base zuzugeben ist leichtsinnig."
 "Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse." = "Branntkalk (CaO) in Wasser kann 100 °C erreichen und schwere Verbrennungen verursachen. Gib den Feststoff immer langsam ins Wasser, niemals umgekehrt."
 "flying glass and a pressure wave — a sealed vessel that makes gas or warms up is how real labs get hurt" = "Glassplitter und eine Druckwelle — ein verschlossenes Gefäß, das Gas bildet oder sich erwärmt, ist der Grund, warum in echten Laboren Menschen verletzt werden"
 "on a real bench this one is never smelled directly — fume hood, waft only, and some not even then" = "an einer echten Laborbank riecht man daran nie direkt — Abzug, nur zufächeln, und an manchem nicht einmal das"
@@ -1671,6 +1681,8 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+redox-pair-unpriced = "{pairs}: Ein Oxidationsmittel und ein Reduktionsmittel sind hier zusammen, aber kein geprüfter schneller Reaktionsschreiber, keine kuratierte Reaktion und kein Geschwindigkeitsgesetz bepreist dieses Paar, daher bleibt es unreagiert. Das ist eine Lücke im Modell, kein Beleg dafür, dass nichts geschieht"
+redox-pair-outside-medium = "{pairs}: Der geprüfte Schreiber dieses Paares ist wässrig und gilt zwischen 0 und 60 °C; dieses Gefäß enthält kein flüssiges Wasser oder liegt außerhalb dieses Bereichs, daher bleibt das Paar unreagiert"
 indicator-optics-missing-ph = "die vollständige Absorption ist nicht verfügbar: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt"
 "liquid-partition-refused" = "Die Berechnung eines endlichen Flüssig-Flüssig-Verteilungskoeffizienten für {species} bei {temperature} K ist nicht möglich: {why}; ein nicht unterstützter Stoffübergang wird nicht durchgeführt"
 "peroxide-rich-medium" = "Diese peroxidhaltige Flüssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel. Eine durch Reaktionen entstandene Wasserspur begründet noch kein wässriges Medium. Für dieses peroxidreiche Medium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollständige Vorhersage für das Gemisch."
@@ -2140,6 +2152,8 @@ numerical-range = "der Aktivitätskoeffizient für Komponente {component} lässt
 
 # Typed source-owned solver diagnostics; native technical detail stays separate.
 [solver-reason]
+"solver-failed-unconverged" = "Der numerische Löser ist für dieses Gemisch zu keinem Ergebnis konvergiert; daher wird kein Ergebnis berichtet statt eines geratenen."
+"solver-failed-unexplained" = "Der Löser konnte für dieses Gemisch kein Ergebnis liefern; daher wird kein Ergebnis berichtet statt eines geratenen."
 "aqueous.accepted-provenance-missing" = "Der angenommene wässrige Zustand enthält keine Herkunftsangabe."
 "aqueous.activity-model-unavailable" = "Kein zugelassener Datensatz deckt dieses Aktivitätsmodell zusammen mit dem typisierten Grenzflächenbesitzer ab."
 "aqueous.gas-phase-unavailable" = "Der verwendete Datensatz definiert keine geprüfte Phase für ein Gas in diesem Gasraum."

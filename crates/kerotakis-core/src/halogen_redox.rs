@@ -21,7 +21,8 @@
 //! * `ΔE° ≥ COMPLETE_MARGIN_V`, so a limiting-reagent writer is honest
 //!   (Fe³⁺/I⁻ at 0.23 V is an equilibrium, not a completion);
 //! * the reductant's oxidised product is fixed for this oxidant
-//!   (thiosulfate → tetrathionate only with iodine);
+//!   (thiosulfate → tetrathionate only with iodine; → sulfate only with
+//!   hypochlorite/HClO/chlorine, by the 4:1 equation at every ratio);
 //! * a reviewed source says the pair is fast on the bench (`FAST`).
 //!   Thermodynamics alone never admits a pair: chlorate and iodate are
 //!   powerful and slow.
@@ -34,6 +35,13 @@
 //! `CuratedReaction::acid_protons` does. Protons the net equation releases
 //! are left in the charge balance, the ledger's convention for strong acid.
 //! No reaction heat is applied (no reviewed enthalpies for these rows).
+//!
+//! Every oxidant × reductant pair in the table that is present in a vessel
+//! and is NOT covered (admitted, owned elsewhere, unfavourable,
+//! equilibrium-limited) is named
+//! by [`unpriced_notes`] as `not-modeled.redox-pair-unpriced`, and an
+//! admitted pair blocked by the medium as
+//! `not-modeled.redox-pair-outside-medium`; the honesty tail emits them.
 
 use std::collections::BTreeMap;
 use std::sync::OnceLock;
@@ -162,6 +170,30 @@ pub const HALVES: &[Half] = &[
         0.1059,
         true,
     ),
+    // Thiosulfate all the way to sulfate, written per SO₄²⁻ (half a
+    // thiosulfate); `build_row` clears the fraction.
+    half(
+        "SO4-2/S2O3-2",
+        "SO4-2",
+        "S2O3-2",
+        0.5,
+        4.0,
+        5.0,
+        2.5,
+        0.2843,
+        true,
+    ),
+    half(
+        "DHA/ascorbic_acid",
+        "dehydroascorbic_acid",
+        "ascorbic_acid",
+        1.0,
+        2.0,
+        2.0,
+        0.0,
+        0.39,
+        true,
+    ),
 ];
 
 #[allow(clippy::too_many_arguments)]
@@ -208,17 +240,32 @@ pub const OXIDANTS: &[&str] = &[
 /// Reductant halves (their reduced member is the reductant).
 pub const REDUCTANTS: &[&str] = &[
     "S4O6-2/S2O3-2",
+    "SO4-2/S2O3-2",
     "SO4-2/SO3-2",
     "SO4-2/HSO3-",
     "Fe+3/Fe+2",
     "I2/I-",
+    "DHA/ascorbic_acid",
 ];
 
 /// Reductants the lane names that have no reviewed couple anywhere.
-pub const UNCOUPLED_REDUCTANTS: &[&str] = &["ascorbic_acid"];
+pub const UNCOUPLED_REDUCTANTS: &[&str] = &[];
+
+/// Strong oxidisers (the safety audit's oxidiser class) with no reviewed
+/// couple or writer here. Their pairs are tabulated `no_reviewed_couple`
+/// (unless a curated row or kinetic law owns them) so that
+/// [`unpriced_notes`] can name them instead of staying silent.
+pub const UNCOUPLED_OXIDANTS: &[&str] = &["MnO4-", "H2O2"];
 
 /// Reductant halves whose oxidised product holds only with these oxidants.
-pub const ONLY_WITH: &[(&str, &[&str])] = &[("S4O6-2/S2O3-2", &["I2/I-", "I3-/I-"])];
+pub const ONLY_WITH: &[(&str, &[&str])] = &[
+    ("S4O6-2/S2O3-2", &["I2/I-", "I3-/I-"]),
+    // With hypochlorite/chlorine, thiosulfate goes on to sulfate; the
+    // writer uses the 4:1 sulfate equation at every ratio (limiting
+    // reagent), including thiosulfate excess, where real mixtures also
+    // carry some tetrathionate. Documented in the coverage table.
+    ("SO4-2/S2O3-2", &["ClO-/Cl-", "HClO/Cl-", "Cl2/Cl-"]),
+];
 
 /// Pairs a reviewed source calls fast and quantitative on the bench.
 pub const FAST: &[(&str, &str)] = &[
@@ -230,6 +277,21 @@ pub const FAST: &[(&str, &str)] = &[
     ("I3-/I-", "SO4-2/HSO3-"),
     ("ClO-/Cl-", "I2/I-"),
     ("HClO/Cl-", "I2/I-"),
+    // Fogelman, Walker & Margerum, Inorg. Chem. 28, 986 (1989); sulfite
+    // and thiosulfate dechlorination (White, Handbook of Chlorination;
+    // Standard Methods 4500-Cl).
+    ("ClO-/Cl-", "SO4-2/SO3-2"),
+    ("ClO-/Cl-", "SO4-2/HSO3-"),
+    ("HClO/Cl-", "SO4-2/SO3-2"),
+    ("HClO/Cl-", "SO4-2/HSO3-"),
+    ("Cl2/Cl-", "SO4-2/SO3-2"),
+    ("Cl2/Cl-", "SO4-2/HSO3-"),
+    ("ClO-/Cl-", "SO4-2/S2O3-2"),
+    ("HClO/Cl-", "SO4-2/S2O3-2"),
+    ("Cl2/Cl-", "SO4-2/S2O3-2"),
+    // Folkes, Candeias & Wardman, Arch. Biochem. Biophys. 323, 120 (1995).
+    ("HClO/Cl-", "DHA/ascorbic_acid"),
+    ("ClO-/Cl-", "DHA/ascorbic_acid"),
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -434,6 +496,34 @@ pub fn pairs() -> &'static [Pair] {
                 });
             }
         }
+        for &o in UNCOUPLED_OXIDANTS {
+            let ox_forms = registry_forms(o);
+            for r in REDUCTANTS.iter().chain(UNCOUPLED_REDUCTANTS) {
+                let red_forms = match half_by_id(r) {
+                    Some(hr) => registry_forms(hr.reduced),
+                    None => registry_forms(r),
+                };
+                let owned = owners.iter().any(|set| {
+                    set.iter().any(|k| ox_forms.iter().any(|f| f == k))
+                        && set.iter().any(|k| red_forms.iter().any(|f| f == k))
+                });
+                let status = if ox_forms.is_empty() || red_forms.is_empty() {
+                    PairStatus::NoRegistryForm
+                } else if owned {
+                    PairStatus::OwnedElsewhere
+                } else {
+                    PairStatus::NoReviewedCouple
+                };
+                out.push(Pair {
+                    oxidant: o,
+                    reductant: r,
+                    delta_e_v: None,
+                    status,
+                    oxidant_forms: ox_forms.clone(),
+                    reductant_forms: red_forms,
+                });
+            }
+        }
         out
     })
 }
@@ -470,6 +560,12 @@ pub fn pretty(key: &str) -> String {
     if key == "water" {
         return "H₂O".into();
     }
+    // Name-keyed registry species (ascorbic_acid) read as their name.
+    if key.contains('_') {
+        if let Some(d) = crate::species::lookup_key(key) {
+            return d.name.to_string();
+        }
+    }
     const SUB: [char; 10] = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
     const SUP: [char; 10] = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
     let (body, charge) = match key.rfind(['+', '-']) {
@@ -504,8 +600,17 @@ fn term(coef: f64, key: &str) -> String {
 /// Build and balance-check the writer for one pair and two forms.
 pub fn build_row(ho: &Half, hr: &Half, ox_form: &str, red_form: &str) -> Option<Row> {
     let l = lcm(ho.electrons, hr.electrons);
-    let a = l / ho.electrons; // oxidant halves
-    let b = l / hr.electrons; // reductant halves (run backwards)
+    // A half written per a fraction of its reduced member (SO₄²⁻/S₂O₃²⁻)
+    // is scaled until the reductant count is whole.
+    let k = (1..=8)
+        .map(f64::from)
+        .find(|k| {
+            let n = k * l / hr.electrons * hr.reduced_per_oxidised;
+            (n - n.round()).abs() < 1e-9
+        })
+        .unwrap_or(1.0);
+    let a = k * l / ho.electrons; // oxidant halves
+    let b = k * l / hr.electrons; // reductant halves (run backwards)
     let red_n = b * hr.reduced_per_oxidised; // moles of reductant ion
     let h_net = a * ho.protons - b * hr.protons; // >0 consumed
     let w_net = a * ho.water - b * hr.water; // >0 produced
@@ -764,6 +869,95 @@ pub fn apply(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         }
     }
     progressed
+}
+
+fn present(vessel: &Vessel, forms: &[String]) -> bool {
+    forms.iter().any(|f| available(vessel, f) > TRACE)
+}
+
+fn display(key: &str) -> String {
+    pretty(key)
+}
+
+/// Visible typed notes for oxidant/reductant pairs in this vessel that no
+/// writer prices. Owner: this module's pair table (the safety crate's
+/// oxidiser × reducing-agent classes cannot be read from core, which it
+/// depends on; [`UNCOUPLED_OXIDANTS`] carries that class's oxidisers
+/// that have no couple here). A pair is grouped by its two member
+/// species; it is covered when any half-pair on them is admitted, owned
+/// by a curated row or kinetic law, unfavourable, equilibrium-limited
+/// (owned by the aqueous equilibrium solver), or a self pair. An
+/// admitted pair that cannot run because the vessel has no liquid water
+/// or is outside `DOMAIN_K` gets its own note. At most one event of
+/// each kind, so a step says it once.
+pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
+    use crate::phrase::{Phrase, Slot};
+    let mut uncovered: Vec<String> = Vec::new();
+    let mut outside: Vec<String> = Vec::new();
+    let members = |p: &Pair| {
+        let o = half_by_id(p.oxidant)
+            .map(|h| h.oxidised)
+            .unwrap_or(p.oxidant);
+        let r = half_by_id(p.reductant)
+            .map(|h| h.reduced)
+            .unwrap_or(p.reductant);
+        (o, r)
+    };
+    let medium_ok = in_domain(vessel) && liquid_water(vessel) > 0.0;
+    for p in pairs() {
+        if !present(vessel, &p.oxidant_forms) || !present(vessel, &p.reductant_forms) {
+            continue;
+        }
+        let (o, r) = members(p);
+        let label = format!("{} + {}", display(o), display(r));
+        let group: Vec<&Pair> = pairs().iter().filter(|q| members(q) == (o, r)).collect();
+        let admitted = group.iter().any(|q| q.status == PairStatus::Admitted);
+        let covered = group.iter().any(|q| {
+            matches!(
+                q.status,
+                PairStatus::Admitted
+                    | PairStatus::OwnedElsewhere
+                    | PairStatus::NotFavourable
+                    | PairStatus::EquilibriumLimited
+                    | PairStatus::SelfPair
+                    | PairStatus::NoRegistryForm
+            )
+        });
+        let list = if admitted && !medium_ok {
+            &mut outside
+        } else if covered {
+            continue;
+        } else {
+            &mut uncovered
+        };
+        if !list.contains(&label) {
+            list.push(label);
+        }
+    }
+    let mut events = Vec::new();
+    if !uncovered.is_empty() {
+        events.push(Event::not_modeled(
+            vessel.id,
+            crate::ops::NotModelledCause::NoReviewedDatum,
+            Phrase::new(
+                "not-modeled.redox-pair-unpriced",
+                "{pairs}: an oxidant and a reductant are together here, but no reviewed fast writer, curated row or rate law prices this pair, so it is left unreacted. That is a gap in the model, not evidence that nothing happens",
+                vec![("pairs".to_string(), Slot::text(uncovered.join("; ")))],
+            ),
+        ));
+    }
+    if !outside.is_empty() {
+        events.push(Event::not_modeled(
+            vessel.id,
+            crate::ops::NotModelledCause::ModelBoundary,
+            Phrase::new(
+                "not-modeled.redox-pair-outside-medium",
+                "{pairs}: this pair's reviewed writer is an aqueous one, between 0 and 60 °C, and this vessel has no liquid water or is outside that range, so it is left unreacted",
+                vec![("pairs".to_string(), Slot::text(outside.join("; ")))],
+            ),
+        ));
+    }
+    events
 }
 
 #[cfg(test)]

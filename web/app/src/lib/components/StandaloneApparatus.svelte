@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { typesetFormula } from "../formula";
   import { t } from "../i18n.svelte";
   import type { Effect } from "../magnitudes";
 
@@ -136,7 +137,7 @@
         </small>
         {#each effect.centrifuge.populations.slice(0, 2) as population (population.species)}
           <small class="separation-result">
-            {t(population.species)} · {Math.round(population.separatedFraction * 100)}%
+            {typesetFormula(t(population.species))} · {Math.round(population.separatedFraction * 100)}%
             {population.particleSizeAssumed ? ` · ${t("assumed particle size")}` : ""}
           </small>
         {/each}

@@ -77,6 +77,8 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("displacement.rs", include_str!("../src/displacement.rs")),
     ("solve.rs", include_str!("../src/solve.rs")),
     ("nonaqueous.rs", include_str!("../src/nonaqueous.rs")),
+    ("render.rs", include_str!("../src/render.rs")),
+    ("halogen_redox.rs", include_str!("../src/halogen_redox.rs")),
     // I18N-11. The scene's own sentences, which reach the reader without
     // passing through `render.rs`: the web bench paints its caption and
     // its accessibility text from the scene object.

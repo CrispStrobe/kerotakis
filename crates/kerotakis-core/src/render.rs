@@ -1107,6 +1107,45 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::SolutionAdded {
+            vessel,
+            solute,
+            label,
+            solute_moles,
+            water_moles,
+            density_basis,
+        } => {
+            let name = species_name(locale, solute);
+            let line = match register.level() {
+                1 => locale.fill(
+                    "event.solution-added.lv1",
+                    "It was {label} {what} solution: the water came with it.",
+                    &[("label", label.as_str()), ("what", name)],
+                ),
+                _ => locale.fill(
+                    "event.solution-added.lv2",
+                    "{vessel}: {label} {what} solution — {solute} solute, {water} water",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("label", label.as_str()),
+                        ("what", name),
+                        ("solute", &moles_amount(locale, solute_moles.0)),
+                        ("water", &moles_amount(locale, water_moles.0)),
+                    ],
+                ),
+            };
+            match density_basis {
+                crate::solution_stock::SolutionDensityBasis::IdealDilution => format!(
+                    "{line} {}",
+                    locale.fill(
+                        "event.solution-added.ideal-dilution",
+                        "(no reviewed density table: water estimated by ideal dilution, volumes taken as additive)",
+                        &[],
+                    )
+                ),
+                _ => line,
+            }
+        }
         Event::ObjectSpillBoundary { vessel, object_count } => locale.fill(
             "event.object-spill-boundary.lv1",
             "{vessel}: {count} coherent object(s) remain in the vessel; this spill model moves bulk phases only",
@@ -4809,30 +4848,30 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The lab couldn't work out what happens in {vessel}. That's honest — better than guessing!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => match reason {
-                Some(reason) => {
-                    let owned = reason.render(locale);
-                    locale.fill(
-                        "event.solver-failed.owned.lv3",
-                        "{vessel}: solver '{solver}' failed: {reason}\nTechnical detail: {detail}",
-                        &[
-                            ("vessel", &vessel.to_string()),
-                            ("solver", solver),
-                            ("reason", &owned),
-                            ("detail", detail),
-                        ],
-                    )
-                }
-                None => locale.fill(
-                    "event.solver-failed.lv3",
-                    "{vessel}: solver '{solver}' failed: {detail}",
+            _ => {
+                // The raw solver text is never the main message at any
+                // register: an owned reason leads, and the detail follows
+                // as a labelled technical suffix only.
+                let fallback;
+                let reason = match reason {
+                    Some(reason) => reason.as_ref(),
+                    None => {
+                        fallback = solver_failed_fallback_reason(detail);
+                        &fallback
+                    }
+                };
+                let owned = reason.render(locale);
+                locale.fill(
+                    "event.solver-failed.owned.lv3",
+                    "{vessel}: solver '{solver}' failed: {reason}\nTechnical detail: {detail}",
                     &[
                         ("vessel", &vessel.to_string()),
                         ("solver", solver),
+                        ("reason", &owned),
                         ("detail", detail),
                     ],
-                ),
-            },
+                )
+            }
         },
         Event::Diluted {
             vessel,
@@ -5226,6 +5265,10 @@ fn localize_hazard(hazard: &str, locale: Locale) -> String {
         .map(str::to_string)
         .unwrap_or_else(|| hazard.to_string())
 }
+
+// Composed in `orchestrator.rs`, next to the other solver-failure reasons,
+// so the locale lint counts its keys where they are written.
+pub use crate::orchestrator::solver_failed_fallback_reason;
 
 #[cfg(test)]
 mod narration_tests {

@@ -90,6 +90,7 @@ const REPORTED_NOT_DRAWN: Readonly<Record<string, string>> = {
   shelf_stocked: "bench bookkeeping, not chemistry",
   solution_characterized: "provenance: which solver answered, not what happened",
   solution_routed: "provenance, and switchable at that (GUI-127)",
+  solution_added: "a summary of the two `added` events that follow it, which are drawn",
   solver_failed: "honesty about the engine, reported in the log",
   spill_recovered: "the recovery is bookkeeping; the spill itself is drawn",
   stock_exhausted: "a bottle running out is a shelf fact",

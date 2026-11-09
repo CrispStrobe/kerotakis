@@ -551,3 +551,76 @@ fn every_prefix_the_engine_looks_up_has_a_german_section() {
          nothing, so each renders its English inside a German sentence: {empty:?}"
     );
 }
+
+/// E3: a SolverFailed never shows the raw solver text as its main message.
+/// Without a producer reason the renderer supplies an owned, translated one;
+/// the detail survives only as the labelled technical suffix.
+#[test]
+fn solver_failure_always_leads_with_an_owned_reason() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::render::render_event_in;
+    let raw =
+        "PHREEQC: ERROR: Cl has not converged. Model failed to converge for initial solution 1.";
+    for (detail, en, de, fr) in [
+        (raw, "did not converge", "konvergiert", "pas convergé"),
+        (
+            "index out of range",
+            "could not produce",
+            "kein Ergebnis liefern",
+            "pas pu produire",
+        ),
+    ] {
+        let event = Event::SolverFailed {
+            reason: None,
+            vessel: VesselId(0),
+            solver: "phreeqc-aqueous".to_string(),
+            detail: detail.to_string(),
+        };
+        for (tag, needle, label) in [
+            ("en", en, "Technical detail: "),
+            ("de", de, "Technische Details: "),
+            ("fr", fr, "Détail technique : "),
+        ] {
+            for register in [Register::LV1, Register::LV2, Register::LV3] {
+                let line = render_event_in(&event, register, Locale::parse(tag));
+                if let Some(at) = line.find(detail) {
+                    let head = &line[..at];
+                    assert!(head.ends_with(label), "{tag} {register:?}: {line}");
+                    assert!(line.contains(needle), "{tag} {register:?}: {line}");
+                }
+            }
+        }
+    }
+}
+
+/// Lint: render.rs owns exactly the two SolverFailed templates, and the only
+/// one carrying `{detail}` also carries `{reason}`.
+#[test]
+fn no_solver_failed_template_emits_detail_without_a_reason() {
+    let src = include_str!("../src/render.rs");
+    let keys: Vec<&str> = src
+        .match_indices("\"event.solver-failed.")
+        .map(|(i, _)| {
+            let rest = &src[i + 1..];
+            &rest[..rest.find('"').unwrap()]
+        })
+        .collect();
+    let mut sorted = keys.clone();
+    sorted.sort();
+    sorted.dedup();
+    assert_eq!(
+        sorted,
+        ["event.solver-failed.lv1", "event.solver-failed.owned.lv3"]
+    );
+    for toml in [
+        include_str!("../i18n/de.toml"),
+        include_str!("../i18n/fr.toml"),
+    ] {
+        for line in toml.lines().filter(|l| l.starts_with("\"solver-failed.")) {
+            assert!(
+                !line.contains("{detail}") || line.contains("{reason}"),
+                "{line}"
+            );
+        }
+    }
+}

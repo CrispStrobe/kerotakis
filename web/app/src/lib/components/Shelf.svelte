@@ -1,6 +1,14 @@
 <script lang="ts">
+  import { typesetFormulaTokens } from "../formula";
   import type { ShelfItem } from "../session.svelte";
   import { amountUnits, suggestedAmount, type AmountUnit } from "../amounts";
+  import {
+    SOLUTION_UNITS,
+    concentrationOptions,
+    defaultConcentration,
+    normaliseConcentration,
+    solutionCommand,
+  } from "../solutions";
   import { reagentMatches } from "../catalogSearch";
   import SpeciesChip from "./SpeciesChip.svelte";
   import { i18n, t } from "../i18n.svelte";
@@ -84,8 +92,21 @@
    */
   let info = $state<string | null>(null);
   const infoPanelId = (key: string) => `shelf-info-${key}`;
-  let amountValue = $state(1);
-  let amountUnit = $state<AmountUnit>("g");
+  // Placeholders only: `toggle` and the focus request both reset these from
+  // `suggestedAmount(…, register)` before the form is shown.
+  let amountValue = $state(0.1);
+  let amountUnit = $state<AmountUnit>("mol");
+  // E1: "" is the pure compound; "custom" reveals a typed field.
+  let concentration = $state("");
+  let customConcentration = $state("");
+  function chosenConcentration(): string {
+    return concentration === "custom" ? customConcentration : concentration;
+  }
+  function resetConcentration(item: ShelfItem) {
+    concentration = defaultConcentration(register, item.key);
+    customConcentration = "";
+    if (concentration && item.phase !== "liquid") amountUnit = "mL";
+  }
 
   /** One tap narrows to a phase; the chips only exist when useful. */
   let phase = $state<string | null>(null);
@@ -277,9 +298,10 @@
       return;
     }
     open = item.key;
-    const suggested = suggestedAmount(item.phase, targetCapacityMl);
+    const suggested = suggestedAmount(item.phase, targetCapacityMl, register);
     amountValue = suggested.value;
     amountUnit = suggested.unit;
+    resetConcentration(item);
   }
 
   let handledFocus = -1;
@@ -292,15 +314,18 @@
     phase = null;
     role = null;
     open = item.key;
-    const suggested = suggestedAmount(item.phase, targetCapacityMl);
+    const suggested = suggestedAmount(item.phase, targetCapacityMl, register);
     amountValue = suggested.value;
     amountUnit = suggested.unit;
+    resetConcentration(item);
   });
 
   function add(item: ShelfItem, amount: string) {
     const a = amount.trim();
     if (!a) return;
-    onadd(`add v${target + 1} ${item.key} ${a}`);
+    const c = chosenConcentration();
+    if (c && !normaliseConcentration(c)) return;
+    onadd(solutionCommand(target, item.key, a, c));
     open = null;
   }
 </script>
@@ -392,7 +417,7 @@
       >
         <SpeciesChip {item} />
         <span class="name">{t(item.name)}</span>
-        <span class="formula">{item.formula}</span>
+        <span class="formula">{typesetFormulaTokens(item.formula)}</span>
       <!-- GUI-093: the warning arrives at CHOOSING time rather than at
            pouring time. It is a glyph and not a word because this row is
            ninety rows long and was already "mostly badge" once; the
@@ -467,10 +492,28 @@
             >+</button>
           </div>
           <select aria-label={t("unit")} bind:value={amountUnit}>
-            {#each amountUnits(register, item.phase) as unit (unit)}
+            {#each concentration ? SOLUTION_UNITS : amountUnits(register, item.phase) as unit (unit)}
               <option value={unit}>{unit}</option>
             {/each}
           </select>
+          {#if concentrationOptions(register, item.key).length}
+            <select aria-label={t("concentration")} bind:value={concentration}>
+              {#each concentrationOptions(register, item.key) as option (option.token)}
+                <option value={option.token}>{option.token || t("pure substance")}</option>
+              {/each}
+              <option value="custom">{t("custom concentration")}</option>
+            </select>
+            {#if concentration === "custom"}
+              <input
+                type="text"
+                required
+                aria-label={t("concentration, e.g. 37% or 1M")}
+                placeholder={t("37% / 1M")}
+                aria-invalid={customConcentration !== "" && !normaliseConcentration(customConcentration)}
+                bind:value={customConcentration}
+              />
+            {/if}
+          {/if}
           <button class="add-amount" type="submit">{t("add")}</button>
           {#if item.phase === "liquid"}
             <!-- Short enough to share a line. The sentence it was is

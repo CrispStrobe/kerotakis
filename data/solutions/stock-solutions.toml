@@ -1,0 +1,135 @@
+# Aqueous stock solutions: density tables and the common laboratory stocks.
+#
+# Densities are g/mL of the SOLUTION at 20 °C against the solute MASS
+# FRACTION. The parser interpolates linearly between points and refuses
+# outside a table's range; it never extrapolates.
+#
+# REVIEW STATUS: values were transcribed for this change and must be checked
+# against the cited table rows before release (see `review` per source).
+
+[[source]]
+id = "crc-concentrative-properties"
+citation = "Haynes, W. M. (ed.), CRC Handbook of Chemistry and Physics, 97th ed., CRC Press, 2016, Section 5: Concentrative Properties of Aqueous Solutions: Density, Refractive Index, Freezing Point Depression, and Viscosity (density column, 20 °C)"
+review = "transcribed; pending row-by-row check"
+
+[[source]]
+id = "crc-water-density"
+citation = "Haynes, W. M. (ed.), CRC Handbook of Chemistry and Physics, 97th ed., CRC Press, 2016, Section 6: Properties of Water in the Range 0-100 °C (0.99820 g/mL at 20 °C)"
+review = "transcribed; pending row-by-row check"
+
+[[density]]
+species = "HCl"
+source = "crc-concentrative-properties"
+points = [
+  [0.0, 0.99820], [0.01, 1.0032], [0.02, 1.0082], [0.04, 1.0181], [0.06, 1.0279],
+  [0.08, 1.0376], [0.10, 1.0474], [0.12, 1.0574], [0.14, 1.0675], [0.16, 1.0776],
+  [0.18, 1.0878], [0.20, 1.0980], [0.24, 1.1187], [0.28, 1.1392], [0.32, 1.1593],
+  [0.36, 1.1789], [0.38, 1.1885], [0.40, 1.1980],
+]
+
+[[density]]
+species = "H2SO4"
+source = "crc-concentrative-properties"
+points = [
+  [0.0, 0.99820], [0.01, 1.0051], [0.02, 1.0118], [0.04, 1.0250], [0.06, 1.0385],
+  [0.08, 1.0522], [0.10, 1.0661], [0.15, 1.1020], [0.20, 1.1394], [0.25, 1.1783],
+  [0.30, 1.2185], [0.40, 1.3028], [0.50, 1.3951], [0.60, 1.4983], [0.70, 1.6105],
+  [0.80, 1.7272], [0.90, 1.8144], [0.92, 1.8240], [0.94, 1.8312], [0.96, 1.8355],
+  [0.98, 1.8361], [1.00, 1.8305],
+]
+
+[[density]]
+species = "NaOH"
+source = "crc-concentrative-properties"
+points = [
+  [0.0, 0.99820], [0.01, 1.0095], [0.02, 1.0207], [0.04, 1.0428], [0.08, 1.0869],
+  [0.10, 1.1089], [0.12, 1.1309], [0.16, 1.1751], [0.20, 1.2191], [0.30, 1.3279],
+  [0.40, 1.4300], [0.50, 1.5253],
+]
+
+[[density]]
+species = "NH3"
+source = "crc-concentrative-properties"
+points = [
+  [0.0, 0.99820], [0.01, 0.9939], [0.02, 0.9895], [0.04, 0.9811], [0.08, 0.9651],
+  [0.10, 0.9575], [0.12, 0.9501], [0.16, 0.9362], [0.20, 0.9229], [0.24, 0.9101],
+  [0.28, 0.8980], [0.30, 0.8920],
+]
+
+[[density]]
+species = "H2O2"
+source = "crc-concentrative-properties"
+points = [
+  [0.0, 0.99820], [0.01, 1.0022], [0.02, 1.0058], [0.04, 1.0131], [0.08, 1.0277],
+  [0.10, 1.0351], [0.12, 1.0425], [0.16, 1.0575], [0.20, 1.0728], [0.24, 1.0884],
+  [0.28, 1.1043], [0.30, 1.1124],
+]
+
+[[density]]
+species = "CH3COOH"
+source = "crc-concentrative-properties"
+points = [
+  [0.0, 0.99820], [0.01, 0.9996], [0.02, 1.0012], [0.04, 1.0040], [0.06, 1.0069],
+  [0.08, 1.0097], [0.10, 1.0125], [0.20, 1.0263], [0.30, 1.0384], [0.40, 1.0488],
+  [0.50, 1.0575], [0.60, 1.0642], [0.70, 1.0685], [0.80, 1.0700], [0.90, 1.0661],
+  [1.00, 1.0498],
+]
+
+# Common stocks. Exactly one of `percent` (w/w) or `molar` (mol/L).
+# `common = true` marks the default concentration the shelf offers at
+# lv1/lv2 for that solute; the pure compound stays available at lv3.
+[[stock]]
+key = "hydrochloric_acid_37_percent"
+species = "HCl"
+percent = 37.0
+common = true
+
+[[stock]]
+key = "hydrochloric_acid_6_molar"
+species = "HCl"
+molar = 6.0
+
+[[stock]]
+key = "hydrochloric_acid_1_molar"
+species = "HCl"
+molar = 1.0
+
+[[stock]]
+key = "sulfuric_acid_96_percent"
+species = "H2SO4"
+percent = 96.0
+common = true
+
+[[stock]]
+key = "sulfuric_acid_1_molar"
+species = "H2SO4"
+molar = 1.0
+
+[[stock]]
+key = "hydrogen_peroxide_30_percent"
+species = "H2O2"
+percent = 30.0
+common = true
+
+[[stock]]
+key = "ammonia_25_percent"
+species = "NH3"
+percent = 25.0
+common = true
+
+[[stock]]
+key = "sodium_hydroxide_1_molar"
+species = "NaOH"
+molar = 1.0
+common = true
+
+[[stock]]
+key = "glacial_acetic_acid"
+species = "CH3COOH"
+percent = 100.0
+
+[[stock]]
+key = "acetic_acid_5_percent"
+species = "CH3COOH"
+percent = 5.0
+common = true

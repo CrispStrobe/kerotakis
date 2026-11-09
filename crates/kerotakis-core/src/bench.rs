@@ -1897,6 +1897,122 @@ impl Bench {
                     total_after: Some(total_after),
                 });
             }
+            Operator::AddSolution {
+                vessel,
+                solute,
+                solute_moles,
+                water_moles,
+                label,
+                density_basis,
+                at,
+            } => {
+                if !solute_moles.0.is_finite()
+                    || !water_moles.0.is_finite()
+                    || solute_moles.0 <= 0.0
+                    || water_moles.0 < 0.0
+                {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let water = SpeciesId::new("water");
+                let mut portions = vec![(solute.clone(), *solute_moles)];
+                if water_moles.0 > 0.0 {
+                    portions.push((water.clone(), *water_moles));
+                }
+                let portions = portions
+                    .into_iter()
+                    .map(|(sid, moles)| {
+                        let data = species::lookup(&sid)
+                            .ok_or_else(|| BenchError::UnknownSpecies(sid.clone()))?;
+                        Ok((sid, moles, data.standard_phase))
+                    })
+                    .collect::<Result<Vec<_>, BenchError>>()?;
+
+                // One bottle: the screen sees the solute with its water,
+                // exactly as a reviewed material recipe is screened.
+                let before = self.vessel(*vessel)?.clone();
+                let mut probe = before.clone();
+                for (sid, moles, phase) in &portions {
+                    probe.deposit(sid.clone(), *moles, *phase);
+                }
+                match screen.assess_pour(&before, &probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
+                        return Ok(events);
+                    }
+                }
+
+                // Draw both bottles or neither.
+                let mut stock = self.stock.clone();
+                for (sid, moles, _) in &portions {
+                    if let Err(refusal) = stock.draw(&sid.0, moles.0) {
+                        events.push(stock_refusal_event(*vessel, &sid.0, refusal));
+                        *disposition = ApplyDisposition::Unchanged;
+                        return Ok(events);
+                    }
+                }
+                self.stock = stock;
+
+                let t_in = at.unwrap_or(Kelvin::STANDARD);
+                let v = self.vessel_mut(*vessel)?;
+                if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new = adiabatic_mix_into(v, t_in, |t| {
+                        portions_enthalpy(
+                            portions
+                                .iter()
+                                .map(|(sid, moles, phase)| (sid, moles.0, *phase)),
+                            t_in.0,
+                            t,
+                        )
+                    });
+                    if (t_new.0 - v.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: v.id,
+                            from: v.temperature,
+                            to: t_new,
+                        });
+                    }
+                    v.temperature = t_new;
+                }
+                for (sid, moles, phase) in &portions {
+                    v.deposit_lot(
+                        sid.clone(),
+                        *moles,
+                        *phase,
+                        Some(format!("{label} {} solution", solute.0)),
+                        None,
+                    );
+                }
+                for (sid, moles, _) in &portions {
+                    let total_after = v.moles_of(sid);
+                    events.push(Event::Added {
+                        vessel: *vessel,
+                        species: sid.clone(),
+                        moles: *moles,
+                        total_after: Some(total_after),
+                    });
+                }
+                events.push(Event::SolutionAdded {
+                    vessel: *vessel,
+                    solute: solute.clone(),
+                    label: label.clone(),
+                    solute_moles: *solute_moles,
+                    water_moles: *water_moles,
+                    density_basis: density_basis.clone(),
+                });
+            }
             Operator::StockShelf { key, amount } => {
                 if !amount.is_finite() || *amount < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
@@ -7037,6 +7153,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         // Stocking the shelf changes the cabinet, not a vessel.
         | Operator::StockShelf { .. } => vec![],
         Operator::Add { vessel, .. }
+        | Operator::AddSolution { vessel, .. }
         | Operator::AddMaterial { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }

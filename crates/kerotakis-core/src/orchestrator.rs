@@ -208,6 +208,24 @@ impl Orchestrator {
     }
 }
 
+/// The owned reason a [`Event::SolverFailed`] carries when its producer
+/// supplied none. Non-convergence (PHREEQC "has not converged" / "failed to
+/// converge") gets its own translated sentence; anything else a generic one.
+pub fn solver_failed_fallback_reason(detail: &str) -> crate::phrase::Phrase {
+    let lower = detail.to_ascii_lowercase();
+    if lower.contains("converge") {
+        crate::phrase::Phrase::bare(
+            "solver-reason.solver-failed-unconverged",
+            "the numerical solver did not converge on an answer for this mixture, so no result is reported rather than a guessed one",
+        )
+    } else {
+        crate::phrase::Phrase::bare(
+            "solver-reason.solver-failed-unexplained",
+            "the solver could not produce an answer for this mixture, so no result is reported rather than a guessed one",
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
