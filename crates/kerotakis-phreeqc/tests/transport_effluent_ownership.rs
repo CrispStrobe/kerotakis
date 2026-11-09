@@ -49,12 +49,7 @@ fn check(script: &str) {
             assert!((updated_cell.temperature.0 - inlet.temperature.0).abs() <= 0.01);
             same_material(receiver, &cell);
             same_material(updated_cell, &inlet);
-            // The inlet is a finite feed: one full cell volume at Courant 1
-            // drains it, and exactly its material is now in the cell.
-            same_material(
-                bench.vessel(VesselId(1)).unwrap(),
-                &Vessel::new(VesselId(1), "drained feed"),
-            );
+            same_material(bench.vessel(VesselId(1)).unwrap(), &inlet);
             checked = true;
         }
     }

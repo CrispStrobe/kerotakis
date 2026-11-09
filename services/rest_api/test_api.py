@@ -81,7 +81,7 @@ class ApiTests(unittest.TestCase):
             "titrate v1 KMnO4 0.02M 0.1mL until pe >= 8 max 200",
             "titrate v1 KMnO4 0.02M 0.1mL until colour persists",
             "transport v1 v2 v3 from v4 to v5 steps 15 courant 0.5",
-            "transport v1 v2 v3 from v4 to v5 steps 15 courant 0.5 reservoir",
+            "transport v1 v2 v3 from v4 to v5 steps 15 courant 0.5 drain",
             "wait 48h\nstir v1 500rpm 2hours",
         ]
         for script in scripts:

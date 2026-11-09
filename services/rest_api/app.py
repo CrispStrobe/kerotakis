@@ -608,7 +608,7 @@ def validate_script(script: str):
             # Match the canonical form, including the entire suffix: duplicate
             # or reordered keywords must not bypass the charged loop count.
             match = re.fullmatch(
-                r"transport((?: v[1-9][0-9]*){1,16}) from v[1-9][0-9]* to v[1-9][0-9]* steps ([0-9]+)(?: courant ([^ ]+))?(?: reservoir)?",
+                r"transport((?: v[1-9][0-9]*){1,16}) from v[1-9][0-9]* to v[1-9][0-9]* steps ([0-9]+)(?: courant ([^ ]+))?(?: drain)?",
                 " ".join(words))
             if not match:
                 raise HTTPException(422, "Use a bounded canonical transport chain")

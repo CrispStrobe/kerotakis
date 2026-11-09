@@ -2,15 +2,16 @@
 //! Batch-3 transport trigger scripts through the standard native stack.
 //!
 //! The originals are reproduced verbatim (setup and transport lines only;
-//! read-outs are skipped) as evidence. They exposed four defects in one
-//! mechanism: the feed vessel was never drained (tr-006 counted NaCl twice,
-//! tr-004 delivered four cell volumes from a one-cell feed), reactions ran
+//! read-outs are skipped) as evidence and run with the default boundary: an
+//! external constant-composition reservoir. They exposed three defects that
+//! hold in any boundary mode: the reservoir's supply was not recorded, so the
+//! open-column ledger could not be audited (tr-004, tr-006); reactions ran
 //! once per command rather than per step (tr-008 let Cu2+ break through an
-//! excess Fe bed), and ppm-level solvent-proxy differences refused the run
-//! (tr-003, tr-007). Each feed holds one cell volume, so a command that asks
-//! for more is now a typed `InletExhausted` refusal; the scripts' own
-//! forecasts describe a repeated boundary injection, which is exercised by
-//! the same script with the boundary explicitly declared `reservoir`.
+//! excess Fe bed); and ppm-level solvent-proxy differences refused the run
+//! (tr-003, tr-007). Every original now closes its element ledger counting
+//! the recorded `inflow_moles`. The same scripts with `drain` appended
+//! exercise the opt-in finite feed: each feed holds one cell volume, so a
+//! command asking for more is a typed `InletExhausted` refusal.
 
 use std::collections::BTreeMap;
 
@@ -134,18 +135,47 @@ fn assert_closed(before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>, 
     }
 }
 
+/// Element totals of a command's recorded boundary inflow.
+fn inflow_elements(events: &[Event]) -> BTreeMap<String, f64> {
+    let Some(Event::Transported { inflow_moles, .. }) = events
+        .iter()
+        .find(|e| matches!(e, Event::Transported { .. }))
+    else {
+        panic!("transport must report its ledger: {events:?}");
+    };
+    let mut probe = Vessel::new(VesselId(999), "inflow probe");
+    for (species, moles) in inflow_moles {
+        let phase = if species.0 == "water" {
+            Phase::Liquid
+        } else {
+            Phase::Aqueous
+        };
+        probe.deposit(species.clone(), *moles, phase);
+    }
+    ConservedLedger::from_vessel(&probe).elements
+}
+
+/// Open-boundary closure: after = before + recorded inflow.
+fn assert_open_closed(before: &Bench, after: &Bench, events: &[Event], which: &[&str]) {
+    let mut expected = elements(before, &all_vessels(before));
+    for (element, moles) in inflow_elements(events) {
+        *expected.entry(element).or_insert(0.0) += moles;
+    }
+    assert_closed(&expected, &elements(after, &all_vessels(after)), which);
+}
+
 /// One outcome per transport line, in order.
 enum Outcome {
-    Moved(Vec<Event>),
+    Moved,
     Exhausted,
 }
 
-/// Run setup and transport lines; `reservoir` appends the declaration to
-/// every transport line. `check` sees the bench before and after each
-/// successful transport.
+/// Run setup and transport lines; `drain` appends the declaration to every
+/// transport line. `check` sees the bench before and after each successful
+/// transport, with its events.
 fn run(
     script: &str,
-    reservoir: bool,
+    drain: bool,
     mut check: impl FnMut(usize, &Bench, &Bench, &[Event]),
 ) -> Vec<Outcome> {
     let mut bench = Bench::new();
@@ -156,8 +186,8 @@ fn run(
         if !matches!(verb, "new" | "add" | "transport") {
             continue;
         }
-        let line = if verb == "transport" && reservoir {
-            format!("{line} reservoir")
+        let line = if verb == "transport" && drain {
+            format!("{line} drain")
         } else {
             line.to_string()
         };
@@ -178,7 +208,7 @@ fn run(
                     "{line}: {events:?}"
                 );
                 check(outcomes.len(), &before, &bench, &events);
-                outcomes.push(Outcome::Moved(events));
+                outcomes.push(Outcome::Moved);
             }
             Err(BenchError::Transport(TransportError::InletExhausted { .. })) => {
                 outcomes.push(Outcome::Exhausted);
@@ -192,7 +222,7 @@ fn run(
 fn shape(outcomes: &[Outcome]) -> Vec<bool> {
     outcomes
         .iter()
-        .map(|o| matches!(o, Outcome::Moved(_)))
+        .map(|o| matches!(o, Outcome::Moved))
         .collect()
 }
 
@@ -204,8 +234,16 @@ fn element_in(bench: &Bench, vessel: usize, element: &str) -> f64 {
 }
 
 #[test]
-fn tr006_feed_salt_and_dye_are_counted_once() {
-    let outcomes = run(TR006, false, |index, before, after, _| {
+fn tr006_original_ledger_closes_with_recorded_inflow() {
+    let outcomes = run(TR006, false, |_, before, after, events| {
+        assert_open_closed(before, after, events, &["Na", "Cl"]);
+    });
+    assert_eq!(shape(&outcomes), vec![true, true]);
+}
+
+#[test]
+fn tr006_drained_feed_counts_salt_once() {
+    let outcomes = run(TR006, true, |index, before, after, _| {
         let all = all_vessels(before);
         assert_closed(
             &elements(before, &all),
@@ -213,8 +251,6 @@ fn tr006_feed_salt_and_dye_are_counted_once() {
             &["Na", "Cl"],
         );
         if index == 0 {
-            // One cell volume delivered exactly: the feed is empty, the
-            // 1e-4 mol of chloride is in the column (not also in the feed).
             // Chloride, not sodium: the dye is a sodium salt too.
             let cl_feed = element_in(after, 3, "Cl");
             assert!(cl_feed <= 1e-15, "feed still holds {cl_feed:e} mol Cl");
@@ -230,58 +266,36 @@ fn tr006_feed_salt_and_dye_are_counted_once() {
 }
 
 #[test]
-fn tr004_feed_is_drained_and_inflow_recorded() {
+fn tr004_original_records_reservoir_inflow_and_keeps_silver() {
     let outcomes = run(TR004, false, |_, before, after, events| {
+        assert_open_closed(before, after, events, &["Ag", "Na", "Cl", "N"]);
+        assert!(inflow_elements(events).get("Na").copied().unwrap_or(0.0) > 0.0);
+        // The reservoir itself is not drawn down.
+        assert_eq!(element_in(before, 3, "Na"), element_in(after, 3, "Na"));
+    });
+    assert_eq!(shape(&outcomes), vec![true, true]);
+}
+
+#[test]
+fn tr004_drained_feed_is_finite() {
+    let outcomes = run(TR004, true, |_, before, after, events| {
         let all = all_vessels(before);
         assert_closed(
             &elements(before, &all),
             &elements(after, &all),
             &["Ag", "Na", "Cl", "N"],
         );
-        let Some(Event::Transported { inflow_moles, .. }) = events
-            .iter()
-            .find(|e| matches!(e, Event::Transported { .. }))
-        else {
-            panic!("{events:?}");
-        };
-        assert!(!inflow_moles.is_empty(), "inflow must be recorded");
-        // Na is a spectator: what the feed lost is what the inflow says.
         let lost = element_in(before, 3, "Na") - element_in(after, 3, "Na");
-        let reported: f64 = inflow_moles
-            .iter()
-            .filter(|(s, _)| s.0.contains("Na"))
-            .map(|(_, m)| m.0)
-            .sum();
+        let reported = inflow_elements(events).get("Na").copied().unwrap_or(0.0);
         assert!((lost - reported).abs() <= 1e-12 * lost.max(1e-30));
     });
     assert_eq!(shape(&outcomes), vec![true, false]);
 }
 
 #[test]
-fn tr004_declared_reservoir_retains_agcl_in_the_column() {
-    let outcomes = run(TR004, true, |_, before, after, _| {
-        // Silver enters only from the initial cell: it is conserved across
-        // the column and receiver (the reservoir carries none).
-        let ag_before: f64 = all_vessels(before)
-            .iter()
-            .map(|v| element_in(before, *v, "Ag"))
-            .sum();
-        let ag_after: f64 = all_vessels(after)
-            .iter()
-            .map(|v| element_in(after, *v, "Ag"))
-            .sum();
-        assert!((ag_after - ag_before).abs() <= 1e-9 * ag_before);
-    });
-    assert_eq!(shape(&outcomes), vec![true, true]);
-}
-
-#[test]
-fn tr008_excess_iron_bed_retains_copper_per_step() {
-    let outcomes = run(TR008, true, |_, before, after, _| {
-        let all = all_vessels(before);
-        // Fe and S are only internal (bed, sulfate from feed is open
-        // inflow), so close Fe over the whole bench.
-        assert_closed(&elements(before, &all), &elements(after, &all), &["Fe"]);
+fn tr008_original_excess_iron_bed_retains_copper_per_step() {
+    let outcomes = run(TR008, false, |_, before, after, events| {
+        assert_open_closed(before, after, events, &["Fe", "Cu", "S"]);
         let cu_in_receiver = element_in(after, 4, "Cu");
         let cu_in_column: f64 = [0, 1, 2].iter().map(|v| element_in(after, *v, "Cu")).sum();
         assert!(cu_in_column > 0.0);
@@ -291,9 +305,9 @@ fn tr008_excess_iron_bed_retains_copper_per_step() {
         );
     });
     assert_eq!(shape(&outcomes), vec![true, true]);
-    // Without the declaration the 20 mL feed cannot supply 1.5 volumes.
+    // A drained 20 mL feed cannot supply 1.5 cell volumes.
     assert_eq!(
-        shape(&run(TR008, false, |_, _, _, _| {})),
+        shape(&run(TR008, true, |_, _, _, _| {})),
         vec![false, false]
     );
 }
@@ -302,14 +316,16 @@ fn tr008_excess_iron_bed_retains_copper_per_step() {
 fn tr003_and_tr007_are_not_refused_for_solvent_proxy_rounding() {
     // tr-003: inlet 0.02 L vs cell 0.019999968 L (1.6 ppm). tr-007: gypsum
     // hydrate water moves cell 1 by ~564 ppm. Both are inside the documented
-    // hydraulic tolerance; the finite feed is then the binding limit.
+    // hydraulic tolerance.
     for (script, conserved) in [(TR003, &["Ca"][..]), (TR007, &["Ca", "S"][..])] {
-        let finite = run(script, false, |_, _, _, _| {});
-        assert_eq!(shape(&finite), vec![false, false]);
-        let declared = run(script, true, |_, before, after, _| {
-            let all = all_vessels(before);
-            assert_closed(&elements(before, &all), &elements(after, &all), conserved);
+        let original = run(script, false, |_, before, after, events| {
+            assert_open_closed(before, after, events, conserved);
         });
-        assert_eq!(shape(&declared), vec![true, true]);
+        assert_eq!(shape(&original), vec![true, true]);
+        // Drained, the one-volume feed is the binding limit.
+        assert_eq!(
+            shape(&run(script, true, |_, _, _, _| {})),
+            vec![false, false]
+        );
     }
 }

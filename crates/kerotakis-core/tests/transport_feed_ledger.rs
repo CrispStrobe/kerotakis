@@ -1,14 +1,12 @@
-//! Finite-feed transport ledger, per-step reaction coupling and the
-//! documented hydraulic volume tolerance.
+//! Transport ledger, per-step reaction coupling and the documented
+//! hydraulic volume tolerance.
 //!
-//! The bench `transport` verb used to treat the inlet vessel as a template it
-//! never drained, so a single 20 mL feed delivered any number of cell volumes
-//! and its solutes were counted twice (once still in the feed, once in the
-//! column). It also re-equilibrated the cells once per command, after all
-//! steps, so a reactive bed never saw the pore volumes pass. These tests fix
-//! the generic contract: for every species, feed + cells + receiver is
-//! constant to 1e-12 relative; local chemistry runs after every step; and a
-//! constant-composition boundary exists only when declared (`reservoir`).
+//! The default inlet is an external constant-composition reservoir (as in a
+//! PHREEQC TRANSPORT boundary); what it supplies is now recorded on the
+//! event as `inflow_moles`, so the open-column ledger closes for every
+//! species: cells + receiver = before + inflow. A finite feed vessel is the
+//! declared `drain` mode, in which feed + cells + receiver is constant to
+//! 1e-12 relative. In both modes local chemistry runs after every step.
 
 use kerotakis_core::ops::{Event, Operator};
 use kerotakis_core::species::{Phase, SpeciesId};
@@ -92,14 +90,14 @@ fn column(feed_volumes: f64, feed_solutes: &[(&str, f64)]) -> Bench {
     bench
 }
 
-fn transport(steps: u32, courant: f64, reservoir: bool) -> Operator {
+fn transport(steps: u32, courant: f64, drain: bool) -> Operator {
     Operator::Transport {
         chain: vec![VesselId(0), VesselId(1), VesselId(2)],
         inlet: VesselId(3),
         receiver: VesselId(4),
         steps,
         courant,
-        reservoir,
+        drain,
     }
 }
 
@@ -130,7 +128,7 @@ fn finite_feed_conserves_every_species_across_feed_cells_and_effluent() {
 
     let events = bench
         .step_with(
-            transport(10, 0.3, false),
+            transport(10, 0.3, true),
             &mut Noop,
             &kerotakis_core::PermissiveScreen,
         )
@@ -146,7 +144,7 @@ fn finite_feed_conserves_every_species_across_feed_cells_and_effluent() {
     // ... and the event records the inflow the feed lost.
     let Some(Event::Transported {
         inflow_moles,
-        reservoir,
+        drain,
         ..
     }) = events
         .iter()
@@ -154,7 +152,7 @@ fn finite_feed_conserves_every_species_across_feed_cells_and_effluent() {
     else {
         panic!("transport must report its ledger: {events:?}");
     };
-    assert!(!reservoir);
+    assert!(*drain);
     for species in ["NaCl", "passive-tracer", "water"] {
         let id = SpeciesId::new(species);
         let inflow: f64 = inflow_moles
@@ -174,7 +172,7 @@ fn a_feed_is_not_duplicated_into_the_column() {
     let mut bench = column(1.0, &[("NaCl", 1e-4)]);
     bench
         .step_with(
-            transport(2, 0.5, false),
+            transport(2, 0.5, true),
             &mut Noop,
             &kerotakis_core::PermissiveScreen,
         )
@@ -191,7 +189,7 @@ fn an_exhausted_feed_is_a_typed_atomic_refusal() {
     let log = bench.log.len();
     let error = bench
         .step_with(
-            transport(3, 0.5, false),
+            transport(3, 0.5, true),
             &mut Noop,
             &kerotakis_core::PermissiveScreen,
         )
@@ -208,11 +206,11 @@ fn an_exhausted_feed_is_a_typed_atomic_refusal() {
 }
 
 #[test]
-fn a_declared_reservoir_is_not_drained_and_says_so() {
+fn the_default_reservoir_is_not_drained_and_its_inflow_is_recorded() {
     let mut bench = column(1.0, &[("NaCl", 1e-4)]);
     let events = bench
         .step_with(
-            transport(4, 0.5, true),
+            transport(4, 0.5, false),
             &mut Noop,
             &kerotakis_core::PermissiveScreen,
         )
@@ -221,7 +219,7 @@ fn a_declared_reservoir_is_not_drained_and_says_so() {
     let Some(Event::Transported {
         inflow_moles,
         effluent_moles,
-        reservoir,
+        drain,
         ..
     }) = events
         .iter()
@@ -229,7 +227,7 @@ fn a_declared_reservoir_is_not_drained_and_says_so() {
     else {
         panic!("{events:?}");
     };
-    assert!(*reservoir);
+    assert!(!drain);
     // Open-boundary ledger: column + receiver hold exactly the inflow.
     let id = SpeciesId::new("NaCl");
     let inflow: f64 = inflow_moles
@@ -258,9 +256,10 @@ fn a_declared_reservoir_is_not_drained_and_says_so() {
 
 #[test]
 fn reactions_run_after_every_step_so_an_excess_bed_retains_the_ion() {
-    // Bed of 1e-3 mol in cell 0, 4.5 cell volumes of feed carrying 1e-4 mol
-    // per cell volume: 4.5e-4 mol arrives, well under the bed.
-    let mut bench = column(4.5, &[("toy-ion", 4.5e-4)]);
+    // Bed of 1e-3 mol in cell 0; the default reservoir carries 1e-4 mol per
+    // cell volume, and 9 x 0.5 = 4.5 cell volumes deliver 4.5e-4 mol, well
+    // under the bed.
+    let mut bench = column(1.0, &[("toy-ion", 1e-4)]);
     bench.vessels[0].deposit(SpeciesId::new("toy-bed"), Moles(1e-3), Phase::Solid);
     let mut solver = ToyCementation { calls: 0 };
     bench
@@ -288,7 +287,10 @@ fn reactions_run_after_every_step_so_an_excess_bed_retains_the_ion() {
     // The product is mobile and moves on.
     assert!(bench.vessels[4].moles_of(&SpeciesId::new("toy-product")).0 > 0.0);
     // Atom-level closure of the toy chemistry over every vessel.
-    let ion_side = bench_total(&bench, "toy-ion") + bench_total(&bench, "toy-deposit");
+    // Open ledger: everything except the unchanged reservoir (v3) holds
+    // exactly the 4.5e-4 mol the reservoir supplied.
+    assert_eq!(bench.vessels[3].moles_of(&ion).0, 1e-4);
+    let ion_side = bench_total(&bench, "toy-ion") - 1e-4 + bench_total(&bench, "toy-deposit");
     assert_relative(ion_side, 4.5e-4, 1e-12, "ion + deposit");
     let bed_side = bench_total(&bench, "toy-bed") + bench_total(&bench, "toy-deposit");
     assert_relative(bed_side, 1e-3, 1e-12, "bed + deposit");

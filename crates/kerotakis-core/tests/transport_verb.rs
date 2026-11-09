@@ -67,7 +67,7 @@ fn salt_pulse_disperses_through_column() {
             receiver: VesselId(4),
             steps: 3,
             courant: 0.5,
-            reservoir: true,
+            drain: false,
         })
         .unwrap();
 
@@ -76,7 +76,7 @@ fn salt_pulse_disperses_through_column() {
         .find(|e| matches!(e, Event::Transported { .. }));
     assert!(transported.is_some(), "must emit Transported event");
 
-    // A declared `reservoir` inlet is a template and is not consumed.
+    // Inlet is unchanged (it's a template, not consumed).
     let inlet_nacl = bench.vessel(VesselId(3)).unwrap().moles_of(&nacl).0;
     assert!(
         (inlet_nacl - 0.1).abs() < 1e-12,
@@ -113,7 +113,7 @@ fn binomial_profile_after_two_steps() {
             receiver: VesselId(4),
             steps: 2,
             courant: 0.5,
-            reservoir: false,
+            drain: false,
         })
         .unwrap();
 
@@ -167,7 +167,7 @@ fn transport_refuses_empty_chain() {
         receiver: VesselId(4),
         steps: 3,
         courant: 0.5,
-        reservoir: true,
+        drain: false,
     });
     assert!(result.is_err());
 }
@@ -181,7 +181,7 @@ fn transport_refuses_zero_steps() {
         receiver: VesselId(4),
         steps: 0,
         courant: 0.5,
-        reservoir: false,
+        drain: false,
     });
     assert!(result.is_err());
 }
@@ -202,7 +202,7 @@ fn water_volume_conserved_in_chain_cells() {
             receiver: VesselId(4),
             steps: 3,
             courant: 0.5,
-            reservoir: true,
+            drain: false,
         })
         .unwrap();
 
@@ -227,7 +227,7 @@ fn receiver_collects_effluent() {
             receiver: VesselId(4),
             steps: 3,
             courant: 0.5,
-            reservoir: true,
+            drain: false,
         })
         .unwrap();
 

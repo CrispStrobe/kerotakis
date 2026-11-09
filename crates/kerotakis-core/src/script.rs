@@ -155,25 +155,8 @@ pub const HEAT_SOURCE_WORDS: &[&str] = &[
 /// The small words that hold a command together and mean nothing on
 /// their own.
 pub const GRAMMAR_WORDS: &[&str] = &[
-    "until",
-    "into",
-    "from",
-    "to",
-    "steps",
-    "courant",
-    "reservoir",
-    "max",
-    "stages",
-    "persists",
-    "colour",
-    "color",
-    "ph",
-    "pe",
-    "above",
-    "below",
-    "on",
-    "with",
-    "@",
+    "until", "into", "from", "to", "steps", "courant", "drain", "max", "stages", "persists",
+    "colour", "color", "ph", "pe", "above", "below", "on", "with", "@",
 ];
 
 /// Is this word already a verb of the English grammar?
@@ -1944,7 +1927,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let (from_pos, to_pos, steps_pos) = match (from_pos, to_pos, steps_pos) {
                 (Some(f), Some(t), Some(s)) => (f, t, s),
                 _ => return Err(usage(
-                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [reservoir]",
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain]",
                 )),
             };
             if from_pos < 2 {
@@ -1985,13 +1968,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 })?;
             if to_pos != from_pos + 2 || steps_pos != to_pos + 2 {
                 return Err(usage(
-                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [reservoir]",
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain]",
                 ));
             }
-            // A trailing `reservoir` declares a constant-composition boundary
-            // source; without it the inlet vessel is a finite feed.
-            let (tail, reservoir) = match &words[steps_pos + 2..] {
-                [rest @ .., "reservoir"] => (rest, true),
+            // A trailing `drain` declares a finite feed vessel that is debited
+            // as it flows; without it the inlet is a constant reservoir.
+            let (tail, drain) = match &words[steps_pos + 2..] {
+                [rest @ .., "drain"] => (rest, true),
                 rest => (rest, false),
             };
             let courant: f64 = match tail {
@@ -2008,7 +1991,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     ))
                 }
                 _ => return Err(usage(
-                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [reservoir]",
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain]",
                 )),
             };
             Operator::Transport {
@@ -2017,7 +2000,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 receiver,
                 steps,
                 courant,
-                reservoir,
+                drain,
             }
         }
         other => {

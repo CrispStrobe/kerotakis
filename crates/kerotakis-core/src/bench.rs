@@ -5867,9 +5867,9 @@ impl Bench {
                 receiver,
                 steps,
                 courant,
-                reservoir,
+                drain,
             } => {
-                let reservoir = *reservoir;
+                let drain = *drain;
                 if chain.is_empty() {
                     return Err(BenchError::NonPositiveAmount);
                 }
@@ -5929,10 +5929,10 @@ impl Bench {
                     let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
                     // With zero movement every requested step has identical
                     // inputs, so validate once rather than repeat a no-op.
-                    if reservoir {
-                        cell_chain.advance(&inlet_vessel, *courant)?;
-                    } else {
+                    if drain {
                         cell_chain.advance_from_feed(&mut inlet_vessel, *courant, 1)?;
+                    } else {
+                        cell_chain.advance(&inlet_vessel, *courant)?;
                     }
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::Transported {
@@ -5942,7 +5942,7 @@ impl Bench {
                         courant: *courant,
                         effluent_moles: Vec::new(),
                         inflow_moles: Vec::new(),
-                        reservoir,
+                        drain,
                     });
                     return Ok(events);
                 }
@@ -6008,10 +6008,10 @@ impl Bench {
                             cell.refresh_pressure();
                         }
                     }
-                    let step = if reservoir {
-                        cell_chain.advance(&inlet_vessel, *courant)?
-                    } else {
+                    let step = if drain {
                         cell_chain.advance_from_feed(&mut inlet_vessel, *courant, step_index + 1)?
+                    } else {
+                        cell_chain.advance(&inlet_vessel, *courant)?
                     };
                     accumulate(&mut total_inflow, &step.injected);
                     accumulate(&mut total_effluent, &step.effluent);
@@ -6048,7 +6048,7 @@ impl Bench {
                 for (i, cid) in chain.iter().enumerate() {
                     *self.vessel_mut(*cid)? = cell_chain.cells()[i].clone();
                 }
-                if !reservoir {
+                if drain {
                     *self.vessel_mut(*inlet)? = inlet_vessel;
                 }
                 if has_movement {
@@ -6072,7 +6072,7 @@ impl Bench {
                     courant: *courant,
                     effluent_moles: total_effluent,
                     inflow_moles: total_inflow,
-                    reservoir,
+                    drain,
                 });
             }
             Operator::Titrate { .. } => {
@@ -7247,13 +7247,13 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
             chain,
             inlet,
             receiver,
-            reservoir,
+            drain,
             ..
         } => {
             let mut touched = chain.clone();
             touched.push(*receiver);
             // A finite feed is drained, so its solution state is stale too.
-            if !*reservoir {
+            if *drain {
                 touched.push(*inlet);
             }
             touched
