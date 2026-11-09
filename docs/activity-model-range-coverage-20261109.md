@@ -12,14 +12,14 @@ the pH meter reports the refusal. Composition rule (stoichiometric molality per
 cation-anion pair, strong H+/OH- excess net of weak-acid capacity) is documented in
 `crates/kerotakis-phreeqc/src/activity_range.rs`.
 
-Counts: 21 ranged, 8 no stated range, 7 absent from the dataset.
+Counts: 24 ranged, 5 no stated range, 7 absent from the dataset.
 
 | Electrolyte | Class | Max molality at 25 C (mol/kg) | Source | Valid to saturation |
 |---|---|---|---|---|
 | HCl | ranged | 6.0 | PM73 |  |
 | HBr | ranged | 3.0 | PM73 |  |
 | H2SO4 | ranged | 6.0 | PRS77 |  |
-| LiOH | no-stated-range |  | none |  |
+| LiOH | ranged | 4.0 | PM73 |  |
 | NaOH | ranged | 6.0 | PM73 |  |
 | KOH | ranged | 5.5 | PM73 |  |
 | LiCl | ranged | 6.0 | PM73 |  |
@@ -34,7 +34,7 @@ Counts: 21 ranged, 8 no stated range, 7 absent from the dataset.
 | BaCl2 | ranged | 1.8 | PM73 |  |
 | MnCl2 | ranged | 2.5 | PM73 |  |
 | FeCl2 | ranged | 2.0 | PM73 |  |
-| CaBr2 | no-stated-range |  | none |  |
+| CaBr2 | ranged | 2.0 | PM73 |  |
 | MgBr2 | no-stated-range |  | none |  |
 | Li2SO4 | ranged | 3.0 | PM73 |  |
 | Na2SO4 | ranged | 4.0 | PM73 |  |
@@ -44,7 +44,7 @@ Counts: 21 ranged, 8 no stated range, 7 absent from the dataset.
 | CaSO4 | no-stated-range |  | none |  |
 | Ca(OH)2 | no-stated-range |  | none |  |
 | Mg(OH)2 | no-stated-range |  | none |  |
-| Ba(OH)2 | no-stated-range |  | none |  |
+| Ba(OH)2 | ranged | 0.1 | PM73 |  |
 | HI | absent |  | pitzer.dat has no I |  |
 | HNO3 | absent |  | pitzer.dat has no N |  |
 | HClO4 | absent |  | pitzer.dat has no Cl(7) |  |
@@ -55,13 +55,13 @@ Counts: 21 ranged, 8 no stated range, 7 absent from the dataset.
 
 ## Sources
 
-- **PM73**: Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. II. Activity and osmotic coefficients for strong electrolytes with one or both ions univalent. J. Phys. Chem. 1973, 77, 2300-2308, Tables I-III (column max m).
+- **PM73**: Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. II. Activity and osmotic coefficients for strong electrolytes with one or both ions univalent. J. Phys. Chem. 1973, 77, 2300-2308 (column max m). Every PM73 row checked 2026-11-09 against the open LBL preprint of the same paper, LBL-1434 (escholarship.org/uc/item/1rc6r4vm), Table I (1-1 inorganic) and Table VI (2-1 inorganic); the preprint's own table numbering differs from the journal's. LiOH, CaBr2 and Ba(OH)2 were moved from none to PM73 at that check because the shipped pitzer.dat B0/B1 for them are exactly the PM73 values (Li+/OH- 0.015/0.14; Ca+2/Br- 0.3816/1.613 and Ba+2/OH- 0.17175/1.2, i.e. 3/4 of the tabulated (4/3)beta0 and (4/3)beta1).
 - **PM74**: Pitzer, K. S.; Mayorga, G. Thermodynamics of electrolytes. III. Activity and osmotic coefficients for 2-2 electrolytes. J. Solution Chem. 1974, 3, 539-546 (stated fit range).
 - **PPB84**: Pitzer, K. S.; Peiper, J. C.; Busey, R. H. Thermodynamic properties of aqueous sodium chloride solutions. J. Phys. Chem. Ref. Data 1984, 13, 1-102 (equations valid to halite saturation, 6.15 mol/kg at 25 C).
 - **HM83**: Holmes, H. F.; Mesmer, R. E. Thermodynamic properties of aqueous solutions of the alkali metal chlorides to 250 C. J. Phys. Chem. 1983, 87, 1242-1255 (KCl valid to saturation, 0-250 C).
 - **PRS77**: Pitzer, K. S.; Roy, R. N.; Silvester, L. F. Thermodynamics of electrolytes. 7. Sulfuric acid. J. Am. Chem. Soc. 1977, 99, 4930-4936 (fit range 0-6 mol/kg at 25 C).
 - **saturation_scope**: A row with saturation_scope is also in range above max_molality (the 25 C figure) when the temperature is inside the scope and the same solve puts the named phase at or below saturation (SI <= 0.01). The shipped pitzer.dat Na+/Cl- and K+/Cl- B0, B1, C0 rows carry full temperature terms (its ref. 3, Appelo 2015, Appl. Geochem. 55, 62, refitted to solubilities over temperature), consistent with the cited to-saturation fits; supersaturated or out-of-temperature solutions stay refused.
-- **none**: No stated range transcribed for the shipped parameters (Kim and Frederick 1988, J. Chem. Eng. Data 33, 177-184, tabulates ranges for many single salts; a row moves out of this class only when its value is transcribed from that table with the page cited).
+- **none**: No stated range transcribed for the shipped parameters (MgBr2: PM73 Table VI states 5 mol/kg, but the shipped pitzer.dat carries no Mg+2/Br- B0/B1, so no fit is inherited) (Kim and Frederick 1988, J. Chem. Eng. Data 33, 177-184, tabulates ranges for many single salts; a row moves out of this class only when its value is transcribed from that table with the page cited).
 
 ## Known limits
 

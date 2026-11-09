@@ -1171,6 +1171,22 @@ const INCOMPATIBLE: &[Incompatibility] = &[
                      detonate.",
         final_screen: FinalScreen::Screened,
     },
+    // Hypochlorite is its own group (its acid and ammonia rules are
+    // specific to it), so `oxidizer-reducer` never saw it: bleach with
+    // sulfite, thiosulfate, iodide or ascorbic acid was silent. The pair
+    // is the ordinary way bleach is quenched, so it is a Caution, not the
+    // Danger of the general oxidizer row; the heat is the hazard.
+    Incompatibility {
+        a: ReactiveGroup::OxidizerHypochlorite,
+        b: ReactiveGroup::ReducingAgent,
+        severity: Severity::Caution,
+        rule: "hypochlorite-reducer",
+        hazard: "mixing bleach with a reducing agent reacts quickly and releases heat",
+        real_world: "Bleach is a strong oxidiser: with a reducing agent it \
+                     reacts fast and gives off heat, and concentrated \
+                     solutions can boil and spatter.",
+        final_screen: FinalScreen::Screened,
+    },
     // ── acid + metal → hydrogen gas ───────────────────────────────
     Incompatibility {
         a: ReactiveGroup::AcidStrong,
@@ -2029,6 +2045,50 @@ mod tests {
             let lower = real_world.to_lowercase();
             assert!(!lower.contains("permanganate"), "{pair:?}: {real_world}");
             assert!(!lower.contains("sulfite"), "{pair:?}: {real_world}");
+        }
+    }
+
+    /// Hypochlorite is classed apart from `OxidizerStrong`, so it needs its
+    /// own reducer row. Every hypochlorite key against every kind of
+    /// reducing agent warns under it, and the sentence names no reducer.
+    #[test]
+    fn hypochlorite_and_reducing_agents_warn() {
+        for oxidant in ["NaOCl", "ClO-", "HClO"] {
+            for reducer in ["Na2SO3", "Na2S2O3", "KI", "ascorbic_acid"] {
+                let v = vessel_with(&["water", oxidant, reducer]);
+                let finding = assess_exposures([("vessel", &v)])
+                    .into_iter()
+                    .find(|f| f.rule == "hypochlorite-reducer")
+                    .unwrap_or_else(|| panic!("{oxidant} + {reducer} warns"));
+                assert_eq!(finding.severity, Severity::Caution, "{oxidant} + {reducer}");
+                let lower = finding.real_world.to_lowercase();
+                for absent in [
+                    "sulfite",
+                    "thiosulfate",
+                    "iodide",
+                    "ascorbic",
+                    "permanganate",
+                ] {
+                    assert!(!lower.contains(absent), "{oxidant} + {reducer}: {lower}");
+                }
+            }
+        }
+        // Alone with the reducer, the first verdict is this rule.
+        let (rule, _) = real_world_of(&["water", "NaOCl", "Na2SO3"]).expect("warns");
+        assert_eq!(rule, "hypochlorite-reducer");
+    }
+
+    /// Negative control: bleach with a spectator salt raises no reducer rule.
+    #[test]
+    fn hypochlorite_without_a_reducer_does_not_warn_as_reducer() {
+        for keys in [["water", "NaOCl", "NaCl"], ["water", "HClO", "Na2SO4"]] {
+            let v = vessel_with(&keys);
+            assert!(
+                assess_exposures([("vessel", &v)])
+                    .iter()
+                    .all(|f| f.rule != "hypochlorite-reducer"),
+                "{keys:?}"
+            );
         }
     }
 

@@ -91,12 +91,18 @@ pub struct DensityTable {
     pub source: String,
     /// `[mass_fraction, density g/mL]`, ascending in mass fraction.
     pub points: Vec<[f64; 2]>,
+    /// What this table was checked against, and to what precision; rows
+    /// no reproduction confirmed are named as unverified.
+    pub review: String,
 }
 
 /// One common laboratory stock, offered as a shelf item.
 #[derive(Debug, Clone, Deserialize)]
 pub struct Stock {
     pub key: String,
+    /// The shelf label (`hydrochloric acid 37 %`); the web locales translate
+    /// it by this English text.
+    pub name: String,
     pub species: String,
     #[serde(default)]
     pub percent: Option<f64>,
@@ -140,6 +146,21 @@ pub fn stocks() -> &'static [Stock] {
 /// A shelf stock by its key (`hydrochloric_acid_37_percent`).
 pub fn lookup_stock(key: &str) -> Option<&'static Stock> {
     stocks().iter().find(|stock| stock.key == key)
+}
+
+/// The stocks that stand on the lv1/lv2 shelf as bottles of their own:
+/// the common one per solute, in the data file's order.
+pub fn shelf_stocks() -> impl Iterator<Item = &'static Stock> {
+    stocks().iter().filter(|stock| stock.common)
+}
+
+/// The solution density (g/mL) of a listed stock, from the same reviewed
+/// table (or disclosed ideal dilution) a dose of it is resolved through.
+pub fn stock_density(stock: &Stock) -> Option<f64> {
+    let solute = species::lookup_key(&stock.species)?;
+    fraction_and_density(solute, stock.concentration())
+        .ok()
+        .and_then(|(_, density)| density.map(|(rho, _)| rho))
 }
 
 /// The common (default) stock for a solute, if one is listed.
@@ -427,6 +448,11 @@ mod tests {
             assert!(species::lookup_key(&t.species).is_some(), "{}", t.species);
             assert!(sources().iter().any(|s| s.id == t.source), "{}", t.source);
             assert!(
+                t.review.contains("checked") || t.review.starts_with("unverified"),
+                "{} density table states no review",
+                t.species
+            );
+            assert!(
                 t.points.windows(2).all(|p| p[1][0] > p[0][0]),
                 "{}",
                 t.species
@@ -455,6 +481,42 @@ mod tests {
             )
             .unwrap_or_else(|e| panic!("{} does not resolve: {e:?}", s.key));
         }
+    }
+
+    /// Every common stock is a shelf bottle: one per solute, named with its
+    /// concentration, with a density for the fluid overlay, and resolvable
+    /// by its own key exactly as `add v1 <key> 10mL` resolves it.
+    #[test]
+    fn common_stocks_are_shelf_bottles() {
+        let shelf: Vec<&Stock> = shelf_stocks().collect();
+        assert!(shelf
+            .iter()
+            .any(|s| s.key == "hydrochloric_acid_37_percent"));
+        let mut solutes: Vec<&str> = shelf.iter().map(|s| s.species.as_str()).collect();
+        let listed = solutes.len();
+        solutes.sort_unstable();
+        solutes.dedup();
+        assert_eq!(listed, solutes.len(), "one common stock per solute");
+        for stock in &shelf {
+            let digits = match (stock.percent, stock.molar) {
+                (Some(p), None) => format!("{} %", trim(p)),
+                (None, Some(m)) => format!("{} M", trim(m)),
+                _ => unreachable!(),
+            };
+            assert!(
+                stock.name.ends_with(&digits),
+                "{}: {}",
+                stock.key,
+                stock.name
+            );
+            let rho = stock_density(stock).unwrap_or_else(|| panic!("{} density", stock.key));
+            assert!((0.8..2.0).contains(&rho), "{} {rho}", stock.key);
+        }
+        let hcl37 = lookup_stock("hydrochloric_acid_37_percent").unwrap();
+        assert_eq!(hcl37.name, "hydrochloric acid 37 %");
+        assert!((stock_density(hcl37).unwrap() - 1.18365).abs() < 1e-4);
+        // Not common: never its own bottle.
+        assert!(shelf.iter().all(|s| s.key != "glacial_acetic_acid"));
     }
 
     #[test]
