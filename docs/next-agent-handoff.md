@@ -1,22 +1,27 @@
-# Fresh-agent handoff — 2026-10-28
+# Fresh-agent handoff — 2026-11-09
 
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
-## 0. Open tasks after PR #873 (do these in order)
+## 0. State and open tasks after PRs #875–#879
 
-State at handover: main = `abf4e9a34eb16e51f605a2009e542b62002a30ea`; qualification 361/468 unique originals (365 catalog entries, catalog file `audits/working-experiments-20261027-reviewed-production-remaining.json` on the audit branch). Goal: ≥ 401.
+State at handover: production = `4bdc5da9836de66998b0246a3289d2e3da81ca0d` (health `revision` and `engine.source_head` both equal it); main adds only the `v0.1.4` app version bump (#879), tagged for TestFlight. Qualification **379/468** unique originals (383 catalog entries, catalog `audits/working-experiments-20261109-reviewed-production-rerun12.json` on the audit branch). Goal: ≥ 401, so 22 more are needed.
 
-**0.1 Confirm the production deploy.** Production deploys are dispatch-only (`.github/workflows/vercel.yml`, `target=production`); a merge to main does not deploy. Run 40701854764 was dispatched once for `abf4e9a3`. Check it with `gh run view 40701854764`. Done when `GET /api/health` returns `revision` **and** `engine.source_head` both equal `abf4e9a34eb16e51f605a2009e542b62002a30ea`. If the run failed, read its log, fix the cause on a narrow branch from main via PR, and dispatch once more on the new main; never dispatch from an unmerged branch and label it main. Do not dispatch again while a run is queued or in progress.
+What landed since 2026-10-28:
+- **#875** bench: mol default unit at lv2/lv3, concentration on add (`add v1 HCl 50mL 37%`, `1M`), formula subscripts, appearance control fits the utilities dialog, HCl/HI in water admitted as a strong acid, owned translated reasons for solver failures (no raw PHREEQC flood), per-tick log collapse.
+- **#876** Pitzer per-electrolyte range refusal (`not-modeled.activity-model-outside-range`); 37 % HCl (16.1 mol/kg) now refuses instead of reporting pH −5.37 (verified once in production). Coverage: [activity-model-range-coverage-20261109](activity-model-range-coverage-20261109.md).
+- **#877** five engine lanes: titration endpoints (zero-time dose vents only above the bubble threshold), stocking phase from sourced melting points, separation receivers, transport ledger (inlet stays a constant reservoir; `drain` opts into a finite feed; `inflow_moles` recorded), stock solutions as shelf bottles with provenance, Pitzer rows verified against the LBL-1434 preprint.
+- The 107 remaining originals ran once on `abf4e9a3` (+11 qualified, 372/468); the 12 whose blockers #877 targeted re-ran once on `4bdc5da9` (+7: QA-004, QA-005, TH-002, TR-003, TR-004, TR-007, TR-008). Evidence: `audits/remaining107-production-review-20261109/` and `audits/originals-rerun-production-review-20261109/` on the audit branch.
+- Branch protection: admin enforcement is off by owner decision; validated work is merged directly and main CI still runs after every merge.
 
-**0.2 Run the 107 remaining originals once.** These are the 468 originals minus the 361 already qualified. The private runner (see the ignored operating handoff) takes the expected source sha as its only argument and refuses to send any request unless health reports exactly that sha; it skips cases that already have raw output, so a crash can be resumed without replaying finished cases. A background waiter may already have started it automatically once health matched — check for its raw output and log before starting anything. Run it at most once per deployed sha; no retries of individual cases.
+**Open, in order** (each a narrow change from main, family-wide: coverage table, generic mechanism, typed EN/DE/FR refusal, tests):
+1. Rejected re-runs, each a family gap: MO-004 (no liquid–liquid partition data for acetic acid/acetate/ethyl acetate in hexane; chromatography of the organic phase refused), AN-001 (NaBr flame test is a solver failure without an unsupported label), AN-002 (mixed-cation flame shows only Na, no masking/mixture note), TH-003 (isopropanol melting point and tert-butanol boiling point read `nothing_to_test`), TR-006 (adsorbed dye never desorbs during a clean flush — transport must re-equilibrate surface pools).
+2. Open-vessel outward gas rate (AB-035/GS-013).
+3. HNO3 species.
+4. Unverified data rows: NH3 solution densities, hexadecane/tert-butanol latent heats, paraffin melting range (TH-004).
+5. Cache the SUNDIALS release tarball in CI (a GitHub 504 outage on 2026-11-09 failed CI and hosted validation several times).
+6. Re-run only originals whose blocker a merged lane removed, once per deployed sha, then strict + adversarial review and a new catalog version.
 
-**0.3 Triage and formal review.** For each of the 107 replies, compare against the unchanged original forecast/criteria (the same contract used for the 2026-10-27 [remaining-129 triage](../audits/remaining129-production-triage-20261027/README.md)): requested observable present, H/O/element/charge closure within the original bound, temperature/heat plausible, no refusal or model-limit reason covering the requested observable. Classify each as *qualified*, *held (named model limit, map to a follow-up lane in section 0.6)*, or *failed (engine defect — record the first failure verbatim)*. Model-assisted pre-sorting is allowed only as a lead list; every qualification must be re-checked against the raw reply.
-
-**0.4 Catalog append.** On the audit branch only (never merged to main), write a new catalog version file that contains all 365 existing entries byte-for-byte plus one entry per newly qualified original (id, original sha256, deployed sha, raw-reply sha256, criterion text, reviewer note). Do not modify predecessor files. Report the new unique-original count.
-
-**0.5 Finish documentation PR #874.** Update this file, STATUS and the agenda with: the actual deploy run/result, the 107 outcome counts, the new qualification count, and any newly found failures. Then mark #874 ready and enable auto-merge. Docs-only; no source edits in that PR.
-
-**0.6 Follow-up lanes (source work, each its own narrow PR from main).** The register with trigger cases and done-criteria is in [systematic-lanes-20261027.md § Follow-up lanes](systematic-lanes-20261027.md). Every lane must be family-wide: a coverage table with a checked-in fixture and stale check, one generic mechanism (no per-case patch), typed EN/DE/FR refusal where data is missing, and positive/negative tests. Prioritise by the number of the 107 originals each lane would unblock (from 0.3). Lanes in short:
+**Earlier follow-up lanes 1–13 (still open; source work, each its own narrow PR from main).** The register with trigger cases and done-criteria is in [systematic-lanes-20261027.md § Follow-up lanes](systematic-lanes-20261027.md). Every lane must be family-wide: a coverage table with a checked-in fixture and stale check, one generic mechanism (no per-case patch), typed EN/DE/FR refusal where data is missing, and positive/negative tests. Prioritise by the number of still-unqualified originals each lane would unblock. Lanes in short:
 1. Concentrated-electrolyte activity (Pitzer/SIT) for crystallisation (TH-007 KNO3).
 2. FeOs ethanol–water azeotrope primary citation.
 3. Acid-gas headspace coupling (H2S/SO2/HCl/Cl2).

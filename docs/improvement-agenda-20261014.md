@@ -1,6 +1,6 @@
-# Ordered improvement agenda — current checkpoint 2026-10-28
+# Ordered improvement agenda — current checkpoint 2026-11-09
 
-**Now:** (1) confirm the dispatched production deploy of `abf4e9a3`; (2) run the 107 remaining originals once on it; (3) formal review and audit-branch catalog append; (4) finish docs PR #874; (5) follow-up lanes 1–13 from [the systematic-lanes index](systematic-lanes-20261027.md), ranked by originals unblocked. Exact steps and done-criteria: [handoff section 0](next-agent-handoff.md). Qualification at this checkpoint: 361/468.
+**Now (2026-11-09):** qualification **379/468** (22 more for 401); production = `4bdc5da9`. (1) The five rejected re-run gaps MO-004, AN-001, AN-002, TH-003, TR-006 as family-wide lanes; (2) open-vessel outward gas rate; (3) HNO3 species; (4) unverified density/latent-heat rows; (5) cache the SUNDIALS tarball in CI; (6) earlier lanes 1–13 from [the systematic-lanes index](systematic-lanes-20261027.md). Exact scope: [handoff section 0](next-agent-handoff.md).
 
 ## Checkpoint 2026-10-27
 
