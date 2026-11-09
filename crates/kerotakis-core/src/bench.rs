@@ -1329,8 +1329,12 @@ impl Bench {
                 .map(|v| solver.chemistry_applies(v))
                 .unwrap_or(false);
             if !caught {
+                let mut refrozen = Vec::new();
                 if let Ok(v) = self.vessel_mut(*vessel) {
                     v.temperature = temperature_before;
+                    // The flame's heat is gone, so what it melted freezes
+                    // back: see `phase_route::refreeze_flame_melts`.
+                    refrozen = crate::phase_route::refreeze_flame_melts(v, &events);
                 }
                 events.retain(|e| {
                     !matches!(
@@ -1340,6 +1344,7 @@ impl Bench {
                             | Event::ThermalEquilibrium { .. }
                     )
                 });
+                events.extend(refrozen);
                 // It would not burn — but a metal salt still colours the
                 // flame, which is the flame test and worth seeing.
                 let painted = self.vessel(*vessel).ok().and_then(|v| {
@@ -1828,9 +1833,21 @@ impl Bench {
                 let data =
                     species::lookup(sid).ok_or_else(|| BenchError::UnknownSpecies(sid.clone()))?;
 
+                // A reagent arrives at the room's temperature unless the
+                // learner said otherwise — or unless it is a condensed gas,
+                // which arrives at its own sublimation or boiling point,
+                // because dry ice at 25 °C is not a thing a bottle can hold.
+                let t_in = at.unwrap_or_else(|| {
+                    crate::phase_route::arrives_at_k(&sid.0).map_or(Kelvin::STANDARD, Kelvin)
+                });
+                // And it arrives in the phase its own melting point gives at
+                // that temperature, not the 25 °C `standard_phase`: cetane
+                // poured at 10 °C is a solid (see `stocked_phase`).
+                let arriving = crate::phase_route::stocked_phase(data, t_in.0);
+
                 // L0 runs against the prospective state, before mutation.
                 let mut probe = self.vessel(*vessel)?.clone();
-                probe.deposit(sid.clone(), *moles, data.standard_phase);
+                probe.deposit(sid.clone(), *moles, arriving);
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
@@ -1860,14 +1877,6 @@ impl Bench {
                     return Ok(events);
                 }
 
-                // A reagent arrives at the room's temperature unless the
-                // learner said otherwise — or unless it is a condensed gas,
-                // which arrives at its own sublimation or boiling point,
-                // because dry ice at 25 °C is not a thing a bottle can hold.
-                let t_in = at.unwrap_or_else(|| {
-                    crate::phase_route::arrives_at_k(&sid.0).map_or(Kelvin::STANDARD, Kelvin)
-                });
-                let arriving = data.standard_phase;
                 let v = self.vessel_mut(*vessel)?;
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
                     let t_new = adiabatic_mix_into(v, t_in, |t| {
@@ -1885,7 +1894,7 @@ impl Bench {
                 v.deposit_lot(
                     sid.clone(),
                     *moles,
-                    data.standard_phase,
+                    arriving,
                     Some("reagent bottle".to_string()),
                     None,
                 );
