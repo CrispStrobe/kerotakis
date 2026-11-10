@@ -14,10 +14,14 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameterised_ph 4, unclassified 37.
+Counts: missing_absorptivity 39, outside_method 110, parameterised 6, parameterised_ph 4, unclassified 37.
 
 | class | species | curated appearance |
 |---|---|---|
+| missing_absorptivity | Ag2CO3 | pale yellow |
+| missing_absorptivity | Ag3PO4 | yellow |
+| missing_absorptivity | AgBr | pale yellow |
+| missing_absorptivity | AgI | pale yellow |
 | missing_absorptivity | Al | silver |
 | missing_absorptivity | C | black |
 | missing_absorptivity | Cl2 | yellow-green, toxic |
@@ -40,6 +44,7 @@ Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameteri
 | missing_absorptivity | MnO4-2 | green |
 | missing_absorptivity | NaOCl | pale yellow-green |
 | missing_absorptivity | Pb | dull grey |
+| missing_absorptivity | PbI2 | yellow |
 | missing_absorptivity | S | pale yellow |
 | missing_absorptivity | Zn | bluish-silver |
 | missing_absorptivity | activated_charcoal | black |
@@ -57,6 +62,7 @@ Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameteri
 | outside_method | AgNO3 | white |
 | outside_method | Ba(OH)2 | white |
 | outside_method | Ba+2 | colourless |
+| outside_method | BaCO3 | white |
 | outside_method | BaCl2 | white |
 | outside_method | BaSO4 | white |
 | outside_method | CH3COOH | colourless, vinegar smell |
@@ -111,6 +117,8 @@ Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameteri
 | outside_method | PVA | white |
 | outside_method | Pb(NO3)2 | white |
 | outside_method | Pb+2 | colourless |
+| outside_method | PbCO3 | white |
+| outside_method | PbSO4 | white |
 | outside_method | SO2 | colourless |
 | outside_method | SiO2 | colourless to white grains |
 | outside_method | Sr+2 | colourless |

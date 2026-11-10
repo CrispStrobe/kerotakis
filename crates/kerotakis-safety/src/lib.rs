@@ -333,6 +333,17 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "CaCO3" => &[Carbonate],
         "Na2CO3" => &[Carbonate],
         "NaHCO3" => &[Carbonate],
+        // The registry-solid coverage lane's two heavy-metal carbonates.
+        // Strong acid releases CO2 from them exactly as from chalk; the
+        // metal's own toxicity is not a mixture rule, as `Pb(NO3)2` below.
+        "Ag2CO3" => &[Carbonate],
+        "PbCO3" => &[Carbonate],
+        // Witherite gets the carbonate row only. `ToxicSoluble`'s stated
+        // membership test is free solubility in water, which witherite
+        // fails as barite does; that stomach acid dissolves it to Ba2+ is a
+        // real hazard this matrix has no row for, and the gap is recorded
+        // here rather than filed under a group whose own test it breaks.
+        "BaCO3" => &[Carbonate],
 
         // ── acidic salts (hydrolysis, not dissociation) ───────────
         "FeCl3" => &[AcidicSalt],
@@ -481,6 +492,16 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Na2SO4"
         // The insoluble sulfate: barium that cannot be absorbed.
         | "BaSO4"
+        // The registry-solid coverage lane's sparingly soluble halides,
+        // phosphate and sulfate. They read as silver chloride and lead
+        // nitrate already do: nothing in this mixture screen's matrix is
+        // about them, and the absence is a gap in the matrix (no heavy-metal
+        // toxicity group) rather than a finding that they are harmless.
+        | "AgBr"
+        | "AgI"
+        | "Ag3PO4"
+        | "PbSO4"
+        | "PbI2"
         // BRD-012.S03's food chemistry. The two sugars and the polymer are
         // inert by the same reading that already covers sucrose, maltose
         // and starch.
@@ -624,6 +645,10 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ag",
     "Ag+",
     "AgCl",
+    "AgBr",
+    "AgI",
+    "Ag2CO3",
+    "Ag3PO4",
     "Al",
     "Na2B4O7",
     "PVA",
@@ -636,6 +661,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ba(OH)2",
     "BaCl2",
     "BaSO4",
+    "BaCO3",
     "Br-",
     "C",
     "C6H5O7-3",
@@ -735,6 +761,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "O2",
     "Pb",
     "Pb(NO3)2",
+    "PbCO3",
+    "PbSO4",
+    "PbI2",
     "Pb+2",
     "PE",
     "PET",

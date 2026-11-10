@@ -4,14 +4,14 @@
   "property_backed": 26,
   "schema": 1,
   "selected_example_counts": {
-    "Ag": 4,
+    "Ag": 8,
     "Cu": 12,
     "Fe": 15,
     "H": 185,
     "Mn": 7,
     "Na": 37,
-    "O": 214,
-    "Pb": 4,
+    "O": 219,
+    "Pb": 7,
     "Zn": 7
   }
 }

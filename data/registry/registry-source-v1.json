@@ -1622,6 +1622,78 @@
       "retrieved": null
     },
     {
+      "id": "legacy/AgBr",
+      "citation": "silver bromide, AgBr: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Bromyrite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 66199 on 2026-11-10 (PUG REST property record): InChIKey ADZWSOLPGZMUMY-UHFFFAOYSA-M. Molar mass 187.772 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 107.8682 + 1 x 79.904 = 187.772). DENSITY 6.473 g/mL: the infobox of the English Wikipedia article `Silver bromide` (revision current on 2026-11-10), which attributes it to the CRC Handbook; PubChem CID 66199 carries no experimental density, so this value RIDES THE PENDING-REVIEW LANE and is flagged for reviewer confirmation. APPEARANCE `pale yellow`: PubChem CID 66199 Physical Description (Haz-Map, quoting the Merck Index): `Yellowish odorless solid; Darkened by light`; the reflective sRGB #F2E6B0 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 52.0 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ag) + 1 x 26.0 (Br) = 52.0, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/AgI",
+      "citation": "silver iodide, AgI: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Iodyrite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24563 on 2026-11-10 (PUG REST property record): InChIKey MSFPLIAKTHOCQP-UHFFFAOYSA-M. Molar mass 234.773 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 107.8682 + 1 x 126.90447 = 234.773). DENSITY 5.67 g/mL: PubChem CID 24563 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 5.67. APPEARANCE `pale yellow`: PubChem CID 24563 Color/Form (HSDB): `Light yellow, powder; crystals are hexagonal or cubic`; the reflective sRGB #F0E08C is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 52.0 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ag) + 1 x 26.0 (I) = 52.0, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Ag2CO3",
+      "citation": "silver carbonate, Ag2CO3: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it under its formula, `Ag2CO3`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 92796 on 2026-11-10 (PUG REST property record): InChIKey KQTXIZHBFFWWFW-UHFFFAOYSA-L. Molar mass 275.744 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 107.8682 + 1 x 12.011 + 3 x 15.999 = 275.744). DENSITY 6.077 g/mL: PubChem CID 92796 Experimental Properties > Density, attributed there to the PAC Chemical Database, U.S. Department of Energy: 6.077 at 25 degC (CAMEO Chemicals gives 6.1 at 68 degF). APPEARANCE `pale yellow`: PubChem CID 92796 Physical Description (Haz-Map, quoting the Merck Index): `Light yellow solid; Darkens on drying and light exposure`; the reflective sRGB #EEE0A0 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 109.6 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 2 x 26.0 (Ag) + 1 x 7.5 (C) + 3 x 16.7 (O) = 109.6, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Ag3PO4",
+      "citation": "silver phosphate, Ag3PO4: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it under its formula, `Ag3PO4`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 159913 on 2026-11-10 (PUG REST property record): InChIKey FJOLTQXXWSRAIX-UHFFFAOYSA-K. Molar mass 418.574 g/mol from IUPAC/CIAAW 2021 standard atomic weights (3 x 107.8682 + 1 x 30.973762 + 4 x 15.999 = 418.574). DENSITY 6.37 g/mL: the infobox of the English Wikipedia article `Silver phosphate` (6.370 g/cm3, revision current on 2026-11-10); PubChem CID 159913 carries no experimental density, so this value RIDES THE PENDING-REVIEW LANE and is flagged for reviewer confirmation. APPEARANCE `yellow`: PubChem CID 159913 Physical Description (Haz-Map, quoting the Merck Index): `Yellow odorless solid; Darkened by light`; the reflective sRGB #E8D060 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 167.4 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 3 x 26.0 (Ag) + 1 x 22.6 (P) + 4 x 16.7 (O) = 167.4, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/BaCO3",
+      "citation": "barium carbonate, BaCO3: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Witherite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 10563 on 2026-11-10 (PUG REST property record): InChIKey AYJRCSIUFZENHW-UHFFFAOYSA-L. Molar mass 197.335 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 137.327 + 1 x 12.011 + 3 x 15.999 = 197.335). DENSITY 4.308 g/mL: PubChem CID 10563 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 4.308 g/cu cm (other records on the same page run to 4.43). APPEARANCE `white`: PubChem CID 10563 Color/Form (HSDB): `White, heavy powder`; the reflective sRGB #F8F8F6 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 83.6 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ba) + 1 x 7.5 (C) + 3 x 16.7 (O) = 83.6, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PbCO3",
+      "citation": "lead(II) carbonate, PbCO3: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Cerussite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 11727 on 2026-11-10 (PUG REST property record): InChIKey MFEVGQHCNVXMER-UHFFFAOYSA-L. Molar mass 267.208 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 1 x 12.011 + 3 x 15.999 = 267.208). DENSITY 6.582 g/mL: PubChem CID 11727 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 6.582 g/cu cm. APPEARANCE `white`: PubChem CID 11727 Color/Form (HSDB): `Colorless, rhombic crystals`; a precipitated powder of colourless crystals scatters white, which is the word the bench uses; the reflective sRGB #F8F8F6 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 83.6 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 1 x 7.5 (C) + 3 x 16.7 (O) = 83.6, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PbSO4",
+      "citation": "lead(II) sulfate, PbSO4: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Anglesite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24008 on 2026-11-10 (PUG REST property record): InChIKey KEQXNNJHMWSZHK-UHFFFAOYSA-L. Molar mass 303.256 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 1 x 32.06 + 4 x 15.999 = 303.256). DENSITY 6.2 g/mL: PubChem CID 24008 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 6.2 g/cu cm. APPEARANCE `white`: PubChem CID 24008 Color/Form (HSDB): `White, heavy crystal powder`; the reflective sRGB #F8F8F6 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 115.4 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 1 x 22.6 (S) + 4 x 16.7 (O) = 115.4, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PbI2",
+      "citation": "lead(II) iodide, PbI2: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it under its formula, `PbI2`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24931 on 2026-11-10 (PUG REST property record): InChIKey RQQRAHKHDFPBMC-UHFFFAOYSA-L. Molar mass 461.009 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 2 x 126.90447 = 461.009). DENSITY 6.16 g/mL: PubChem CID 24931 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 6.16 g/cu cm. APPEARANCE `yellow`: PubChem CID 24931 Color/Form (HSDB): `Yellow hexagonal crystals`, `Bright yellow powder`; the reflective sRGB #F5D000 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 78.0 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 2 x 26.0 (I) = 78.0, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. The commentary that remains is worth keeping: these are the transition temperatures the general references agree on for these substances, and the editorial care in the rest of this paragraph was real. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. (The reviewer confirmation recorded 2026-09-01 confirmed a handbook agreement, which is the claim that has just stopped; it is not evidence for the values and is no longer offered as any.) Withdrawn 2026-09-13. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -4695,6 +4767,134 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/S4O6-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "AgBr",
+      "canonical_key": "ADZWSOLPGZMUMY-UHFFFAOYSA-M",
+      "name": "silver bromide",
+      "identifiers": {
+        "inchikey": "ADZWSOLPGZMUMY-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "AgI",
+      "canonical_key": "MSFPLIAKTHOCQP-UHFFFAOYSA-M",
+      "name": "silver iodide",
+      "identifiers": {
+        "inchikey": "MSFPLIAKTHOCQP-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Ag2CO3",
+      "canonical_key": "KQTXIZHBFFWWFW-UHFFFAOYSA-L",
+      "name": "silver carbonate",
+      "identifiers": {
+        "inchikey": "KQTXIZHBFFWWFW-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Ag3PO4",
+      "canonical_key": "FJOLTQXXWSRAIX-UHFFFAOYSA-K",
+      "name": "silver phosphate",
+      "identifiers": {
+        "inchikey": "FJOLTQXXWSRAIX-UHFFFAOYSA-K"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "BaCO3",
+      "canonical_key": "AYJRCSIUFZENHW-UHFFFAOYSA-L",
+      "name": "barium carbonate",
+      "identifiers": {
+        "inchikey": "AYJRCSIUFZENHW-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PbCO3",
+      "canonical_key": "MFEVGQHCNVXMER-UHFFFAOYSA-L",
+      "name": "lead(II) carbonate",
+      "identifiers": {
+        "inchikey": "MFEVGQHCNVXMER-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PbSO4",
+      "canonical_key": "KEQXNNJHMWSZHK-UHFFFAOYSA-L",
+      "name": "lead(II) sulfate",
+      "identifiers": {
+        "inchikey": "KEQXNNJHMWSZHK-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PbI2",
+      "canonical_key": "RQQRAHKHDFPBMC-UHFFFAOYSA-L",
+      "name": "lead(II) iodide",
+      "identifiers": {
+        "inchikey": "RQQRAHKHDFPBMC-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PbI2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -24315,6 +24515,877 @@
       },
       "evidence": {
         "source_id": "legacy/S4O6-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/AgBr",
+      "species_id": "AgBr",
+      "formula": "AgBr",
+      "elements": [
+        {
+          "element": "Ag",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/AgBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/AgBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/AgI",
+      "species_id": "AgI",
+      "formula": "AgI",
+      "elements": [
+        {
+          "element": "Ag",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/AgI",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "I",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/AgI",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Ag2CO3",
+      "species_id": "Ag2CO3",
+      "formula": "Ag2CO3",
+      "elements": [
+        {
+          "element": "Ag",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ag2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ag2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ag2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Ag3PO4",
+      "species_id": "Ag3PO4",
+      "formula": "Ag3PO4",
+      "elements": [
+        {
+          "element": "Ag",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ag3PO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ag3PO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "P",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ag3PO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/BaCO3",
+      "species_id": "BaCO3",
+      "formula": "BaCO3",
+      "elements": [
+        {
+          "element": "Ba",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/BaCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/BaCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/BaCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PbCO3",
+      "species_id": "PbCO3",
+      "formula": "PbCO3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Pb",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PbSO4",
+      "species_id": "PbSO4",
+      "formula": "PbSO4",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Pb",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PbI2",
+      "species_id": "PbI2",
+      "formula": "PbI2",
+      "elements": [
+        {
+          "element": "I",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbI2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Pb",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbI2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PbI2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -45462,6 +46533,726 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/AgBr",
+      "species_id": "AgBr",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 187.772,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/AgBr",
+      "species_id": "AgBr",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 52.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/AgBr",
+      "species_id": "AgBr",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.473,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/AgI",
+      "species_id": "AgI",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 234.773,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/AgI",
+      "species_id": "AgI",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 52.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/AgI",
+      "species_id": "AgI",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 5.67,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Ag2CO3",
+      "species_id": "Ag2CO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 275.744,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Ag2CO3",
+      "species_id": "Ag2CO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 109.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Ag2CO3",
+      "species_id": "Ag2CO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.077,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Ag3PO4",
+      "species_id": "Ag3PO4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 418.574,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Ag3PO4",
+      "species_id": "Ag3PO4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 167.4,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Ag3PO4",
+      "species_id": "Ag3PO4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.37,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/BaCO3",
+      "species_id": "BaCO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 197.335,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/BaCO3",
+      "species_id": "BaCO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 83.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/BaCO3",
+      "species_id": "BaCO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.308,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PbCO3",
+      "species_id": "PbCO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 267.208,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PbCO3",
+      "species_id": "PbCO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 83.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PbCO3",
+      "species_id": "PbCO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.582,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PbSO4",
+      "species_id": "PbSO4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 303.256,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PbSO4",
+      "species_id": "PbSO4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 115.4,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PbSO4",
+      "species_id": "PbSO4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.2,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PbI2",
+      "species_id": "PbI2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 461.009,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PbI2",
+      "species_id": "PbI2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 78.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PbI2",
+      "species_id": "PbI2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.16,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -55406,6 +57197,134 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "optical/AgBr",
+      "species_id": "AgBr",
+      "phase": "solid",
+      "appearance": "pale yellow",
+      "flame_colour": null,
+      "reflective_srgb": "#F2E6B0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/AgI",
+      "species_id": "AgI",
+      "phase": "solid",
+      "appearance": "pale yellow",
+      "flame_colour": null,
+      "reflective_srgb": "#F0E08C",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Ag2CO3",
+      "species_id": "Ag2CO3",
+      "phase": "solid",
+      "appearance": "pale yellow",
+      "flame_colour": null,
+      "reflective_srgb": "#EEE0A0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Ag3PO4",
+      "species_id": "Ag3PO4",
+      "phase": "solid",
+      "appearance": "yellow",
+      "flame_colour": null,
+      "reflective_srgb": "#E8D060",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/BaCO3",
+      "species_id": "BaCO3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F8F8F6",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PbCO3",
+      "species_id": "PbCO3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F8F8F6",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PbSO4",
+      "species_id": "PbSO4",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F8F8F6",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PbI2",
+      "species_id": "PbI2",
+      "phase": "solid",
+      "appearance": "yellow",
+      "flame_colour": null,
+      "reflective_srgb": "#F5D000",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "safety": [],
@@ -65036,6 +66955,534 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/AgBr",
+      "subject": {
+        "kind": "species",
+        "id": "AgBr"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/AgBr",
+      "subject": {
+        "kind": "species",
+        "id": "AgBr"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/AgI",
+      "subject": {
+        "kind": "species",
+        "id": "AgI"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/AgI",
+      "subject": {
+        "kind": "species",
+        "id": "AgI"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/AgI",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Ag2CO3",
+      "subject": {
+        "kind": "species",
+        "id": "Ag2CO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Ag2CO3",
+      "subject": {
+        "kind": "species",
+        "id": "Ag2CO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Ag3PO4",
+      "subject": {
+        "kind": "species",
+        "id": "Ag3PO4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Ag3PO4",
+      "subject": {
+        "kind": "species",
+        "id": "Ag3PO4"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ag3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/BaCO3",
+      "subject": {
+        "kind": "species",
+        "id": "BaCO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/BaCO3",
+      "subject": {
+        "kind": "species",
+        "id": "BaCO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/BaCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PbCO3",
+      "subject": {
+        "kind": "species",
+        "id": "PbCO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PbCO3",
+      "subject": {
+        "kind": "species",
+        "id": "PbCO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PbSO4",
+      "subject": {
+        "kind": "species",
+        "id": "PbSO4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PbSO4",
+      "subject": {
+        "kind": "species",
+        "id": "PbSO4"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PbI2",
+      "subject": {
+        "kind": "species",
+        "id": "PbI2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PbI2",
+      "subject": {
+        "kind": "species",
+        "id": "PbI2"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }

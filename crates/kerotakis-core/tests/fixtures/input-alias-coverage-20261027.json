@@ -146,6 +146,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Bariumcarbonat",
+      "canonical": "BaCO3",
+      "source": "name:de"
+    },
+    {
       "alias": "Bariumchlorid",
       "canonical": "BaCl2",
       "source": "name:de"
@@ -176,8 +181,23 @@
       "source": "name:de"
     },
     {
+      "alias": "Blei(II)-carbonat",
+      "canonical": "PbCO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Blei(II)-iodid",
+      "canonical": "PbI2",
+      "source": "name:de"
+    },
+    {
       "alias": "Blei(II)-nitrat",
       "canonical": "Pb(NO3)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Blei(II)-sulfat",
+      "canonical": "PbSO4",
       "source": "name:de"
     },
     {
@@ -1201,13 +1221,33 @@
       "source": "name:de"
     },
     {
+      "alias": "Silberbromid",
+      "canonical": "AgBr",
+      "source": "name:de"
+    },
+    {
+      "alias": "Silbercarbonat",
+      "canonical": "Ag2CO3",
+      "source": "name:de"
+    },
+    {
       "alias": "Silberchlorid",
       "canonical": "AgCl",
       "source": "name:de"
     },
     {
+      "alias": "Silberiodid",
+      "canonical": "AgI",
+      "source": "name:de"
+    },
+    {
       "alias": "Silbernitrat",
       "canonical": "AgNO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Silberphosphat",
+      "canonical": "Ag3PO4",
       "source": "name:de"
     },
     {
@@ -1561,6 +1601,11 @@
       "source": "name:en"
     },
     {
+      "alias": "barium carbonate",
+      "canonical": "BaCO3",
+      "source": "name:en"
+    },
+    {
       "alias": "barium chloride",
       "canonical": "BaCl2",
       "source": "name:en"
@@ -1681,6 +1726,11 @@
       "source": "ion-name:fr"
     },
     {
+      "alias": "bromure d'argent",
+      "canonical": "AgBr",
+      "source": "name:fr"
+    },
+    {
       "alias": "bromure d'hydrogène",
       "canonical": "HBr",
       "source": "name:fr"
@@ -1744,6 +1794,21 @@
       "alias": "carbonate",
       "canonical": "CO3-2",
       "source": "ion-name:en"
+    },
+    {
+      "alias": "carbonate d'argent",
+      "canonical": "Ag2CO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "carbonate de baryum",
+      "canonical": "BaCO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "carbonate de plomb(II)",
+      "canonical": "PbCO3",
+      "source": "name:fr"
     },
     {
       "alias": "carbonate ion",
@@ -2336,8 +2401,18 @@
       "source": "ion-name:fr"
     },
     {
+      "alias": "iodure d'argent",
+      "canonical": "AgI",
+      "source": "name:fr"
+    },
+    {
       "alias": "iodure d'hydrogène",
       "canonical": "HI",
+      "source": "name:fr"
+    },
+    {
+      "alias": "iodure de plomb(II)",
+      "canonical": "PbI2",
       "source": "name:fr"
     },
     {
@@ -2616,6 +2691,16 @@
       "source": "name:en"
     },
     {
+      "alias": "lead(II) carbonate",
+      "canonical": "PbCO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "lead(II) iodide",
+      "canonical": "PbI2",
+      "source": "name:en"
+    },
+    {
       "alias": "lead(II) ion",
       "canonical": "Pb+2",
       "source": "name:en"
@@ -2623,6 +2708,11 @@
     {
       "alias": "lead(II) nitrate",
       "canonical": "Pb(NO3)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "lead(II) sulfate",
+      "canonical": "PbSO4",
       "source": "name:en"
     },
     {
@@ -2941,6 +3031,11 @@
       "source": "ion-name:en"
     },
     {
+      "alias": "phosphate d'argent",
+      "canonical": "Ag3PO4",
+      "source": "name:fr"
+    },
+    {
       "alias": "phosphate ion",
       "canonical": "PO4-3",
       "source": "name:en"
@@ -3111,8 +3206,23 @@
       "source": "name:en"
     },
     {
+      "alias": "silver bromide",
+      "canonical": "AgBr",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver carbonate",
+      "canonical": "Ag2CO3",
+      "source": "name:en"
+    },
+    {
       "alias": "silver chloride",
       "canonical": "AgCl",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver iodide",
+      "canonical": "AgI",
       "source": "name:en"
     },
     {
@@ -3123,6 +3233,11 @@
     {
       "alias": "silver nitrate",
       "canonical": "AgNO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver phosphate",
+      "canonical": "Ag3PO4",
       "source": "name:en"
     },
     {
@@ -3253,6 +3368,11 @@
     {
       "alias": "sulfate de magnésium heptahydraté (epsomite)",
       "canonical": "epsomite",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de plomb(II)",
+      "canonical": "PbSO4",
       "source": "name:fr"
     },
     {
