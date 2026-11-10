@@ -1,24 +1,32 @@
-# Fresh-agent handoff — 2026-11-09
+# Fresh-agent handoff — 2026-11-10
 
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
-## 0. State and open tasks after PRs #875–#879
+## 0. State and open tasks after the six gap lanes
 
-State at handover: production = `4bdc5da9836de66998b0246a3289d2e3da81ca0d` (health `revision` and `engine.source_head` both equal it); main adds only the `v0.1.4` app version bump (#879), tagged for TestFlight. Qualification **379/468** unique originals (383 catalog entries, catalog `audits/working-experiments-20261109-reviewed-production-rerun12.json` on the audit branch). Goal: ≥ 401, so 22 more are needed.
+State at handover: production = `cbc741fef1000d5851b6398a265f4c4ffb92bf1c` (health `revision` and `engine.source_head` both equal it). Qualification **393/468** unique originals (397 catalog entries, catalog `audits/working-experiments-20261110-reviewed-production-gaps27.json` on the audit branch). Goal: ≥ 401, so 8 more are needed.
 
-What landed since 2026-10-28:
-- **#875** bench: mol default unit at lv2/lv3, concentration on add (`add v1 HCl 50mL 37%`, `1M`), formula subscripts, appearance control fits the utilities dialog, HCl/HI in water admitted as a strong acid, owned translated reasons for solver failures (no raw PHREEQC flood), per-tick log collapse.
-- **#876** Pitzer per-electrolyte range refusal (`not-modeled.activity-model-outside-range`); 37 % HCl (16.1 mol/kg) now refuses instead of reporting pH −5.37 (verified once in production). Coverage: [activity-model-range-coverage-20261109](activity-model-range-coverage-20261109.md).
-- **#877** five engine lanes: titration endpoints (zero-time dose vents only above the bubble threshold), stocking phase from sourced melting points, separation receivers, transport ledger (inlet stays a constant reservoir; `drain` opts into a finite feed; `inflow_moles` recorded), stock solutions as shelf bottles with provenance, Pitzer rows verified against the LBL-1434 preprint.
-- The 107 remaining originals ran once on `abf4e9a3` (+11 qualified, 372/468); the 12 whose blockers #877 targeted re-ran once on `4bdc5da9` (+7: QA-004, QA-005, TH-002, TR-003, TR-004, TR-007, TR-008). Evidence: `audits/remaining107-production-review-20261109/` and `audits/originals-rerun-production-review-20261109/` on the audit branch.
-- Branch protection: admin enforcement is off by owner decision; validated work is merged directly and main CI still runs after every merge.
+What landed since 2026-11-09 (merged directly as `cbc741fe`, validated once on a hosted CPU runner, main CI green before deploy):
+- **Flame test by cation**: a salt-only vessel `ignite` is a flame test, not combustion; per-cation emissions (Li/Na/K/Ca/Sr/Ba/Cu) with masking (K by Na); unsourced cations refuse `not-modeled.flame-emission-no-data`. Coverage: `tools/flame_emission_coverage.py`.
+- **Transport surface re-equilibration**: adsorbed pools desorb during a clean flush (movement tolerance separated from the 0.1 mg event threshold).
+- **Transition points from any condensed phase**: melting/boiling reads fall back to the other phase; no-data species return `no_data`. Values come from the withdrawn `phase-transitions-v1` reference, so they do **not** count as reviewed evidence (TH-003, AN-007 refuted on that ground).
+- **Organic partition**: UNIFAC aromatic and ester groups; acetic acid (neutral), ethyl acetate, naphthalene, isopropanol, tert-butanol partition as predictions.
+- **Registry solids**: AgBr, AgI, Ag2CO3, Ag3PO4, BaCO3, PbCO3, PbSO4, PbI2.
+- **Iodine chemistry**: I3- (K = 698, molal), iodine solubility in iodide, Fe3+/I- equilibrium, starch–iodine absorbance refusal. ε(I2, 460 nm) = 746 is not yet confirmed by a second source.
+- The 27 originals these lanes targeted re-ran once on `cbc741fe`: +14 (QA-007, PQ-004, PQ-009, PQ-010, SE-012, MO-004, AN-001, AN-002, AN-003, FO-003, SO-006, PR-008, PR-017, PR-018). Evidence: `audits/gaps-rerun-production-review-20261110/` on the audit branch.
 
 **Open, in order** (each a narrow change from main, family-wide: coverage table, generic mechanism, typed EN/DE/FR refusal, tests):
-1. Rejected re-runs, each a family gap: MO-004 (no liquid–liquid partition data for acetic acid/acetate/ethyl acetate in hexane; chromatography of the organic phase refused), AN-001 (NaBr flame test is a solver failure without an unsupported label), AN-002 (mixed-cation flame shows only Na, no masking/mixture note), TH-003 (isopropanol melting point and tert-butanol boiling point read `nothing_to_test`), TR-006 (adsorbed dye never desorbs during a clean flush — transport must re-equilibrate surface pools).
+1. The 13 rejected re-runs, grouped:
+   - Fe3+/I- redox does not happen in the bench (EC-008, RX-004), although the equilibrium constant exists; wire it into the aqueous reaction route.
+   - Triiodide never appears as an inventory species, yet absorbance uses it (MO-012); starch–iodine absorbance has no data (EN-001); iodine-clock thiosulfate is never exhausted in 100 s (KI-011); extraction of a reduced iodine feed is refused (SP-011).
+   - Ascorbic acid is labelled an undissolved solid but reacts instantly with I2 (AN-004): make the route consistent.
+   - Inlet vessels in a transport with an adsorbing bed are not debited (TR-006, double-counted inventory).
+   - Reviewed (non-withdrawn) melting/boiling points for isopropanol, acetone, tert-butanol, paraffin, PE/PP (TH-003, AN-007, TH-004, PO-009); heating past the melting point must change phase or warn.
+   - Ion partition refusal makes "salt stays aqueous" a default (SE-002): state ions as non-partitioning explicitly.
 2. Open-vessel outward gas rate (AB-035/GS-013).
 3. HNO3 species.
-4. Unverified data rows: NH3 solution densities, hexadecane/tert-butanol latent heats, paraffin melting range (TH-004).
-5. Cache the SUNDIALS release tarball in CI (a GitHub 504 outage on 2026-11-09 failed CI and hosted validation several times).
+4. Unverified data rows: NH3 solution densities, hexadecane/tert-butanol latent heats.
+5. Cache the SUNDIALS release tarball in CI.
 6. Re-run only originals whose blocker a merged lane removed, once per deployed sha, then strict + adversarial review and a new catalog version.
 
 **Earlier follow-up lanes 1–13 (still open; source work, each its own narrow PR from main).** The register with trigger cases and done-criteria is in [systematic-lanes-20261027.md § Follow-up lanes](systematic-lanes-20261027.md). Every lane must be family-wide: a coverage table with a checked-in fixture and stale check, one generic mechanism (no per-case patch), typed EN/DE/FR refusal where data is missing, and positive/negative tests. Prioritise by the number of still-unqualified originals each lane would unblock. Lanes in short:
