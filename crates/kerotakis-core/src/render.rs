@@ -3535,6 +3535,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             vessel,
             species: sid,
             colour,
+            masked_by,
         } => {
             let name = species_name(locale, sid);
             // The colour is the result. A German frame around an English
@@ -3542,7 +3543,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let colour = locale
                 .lookup(&format!("flame.{colour}"))
                 .unwrap_or(colour.as_str());
-            match register.level() {
+            let said = match register.level() {
                 1 => locale.fill(
                     "event.flame-test.lv1",
                     "It does not catch fire — but look: it turns the flame {colour}! Every metal has its own colour, which is how you can tell them apart.",
@@ -3560,6 +3561,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: no combustion; characteristic emission of {name} ({colour})",
                     &[("vessel", &vessel.to_string()), ("name", name), ("colour", colour)],
                 ),
+            };
+            // AN-002: sodium's yellow outshines potassium's lilac, so a
+            // mixture's K line is reported AND said to be hidden.
+            match masked_by {
+                Some(by) => {
+                    let masked = locale.fill(
+                        "event.flame-test.masked",
+                        "{colour} of {name} is masked to the eye by the yellow of {by}; a cobalt-blue glass filters the yellow out",
+                        &[("colour", colour), ("name", name), ("by", species_name(locale, by))],
+                    );
+                    format!("{said} — {masked}")
+                }
+                None => said,
             }
         }
         // The absence, told apart. "Nothing happens, not everything

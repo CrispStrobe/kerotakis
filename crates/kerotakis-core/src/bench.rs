@@ -1346,27 +1346,21 @@ impl Bench {
                 });
                 events.extend(refrozen);
                 // It would not burn — but a metal salt still colours the
-                // flame, which is the flame test and worth seeing.
-                let painted = self.vessel(*vessel).ok().and_then(|v| {
-                    v.contents.iter().find_map(|p| {
-                        species::lookup(&p.species)
-                            .and_then(|d| d.flame_colour)
-                            .map(|c| (p.species.clone(), c.to_string()))
-                    })
-                });
-                match painted {
-                    Some((species, colour)) => events.push(Event::FlameTest {
-                        vessel: *vessel,
-                        species,
-                        colour,
-                    }),
+                // flame, which is the flame test and worth seeing. Every
+                // cation with emission data is reported (`flame`).
+                let painted = self
+                    .vessel(*vessel)
+                    .map(|v| crate::flame::flame_events(*vessel, &v.contents).0)
+                    .unwrap_or_default();
+                match painted.is_empty() {
+                    false => events.extend(painted),
                     // "Nothing ignited" is a claim about the substance, and
                     // we may only make it if an engine actually looked.
                     // Ethanol has no condensed form in the NASA data, so
                     // the thermal solver never engages — and reporting that
                     // silence as "it does not burn" would be a false
                     // observation dressed as a result.
-                    None if !examined => events.push(Event::not_modeled(
+                    true if !examined => events.push(Event::not_modeled(
                                                          *vessel,
                                                          crate::ops::NotModelledCause::NoSolver,
                                                          Phrase::bare(
@@ -1379,10 +1373,10 @@ impl Bench {
                     // WHY nothing happened. A smothered candle is not an
                     // unburnable one, and telling a learner otherwise
                     // teaches the opposite of the demonstration.
-                    None if events
+                    true if events
                         .iter()
                         .any(|event| matches!(event, Event::FlameStarved { .. })) => {}
-                    None => {
+                    true => {
                         let absence = self.ignition_absence(*vessel, &events);
                         events.push(absence);
                     }
@@ -3411,6 +3405,16 @@ impl Bench {
                         oxygen_fraction: None,
                         gap_k: None,
                     });
+                } else if crate::flame::is_flame_test_sample(&v.contents) {
+                    // A salt in a flame is a flame test, not a combustion:
+                    // nothing here can burn, so no solver is asked whether
+                    // it does (AN-001: NaBr went through the thermal solver
+                    // and came back "not converged, no fuel"). The cations
+                    // colour the flame and the vessel is left as it was.
+                    let (lit, refused) = crate::flame::flame_events(*vessel, &v.contents);
+                    events.extend(lit);
+                    events.extend(refused);
+                    *disposition = ApplyDisposition::Unchanged;
                 } else {
                     // A match brings a small volume to flame temperature.
                     // Whether anything catches is for the solvers to say;

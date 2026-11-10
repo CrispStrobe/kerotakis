@@ -2027,6 +2027,10 @@ pub enum Event {
         vessel: VesselId,
         species: SpeciesId,
         colour: String,
+        /// The salt whose stronger emission hides this colour to the eye —
+        /// sodium's yellow over potassium's lilac (`flame::EMISSIONS`).
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        masked_by: Option<SpeciesId>,
     },
     /// A thermal (gas/condensed) equilibrium was computed for this vessel.
     ThermalEquilibrium {

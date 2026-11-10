@@ -48,6 +48,7 @@ const COMPOSERS: &[(&str, &str)] = &[
         include_str!("../../kerotakis-phreeqc/src/inventory.rs"),
     ),
     ("orchestrator.rs", include_str!("../src/orchestrator.rs")),
+    ("flame.rs", include_str!("../src/flame.rs")),
     (
         "kerotakis-phreeqc/aqueous.rs",
         include_str!("../../kerotakis-phreeqc/src/aqueous.rs"),
