@@ -127,6 +127,7 @@ step "i18n engine";    python3 tools/engine-locale-lint.py --check
 step "i18n engine self-test"; python3 -m unittest tools.tests.test_engine_locale_lint
 step "separation coverage"; python3 tools/separation_coverage.py --check
 step "flame emission coverage"; python3 tools/flame_emission_coverage.py --check
+step "transition-point coverage"; python3 tools/transition_point_coverage.py --check
 step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
 step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check

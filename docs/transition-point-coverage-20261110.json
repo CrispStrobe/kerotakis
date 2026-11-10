@@ -1,0 +1,2290 @@
+{
+  "schema": "kerotakis.transition-point-coverage.v1",
+  "counts": {
+    "boiling.no_data": 148,
+    "boiling.reported_without_primary_reference": 40,
+    "melting.no_data": 135,
+    "melting.reported_without_primary_reference": 53
+  },
+  "originals": [
+    {
+      "id": "batch3-diverse:th-003",
+      "question": "isopropanol mp (liquid sample), tert-butanol bp (solid sample)",
+      "status": "reported via the any-phase reading"
+    },
+    {
+      "id": "batch3-diverse:th-002",
+      "question": "dodecane mp (liquid sample)",
+      "status": "reported via the any-phase reading"
+    },
+    {
+      "id": "batch3-diverse:an-007",
+      "question": "ethanol/isopropanol/propanone mp (liquid samples); bp",
+      "status": "reported via the any-phase reading; values remain on the withdrawn-primary tranche"
+    },
+    {
+      "id": "batch3-diverse:th-004",
+      "question": "hexadecane mp (liquid sample) as the paraffin model",
+      "status": "hexadecane reported; a paraffin-wax melting RANGE and latent-heat surrogate is NOT covered"
+    },
+    {
+      "id": "batch3-diverse:po-009",
+      "question": "polyethylene / polypropylene melting",
+      "status": "NOT covered: no polymer species or cleared polymer melting-range source in the registry"
+    }
+  ],
+  "species": [
+    {
+      "species": "Ag",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1234.93,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 2435.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Ag+",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "AgCl",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 728.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1820.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "AgNO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 483.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Al",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 933.47,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 2792.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Ba(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Ba+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "BaCl2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1234.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1833.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "BaSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1853.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Br-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "C",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "C6H5O7-3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CH3COO-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CH3COOH",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 289.75,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 391.05,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "CO",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CO2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CO2(aq)",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CO3-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Ca(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Ca+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Ca3(PO4)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CaCO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CaCl2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1048.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 2208.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "CaO",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 2886.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cl-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cl2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ClO-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cu",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1357.77,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 2835.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Cu(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cu+1",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cu+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CuO",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CuSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 833.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 833.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Fe",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1811.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 3134.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Fe(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Fe(OH)3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Fe+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Fe+3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Fe2O3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "FeCl3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 580.75,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "FeSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 953.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 953.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "H+",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H2BO3-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H2C2O4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H2O2",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 272.72,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 423.35,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "H2PO4-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H2SO4",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H3BO3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "H3PO4",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HBr",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HCO3-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HCl",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HClO",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HI",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HPO4-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HSO3-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "I-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "I2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 386.85,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 457.55,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "K+",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "KCl",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1044.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "KI",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 954.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1596.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "KIO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "KMnO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 513.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 513.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "KNO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 607.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "KOH",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 679.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1600.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "KSCN",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Mg",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 923.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1363.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Mg(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Mg+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MgO",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 3098.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MgSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1410.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Mn+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Mn+3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MnO2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MnO4-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MnO4-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "N2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NH2Cl",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NH3",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NH4+",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NH4Cl",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 611.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 611.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "NH4NO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NO2-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NO3-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na+",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na2B4O7",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na2CO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1129.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na2S2O3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na2SO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na2SO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1157.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaBr",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1020.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1663.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "NaCl",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1073.85,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1738.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "NaHCO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaHSO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaHSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaNO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 579.65,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaOAc",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaOCl",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaOH",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 596.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1661.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "O2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "OH-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PE",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PET",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PO4-3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PP",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PS",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PVA",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Pb",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 600.61,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 2022.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Pb(NO3)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 743.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 743.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Pb+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "S",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 388.36,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 717.76,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "S2O3-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "S4O6-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "SCN-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "SO2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "SO3-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "SO4-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "SiO2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Sr+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Zn",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 692.68,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1180.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "Zn(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Zn+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ZnSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 953.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 953.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "activated_charcoal",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "amylase",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "anthocyanin",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "antlerite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ascorbic_acid",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "atacamite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "betanin",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "betanin_ox",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "brochantite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "bromoethane",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 154.55,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 311.45,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "bromothymol_blue",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "butane",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "catalase",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "cellulose",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "chalcanthite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "dehydration",
+        "kelvin": 473.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "chlorophyll",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "citric_acid",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "curcumin",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "curcumin_ox",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "dehydroascorbic_acid",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "diamond",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "dodecane",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 263.55,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 489.45,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "dry_ice",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 194.65,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 194.65,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "epsomite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "dehydration",
+        "kelvin": 473.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ethanol",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 159.01,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 351.39,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "ethene",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ethyl_acetate",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 189.55,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 350.26,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "fructose",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "glucose",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "graphite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "gypsum",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "hair_pigment",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "hair_pigment_ox",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "helium",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "hexadecane",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 291.35,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 559.95,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "hexane",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 177.88,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 341.88,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "hydrogen_sulfide",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "hydroxylapatite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "indigo_carmine",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "indigo_carmine_ox",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "isobutylene",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "isopropanol",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 185.25,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 355.36,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "lactate",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "lactic_acid",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "langite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "liquid_nitrogen",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 63.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 77.36,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "malic_acid",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "maltose",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "methane",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "methanol",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 175.62,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 337.75,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "methyl_orange",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "naphthalene",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 353.4,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 491.1,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "nylon",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "octacalcium_phosphate",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "paraffin",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "phenolphthalein",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "propane",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "propanone",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 178.45,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 329.2,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "starch",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "sucrose",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 459.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 459.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "tert_butanol",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 298.96,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 355.45,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    },
+    {
+      "species": "tert_butyl_bromide",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "uranium",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "water",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 273.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      },
+      "boiling": {
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 373.15,
+        "source": "kerotakis/phase-transitions-v1",
+        "primary_reference": false
+      }
+    }
+  ]
+}
