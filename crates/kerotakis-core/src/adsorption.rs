@@ -89,7 +89,30 @@ pub const ISOTHERMS: &[Isotherm] = &[Isotherm {
 
 /// Below this the split is not worth an event: a tenth of a milligram is
 /// under what a school balance resolves.
+///
+/// It gates the EVENT only, never the matter. An earlier draft also used it
+/// to decide whether to move dye at all, and that froze desorption: a
+/// 20 mL transport cell holding 0.86 mg on 0.02 g of carbon sits 0.08 mg
+/// away from its isotherm after every clean-water pore volume, so each
+/// step skipped the move and the bound pool never changed during a flush.
+/// Every step's deficit was individually "unobservable" while their sum
+/// was the whole question.
 const OBSERVABLE_MG: f64 = 0.1;
+
+/// Relative size of a ledger move worth making, against the pair's total
+/// sorbate. Far below the bisection's own resolution of a curated
+/// parameter, far above the bisection's numerical floor, so a vessel at
+/// its isotherm reports nothing to do and the solver loop converges.
+const MOVE_RELATIVE: f64 = 1e-9;
+
+/// Absolute floor for the same decision, in moles.
+const MOVE_FLOOR_MOL: f64 = 1e-15;
+
+/// Whether moving `delta_moles` between solution and ledger is a real
+/// change rather than bisection noise.
+fn material_move(delta_moles: f64, total_moles: f64) -> bool {
+    delta_moles.abs() > MOVE_FLOOR_MOL.max(MOVE_RELATIVE * total_moles.abs())
+}
 
 /// Persistent projection of one stored sorbent/sorbate ledger row.
 ///
@@ -262,7 +285,7 @@ pub fn equilibrate(vessel: &mut Vessel) -> Vec<Event> {
         let bound_target = bound_target_mg / (sorbate.molar_mass * 1_000.0);
         let bound_now = vessel.adsorbed_moles(&sorbate_id).0;
         let delta = bound_target - bound_now;
-        if delta.abs() * sorbate.molar_mass * 1_000.0 < OBSERVABLE_MG {
+        if !material_move(delta, total_moles) {
             continue;
         }
         if delta > 0.0 {
@@ -278,6 +301,12 @@ pub fn equilibrate(vessel: &mut Vessel) -> Vec<Event> {
             }
             vessel.deposit(sorbate_id.clone(), Moles(released), Phase::Aqueous);
         }
+        vessel.resolved.invalidate();
+        // Matter moved above; only the announcement is gated by what a
+        // balance could see.
+        if delta.abs() * sorbate.molar_mass * 1_000.0 < OBSERVABLE_MG {
+            continue;
+        }
         let held = vessel.adsorbed_moles(&sorbate_id).0;
         events.push(Event::Adsorbed {
             vessel: vessel.id,
@@ -292,7 +321,6 @@ pub fn equilibrate(vessel: &mut Vessel) -> Vec<Event> {
             still_dissolved: vessel.moles_of(&sorbate_id),
             boundary: isotherm.boundary.to_string(),
         });
-        vessel.resolved.invalidate();
     }
     events
 }
@@ -348,7 +376,7 @@ pub fn applies(vessel: &Vessel) -> bool {
         // so this rung has work to do even though no adsorption can
         // happen: it has to give the dye back.
         if grams <= 0.0 {
-            return bound_now_mg >= OBSERVABLE_MG;
+            return material_move(bound_now_mg, total * sorbate.molar_mass * 1_000.0);
         }
         if litres <= 0.0 {
             return false;
@@ -356,7 +384,7 @@ pub fn applies(vessel: &Vessel) -> bool {
         let total_mg = total * sorbate.molar_mass * 1_000.0;
         let bound_target_mg =
             total_mg - dissolved_mg_at_equilibrium(isotherm, total_mg, litres, grams);
-        (bound_target_mg - bound_now_mg).abs() >= OBSERVABLE_MG
+        material_move(bound_target_mg - bound_now_mg, total_mg)
     })
 }
 
