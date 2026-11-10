@@ -130,6 +130,7 @@ step "flame emission coverage"; python3 tools/flame_emission_coverage.py --check
 step "transition-point coverage"; python3 tools/transition_point_coverage.py --check
 step "organic partition coverage"; python3 tools/organic_partition_coverage.py --check
 step "registry-solid coverage"; python3 tools/registry_solid_coverage.py --check
+step "iodine chemistry coverage"; python3 tools/iodine_chemistry_coverage.py --check
 step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
 step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check

@@ -66,12 +66,17 @@ pub struct OpticalCoverage {
     /// reviewed molar absorptivity for. Reading them as zero would report
     /// iodine as transparent; the instrument refuses instead.
     pub missing_absorptivity: Vec<String>,
+    /// The vessel holds the starch–iodine complex, whose band has no
+    /// reviewed molar absorptivity (the eye's colour is editorial), so no
+    /// complete instrument reading exists (2026-11-10).
+    pub starch_iodine_complex: bool,
 }
 impl OpticalCoverage {
     pub fn is_complete(&self) -> bool {
         self.missing_spectra.is_empty()
             && self.missing_ph.is_empty()
             && self.missing_absorptivity.is_empty()
+            && !self.starch_iodine_complex
     }
 }
 
@@ -128,6 +133,11 @@ pub fn chromophore_class(key: &str) -> ChromophoreClass {
     if crate::indicator::is_ph_dependent(key) {
         return ChromophoreClass::ParameterisedPh;
     }
+    // Iodine's visible absorbance is computed from cited ε values over the
+    // triiodide split (`iodine_chemistry`), not a registry spectrum.
+    if crate::iodine_chemistry::OPTICAL_KEYS.contains(&key) {
+        return ChromophoreClass::Parameterised;
+    }
     let Some(data) = species::lookup_key(key) else {
         return ChromophoreClass::Unclassified;
     };
@@ -168,6 +178,9 @@ pub fn disclosure(vessel: &Vessel) -> crate::instrument_coverage::InstrumentCove
         .chain(&coverage.missing_absorptivity)
         .cloned()
         .collect();
+    if coverage.starch_iodine_complex {
+        missing.push("starch".to_string());
+    }
     missing.sort();
     missing.dedup();
     let mut supported = Vec::new();
@@ -218,6 +231,7 @@ pub fn coverage(vessel: &Vessel) -> OpticalCoverage {
         missing_spectra: missing_native_spectra(vessel),
         missing_ph,
         missing_absorptivity: missing_absorptivity(vessel),
+        starch_iodine_complex: crate::starch_iodine::complex_moles(vessel) > 0.0,
     }
 }
 
@@ -307,6 +321,15 @@ pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS
             }
         }
     }
+    // Free I2(aq) and I3⁻ from cited ε values; iodine held in the starch
+    // complex is left to that complex's own (editorial, eye-only) band.
+    crate::iodine_chemistry::add_absorbance(
+        vessel,
+        litres,
+        path_cm,
+        crate::starch_iodine::complex_moles(vessel),
+        &mut result,
+    );
     result
 }
 

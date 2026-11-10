@@ -1,0 +1,126 @@
+{
+  "schema": "kerotakis.iodine-chemistry-coverage.v1",
+  "constants": {
+    "triiodide_k": 698.0,
+    "e0_i2aq_iodide_v": 0.621,
+    "e0_fe3_fe2_v": 0.7696,
+    "ferric_iodide_log_k": 5.0237,
+    "i2_band": [
+      460.0,
+      746.0,
+      42.0
+    ],
+    "i3_band": [
+      353.0,
+      26400.0,
+      41.66
+    ],
+    "i3_epsilon_at_460_fitted": 975.3
+  },
+  "optical_keys": [
+    "I2"
+  ],
+  "sources": {
+    "triiodide_k": "Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374 (literature range 698-770; Awtrey & Connick 1951)",
+    "epsilon": "Awtrey & Connick, J. Am. Chem. Soc. 73 (1951) 1842, doi:10.1021/ja01148a097: I2 460 nm 746; I3- 460 nm 975, 353 nm 26400 L/mol/cm",
+    "e0_i2aq": "Bard, Parsons & Jordan, Standard Potentials in Aqueous Solution (IUPAC/Dekker 1985): I2(aq)/I- 0.621 V",
+    "e0_fe": "halogen redox half table Fe+3/Fe+2 (llnl.dat, docs/halogen-redox-coverage-20261027)",
+    "thiosulfate": "curated iodometric row (Vogel; Harris), crates/kerotakis-core/src/curated.rs"
+  },
+  "mechanisms": [
+    {
+      "mechanism": "iodide salts dissolve to ions",
+      "how": "existing aqueous route (KI -> K+ + I-); an undissociated Na/K iodide counts as iodide in every iodine computation (halogen_redox::registry_forms)",
+      "status": "modelled"
+    },
+    {
+      "mechanism": "I2 + I- <=> I3-",
+      "how": "computed split of the analytical I2(aq)/I- pools at K; not a separate inventory entry",
+      "status": "modelled"
+    },
+    {
+      "mechanism": "iodine solubility in iodide",
+      "how": "capacity S0 (1 + K I / (1 + K S0)); no supersaturation flag below it; chloride gives no rise",
+      "status": "modelled"
+    },
+    {
+      "mechanism": "I2 / I3- absorbance",
+      "how": "Beer-Lambert over the split with cited epsilon; I3- band width fitted to the two cited points",
+      "status": "modelled"
+    },
+    {
+      "mechanism": "starch-iodine complex absorbance",
+      "how": "eye colour stays the editorial band of starch_iodine.rs; spectrophotometer refuses with not-modeled.starch-iodine-absorptivity (EN/DE/FR)",
+      "status": "typed refusal"
+    },
+    {
+      "mechanism": "2 Fe3+ + 2 I- <=> 2 Fe2+ + I2",
+      "how": "solved to log K = 2 (E_Fe - E_I2aq) / 0.05916 with free I2 and I- from the triiodide split, both directions, 0-60 C, ideal activities",
+      "status": "modelled"
+    },
+    {
+      "mechanism": "I2 + 2 S2O3^2- -> 2 I- + S4O6^2-",
+      "how": "existing curated limiting-reagent row, pinned by a closure test",
+      "status": "modelled"
+    },
+    {
+      "mechanism": "AgI / AgBr solids",
+      "how": "registry solids lane (separate branch)",
+      "status": "out of scope here"
+    }
+  ],
+  "triggers": [
+    {
+      "id": "batch2:ec-008",
+      "covered_by": "Fe3+/I- equilibrium"
+    },
+    {
+      "id": "new120:rx-004",
+      "covered_by": "Fe3+/I- equilibrium; I2/I3- optics"
+    },
+    {
+      "id": "batch3-diverse:so-006",
+      "covered_by": "triiodide capacity; I2/I3- optics"
+    },
+    {
+      "id": "batch2:mo-012",
+      "covered_by": "I2/I3- optics"
+    },
+    {
+      "id": "batch2:qa-007",
+      "covered_by": "I2/I3- optics (thiosulfate row already closed)"
+    },
+    {
+      "id": "batch2:ki-011",
+      "covered_by": "I2/I3- optics; clock kinetics unchanged"
+    },
+    {
+      "id": "batch3-diverse:an-004",
+      "covered_by": "starch complex: typed refusal; eye colour"
+    },
+    {
+      "id": "batch3-diverse:fo-003",
+      "covered_by": "starch complex: typed refusal; eye colour"
+    },
+    {
+      "id": "batch3-diverse:en-001",
+      "covered_by": "starch complex: typed refusal; eye colour"
+    },
+    {
+      "id": "new120:sp-011",
+      "covered_by": "thiosulfate row; extraction solvent issue is a separate lane"
+    },
+    {
+      "id": "batch2:pq-004",
+      "covered_by": "AgI solid: registry lane"
+    },
+    {
+      "id": "new120:pr-017",
+      "covered_by": "AgI solid: registry lane"
+    },
+    {
+      "id": "batch3-diverse:an-003",
+      "covered_by": "AgI/AgBr solids: registry lane"
+    }
+  ]
+}

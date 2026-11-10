@@ -1545,6 +1545,7 @@ no-reviewed-bulk-density = "la masse volumique de {material} — la recette ne p
 density-of-a-mixture = "une masse volumique unique pour ce récipient : il contient {contents}, et une masse volumique appartient à une substance, pas à un mélange. Pèse-les séparément"
 incomplete-absorbance = "l'absorbance complète est indisponible : aucun spectre d'absorption pour {species}"
 unreviewed-molar-absorptivity = "l’absorbance est indisponible : {species} absorbe la lumière visible et aucun coefficient d’absorption molaire vérifié n’est disponible"
+starch-iodine-absorptivity = "l’absorbance est indisponible : le complexe amidon–iode absorbe la lumière visible, mais aucun coefficient d’absorption molaire vérifié n’existe pour lui ; sa couleur bleu-noir est donc décrite et non mesurée"
 no-group-decomposition = "la colonne n'a aucune décomposition en groupes curatée pour {species} — une vraie colonne les séparerait, c'est donc une lacune du modèle plutôt qu'un résultat"
 column-partition-refused = "la colonne ne peut pas calculer de coefficient de partage fini pour {species} à {temperature} K : {why} ; l’échantillon est conservé et aucun pic n’est prédit pour ces espèces"
 nothing-to-electrolyse = "rien ici ne peut être électrolysé : {why}"

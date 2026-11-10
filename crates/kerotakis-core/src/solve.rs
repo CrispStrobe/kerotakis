@@ -1643,6 +1643,13 @@ pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
                 Some(suppressed) => suppressed,
                 None => pure_water_capacity,
             };
+        // Iodine in iodide solution: the triiodide-enhanced capacity, the
+        // same figure `starch_iodine::iodine_to_dissolve` dissolves to.
+        let capacity = if portion.species.0 == "I2" {
+            crate::iodine_chemistry::enhanced_capacity(vessel, capacity, water_ml / 1000.0)
+        } else {
+            capacity
+        };
         if aqueous > capacity + 1e-12 {
             // A seed is a crystal of the same solute already in the vessel.
             // Without one the solution stays where it is and says so; with

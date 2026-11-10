@@ -5,7 +5,9 @@ Classifies EVERY registry species with the same rule as
 `kerotakis_core::solution_optics::chromophore_class`:
 
   parameterised_ph      key in the indicator / pigment-ladder tables
-  parameterised         registry spectrum present
+  parameterised         registry spectrum present, or a key in
+                        iodine_chemistry::OPTICAL_KEYS (cited I2/I3- epsilon
+                        over the computed triiodide split, 2026-11-10)
   missing_absorptivity  curated appearance names a colour word and no
                         transparent word, no spectrum
                         -> the spectrophotometer refuses (typed not-modelled)
@@ -36,6 +38,12 @@ def indicator_keys():
     return set(re.findall(r'\bkey:\s*"([^"]+)"', src))
 
 
+def iodine_optical_keys():
+    src = (ROOT / "crates/kerotakis-core/src/iodine_chemistry.rs").read_text(encoding="utf-8")
+    m = re.search(r"pub const OPTICAL_KEYS: &\[&str\] = &\[([^\]]*)\]", src)
+    return set(re.findall(r'"([^"]+)"', m.group(1))) if m else set()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
@@ -43,6 +51,7 @@ def main():
     reg = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     optical = {o["species_id"]: o for o in reg["optical"]}
     ph = indicator_keys()
+    iodine = iodine_optical_keys()
     rows = []
     for ident in reg["identities"]:
         key = ident["id"]
@@ -51,7 +60,7 @@ def main():
         spectrum = bool(o and o["spectrum"])
         if key in ph:
             cls = "parameterised_ph"
-        elif spectrum:
+        elif spectrum or key in iodine:
             cls = "parameterised"
         elif appearance is None:
             cls = "unclassified"

@@ -19,7 +19,8 @@
 //!   theirs);
 //! * both couples passed their cross-check against an independent value;
 //! * `ΔE° ≥ COMPLETE_MARGIN_V`, so a limiting-reagent writer is honest
-//!   (Fe³⁺/I⁻ at 0.23 V is an equilibrium, not a completion);
+//!   (Fe³⁺/I⁻ at 0.23 V is an equilibrium, not a completion; it is solved
+//!   to its constant by `iodine_chemistry`, not run here);
 //! * the reductant's oxidised product is fixed for this oxidant
 //!   (thiosulfate → tetrathionate only with iodine; → sulfate only with
 //!   hypochlorite/HClO/chlorine, by the 4:1 equation at every ratio);
