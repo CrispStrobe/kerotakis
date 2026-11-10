@@ -14,7 +14,7 @@
 //! validation of that database. Every family here shares the UNIFAC
 //! parameter publication with the code it checks, so none of them can say
 //! the MODEL is right. What they can say — and this is not small — is that
-//! our transcription of ten subgroups and thirty interaction parameters,
+//! our transcription of thirteen subgroups and thirty-eight interaction parameters,
 //! our combinatorial and residual arithmetic, our finite-difference
 //! Gibbs–Helmholtz derivative, our infinite-dilution stand-in and our
 //! bubble-point bracketing all agree with a mature independent
@@ -45,6 +45,9 @@ fn groups(name: &str) -> GroupDecomposition {
         "ethanoic-acid" => &[(1, 1), (42, 1)],
         "hexane" => &[(1, 2), (2, 4)],
         "2-2-dimethylpropane" => &[(1, 4), (4, 1)],
+        "benzene" => &[(9, 6)],
+        "naphthalene" => &[(9, 8), (10, 2)],
+        "ethyl-ethanoate" => &[(1, 1), (2, 1), (21, 1)],
         // `kerotakis-core`'s partition path decomposes methanol this way
         // rather than as the single CH3OH subgroup original UNIFAC assigns
         // it. Pinned so the difference is a number rather than an
@@ -98,8 +101,8 @@ fn f(row: &[String], i: usize) -> f64 {
 /// Activity coefficients across every binary the approved table can form.
 ///
 /// **Independent of:** our combinatorial and residual arithmetic, our
-/// group bookkeeping, and our transcription of the ten subgroup r/q pairs
-/// and thirty interaction parameters. The binary list is chosen so that
+/// group bookkeeping, and our transcription of the thirteen subgroup r/q pairs
+/// and thirty-eight interaction parameters. The binary list is chosen so that
 /// every one of those parameters moves at least one row here; a single
 /// mistyped `a_mn` cannot hide.
 ///

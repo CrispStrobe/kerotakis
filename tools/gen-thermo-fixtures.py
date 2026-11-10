@@ -59,8 +59,8 @@ only that the code reads the database:
       committed fixture would be copying its parameter table into this
       repository under thermo's provenance, when those values already
       live in `approved_table()` under their own. The gamma grid is
-      chosen instead so that every one of the 30 interaction parameters
-      and all 10 subgroups move at least one emitted number.
+      chosen instead so that every one of the 38 interaction parameters
+      and all 13 subgroups move at least one emitted number.
 
 Run from the repo root with a venv holding `thermo`:
   ./path/to/python tools/gen-thermo-fixtures.py \
@@ -85,6 +85,9 @@ COMPONENTS = {
     "ethanoic-acid": {1: 1, 42: 1},         # CH3 COOH
     "hexane": {1: 2, 2: 4},
     "2-2-dimethylpropane": {1: 4, 4: 1},    # exercises C (subgroup 4)
+    "benzene": {9: 6},                      # ACH (main group 3)
+    "naphthalene": {9: 8, 10: 2},           # ACH + AC (subgroup 10)
+    "ethyl-ethanoate": {1: 1, 2: 1, 21: 1}, # CH3 CH2 CH3COO (main group 11)
     # The decomposition `kerotakis-core/src/bench.rs::partition_groups` feeds
     # the partition path for methanol. It is NOT the original-UNIFAC
     # assignment, which is the single CH3OH subgroup above; it is pinned here
@@ -115,6 +118,11 @@ BINARIES = [
     ("methanol", "propanone"),          # 6-9
     ("methanol", "ethanoic-acid"),      # 6-20
     ("propanone", "ethanoic-acid"),     # 9-20, 1-9, 1-20
+    ("benzene", "water"),               # 3-7
+    ("benzene", "hexane"),              # 1-3
+    ("naphthalene", "water"),           # 3-7 through subgroup 10
+    ("ethyl-ethanoate", "water"),       # 1-11, 1-7, 7-11
+    ("ethyl-ethanoate", "hexane"),      # 1-11
 ]
 
 GAMMA_X = [0.01, 0.05, 0.2, 0.5, 0.8, 0.95, 0.99]
@@ -139,6 +147,12 @@ GAMMAINF = [
     ("methanol-as-ch3-oh", "hexane"),
     ("propanone", "water"),
     ("propanone", "hexane"),
+    ("ethanoic-acid", "water"),
+    ("ethanoic-acid", "hexane"),
+    ("ethyl-ethanoate", "water"),
+    ("ethyl-ethanoate", "hexane"),
+    ("naphthalene", "water"),
+    ("naphthalene", "hexane"),
 ]
 GAMMAINF_T = [298.15, 310.0]
 # What `lle::infinite_dilution_gamma` uses as its stand-in for "infinitely

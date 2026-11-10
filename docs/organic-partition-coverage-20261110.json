@@ -1,0 +1,108 @@
+{
+  "schema": "kerotakis.organic-partition-coverage.v1",
+  "solvent": "hexane",
+  "temperature_k": 298.15,
+  "model": "original UNIFAC infinite-dilution gamma ratio (VLE parameters); prediction, not measurement",
+  "octanol_proxy_used": false,
+  "species": [
+    {
+      "species": "CH3COOH",
+      "groups": {
+        "1": 1,
+        "42": 1
+      },
+      "mole_fraction_ratio_298": 0.3200955,
+      "liquid_owner": "miscible",
+      "dissolved_bound": null,
+      "ionisable": {
+        "conjugate_base": "CH3COO-",
+        "pka": 4.76,
+        "pka_source": "CRC Handbook, dissociation constants of organic acids, 25 C"
+      }
+    },
+    {
+      "species": "ethanol",
+      "groups": {
+        "1": 1,
+        "2": 1,
+        "14": 1
+      },
+      "mole_fraction_ratio_298": 0.275111,
+      "liquid_owner": "miscible",
+      "dissolved_bound": null,
+      "ionisable": null
+    },
+    {
+      "species": "ethyl_acetate",
+      "groups": {
+        "1": 1,
+        "2": 1,
+        "21": 1
+      },
+      "mole_fraction_ratio_298": 28.08472,
+      "liquid_owner": "partly-miscible",
+      "dissolved_bound": {
+        "dissolved_g_per_100_g_water": 7.0,
+        "reference_temperature_k": 298.15,
+        "tolerance_k": 10.0
+      },
+      "ionisable": null
+    },
+    {
+      "species": "isopropanol",
+      "groups": {
+        "1": 2,
+        "3": 1,
+        "14": 1
+      },
+      "mole_fraction_ratio_298": 0.9011356,
+      "liquid_owner": "miscible",
+      "dissolved_bound": null,
+      "ionisable": null
+    },
+    {
+      "species": "methanol",
+      "groups": {
+        "15": 1
+      },
+      "mole_fraction_ratio_298": 0.1070035,
+      "liquid_owner": "miscible",
+      "dissolved_bound": null,
+      "ionisable": null
+    },
+    {
+      "species": "naphthalene",
+      "groups": {
+        "9": 8,
+        "10": 2
+      },
+      "mole_fraction_ratio_298": 50983.33,
+      "liquid_owner": "not-admitted",
+      "dissolved_bound": null,
+      "ionisable": null
+    },
+    {
+      "species": "propanone",
+      "groups": {
+        "1": 1,
+        "18": 1
+      },
+      "mole_fraction_ratio_298": 1.827034,
+      "liquid_owner": "miscible",
+      "dissolved_bound": null,
+      "ionisable": null
+    },
+    {
+      "species": "tert_butanol",
+      "groups": {
+        "1": 3,
+        "4": 1,
+        "14": 1
+      },
+      "mole_fraction_ratio_298": 2.742722,
+      "liquid_owner": "miscible",
+      "dissolved_bound": null,
+      "ionisable": null
+    }
+  ]
+}

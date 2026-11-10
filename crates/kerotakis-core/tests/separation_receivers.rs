@@ -122,7 +122,7 @@ fn separation_coverage_is_current() {
 }
 
 #[test]
-fn liquid_labelled_ethanol_is_extracted_and_the_ester_is_named() {
+fn liquid_labelled_ethanol_and_the_dissolved_ester_are_both_extracted() {
     // MO-004 shape: ethanol added by script is a liquid portion in water.
     let mut b = setup(&["add v1 water 100mL", "add v1 ethanol 0.001mol", "new"]);
     assert!(b.vessels[0]
@@ -155,21 +155,42 @@ fn liquid_labelled_ethanol_is_extracted_and_the_ester_is_named() {
     let receiver = b.vessel(VesselId(1)).unwrap();
     assert!(receiver.moles_of(&SpeciesId::new("hexane")).0 > 0.0);
     assert!((receiver.moles_of(&SpeciesId::new("ethanol")).0 - split.extracted.0).abs() < 1e-18);
-    let named = refusal(&events, "not-modeled.extraction-without-coefficient");
-    assert!(named.render(i18n::Locale::EN).contains("ethyl_acetate"));
-    assert_localised(named);
+    // Until 2026-11-10 the ester was named as unsupported here. It now has a
+    // UNIFAC decomposition, and 0.0005 mol in 100 mL is far inside its
+    // reviewed dissolved bound, so it is one owned solute and moves too.
+    let ester = events
+        .iter()
+        .find_map(|e| match e {
+            Event::Extracted { solutes, .. } => solutes
+                .iter()
+                .find(|s| s.species.0 == "ethyl_acetate")
+                .cloned(),
+            _ => None,
+        })
+        .expect("the dissolved ester is extracted, not skipped");
+    assert!(ester.extracted.0 > ester.remaining.0, "K > 1 for the ester");
+    assert!((ester.extracted.0 + ester.remaining.0 - 0.0005).abs() < 1e-15);
+    assert!(
+        (receiver.moles_of(&SpeciesId::new("ethyl_acetate")).0 - ester.extracted.0).abs() < 1e-18
+    );
+    assert!(!events
+        .iter()
+        .any(|e| matches!(e, Event::NotYetModeled { .. })));
 }
 
 #[test]
 fn an_unparameterised_neutral_solute_refuses_naming_it_and_dispenses_nothing() {
-    // SE-012 / SE-002 shape.
-    let mut b = setup(&["add v1 water 50mL", "add v1 naphthalene 0.000002mol", "new"]);
+    // SE-012 / SE-002 shape. Naphthalene was the fixture until it gained a
+    // UNIFAC decomposition on 2026-11-10 (now covered positively in
+    // organic_partition.rs); glucose is a dissolved neutral with none.
+    let mut b = setup(&["add v1 water 50mL", "new"]);
+    b.vessels[0].deposit(SpeciesId::new("glucose"), Moles(0.000002), Phase::Aqueous);
     let before = serde_json::to_value(&b.vessels).unwrap();
     let events = step(&mut b, "extract v1 v2 hexane 10mL");
     assert_moves_or_refuses(&before, &b, &events);
     let reason = refusal(&events, "not-modeled.no-distribution-coefficient");
     let text = reason.render(i18n::Locale::EN);
-    assert!(text.contains("naphthalene"), "{text}");
+    assert!(text.contains("glucose"), "{text}");
     assert!(text.contains("receiver is unchanged"), "{text}");
     assert_localised(reason);
     assert_eq!(total(&b, "hexane"), 0.0);

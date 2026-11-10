@@ -175,13 +175,17 @@ fn the_injection_consumes_nothing() {
     assert_eq!(before, after, "an analytical injection moves no ledger");
 }
 
+// The unparameterised neutral in the three fixtures below was ethyl acetate
+// until 2026-11-10, when it gained a UNIFAC decomposition (CH3 CH2
+// CH3COO). Dodecane is a neutral with no decomposition in
+// `partition_groups`, so it keeps every assertion's meaning unchanged.
 #[test]
 fn supported_peaks_do_not_hide_a_neutral_parameter_gap() {
-    let events = chromatogram_of(&[("water", 2.0), ("ethanol", 0.001), ("ethyl_acetate", 0.001)]);
+    let events = chromatogram_of(&[("water", 2.0), ("ethanol", 0.001), ("dodecane", 0.001)]);
     assert!(
         events.iter().any(|event| matches!(event,
             Event::NotYetModeled { cause: ops::NotModelledCause::NotParameterised, what, .. }
-                if what.contains("ethyl_acetate")
+                if what.contains("dodecane")
         )),
         "the supported ethanol peak must not suppress the missing coefficient: {events:?}"
     );
@@ -206,7 +210,7 @@ fn supported_peaks_do_not_hide_a_neutral_parameter_gap() {
 
 #[test]
 fn an_entirely_unparameterised_sample_has_no_invented_empty_result() {
-    let events = chromatogram_of(&[("water", 2.0), ("ethyl_acetate", 0.001)]);
+    let events = chromatogram_of(&[("water", 2.0), ("dodecane", 0.001)]);
     assert!(events.iter().any(|event| matches!(
         event,
         Event::NotYetModeled {
@@ -238,7 +242,7 @@ fn ions_and_unknown_neutrals_keep_their_separate_coverage_reports() {
         ("water", 2.0, Phase::Liquid),
         ("Na+", 0.001, Phase::Aqueous),
         ("Cl-", 0.001, Phase::Aqueous),
-        ("ethyl_acetate", 0.001, Phase::Liquid),
+        ("dodecane", 0.001, Phase::Liquid),
     ] {
         bench.vessels[0].deposit(SpeciesId::new(key), Moles(n), phase);
     }
@@ -255,7 +259,7 @@ fn ions_and_unknown_neutrals_keep_their_separate_coverage_reports() {
     );
     assert!(events.iter().any(|event| matches!(event,
         Event::NotYetModeled { cause: ops::NotModelledCause::NotParameterised, what, .. }
-            if what.contains("ethyl_acetate")
+            if what.contains("dodecane")
     )));
     let (peaks, outside) = events
         .iter()
@@ -271,5 +275,5 @@ fn ions_and_unknown_neutrals_keep_their_separate_coverage_reports() {
     assert!(peaks.is_empty());
     assert!(outside.iter().any(|s| s.0 == "Na+"));
     assert!(outside.iter().any(|s| s.0 == "Cl-"));
-    assert!(!outside.iter().any(|s| s.0 == "ethyl_acetate"));
+    assert!(!outside.iter().any(|s| s.0 == "dodecane"));
 }

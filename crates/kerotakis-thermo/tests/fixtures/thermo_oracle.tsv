@@ -258,6 +258,76 @@ gamma	propanone+ethanoic-acid	0.95	298.15	1.0045370998e+00	1.0704095493e+00
 gamma	propanone+ethanoic-acid	0.95	333.15	1.0037770258e+00	1.1880071431e+00
 gamma	propanone+ethanoic-acid	0.99	298.15	1.0002403010e+00	1.2384394482e+00
 gamma	propanone+ethanoic-acid	0.99	333.15	1.0001869506e+00	1.3399362458e+00
+gamma	benzene+water	0.01	298.15	1.6571939162e+03	1.0018701876e+00
+gamma	benzene+water	0.01	333.15	1.2049039812e+03	1.0017170731e+00
+gamma	benzene+water	0.05	298.15	4.6727398117e+02	1.0408074016e+00
+gamma	benzene+water	0.05	333.15	3.7185171257e+02	1.0379006450e+00
+gamma	benzene+water	0.2	298.15	2.8376169270e+01	1.5100926061e+00
+gamma	benzene+water	0.2	333.15	2.5762426343e+01	1.4817287825e+00
+gamma	benzene+water	0.5	298.15	3.0876436582e+00	4.6090826626e+00
+gamma	benzene+water	0.5	333.15	2.9563362461e+00	4.4114650723e+00
+gamma	benzene+water	0.8	298.15	1.2869598330e+00	2.3855968360e+01
+gamma	benzene+water	0.8	333.15	1.2576665473e+00	2.1873654116e+01
+gamma	benzene+water	0.95	298.15	1.0285699932e+00	1.3046072975e+02
+gamma	benzene+water	0.95	333.15	1.0230604173e+00	1.0233138645e+02
+gamma	benzene+water	0.99	298.15	1.0015222180e+00	3.2258464116e+02
+gamma	benzene+water	0.99	333.15	1.0011351367e+00	2.1156135072e+02
+gamma	benzene+hexane	0.01	298.15	1.5629340672e+00	1.0000312886e+00
+gamma	benzene+hexane	0.01	333.15	1.4997007563e+00	1.0000279944e+00
+gamma	benzene+hexane	0.05	298.15	1.5246175582e+00	1.0008026250e+00
+gamma	benzene+hexane	0.05	333.15	1.4667377035e+00	1.0007187200e+00
+gamma	benzene+hexane	0.2	298.15	1.3906824261e+00	1.0142596594e+00
+gamma	benzene+hexane	0.2	333.15	1.3504665349e+00	1.0128037902e+00
+gamma	benzene+hexane	0.5	298.15	1.1724337244e+00	1.1155159389e+00
+gamma	benzene+hexane	0.5	333.15	1.1570975415e+00	1.1040275455e+00
+gamma	benzene+hexane	0.8	298.15	1.0327447623e+00	1.4251794973e+00
+gamma	benzene+hexane	0.8	333.15	1.0302350264e+00	1.3819870514e+00
+gamma	benzene+hexane	0.95	298.15	1.0022942806e+00	1.7656667991e+00
+gamma	benzene+hexane	0.95	333.15	1.0021303068e+00	1.6848273622e+00
+gamma	benzene+hexane	0.99	298.15	1.0000950264e+00	1.8964698280e+00
+gamma	benzene+hexane	0.99	333.15	1.0000883524e+00	1.8004514010e+00
+gamma	naphthalene+water	0.01	298.15	5.9174465216e+04	1.0042075095e+00
+gamma	naphthalene+water	0.01	333.15	3.8125681787e+04	1.0039059388e+00
+gamma	naphthalene+water	0.05	298.15	4.3572497223e+03	1.0848310692e+00
+gamma	naphthalene+water	0.05	333.15	3.2847913250e+03	1.0796527927e+00
+gamma	naphthalene+water	0.2	298.15	4.4671407670e+01	1.9470677063e+00
+gamma	naphthalene+water	0.2	333.15	4.0064290668e+01	1.8987363099e+00
+gamma	naphthalene+water	0.5	298.15	3.0331796349e+00	7.2402757378e+00
+gamma	naphthalene+water	0.5	333.15	2.8749714490e+00	6.8796079252e+00
+gamma	naphthalene+water	0.8	298.15	1.2533669195e+00	3.7355937814e+01
+gamma	naphthalene+water	0.8	333.15	1.2212175937e+00	3.3454586000e+01
+gamma	naphthalene+water	0.95	298.15	1.0223198830e+00	1.7057835309e+02
+gamma	naphthalene+water	0.95	333.15	1.0175358302e+00	1.2759950752e+02
+gamma	naphthalene+water	0.99	298.15	1.0010888242e+00	3.4436037944e+02
+gamma	naphthalene+water	0.99	333.15	1.0008026728e+00	2.2095479848e+02
+gamma	ethyl-ethanoate+water	0.01	298.15	6.9942929843e+01	1.0011071826e+00
+gamma	ethyl-ethanoate+water	0.01	333.15	5.7944231288e+01	1.0010472900e+00
+gamma	ethyl-ethanoate+water	0.05	298.15	3.2929700185e+01	1.0240990262e+00
+gamma	ethyl-ethanoate+water	0.05	333.15	2.8326088020e+01	1.0228958400e+00
+gamma	ethyl-ethanoate+water	0.2	298.15	6.1489463587e+00	1.2800101835e+00
+gamma	ethyl-ethanoate+water	0.2	333.15	5.6658407873e+00	1.2672035614e+00
+gamma	ethyl-ethanoate+water	0.5	298.15	1.6575828812e+00	2.4649390424e+00
+gamma	ethyl-ethanoate+water	0.5	333.15	1.6071639282e+00	2.3772501191e+00
+gamma	ethyl-ethanoate+water	0.8	298.15	1.0715386704e+00	5.4000827894e+00
+gamma	ethyl-ethanoate+water	0.8	333.15	1.0652554114e+00	4.9665165765e+00
+gamma	ethyl-ethanoate+water	0.95	298.15	1.0041674243e+00	8.4789299515e+00
+gamma	ethyl-ethanoate+water	0.95	333.15	1.0037507361e+00	7.4995039216e+00
+gamma	ethyl-ethanoate+water	0.99	298.15	1.0001653133e+00	9.6461391853e+00
+gamma	ethyl-ethanoate+water	0.99	333.15	1.0001481105e+00	8.4221768844e+00
+gamma	ethyl-ethanoate+hexane	0.01	298.15	3.0432140473e+00	1.0001106131e+00
+gamma	ethyl-ethanoate+hexane	0.01	333.15	2.6945718761e+00	1.0000959242e+00
+gamma	ethyl-ethanoate+hexane	0.05	298.15	2.7930565659e+00	1.0027670673e+00
+gamma	ethyl-ethanoate+hexane	0.05	333.15	2.5009707649e+00	1.0024056055e+00
+gamma	ethyl-ethanoate+hexane	0.2	298.15	2.0895312713e+00	1.0452258198e+00
+gamma	ethyl-ethanoate+hexane	0.2	333.15	1.9390971378e+00	1.0395844390e+00
+gamma	ethyl-ethanoate+hexane	0.5	298.15	1.3487489027e+00	1.3242786246e+00
+gamma	ethyl-ethanoate+hexane	0.5	333.15	1.3122845200e+00	1.2844932675e+00
+gamma	ethyl-ethanoate+hexane	0.8	298.15	1.0521553627e+00	2.1085960684e+00
+gamma	ethyl-ethanoate+hexane	0.8	333.15	1.0476153209e+00	1.9599013643e+00
+gamma	ethyl-ethanoate+hexane	0.95	298.15	1.0033099907e+00	2.9474259122e+00
+gamma	ethyl-ethanoate+hexane	0.95	333.15	1.0030348136e+00	2.6628666789e+00
+gamma	ethyl-ethanoate+hexane	0.99	298.15	1.0001337277e+00	3.2662979652e+00
+gamma	ethyl-ethanoate+hexane	0.99	333.15	1.0001226798e+00	2.9259134904e+00
 hmix	ethanol+water	0.1	298.15	6.1535397038e+01
 hmix	ethanol+water	0.3	298.15	-3.5348074814e+01
 hmix	ethanol+water	0.5	298.15	-1.7489982683e+02
@@ -343,6 +413,31 @@ hmix	propanone+ethanoic-acid	0.3	298.15	-7.0003818386e+02
 hmix	propanone+ethanoic-acid	0.5	298.15	-8.7705239361e+02
 hmix	propanone+ethanoic-acid	0.7	298.15	-7.5227679515e+02
 hmix	propanone+ethanoic-acid	0.9	298.15	-2.7906742046e+02
+hmix	benzene+water	0.1	298.15	5.2650144177e+02
+hmix	benzene+water	0.3	298.15	8.7598258519e+02
+hmix	benzene+water	0.5	298.15	9.3512448776e+02
+hmix	benzene+water	0.7	298.15	8.6000652026e+02
+hmix	benzene+water	0.9	298.15	5.7170657178e+02
+hmix	benzene+hexane	0.1	298.15	9.0947669760e+01
+hmix	benzene+hexane	0.3	298.15	2.2156400323e+02
+hmix	benzene+hexane	0.5	298.15	2.7578501358e+02
+hmix	benzene+hexane	0.7	298.15	2.4254638635e+02
+hmix	benzene+hexane	0.9	298.15	1.0896500279e+02
+hmix	naphthalene+water	0.1	298.15	6.6273303023e+02
+hmix	naphthalene+water	0.3	298.15	1.0393713763e+03
+hmix	naphthalene+water	0.5	298.15	1.1156993768e+03
+hmix	naphthalene+water	0.7	298.15	1.0407676625e+03
+hmix	naphthalene+water	0.9	298.15	6.6653092648e+02
+hmix	ethyl-ethanoate+water	0.1	298.15	3.4977546556e+02
+hmix	ethyl-ethanoate+water	0.3	298.15	6.8453998634e+02
+hmix	ethyl-ethanoate+water	0.5	298.15	7.6493158828e+02
+hmix	ethyl-ethanoate+water	0.7	298.15	6.3852884662e+02
+hmix	ethyl-ethanoate+water	0.9	298.15	2.8213002680e+02
+hmix	ethyl-ethanoate+hexane	0.1	298.15	2.6006115559e+02
+hmix	ethyl-ethanoate+hexane	0.3	298.15	5.8492182389e+02
+hmix	ethyl-ethanoate+hexane	0.5	298.15	6.7601679059e+02
+hmix	ethyl-ethanoate+hexane	0.7	298.15	5.5539101502e+02
+hmix	ethyl-ethanoate+hexane	0.9	298.15	2.3467280303e+02
 gammainf	ethanol	water	298.15	7.6238465279e+00
 gammainf	ethanol	water	310.0	7.4565903687e+00
 gammainf	ethanol	hexane	298.15	2.7711892032e+01
@@ -359,6 +454,18 @@ gammainf	propanone	water	298.15	1.1472445801e+01
 gammainf	propanone	water	310.0	1.1417336940e+01
 gammainf	propanone	hexane	298.15	6.2792717007e+00
 gammainf	propanone	hexane	310.0	5.7727251175e+00
+gammainf	ethanoic-acid	water	298.15	3.5060979582e+00
+gammainf	ethanoic-acid	water	310.0	3.5052983300e+00
+gammainf	ethanoic-acid	hexane	298.15	1.0953288850e+01
+gammainf	ethanoic-acid	hexane	310.0	9.8860603699e+00
+gammainf	ethyl-ethanoate	water	298.15	8.7369983649e+01
+gammainf	ethyl-ethanoate	water	310.0	8.1286491378e+01
+gammainf	ethyl-ethanoate	hexane	298.15	3.1109440961e+00
+gammainf	ethyl-ethanoate	hexane	310.0	2.9727373560e+00
+gammainf	naphthalene	water	298.15	1.3856399270e+05
+gammainf	naphthalene	water	310.0	1.1571738211e+05
+gammainf	naphthalene	hexane	298.15	2.7178293423e+00
+gammainf	naphthalene	hexane	310.0	2.6590256067e+00
 bubble	ethanol+water	0.01	101.325	96.659947	0.12229028
 bubble	ethanol+water	0.05	101.325	89.467557	0.35025050
 bubble	ethanol+water	0.1	101.325	85.844969	0.45144657

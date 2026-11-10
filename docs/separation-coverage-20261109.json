@@ -2,11 +2,20 @@
   "schema": "kerotakis.separation-coverage.v1",
   "extract_solvent": "hexane",
   "counts": {
-    "extract": 4,
+    "extract": 9,
     "distil": 4,
-    "liquid_owner_admitted": 3
+    "liquid_owner_admitted": 6
   },
   "species": [
+    {
+      "species": "CH3COOH",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": true,
+      "distil": null
+    },
     {
       "species": "I2",
       "registered": true,
@@ -31,10 +40,21 @@
       }
     },
     {
+      "species": "ethyl_acetate",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": false,
+      "distil": null
+    },
+    {
       "species": "isopropanol",
       "registered": true,
-      "extract_hexane": null,
-      "liquid_owner_admitted": false,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": true,
       "distil": {
         "basis": "uscg-chris-ideal-still",
         "boiling_k": 355.5,
@@ -55,7 +75,25 @@
       }
     },
     {
+      "species": "naphthalene",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": false,
+      "distil": null
+    },
+    {
       "species": "propanone",
+      "registered": true,
+      "extract_hexane": {
+        "basis": "unifac-group-model"
+      },
+      "liquid_owner_admitted": true,
+      "distil": null
+    },
+    {
+      "species": "tert_butanol",
       "registered": true,
       "extract_hexane": {
         "basis": "unifac-group-model"
@@ -84,9 +122,9 @@
     {
       "species": "CH3COOH",
       "registered": true,
-      "extract_hexane": null,
+      "extract_hexane": "unifac-group-model",
       "distil": null,
-      "gap": "extract: no K; distil: no reviewed vapour pressure/latent heat (vapour dimerises)"
+      "gap": "extract: closed 2026-11-10 (neutral form, UNIFAC CH3+COOH); distil: no reviewed vapour pressure/latent heat (vapour dimerises)"
     },
     {
       "species": "Cl-",
@@ -133,16 +171,16 @@
     {
       "species": "ethyl_acetate",
       "registered": true,
-      "extract_hexane": null,
+      "extract_hexane": "unifac-group-model",
       "distil": null,
-      "gap": "extract: liquid owner not admitted (partly miscible) and no K"
+      "gap": "extract: closed 2026-11-10 (UNIFAC CH3COO decomposition; liquid owner admitted within the reviewed dissolved bound)"
     },
     {
       "species": "naphthalene",
       "registered": true,
-      "extract_hexane": null,
+      "extract_hexane": "unifac-group-model",
       "distil": null,
-      "gap": "extract: no hexane/water K (no empirical row, no UNIFAC decomposition)"
+      "gap": "extract: closed 2026-11-10 by the UNIFAC ACH/AC decomposition (docs/organic-partition-coverage-20261110.md)"
     }
   ]
 }

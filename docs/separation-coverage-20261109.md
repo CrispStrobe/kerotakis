@@ -6,15 +6,19 @@ this table; `distil` carries a condensed owner overhead only with properties fro
 Any other solute is named in a typed not-modelled reason (EN/DE/FR) - an extraction
 that can move nothing dispenses no solvent and leaves the receiver unchanged, and says so.
 
-Counts: extract 4, distil 4, liquid owners admitted 3.
+Counts: extract 9, distil 4, liquid owners admitted 6.
 
 | species | extract (hexane/water) | K | liquid owner admitted | distil |
 |---|---|---|---|---|
+| CH3COOH | unifac-group-model | - | yes | - |
 | I2 | empirical | 85.0 | no | - |
 | ethanol | unifac-group-model | - | yes | binary-unifac-still |
-| isopropanol | - | - | no | uscg-chris-ideal-still |
+| ethyl_acetate | unifac-group-model | - | no | - |
+| isopropanol | unifac-group-model | - | yes | uscg-chris-ideal-still |
 | methanol | unifac-group-model | - | yes | uscg-chris-ideal-still |
+| naphthalene | unifac-group-model | - | no | - |
 | propanone | unifac-group-model | - | yes | - |
+| tert_butanol | unifac-group-model | - | yes | - |
 | water | - | - | no | binary-unifac-still |
 
 ## Watched gaps
@@ -25,12 +29,12 @@ until a reviewed row is added; no value is invented here.
 | species | extract | distil | gap |
 |---|---|---|---|
 | CH3COO- | missing | - | extract: ion, no reviewed ion-pair partition |
-| CH3COOH | missing | missing | extract: no K; distil: no reviewed vapour pressure/latent heat (vapour dimerises) |
+| CH3COOH | unifac-group-model | missing | extract: closed 2026-11-10 (neutral form, UNIFAC CH3+COOH); distil: no reviewed vapour pressure/latent heat (vapour dimerises) |
 | Cl- | missing | - | extract: ion, no reviewed ion-pair partition |
 | H+ | missing | - | extract: ion, no reviewed ion-pair partition |
 | I- | missing | - | extract: ion, no reviewed ion-pair partition |
 | K+ | missing | - | extract: ion, no reviewed ion-pair partition |
 | Na+ | missing | - | extract: ion, no reviewed ion-pair partition |
 | S4O6-2 | missing | - | extract: ion, no reviewed ion-pair partition |
-| ethyl_acetate | missing | - | extract: liquid owner not admitted (partly miscible) and no K |
-| naphthalene | missing | - | extract: no hexane/water K (no empirical row, no UNIFAC decomposition) |
+| ethyl_acetate | unifac-group-model | - | extract: closed 2026-11-10 (UNIFAC CH3COO decomposition; liquid owner admitted within the reviewed dissolved bound) |
+| naphthalene | unifac-group-model | - | extract: closed 2026-11-10 by the UNIFAC ACH/AC decomposition (docs/organic-partition-coverage-20261110.md) |
