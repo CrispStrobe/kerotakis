@@ -585,6 +585,25 @@ pub struct TransitionReading {
     pub lowest_component_c: Option<f64>,
     /// What the reading does NOT claim.
     pub boundary: Option<String>,
+    /// The phase the sample is actually in while it is read. Equal to the
+    /// technique's wanted phase in the classic case; different when the
+    /// apparatus reports the curated constant of a sample that is already
+    /// past it (a liquid alcohol's melting point, a solid alcohol's boiling
+    /// point). The renderer states it, so a value is never mistaken for an
+    /// observed crossing.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sample_phase: Option<Phase>,
+}
+
+/// The phases, in priority order, the apparatus takes its sample from when
+/// nothing of the technique's own phase is in the vessel: the other
+/// condensed phase first, then gas. Dissolved matter is never the sample —
+/// it is what makes a sample "not isolated".
+fn fallback_phases(kind: TransitionRead) -> [Phase; 2] {
+    match kind {
+        TransitionRead::Melting => [Phase::Liquid, Phase::Gas],
+        TransitionRead::Boiling => [Phase::Solid, Phase::Gas],
+    }
 }
 
 /// What this apparatus is and is not, said once so every register can say it.
@@ -607,20 +626,43 @@ pub const MIXTURE_BOUNDARY: &str =
 /// The whole method is: find out whether the sample is one substance, and
 /// only then look the constant up.
 pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReading {
-    let wanted = kind.wanted_phase();
-    let mut holder: Vec<(SpeciesId, f64)> = Vec::new();
-    let mut elsewhere = 0.0f64;
-    for p in &vessel.contents {
-        if p.moles.0 <= 0.0 {
-            continue;
-        }
-        if p.phase == wanted {
-            match holder.iter_mut().find(|(s, _)| *s == p.species) {
-                Some((_, n)) => *n += p.moles.0,
-                None => holder.push((p.species.clone(), p.moles.0)),
+    // The sample is what is in the technique's own phase. Where there is
+    // none, the apparatus still reports the curated constant of what IS
+    // there — a liquid's melting point, a solid's boiling point — and says
+    // which phase the sample is in (transition-points lane, 2026-11-10):
+    // "nothing to test" for a beaker of isopropanol answered a question
+    // the registry can answer. In that fallback only dissolved matter makes
+    // the sample impure; a gas headspace beside a condensed sample does not.
+    let collect = |phase: Phase, impure: &dyn Fn(Phase) -> bool| {
+        let mut holder: Vec<(SpeciesId, f64)> = Vec::new();
+        let mut elsewhere = 0.0f64;
+        for p in &vessel.contents {
+            if p.moles.0 <= 0.0 {
+                continue;
             }
-        } else {
-            elsewhere += p.moles.0;
+            if p.phase == phase {
+                match holder.iter_mut().find(|(s, _)| *s == p.species) {
+                    Some((_, n)) => *n += p.moles.0,
+                    None => holder.push((p.species.clone(), p.moles.0)),
+                }
+            } else if impure(p.phase) {
+                elsewhere += p.moles.0;
+            }
+        }
+        (holder, elsewhere)
+    };
+    let wanted = kind.wanted_phase();
+    let (mut holder, mut elsewhere) = collect(wanted, &|_| true);
+    let mut sample_phase = wanted;
+    if holder.is_empty() {
+        for phase in fallback_phases(kind) {
+            let (h, e) = collect(phase, &|q| q == Phase::Aqueous);
+            if !h.is_empty() {
+                holder = h;
+                elsewhere = e;
+                sample_phase = phase;
+                break;
+            }
         }
     }
     let total: f64 = holder.iter().map(|(_, n)| n).sum();
@@ -634,10 +676,12 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
         components: holder.iter().map(|(s, _)| s.clone()).collect(),
         lowest_component_c: None,
         boundary: None,
+        sample_phase: None,
     };
     if total <= 0.0 {
         return reading;
     }
+    reading.sample_phase = Some(sample_phase);
 
     // The lowest pure point among whatever is in the holder — the mixture
     // message's one grounded number, and harmless to compute either way.

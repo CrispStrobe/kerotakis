@@ -3947,7 +3947,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                             .unwrap_or(o.as_str()),
                         None => locale.t("transition.outcome.changes state", "changes state"),
                     };
-                    match level {
+                    let line = match level {
                         1 => locale.fill(
                             "event.transition-point-read.lv1",
                             "The sample from {vessel} {outcome} at {value} °C. Every pure substance has its own, always the same — which is how you tell one white powder from another.",
@@ -3967,6 +3967,34 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                                 &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("outcome", outcome), ("value", &locale.number(format!("{value:.2}"))), ("trace", &locale.number(format!("{:.0e}", crate::instrument::PURITY_TRACE_FRACTION))), ("source", source), ("boundary", boundary)],
                             )
                         }
+                    };
+                    // Transition-points lane: the constant of a sample
+                    // that is not in the technique's own phase is still
+                    // reported, and the line says which phase it is in so
+                    // nobody reads it as an observed crossing.
+                    let wanted = match reading.kind {
+                        crate::instrument::TransitionRead::Melting => Phase::Solid,
+                        crate::instrument::TransitionRead::Boiling => Phase::Liquid,
+                    };
+                    match reading.sample_phase {
+                        Some(now) if now != wanted => {
+                            let phase = locale.t(
+                                phase_key(now),
+                                match now {
+                                    Phase::Solid => "solid",
+                                    Phase::Liquid => "liquid",
+                                    Phase::Gas => "gaseous",
+                                    Phase::Aqueous => "dissolved",
+                                },
+                            );
+                            let note = locale.fill(
+                                "event.transition-point.phase-note",
+                                "The sample is currently {phase}, so this is the curated constant, not a crossing observed in the vessel.",
+                                &[("phase", phase)],
+                            );
+                            format!("{line} {note}")
+                        }
+                        _ => line,
                     }
                 }
                 (V::Mixture, level) => {
