@@ -50,6 +50,7 @@ pub mod enzyme;
 pub mod enzyme_activity;
 pub mod exact_stoich;
 pub mod family;
+pub mod flame;
 pub mod fermentation;
 pub mod foam;
 pub mod gas_tests;
