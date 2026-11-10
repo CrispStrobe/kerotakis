@@ -981,6 +981,7 @@ impl Equilibrator for CuratedEquilibrator {
         REACTIONS.iter().any(|r| {
             r.post_aqueous.is_none() && !(owned && r.aqueous_overlap.is_some()) && fires(vessel, r)
         }) || crate::halogen_redox::fires(vessel)
+            || crate::iodine_chemistry::ferric_iodide_fires(vessel)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -1089,6 +1090,11 @@ impl Equilibrator for CuratedEquilibrator {
             // The generic halogen/oxyhalogen writers run after the hand
             // rows, which own every pair they share (see halogen_redox).
             if crate::halogen_redox::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Fe³⁺/I⁻ is an equilibrium (ΔE° 0.15 V to aqueous iodine), so
+            // it is solved to its constant rather than run to completion.
+            if crate::iodine_chemistry::ferric_iodide_apply(vessel, &mut events) {
                 progressed = true;
             }
             if !progressed {

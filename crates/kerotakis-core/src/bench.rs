@@ -4827,6 +4827,18 @@ impl Bench {
                                     vec![("species".to_string(), Slot::terms("species", coverage.missing_absorptivity))],
                                 ),
                             ));
+                        } else if gaps.is_empty() && coverage.starch_iodine_complex {
+                            // The starch–iodine complex is coloured for the
+                            // eye from an editorial band; with no reviewed
+                            // molar absorptivity it has no instrument number.
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::NoReviewedDatum,
+                                Phrase::bare(
+                                    "not-modeled.starch-iodine-absorptivity",
+                                    "absorbance is unavailable: the starch–iodine complex absorbs visible light, but no reviewed molar absorptivity exists for it, so its blue-black colour is described and not measured",
+                                ),
+                            ));
                         } else if gaps.is_empty() {
                             // Written out rather than folded into one push with
                             // two conditionals: `every_fixed_gap_reason_has_german`

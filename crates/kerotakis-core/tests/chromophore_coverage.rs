@@ -5,6 +5,11 @@
 //! sum silently skipped it. Every coloured species without ε(λ) is now a
 //! missing parameter of the shared instrument coverage disclosure, and the
 //! reading is a typed not-modelled refusal instead of a zero.
+//!
+//! 2026-11-10: iodine itself is now parameterised from cited ε values over
+//! the computed triiodide split (`iodine_chemistry`), so the refusal cases
+//! below use chlorine, which is still coloured with no reviewed ε(λ). The
+//! starch–iodine complex refuses with its own typed reason.
 
 use kerotakis_core::instrument::{InstrumentContract, Spectrophotometer};
 use kerotakis_core::solution_optics::{self, ChromophoreClass};
@@ -42,17 +47,32 @@ fn water() -> Vessel {
 }
 
 #[test]
-fn dissolved_iodine_is_refused_not_zero() {
+fn dissolved_unparameterised_chromophore_is_refused_not_zero() {
+    let mut v = water();
+    v.deposit(SpeciesId::new("KCl"), Moles(0.002), Phase::Aqueous);
+    v.deposit(SpeciesId::new("Cl2"), Moles(0.0001), Phase::Aqueous);
+    let coverage = solution_optics::coverage(&v);
+    assert_eq!(coverage.missing_absorptivity, vec!["Cl2"]);
+    assert!(Spectrophotometer::default().measure(&v).is_none());
+    let disclosure = solution_optics::disclosure(&v);
+    assert_eq!(disclosure.missing_parameters, vec!["Cl2"]);
+    assert!(disclosure.outside_method.contains(&"KCl".to_string()));
+    assert!(!disclosure.is_complete());
+}
+
+#[test]
+fn dissolved_iodine_in_iodide_is_read_not_refused() {
     let mut v = water();
     v.deposit(SpeciesId::new("KI"), Moles(0.002), Phase::Aqueous);
     v.deposit(SpeciesId::new("I2"), Moles(0.0001), Phase::Aqueous);
     let coverage = solution_optics::coverage(&v);
-    assert_eq!(coverage.missing_absorptivity, vec!["I2"]);
-    assert!(Spectrophotometer::default().measure(&v).is_none());
+    assert!(coverage.missing_absorptivity.is_empty());
+    assert!(coverage.is_complete());
+    let reading = Spectrophotometer::default().measure(&v).expect("reading");
+    assert!(reading.value > 0.0);
     let disclosure = solution_optics::disclosure(&v);
-    assert_eq!(disclosure.missing_parameters, vec!["I2"]);
-    assert!(disclosure.outside_method.contains(&"KI".to_string()));
-    assert!(!disclosure.is_complete());
+    assert_eq!(disclosure.supported, vec!["I2"]);
+    assert!(disclosure.is_complete());
 }
 
 #[test]
@@ -80,7 +100,7 @@ fn parameterised_chromophores_keep_their_values() {
 fn a_parameterised_and_an_unparameterised_chromophore_together_refuse() {
     let mut v = water();
     v.deposit(SpeciesId::new("MnO4-"), Moles(1e-6), Phase::Aqueous);
-    v.deposit(SpeciesId::new("I2"), Moles(1e-6), Phase::Aqueous);
+    v.deposit(SpeciesId::new("Cl2"), Moles(1e-6), Phase::Aqueous);
     // The partial spectrum is still computed for diagnostics...
     assert!(solution_optics::absorbance(&v, 1.0)
         .iter()
@@ -104,6 +124,10 @@ fn colour_vocabulary_boundary() {
     ));
     assert_eq!(
         solution_optics::chromophore_class("I2"),
+        ChromophoreClass::Parameterised
+    );
+    assert_eq!(
+        solution_optics::chromophore_class("Cl2"),
         ChromophoreClass::MissingAbsorptivity
     );
     assert_eq!(
@@ -115,7 +139,7 @@ fn colour_vocabulary_boundary() {
 #[test]
 fn bench_refusal_is_typed_and_translated() {
     let mut v = water();
-    v.deposit(SpeciesId::new("I2"), Moles(0.0001), Phase::Aqueous);
+    v.deposit(SpeciesId::new("Cl2"), Moles(0.0001), Phase::Aqueous);
     let mut bench = Bench::new();
     bench.vessels[0] = v;
     let events = bench

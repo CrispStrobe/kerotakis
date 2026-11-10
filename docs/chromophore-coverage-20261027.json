@@ -23,9 +23,9 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 34,
+    "missing_absorptivity": 33,
     "outside_method": 107,
-    "parameterised": 6,
+    "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 37
   },
@@ -93,11 +93,6 @@
     {
       "species": "FeSO4",
       "appearance": "pale green",
-      "class": "missing_absorptivity"
-    },
-    {
-      "species": "I2",
-      "appearance": "dark violet crystals",
       "class": "missing_absorptivity"
     },
     {
@@ -743,6 +738,11 @@
     {
       "species": "Fe+2",
       "appearance": "pale green",
+      "class": "parameterised"
+    },
+    {
+      "species": "I2",
+      "appearance": "dark violet crystals",
       "class": "parameterised"
     },
     {

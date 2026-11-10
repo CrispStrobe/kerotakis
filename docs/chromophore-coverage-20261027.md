@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameterised_ph 4, unclassified 37.
+Counts: missing_absorptivity 33, outside_method 107, parameterised 7, parameterised_ph 4, unclassified 37.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -31,7 +31,6 @@ Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameteri
 | missing_absorptivity | Fe2O3 | reddish brown |
 | missing_absorptivity | FeCl3 | dark green-black crystals |
 | missing_absorptivity | FeSO4 | pale green |
-| missing_absorptivity | I2 | dark violet crystals |
 | missing_absorptivity | KMnO4 | dark purple crystals |
 | missing_absorptivity | Mg | silvery |
 | missing_absorptivity | Mn+2 | very pale pink |
@@ -161,6 +160,7 @@ Counts: missing_absorptivity 34, outside_method 107, parameterised 6, parameteri
 | outside_method | water | colourless |
 | parameterised | Cu+2 | blue |
 | parameterised | Fe+2 | pale green |
+| parameterised | I2 | dark violet crystals |
 | parameterised | MnO4- | intense purple |
 | parameterised | betanin | dark red powder |
 | parameterised | curcumin | bright yellow powder |

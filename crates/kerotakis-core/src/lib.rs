@@ -55,6 +55,7 @@ pub mod foam;
 pub mod gas_tests;
 pub mod gel;
 pub mod halogen_redox;
+pub mod iodine_chemistry;
 pub mod heat_capacity;
 pub mod heterogeneous;
 pub mod hmix;

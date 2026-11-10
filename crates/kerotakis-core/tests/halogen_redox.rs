@@ -223,7 +223,12 @@ fn iron_three_and_iodide_are_left_to_an_equilibrium_solver() {
     let mut v = water();
     aq(&mut v, "Fe+3", 0.001);
     aq(&mut v, "I-", 0.003);
-    assert!(react(&mut v).is_empty());
+    // The completion writers stay out (no limiting-reagent row); since
+    // 2026-11-10 the equilibrium solver is `iodine_chemistry`, which moves
+    // the vessel to K rather than to completion.
+    assert_eq!(react(&mut v), vec!["2 Fe³⁺ + 2 I⁻ → 2 Fe²⁺ + I₂"]);
+    assert!(m(&v, "Fe+3", Phase::Aqueous) > 0.0);
+    assert!(m(&v, "Fe+2", Phase::Aqueous) > 0.0);
     let pair = halogen_redox::pairs()
         .iter()
         .find(|p| p.oxidant == "Fe+3/Fe+2" && p.reductant == "I2/I-")

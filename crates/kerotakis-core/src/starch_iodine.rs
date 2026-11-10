@@ -43,9 +43,6 @@ const STARCH_SITE_FRACTION: f64 = 0.05;
 const COMPLEX_PEAK_NM: f64 = 620.0;
 const COMPLEX_PEAK_EPSILON: f64 = 2_500.0;
 const COMPLEX_WIDTH_NM: f64 = 75.0;
-const FREE_POLYIODIDE_PEAK_NM: f64 = 460.0;
-const FREE_POLYIODIDE_PEAK_EPSILON: f64 = 50.0;
-const FREE_POLYIODIDE_WIDTH_NM: f64 = 100.0;
 
 fn phase_moles(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
     vessel
@@ -65,14 +62,15 @@ fn total_moles(vessel: &Vessel, key: &str) -> f64 {
         .sum()
 }
 
-/// Iodide-assisted iodine transfer to the aqueous bookkeeping phase.
-///
-/// One aqueous iodide equivalent can support at most one iodine equivalent in
-/// this reduced representation. KI is retained: this is phase bookkeeping for
-/// I2/I-/polyiodide solution, not a claim that KI is consumed.
+/// Solid iodine that dissolves now. With a reviewed I2 solubility this is
+/// the triiodide-enhanced capacity of [`crate::iodine_chemistry`]
+/// (2026-11-10); without one it keeps the bounded 1:1 iodide surrogate.
 pub(crate) fn iodine_to_dissolve(vessel: &Vessel) -> Moles {
     if vessel.liquid_volume().0 <= 0.0 {
         return Moles(0.0);
+    }
+    if let Some(moles) = crate::iodine_chemistry::iodine_to_dissolve(vessel) {
+        return moles;
     }
     let solid_iodine = phase_moles(vessel, IODINE, Phase::Solid);
     let iodide_inventory = iodide_moles(vessel, None);
@@ -96,6 +94,10 @@ pub(crate) fn has_aqueous_lugol_colour(vessel: &Vessel) -> bool {
         && iodide_moles(vessel, Some(Phase::Aqueous)) > 0.0
 }
 
+/// Add the starch–iodine complex band. Free I2 and I3⁻ are added by
+/// [`crate::solution_optics::absorbance`] from cited ε values
+/// ([`crate::iodine_chemistry`]); the complex band here is an editorial
+/// surrogate for the eye only and is never a spectrophotometer reading.
 pub(crate) fn add_absorbance(
     vessel: &Vessel,
     litres: f64,
@@ -103,27 +105,10 @@ pub(crate) fn add_absorbance(
     absorbance: &mut crate::spectrum::Spectrum,
 ) -> f64 {
     let complex = complex_moles(vessel);
-    let aqueous_iodine = phase_moles(vessel, IODINE, Phase::Aqueous);
-    let free_iodine = (aqueous_iodine - complex).max(0.0);
-    for (moles, peak) in [
-        (
-            free_iodine,
-            (
-                FREE_POLYIODIDE_PEAK_NM,
-                FREE_POLYIODIDE_PEAK_EPSILON,
-                FREE_POLYIODIDE_WIDTH_NM,
-            ),
-        ),
-        (
-            complex,
-            (COMPLEX_PEAK_NM, COMPLEX_PEAK_EPSILON, COMPLEX_WIDTH_NM),
-        ),
-    ] {
-        if moles <= 0.0 {
-            continue;
-        }
-        let spectrum = crate::spectrum::bands(&[peak]);
-        let concentration = moles / litres.max(1e-12);
+    if complex > 0.0 {
+        let spectrum =
+            crate::spectrum::bands(&[(COMPLEX_PEAK_NM, COMPLEX_PEAK_EPSILON, COMPLEX_WIDTH_NM)]);
+        let concentration = complex / litres.max(1e-12);
         for (total, epsilon) in absorbance.iter_mut().zip(spectrum) {
             *total += epsilon * concentration * path_cm;
         }
