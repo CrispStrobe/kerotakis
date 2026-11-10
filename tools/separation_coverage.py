@@ -38,10 +38,10 @@ SRC = ROOT / "crates/kerotakis-core/src"
 # Species whose absent data produced the held separation cases; the reason
 # for each is engine-observed (production run 2026-10-28), not a forecast.
 WATCHED = {
-    "naphthalene": "extract: no hexane/water K (no empirical row, no UNIFAC decomposition)",
-    "CH3COOH": "extract: no K; distil: no reviewed vapour pressure/latent heat (vapour dimerises)",
+    "naphthalene": "extract: closed 2026-11-10 by the UNIFAC ACH/AC decomposition (docs/organic-partition-coverage-20261110.md)",
+    "CH3COOH": "extract: closed 2026-11-10 (neutral form, UNIFAC CH3+COOH); distil: no reviewed vapour pressure/latent heat (vapour dimerises)",
     "CH3COO-": "extract: ion, no reviewed ion-pair partition",
-    "ethyl_acetate": "extract: liquid owner not admitted (partly miscible) and no K",
+    "ethyl_acetate": "extract: closed 2026-11-10 (UNIFAC CH3COO decomposition; liquid owner admitted within the reviewed dissolved bound)",
     "Na+": "extract: ion, no reviewed ion-pair partition",
     "Cl-": "extract: ion, no reviewed ion-pair partition",
     "K+": "extract: ion, no reviewed ion-pair partition",

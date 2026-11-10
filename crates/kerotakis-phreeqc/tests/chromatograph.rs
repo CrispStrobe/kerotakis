@@ -76,10 +76,12 @@ fn a_native_mixed_sample_reports_missing_neutrals_beside_real_peaks() {
             _ => None,
         })
         .collect();
+    // Ethyl acetate gained a UNIFAC decomposition on 2026-11-10, so it is now
+    // a peak; glucose is still the missing neutral parameter set.
     assert!(
         gaps.iter()
-            .any(|what| what.contains("ethyl_acetate") && what.contains("glucose")),
-        "both missing neutral parameter sets must be reported: {events:?}"
+            .any(|what| what.contains("glucose") && !what.contains("ethyl_acetate")),
+        "the missing neutral parameter set must be reported: {events:?}"
     );
     let (peaks, outside) = events
         .iter()
@@ -92,8 +94,9 @@ fn a_native_mixed_sample_reports_missing_neutrals_beside_real_peaks() {
             _ => None,
         })
         .expect("supported ethanol still has a peak");
-    assert_eq!(peaks.len(), 1);
-    assert_eq!(peaks[0].species.0, "ethanol");
+    let mut eluted: Vec<_> = peaks.iter().map(|p| p.species.0.as_str()).collect();
+    eluted.sort_unstable();
+    assert_eq!(eluted, ["ethanol", "ethyl_acetate"]);
     assert!(!outside
         .iter()
         .any(|s| matches!(s.0.as_str(), "glucose" | "ethyl_acetate")));

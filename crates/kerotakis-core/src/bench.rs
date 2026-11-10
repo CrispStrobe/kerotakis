@@ -4053,6 +4053,10 @@ impl Bench {
                 // esterification mixture without a word.
                 let mut inventory = std::collections::BTreeMap::<SpeciesId, (f64, f64)>::new();
                 let mut unadmitted_liquids = std::collections::BTreeSet::<SpeciesId>::new();
+                // Liquid-labelled owners of a partly miscible liquid: admitted
+                // as dissolved below only when the whole owned amount is within
+                // the reviewed dissolved bound for this much water.
+                let mut partly_miscible = std::collections::BTreeMap::<SpeciesId, f64>::new();
                 for portion in &source.contents {
                     if portion.moles.0 > 0.0
                         && portion.species != water
@@ -4067,8 +4071,25 @@ impl Bench {
                             if crate::apparatus::is_water_miscible_liquid(&portion.species) {
                                 entry.0 += portion.moles.0;
                             } else {
-                                unadmitted_liquids.insert(portion.species.clone());
+                                *partly_miscible.entry(portion.species.clone()).or_default() +=
+                                    portion.moles.0;
                             }
+                        }
+                    }
+                }
+                for (liquid, liquid_moles) in partly_miscible {
+                    let owned =
+                        inventory.get(&liquid).map(|e| e.0 + e.1).unwrap_or(0.0) + liquid_moles;
+                    match crate::apparatus::partly_miscible_dissolved_limit_mol(
+                        &liquid,
+                        water_moles,
+                        source.temperature.0,
+                    ) {
+                        Some(limit) if owned <= limit => {
+                            inventory.entry(liquid).or_default().0 += liquid_moles;
+                        }
+                        _ => {
+                            unadmitted_liquids.insert(liquid);
                         }
                     }
                 }
@@ -7402,6 +7423,33 @@ pub(crate) fn partition_groups(
         "propanone" => {
             g.insert(1, 1); // CH3
             g.insert(18, 1); // CH3CO — the ketone carries its own methyl
+        }
+        // Neutral acetic acid only. Acetate and H+ are ions and have no
+        // decomposition: a weak acid partitions as its neutral form, so
+        // how much is extractable is set by the speciation (the pH) of the
+        // aqueous phase, and the conjugate base stays behind.
+        "CH3COOH" => {
+            g.insert(1, 1); // CH3
+            g.insert(42, 1); // COOH
+        }
+        "ethyl_acetate" => {
+            g.insert(1, 1); // CH3 of the ethyl
+            g.insert(2, 1); // CH2
+            g.insert(21, 1); // CH3COO — the ester carries its acyl methyl
+        }
+        "isopropanol" => {
+            g.insert(1, 2); // CH3
+            g.insert(3, 1); // CH
+            g.insert(14, 1); // OH
+        }
+        "tert_butanol" => {
+            g.insert(1, 3); // CH3
+            g.insert(4, 1); // C
+            g.insert(14, 1); // OH
+        }
+        "naphthalene" => {
+            g.insert(9, 8); // ACH
+            g.insert(10, 2); // AC, the two ring-fusion carbons
         }
         _ => return None,
     }

@@ -354,12 +354,70 @@ pub const PARTITION_COEFFICIENTS: &[PartitionCoefficient] = &[PartitionCoefficie
 /// temperature (CRC Handbook of Chemistry and Physics, aqueous solubility
 /// "miscible"). A liquid-labelled portion of one of these in a single liquid
 /// phase is dissolved, so extraction owns it as aqueous solute. Every other
-/// liquid owner stays unadmitted: a partly miscible liquid such as ethyl
-/// acetate may be a separate layer, and nothing here decides that.
-pub const WATER_MISCIBLE_LIQUIDS: &[&str] = &["ethanol", "methanol", "propanone"];
+/// liquid owner stays unadmitted unless [`PARTLY_MISCIBLE_LIQUIDS`] bounds
+/// it as dissolved: a partly miscible liquid such as ethyl acetate above
+/// that bound may be a separate layer.
+///
+/// Acetic acid, propan-2-ol and 2-methylpropan-2-ol are listed as miscible
+/// in the same CRC aqueous-solubility column.
+pub const WATER_MISCIBLE_LIQUIDS: &[&str] = &[
+    "ethanol",
+    "methanol",
+    "propanone",
+    "CH3COOH",
+    "isopropanol",
+    "tert_butanol",
+];
 
 pub fn is_water_miscible_liquid(species: &SpeciesId) -> bool {
     WATER_MISCIBLE_LIQUIDS.contains(&species.0.as_str())
+}
+
+/// A liquid that is only partly miscible with water, with a reviewed lower
+/// bound on how much of it one kilogram of water holds dissolved. A
+/// liquid-labelled owner at or below that bound is one dissolved solute,
+/// so extraction owns it; above the bound a separate liquid layer may
+/// exist and the owner stays unadmitted (named, never silently moved).
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PartlyMiscibleLiquid {
+    pub species: &'static str,
+    /// Grams of the liquid that 100 g of water is known to dissolve: a
+    /// deliberately conservative lower bound of the reported values over
+    /// the admitted temperature window, so admission never overstates it.
+    pub dissolved_g_per_100_g_water: f64,
+    pub reference_temperature_k: f64,
+    pub temperature_tolerance_k: f64,
+    pub source: &'static str,
+}
+
+pub const PARTLY_MISCIBLE_LIQUIDS: &[PartlyMiscibleLiquid] = &[PartlyMiscibleLiquid {
+    species: "ethyl_acetate",
+    dissolved_g_per_100_g_water: 7.0,
+    reference_temperature_k: 298.15,
+    temperature_tolerance_k: 10.0,
+    source: "ethyl acetate in water about 7.5-8.7 g/100 g between 20 and 30 degrees C: Stephenson & Stuart, J. Chem. Eng. Data 31 (1986) 56-70, doi:10.1021/je00043a019; 7.0 is the conservative admission bound, not a fitted solubility",
+}];
+
+/// Moles of a partly miscible liquid that `water_moles` of water holds
+/// dissolved at `temperature_k`, or `None` when no reviewed bound applies.
+pub fn partly_miscible_dissolved_limit_mol(
+    species: &SpeciesId,
+    water_moles: f64,
+    temperature_k: f64,
+) -> Option<f64> {
+    let row = PARTLY_MISCIBLE_LIQUIDS
+        .iter()
+        .find(|row| row.species == species.0)?;
+    if !temperature_k.is_finite()
+        || (temperature_k - row.reference_temperature_k).abs() > row.temperature_tolerance_k
+    {
+        return None;
+    }
+    let molar_mass = crate::species::lookup(species)?.molar_mass;
+    let water_molar_mass = crate::species::lookup(&SpeciesId::new("water"))?.molar_mass;
+    let limit =
+        row.dissolved_g_per_100_g_water / 100.0 * water_moles * water_molar_mass / molar_mass;
+    (limit.is_finite() && limit > 0.0).then_some(limit)
 }
 
 pub fn partition_coefficient(

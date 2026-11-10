@@ -131,7 +131,9 @@ fn methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures() 
 #[test]
 fn a_partial_sample_keeps_its_supported_peak_and_missing_data_note() {
     let mut bench = sample();
-    bench.vessels[0].deposit(SpeciesId::new("ethyl_acetate"), Moles(0.01), Phase::Liquid);
+    // Dodecane: a neutral with no group decomposition (ethyl acetate gained
+    // one on 2026-11-10 and can no longer stand in for the gap).
+    bench.vessels[0].deposit(SpeciesId::new("dodecane"), Moles(0.01), Phase::Liquid);
     let before = serde_json::to_value(&bench.vessels).unwrap();
     let events = bench.step(op("chromatograph v1")).unwrap();
     assert_eq!(serde_json::to_value(&bench.vessels).unwrap(), before);

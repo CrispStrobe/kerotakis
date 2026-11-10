@@ -134,6 +134,10 @@ impl fmt::Display for UnifacError {
 impl std::error::Error for UnifacError {}
 
 const SOURCE_1975: &str = "Fredenslund, Jones & Prausnitz, AIChE J. 21(6), 1086-1099, 1975";
+/// The revised and extended VLE table. Every value taken from it here is
+/// the same number the 1975/1977 tables print for that pair; it is cited as
+/// the consolidated publication of the CH2/ACH/CCOO/H2O block.
+const SOURCE_1991: &str = "Hansen, Rasmussen, Fredenslund, Schiller & Gmehling, Ind. Eng. Chem. Res. 30(10), 2352-2355, 1991";
 const SOURCE_1982: &str =
     "Gmehling, Rasmussen & Fredenslund, Ind. Eng. Chem. Process Des. Dev. 21, 118-127, 1982";
 
@@ -220,6 +224,32 @@ pub fn approved_table() -> UnifacTable {
                 r: 1.4457,
                 q: 1.180,
                 source: SOURCE_1975,
+            },
+            // Main group 3: ACH (aromatic carbon); naphthalene is 8 ACH + 2 AC
+            UnifacGroup {
+                id: 9,
+                name: "ACH",
+                main_group: 3,
+                r: 0.5313,
+                q: 0.400,
+                source: SOURCE_1991,
+            },
+            UnifacGroup {
+                id: 10,
+                name: "AC",
+                main_group: 3,
+                r: 0.3652,
+                q: 0.120,
+                source: SOURCE_1991,
+            },
+            // Main group 11: CCOO (esters); CH3COO carries the acyl methyl
+            UnifacGroup {
+                id: 21,
+                name: "CH3COO",
+                main_group: 11,
+                r: 1.9031,
+                q: 1.728,
+                source: SOURCE_1991,
             },
             // Main group 20: COOH (carboxylic acids)
             UnifacGroup {
@@ -416,6 +446,55 @@ pub fn approved_table() -> UnifacTable {
                 n: 9,
                 a_mn: -297.8,
                 source: SOURCE_1982,
+            },
+            // ── ACH (3) and CCOO (11) against CH2 (1) and H2O (7) ──
+            InteractionParam {
+                m: 1,
+                n: 3,
+                a_mn: 61.13,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 3,
+                n: 1,
+                a_mn: -11.12,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 3,
+                n: 7,
+                a_mn: 903.8,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 7,
+                n: 3,
+                a_mn: 362.3,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 1,
+                n: 11,
+                a_mn: 232.1,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 11,
+                n: 1,
+                a_mn: 114.8,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 7,
+                n: 11,
+                a_mn: 72.87,
+                source: SOURCE_1991,
+            },
+            InteractionParam {
+                m: 11,
+                n: 7,
+                a_mn: 200.8,
+                source: SOURCE_1991,
             },
         ],
     }
@@ -876,12 +955,12 @@ mod tests {
     }
 
     #[test]
-    fn table_covers_six_main_groups() {
+    fn table_covers_eight_main_groups() {
         let table = approved_table();
         let mut mains: Vec<u32> = table.groups.iter().map(|g| g.main_group).collect();
         mains.sort();
         mains.dedup();
-        assert_eq!(mains, vec![1, 5, 6, 7, 9, 20]);
+        assert_eq!(mains, vec![1, 3, 5, 6, 7, 9, 11, 20]);
     }
 
     fn ethanol_water_composition() -> Vec<(GroupDecomposition, f64)> {
