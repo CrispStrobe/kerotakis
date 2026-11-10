@@ -20,12 +20,13 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 51, refused 33.
+Registry species carrying a metal: emits 52, refused 40.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
 | emits | Ba(OH)2 | Ba | apple green |
 | emits | Ba+2 | Ba | apple green |
+| emits | BaCO3 | Ba | — |
 | emits | BaCl2 | Ba | apple green |
 | emits | BaSO4 | Ba | — |
 | emits | Ca(OH)2 | Ca | brick red |
@@ -77,7 +78,11 @@ Registry species carrying a metal: emits 51, refused 33.
 | emits | octacalcium_phosphate | Ca | brick red |
 | refused | Ag | Ag | — |
 | refused | Ag+ | Ag | — |
+| refused | Ag2CO3 | Ag | — |
+| refused | Ag3PO4 | Ag | — |
+| refused | AgBr | Ag | — |
 | refused | AgCl | Ag | — |
+| refused | AgI | Ag | — |
 | refused | AgNO3 | Ag | — |
 | refused | Al | Al | — |
 | refused | Fe | Fe | — |
@@ -101,6 +106,9 @@ Registry species carrying a metal: emits 51, refused 33.
 | refused | Pb | Pb | — |
 | refused | Pb(NO3)2 | Pb | — |
 | refused | Pb+2 | Pb | — |
+| refused | PbCO3 | Pb | — |
+| refused | PbI2 | Pb | — |
+| refused | PbSO4 | Pb | — |
 | refused | Zn | Zn | — |
 | refused | Zn(OH)2 | Zn | — |
 | refused | Zn+2 | Zn | — |

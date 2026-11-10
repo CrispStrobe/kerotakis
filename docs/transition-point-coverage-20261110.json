@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v1",
   "counts": {
-    "boiling.no_data": 148,
+    "boiling.no_data": 156,
     "boiling.reported_without_primary_reference": 40,
-    "melting.no_data": 135,
+    "melting.no_data": 143,
     "melting.reported_without_primary_reference": 53
   },
   "originals": [
@@ -63,6 +63,36 @@
       }
     },
     {
+      "species": "Ag2CO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Ag3PO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "AgBr",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "AgCl",
       "standard_phase": "solid",
       "melting": {
@@ -78,6 +108,16 @@
         "kelvin": 1820.15,
         "source": "kerotakis/phase-transitions-v1",
         "primary_reference": false
+      }
+    },
+    {
+      "species": "AgI",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {
@@ -125,6 +165,16 @@
     {
       "species": "Ba+2",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "BaCO3",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },
@@ -1357,6 +1407,36 @@
     {
       "species": "Pb+2",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PbCO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PbI2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "PbSO4",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },

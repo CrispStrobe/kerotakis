@@ -29,7 +29,7 @@ done by guessing references here.
 | batch3-diverse:th-004 | hexadecane mp (liquid sample) as the paraffin model | hexadecane reported; a paraffin-wax melting RANGE and latent-heat surrogate is NOT covered |
 | batch3-diverse:po-009 | polyethylene / polypropylene melting | NOT covered: no polymer species or cleared polymer melting-range source in the registry |
 
-Counts: boiling.no_data 148, boiling.reported_without_primary_reference 40, melting.no_data 135, melting.reported_without_primary_reference 53.
+Counts: boiling.no_data 156, boiling.reported_without_primary_reference 40, melting.no_data 143, melting.reported_without_primary_reference 53.
 
 ## Species
 
@@ -37,11 +37,16 @@ Counts: boiling.no_data 148, boiling.reported_without_primary_reference 40, melt
 |---|---|---|---|
 | Ag | solid | melting 1234.93 K † | boiling 2435.15 K † |
 | Ag+ | aqueous | no_data | no_data |
+| Ag2CO3 | solid | no_data | no_data |
+| Ag3PO4 | solid | no_data | no_data |
+| AgBr | solid | no_data | no_data |
 | AgCl | solid | melting 728.15 K † | boiling 1820.15 K † |
+| AgI | solid | no_data | no_data |
 | AgNO3 | solid | melting 483.15 K † | no_data |
 | Al | solid | melting 933.47 K † | boiling 2792.15 K † |
 | Ba(OH)2 | solid | no_data | no_data |
 | Ba+2 | aqueous | no_data | no_data |
+| BaCO3 | solid | no_data | no_data |
 | BaCl2 | solid | melting 1234.15 K † | boiling 1833.15 K † |
 | BaSO4 | solid | melting 1853.15 K † | no_data |
 | Br- | aqueous | no_data | no_data |
@@ -146,6 +151,9 @@ Counts: boiling.no_data 148, boiling.reported_without_primary_reference 40, melt
 | Pb | solid | melting 600.61 K † | boiling 2022.15 K † |
 | Pb(NO3)2 | solid | decomposition 743.15 K † | decomposition 743.15 K † |
 | Pb+2 | aqueous | no_data | no_data |
+| PbCO3 | solid | no_data | no_data |
+| PbI2 | solid | no_data | no_data |
+| PbSO4 | solid | no_data | no_data |
 | S | solid | melting 388.36 K † | boiling 717.76 K † |
 | S2O3-2 | aqueous | no_data | no_data |
 | S4O6-2 | aqueous | no_data | no_data |
