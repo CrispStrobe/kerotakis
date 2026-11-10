@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 41/93, minteq.v4 42/93, pitzer 22/93.
+Priced after this change: wateq4f 48/101, minteq.v4 50/101, pitzer 23/101.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -30,10 +30,15 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | solid | wateq4f | minteq.v4 | pitzer |
 |---|---|---|---|
 | `Ag` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Ag2CO3` | routed | routed | refused: a reaction species is not defined on the routed database |
+| `Ag3PO4` | refused: the reviewed phase states no 25 C dissolution enthalpy | routed | refused: the reviewed phase states no 25 C dissolution enthalpy |
+| `AgBr` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `AgCl` | curated | curated | refused: a dissociation product the routed database does not define |
+| `AgI` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `AgNO3` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Al` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ba(OH)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `BaCO3` | routed | routed | reference:wateq4f:Witherite |
 | `BaCl2` | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 |
 | `BaSO4` | routed | routed | routed |
 | `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
@@ -87,6 +92,9 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `PVA` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Pb` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Pb(NO3)2` | curated | curated | refused: a dissociation product the routed database does not define |
+| `PbCO3` | routed | routed | refused: a reaction species is not defined on the routed database |
+| `PbI2` | routed | routed | refused: a reaction species is not defined on the routed database |
+| `PbSO4` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `S` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `SiO2` | reference:wateq4f:Quartz | reference:minteq.v4:Quartz | reference:wateq4f:Quartz |
 | `Zn` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |

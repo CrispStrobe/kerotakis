@@ -69,18 +69,30 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 7 | 0 | 86 |
-| minteq.v4 | 8 | 1 | 84 |
-| pitzer | 8 | 2 | 83 |
+| wateq4f | 14 | 1 | 86 |
+| minteq.v4 | 16 | 1 | 84 |
+| pitzer | 8 | 2 | 91 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
 | `Ag` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Ag` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Ag` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Ag2CO3` | wateq4f | crystallises-with-priced-heat | Ag2CO3 | PHREEQC phase saturation, delta_h 39.874 kJ/mol; solid priced |
+| `Ag2CO3` | minteq.v4 | crystallises-with-priced-heat | Ag2CO3 | PHREEQC phase saturation, delta_h 42.150 kJ/mol; solid priced |
+| `Ag2CO3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Ag3PO4` | wateq4f | solubility-only | Ag3PO4 | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
+| `Ag3PO4` | minteq.v4 | crystallises-with-priced-heat | Ag3PO4 | PHREEQC phase saturation, delta_h -0.000 kJ/mol; solid priced |
+| `Ag3PO4` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `AgBr` | wateq4f | crystallises-with-priced-heat | Bromyrite | PHREEQC phase saturation, delta_h 84.391 kJ/mol; solid priced |
+| `AgBr` | minteq.v4 | crystallises-with-priced-heat | Bromyrite | PHREEQC phase saturation, delta_h 84.500 kJ/mol; solid priced |
+| `AgBr` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `AgCl` | wateq4f | crystallises-with-priced-heat | Cerargyrite | PHREEQC phase saturation, delta_h 65.488 kJ/mol; solid priced |
 | `AgCl` | minteq.v4 | crystallises-with-priced-heat | Cerargyrite | PHREEQC phase saturation, delta_h 65.200 kJ/mol; solid priced |
 | `AgCl` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `AgI` | wateq4f | crystallises-with-priced-heat | Iodyrite | PHREEQC phase saturation, delta_h 112.215 kJ/mol; solid priced |
+| `AgI` | minteq.v4 | crystallises-with-priced-heat | Iodyrite | PHREEQC phase saturation, delta_h 110.000 kJ/mol; solid priced |
+| `AgI` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `AgNO3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `AgNO3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `AgNO3` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -90,6 +102,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Ba(OH)2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Ba(OH)2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Ba(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `BaCO3` | wateq4f | crystallises-with-priced-heat | Witherite | PHREEQC phase saturation, delta_h 2.941 kJ/mol; solid priced |
+| `BaCO3` | minteq.v4 | crystallises-with-priced-heat | Witherite | PHREEQC phase saturation, delta_h 4.000 kJ/mol; solid priced |
+| `BaCO3` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `BaCl2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `BaCl2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `BaCl2` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -249,6 +264,15 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Pb(NO3)2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Pb(NO3)2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Pb(NO3)2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `PbCO3` | wateq4f | crystallises-with-priced-heat | Cerussite | PHREEQC phase saturation, delta_h 20.334 kJ/mol; solid priced |
+| `PbCO3` | minteq.v4 | crystallises-with-priced-heat | Cerussite | PHREEQC phase saturation, delta_h 24.790 kJ/mol; solid priced |
+| `PbCO3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `PbI2` | wateq4f | crystallises-with-priced-heat | PbI2 | PHREEQC phase saturation, delta_h 63.429 kJ/mol; solid priced |
+| `PbI2` | minteq.v4 | crystallises-with-priced-heat | PbI2 | PHREEQC phase saturation, delta_h 62.000 kJ/mol; solid priced |
+| `PbI2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `PbSO4` | wateq4f | crystallises-with-priced-heat | Anglesite | PHREEQC phase saturation, delta_h 8.996 kJ/mol; solid priced |
+| `PbSO4` | minteq.v4 | crystallises-with-priced-heat | Anglesite | PHREEQC phase saturation, delta_h 12.000 kJ/mol; solid priced |
+| `PbSO4` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `S` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `S` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `S` | pitzer | refused | - | the routed database defines no phase for this solid |

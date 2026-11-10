@@ -4,10 +4,30 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "Ag2CO3": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
+  },
+  "Ag3PO4": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
+  },
+  "AgBr": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
+  },
   "AgCl": {
     "minteq.v4": "curated",
     "pitzer": "refused: a dissociation product the routed database does not define",
     "wateq4f": "curated"
+  },
+  "AgI": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
   },
   "AgNO3": {
     "minteq.v4": "curated",
@@ -23,6 +43,11 @@
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
     "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
     "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "BaCO3": {
+    "minteq.v4": "routed",
+    "pitzer": "reference:wateq4f:Witherite",
+    "wateq4f": "routed"
   },
   "BaCl2": {
     "minteq.v4": "reference:llnl.dat:BaCl2",
@@ -288,6 +313,21 @@
     "minteq.v4": "curated",
     "pitzer": "refused: a dissociation product the routed database does not define",
     "wateq4f": "curated"
+  },
+  "PbCO3": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
+  },
+  "PbI2": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
+  },
+  "PbSO4": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
   },
   "S": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",

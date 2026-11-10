@@ -21,6 +21,69 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "Ag2CO3",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Ag2CO3",
+    "reason": "PHREEQC phase saturation, delta_h 39.874 kJ/mol; solid priced"
+  },
+  {
+    "solid": "Ag2CO3",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Ag2CO3",
+    "reason": "PHREEQC phase saturation, delta_h 42.150 kJ/mol; solid priced"
+  },
+  {
+    "solid": "Ag2CO3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Ag3PO4",
+    "route": "wateq4f",
+    "class": "solubility-only",
+    "phase": "Ag3PO4",
+    "reason": "the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved"
+  },
+  {
+    "solid": "Ag3PO4",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Ag3PO4",
+    "reason": "PHREEQC phase saturation, delta_h -0.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "Ag3PO4",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "AgBr",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Bromyrite",
+    "reason": "PHREEQC phase saturation, delta_h 84.391 kJ/mol; solid priced"
+  },
+  {
+    "solid": "AgBr",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Bromyrite",
+    "reason": "PHREEQC phase saturation, delta_h 84.500 kJ/mol; solid priced"
+  },
+  {
+    "solid": "AgBr",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "AgCl",
     "route": "wateq4f",
     "class": "crystallises-with-priced-heat",
@@ -42,6 +105,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "AgI",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Iodyrite",
+    "reason": "PHREEQC phase saturation, delta_h 112.215 kJ/mol; solid priced"
+  },
+  {
+    "solid": "AgI",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Iodyrite",
+    "reason": "PHREEQC phase saturation, delta_h 110.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "AgI",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "AgNO3",
     "route": "wateq4f",
     "class": "refused",
@@ -99,6 +183,27 @@
   },
   {
     "solid": "Ba(OH)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "BaCO3",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Witherite",
+    "reason": "PHREEQC phase saturation, delta_h 2.941 kJ/mol; solid priced"
+  },
+  {
+    "solid": "BaCO3",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Witherite",
+    "reason": "PHREEQC phase saturation, delta_h 4.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "BaCO3",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -1212,6 +1317,69 @@
   },
   {
     "solid": "Pb(NO3)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "PbCO3",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Cerussite",
+    "reason": "PHREEQC phase saturation, delta_h 20.334 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbCO3",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Cerussite",
+    "reason": "PHREEQC phase saturation, delta_h 24.790 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbCO3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "PbI2",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "PbI2",
+    "reason": "PHREEQC phase saturation, delta_h 63.429 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbI2",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "PbI2",
+    "reason": "PHREEQC phase saturation, delta_h 62.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbI2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "PbSO4",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Anglesite",
+    "reason": "PHREEQC phase saturation, delta_h 8.996 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbSO4",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Anglesite",
+    "reason": "PHREEQC phase saturation, delta_h 12.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbSO4",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

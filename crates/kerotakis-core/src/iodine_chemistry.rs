@@ -15,12 +15,14 @@
 //!
 //! Sources (constants at 25 °C, ideal activities = molarities):
 //!
-//! * `I2 + I- ⇌ I3-`, K = 698 L/mol: Palmer, Ramette & Mesmer,
-//!   *J. Solution Chem.* 13 (1984) 673, doi:10.1007/BF00650374. (Earlier
+//! * `I2 + I- ⇌ I3-`, K = 698 (molal, used here as L/mol): Palmer, Ramette
+//!   & Mesmer, *J. Solution Chem.* 13 (1984) 673, doi:10.1007/BF00650374. (Earlier
 //!   spectrophotometric values span 698–770; Awtrey & Connick,
 //!   *J. Am. Chem. Soc.* 73 (1951) 1842, doi:10.1021/ja01148a097.)
 //! * ε(I2, 460 nm) = 746 and ε(I3-, 460 nm) = 975 L mol⁻¹ cm⁻¹, ε(I3-,
 //!   353 nm) = 26 400 L mol⁻¹ cm⁻¹: Awtrey & Connick (1951), as above.
+//!   The I3- 353 nm value is confirmed by later sources (24 800–26 400);
+//!   the I2 460 nm value of 746 is NOT yet confirmed by a second source.
 //! * E°(Fe³⁺/Fe²⁺) from the halogen redox half table (llnl.dat, 0.7696 V);
 //!   E°(I2(aq)/I⁻) = 0.621 V: Bard, Parsons & Jordan, *Standard Potentials
 //!   in Aqueous Solution* (IUPAC/Dekker, 1985).

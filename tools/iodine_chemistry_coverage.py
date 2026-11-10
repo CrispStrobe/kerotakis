@@ -22,9 +22,10 @@ OUT_MD = ROOT / "docs/iodine-chemistry-coverage-20261110.md"
 
 SOURCES = {
     "triiodide_k": "Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374 "
-                   "(literature range 698-770; Awtrey & Connick 1951)",
+                   "(molal constant, used as L/mol; literature range 698-770; Awtrey & Connick 1951)",
     "epsilon": "Awtrey & Connick, J. Am. Chem. Soc. 73 (1951) 1842, doi:10.1021/ja01148a097: "
-               "I2 460 nm 746; I3- 460 nm 975, 353 nm 26400 L/mol/cm",
+               "I2 460 nm 746 (not yet confirmed by a second source); I3- 460 nm 975, "
+               "353 nm 26400 L/mol/cm (later sources 24800-26400)",
     "e0_i2aq": "Bard, Parsons & Jordan, Standard Potentials in Aqueous Solution (IUPAC/Dekker 1985): "
                "I2(aq)/I- 0.621 V",
     "e0_fe": "halogen redox half table Fe+3/Fe+2 (llnl.dat, docs/halogen-redox-coverage-20261027)",

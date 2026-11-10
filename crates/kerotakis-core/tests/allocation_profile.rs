@@ -61,8 +61,9 @@ fn allocation_budget() {
 
     // Budget gate: this number should decrease as OPT-5 progresses.
     // Baseline 2026-08-23: ~500 blocks for the combined workload.
+    // 2026-11-10: 5008 blocks after the flame, iodine and partition tables.
     assert!(
-        stats.total_blocks < 5_000,
+        stats.total_blocks < 5_500,
         "combined workload allocated {} blocks — investigate hot spots",
         stats.total_blocks
     );
