@@ -23,13 +23,33 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 34,
-    "outside_method": 107,
+    "missing_absorptivity": 39,
+    "outside_method": 110,
     "parameterised": 6,
     "parameterised_ph": 4,
     "unclassified": 37
   },
   "species": [
+    {
+      "species": "Ag2CO3",
+      "appearance": "pale yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Ag3PO4",
+      "appearance": "yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "AgBr",
+      "appearance": "pale yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "AgI",
+      "appearance": "pale yellow",
+      "class": "missing_absorptivity"
+    },
     {
       "species": "Al",
       "appearance": "silver",
@@ -141,6 +161,11 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "PbI2",
+      "appearance": "yellow",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "S",
       "appearance": "pale yellow",
       "class": "missing_absorptivity"
@@ -223,6 +248,11 @@
     {
       "species": "Ba+2",
       "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "BaCO3",
+      "appearance": "white",
       "class": "outside_method"
     },
     {
@@ -493,6 +523,16 @@
     {
       "species": "Pb+2",
       "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "PbCO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "PbSO4",
+      "appearance": "white",
       "class": "outside_method"
     },
     {

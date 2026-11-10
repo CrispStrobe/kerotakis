@@ -1,0 +1,8318 @@
+{
+  "schema": "kerotakis.registry-solid-coverage.v1",
+  "databases": [
+    "wateq4f",
+    "minteq.v4",
+    "pitzer"
+  ],
+  "counts": {
+    "bookable-unclaimed": 137,
+    "declined": 15,
+    "registry-solid": 44,
+    "unbookable": 385
+  },
+  "registry_solids_matched": [
+    "Ag",
+    "Ag2CO3",
+    "Ag3PO4",
+    "AgBr",
+    "AgCl",
+    "AgI",
+    "BaCO3",
+    "BaSO4",
+    "Ca(OH)2",
+    "Ca3(PO4)2",
+    "CaCO3",
+    "CaO",
+    "Cu",
+    "Cu(OH)2",
+    "CuO",
+    "CuSO4",
+    "Fe(OH)2",
+    "Fe(OH)3",
+    "Fe2O3",
+    "KCl",
+    "Mg(OH)2",
+    "MgO",
+    "MnO2",
+    "Na2SO4",
+    "NaCl",
+    "NaHCO3",
+    "Pb",
+    "PbCO3",
+    "PbI2",
+    "PbSO4",
+    "S",
+    "SiO2",
+    "Zn",
+    "Zn(OH)2",
+    "ZnSO4",
+    "antlerite",
+    "atacamite",
+    "brochantite",
+    "chalcanthite",
+    "epsomite",
+    "gypsum",
+    "hydroxylapatite",
+    "langite",
+    "octacalcium_phosphate"
+  ],
+  "formulas": [
+    {
+      "formula": "Ag",
+      "registry_species": "Ag",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Agmetal"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "AgMetal"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ag2CO3",
+      "registry_species": "Ag2CO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2CO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ag2CO3"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ag3PO4",
+      "registry_species": "Ag3PO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag3PO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ag3PO4"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "AgBr",
+      "registry_species": "AgBr",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Bromyrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Bromyrite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "AgCl",
+      "registry_species": "AgCl",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cerargyrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cerargyrite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "AgI",
+      "registry_species": "AgI",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Iodyrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Iodyrite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "BaCO3",
+      "registry_species": "BaCO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Witherite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Witherite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "BaSO4",
+      "registry_species": "BaSO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Barite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Barite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Barite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ca(OH)2",
+      "registry_species": "Ca(OH)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Portlandite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Portlandite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Portlandite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ca3(PO4)2",
+      "registry_species": "Ca3(PO4)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca3(PO4)2(beta)"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CaCO3",
+      "registry_species": "CaCO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Aragonite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Calcite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Aragonite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Calcite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Aragonite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Calcite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CaO",
+      "registry_species": "CaO",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Lime"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu",
+      "registry_species": "Cu",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cumetal"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuMetal"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu(OH)2",
+      "registry_species": "Cu(OH)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu(OH)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cu(OH)2"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CuO",
+      "registry_species": "CuO",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tenorite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Tenorite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CuSO4",
+      "registry_species": "CuSO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuSO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuSO4"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Fe(OH)2",
+      "registry_species": "Fe(OH)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe(OH)2"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Fe(OH)3",
+      "registry_species": "Fe(OH)3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ferrihydrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Fe(OH)3(a)"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Fe2O3",
+      "registry_species": "Fe2O3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hematite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Maghemite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hematite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Maghemite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "KCl",
+      "registry_species": "KCl",
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Sylvite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Mg(OH)2",
+      "registry_species": "Mg(OH)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Brucite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Mg(OH)2(active)"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Brucite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Brucite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "MgO",
+      "registry_species": "MgO",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Periclase"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "MnO2",
+      "registry_species": "MnO2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Birnessite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Nsutite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Pyrolusite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Birnessite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Nsutite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pyrolusite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Na2SO4",
+      "registry_species": "Na2SO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Thenardite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Thenardite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Thenardite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "NaCl",
+      "registry_species": "NaCl",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Halite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Halite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Halite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "NaHCO3",
+      "registry_species": "NaHCO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Nahcolite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Nahcolite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Pb",
+      "registry_species": "Pb",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pbmetal"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbMetal"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "PbCO3",
+      "registry_species": "PbCO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cerussite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cerussite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "PbI2",
+      "registry_species": "PbI2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbI2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbI2"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "PbSO4",
+      "registry_species": "PbSO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Anglesite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Anglesite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "S",
+      "registry_species": "S",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sulfur"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Sulfur"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "SiO2",
+      "registry_species": "SiO2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Chalcedony"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Cristobalite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Quartz"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "SiO2(am-gel)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "SiO2(am-ppt)"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Chalcedony"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Quartz"
+        },
+        {
+          "database": "pitzer",
+          "phase": "SiO2(a)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Chalcedony"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cristobalite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Quartz"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "SiO2(a)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Silicagel"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Zn",
+      "registry_species": "Zn",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Znmetal"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnMetal"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Zn(OH)2",
+      "registry_species": "Zn(OH)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(OH)2"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(OH)2(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(OH)2(beta)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(OH)2(epsilon)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(OH)2(gamma)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(OH)2-a"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(OH)2-b"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(OH)2-c"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(OH)2-e"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(OH)2-g"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "ZnSO4",
+      "registry_species": "ZnSO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zincosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zincosite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu3(OH)4SO4",
+      "registry_species": "antlerite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Antlerite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Antlerite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu2(OH)3Cl",
+      "registry_species": "atacamite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Atacamite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Atacamite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu4(OH)6SO4",
+      "registry_species": "brochantite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Brochantite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Brochantite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CuSO4:5H2O",
+      "registry_species": "chalcanthite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Chalcanthite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Chalcanthite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "MgSO4:7H2O",
+      "registry_species": "epsomite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Epsomite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Epsomite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Epsomite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CaSO4:2H2O",
+      "registry_species": "gypsum",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Gypsum"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Gypsum"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Gypsum"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ca5(PO4)3OH",
+      "registry_species": "hydroxylapatite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hydroxylapatite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hydroxyapatite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu4(OH)6SO4:H2O",
+      "registry_species": "langite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Langite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Langite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ca4H(PO4)3:3H2O",
+      "registry_species": "octacalcium_phosphate",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca4H(PO4)3:3H2O"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ag2O",
+      "registry_species": null,
+      "reason": "no sourced density on PubChem; the brown AgNO3 + NaOH precipitate needs a citable crystal density before it can ship",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ag2O"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "Ag2SO4",
+      "registry_species": null,
+      "reason": "about 0.8 g/100 mL soluble; only a precipitate from concentrated mixtures, and an unverified addition could change existing silver/sulfate vessels",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ag2SO4"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "CaHPO4:2H2O",
+      "registry_species": null,
+      "reason": "brushite competes with the calcium phosphate milk lane (octacalcium phosphate); needs the milk replay before it may be posed",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaHPO4:2H2O"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "CaMg(CO3)2",
+      "registry_species": null,
+      "reason": "dolomite: same kinetic objection as magnesite",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Dolomite(disordered)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Dolomite(ordered)"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Dolomite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Dolomite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Dolomite(d)"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "Cu2(OH)2CO3",
+      "registry_species": null,
+      "reason": "malachite: the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 and the copper hydroxy-sulfates; needs an engine run",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Malachite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Malachite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "FeCO3",
+      "registry_species": null,
+      "reason": "siderite competes with the iron(II) hydroxide verdicts; needs an engine run",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Siderite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Siderite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Siderite(d)(3)"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "MgCO3",
+      "registry_species": null,
+      "reason": "magnesite does not nucleate at bench temperature; needs a kinetic floor (as hydroxylapatite has) before it may be posed",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Magnesite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Magnesite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Magnesite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "Mn(OH)2",
+      "registry_species": null,
+      "reason": "pyrochroite: Mn(II) redox pinning is not reviewed for a new hydroxide",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pyrochroite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pyrochroite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "MnCO3",
+      "registry_species": null,
+      "reason": "rhodochrosite competes with manganese hydroxide/oxide routes; needs an engine run",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Rhodochrosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Rhodochrosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Rhodochrosite(d)"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "Pb(OH)2",
+      "registry_species": null,
+      "reason": "competes with every lead-salt-plus-base verdict; needs an engine run",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb(OH)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb(OH)2"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "PbBr2",
+      "registry_species": null,
+      "reason": "sparingly soluble (about 1 g/100 mL) rather than a bench precipitate; same engine-run requirement as PbCl2",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbBr2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbBr2"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "PbCl2",
+      "registry_species": null,
+      "reason": "would precipitate in `qualitative.rs::lead_chloride_stays_dissolved_when_dilute` (0.1 mol/kgw Pb, 0.3 mol/kgw Cl) unless chloride complexation keeps it under; needs an engine run before the verdict can be pinned either way",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cotunnite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cotunnite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "SrCO3",
+      "registry_species": null,
+      "reason": "strontianite is already owned by the aragonite-strontianite SOLID_SOLUTIONS lane (`solid_solution.rs`); a pure phase would compete with it",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Strontianite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Strontianite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "SrSO4",
+      "registry_species": null,
+      "reason": "strontium sulfate joins with the strontium solid-solution lane, not here",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Celestite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Celestite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Celestite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "ZnCO3",
+      "registry_species": null,
+      "reason": "a bench Zn2+ + carbonate mix gives a basic carbonate, not smithsonite; needs review",
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Smithsonite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Smithsonite"
+        }
+      ],
+      "class": "declined"
+    },
+    {
+      "formula": "(H3O)Fe3(SO4)2(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "H-Jarosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "JarositeH"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(K0.77Na0.03H0.2)Fe3(SO4)2(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Jarosite(ss)"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ag2S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Acanthite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Acanthite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "B(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Boric_acid,s"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ba(OH)2:8H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ba(OH)2:8H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "BaHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaHPO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "BaS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaS"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CaHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaHPO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CaMg3(CO3)4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Huntite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Huntite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Huntite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CaNa2(CO3)2:5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Gaylussite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CaSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Anhydrite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Anhydrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Anhydrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu0.066Cu1.868S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Djurleite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Djurleite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu0.25Cu1.5S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Anilite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Anilite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu0.6Cu0.8S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BlaubleiII"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "BlaubleiII"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu0.9Cu0.2S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BlaubleiI"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "BlaubleiI"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu2(OH)3Br",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu2(OH)3Br"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu2(OH)3NO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu2(OH)3NO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cu2(OH)3NO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cuprite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cuprite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu2S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Chalcocite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Chalcocite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu2SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cu2SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu3(OH)2(CO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Azurite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Azurite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu3(PO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cu3(PO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cu3(PO4)2:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu3(PO4)2:3H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cu3(PO4)2:3H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuBr",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuBr"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuBr"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuCO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuCO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuCl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Nantokite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Nantokite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Melanothallite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Melanothallite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuFe2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cupricferrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CupricFerrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuFeO2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cuprousferrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuprousFerrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuFeS2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Chalcopyrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Chalcopyrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuI",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuI"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuI"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuOCuSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuOCuSO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CuS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Covellite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Covellite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe(OH)2.7Cl.3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe(OH)2.7Cl.3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe(OH)2.7Cl0.3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Fe(OH)2.7Cl.3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe2(SO4)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe2(SO4)3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe2MgO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Magnesioferrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe3(OH)8",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe3(OH)8"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Fe3(OH)8"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe3(PO4)2:8H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Vivianite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Vivianite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe3O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Magnetite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Magnetite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Fe3S4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Greigite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Greigite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "FeOOH",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Goethite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Lepidocrocite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Goethite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "FePO4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Strengite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Strengite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "FeS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FeS(ppt)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Mackinawite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "FeS(ppt)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Mackinawite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "FeS2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pyrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pyrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "FeSO4:7H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Melanterite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Melanterite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2B4O7:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "K2B4O7:4H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2Ca(SO4)2:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Syngenite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2Ca5(SO4)6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Goergeyite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2Mg(SO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Leonite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2Mg(SO4)2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Schoenite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2MgCa2(SO4)4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Polyhalite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Arcanite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "K8H6(SO4)7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Misenite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "KB5O8:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "KB5O8:4H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "KFe3(SO4)2(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K-Jarosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Jarosite-K"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "KHCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Kalicinite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "KMgCl3:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Carnallite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "KMgClSO4:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Kainite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mg2CO3(OH)2:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Artinite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mg3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mg3(PO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mg5(CO3)4(OH)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hydromagnesite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hydromagnesite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCO3:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Nesquehonite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Nesquehonite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Nesquehonite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCO3:Mg(OH)2:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Artinite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Artinite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCl2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "MgCl2_2H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCl2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "MgCl2_4H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCl2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Bischofite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgHPO4:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgHPO4:3H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgSO4:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Leonhardite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgSO4:5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Pentahydrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgSO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Hexahydrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgSO4:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Kieserite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mn2(SO4)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mn2(SO4)3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Mn2(SO4)3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mn2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Bixbyite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Bixbyite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mn3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mn3(PO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Mn3(PO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Mn3O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hausmannite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hausmannite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MnCl2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnCl2:4H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "MnCl2:4H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MnHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnHPO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "MnHPO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MnOOH",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Manganite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Manganite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MnS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnS(grn)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "MnS(pnk)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "MnS(Green)"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MnSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnSO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "MnSO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2(B4O5(OH)4):8H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Borax"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2B(OH)4Cl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Teepleite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2CO3:10H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Natron"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Natron"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Natron"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2CO3:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Thermonatrite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Thermonatrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2Ca(CO3)2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Pirssonite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2Ca(SO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Glauberite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2Mg(SO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Bloedite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2SO4:10H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mirabilite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Mirabilite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Mirabilite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na3H(CO3)2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Trona"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na4Ca(SO4)3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Labile_S"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na6CO3(SO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Burkeite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NaB5O8:5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "NaB5O8:5H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NaBO2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "NaBO2:4H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NaFe3(SO4)2(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na-Jarosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Jarosite-Na"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NaHCO3:Na2CO3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Trona"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NaK3(SO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Glaserite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb(BO2)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb(BO2)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb(BO2)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb10(OH)6O(CO3)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb10(OH)6O(CO3)6"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb2(OH)3Cl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb2(OH)3Cl"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb2(OH)3Cl"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb2CuPO4(OH)3:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tsumebite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Tsumebite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb2O(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb2O(OH)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb2O3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb2O3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb2OCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb2OCO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb3(OH)2(CO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hydrocerussite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb3(PO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb3(PO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb3O2CO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb3O2CO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb3O2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb3O2SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb3O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Minium"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Minium"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb4(OH)6SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb4(OH)6SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb4(OH)6SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb4O3SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb4O3SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb5(PO4)3Cl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pyromorphite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Clpyromorphite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Pb5(PO4)3OH",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hydroxylpyromorphite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hxypyromorphite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbHPO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbHPO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Litharge"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Massicot"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Litharge"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Massicot"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbO2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Plattnerite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Plattnerite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbO:0.33H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbO:0.3H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbO:0.3H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbOHCl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Laurionite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Laurionite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Galena"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Galena"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "SrHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SrHPO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn(BO2)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(BO2)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(BO2)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn(NO3)2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn(NO3)2:6H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn(NO3)2:6H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn2(OH)2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn2(OH)2SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn2(OH)2SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn2(OH)3Cl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn2(OH)3Cl"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn2(OH)3Cl"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn3(PO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn3(PO4)2:4H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn3(PO4)2:4w"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn3O(SO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn3O(SO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn4(OH)6SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn4(OH)6SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn4(OH)6SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Zn5(OH)8Cl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn5(OH)8Cl2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn5(OH)8Cl2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnBr2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnBr2:2H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnBr2:2H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnCO3:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnCO3:1H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnCO3:H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnCl2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnCl2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnI2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnI2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnI2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zincite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "ZnO(active)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zincite(c)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnO(a)"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sphalerite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Wurtzite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "ZnS(am)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Sphalerite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Wurtzite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnS(a)"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnSO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Bianchite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Bianchite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnSO4:7H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Goslarite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Goslarite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "ZnSO4:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnSO4:1H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnSO4:H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)(NO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)(NO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)Br2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)Br2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)Cl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)Cl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)I2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)I2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)5OH2)Cl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5OH2)Cl3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)6)(NO3)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)(NO3)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)6)Br3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)Br3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)6)Cl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)Cl3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(Co(NH3)6)I3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)I3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Montmorillonite-BelleFourche"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Montmorillonite-Aberdeen"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(NH4)2(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Uramphite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Uramphite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(NH4)2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(NH4)2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(NH4)2SeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(NH4)2SeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(NaKMg0.5)0.11Al2.33Si3.67O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Beidellite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(UO2)3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(UO2)3(PO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(UO2)3(PO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "(UO2)3(PO4)2:4w"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "(VO)3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(VO)3(PO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag2HVO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2HVO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag2MoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2MoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag2Se",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2Se"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag2SeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2SeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag2SeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2SeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag3AsO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag3AsO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag3AsO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag3AsO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ag3H2VO5",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag3H2VO5"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AgF:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AgF:4H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "AgF:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AgVO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AgVO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Al(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al(OH)3(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Gibbsite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Al(OH)3(a)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Gibbsite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Al2(MoO4)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al2(MoO4)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Al2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al2O3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Al2Si2O5(OH)4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Halloysite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Kaolinite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Halloysite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Kaolinite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Al2Si4O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Pyrophyllite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Al4(OH)10SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al4(OH)10SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Basaluminite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AlAsO4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AlAsO4:2H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "AlAsO4:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AlOHSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AlOHSO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Jurbanite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AlOOH",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Boehmite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Diaspore"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Boehmite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Diaspore"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AlSb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AlSb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "As",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "As_native"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "As2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Arsenolite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Claudetite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "As2O5",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "As2O5"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "As2O5(cr)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "As2S3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Orpiment"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "As2S3(am)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Orpiment"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "As4O6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Arsenolite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Claudetite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AsI3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AsI3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "AsI3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "AsS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Realgar"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Realgar"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ba(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Uranocircite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Uranocircite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ba2V2O7:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ba2V2O7:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ba3(AsO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ba3(AsO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ba3(AsO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ba3(VO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ba3(VO4)2:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BaCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaCrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BaF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaF2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "BaF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BaMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BaSeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaSeO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "BaSeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BaSeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaSeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Be(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Be(OH)2(alpha)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Be(OH)2(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Be(OH)2(beta)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BeMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BeMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BeS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BeS"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "BeSeO4:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BeSeO4:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Autunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Autunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca(UO2)2(SiO3OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Uranophane"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca(UO2)2(VO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tyuyamunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca(VO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca(VO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca0.165Al2.33Si3.67O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Montmorillonite-Ca"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca2Al2Si3O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Prehnite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca2Al4Si8O24:7H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Leonhardite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca2Mg5Si8O22(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Tremolite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca2MgSi2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Akermanite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca2V2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca2V2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca2V2O7:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca2V2O7:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca3(AsO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca3(AsO4)2:4H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ca3(AsO4)2:4w"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca3(VO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca3(VO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca3(VO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca3(VO4)2:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca3Sb2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ca3Sb2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca5(PO4)3F",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Fluorapatite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ca9.316Na0.36Mg0.144(PO4)4.8(CO3)1.2F2.48",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FCO3Apatite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "FCO3Apatite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaAl2Si2O8",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Anorthite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaAl2Si4O12:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Wairakite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaAl2Si4O12:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Laumontite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaCrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fluorite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Fluorite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaMgSi2O6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Diopside"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Diopside"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaSeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "CaSeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaSeO3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaSeO3:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaSeO4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaSeO4:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CaU(PO4)2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ningyoite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ningyoite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cdmetal(alpha)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Cdmetal(gamma)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd(gamma)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdMetal"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd(BO2)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd(BO2)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd(BO2)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd(OH)2"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Cd(OH)2(am)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd(OH)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd(OH)2(a)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd3(OH)2(SO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd3(OH)2(SO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd3(OH)2(SO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd3(OH)4SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd3(OH)4SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd3(OH)4SO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd3(PO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd3(PO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd4(OH)6SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd4(OH)6SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cd4(OH)6SO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdBr2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdBr2:4H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdBr2:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Otavite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Otavite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdCl2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdCl2:2.5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdCl2:2.5H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdCl2:2.5H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdCl2:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdCl2:1H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdCl2:H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdF2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdI2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdI2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdI2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Monteponite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Monteponite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdOHCl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdOHCl"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdOHCl"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Greenockite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Greenockite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdSO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdSO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSO4:2.67H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdSO4:2.67H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdSO4:2.7H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSO4:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdSO4:1H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CdSO4:H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdSb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSeO4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CdSeO4:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CdSiO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "CdSiO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Co(BO2)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co(BO2)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Co(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Co(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co(OH)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Co3(AsO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co3(AsO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Co3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co3(PO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Co3O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co3O4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoCO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoCl2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoCl2:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoF3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoF3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoFe2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoFe2O4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoHPO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoO"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoS(alpha)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "CoS(beta)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoSO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSO4:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoSeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CoSeO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSeO4:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cr",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Crmetal"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cr(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cr(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cr(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cr(OH)3"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Cr(OH)3(am)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cr2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cr2O3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CrBr3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrBr3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CrCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CrCl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrCl3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CrF3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrF3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CrI3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrI3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CrO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu(SbO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu(SbO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Torbernite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Torbernite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu2Sb:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu2Sb:3H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu2Se",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu2Se(alpha)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu3(AsO4)2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu3(AsO4)2:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu3(AsO4)2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Cu3(AsO4)2:6w"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu3Sb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu3Sb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cu3Se2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu3Se2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuCrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuF",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuF"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuF"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuF2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuF2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuF2:2H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "CuF2:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuSe2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuSe2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuSeO3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuSeO3:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuSeO4:5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuSeO4:5H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "CuSiO3:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Dioptase"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Fe(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Bassetite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Bassetite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Fe(VO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe(VO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Fe2(OH)4SeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe2(OH)4SeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Fe2(SeO3)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Fe2(SeO3)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Fe2(SeO3)3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Fe2(SeO3)3:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Fe3Si2O5(OH)4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Greenalite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Greenalite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "FeAl2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hercynite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "FeAsO4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FeAsO4:2H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Scorodite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "FeCr2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FeCr2O4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "FeMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FeMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "FeSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FeSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "FeSe2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ferroselite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "FeSe2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "H2(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "H-Autunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "H-Autunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "H2MoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "H2MoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "H2Sn(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "H2Sn(OH)6"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hgmetal(l)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2Br2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2Br2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2CO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2CO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2Cl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Calomel"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2F2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2F2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2HPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2HPO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2I2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2I2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2S"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2SO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg2SeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg2SeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Hg3O2CO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hg3O2CO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgBr2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "HgBr2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "HgCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgI2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Coccinite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Montroydite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cinnabar"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Metacinnabar"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "HgSO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "HgSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "HgSeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "HgSeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "K0.6Mg0.25Al2.3Si3.5O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Illite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "K2(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K-Autunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "K-Autunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "K2Cr2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K2Cr2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "K2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "K2MoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K2MoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "K2SeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K2SeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KAl(SO4)2:12H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K-Alum"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "AlumK"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KAl3(SO4)2(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Alunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Alunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KAl3Si3O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Kmica"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KAlSi3O8",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Adularia"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KFe3AlSi3O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Annite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KMg3AlSi3O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Phlogopite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "KUO2VO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Carnotite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Li2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Li2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Li2MoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Li2MoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Saleeite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Saleeite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg(VO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mg(VO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg2Sb3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mg2Sb3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg2Si3O7.5OH:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sepiolite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Sepiolite(A)"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Sepiolite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Sepiolite(d)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Sepiolite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Sepiolite(d)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg2SiO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Forsterite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Forsterite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg2V2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mg2V2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg3Si2O5(OH)4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Chrysotile"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Chrysotile"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Chrysotile"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg3Si4O10(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Talc"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Talc"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg5Al2Si3O10(OH)8",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Chlorite14A"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Chlorite7A"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mg7Si8O22(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Anthophyllite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgAl2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Spinel"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgCr2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgCr2O4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgCrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgSeO3:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgSeO3:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgSeO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgSeO4:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MgSiO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Enstatite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Clinoenstatite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mn(VO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mn(VO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mn2Sb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mn2Sb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Mn3(AsO4)2:8H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Mn3(AsO4)2:8H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Mn3(AsO4)2:8H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MnSb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnSb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MnSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MnSeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnSeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MnSeO3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnSeO3:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MnSeO4:5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MnSeO4:5H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MoO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MoO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "MoS2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MoS2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na0.5K0.5AlSi3O8:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Phillipsite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na-Autunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Na-Autunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2Cr2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2Cr2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2Mo2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2Mo2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2MoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2MoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2MoO4:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2MoO4:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2SeO3:5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2SeO3:5H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na2SeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2SeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na3AlF6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cryolite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na3Sb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na3Sb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na3VO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na3VO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na4UO2(CO3)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Na4UO2(CO3)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Na4V2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na4V2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NaAlSi2O6:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Analcime"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NaAlSi3O8",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Albite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NaSb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NaSb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NaSi7O13(OH)3:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Magadiite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NaVO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NaVO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ni(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni(OH)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ni2SiO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Ni2SiO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ni3(AsO4)2:8H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni3(AsO4)2:8H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni3(AsO4)2:8H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ni3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni3(PO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni3(PO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Ni4(OH)6SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni4(OH)6SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni4(OH)6SO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiCO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "NiCO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Bunsenite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Bunsenite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiS(alpha)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "NiS(beta)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "NiS(gamma)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Millerite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiSO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Retgersite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Retgersite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiSO4:7H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Morenosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Morenosite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiSb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Breithauptite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiSeO3:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiSeO3:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "NiSeO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiSeO4:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Pb(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Przhevalskite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Przhevalskite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Pb2SiO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Pb2SiO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Pb2V2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb2V2O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Pb3(AsO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb3(AsO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Pb3(AsO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Pb3(VO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb3(VO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbAl3(PO4)2(OH)5:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Plumbgummite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Plumbogummite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbAl3PO4SO4(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hinsdalite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hinsdalite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbBrF",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbBrF"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbBrF"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbClF",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Matlockite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Matlockite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbCrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbF2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "PbF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Clausthalite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbSeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbSeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "PbSiO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "PbSiO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sbmetal"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sb(OH)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Senarmontite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Valentinite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sb2O4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb2O5",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sb2O5"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb2S3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Stibnite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb2Se3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sb2Se3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sb4O6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sb4O6(cubic)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Sb4O6(orth)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SbBr3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SbBr3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SbCl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SbCl3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SbF3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SbF3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SbI3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SbI3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SbO2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SbO2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Se",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Semetal(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Semetal(hex"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Se(s)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SeO2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SeO2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "SeO2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sn",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Snmetal(wht)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sn(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sn(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sn(OH)4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sn(OH)4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sn(SO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sn(SO4)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnBr2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnBr2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnBr4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnBr4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnO"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnO2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnO2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnS"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnS2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnS2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnSO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SnSe2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SnSe2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Sr(UO2)2(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sr-Autunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Sr-Autunite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SrCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SrCrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SrF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SrF2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "SrF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SrSeO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SrSeO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "SrSeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SrSeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tlmetal"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl(OH)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2CO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2CO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2CrO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2MoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2MoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Avicennite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2S",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2S"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2SO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2Se",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2Se"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Tl2SeO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Tl2SeO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "TlBr",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "TlBr"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "TlCl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "TlCl"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "TlI",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "TlI"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "TlNO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "TlNO3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "TlOH",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "TlOH"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "U(HPO4)2:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "U(HPO4)2:4H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "U(HPO4)2:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "U(OH)2SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "U(OH)2SO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "U3O8",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "U3O8"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "U3O8(c)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "U3Sb4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "U3Sb4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "U4O9",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "U4O9"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "U4O9(c)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UF4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UF4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "UF4(c)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UF4:2.5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UF4:2.5H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "UF4:2.5H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Uraninite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "UO2(a)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Uraninite(c)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2(NO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2(NO3)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2(NO3)2:2H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2(NO3)2:2H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2(NO3)2:3H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2(NO3)2:3H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2(NO3)2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2(NO3)2:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2(OH)2(beta)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "B-UO2(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2(OH)2:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Schoepite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Schoepite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2CO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Rutherfordine"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Rutherfordine"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2HPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2HPO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2HPO4:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "UO2HPO4:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO2SeO4:4H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "UO2SeO4:4H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "UO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Gummite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "UO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Gummite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "UO3(gamma)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "USb2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "USb2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "USiO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Coffinite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "V",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Vmetal"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "V(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "V(OH)3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "V2O5",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "V2O5"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "V3O5",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "V3O5"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "V4O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "V4O7"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "V6O13",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "V6O13"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VCl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VCl3"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VF4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VF4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VO"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VO(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VO(OH)2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VO2Cl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VO2Cl"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VOCl",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VOCl"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VOCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VOCl2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "VOSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "VOSO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Zn2SiO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "Willemite"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Zn3(AsO4)2:2.5H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn3(AsO4)2:2.5H2O"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zn3(AsO4)2:2.5w"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "ZnF2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnF2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnF2"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "ZnMoO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnMoO4"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "ZnSb",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnSb"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "ZnSe",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnSe"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "ZnSeO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "ZnSeO4:6H2O"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "ZnSiO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "wateq4f",
+          "phase": "ZnSiO3"
+        }
+      ],
+      "class": "unbookable"
+    }
+  ]
+}

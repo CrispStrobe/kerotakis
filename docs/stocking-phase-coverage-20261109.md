@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 70, not_condensed 76.
+Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 78, not_condensed 76.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -61,7 +61,12 @@ Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 70, n
 | melting_point_without_latent_heat | S | solid | 388.36 | 717.76 | no | solid | solid | solid |
 | melting_point_without_latent_heat | bromoethane | liquid | 154.55 | 311.45 | no | liquid | liquid | liquid |
 | melting_point_without_latent_heat | dodecane | liquid | 263.55 | 489.45 | no | liquid | liquid | liquid |
+| no_melting_point | Ag2CO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Ag3PO4 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | AgBr | solid | — | — | no | solid | solid | solid |
+| no_melting_point | AgI | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ba(OH)2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | C | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca3(PO4)2 | solid | — | — | no | solid | solid | solid |
@@ -98,6 +103,9 @@ Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 70, n
 | no_melting_point | PS | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PVA | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Pb(NO3)2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | PbCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | PbI2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | PbSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | SiO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Zn(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnSO4 | solid | — | — | no | solid | solid | solid |
