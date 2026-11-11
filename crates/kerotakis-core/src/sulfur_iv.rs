@@ -16,24 +16,50 @@
 //!
 //! * iodine (I₂ and the I₃⁻ it forms with iodide):
 //!   `S(IV) + I₂ (+ H₂O) → SO₄²⁻ + 2 I⁻ + n H⁺`. Second-order rate
-//!   constants at 25.0 °C, μ = 0.50 M: I₂ + HSO₃⁻ 1.7·10⁹, I₃⁻ + HSO₃⁻
-//!   1.5·10⁷, I₂ + SO₃²⁻ 3.1·10⁹, I₃⁻ + SO₃²⁻ 2.9·10⁸ M⁻¹ s⁻¹.
-//!   Source: B. S. Yiin and D. W. Margerum, "Non-metal redox kinetics:
-//!   reactions of iodine and triiodide with sulfite and hydrogen sulfite
-//!   and the hydrolysis of iodosulfate", Inorg. Chem. 29 (1990) 1559-1564,
-//!   doi:10.1021/ic00333a023 (values as quoted from the paper's abstract;
-//!   the full text was not readable here).
-//! * hydrogen peroxide: `S(IV) + H₂O₂ → SO₄²⁻ + n H⁺ (+ H₂O)`, with the
-//!   McArdle-Hoffmann law
-//!   `rate = k₁ [H₂O₂][HSO₃⁻] · R[H⁺] / (1 + R[H⁺])`,
-//!   k₁ = 2.6·10⁶ M⁻¹ s⁻¹ and R = k₂/k₋₁ = 16 M⁻¹ at 15 °C,
-//!   ΔH‡₁ = 37 kJ/mol, measured over pH 0.0-4.5. Source: J. V. McArdle
-//!   and M. R. Hoffmann, "Kinetics and mechanism of the oxidation of
-//!   aquated sulfur dioxide by hydrogen peroxide at low pH", J. Phys.
-//!   Chem. 87 (1983) 5425-5429, doi:10.1021/j150644a024 (abstract,
-//!   CaltechAUTHORS record 59779). The earlier acid-solution study is
-//!   M. R. Hoffmann and J. O. Edwards, J. Phys. Chem. 79 (1975) 2096-2098,
-//!   doi:10.1021/j100587a005.
+//!   constants at 25.0 °C, μ = 0.50 M, p[H⁺] 4.1-6.6: I₂ + HSO₃⁻ 1.8·10⁹,
+//!   I₃⁻ + HSO₃⁻ 1.4·10⁷, I₂ + SO₃²⁻ 3.2·10⁹, I₃⁻ + SO₃²⁻ 2.8·10⁸
+//!   M⁻¹ s⁻¹. Source: B. S. Yiin and D. W. Margerum, "Non-metal redox
+//!   kinetics: reactions of iodine and triiodide with sulfite and hydrogen
+//!   sulfite and the hydrolysis of iodosulfate", Inorg. Chem. 29 (1990)
+//!   1559-1564, doi:10.1021/ic00333a023; values as printed in the abstract
+//!   of the same work, B. S. Yiin, PhD dissertation, Purdue University
+//!   1990 (AAI9018935, docs.lib.purdue.edu/dissertations/AAI9018935).
+//! * hydrogen peroxide: `S(IV) + H₂O₂ → SO₄²⁻ + n H⁺ (+ H₂O)`, with
+//!   `rate = k [H⁺][H₂O₂][HSO₃⁻] / (1 + K[H⁺])`, k = 7.50·10⁷ M⁻² s⁻¹,
+//!   K = 13 M⁻¹ at 25 °C: M. R. Hoffmann and J. G. Calvert, "Chemical
+//!   transformation modules for Eulerian acid deposition models, Vol. II:
+//!   The aqueous-phase chemistry", NCAR / US EPA (1985), rate-law summary
+//!   table ("k = 7.50E+07 (1/M2s) K = 1.30E+01"; archive.org OCR). The
+//!   temperature dependence is the measured ΔH‡ = 37 kJ/mol of J. V.
+//!   McArdle and M. R. Hoffmann, J. Phys. Chem. 87 (1983) 5425-5429,
+//!   doi:10.1021/j150644a024 (abstract, CaltechAUTHORS): k₁ = 2.6·10⁶
+//!   M⁻¹ s⁻¹ and k₂/k₋₁ = 16 M⁻¹ at 15 °C over pH 0.0-4.5, whose product
+//!   moved to 25 °C (7.2·10⁷) cross-checks the 25 °C k within 4 %. The
+//!   measured acidity range pH 0-4.5 bounds the law here.
+//!
+//! Every other registry oxidant has a row in [`OXIDANT_TABLE`], priced by
+//! one generic writer when it is the only S(IV) oxidant in the vessel:
+//!
+//! * rated (second-order constants per S(IV) form, 25 °C): ozone
+//!   (Hoffmann & Calvert 1985: SO₂·H₂O 2.4·10⁴, HSO₃⁻ 3.7·10⁵, SO₃²⁻
+//!   1.5·10⁹ M⁻¹ s⁻¹), HOBr + SO₃²⁻ 5.0·10⁹ and OBr⁻ + SO₃²⁻ 1.0·10⁸
+//!   (Troy & Margerum, Inorg. Chem. 30 (1991) 3538,
+//!   doi:10.1021/ic00018a028, as quoted by Liu et al., Geophys. Res. Lett.
+//!   47 (2020), doi:10.1029/2019GL086465; a database page gives 2.3·10⁹
+//!   for HOBr, conflict noted). Run as instantaneous only while every
+//!   present S(IV) form has a constant and lives at most [`MAX_INSTANT_S`].
+//! * stoichiometric (no rate constant claimed, typed note on every run):
+//!   Br₂, MnO₄⁻ (acid, → Mn²⁺), Cr₂O₇²⁻ / HCrO₄⁻ (acid, → Cr³⁺). Proton
+//!   demand is limited by represented acidity; the rest is refused typed
+//!   (neutral/basic permanganate products are not pinned by a source).
+//! * owned elsewhere: HClO / ClO⁻ (the admitted `halogen_redox` rows;
+//!   HOCl + SO₃²⁻ 7.6·10⁸ M⁻¹ s⁻¹ at 25 °C, μ 0.5, Fogelman, Walker &
+//!   Margerum, Inorg. Chem. 28 (1989) 986, doi:10.1021/ic00305a002).
+//! * refused typed: nitrite (rate = k[NO₂⁻][HSO₃⁻][H⁺], k = 4.0-4.5·10³
+//!   M⁻² s⁻¹ at 22 °C, but the product is hydroxylamine disulfonate, not
+//!   in the registry: D. Oblath, PhD thesis, LBL-13026 (1981), Table II),
+//!   and dissolved O₂ (uncatalysed or Fe/Mn-catalysed autoxidation: no
+//!   reviewed rate that holds without catalyst, pH and ionic strength).
 //!
 //! Both oxidations are treated as instantaneous on the bench clock (S(IV)
 //! lifetime milliseconds at the concentrations the bench holds); the
@@ -69,14 +95,38 @@ use crate::SpeciesId;
 
 const TRACE: f64 = 1e-12;
 
-/// Yiin & Margerum 1990, 25.0 °C, μ = 0.50 M (M⁻¹ s⁻¹): I₂ + HSO₃⁻.
-pub const K_I2_HSO3: f64 = 1.7e9;
+/// Yiin & Margerum 1990 (Yiin dissertation abstract), 25.0 °C, μ = 0.50
+/// M (M⁻¹ s⁻¹): I₂ + HSO₃⁻.
+pub const K_I2_HSO3: f64 = 1.8e9;
 /// Yiin & Margerum 1990: I₃⁻ + HSO₃⁻.
-pub const K_I3_HSO3: f64 = 1.5e7;
+pub const K_I3_HSO3: f64 = 1.4e7;
 /// Yiin & Margerum 1990: I₂ + SO₃²⁻.
-pub const K_I2_SO3: f64 = 3.1e9;
+pub const K_I2_SO3: f64 = 3.2e9;
 /// Yiin & Margerum 1990: I₃⁻ + SO₃²⁻.
-pub const K_I3_SO3: f64 = 2.9e8;
+pub const K_I3_SO3: f64 = 2.8e8;
+
+/// Hoffmann & Calvert 1985 (Vol. II summary table): k of
+/// `k[H⁺][H₂O₂][HSO₃⁻]/(1 + K[H⁺])`, M⁻² s⁻¹ at 25 °C.
+pub const HC_K_M2_S1: f64 = 7.5e7;
+/// Hoffmann & Calvert 1985: K of the same law, M⁻¹ at 25 °C (held
+/// constant over the bench range).
+pub const HC_KEQ_M1: f64 = 13.0;
+/// Temperature of the Hoffmann & Calvert constants, K.
+pub const HC_T_K: f64 = 298.15;
+
+/// Hoffmann & Calvert 1985 ozone constants on (SO₂·H₂O, HSO₃⁻, SO₃²⁻),
+/// M⁻¹ s⁻¹ at 25 °C ("k0 = 2.40E+04 k1 = 3.70E+05 k2 = 1.50E+09").
+pub const O3_K: [f64; 3] = [2.4e4, 3.7e5, 1.5e9];
+/// Troy & Margerum 1991 (as quoted by Liu et al. 2020): HOBr + SO₃²⁻,
+/// M⁻¹ s⁻¹ at 25 °C.
+pub const HOBR_K_SO3: f64 = 5.0e9;
+/// Troy & Margerum 1991 (as quoted, JPCA 113 (2009) 9988): OBr⁻ + SO₃²⁻.
+pub const OBR_K_SO3: f64 = 1.0e8;
+/// Fogelman, Walker & Margerum 1989: HOCl + SO₃²⁻, M⁻¹ s⁻¹ at 25 °C.
+pub const HOCL_K_SO3: f64 = 7.6e8;
+/// Oblath 1981 (LBL-13026, Table II): k of `k[NO₂⁻][HSO₃⁻][H⁺]` at
+/// 22 °C, μ 0.20, M⁻² s⁻¹: lowest and highest of the four runs.
+pub const NITRITE_K_M2_S1: (f64, f64) = (4.0e3, 4.5e3);
 
 /// McArdle & Hoffmann 1983: k₁ at 15 °C, M⁻¹ s⁻¹.
 pub const MH_K1_M1_S1: f64 = 2.6e6;
@@ -132,8 +182,224 @@ pub const IONS: &[SivIon] = &[
     },
 ];
 
-/// Oxidants that take S(IV) to sulfate here.
+/// Oxidants whose S(IV) shares are integrated in closed form (KI-011).
 pub const OXIDANTS: &[&str] = &["I2", "H2O2"];
+
+/// How an oxidant's S(IV) oxidation is priced.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Pricing {
+    /// Competing rate laws in closed form ([`OXIDANTS`]).
+    Competing,
+    /// Second-order constants per S(IV) form ([`SivOxidant::k`]).
+    Rated,
+    /// Instantaneous stoichiometric titration; no rate constant claimed.
+    Stoichiometric,
+    /// An admitted `halogen_redox` row owns it.
+    HalogenWriter,
+    /// The product is not a registry species.
+    ProductNotInRegistry,
+    /// No reviewed rate holds for it.
+    NoReviewedRate,
+}
+
+impl Pricing {
+    pub fn key(self) -> &'static str {
+        match self {
+            Pricing::Competing => "competing",
+            Pricing::Rated => "rated",
+            Pricing::Stoichiometric => "stoichiometric",
+            Pricing::HalogenWriter => "halogen_writer",
+            Pricing::ProductNotInRegistry => "product_not_in_registry",
+            Pricing::NoReviewedRate => "no_reviewed_rate",
+        }
+    }
+}
+
+/// One oxidant of S(IV): its reduction half
+/// `key + electrons e⁻ + protons H⁺ → products + water H₂O`, its rate
+/// constants on (SO₂, HSO₃⁻, SO₃²⁻) where measured, and its pricing.
+#[derive(Debug, Clone, Copy)]
+pub struct SivOxidant {
+    pub key: &'static str,
+    pub products: &'static [(&'static str, f64)],
+    pub electrons: f64,
+    pub protons: f64,
+    pub water: f64,
+    pub k: [Option<f64>; 3],
+    pub pricing: Pricing,
+}
+
+const fn ox(
+    key: &'static str,
+    products: &'static [(&'static str, f64)],
+    electrons: f64,
+    protons: f64,
+    water: f64,
+    k: [Option<f64>; 3],
+    pricing: Pricing,
+) -> SivOxidant {
+    SivOxidant {
+        key,
+        products,
+        electrons,
+        protons,
+        water,
+        k,
+        pricing,
+    }
+}
+
+/// Every S(IV) oxidant the bench names (sources in the module docs and
+/// `docs/sulfur-iv-coupling-coverage-20261111.md`).
+pub const OXIDANT_TABLE: &[SivOxidant] = &[
+    ox(
+        "I2",
+        &[("I-", 2.0)],
+        2.0,
+        0.0,
+        0.0,
+        [None, Some(K_I2_HSO3), Some(K_I2_SO3)],
+        Pricing::Competing,
+    ),
+    ox(
+        "H2O2",
+        &[],
+        2.0,
+        2.0,
+        2.0,
+        [None, None, None],
+        Pricing::Competing,
+    ),
+    ox(
+        "O3",
+        &[("O2", 1.0)],
+        2.0,
+        2.0,
+        1.0,
+        [Some(O3_K[0]), Some(O3_K[1]), Some(O3_K[2])],
+        Pricing::Rated,
+    ),
+    ox(
+        "HBrO",
+        &[("Br-", 1.0)],
+        2.0,
+        1.0,
+        1.0,
+        [None, None, Some(HOBR_K_SO3)],
+        Pricing::Rated,
+    ),
+    ox(
+        "BrO-",
+        &[("Br-", 1.0)],
+        2.0,
+        2.0,
+        1.0,
+        [None, None, Some(OBR_K_SO3)],
+        Pricing::Rated,
+    ),
+    ox(
+        "HClO",
+        &[("Cl-", 1.0)],
+        2.0,
+        1.0,
+        1.0,
+        [None, None, Some(HOCL_K_SO3)],
+        Pricing::HalogenWriter,
+    ),
+    ox(
+        "ClO-",
+        &[("Cl-", 1.0)],
+        2.0,
+        2.0,
+        1.0,
+        [None, None, None],
+        Pricing::HalogenWriter,
+    ),
+    ox(
+        "Br2",
+        &[("Br-", 2.0)],
+        2.0,
+        0.0,
+        0.0,
+        [None, None, None],
+        Pricing::Stoichiometric,
+    ),
+    ox(
+        "MnO4-",
+        &[("Mn+2", 1.0)],
+        5.0,
+        8.0,
+        4.0,
+        [None, None, None],
+        Pricing::Stoichiometric,
+    ),
+    ox(
+        "Cr2O7-2",
+        &[("Cr+3", 2.0)],
+        6.0,
+        14.0,
+        7.0,
+        [None, None, None],
+        Pricing::Stoichiometric,
+    ),
+    ox(
+        "HCrO4-",
+        &[("Cr+3", 1.0)],
+        3.0,
+        7.0,
+        4.0,
+        [None, None, None],
+        Pricing::Stoichiometric,
+    ),
+    ox(
+        "NO2-",
+        &[],
+        0.0,
+        0.0,
+        0.0,
+        [None, None, None],
+        Pricing::ProductNotInRegistry,
+    ),
+    ox(
+        "O2",
+        &[],
+        0.0,
+        0.0,
+        0.0,
+        [None, None, None],
+        Pricing::NoReviewedRate,
+    ),
+];
+
+/// The product Oblath 1981 reports for nitrite + hydrogen sulfite, named
+/// in the refusal (it is not a registry species).
+pub const NITRITE_PRODUCT: &str = "hydroxylamine disulfonate";
+
+/// The table row for `key`.
+pub fn oxidant(key: &str) -> Option<&'static SivOxidant> {
+    OXIDANT_TABLE.iter().find(|o| o.key == key)
+}
+
+/// Index of an S(IV) ion in [`SivOxidant::k`].
+pub fn ion_index(ion: &SivIon) -> usize {
+    match ion.key {
+        "SO2" => 0,
+        "HSO3-" => 1,
+        _ => 2,
+    }
+}
+
+/// Per mole of S(IV) of `ion` oxidised by `ox`:
+/// `(oxidant moles, water consumed, protons consumed)`; negative water or
+/// protons are released.
+pub fn generic_path(ion: &SivIon, ox: &SivOxidant) -> (f64, f64, f64) {
+    let per = 2.0 / ox.electrons;
+    (
+        per,
+        (4.0 - ion.oxygen) - per * ox.water,
+        per * ox.protons - (4.0 + ion.charge),
+    )
+}
 
 /// Per mole of S(IV) of `ion` oxidised by I₂:
 /// `(water consumed, protons released)`.
@@ -237,19 +503,25 @@ fn halogen_owned(ion: &SivIon) -> bool {
     ion.key != "SO2"
 }
 
-/// McArdle-Hoffmann k₁ at `t_k` (Eyring with ΔH‡₁ from 15 °C).
-pub fn mh_k1(t_k: f64) -> f64 {
-    MH_K1_M1_S1 * (t_k / MH_T_K) * (-(MH_DH_ACT_J_MOL / R_GAS) * (1.0 / t_k - 1.0 / MH_T_K)).exp()
+/// Eyring factor with the McArdle-Hoffmann ΔH‡ from `t_ref` to `t_k`.
+fn eyring(t_k: f64, t_ref: f64) -> f64 {
+    (t_k / t_ref) * (-(MH_DH_ACT_J_MOL / R_GAS) * (1.0 / t_k - 1.0 / t_ref)).exp()
 }
 
-/// Effective second-order peroxide constant on HSO₃⁻ (M⁻¹ s⁻¹), or
-/// `None` outside the measured acidity range.
+/// McArdle-Hoffmann k₁ at `t_k` (Eyring with ΔH‡₁ from 15 °C). Used as
+/// the independent cross-check of the 25 °C Hoffmann-Calvert constant.
+pub fn mh_k1(t_k: f64) -> f64 {
+    MH_K1_M1_S1 * eyring(t_k, MH_T_K)
+}
+
+/// Effective second-order peroxide constant on HSO₃⁻ (M⁻¹ s⁻¹),
+/// `k[H⁺]/(1 + K[H⁺])` with the Hoffmann-Calvert 25 °C constants moved by
+/// the McArdle-Hoffmann ΔH‡, or `None` outside the measured acidity range.
 pub fn peroxide_k(t_k: f64, proton_m: f64) -> Option<f64> {
     if !(MH_PROTON_RANGE_M.0..=MH_PROTON_RANGE_M.1).contains(&proton_m) {
         return None;
     }
-    let r = MH_K2_OVER_KM1_M1 * proton_m;
-    Some(mh_k1(t_k) * r / (1.0 + r))
+    Some(HC_K_M2_S1 * proton_m / (1.0 + HC_KEQ_M1 * proton_m) * eyring(t_k, HC_T_K))
 }
 
 /// Triiodide-weighted iodine constant on HSO₃⁻ (M⁻¹ s⁻¹) for this
@@ -383,6 +655,279 @@ pub fn plan(vessel: &Vessel) -> Option<Plan> {
 /// Whether the writer would change this vessel now.
 pub fn fires(vessel: &Vessel) -> bool {
     plan(vessel).is_some_and(|p| p.to_iodine + p.to_peroxide > TRACE)
+        || other_plan(vessel).is_some_and(|p| p.run.is_some_and(|r| r.s_iv > TRACE))
+}
+
+// ── Every other S(IV) oxidant: one generic writer ───────────────────────
+
+const OTHER_PHASES: &[Phase] = &[Phase::Aqueous, Phase::Solid];
+
+fn oxidant_phases(ox: &SivOxidant) -> &'static [Phase] {
+    match ox.key {
+        "H2O2" => PEROXIDE_PHASES,
+        "I2" => IODINE_PHASES,
+        "O2" | "O3" => &[Phase::Aqueous],
+        _ => OTHER_PHASES,
+    }
+}
+
+/// Registry forms delivering an oxidant (the ion and its Na/K salts).
+fn oxidant_forms(ox: &SivOxidant) -> Vec<String> {
+    crate::halogen_redox::registry_forms(ox.key)
+}
+
+/// Moles of `ox` the vessel holds, over all its forms.
+pub fn oxidant_amount(vessel: &Vessel, ox: &SivOxidant) -> f64 {
+    oxidant_forms(ox)
+        .iter()
+        .map(|f| amount(vessel, f, oxidant_phases(ox)))
+        .sum()
+}
+
+/// Why an S(IV) oxidant other than iodine and peroxide is not run.
+#[derive(Debug, Clone, PartialEq)]
+pub enum OtherGap {
+    /// A rated oxidant lives longer than [`MAX_INSTANT_S`] with S(IV).
+    Slow {
+        oxidant: &'static str,
+        lifetime_s: f64,
+    },
+    /// No measured constant for a present S(IV) form.
+    NoRateForForm {
+        oxidant: &'static str,
+        form: &'static str,
+    },
+    /// The reaction's product is not a registry species.
+    ProductNotInRegistry {
+        oxidant: &'static str,
+        product: &'static str,
+    },
+    /// No reviewed rate (dissolved O₂: autoxidation).
+    NoReviewedRate { oxidant: &'static str },
+    /// Represented acidity runs out before the S(IV) or the oxidant.
+    AcidLimited { oxidant: &'static str, left: f64 },
+    /// Several S(IV) oxidants are present and no shared rate prices
+    /// their competition.
+    Competition { oxidant: &'static str },
+}
+
+/// The admitted run of one other oxidant.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct OtherRun {
+    pub oxidant: &'static str,
+    /// S(IV) moles oxidised (spread over the forms by their amounts).
+    pub s_iv: f64,
+}
+
+/// Plan for every S(IV) oxidant outside the iodine/peroxide competition.
+#[derive(Debug, Clone, PartialEq)]
+pub struct OtherPlan {
+    pub run: Option<OtherRun>,
+    pub gaps: Vec<OtherGap>,
+}
+
+/// Plan the other oxidants in this vessel, or `None` when there is no
+/// S(IV) or no such oxidant present.
+pub fn other_plan(vessel: &Vessel) -> Option<OtherPlan> {
+    let pool = pool(vessel);
+    let s0: f64 = pool.iter().map(|(_, _, n)| n).sum();
+    if s0 <= TRACE {
+        return None;
+    }
+    let present: Vec<(&'static SivOxidant, f64)> = OXIDANT_TABLE
+        .iter()
+        .map(|o| (o, oxidant_amount(vessel, o)))
+        .filter(|(_, n)| *n > TRACE)
+        .collect();
+    let mut gaps = Vec::new();
+    let runnable: Vec<(&'static SivOxidant, f64)> = present
+        .iter()
+        .copied()
+        .filter(|(o, _)| matches!(o.pricing, Pricing::Rated | Pricing::Stoichiometric))
+        .collect();
+    for (o, _) in &present {
+        match o.pricing {
+            Pricing::ProductNotInRegistry => gaps.push(OtherGap::ProductNotInRegistry {
+                oxidant: o.key,
+                product: NITRITE_PRODUCT,
+            }),
+            Pricing::NoReviewedRate => gaps.push(OtherGap::NoReviewedRate { oxidant: o.key }),
+            _ => {}
+        }
+    }
+    if runnable.is_empty() {
+        return (!gaps.is_empty()).then_some(OtherPlan { run: None, gaps });
+    }
+    let competitors = present
+        .iter()
+        .filter(|(o, _)| {
+            matches!(
+                o.pricing,
+                Pricing::Competing
+                    | Pricing::HalogenWriter
+                    | Pricing::Rated
+                    | Pricing::Stoichiometric
+            )
+        })
+        .count();
+    if competitors > 1 {
+        for (o, _) in &runnable {
+            gaps.push(OtherGap::Competition { oxidant: o.key });
+        }
+        return Some(OtherPlan { run: None, gaps });
+    }
+    let (o, n_ox) = runnable[0];
+    if o.pricing == Pricing::Rated {
+        let litres = litres(vessel);
+        let mut longest: f64 = 0.0;
+        for (_, ion, _) in &pool {
+            let Some(k) = o.k[ion_index(ion)] else {
+                gaps.push(OtherGap::NoRateForForm {
+                    oxidant: o.key,
+                    form: ion.key,
+                });
+                return Some(OtherPlan { run: None, gaps });
+            };
+            longest = longest.max(1.0 / (k * n_ox / litres));
+        }
+        if longest > MAX_INSTANT_S {
+            gaps.push(OtherGap::Slow {
+                oxidant: o.key,
+                lifetime_s: longest,
+            });
+            return Some(OtherPlan { run: None, gaps });
+        }
+    }
+    // Capacity: S(IV) itself, the oxidant (2/electrons per S(IV)), and the
+    // represented acidity the net equation draws per S(IV).
+    let reach = s0.min(n_ox * o.electrons / 2.0);
+    let demand_per_s: f64 = pool
+        .iter()
+        .map(|(_, ion, n)| n * generic_path(ion, o).2.max(0.0))
+        .sum::<f64>()
+        / s0;
+    let mut s = reach;
+    if demand_per_s > 0.0 {
+        s = s.min(crate::displacement::unspent_acidity(vessel).max(0.0) / demand_per_s);
+    }
+    if reach - s > TRACE {
+        gaps.push(OtherGap::AcidLimited {
+            oxidant: o.key,
+            left: reach - s,
+        });
+    }
+    let run = (s > TRACE).then_some(OtherRun {
+        oxidant: o.key,
+        s_iv: s,
+    });
+    Some(OtherPlan { run, gaps })
+}
+
+fn withdraw_oxidant(vessel: &mut Vessel, ox: &SivOxidant, moles: f64) {
+    let mut left = moles;
+    for form in oxidant_forms(ox) {
+        for phase in oxidant_phases(ox) {
+            if left <= 0.0 {
+                return;
+            }
+            let taken = vessel
+                .withdraw_phase(&SpeciesId::new(&form), Moles(left), *phase)
+                .0;
+            if taken > 0.0 {
+                for (cation, k) in crate::halogen_redox::spectators_of(&form, ox.key) {
+                    vessel.deposit(SpeciesId::new(cation), Moles(taken * k), Phase::Aqueous);
+                }
+            }
+            left -= taken;
+        }
+    }
+}
+
+/// Display equation for one ion and a table oxidant, in whole numbers.
+pub fn generic_equation(ion: &SivIon, ox: &SivOxidant) -> String {
+    let scale = if (ox.electrons as i64) % 2 == 0 {
+        ox.electrons / 2.0
+    } else {
+        ox.electrons
+    };
+    let (per, water_in, protons_in) = generic_path(ion, ox);
+    let mut lhs = vec![term(per * scale, ox.key), term(scale, ion.key)];
+    let mut rhs = Vec::new();
+    if water_in > 1e-9 {
+        lhs.push(term(water_in * scale, "water"));
+    }
+    if protons_in > 1e-9 {
+        lhs.push(term(protons_in * scale, "H+"));
+    }
+    for (product, k) in ox.products {
+        rhs.push(term(per * k * scale, product));
+    }
+    rhs.push(term(scale, "SO4-2"));
+    if protons_in < -1e-9 {
+        rhs.push(term(-protons_in * scale, "H+"));
+    }
+    if water_in < -1e-9 {
+        rhs.push(term(-water_in * scale, "water"));
+    }
+    format!("{} → {}", lhs.join(" + "), rhs.join(" + "))
+}
+
+/// Run the other-oxidant plan. Returns whether anything changed.
+pub fn apply_other(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
+    use crate::phrase::{Phrase, Slot};
+    let Some(OtherPlan { run: Some(run), .. }) = other_plan(vessel) else {
+        return false;
+    };
+    let Some(ox) = oxidant(run.oxidant) else {
+        return false;
+    };
+    let pool = pool(vessel);
+    let s0: f64 = pool.iter().map(|(_, _, n)| n).sum();
+    let mut said: Vec<String> = Vec::new();
+    for (form, ion, n) in pool {
+        let x = run.s_iv * n / s0;
+        if x <= TRACE {
+            continue;
+        }
+        let (per, water_in, protons_in) = generic_path(ion, ox);
+        withdraw(vessel, &form, x, phases_of(&form));
+        withdraw_oxidant(vessel, ox, x * per);
+        if protons_in > 0.0 {
+            crate::displacement::consume_acidity(vessel, x * protons_in);
+        }
+        if water_in > 0.0 {
+            vessel.withdraw_phase(&SpeciesId::new("water"), Moles(x * water_in), Phase::Liquid);
+        } else if water_in < 0.0 {
+            vessel.deposit(SpeciesId::new("water"), Moles(-x * water_in), Phase::Liquid);
+        }
+        vessel.deposit(SpeciesId::new("SO4-2"), Moles(x), Phase::Aqueous);
+        for (product, k) in ox.products {
+            vessel.deposit(SpeciesId::new(product), Moles(x * per * k), Phase::Aqueous);
+        }
+        for (cation, k) in crate::halogen_redox::spectators_of(&form, ion.key) {
+            vessel.deposit(SpeciesId::new(cation), Moles(x * k), Phase::Aqueous);
+        }
+        let eq = generic_equation(ion, ox);
+        if !said.contains(&eq) {
+            events.push(Event::ReactionOccurred {
+                vessel: vessel.id,
+                equation: eq.clone(),
+            });
+            said.push(eq);
+        }
+    }
+    if ox.pricing == Pricing::Stoichiometric {
+        events.push(Event::not_modeled(
+            vessel.id,
+            crate::ops::NotModelledCause::RateNotModelled,
+            Phrase::new(
+                "not-modeled.sulfite-oxidant-no-rate-claimed",
+                "{oxidant} oxidises sulfur(IV) to sulfate here as an instantaneous stoichiometric titration; no rate constant is claimed for it, so the speed of the reaction is not modelled",
+                vec![("oxidant".to_string(), Slot::text(pretty(ox.key)))],
+            ),
+        ));
+    }
+    true
 }
 
 fn pretty(key: &str) -> String {
@@ -439,6 +984,11 @@ fn withdraw(vessel: &mut Vessel, key: &str, moles: f64, phases: &[Phase]) {
 /// Run the coupling to completion. Returns whether anything changed. The
 /// caller refreshes `solute_charge`.
 pub fn apply(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
+    let other = apply_other(vessel, events);
+    apply_competing(vessel, events) || other
+}
+
+fn apply_competing(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
     let Some(plan) = plan(vessel) else {
         return false;
     };
@@ -507,11 +1057,17 @@ pub fn apply(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
 /// Whether this module covers the halogen table's `oxidant + reductant`
 /// group (members as the table spells them).
 pub fn covers(oxidant: &str, reductant: &str) -> bool {
-    OXIDANTS.contains(&oxidant) && IONS.iter().any(|i| i.key == reductant)
+    OXIDANT_TABLE.iter().any(|o| o.key == oxidant) && IONS.iter().any(|i| i.key == reductant)
 }
 
-/// Typed notes for S(IV) left beside peroxide that the writer refuses.
+/// Typed notes for S(IV) left beside an oxidant that the writers refuse.
 pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
+    let mut events = peroxide_notes(vessel);
+    events.extend(other_notes(vessel));
+    events
+}
+
+fn peroxide_notes(vessel: &Vessel) -> Vec<Event> {
     use crate::phrase::{Phrase, Slot};
     let Some(plan) = plan(vessel) else {
         return Vec::new();
@@ -553,6 +1109,78 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
         events.clear();
     }
     events
+}
+
+fn other_note(vessel: &Vessel, gap: &OtherGap, s_iv: f64) -> Event {
+    use crate::ops::NotModelledCause as Cause;
+    use crate::phrase::{Phrase, Slot};
+    let name = |k: &str| ("oxidant".to_string(), Slot::text(pretty(k)));
+    let amount = ("amount".to_string(), Slot::text(format!("{s_iv:.3e}")));
+    let (cause, key, en, slots) = match gap {
+        OtherGap::Slow {
+            oxidant,
+            lifetime_s,
+        } => (
+            Cause::ModelBoundary,
+            "not-modeled.sulfite-oxidant-slow",
+            "sulfur(IV) and {oxidant} are together here, but at these concentrations the reviewed rate constants give sulfur(IV) a lifetime of about {lifetime} s, too slow to treat as instantaneous, and no time-resolved writer integrates it, so {amount} mol of sulfur(IV) is left unreacted",
+            vec![
+                name(*oxidant),
+                ("lifetime".to_string(), Slot::text(format!("{lifetime_s:.3e}"))),
+                amount,
+            ],
+        ),
+        OtherGap::NoRateForForm { oxidant, form } => (
+            Cause::NoReviewedDatum,
+            "not-modeled.sulfite-oxidant-no-rate-for-form",
+            "sulfur(IV) and {oxidant} are together here, but no reviewed rate constant was found for {oxidant} with {form}, so {amount} mol of sulfur(IV) is left unreacted. That is a gap in the model, not evidence that nothing happens",
+            vec![
+                name(*oxidant),
+                ("form".to_string(), Slot::text(pretty(form))),
+                amount,
+            ],
+        ),
+        OtherGap::ProductNotInRegistry { oxidant, .. } => (
+            Cause::PhaseNotInRegistry,
+            "not-modeled.sulfite-oxidant-product-not-in-registry",
+            "sulfur(IV) and {oxidant} are together here; the reviewed kinetics (Oblath 1981) give hydroxylamine disulfonate, not sulfate, and that species is not in this lab's registry, so {amount} mol of sulfur(IV) is left unreacted. That is a gap in the model, not evidence that nothing happens",
+            vec![name(*oxidant), amount],
+        ),
+        OtherGap::NoReviewedRate { oxidant } => (
+            Cause::NoReviewedDatum,
+            "not-modeled.sulfite-autoxidation",
+            "sulfur(IV) and dissolved {oxidant} are together here, but its autoxidation, uncatalysed or catalysed by iron or manganese, has no reviewed rate that holds without the catalyst, pH and ionic strength being pinned, so {amount} mol of sulfur(IV) is left unoxidised by it. That is a gap in the model, not evidence that nothing happens",
+            vec![name(*oxidant), amount],
+        ),
+        OtherGap::AcidLimited { oxidant, left } => (
+            Cause::ModelBoundary,
+            "not-modeled.sulfite-oxidant-acid-limited",
+            "{oxidant} oxidises sulfur(IV) here only as far as the represented acid reaches; in a neutral or basic solution its product is not pinned by a reviewed source, so {amount} mol of sulfur(IV) is left unreacted beside it",
+            vec![
+                name(*oxidant),
+                ("amount".to_string(), Slot::text(format!("{left:.3e}"))),
+            ],
+        ),
+        OtherGap::Competition { oxidant } => (
+            Cause::RateNotModelled,
+            "not-modeled.sulfite-oxidant-competition-unpriced",
+            "{oxidant} is one of several sulfur(IV) oxidants here and no shared reviewed rate prices how they share the sulfur(IV), so {oxidant} is left unreacted with {amount} mol of sulfur(IV). That is a gap in the model, not evidence that nothing happens",
+            vec![name(*oxidant), amount],
+        ),
+    };
+    Event::not_modeled(vessel.id, cause, Phrase::new(key, en, slots))
+}
+
+/// Typed notes for the other oxidants' gaps in this vessel.
+pub fn other_notes(vessel: &Vessel) -> Vec<Event> {
+    let Some(plan) = other_plan(vessel) else {
+        return Vec::new();
+    };
+    let s0 = reducing_capacity_i2_equivalents(vessel);
+    plan.gaps
+        .iter()
+        .map(|g| other_note(vessel, g, s0))
+        .collect()
 }
 
 #[cfg(test)]
@@ -610,9 +1238,51 @@ mod tests {
     }
 
     #[test]
-    fn peroxide_constant_is_the_measured_one_at_15_c() {
-        let k = peroxide_k(MH_T_K, 0.1).unwrap();
-        assert!((k - 2.6e6 * 1.6 / 2.6).abs() < 1e-6 * k);
+    fn peroxide_constant_is_hoffmann_calvert_at_25_c() {
+        let k = peroxide_k(HC_T_K, 0.1).unwrap();
+        assert!((k - 7.5e7 * 0.1 / 2.3).abs() < 1e-9 * k);
         assert!(peroxide_k(298.15, 1e-6).is_none());
+    }
+
+    #[test]
+    fn mcardle_hoffmann_cross_checks_the_25_c_peroxide_constant() {
+        // k1·(k2/k-1) at 15 °C moved to 25 °C with ΔH‡ 37 kJ/mol: within
+        // 10 % of Hoffmann & Calvert's 7.5e7 M^-2 s^-1.
+        let moved = mh_k1(HC_T_K) * MH_K2_OVER_KM1_M1;
+        assert!((moved / HC_K_M2_S1 - 1.0).abs() < 0.10, "{moved}");
+    }
+
+    #[test]
+    fn every_table_oxidant_path_closes_atoms_and_charge() {
+        for o in OXIDANT_TABLE.iter().filter(|o| o.electrons > 0.0) {
+            for ion in IONS {
+                let (per, water_in, protons_in) = generic_path(ion, o);
+                let mut left = vec![(ion.key, 1.0), (o.key, per), ("water", water_in)];
+                left.push(("H+", protons_in));
+                let mut right: Vec<(&str, f64)> = vec![("SO4-2", 1.0)];
+                for (p, k) in o.products {
+                    right.push((*p, per * k));
+                }
+                assert!(closes(&left, &right), "{} + {}", o.key, ion.key);
+            }
+            // The competing pair agrees with its own paths.
+            if o.key == "H2O2" {
+                for ion in IONS {
+                    let (_, w, h) = generic_path(ion, o);
+                    let (w2, h2) = peroxide_path(ion);
+                    assert!((w + w2).abs() < 1e-12 && (h + h2).abs() < 1e-12);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn permanganate_equation_is_in_whole_numbers() {
+        let mn = oxidant("MnO4-").unwrap();
+        let hso3 = IONS.iter().find(|i| i.key == "HSO3-").unwrap();
+        assert_eq!(
+            generic_equation(hso3, mn),
+            "2 MnO₄⁻ + 5 HSO₃⁻ + H⁺ → 2 Mn²⁺ + 5 SO₄²⁻ + 3 H₂O"
+        );
     }
 }

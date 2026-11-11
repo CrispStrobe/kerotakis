@@ -12,7 +12,7 @@
   "rows": [
     {
       "catalyst": "I-",
-      "measured_proton_floor_molar": 0.0203,
+      "measured_proton_floor_molar": 0.00762,
       "owners": [
         "iodide-peroxide-clock",
         "iodide-peroxide-clock-direct"
@@ -24,11 +24,11 @@
         "owned-measured": "owner rows run on the measured law (iodine)",
         "unowned-refused": "catalysed O2 booked; typed notice catalyst-branch-acid-unowned"
       },
-      "source": "Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 2.03e-2 M, k'/(I-) = 0.893"
+      "source": "Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 7.62e-3 M ((H+) x 10^2 = 0.762 at (I-) = 0.0572), k'/(I-) = 0.770 = 0.69 + 10.4 x 0.00762"
     },
     {
       "catalyst": "KI",
-      "measured_proton_floor_molar": 0.0203,
+      "measured_proton_floor_molar": 0.00762,
       "owners": [
         "iodide-peroxide-clock",
         "iodide-peroxide-clock-direct"
@@ -40,7 +40,7 @@
         "owned-measured": "owner rows run on the measured law (iodine)",
         "unowned-refused": "catalysed O2 booked; typed notice catalyst-branch-acid-unowned"
       },
-      "source": "Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 2.03e-2 M, k'/(I-) = 0.893"
+      "source": "Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 7.62e-3 M ((H+) x 10^2 = 0.762 at (I-) = 0.0572), k'/(I-) = 0.770 = 0.69 + 10.4 x 0.00762"
     }
   ],
   "unsourced_steps": [

@@ -709,18 +709,18 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 activation_energy: 56_000.0,
                 activity: CatalystActivity::Homogeneous {
                     order: 1.0,
-                    reference_molar: 0.05,
+                    reference_molar: IODIDE_CATALYSIS_REFERENCE_MOLAR,
                 },
-                provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). The 0.05 M reference preserves the curated demonstration time scale; changing KI concentration follows the measured first-order ratio. KI remains catalyst inventory rather than being consumed by the net equation",
+                provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). Its rate-determining step is H2O2 + I- -> H2O + IO-, the acid-independent k0 term of Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977, doi:10.1021/ja01337a010, p. 3977: k0 = 0.69 L mol-1 min-1 at 25 C = 0.0115 L mol-1 s-1 (Abel & Liebhafsky 1932, their footnote 6); IO- + H2O2 -> I- + H2O + O2 follows, so the net extent rate is k0 [H2O2][I-]. The reference concentration is set so the row's shared pre-exponential and the 56 kJ/mol barrier give exactly k0 at 298.15 K (replacing an editorial 0.05 M demonstration reference that ran about 15 times faster). KI remains catalyst inventory rather than being consumed by the net equation",
             },
             Catalyst {
                 species: "I-",
                 activation_energy: 56_000.0,
                 activity: CatalystActivity::Homogeneous {
                     order: 1.0,
-                    reference_molar: 0.05,
+                    reference_molar: IODIDE_CATALYSIS_REFERENCE_MOLAR,
                 },
-                provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). The 0.05 M reference preserves the curated demonstration time scale; changing KI concentration follows the measured first-order ratio. KI remains catalyst inventory rather than being consumed by the net equation",
+                provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). Its rate-determining step is H2O2 + I- -> H2O + IO-, the acid-independent k0 term of Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977, doi:10.1021/ja01337a010, p. 3977: k0 = 0.69 L mol-1 min-1 at 25 C = 0.0115 L mol-1 s-1 (Abel & Liebhafsky 1932, their footnote 6); IO- + H2O2 -> I- + H2O + O2 follows, so the net extent rate is k0 [H2O2][I-]. The reference concentration is set so the row's shared pre-exponential and the 56 kJ/mol barrier give exactly k0 at 298.15 K (replacing an editorial 0.05 M demonstration reference that ran about 15 times faster). KI remains catalyst inventory rather than being consumed by the net equation",
             },
         ],
         sites: &[],
@@ -837,7 +837,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         validity: Validity {
             temperature_k: None,
             pressure_pa: None,
-            note: "measured 0-40 C in perchloric acid / sodium iodide, (H+) about 0.04-0.8 M, without appreciable kinetic salt effect between ionic strengths 0.05 and 0.5 (Liebhafsky & Mohammad 1933); the proton term reads 10^-pH and represented strong-acid equivalents are consumed at a locally frozen activity coefficient; less acidic vessels are an extrapolation of the same law",
+            note: "measured 0-40 C in perchloric acid / sodium iodide, (H+) about 0.0076-0.84 M, without appreciable kinetic salt effect between ionic strengths 0.05 and 0.5 (Liebhafsky & Mohammad 1933); the proton term reads 10^-pH and represented strong-acid equivalents are consumed at a locally frozen activity coefficient; less acidic vessels are an extrapolation of the same law",
         },
         uncertainty: Uncertainty {
             relative: Some(0.1),
@@ -1848,10 +1848,12 @@ pub fn catalyst_pathway_owned_elsewhere(reaction: &str, catalyst: &str, vessel: 
 /// Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977,
 /// doi:10.1021/ja01337a010, measured d(I3-)/dt = -d(H2O2)/dt =
 /// (k0 + k1 (H+))(H2O2)(I-) in perchloric acid / sodium iodide. The least
-/// acidic point of their 25 C series is Table I, Curve II: (H+) = 2.03 x
-/// 10^-2 M with k'/(I-) = 0.893 (= 0.69 + 10.4 x 0.0203, read in the
-/// archive.org scan of JACS vol. 55, dli.ernet.233065, p. 3980; the
-/// other series run 0.0413 and 0.0623-0.841 M). Their statement that the HOI
+/// acidic point of their 25 C series is Table I, Curve II (at (I-) =
+/// 0.0572): (H+) x 10^2 = 0.762, i.e. (H+) = 7.62 x 10^-3 M, with
+/// k'/(I-) = 0.770 (= 0.69 + 10.4 x 0.00762), read in the archive.org scan
+/// of JACS vol. 55, dli.ernet.233065, p. 3980. (An earlier reading took
+/// the series' second row, 2.03 x 10^-2 M, as its first.) Their statement
+/// that the HOI
 /// intermediate ends as iodine rather than oxygen is a statement about
 /// that range. Below it the share of HOI that reacts with a second
 /// peroxide (HOI + H2O2 -> I- + O2 + H+ + H2O, the Bray-Liebhafsky
@@ -1859,8 +1861,8 @@ pub fn catalyst_pathway_owned_elsewhere(reaction: &str, catalyst: &str, vessel: 
 /// constant this bench could read, so the iodine-only ownership is an
 /// extrapolation and is reported as one rather than presented as measured.
 const OWNER_MEASURED_PROTON_FLOOR: &[(&str, f64)] = &[
-    ("iodide-peroxide-clock", 0.0203),
-    ("iodide-peroxide-clock-direct", 0.0203),
+    ("iodide-peroxide-clock", 0.00762),
+    ("iodide-peroxide-clock-direct", 0.00762),
 ];
 
 fn proton_activity(vessel: &Vessel) -> Option<f64> {
@@ -2244,6 +2246,20 @@ impl<'a> KineticReaction<'a> {
         self.rates_now(vessel).net
     }
 }
+
+/// Measured acid-independent iodide/peroxide constant, L mol⁻¹ s⁻¹:
+/// k0 = 0.69 L mol⁻¹ min⁻¹ at 25 °C (Liebhafsky & Mohammad, J. Am. Chem.
+/// Soc. 55 (1933) 3977, doi:10.1021/ja01337a010, p. 3977, citing Abel &
+/// Liebhafsky 1932). Rate-determining step of the iodide-catalysed
+/// decomposition: extent rate = k0 [H2O2][I⁻].
+pub const IODIDE_PEROXIDE_K0_M1_S1: f64 = 0.0115;
+
+/// Reference iodide molarity of the `peroxide-decomposition` iodide
+/// catalyst rows: with the row's pre-exponential 5.6·10⁷ s⁻¹ and the
+/// 56 kJ/mol barrier, 5.6e7·exp(-56000/(R·298.15)) / 0.75286 M
+/// = 0.0115 L mol⁻¹ s⁻¹ = [`IODIDE_PEROXIDE_K0_M1_S1`] at 298.15 K
+/// (pinned by `iodide_catalysis_is_the_measured_k0_at_25_c`).
+pub const IODIDE_CATALYSIS_REFERENCE_MOLAR: f64 = 0.752_860_736_7;
 
 /// Below this amount a reactant counts as gone.
 ///
@@ -2944,6 +2960,29 @@ mod tests {
         assert!(
             r.rate_now(&with_mno2) > r.rate_now(&plain) * 100.0,
             "the catalyst path combines its lower barrier with exposed-area activity"
+        );
+    }
+
+    #[test]
+    fn iodide_catalysis_is_the_measured_k0_at_25_c() {
+        // 0.1 mol H2O2 and 0.005 mol I- at 298.15 K: the extent rate is
+        // k0 [H2O2][I-] with Liebhafsky & Mohammad's k0.
+        let v = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("I-", 0.005, Phase::Aqueous),
+                ("K+", 0.005, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        let reaction = lookup("peroxide-decomposition").unwrap();
+        let litres = reaction_volume_litres(&v, reaction.locality);
+        let expected = IODIDE_PEROXIDE_K0_M1_S1 * (0.1 / litres) * (0.005 / litres);
+        let rate = reaction.rate_now(&v);
+        assert!(
+            (rate / expected - 1.0).abs() < 1e-3,
+            "rate {rate} vs k0 law {expected}"
         );
     }
 
