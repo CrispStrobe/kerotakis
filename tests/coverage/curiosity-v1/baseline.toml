@@ -930,7 +930,7 @@ reason_code = "qualitative-route"
 id = "bio-030"
 owning_task = "BRD-050"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-031"

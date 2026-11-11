@@ -1582,6 +1582,13 @@ pub struct Vessel {
     /// Persisted so a resumed session still refuses; omitted when absent.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub activity_range_refusal: Option<crate::phrase::Phrase>,
+    /// Moles of the `amylase` ledger that heat has irreversibly inactivated
+    /// (`starch_amylase`, first-order loss fitted by Miłek 2021). The
+    /// active enzyme is the ledger total minus this, so fresh enzyme added
+    /// later is active and cooling never restores activity. Omitted when
+    /// zero so existing snapshots serialise unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub amylase_inactive_moles: Option<f64>,
 }
 
 impl Vessel {
@@ -1590,6 +1597,7 @@ impl Vessel {
             aqueous_routing_said: None,
             honesty_said: Vec::new(),
             activity_range_refusal: None,
+            amylase_inactive_moles: None,
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,
