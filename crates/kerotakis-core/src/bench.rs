@@ -4099,7 +4099,32 @@ impl Bench {
                 }
                 let mut splits = Vec::new();
                 let mut outside = Vec::new();
+                // SE-002: a small ion facing a hydrocarbon solvent is not a
+                // missing coefficient. It stays in the water by a stated,
+                // cited rule (`ion_partition`), and the extraction event
+                // says so beside the solutes that did move.
+                let mut retained = Vec::<crate::ops::RetainedSolute>::new();
+                let dissolved_keys: Vec<SpeciesId> = inventory.keys().cloned().collect();
                 for (solute, (aqueous_moles, solid_moles)) in inventory {
+                    if solid_moles <= 0.0
+                        && aqueous_moles > 0.0
+                        && crate::ion_partition::retained_in_aqueous(
+                            &solute,
+                            solvent,
+                            dissolved_keys.iter(),
+                        )
+                    {
+                        retained.push(crate::ops::RetainedSolute {
+                            class: crate::ion_partition::ion_class(&solute)
+                                .unwrap_or("ion")
+                                .to_string(),
+                            species: solute,
+                            moles: Moles(aqueous_moles),
+                            rule: crate::ion_partition::RULE.to_string(),
+                            provenance: crate::ion_partition::PROVENANCE.to_string(),
+                        });
+                        continue;
+                    }
                     if unadmitted_liquids.contains(&solute) {
                         // A separate or unreviewed liquid owner has no
                         // admitted dissolved share; its partition is not
@@ -4232,7 +4257,9 @@ impl Bench {
                         provenance: prediction.provenance,
                     });
                 }
-                if splits.is_empty() {
+                if splits.is_empty()
+                    && (retained.is_empty() || !outside.is_empty() || !events.is_empty())
+                {
                     if events.is_empty() || !outside.is_empty() {
                         // Named rather than inlined: which of the two it is depends
                         // on the vessel, and only one of them is a sentence.
@@ -4417,6 +4444,7 @@ impl Bench {
                     total_solvent: *total_solvent,
                     stages: *stages,
                     solutes: splits,
+                    retained,
                 });
             }
             Operator::Wait { seconds } => {

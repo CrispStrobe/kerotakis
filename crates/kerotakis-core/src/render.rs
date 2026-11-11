@@ -2686,8 +2686,9 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             total_solvent,
             stages,
             solutes,
+            retained,
         } => {
-            let summary = solutes
+            let moved = solutes
                 .iter()
                 .map(|split| {
                     locale.fill(
@@ -2703,6 +2704,29 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 })
                 .collect::<Vec<_>>()
                 .join("; ");
+            // SE-002: ions kept in the water by the stated rule are part of
+            // the outcome, said in the same sentence as what moved.
+            let summary = if retained.is_empty() {
+                moved
+            } else {
+                let kept = locale.fill(
+                    "event.extracted.retained",
+                    "{solutes} stay in the water: charged species are not extracted into a hydrocarbon solvent without an ion-pairing agent",
+                    &[(
+                        "solutes",
+                        &retained
+                            .iter()
+                            .map(|kept| species_name(locale, &kept.species).to_string())
+                            .collect::<Vec<_>>()
+                            .join(", "),
+                    )],
+                );
+                if moved.is_empty() {
+                    kept
+                } else {
+                    format!("{moved}; {kept}")
+                }
+            };
             match register.level() {
                 1 => locale.fill(
                     "event.extracted.lv1",
@@ -2718,6 +2742,9 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     let evidence = solutes
                         .iter()
                         .map(|split| format!("{} [{}; {}]", split.species.0, split.model, split.provenance))
+                        .chain(retained.iter().map(|kept| {
+                            format!("{} [{}; {}; {}]", kept.species.0, kept.class, kept.rule, kept.provenance)
+                        }))
                         .collect::<Vec<_>>()
                         .join("; ");
                     locale.fill(

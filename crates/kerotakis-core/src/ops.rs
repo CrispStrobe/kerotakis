@@ -1862,6 +1862,11 @@ pub enum Event {
         total_solvent: Moles,
         stages: u32,
         solutes: Vec<ExtractionSplit>,
+        /// Charged solutes that stayed in the aqueous phase under the
+        /// stated no-ion-transfer rule (`ion_partition`), reported as
+        /// such rather than as a missing distribution coefficient.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        retained: Vec<RetainedSolute>,
     },
     /// Two liquid layers formed: mixing these liquids raises the Gibbs
     /// energy instead of lowering it, so they split — computed
@@ -2355,6 +2360,18 @@ pub struct ExtractionSplit {
     pub single_stage_efficiency: f64,
     pub staged_efficiency: f64,
     pub model: String,
+    pub provenance: String,
+}
+
+/// A solute the extraction left entirely in the aqueous phase by a stated
+/// rule, not by a measured coefficient.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RetainedSolute {
+    pub species: SpeciesId,
+    pub moles: Moles,
+    /// `ion_partition::ion_class`.
+    pub class: String,
+    pub rule: String,
     pub provenance: String,
 }
 

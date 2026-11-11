@@ -77,6 +77,8 @@ pub mod molecule;
 mod named_alkaline;
 pub mod nonaqueous;
 pub mod nuclide;
+pub mod organic_solid_solubility;
+pub mod ion_partition;
 pub mod ops;
 pub mod orchestrator;
 pub mod packs;
