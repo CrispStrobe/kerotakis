@@ -27986,12 +27986,12 @@
       }
     },
     {
-      "id": "boiling-point/SO2",
+      "id": "melting-point/SO2",
       "species_id": "SO2",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 263.14,
+        "value": 197.68,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -28023,12 +28023,12 @@
       }
     },
     {
-      "id": "melting-point/SO2",
+      "id": "boiling-point/SO2",
       "species_id": "SO2",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 197.68,
+        "value": 263.14,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -29687,12 +29687,12 @@
       }
     },
     {
-      "id": "boiling-point/Cl2",
+      "id": "melting-point/Cl2",
       "species_id": "Cl2",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 239.1,
+        "value": 172.16,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -29724,12 +29724,12 @@
       }
     },
     {
-      "id": "melting-point/Cl2",
+      "id": "boiling-point/Cl2",
       "species_id": "Cl2",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 172.16,
+        "value": 239.1,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -33482,12 +33482,12 @@
       }
     },
     {
-      "id": "boiling-point/O2",
+      "id": "melting-point/O2",
       "species_id": "O2",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 90.19,
+        "value": 54.4,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -33519,12 +33519,12 @@
       }
     },
     {
-      "id": "melting-point/O2",
+      "id": "boiling-point/O2",
       "species_id": "O2",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 54.4,
+        "value": 90.19,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -33646,12 +33646,12 @@
       }
     },
     {
-      "id": "boiling-point/N2",
+      "id": "melting-point/N2",
       "species_id": "N2",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 77.34,
+        "value": 63.15,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -33683,12 +33683,12 @@
       }
     },
     {
-      "id": "melting-point/N2",
+      "id": "boiling-point/N2",
       "species_id": "N2",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 63.15,
+        "value": 77.34,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -35500,12 +35500,12 @@
       }
     },
     {
-      "id": "boiling-point/H2",
+      "id": "melting-point/H2",
       "species_id": "H2",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 20.39,
+        "value": 13.96,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -35537,12 +35537,12 @@
       }
     },
     {
-      "id": "melting-point/H2",
+      "id": "boiling-point/H2",
       "species_id": "H2",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 13.96,
+        "value": 20.39,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -40029,12 +40029,12 @@
       }
     },
     {
-      "id": "boiling-point/HBr",
+      "id": "melting-point/HBr",
       "species_id": "HBr",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 206.43,
+        "value": 186.28,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -40066,12 +40066,12 @@
       }
     },
     {
-      "id": "melting-point/HBr",
+      "id": "boiling-point/HBr",
       "species_id": "HBr",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 186.28,
+        "value": 206.43,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -40523,12 +40523,12 @@
       }
     },
     {
-      "id": "boiling-point/ethene",
+      "id": "melting-point/ethene",
       "species_id": "ethene",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 169.45,
+        "value": 103.97,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -40560,12 +40560,12 @@
       }
     },
     {
-      "id": "melting-point/ethene",
+      "id": "boiling-point/ethene",
       "species_id": "ethene",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 103.97,
+        "value": 169.45,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -40689,12 +40689,12 @@
       }
     },
     {
-      "id": "boiling-point/isobutylene",
+      "id": "melting-point/isobutylene",
       "species_id": "isobutylene",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 266.7,
+        "value": 132.45,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -40726,12 +40726,12 @@
       }
     },
     {
-      "id": "melting-point/isobutylene",
+      "id": "boiling-point/isobutylene",
       "species_id": "isobutylene",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 132.45,
+        "value": 266.7,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -41019,12 +41019,12 @@
       }
     },
     {
-      "id": "boiling-point/tert_butyl_bromide",
+      "id": "melting-point/tert_butyl_bromide",
       "species_id": "tert_butyl_bromide",
       "phase": "liquid",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 346.4,
+        "value": 256.95,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -41056,12 +41056,12 @@
       }
     },
     {
-      "id": "melting-point/tert_butyl_bromide",
+      "id": "boiling-point/tert_butyl_bromide",
       "species_id": "tert_butyl_bromide",
       "phase": "liquid",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 256.95,
+        "value": 346.4,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45144,12 +45144,12 @@
       }
     },
     {
-      "id": "boiling-point/methane",
+      "id": "melting-point/methane",
       "species_id": "methane",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 111.67,
+        "value": 90.68,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45181,12 +45181,12 @@
       }
     },
     {
-      "id": "melting-point/methane",
+      "id": "boiling-point/methane",
       "species_id": "methane",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 90.68,
+        "value": 111.67,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45310,12 +45310,12 @@
       }
     },
     {
-      "id": "boiling-point/propane",
+      "id": "melting-point/propane",
       "species_id": "propane",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 231.1,
+        "value": 85.46,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45347,12 +45347,12 @@
       }
     },
     {
-      "id": "melting-point/propane",
+      "id": "boiling-point/propane",
       "species_id": "propane",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 85.46,
+        "value": 231.1,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45476,12 +45476,12 @@
       }
     },
     {
-      "id": "boiling-point/butane",
+      "id": "melting-point/butane",
       "species_id": "butane",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 273.0,
+        "value": 134.6,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45513,12 +45513,12 @@
       }
     },
     {
-      "id": "melting-point/butane",
+      "id": "boiling-point/butane",
       "species_id": "butane",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 134.6,
+        "value": 273.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45896,12 +45896,12 @@
       }
     },
     {
-      "id": "boiling-point/hydrogen_sulfide",
+      "id": "melting-point/hydrogen_sulfide",
       "species_id": "hydrogen_sulfide",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 212.82,
+        "value": 187.63,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -45933,12 +45933,12 @@
       }
     },
     {
-      "id": "melting-point/hydrogen_sulfide",
+      "id": "boiling-point/hydrogen_sulfide",
       "species_id": "hydrogen_sulfide",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 187.63,
+        "value": 212.82,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -46369,12 +46369,12 @@
       }
     },
     {
-      "id": "boiling-point/CO",
+      "id": "melting-point/CO",
       "species_id": "CO",
       "phase": "gas",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 81.66,
+        "value": 68.1,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -46406,12 +46406,12 @@
       }
     },
     {
-      "id": "melting-point/CO",
+      "id": "boiling-point/CO",
       "species_id": "CO",
       "phase": "gas",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 68.1,
+        "value": 81.66,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -49187,12 +49187,12 @@
       }
     },
     {
-      "id": "boiling-point/AgBr",
+      "id": "melting-point/AgBr",
       "species_id": "AgBr",
       "phase": "solid",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 1806.0,
+        "value": 703.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -49224,12 +49224,12 @@
       }
     },
     {
-      "id": "melting-point/AgBr",
+      "id": "boiling-point/AgBr",
       "species_id": "AgBr",
       "phase": "solid",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 703.0,
+        "value": 1806.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -49351,12 +49351,12 @@
       }
     },
     {
-      "id": "boiling-point/AgI",
+      "id": "melting-point/AgI",
       "species_id": "AgI",
       "phase": "solid",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 1777.0,
+        "value": 831.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -49388,12 +49388,12 @@
       }
     },
     {
-      "id": "melting-point/AgI",
+      "id": "boiling-point/AgI",
       "species_id": "AgI",
       "phase": "solid",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 831.0,
+        "value": 1777.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -50078,12 +50078,12 @@
       }
     },
     {
-      "id": "boiling-point/PbI2",
+      "id": "melting-point/PbI2",
       "species_id": "PbI2",
       "phase": "solid",
-      "property": "boiling_temperature",
+      "property": "melting_temperature",
       "quantity": {
-        "value": 1145.0,
+        "value": 685.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -50115,12 +50115,12 @@
       }
     },
     {
-      "id": "melting-point/PbI2",
+      "id": "boiling-point/PbI2",
       "species_id": "PbI2",
       "phase": "solid",
-      "property": "melting_temperature",
+      "property": "boiling_temperature",
       "quantity": {
-        "value": 685.0,
+        "value": 1145.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"

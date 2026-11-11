@@ -78,8 +78,8 @@
 //! [`crate::iodine_chemistry::split`]) and `k_H` the McArdle-Hoffmann
 //! constant at the vessel's acidity and temperature. Limitations stated in
 //! the coverage table `docs/sulfur-iv-coupling-coverage-20261111.md`: the
-//! I₂/I₃⁻ split is the one at the start of the coupling, a direct SO₂(aq)
-//! + I₂ path is not separately priced, Yiin-Margerum constants are 25 °C
+//! I₂/I₃⁻ split is the one at the start of the coupling, a direct
+//! SO₂(aq) + I₂ path is not separately priced, Yiin-Margerum constants are 25 °C
 //! values, and thiosulfate's own iodine titration (the curated row) runs
 //! first.
 //!
@@ -1039,7 +1039,7 @@ fn apply_competing(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
             // strong-acid convention, as in `halogen_redox`); `protons` is
             // the equation's count and is checked by the closure test.
             for (cation, k) in &spectators {
-                vessel.deposit(SpeciesId::new(*cation), Moles(x * k), Phase::Aqueous);
+                vessel.deposit(SpeciesId::new(cation), Moles(x * k), Phase::Aqueous);
             }
             let eq = equation(ion, oxidant);
             if !said.contains(&eq) {
@@ -1125,7 +1125,7 @@ fn other_note(vessel: &Vessel, gap: &OtherGap, s_iv: f64) -> Event {
             "not-modeled.sulfite-oxidant-slow",
             "sulfur(IV) and {oxidant} are together here, but at these concentrations the reviewed rate constants give sulfur(IV) a lifetime of about {lifetime} s, too slow to treat as instantaneous, and no time-resolved writer integrates it, so {amount} mol of sulfur(IV) is left unreacted",
             vec![
-                name(*oxidant),
+                name(oxidant),
                 ("lifetime".to_string(), Slot::text(format!("{lifetime_s:.3e}"))),
                 amount,
             ],
@@ -1135,7 +1135,7 @@ fn other_note(vessel: &Vessel, gap: &OtherGap, s_iv: f64) -> Event {
             "not-modeled.sulfite-oxidant-no-rate-for-form",
             "sulfur(IV) and {oxidant} are together here, but no reviewed rate constant was found for {oxidant} with {form}, so {amount} mol of sulfur(IV) is left unreacted. That is a gap in the model, not evidence that nothing happens",
             vec![
-                name(*oxidant),
+                name(oxidant),
                 ("form".to_string(), Slot::text(pretty(form))),
                 amount,
             ],
@@ -1144,20 +1144,20 @@ fn other_note(vessel: &Vessel, gap: &OtherGap, s_iv: f64) -> Event {
             Cause::PhaseNotInRegistry,
             "not-modeled.sulfite-oxidant-product-not-in-registry",
             "sulfur(IV) and {oxidant} are together here; the reviewed kinetics (Oblath 1981) give hydroxylamine disulfonate, not sulfate, and that species is not in this lab's registry, so {amount} mol of sulfur(IV) is left unreacted. That is a gap in the model, not evidence that nothing happens",
-            vec![name(*oxidant), amount],
+            vec![name(oxidant), amount],
         ),
         OtherGap::NoReviewedRate { oxidant } => (
             Cause::NoReviewedDatum,
             "not-modeled.sulfite-autoxidation",
             "sulfur(IV) and dissolved {oxidant} are together here, but its autoxidation, uncatalysed or catalysed by iron or manganese, has no reviewed rate that holds without the catalyst, pH and ionic strength being pinned, so {amount} mol of sulfur(IV) is left unoxidised by it. That is a gap in the model, not evidence that nothing happens",
-            vec![name(*oxidant), amount],
+            vec![name(oxidant), amount],
         ),
         OtherGap::AcidLimited { oxidant, left } => (
             Cause::ModelBoundary,
             "not-modeled.sulfite-oxidant-acid-limited",
             "{oxidant} oxidises sulfur(IV) here only as far as the represented acid reaches; in a neutral or basic solution its product is not pinned by a reviewed source, so {amount} mol of sulfur(IV) is left unreacted beside it",
             vec![
-                name(*oxidant),
+                name(oxidant),
                 ("amount".to_string(), Slot::text(format!("{left:.3e}"))),
             ],
         ),
@@ -1165,7 +1165,7 @@ fn other_note(vessel: &Vessel, gap: &OtherGap, s_iv: f64) -> Event {
             Cause::RateNotModelled,
             "not-modeled.sulfite-oxidant-competition-unpriced",
             "{oxidant} is one of several sulfur(IV) oxidants here and no shared reviewed rate prices how they share the sulfur(IV), so {oxidant} is left unreacted with {amount} mol of sulfur(IV). That is a gap in the model, not evidence that nothing happens",
-            vec![name(*oxidant), amount],
+            vec![name(oxidant), amount],
         ),
     };
     Event::not_modeled(vessel.id, cause, Phrase::new(key, en, slots))

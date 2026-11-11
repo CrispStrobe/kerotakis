@@ -504,16 +504,33 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         phase,
         &source_id,
     );
-    assert_property(
-        document,
-        species,
-        PhaseProperty::MassDensity,
-        species.density,
-        "g/mL",
-        Dimension::MassDensity,
-        phase,
-        &source_id,
-    );
+    if species.key == "NH3" {
+        // 2026-11-11: the 28 % aqueous ammonia density is a reviewed row
+        // (International Critical Tables vol. 3), not the legacy import.
+        let record = document
+            .phase_thermodynamics
+            .iter()
+            .find(|record| {
+                record.species_id == "NH3" && record.property == PhaseProperty::MassDensity
+            })
+            .expect("NH3 density");
+        assert_eq!(record.quantity.value, species.density);
+        assert_eq!(
+            record.quantity.source_id,
+            "literature/ict-vol3-aqueous-ammonia-density"
+        );
+    } else {
+        assert_property(
+            document,
+            species,
+            PhaseProperty::MassDensity,
+            species.density,
+            "g/mL",
+            Dimension::MassDensity,
+            phase,
+            &source_id,
+        );
+    }
     // EXP-33's pattern, applied to a second claim. An enthalpy of dissolution
     // does not come from the same place a molar mass does — for three of the
     // seventeen the species citation did not mention it at all — so it rides
