@@ -23,6 +23,14 @@
     {
       "species": "PP",
       "pair": false
+    },
+    {
+      "species": "PET",
+      "pair": false
+    },
+    {
+      "species": "nylon",
+      "pair": false
     }
   ],
   "wiring": {

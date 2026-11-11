@@ -3,8 +3,8 @@
   "counts": {
     "boiling.no_data": 161,
     "boiling.reported": 35,
-    "melting.no_data": 141,
-    "melting.range": 3,
+    "melting.no_data": 139,
+    "melting.range": 5,
     "melting.reported": 52
   },
   "originals": [
@@ -244,15 +244,27 @@
     },
     {
       "species": "PE",
-      "lower_k": null,
+      "lower_k": 411.98,
       "upper_k": 414.6,
-      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K"
+      "source": "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K. Grade: S. Karagoz et al., 'Hazelnut Shell-Talc-Carbon Black Hybrid High-Density Polyethylene Biocomposites', Polymers 18 (2026), doi:10.3390/polym18202546, Table 6, neat HDPE (PEHSCB0), second heating: dHm 196.54 J/g, Tm 138.83 degrees Celsius, Xc 67.08 % against the 100 % crystalline reference 293 J/g (4.11 kJ/mol CH2: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048 'Polymer Heats of Fusion'). Grade latent heat 0.6708 x 293 J/g = 196.54 J/g"
     },
     {
       "species": "PP",
-      "lower_k": null,
+      "lower_k": 439.65,
       "upper_k": 460.7,
-      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K"
+      "source": "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K. Grade: Zhu et al., 'Relationships of Multiphase Structure with Flexibility and DC Insulation Performance in Impact-Resistant Polypropylene Copolymers', Polymers 18 (2026), doi:10.3390/polym18192351, homopolymer HICP, second heating, mean of three: Tm 166.5 +/- 0.8 degrees Celsius, dHm 107.4 +/- 1.9 J/g, Xc 51.9 +/- 0.9 % against the 100 % crystalline reference 207 J/g (8.70 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.519 x 207 J/g = 107.43 J/g"
+    },
+    {
+      "species": "PET",
+      "lower_k": 520.65,
+      "upper_k": 520.65,
+      "source": "W. Chaiwutthinan et al., 'Thermomechanical recycling of post-consumer poly(ethylene terephthalate) bottles and post-industrial polyamide 6 fishing nets reinforced with organo-modified montmorillonite', Sci. Rep. 16 (2026), doi:10.1038/s41598-026-43815-y, Table 2, neat post-consumer bottle rPET, second heating: Tm 247.5 degrees Celsius, dHm 55.2 J/g, Xc 39.4 % against the 100 % crystalline reference 140 J/g (26.9 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.394 x 140 J/g = 55.16 J/g"
+    },
+    {
+      "species": "nylon",
+      "lower_k": 536.15,
+      "upper_k": 536.15,
+      "source": "H. Ceviz et al., 'Investigation of Mechanical, Thermal and Microstructural Properties of Waste Micro-Nano Nichrome (NiCr 80/20) Powder-Reinforced Composites with Polyamide 66 (PA66) Matrix', Polymers 17 (2025), doi:10.3390/polym17202753: neat PA66 'exhibits a sharp endothermic peak at approximately 263 degrees Celsius'; dHm 60 J/g, Xc 31.9 % against the 100 % crystalline reference 188 J/g used by that paper (TN048 tabulates 226 J/g from B. Wunderlich, Thermal Analysis, 1990; the reference choice changes Xc, not the measured heat). Grade latent heat 0.319 x 188 J/g = 59.97 J/g"
     }
   ],
   "dropped": [
@@ -1508,7 +1520,7 @@
       "standard_phase": "solid",
       "melting": {
         "basis": "range",
-        "lower_k": null,
+        "lower_k": 411.98,
         "upper_k": 414.6
       },
       "boiling": {
@@ -1519,7 +1531,9 @@
       "species": "PET",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "range",
+        "lower_k": 520.65,
+        "upper_k": 520.65
       },
       "boiling": {
         "basis": "no_data"
@@ -1540,7 +1554,7 @@
       "standard_phase": "solid",
       "melting": {
         "basis": "range",
-        "lower_k": null,
+        "lower_k": 439.65,
         "upper_k": 460.7
       },
       "boiling": {
@@ -2379,7 +2393,9 @@
       "species": "nylon",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "range",
+        "lower_k": 536.15,
+        "upper_k": 536.15
       },
       "boiling": {
         "basis": "no_data"

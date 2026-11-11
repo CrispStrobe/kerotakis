@@ -60,9 +60,10 @@ fn only_a_range_with_a_sourced_lower_bound_and_enthalpy_is_payable() {
         .molar_mass;
     let per_mol = melting_range::fusion_j_per_mol("paraffin").expect("payable");
     assert!((per_mol - 189.0 * molar_mass).abs() < 1e-6, "{per_mol}");
-    // The polyolefins: no sourced grade enthalpy, no sourced lower end.
-    assert!(melting_range::fusion_j_per_mol("PE").is_none());
-    assert!(melting_range::fusion_j_per_mol("PP").is_none());
+    // Every polymer row now pays a sourced grade heat (Xc x reference).
+    for key in ["PE", "PP", "PET", "nylon"] {
+        assert!(melting_range::fusion_j_per_mol(key).is_some(), "{key}");
+    }
     // Not a range material at all.
     assert!(melting_range::fusion_j_per_mol("naphthalene").is_none());
 }
@@ -169,29 +170,110 @@ fn a_settled_split_is_stable_on_a_second_pass() {
 }
 
 #[test]
-fn a_polyolefin_past_its_range_is_refused_typed_and_left_unmoved() {
+fn polymer_grade_heat_is_crystallinity_times_its_reference() {
+    // dHf(grade) = Xc x dHf(100 %), with both recorded per row.
+    let cases = [
+        ("PE", 0.6708, 293.0),
+        ("PP", 0.519, 207.0),
+        ("PET", 0.394, 140.0),
+        ("nylon", 0.319, 188.0),
+    ];
+    for (key, xc, reference) in cases {
+        let row = melting_range::range(key).unwrap();
+        assert_eq!(row.crystallinity, Some(xc), "{key}");
+        assert_eq!(row.fusion_ref_j_per_g, Some(reference), "{key}");
+        let per_kg = row.fusion_j_per_kg.unwrap();
+        assert!(
+            (per_kg - xc * reference * 1000.0).abs() < 1e-6 * per_kg,
+            "{key}"
+        );
+        assert!(row.source.contains("doi"), "{key}");
+    }
+    // A wax has no crystallinity factor: its heat is the material's own.
+    let wax = melting_range::range("paraffin").unwrap();
+    assert!(wax.crystallinity.is_none() && wax.fusion_ref_j_per_g.is_none());
+}
+
+#[test]
+fn pe_heated_past_its_range_is_paid_not_refused() {
     let row = melting_range::range("PE").unwrap();
     let t = row.upper_k + 20.0;
-    let mut v = vessel_with(&[("PE", 0.02, Phase::Solid)], t);
+    let n = 0.02;
+    let mut v = vessel_with(&[("PE", n, Phase::Solid)], t);
+    let before = v.heat_capacity();
     let events = settle(&mut v);
-    let found = refusals(&events, "not-modeled.melting-range-latent-heat-unsourced");
-    assert_eq!(found.len(), 1, "{events:?}");
-    // No invented melt and no invented latent heat.
-    assert_eq!(v.temperature.0, t);
-    assert!(in_phase(&v, "PE", Phase::Liquid) == 0.0);
-    let Event::NotYetModeled {
-        reason: Some(reason),
-        ..
-    } = found[0]
-    else {
-        unreachable!()
-    };
-    let en = reason.render(Locale::EN);
-    let de = reason.render(Locale::parse("de"));
-    let fr = reason.render(Locale::parse("fr"));
-    assert!(en.contains("temperature shown overstates"), "{en}");
-    assert!(de.contains("Schmelzenthalpie"), "{de}");
-    assert!(fr.contains("enthalpie de fusion"), "{fr}");
+    assert!(
+        refusals(&events, "not-modeled.melting-range-latent-heat-unsourced").is_empty(),
+        "{events:?}"
+    );
+    // The latent heat came out of the sensible heat: the vessel cooled.
+    assert!(v.temperature.0 < t, "{}", v.temperature.0);
+    assert!(before > 0.0);
+    let liquid = in_phase(&v, "PE", Phase::Liquid);
+    assert!(liquid > 0.0, "{events:?}");
+    // It never ends below where the paid span starts.
+    assert!(v.temperature.0 >= row.lower_k.unwrap() - 1e-6);
+}
+
+#[test]
+fn a_plateau_polymer_melts_partly_at_its_peak_and_conserves_energy() {
+    // PET has no sourced equilibrium melting temperature: its whole grade
+    // heat is paid AT the sourced DSC peak. A vessel started a little above
+    // the peak cannot afford the full melt, so it stops ON the plateau with
+    // part of the polymer liquid, and the sensible heat released equals the
+    // latent heat paid.
+    let row = melting_range::range("PET").unwrap();
+    assert_eq!(row.lower_k, Some(row.upper_k));
+    let n = 0.05;
+    let t0 = row.upper_k + 2.0;
+    let mut v = vessel_with(&[("PET", n, Phase::Solid)], t0);
+    if v.heat_capacity() <= 0.0 {
+        // No sourced heat capacity: the mechanism declines, nothing moves.
+        settle(&mut v);
+        assert_eq!(in_phase(&v, "PET", Phase::Liquid), 0.0);
+        return;
+    }
+    let sensible = v.energy_between(row.upper_k, t0);
+    settle(&mut v);
+    let latent = melting_range::fusion_j_per_mol("PET").unwrap();
+    let liquid = in_phase(&v, "PET", Phase::Liquid);
+    if sensible < latent * n {
+        assert!(
+            (v.temperature.0 - row.upper_k).abs() < 1e-6,
+            "{}",
+            v.temperature.0
+        );
+        assert!(liquid > 0.0 && liquid < n, "{liquid}");
+        assert!(
+            (liquid * latent - sensible).abs() <= 1e-6 * sensible.max(1.0),
+            "{} vs {sensible}",
+            liquid * latent
+        );
+    } else {
+        assert!((liquid - n).abs() < 1e-9, "{liquid}");
+    }
+}
+
+#[test]
+fn a_plateau_is_a_step_in_the_melted_fraction() {
+    let row = melting_range::range("nylon").unwrap();
+    assert_eq!(melted_fraction(row, row.upper_k - 0.01), 0.0);
+    assert_eq!(melted_fraction(row, row.upper_k + 0.01), 1.0);
+}
+
+#[test]
+fn policy_refused_materials_have_no_payable_row() {
+    assert!(melting_range::REFUSED_FUSION
+        .iter()
+        .any(|r| r.material == "PVC"));
+    assert!(melting_range::REFUSED_FUSION
+        .iter()
+        .any(|r| r.material.starts_with("PTFE")));
+    for refused in melting_range::REFUSED_FUSION {
+        assert!(melting_range::range(refused.material).is_none());
+        assert!(melting_range::fusion_j_per_mol(refused.material).is_none());
+        assert!(!refused.reason.is_empty());
+    }
 }
 
 #[test]

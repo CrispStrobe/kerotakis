@@ -39,9 +39,29 @@
 //! a sharp melting point, `not-modeled.melting-range-latent-heat-unsourced`
 //! for a range, which also says the thermometer omits the latent heat.
 //!
-//! The polyolefins carry no enthalpy of fusion: the sourced value is that
-//! of a 100 % crystalline polymer, a real grade's crystallinity is not
-//! known to this bench, and their lower bound is not sourced either.
+//! # Semicrystalline polymers: grade latent heat = Xc x reference (2026-11-11)
+//!
+//! A polymer's enthalpy of fusion is only that of its crystalline part:
+//! `dHf(grade) = Xc x dHf(100 %)`, with `Xc` the mass crystallinity of
+//! the grade and `dHf(100 %)` the reference for a perfect crystal. Each
+//! polymer row records BOTH factors from one sourced DSC measurement of a
+//! named grade (its own reference value, because papers differ: PA66 is
+//! reported against 188, 196 or 226 J/g), and the product is the latent
+//! heat the bench pays. The grade's DSC melting-peak temperature is the
+//! lower end of the span the heat is paid over; for PE and PP the upper
+//! end is the sourced equilibrium melting temperature of the perfect
+//! crystal (no crystal survives above it), and where no equilibrium value
+//! is sourced (PET, PA66) the whole latent heat is paid AT the measured
+//! peak, as a plateau. Both are stated model choices: the shape of a
+//! grade's melting endotherm is not sourced, only its total and its peak.
+//!
+//! Refused by policy (no row, so never paid): poly(vinyl chloride) (it is
+//! nearly amorphous and dehydrochlorinates instead of melting cleanly; no
+//! crystallinity of a rigid grade was found in a source), unsintered
+//! (virgin) PTFE (first-melt crystallinity differs about twofold from the
+//! sintered polymer and no open measurement was found), and any grade
+//! whose crystallinity is set by an unstated thermal history. See
+//! [`REFUSED_FUSION`]; none of those is in the registry today.
 
 use crate::ops::{Event, NotModelledCause};
 use crate::phrase::{Phrase, Slot};
@@ -52,10 +72,10 @@ use crate::vessel::Vessel;
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct MeltingRange {
     pub species: &'static str,
-    /// Lower bound, K, where one is sourced. `None` for the polyolefins:
-    /// the source gives the equilibrium melting temperature of a perfect
-    /// crystal, which bounds a real grade's melting from ABOVE, and nothing
-    /// for where a commercial grade starts to melt.
+    /// Lower end of the span the latent heat is paid over, K, where one is
+    /// sourced. For a polymer it is a sourced grade's DSC melting peak.
+    /// Equal to `upper_k` for a plateau (the whole heat paid at one
+    /// temperature). `None` refuses the melt: there is nowhere to pay from.
     pub lower_k: Option<f64>,
     /// Upper bound, K: no crystal of this material survives above it.
     pub upper_k: f64,
@@ -65,10 +85,44 @@ pub struct MeltingRange {
     pub boundary: &'static str,
     /// Specific enthalpy of fusion of the material as a whole, J/kg, where
     /// one is sourced for it. `None` refuses the melt with a typed reason.
+    /// For a semicrystalline polymer this is `crystallinity x
+    /// fusion_ref_j_per_g x 1000`, checked by a test.
     pub fusion_j_per_kg: Option<f64>,
+    /// Mass crystallinity `Xc` (0-1) of the sourced grade, for a
+    /// semicrystalline polymer; `None` for a wax, whose latent heat is
+    /// measured on the material as a whole.
+    pub crystallinity: Option<f64>,
+    /// The 100 %-crystalline reference enthalpy of fusion, J/g, that the
+    /// source used to compute `crystallinity`.
+    pub fusion_ref_j_per_g: Option<f64>,
 }
 
-/// Paraffin wax and the two polyolefins of po-009.
+/// A material whose melting latent heat is refused by policy, with why.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RefusedFusion {
+    pub material: &'static str,
+    pub reason: &'static str,
+}
+
+/// Materials this bench must never pay a single grade latent heat for.
+/// None is in the registry today; the list keeps a future row honest.
+pub const REFUSED_FUSION: &[RefusedFusion] = &[
+    RefusedFusion {
+        material: "PVC",
+        reason: "poly(vinyl chloride) is nearly amorphous and dehydrochlorinates on heating instead of melting cleanly; no sourced crystallinity of a rigid grade was found (its 176 J/g 100 % reference, B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431 as quoted by R. L. Blaine, TA Instruments TN048, would have nothing to multiply)",
+    },
+    RefusedFusion {
+        material: "PTFE (unsintered)",
+        reason: "virgin PTFE powder melts first far more crystalline than the sintered polymer (about twofold); only sintered PTFE has an open crystallinity measurement (39.5-43.1 % against 82 J/g, doi:10.3390/polym17101380)",
+    },
+    RefusedFusion {
+        material: "PLA (unstated thermal history)",
+        reason: "poly(lactic acid) crystallinity runs from about 0 to 26 % with moulding and annealing history (Ingeo-type PLA plaques 19-25.7 %, doi:10.1021/acsomega.6c03726; a PLA/PCL blend 0.4 %, Europe PMC PMC12473204), so no grade value can be chosen without the history",
+    },
+];
+
+/// Paraffin wax and the semicrystalline polymers in the registry (PE, PP,
+/// PET, nylon 6,6); every row's citation is in its `source`.
 ///
 /// * Paraffin wax: A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi,
 ///   'Review on thermal energy storage with phase change materials and
@@ -92,6 +146,15 @@ pub struct MeltingRange {
 /// * Isotactic polypropylene: U. Gaur and B. Wunderlich, J. Phys. Chem.
 ///   Ref. Data 10 (1981) 1051, doi:10.1063/1.555650: best-estimate
 ///   equilibrium melting temperature 460.7 K.
+/// * Grade latent heats (Xc x 100 % reference, both from the cited DSC
+///   paper, all read in Europe PMC full text 2026-11-11): HDPE
+///   doi:10.3390/polym18202546 (67.08 % x 293 J/g, peak 138.83 C); iPP
+///   doi:10.3390/polym18192351 (51.9 % x 207 J/g, peak 166.5 C); PET
+///   doi:10.1038/s41598-026-43815-y (39.4 % x 140 J/g, peak 247.5 C);
+///   PA66 doi:10.3390/polym17202753 (31.9 % x 188 J/g, peak ~263 C).
+///   The 100 % references 293/207/140 J/g are B. Wunderlich, Thermal
+///   Analysis (Academic Press 1990) pp. 417-431, as tabulated by R. L.
+///   Blaine, TA Instruments TN048 'Polymer Heats of Fusion'.
 pub const MELTING_RANGES: &[MeltingRange] = &[
     MeltingRange {
         species: "paraffin",
@@ -100,22 +163,48 @@ pub const MELTING_RANGES: &[MeltingRange] = &[
         source: "A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi, 'Review on thermal energy storage with phase change materials and applications', Renew. Sustain. Energy Rev. 13 (2009) 318-345, doi:10.1016/j.rser.2007.10.005, Table 2a: technical-grade paraffin waxes melt between 42-44 and 66-68 degrees Celsius depending on grade; latent heat of fusion 189 kJ/kg for five grades (compiled from A. Abhat, Solar Energy 30 (1983) 313-332, doi:10.1016/0038-092X(83)90186-X)",
         boundary: "commercial paraffin wax is a blend of long-chain alkanes and melts over a range set by its grade; this is the span of the technical grades in the source, not the range of any one candle. The sourced 189 kJ/kg is paid as the wax is heated through that span, spread evenly over it: the total is sourced, the shape of the melting curve is not",
         fusion_j_per_kg: Some(189_000.0),
+        crystallinity: None,
+        fusion_ref_j_per_g: None,
     },
     MeltingRange {
         species: "PE",
-        lower_k: None,
+        lower_k: Some(411.98),
         upper_k: 414.6,
-        source: "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K",
-        boundary: "the equilibrium melting temperature of a perfect polyethylene crystal: a real semicrystalline grade melts over a range BELOW it, set by its crystallinity and lamella thickness, and that lower end is not sourced here. Its enthalpy of fusion depends on that unknown crystallinity, so the latent heat is not paid and the melt is refused",
-        fusion_j_per_kg: None,
+        source: "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K. Grade: S. Karagoz et al., 'Hazelnut Shell-Talc-Carbon Black Hybrid High-Density Polyethylene Biocomposites', Polymers 18 (2026), doi:10.3390/polym18202546, Table 6, neat HDPE (PEHSCB0), second heating: dHm 196.54 J/g, Tm 138.83 degrees Celsius, Xc 67.08 % against the 100 % crystalline reference 293 J/g (4.11 kJ/mol CH2: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048 'Polymer Heats of Fusion'). Grade latent heat 0.6708 x 293 J/g = 196.54 J/g",
+        boundary: "a real high-density polyethylene melts over a range set by its crystallinity and lamella thickness. The latent heat is that of one sourced HDPE grade (Xc 67.08 % x 293 J/g), paid evenly between that grade's DSC melting peak (138.83 degrees Celsius) and the equilibrium melting temperature of a perfect crystal (141.45 degrees Celsius); the part of a real endotherm below its peak is not modelled, and another grade's crystallinity (LDPE about 31 %) would pay much less",
+        fusion_j_per_kg: Some(196_544.4),
+        crystallinity: Some(0.6708),
+        fusion_ref_j_per_g: Some(293.0),
     },
     MeltingRange {
         species: "PP",
-        lower_k: None,
+        lower_k: Some(439.65),
         upper_k: 460.7,
-        source: "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K",
-        boundary: "the equilibrium melting temperature of a perfect isotactic polypropylene crystal: a real grade melts over a range BELOW it, set by tacticity and crystallinity, and that lower end is not sourced here. Its enthalpy of fusion depends on that unknown crystallinity, so the latent heat is not paid and the melt is refused",
-        fusion_j_per_kg: None,
+        source: "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K. Grade: Zhu et al., 'Relationships of Multiphase Structure with Flexibility and DC Insulation Performance in Impact-Resistant Polypropylene Copolymers', Polymers 18 (2026), doi:10.3390/polym18192351, homopolymer HICP, second heating, mean of three: Tm 166.5 +/- 0.8 degrees Celsius, dHm 107.4 +/- 1.9 J/g, Xc 51.9 +/- 0.9 % against the 100 % crystalline reference 207 J/g (8.70 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.519 x 207 J/g = 107.43 J/g",
+        boundary: "a real isotactic polypropylene melts over a range set by tacticity and crystallinity. The latent heat is that of one sourced homopolymer grade (Xc 51.9 % x 207 J/g), paid evenly between that grade's DSC melting peak (166.5 degrees Celsius) and the equilibrium melting temperature of a perfect crystal (187.55 degrees Celsius); the 100 % reference is disputed (165-209 J/g in use), which changes the reported Xc, not the measured grade heat",
+        fusion_j_per_kg: Some(107_433.0),
+        crystallinity: Some(0.519),
+        fusion_ref_j_per_g: Some(207.0),
+    },
+    MeltingRange {
+        species: "PET",
+        lower_k: Some(520.65),
+        upper_k: 520.65,
+        source: "W. Chaiwutthinan et al., 'Thermomechanical recycling of post-consumer poly(ethylene terephthalate) bottles and post-industrial polyamide 6 fishing nets reinforced with organo-modified montmorillonite', Sci. Rep. 16 (2026), doi:10.1038/s41598-026-43815-y, Table 2, neat post-consumer bottle rPET, second heating: Tm 247.5 degrees Celsius, dHm 55.2 J/g, Xc 39.4 % against the 100 % crystalline reference 140 J/g (26.9 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.394 x 140 J/g = 55.16 J/g",
+        boundary: "one sourced bottle-grade PET (Xc 39.4 % x 140 J/g). No equilibrium melting temperature is sourced here, so the whole latent heat is paid at that grade's DSC melting peak (247.5 degrees Celsius) as a plateau; amorphous PET film (Xc near 0) would pay almost nothing",
+        fusion_j_per_kg: Some(55_160.0),
+        crystallinity: Some(0.394),
+        fusion_ref_j_per_g: Some(140.0),
+    },
+    MeltingRange {
+        species: "nylon",
+        lower_k: Some(536.15),
+        upper_k: 536.15,
+        source: "H. Ceviz et al., 'Investigation of Mechanical, Thermal and Microstructural Properties of Waste Micro-Nano Nichrome (NiCr 80/20) Powder-Reinforced Composites with Polyamide 66 (PA66) Matrix', Polymers 17 (2025), doi:10.3390/polym17202753: neat PA66 'exhibits a sharp endothermic peak at approximately 263 degrees Celsius'; dHm 60 J/g, Xc 31.9 % against the 100 % crystalline reference 188 J/g used by that paper (TN048 tabulates 226 J/g from B. Wunderlich, Thermal Analysis, 1990; the reference choice changes Xc, not the measured heat). Grade latent heat 0.319 x 188 J/g = 59.97 J/g",
+        boundary: "one sourced nylon 6,6 grade (Xc 31.9 % x 188 J/g). No equilibrium melting temperature is sourced here, so the whole latent heat is paid at that grade's approximate DSC melting peak (263 degrees Celsius) as a plateau",
+        fusion_j_per_kg: Some(59_972.0),
+        crystallinity: Some(0.319),
+        fusion_ref_j_per_g: Some(188.0),
     },
 ];
 
@@ -192,13 +281,20 @@ pub fn fusion_j_per_mol(species: &str) -> Option<f64> {
 /// The liquid fraction of a range material at `t_k`: 0 at or below the
 /// lower bound, 1 at or above the upper, linear between.
 pub fn melted_fraction(row: &MeltingRange, t_k: f64) -> f64 {
-    let Some(lower) = row.lower_k else {
+    // No lower end, or a plateau (lower end equal to the upper): a step.
+    // `settle_range_melts` resolves the partial melt ON a plateau.
+    let Some(lower) = row.lower_k.filter(|low| *low < row.upper_k) else {
         return if t_k > row.upper_k { 1.0 } else { 0.0 };
     };
     ((t_k - lower) / (row.upper_k - lower)).clamp(0.0, 1.0)
 }
 
 const TRACE: f64 = 1e-12;
+
+/// A row whose whole latent heat is paid at one temperature.
+fn is_plateau(row: &MeltingRange) -> bool {
+    row.lower_k.is_some_and(|low| low >= row.upper_k)
+}
 
 fn moles_in(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
     vessel
@@ -303,11 +399,51 @@ pub fn settle_range_melts(vessel: &mut Vessel) -> Vec<Event> {
             break;
         }
     }
-    let t1 = (0.5 * (lo + hi)).max(0.0);
+    let mut t1 = (0.5 * (lo + hi)).max(0.0);
+
+    // A plateau row (PET, PA66) melts in a step, so the balance jumps
+    // there and the bisection lands ON the plateau with energy left over.
+    // Pin the vessel to the plateau and melt the fraction that energy pays
+    // for, shared in proportion to each plateau material's total heat.
+    let mut fractions: Vec<f64> = melters.iter().map(|m| melted_fraction(m.row, t1)).collect();
+    let plateau = melters
+        .iter()
+        .find(|m| is_plateau(m.row) && (t1 - m.row.upper_k).abs() <= 1e-6)
+        .map(|m| m.row.upper_k);
+    if let Some(point) = plateau {
+        t1 = point;
+        let pinned: Vec<usize> = (0..melters.len())
+            .filter(|&i| is_plateau(melters[i].row) && melters[i].row.upper_k == point)
+            .collect();
+        for (i, m) in melters.iter().enumerate() {
+            fractions[i] = melted_fraction(m.row, t1);
+        }
+        for &i in &pinned {
+            fractions[i] = 0.0;
+        }
+        let residual = vessel.energy_between(t0, t1)
+            + melters
+                .iter()
+                .zip(&fractions)
+                .map(|(m, f)| m.latent * (m.total * f - m.liquid0))
+                .sum::<f64>();
+        let capacity: f64 = pinned
+            .iter()
+            .map(|&i| melters[i].latent * melters[i].total)
+            .sum();
+        let share = if capacity > 0.0 {
+            (-residual / capacity).clamp(0.0, 1.0)
+        } else {
+            0.0
+        };
+        for &i in &pinned {
+            fractions[i] = share;
+        }
+    }
 
     let mut events = Vec::new();
-    for m in &melters {
-        let target = m.total * melted_fraction(m.row, t1);
+    for (m, fraction) in melters.iter().zip(&fractions) {
+        let target = m.total * fraction;
         // The moved fraction changed phase INSIDE the material's range, not
         // at wherever the vessel ended up: wax cooled from 48 °C to 20 °C
         // finished freezing at the bottom of its range, not at 20 °C
@@ -491,7 +627,7 @@ mod tests {
     fn every_range_is_ordered_and_cited() {
         for row in MELTING_RANGES {
             assert!(
-                row.lower_k.is_none_or(|low| low < row.upper_k),
+                row.lower_k.is_none_or(|low| low <= row.upper_k),
                 "{}",
                 row.species
             );
@@ -499,10 +635,25 @@ mod tests {
             if let Some(per_kg) = row.fusion_j_per_kg {
                 assert!(per_kg > 0.0, "{}", row.species);
                 assert!(
-                    row.source.contains("kJ/kg"),
+                    row.source.contains("kJ/kg") || row.source.contains("J/g"),
                     "{}: latent heat uncited",
                     row.species
                 );
+            }
+            // A polymer's grade heat is exactly Xc x its recorded reference.
+            match (row.crystallinity, row.fusion_ref_j_per_g) {
+                (Some(xc), Some(reference)) => {
+                    assert!(xc > 0.0 && xc < 1.0, "{}", row.species);
+                    let per_kg = row.fusion_j_per_kg.expect("a grade heat");
+                    let expected = xc * reference * 1000.0;
+                    assert!(
+                        (per_kg - expected).abs() <= 1e-6 * expected,
+                        "{}: {per_kg} vs {expected}",
+                        row.species
+                    );
+                }
+                (None, None) => {}
+                _ => panic!("{}: Xc and its reference come together", row.species),
             }
             assert!(
                 species::lookup(&SpeciesId::new(row.species)).is_some(),

@@ -23,6 +23,8 @@ reported to finish freezing at the bottom of its range, not at 20 °C.
 | paraffin | yes |
 | PE | no — registry density for both phases |
 | PP | no — registry density for both phases |
+| PET | no — registry density for both phases |
+| nylon | no — registry density for both phases |
 
 ## Wiring
 

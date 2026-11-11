@@ -45,9 +45,10 @@ MD = ROOT / "docs/thermometer-latent-qualifier-coverage-20261111.md"
 JS = ROOT / "docs/thermometer-latent-qualifier-coverage-20261111.json"
 KEY = "measured.thermometer-latent-heat-unpaid"
 TESTS = [
-    "po009_blend_thermometer_reading_carries_the_unpaid_latent_heat_qualifier",
-    "thermometer_qualifier_names_every_unpaid_polymer_and_renders_de_fr",
-    "only_the_polymer_above_its_range_is_named",
+    "po009_blend_thermometer_reading_is_unqualified_now_the_grade_heat_is_paid",
+    "thermometer_qualifier_names_an_unpaid_solid_and_renders_de_fr",
+    "every_polymer_range_is_paid_so_none_is_named",
+    "only_the_unpaid_solid_is_named_beside_a_paid_polymer",
     "step_refusal_and_reading_qualifier_share_one_predicate",
     "a_polymer_below_its_range_reads_unqualified",
     "a_paid_wax_melt_reads_unqualified",

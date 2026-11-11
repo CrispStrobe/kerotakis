@@ -5,8 +5,9 @@
 //! The predicate is generic: any solid standing above its sourced melting
 //! point or the top of its sourced melting range with no enthalpy of fusion
 //! the bench can pay (`melting_range::unpaid_melts`). A solid whose melt is
-//! paid (paraffin), a solid below where it melts, and a vessel with no
-//! solids read unqualified.
+//! paid (paraffin, and since 2026-11-11 every polymer row: grade latent
+//! heat = Xc x 100 % reference), a solid below where it melts, and a
+//! vessel with no solids read unqualified.
 
 use kerotakis_core::melting_range;
 use kerotakis_core::script::parse_op;
@@ -62,62 +63,80 @@ fn vessel_with(contents: &[(&str, f64, Phase)], t_k: f64) -> vessel::Vessel {
     v
 }
 
+/// A sharp-melting solid with a sourced melting point (483 K) and no
+/// sourced enthalpy of fusion: the fixture for the unpaid path now that
+/// every polymer row pays its grade latent heat (2026-11-11).
+const UNPAID: &str = "AgNO3";
+
 #[test]
-fn po009_blend_thermometer_reading_carries_the_unpaid_latent_heat_qualifier() {
-    // The original po-009 vessel: 0.5 g PE + 0.5 g PP, 300 J. Sensible heat
-    // alone carries it past both sourced upper ends (141.45, 187.55 °C).
-    let (_, events) = run(&[
+fn po009_blend_thermometer_reading_is_unqualified_now_the_grade_heat_is_paid() {
+    // The original po-009 vessel: 0.5 g PE + 0.5 g PP, 300 J. Both rows
+    // now carry a sourced grade latent heat (Xc x 100 % reference), so the
+    // heat that melts the polyethylene is paid and the reading is a
+    // prediction, not an upper bound.
+    let (bench, events) = run(&[
         "add v1 PE 0.5g",
         "add v1 PP 0.5g",
         "heat v1 0.3kJ",
         "measure v1 thermometer",
     ]);
-    let (value, note, reason) = reading(&events);
-    assert!(value > 187.55, "the uncorrected reading: {value} °C");
-    let reason = reason.expect("qualified reading");
-    assert_eq!(reason.key, KEY);
-    let en = note.expect("English note");
-    assert_eq!(en, reason.render(Locale::EN));
-    assert!(en.contains("overstates the warming"), "{en}");
-    assert!(en.contains("not a prediction"), "{en}");
+    let (_, note, reason) = reading(&events);
+    assert!(note.is_none() && reason.is_none(), "{note:?}");
+    let v = bench.vessel(VesselId(0)).unwrap();
+    assert!(melting_range::unpaid_melts(v).is_empty());
 }
 
 #[test]
-fn thermometer_qualifier_names_every_unpaid_polymer_and_renders_de_fr() {
-    let pp = melting_range::range("PP").expect("PP range");
-    let v = vessel_with(
-        &[("PE", 0.0178, Phase::Solid), ("PP", 0.0119, Phase::Solid)],
-        pp.upper_k + 5.0,
-    );
+fn thermometer_qualifier_names_an_unpaid_solid_and_renders_de_fr() {
+    let v = vessel_with(&[(UNPAID, 0.01, Phase::Solid)], 500.0);
     let unpaid = melting_range::unpaid_melts(&v);
-    assert_eq!(unpaid.len(), 2, "{unpaid:?}");
-    assert!(unpaid.iter().all(|u| !u.sharp_point));
+    assert_eq!(unpaid.len(), 1, "{unpaid:?}");
+    assert!(unpaid[0].sharp_point);
     let reason = melting_range::thermometer_qualifier(&v).expect("qualified");
     assert_eq!(reason.key, KEY);
+    let en = reason.render(Locale::EN);
+    assert!(en.contains("overstates the warming"), "{en}");
     let de = reason.render(Locale::parse("de"));
     let fr = reason.render(Locale::parse("fr"));
     assert!(de.contains("Schmelzenthalpie"), "{de}");
     assert!(fr.contains("enthalpie de fusion"), "{fr}");
-    assert_ne!(de, reason.render(Locale::EN));
+    assert_ne!(de, en);
 }
 
 #[test]
-fn only_the_polymer_above_its_range_is_named() {
-    // Between PE's (414.6 K) and PP's (460.7 K) upper ends: only PE.
+fn every_polymer_range_is_paid_so_none_is_named() {
+    for t in [430.0, 470.0, 560.0] {
+        let v = vessel_with(
+            &[
+                ("PE", 0.0178, Phase::Solid),
+                ("PP", 0.0119, Phase::Solid),
+                ("PET", 0.005, Phase::Solid),
+                ("nylon", 0.004, Phase::Solid),
+            ],
+            t,
+        );
+        let unpaid = melting_range::unpaid_melts(&v);
+        assert!(unpaid.is_empty(), "{t} K: {unpaid:?}");
+        assert!(melting_range::thermometer_qualifier(&v).is_none());
+    }
+}
+
+#[test]
+fn only_the_unpaid_solid_is_named_beside_a_paid_polymer() {
     let v = vessel_with(
-        &[("PE", 0.0178, Phase::Solid), ("PP", 0.0119, Phase::Solid)],
-        430.0,
+        &[(UNPAID, 0.01, Phase::Solid), ("PE", 0.0178, Phase::Solid)],
+        500.0,
     );
     let unpaid = melting_range::unpaid_melts(&v);
     assert_eq!(unpaid.len(), 1, "{unpaid:?}");
-    assert_eq!(unpaid[0].species, "PE");
+    assert_eq!(unpaid[0].species, UNPAID);
 }
 
 #[test]
 fn step_refusal_and_reading_qualifier_share_one_predicate() {
-    for t in [298.15, 430.0, 470.0] {
+    for t in [298.15, 430.0, 500.0] {
         let v = vessel_with(
-            &[("PE", 0.0178, Phase::Solid), ("PP", 0.0119, Phase::Solid)],
+            &[(UNPAID, 0.01, Phase::Solid), ("PE", 0.0178, Phase::Solid)],
             t,
         );
         let refusals = melting_range::unmodelled_melts(&v).len();

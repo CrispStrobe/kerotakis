@@ -23,8 +23,10 @@ range; no polymer-specific branch.
 | species | upper (K) | reading above the range |
 |---|---|---|
 | paraffin | 341.15 | unqualified (latent heat paid) |
-| PE | 414.6 | qualified |
-| PP | 460.7 | qualified |
+| PE | 414.6 | unqualified (latent heat paid) |
+| PP | 460.7 | unqualified (latent heat paid) |
+| PET | 520.65 | unqualified (latent heat paid) |
+| nylon | 536.15 | unqualified (latent heat paid) |
 
 ## Why the polyolefins are qualified, not paid
 
@@ -37,9 +39,10 @@ unknown amorphous fraction, so the reading is qualified instead.
 
 ## Tests
 
-- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::po009_blend_thermometer_reading_carries_the_unpaid_latent_heat_qualifier`
-- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::thermometer_qualifier_names_every_unpaid_polymer_and_renders_de_fr`
-- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::only_the_polymer_above_its_range_is_named`
+- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::po009_blend_thermometer_reading_is_unqualified_now_the_grade_heat_is_paid`
+- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::thermometer_qualifier_names_an_unpaid_solid_and_renders_de_fr`
+- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::every_polymer_range_is_paid_so_none_is_named`
+- `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::only_the_unpaid_solid_is_named_beside_a_paid_polymer`
 - `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::step_refusal_and_reading_qualifier_share_one_predicate`
 - `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::a_polymer_below_its_range_reads_unqualified`
 - `crates/kerotakis-core/tests/thermometer_latent_qualifier.rs::a_paid_wax_melt_reads_unqualified`

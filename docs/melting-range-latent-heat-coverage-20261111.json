@@ -7,27 +7,115 @@
       "lower_k": 315.15,
       "upper_k": 341.15,
       "fusion_j_per_kg": 189000.0,
+      "crystallinity": null,
+      "fusion_ref_j_per_g": null,
       "source": "A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi, 'Review on thermal energy storage with phase change materials and applications', Renew. Sustain. Energy Rev. 13 (2009) 318-345, doi:10.1016/j.rser.2007.10.005, Table 2a: technical-grade paraffin waxes melt between 42-44 and 66-68 degrees Celsius depending on grade; latent heat of fusion 189 kJ/kg for five grades (compiled from A. Abhat, Solar Energy 30 (1983) 313-332, doi:10.1016/0038-092X(83)90186-X)",
       "class": "paid"
     },
     {
       "species": "PE",
-      "lower_k": null,
+      "lower_k": 411.98,
       "upper_k": 414.6,
-      "fusion_j_per_kg": null,
-      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K",
-      "class": "refused"
+      "fusion_j_per_kg": 196544.4,
+      "crystallinity": 0.6708,
+      "fusion_ref_j_per_g": 293.0,
+      "source": "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K. Grade: S. Karagoz et al., 'Hazelnut Shell-Talc-Carbon Black Hybrid High-Density Polyethylene Biocomposites', Polymers 18 (2026), doi:10.3390/polym18202546, Table 6, neat HDPE (PEHSCB0), second heating: dHm 196.54 J/g, Tm 138.83 degrees Celsius, Xc 67.08 % against the 100 % crystalline reference 293 J/g (4.11 kJ/mol CH2: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048 'Polymer Heats of Fusion'). Grade latent heat 0.6708 x 293 J/g = 196.54 J/g",
+      "class": "paid"
     },
     {
       "species": "PP",
-      "lower_k": null,
+      "lower_k": 439.65,
       "upper_k": 460.7,
-      "fusion_j_per_kg": null,
-      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K",
-      "class": "refused"
+      "fusion_j_per_kg": 107433.0,
+      "crystallinity": 0.519,
+      "fusion_ref_j_per_g": 207.0,
+      "source": "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K. Grade: Zhu et al., 'Relationships of Multiphase Structure with Flexibility and DC Insulation Performance in Impact-Resistant Polypropylene Copolymers', Polymers 18 (2026), doi:10.3390/polym18192351, homopolymer HICP, second heating, mean of three: Tm 166.5 +/- 0.8 degrees Celsius, dHm 107.4 +/- 1.9 J/g, Xc 51.9 +/- 0.9 % against the 100 % crystalline reference 207 J/g (8.70 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.519 x 207 J/g = 107.43 J/g",
+      "class": "paid"
+    },
+    {
+      "species": "PET",
+      "lower_k": 520.65,
+      "upper_k": 520.65,
+      "fusion_j_per_kg": 55160.0,
+      "crystallinity": 0.394,
+      "fusion_ref_j_per_g": 140.0,
+      "source": "W. Chaiwutthinan et al., 'Thermomechanical recycling of post-consumer poly(ethylene terephthalate) bottles and post-industrial polyamide 6 fishing nets reinforced with organo-modified montmorillonite', Sci. Rep. 16 (2026), doi:10.1038/s41598-026-43815-y, Table 2, neat post-consumer bottle rPET, second heating: Tm 247.5 degrees Celsius, dHm 55.2 J/g, Xc 39.4 % against the 100 % crystalline reference 140 J/g (26.9 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.394 x 140 J/g = 55.16 J/g",
+      "class": "paid"
+    },
+    {
+      "species": "nylon",
+      "lower_k": 536.15,
+      "upper_k": 536.15,
+      "fusion_j_per_kg": 59972.0,
+      "crystallinity": 0.319,
+      "fusion_ref_j_per_g": 188.0,
+      "source": "H. Ceviz et al., 'Investigation of Mechanical, Thermal and Microstructural Properties of Waste Micro-Nano Nichrome (NiCr 80/20) Powder-Reinforced Composites with Polyamide 66 (PA66) Matrix', Polymers 17 (2025), doi:10.3390/polym17202753: neat PA66 'exhibits a sharp endothermic peak at approximately 263 degrees Celsius'; dHm 60 J/g, Xc 31.9 % against the 100 % crystalline reference 188 J/g used by that paper (TN048 tabulates 226 J/g from B. Wunderlich, Thermal Analysis, 1990; the reference choice changes Xc, not the measured heat). Grade latent heat 0.319 x 188 J/g = 59.97 J/g",
+      "class": "paid"
+    }
+  ],
+  "registry_polymers_and_waxes": [
+    {
+      "species": "paraffin",
+      "latent_heat": "range row",
+      "paid": true
+    },
+    {
+      "species": "PE",
+      "latent_heat": "range row",
+      "paid": true
+    },
+    {
+      "species": "PP",
+      "latent_heat": "range row",
+      "paid": true
+    },
+    {
+      "species": "PET",
+      "latent_heat": "range row",
+      "paid": true
+    },
+    {
+      "species": "nylon",
+      "latent_heat": "range row",
+      "paid": true
+    },
+    {
+      "species": "hexadecane",
+      "latent_heat": "phase_route::FUSION_ENTHALPIES (sharp point)",
+      "paid": true
+    },
+    {
+      "species": "PS",
+      "latent_heat": "none: atactic polystyrene is amorphous, no melting endotherm",
+      "paid": false
+    },
+    {
+      "species": "PVA",
+      "latent_heat": "none: 161 J/g 100 % reference (Wunderlich via TN048) but no sourced grade crystallinity",
+      "paid": false
+    }
+  ],
+  "refused_by_policy": [
+    {
+      "material": "PVC",
+      "reason": "poly(vinyl chloride) is nearly amorphous and dehydrochlorinates on heating instead of melting cleanly; no sourced crystallinity of a rigid grade was found (its 176 J/g 100 % reference, B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431 as quoted by R. L. Blaine, TA Instruments TN048, would have nothing to multiply)"
+    },
+    {
+      "material": "PTFE (unsintered)",
+      "reason": "virgin PTFE powder melts first far more crystalline than the sintered polymer (about twofold); only sintered PTFE has an open crystallinity measurement (39.5-43.1 % against 82 J/g, doi:10.3390/polym17101380)"
+    },
+    {
+      "material": "PLA (unstated thermal history)",
+      "reason": "poly(lactic acid) crystallinity runs from about 0 to 26 % with moulding and annealing history (Ingeo-type PLA plaques 19-25.7 %, doi:10.1021/acsomega.6c03726; a PLA/PCL blend 0.4 %, Europe PMC PMC12473204), so no grade value can be chosen without the history"
     }
   ],
   "blends": [
+    {
+      "a": "PE",
+      "b": "PET",
+      "cls": "solution-law",
+      "source": null
+    },
     {
       "a": "PE",
       "b": "PP",
@@ -36,12 +124,48 @@
     },
     {
       "a": "PE",
+      "b": "nylon",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "PE",
+      "b": "paraffin",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "PET",
+      "b": "PP",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "PET",
+      "b": "nylon",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "PET",
       "b": "paraffin",
       "cls": "solution-law",
       "source": null
     },
     {
       "a": "PP",
+      "b": "nylon",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "PP",
+      "b": "paraffin",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "nylon",
       "b": "paraffin",
       "cls": "solution-law",
       "source": null

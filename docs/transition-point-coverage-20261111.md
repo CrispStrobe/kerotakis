@@ -26,15 +26,17 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 161, boiling.reported 35, melting.no_data 141, melting.range 3, melting.reported 52.
+Counts: boiling.no_data 161, boiling.reported 35, melting.no_data 139, melting.range 5, melting.reported 52.
 
 ## Melting ranges
 
 | material | range | source |
 |---|---|---|
 | paraffin | 315.15–341.15 K | A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi, 'Review on thermal energy storage with phase change materials and applications', Renew. Sustain. Energy Rev. 13 (2009) 318-345, doi:10.1016/j.rser.2007.10.005, Table 2a: technical-grade paraffin waxes melt between 42-44 and 66-68 degrees Celsius depending on grade; latent heat of fusion 189 kJ/kg for five grades (compiled from A. Abhat, Solar Energy 30 (1983) 313-332, doi:10.1016/0038-092X(83)90186-X) |
-| PE | (lower end unsourced)–414.6 K | U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K |
-| PP | (lower end unsourced)–460.7 K | U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K |
+| PE | 411.98–414.6 K | Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K. Grade: S. Karagoz et al., 'Hazelnut Shell-Talc-Carbon Black Hybrid High-Density Polyethylene Biocomposites', Polymers 18 (2026), doi:10.3390/polym18202546, Table 6, neat HDPE (PEHSCB0), second heating: dHm 196.54 J/g, Tm 138.83 degrees Celsius, Xc 67.08 % against the 100 % crystalline reference 293 J/g (4.11 kJ/mol CH2: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048 'Polymer Heats of Fusion'). Grade latent heat 0.6708 x 293 J/g = 196.54 J/g |
+| PP | 439.65–460.7 K | Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K. Grade: Zhu et al., 'Relationships of Multiphase Structure with Flexibility and DC Insulation Performance in Impact-Resistant Polypropylene Copolymers', Polymers 18 (2026), doi:10.3390/polym18192351, homopolymer HICP, second heating, mean of three: Tm 166.5 +/- 0.8 degrees Celsius, dHm 107.4 +/- 1.9 J/g, Xc 51.9 +/- 0.9 % against the 100 % crystalline reference 207 J/g (8.70 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.519 x 207 J/g = 107.43 J/g |
+| PET | 520.65–520.65 K | W. Chaiwutthinan et al., 'Thermomechanical recycling of post-consumer poly(ethylene terephthalate) bottles and post-industrial polyamide 6 fishing nets reinforced with organo-modified montmorillonite', Sci. Rep. 16 (2026), doi:10.1038/s41598-026-43815-y, Table 2, neat post-consumer bottle rPET, second heating: Tm 247.5 degrees Celsius, dHm 55.2 J/g, Xc 39.4 % against the 100 % crystalline reference 140 J/g (26.9 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.394 x 140 J/g = 55.16 J/g |
+| nylon | 536.15–536.15 K | H. Ceviz et al., 'Investigation of Mechanical, Thermal and Microstructural Properties of Waste Micro-Nano Nichrome (NiCr 80/20) Powder-Reinforced Composites with Polyamide 66 (PA66) Matrix', Polymers 17 (2025), doi:10.3390/polym17202753: neat PA66 'exhibits a sharp endothermic peak at approximately 263 degrees Celsius'; dHm 60 J/g, Xc 31.9 % against the 100 % crystalline reference 188 J/g used by that paper (TN048 tabulates 226 J/g from B. Wunderlich, Thermal Analysis, 1990; the reference choice changes Xc, not the measured heat). Grade latent heat 0.319 x 188 J/g = 59.97 J/g |
 
 ## Species
 
@@ -147,10 +149,10 @@ Counts: boiling.no_data 161, boiling.reported 35, melting.no_data 141, melting.r
 | NaOH | solid | melting 593 K | no_data (withdrawn value dropped) | literature/transition-points/NaOH |
 | O2 | gas | no_data | no_data | — |
 | OH- | aqueous | no_data | no_data | — |
-| PE | solid | range (unsourced)–414.6 K | no_data | — |
-| PET | solid | no_data | no_data | — |
+| PE | solid | range 411.98–414.6 K | no_data | — |
+| PET | solid | range 520.65–520.65 K | no_data | — |
 | PO4-3 | aqueous | no_data | no_data | — |
-| PP | solid | range (unsourced)–460.7 K | no_data | — |
+| PP | solid | range 439.65–460.7 K | no_data | — |
 | PS | solid | no_data | no_data | — |
 | PVA | solid | no_data | no_data | — |
 | Pb | solid | melting 600.65 K | boiling 2017 K | literature/transition-points/Pb |
@@ -224,7 +226,7 @@ Counts: boiling.no_data 161, boiling.reported 35, melting.no_data 141, melting.r
 | methanol | liquid | melting 175.26 K | boiling 337.9 K | literature/transition-points/methanol |
 | methyl_orange | aqueous | no_data | no_data | — |
 | naphthalene | solid | melting 353.4 K | boiling 491.15 K | literature/transition-points/naphthalene |
-| nylon | solid | no_data | no_data | — |
+| nylon | solid | range 536.15–536.15 K | no_data | — |
 | octacalcium_phosphate | solid | no_data | no_data | — |
 | paraffin | solid | range 315.15–341.15 K | no_data | — |
 | phenolphthalein | aqueous | no_data | no_data | — |
