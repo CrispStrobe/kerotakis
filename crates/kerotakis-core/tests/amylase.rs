@@ -394,7 +394,7 @@ fn body_temperature_and_room_temperature_digestion_are_unchanged() {
 #[test]
 fn falling_limb_inactivation_follows_the_cited_first_order_constant() {
     // 50 °C: k_d = (1.46/3) exp[(164900/8.315)(1/311.06 - 1/323.15)] per min.
-    let t = 323.15;
+    let t: f64 = 323.15;
     let k_min = 1.46 / 3.0 * (164_900.0 / 8.315 * (1.0 / 311.06 - 1.0 / t)).exp();
     let k = starch_amylase::inactivation_rate_per_s(t).unwrap();
     assert!((k * 60.0 - k_min).abs() < 1e-9 * k_min);

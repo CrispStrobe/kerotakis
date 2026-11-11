@@ -467,10 +467,10 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 717.76,
+      "boiling_k": 718.2,
       "boundary": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt",
       "melting_k": 392.0,
-      "source": "Melting point 392 K (119 degrees Celsius; fusion of monoclinic crystal I, the form rhombic sulfur becomes at 368.6 K) and normal boiling point 717.76 K (444.60 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 14-1, printed page 552."
+      "source": "Melting point 392 K (119 degrees Celsius; fusion of monoclinic crystal I, the form rhombic sulfur becomes at 368.6 K): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 14-1, printed page 552. Normal boiling point 718.2 K (445 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals. Zhang et al. tabulate 718.2 K for orthorhombic (alpha) sulfur; Circular 500 printed 717.76 K."
     }
   },
   {
@@ -1796,9 +1796,9 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 1393.0,
+      "boiling_k": 1383.0,
       "melting_k": 922.0,
-      "source": "Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 1393 K (1120 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 86-1, printed page 772."
+      "source": "Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 1383 K (1110 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -1855,9 +1855,9 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 2855.0,
+      "boiling_k": 2868.0,
       "melting_k": 1357.77,
-      "source": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2855 K (2582 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 34-1, printed page 674."
+      "source": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2868 K (2595 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -1916,7 +1916,7 @@
     "transitions": {
       "boiling_k": 1180.0,
       "melting_k": 692.677,
-      "source": "Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 1180 K (907 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 31-1, printed page 667."
+      "source": "Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 1180 K (907 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -1973,9 +1973,9 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 2466.0,
+      "boiling_k": 2483.0,
       "melting_k": 1234.93,
-      "source": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2466 K (2193 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-1, printed page 677."
+      "source": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -2107,9 +2107,9 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 3073.0,
+      "boiling_k": 3273.0,
       "melting_k": 1811.0,
-      "source": "Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 3073 K (2800 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 47-1, printed page 694."
+      "source": "Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 3273 K (3000 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -2430,7 +2430,12 @@
     "name": "copper sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy (anhydrous): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 873.15,
+      "source": "Decomposition of anhydrous CuSO4 from 873.15 K (600 degrees Celsius, lower end of the printed 600-880 degrees Celsius range; TGA/DTA in air, CuSO4 -> CuO.CuSO4 + SO3 -> 2 CuO + SO3): A. A. Kolta and M. H. Askar, Thermochim. Acta 11 (1975) 65-72, doi:10.1016/0040-6031(75)80038-4, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read."
+    }
   },
   {
     "appearance": "blue",
@@ -2497,7 +2502,12 @@
     "name": "potassium permanganate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 523.15,
+      "source": "Decomposition of KMnO4 in air at 523.15 K (250 degrees Celsius; 10 KMnO4 -> 2.65 K2MnO4 + [2.35 K2O.7.75 MnO2.05] + 6 O2): F. H. Herbstein, G. Ron and A. Weissman, J. Chem. Soc. A (1971) 1821-1826, doi:10.1039/j19710001821, value as quoted by Nanomaterials 9 (2019) 1156 (open access, PMC6723270, introduction, ref. 21, read 2026-11-11); the primary itself was not read."
+    }
   },
   {
     "appearance": "pale green",
@@ -2522,7 +2532,12 @@
     "name": "iron(II) sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. The reagent a permanganate titration is standardised against, and the cleanest way to put a reducing agent in the beaker",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 873.15,
+      "source": "Decomposition of anhydrous FeSO4 beginning at about 873.15 K (stage IV 'begins at around 600 degrees Celsius', 6 FeSO4 -> Fe2(SO4)3 + 2 Fe2O3 + 3 SO2 at 550-610 degrees Celsius; TGA at 10 K/min in argon): Li et al., Materials 17 (2024) 2800, doi:10.3390/ma17122800 (open access, PMC11204637, results section, read 2026-11-11)."
+    }
   },
   {
     "appearance": "pale green",
@@ -2806,7 +2821,12 @@
     "name": "zinc sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values; dissolution enthalpy -80.4 kJ/mol derived from NBS/Wagman 1982 formation enthalpies (ZnSO4(s) -982.8, Zn2+(aq) -153.9, SO4 2-(aq) -909.3 kJ/mol)",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 863.15,
+      "source": "Decomposition of anhydrous ZnSO4 from 863.15 K (formation of zinc oxysulfate 'started at 590 degrees Celsius', final decomposition to ZnO above 900 degrees Celsius): J. Mu and D. D. Perlmutter, Ind. Eng. Chem. Process Des. Dev. 20 (1981) 640-646, doi:10.1021/i200015a010, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read."
+    }
   },
   {
     "appearance": "colourless",
@@ -2931,9 +2951,9 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 2023.0,
+      "boiling_k": 2017.0,
       "melting_k": 600.65,
-      "source": "Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 2023 K (1750 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 27-1, printed page 653."
+      "source": "Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 2017 K (1744 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -3051,9 +3071,9 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
-      "boiling_k": 329.3,
+      "boiling_k": 329.23,
       "melting_k": 177.6,
-      "source": "Melting point 177.6 K: G. S. Parks and K. K. Kelley, J. Phys. Chem. 32 (1928) 734-737, doi:10.1021/j150287a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 329.3 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C67641&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "source": "Melting point 177.6 K: G. S. Parks and K. K. Kelley, J. Phys. Chem. 32 (1928) 734-737, doi:10.1021/j150287a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 329.23 K: R. F. Brunel, 'The purification and some physical properties of certain aliphatic alcohols. II', J. Am. Chem. Soc. 45 (1923) 1334-1338 (TRC uncertainty 0.1 K), doi:10.1021/ja01658a031, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C67641&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -3076,9 +3096,9 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
-      "boiling_k": 350.2,
+      "boiling_k": 350.26,
       "melting_k": 189.3,
-      "source": "Melting point 189.3 K: G. S. Parks, H. M. Huffman and M. Barmore, J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 350.2 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C141786&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "source": "Melting point 189.3 K: G. S. Parks, H. M. Huffman and M. Barmore, J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 350.26 K: M. Wojciechowski and E. R. Smith, 'Boiling points and densities of acetates of normal aliphatic alcohols', J. Res. Natl. Bur. Stand. 18 (1937) 499, a United States Government work in the public domain (TRC uncertainty 0.06 K), doi:10.6028/jres.018.028, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C141786&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -3232,9 +3252,10 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
+      "boiling_k": 457.2,
       "boundary": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model",
       "melting_k": 386.8,
-      "source": "Melting point 386.8 K (113.6 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 12-1, printed page 551. Boiling point: the table gives sublimation at 0.31 mm Hg and 298.16 K only, no normal boiling point, and none is claimed."
+      "source": "Melting point 386.8 K (113.6 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 12-1, printed page 551. Normal boiling point 457.2 K (184 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -3783,9 +3804,9 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 2600.0,
+      "boiling_k": 2743.0,
       "melting_k": 933.473,
-      "source": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2600 K (2327 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 59-1, printed page 731. This 1949 value is about 190 K below modern vapour-pressure evaluations; it is used because it is the readable public-domain primary table."
+      "source": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2743 K (2470 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11), and by the Wikipedia 'Aluminium' infobox, which cites the same paper (https://en.wikipedia.org/w/index.php?title=Aluminium&oldid=1384708213, cite_note-4); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
   },
   {
@@ -4142,10 +4163,10 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
-      "boiling_k": 355.5,
+      "boiling_k": 355.47,
       "boundary": "the melting point is barely above room temperature, so this liquid is a solid on a cold morning",
       "melting_k": 298.97,
-      "source": "Melting point 298.97 K (stable crystal to liquid): F. L. Oetting, J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane; PENDING REVIEW). Normal boiling point: Tboil 355.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C75650&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "source": "Melting point 298.97 K (stable crystal to liquid): F. L. Oetting, J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane; PENDING REVIEW). Normal boiling point 355.47 K: I. Brown, W. Fock and F. Smith, 'The thermodynamic properties of solutions of normal and branched alcohols in benzene and n-hexane', J. Chem. Thermodyn. 1 (1969) 273-291 (TRC uncertainty 0.12 K), doi:10.1016/0021-9614(69)90047-0, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C75650&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -4188,9 +4209,9 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
-      "boiling_k": 355.5,
+      "boiling_k": 355.4,
       "melting_k": 184.67,
-      "source": "Melting point 184.67 K: K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 355.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C67630&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "source": "Melting point 184.67 K: K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 355.4 K: R. F. Brunel, 'The purification and some physical properties of certain aliphatic alcohols. II', J. Am. Chem. Soc. 45 (1923) 1334-1338 (TRC uncertainty 0.05 K), doi:10.1021/ja01658a031, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C67630&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -4217,7 +4238,7 @@
     "transitions": {
       "boundary": "sucrose does not melt: what a capillary shows near this temperature is the beginning of thermal decomposition, which is why sucrose 'melting points' in the literature disagree with each other. decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting CRC 97th ed. tabulates mp 181(8) with no qualifier; the decomposition classification is a deliberate, stated divergence following the modern kinetic-melting literature.",
       "decomposition_k": 461.0,
-      "source": "Melting with decomposition at 461.0 K: L. Kofler and H. Sitte, 'Melting point determination of substances which melt with decomposition', Monatsh. Chem. 81 (1950) 619, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C57501&Units=SI&Mask=4, retrieved 2026-11-11 (the WebBook lists 461 and 462 K from the same work; the lower is taken). The registry classifies this as decomposition rather than melting, as its notes explain."
+      "source": "Melting with decomposition at 461.0 K: L. Kofler and H. Sitte, 'Melting point determination of substances which melt with decomposition', Monatsh. Chem. 81 (1950) 619-626, doi:10.1007/BF00912664, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C57501&Units=SI&Mask=4, retrieved 2026-11-11 (the WebBook lists 461 and 462 K from the same work; the lower is taken). The registry classifies this as decomposition rather than melting, as its notes explain."
     }
   },
   {
@@ -4335,8 +4356,8 @@
     "standard_phase": "solid",
     "transitions": {
       "boundary": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent CRC 97th prints only the 150 degC onset; the one-step temperature here is the full loss per the TGA literature.",
-      "dehydration_k": 473.15,
-      "source": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation)."
+      "dehydration_k": 538.15,
+      "source": "Dehydration of MgSO4.7H2O to crystalline anhydrous MgSO4 above about 538.15 K ('Crystalline anhydrous MgSO4 forms at temperatures above ~265 degrees Celsius'; 7 -> 6 H2O at 25-55, main loss 60-265 degrees Celsius at low water-vapour pressure): V. M. van Essen et al., J. Sol. Energy Eng. 131 (2009) 041014, doi:10.1115/1.4000275, value as quoted by Teshome et al., ACS Omega 11 (2026) 46603, doi:10.1021/acsomega.6c04368 (open access, PMC13470712, introduction, ref. 7, read 2026-11-11); the primary itself was not read. This bench drives all seven waters off in one step at that temperature."
     }
   },
   {
@@ -4730,7 +4751,7 @@
     "transitions": {
       "boundary": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent TGA literature has the pentahydrate's waters leave stepwise (~63/109/200 degC); the one-step temperature here is the final loss, and CRC 97th prints only the 110 degC onset.",
       "dehydration_k": 473.15,
-      "source": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation)."
+      "source": "Dehydration of CuSO4.5H2O complete at 473.15 K: 'At 200 degrees Celsius, the sample is almost entirely converted to anhydrous CuSO4' (stepwise: 5H2O -> 3H2O by 60, -> 1H2O near 110, -> anhydrous near 210 degrees Celsius; TGA at 10 K/min under N2 with variable-temperature XRD): Jiao et al., Molecules 31 (2026) 1342, doi:10.3390/molecules31081342 (open access, PMC13119230, read 2026-11-11). This bench drives all five waters off in one step at that temperature; the intermediate hydrates are not modelled."
     }
   },
   {
@@ -5395,10 +5416,10 @@
     "spectrum_bands": null,
     "standard_phase": "solid",
     "transitions": {
-      "boiling_k": 490.0,
+      "boiling_k": 491.15,
       "boundary": "naphthalene sublimes appreciably at room temperature - that is what makes a mothball shrink in a drawer - and this bench models neither that vapour pressure nor the loss of mass it causes. What is recorded here is the ordinary melting and boiling of the solid at one atmosphere, which is a different claim",
       "melting_k": 353.4,
-      "source": "Melting point 353.40 K: J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 490.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C91203&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "source": "Melting point 353.40 K: J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 491.15 K: A. R. Cooper, C. W. P. Crowne and P. G. Farrell, 'Gas-liquid chromatographic studies of electron-donor-acceptor systems. Part 2', Trans. Faraday Soc. 63 (1967) 447-454 (TRC uncertainty 0.5 K), doi:10.1039/tf9676300447, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C91203&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -5585,10 +5606,10 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
-      "boiling_k": 489.0,
+      "boiling_k": 489.41,
       "boundary": "the pure alkane's melting and boiling points at one atmosphere. Real diesel has neither: it is a distillation CUT, boiling across roughly 450 to 630 K, and no single boiling point describes it. These two numbers belong to this molecule, not to the fuel it stands in for",
-      "melting_k": 263.57,
-      "source": "Melting (triple-point) temperature: Ttriple 263.57 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it. Normal boiling point: Tboil 489.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "melting_k": 263.58,
+      "source": "Melting (triple-point) temperature 263.58 K: H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, 'Low-temperature thermal data for the nine normal paraffin hydrocarbons from octane to hexadecane', J. Am. Chem. Soc. 76 (1954) 333-341 (TRC uncertainty 0.02 K), doi:10.1021/ja01631a005, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Type=TTRIPLE, read 2026-11-11; the paper itself was not re-read. Normal boiling point 489.41 K: B. J. Mair and A. J. Streiff, 'Separation of the aromatic hydrocarbons, and the isolation of n-dodecane, naphthalene, ...', J. Res. Natl. Bur. Stand. 24 (1940) 395-414, a United States Government work in the public domain (TRC uncertainty 0.1 K), doi:10.6028/jres.024.022, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -5611,10 +5632,10 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
-      "boiling_k": 554.0,
+      "boiling_k": 559.0,
       "boundary": "the pure alkane's melting and boiling points at one atmosphere. Real diesel has neither: it is a distillation CUT, boiling across roughly 450 to 630 K, and no single boiling point describes it. These two numbers belong to this molecule, not to the fuel it stands in for",
       "melting_k": 291.3,
-      "source": "Melting point 291.3 K: H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a009 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 554.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C544763&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it."
+      "source": "Melting point 291.3 K: H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a005 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 559.0 K: S. A. Mumford and J. W. C. Phillips, 'The physical properties of some aliphatic compounds', J. Chem. Soc. (1950) 75-84 (TRC uncertainty 2 K), doi:10.1039/jr9500000075, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C544763&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     }
   },
   {
@@ -5743,7 +5764,7 @@
       "boiling_k": 77.34,
       "boundary": "the two transitions of nitrogen itself at one atmosphere. The melting point is recorded as data and nothing on this bench uses it: no route freezes nitrogen, because a beaker that cold would need a colder cryogen than the coldest one here. What the boiling point IS used for is the cryogen route, and that route models a boil-off rather than a vapour pressure - the nitrogen either sits at 77.36 K or it leaves, and there is nothing in between",
       "melting_k": 63.14,
-      "source": "Triple-point (melting) temperature 63.14 K and normal boiling point 77.34 K: R. T. Jacobsen, R. B. Stewart and M. Jahangiri, 'Thermodynamic properties of nitrogen from the freezing line to 2000 K at pressures to 1000 MPa', J. Phys. Chem. Ref. Data 15 (1986) 735-909, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Units=SI&Mask=4, retrieved 2026-11-11."
+      "source": "Triple-point (melting) temperature 63.14 K and normal boiling point 77.34 K: R. T. Jacobsen, R. B. Stewart and M. Jahangiri, 'Thermodynamic properties of nitrogen from the freezing line to 2000 K at pressures to 1000 MPa', J. Phys. Chem. Ref. Data 15 (1986) 735-909, doi:10.1063/1.555754, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Units=SI&Mask=4, retrieved 2026-11-11."
     }
   },
   {
