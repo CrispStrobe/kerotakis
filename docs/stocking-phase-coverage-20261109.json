@@ -16,7 +16,7 @@
       "species": "Ag",
       "standard_phase": "solid",
       "melting_k": 1234.93,
-      "boiling_k": 2466.0,
+      "boiling_k": 2483.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -29,7 +29,7 @@
       "species": "Al",
       "standard_phase": "solid",
       "melting_k": 933.473,
-      "boiling_k": 2600.0,
+      "boiling_k": 2743.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -55,7 +55,7 @@
       "species": "Cu",
       "standard_phase": "solid",
       "melting_k": 1357.77,
-      "boiling_k": 2855.0,
+      "boiling_k": 2868.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -68,7 +68,7 @@
       "species": "Fe",
       "standard_phase": "solid",
       "melting_k": 1811.0,
-      "boiling_k": 3073.0,
+      "boiling_k": 3273.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -94,7 +94,7 @@
       "species": "Mg",
       "standard_phase": "solid",
       "melting_k": 922.0,
-      "boiling_k": 1393.0,
+      "boiling_k": 1383.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -120,7 +120,7 @@
       "species": "Pb",
       "standard_phase": "solid",
       "melting_k": 600.65,
-      "boiling_k": 2023.0,
+      "boiling_k": 2017.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -159,7 +159,7 @@
       "species": "ethyl_acetate",
       "standard_phase": "liquid",
       "melting_k": 189.3,
-      "boiling_k": 350.2,
+      "boiling_k": 350.26,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -172,7 +172,7 @@
       "species": "hexadecane",
       "standard_phase": "liquid",
       "melting_k": 291.3,
-      "boiling_k": 554.0,
+      "boiling_k": 559.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -198,7 +198,7 @@
       "species": "isopropanol",
       "standard_phase": "liquid",
       "melting_k": 184.67,
-      "boiling_k": 355.5,
+      "boiling_k": 355.4,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -224,7 +224,7 @@
       "species": "naphthalene",
       "standard_phase": "solid",
       "melting_k": 353.4,
-      "boiling_k": 490.0,
+      "boiling_k": 491.15,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -237,7 +237,7 @@
       "species": "propanone",
       "standard_phase": "liquid",
       "melting_k": 177.6,
-      "boiling_k": 329.3,
+      "boiling_k": 329.23,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -250,7 +250,7 @@
       "species": "tert_butanol",
       "standard_phase": "liquid",
       "melting_k": 298.97,
-      "boiling_k": 355.5,
+      "boiling_k": 355.47,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -380,7 +380,7 @@
       "species": "I2",
       "standard_phase": "solid",
       "melting_k": 386.8,
-      "boiling_k": null,
+      "boiling_k": 457.2,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {
@@ -523,7 +523,7 @@
       "species": "S",
       "standard_phase": "solid",
       "melting_k": 392.0,
-      "boiling_k": 717.76,
+      "boiling_k": 718.2,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {
@@ -548,8 +548,8 @@
     {
       "species": "dodecane",
       "standard_phase": "liquid",
-      "melting_k": 263.57,
-      "boiling_k": 489.0,
+      "melting_k": 263.58,
+      "boiling_k": 489.41,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {

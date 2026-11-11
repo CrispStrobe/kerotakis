@@ -19,25 +19,25 @@ Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 78, n
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
-| derived | Ag | solid | 1234.93 | 2466 | yes | solid | solid | solid |
-| derived | Al | solid | 933.473 | 2600 | yes | solid | solid | solid |
+| derived | Ag | solid | 1234.93 | 2483 | yes | solid | solid | solid |
+| derived | Al | solid | 933.473 | 2743 | yes | solid | solid | solid |
 | derived | CH3COOH | liquid | 289.77 | 391.4 | yes | solid | liquid | liquid |
-| derived | Cu | solid | 1357.77 | 2855 | yes | solid | solid | solid |
-| derived | Fe | solid | 1811 | 3073 | yes | solid | solid | solid |
+| derived | Cu | solid | 1357.77 | 2868 | yes | solid | solid | solid |
+| derived | Fe | solid | 1811 | 3273 | yes | solid | solid | solid |
 | derived | KCl | solid | 1044 | — | yes | solid | solid | solid |
-| derived | Mg | solid | 922 | 1393 | yes | solid | solid | solid |
+| derived | Mg | solid | 922 | 1383 | yes | solid | solid | solid |
 | derived | NaCl | solid | 1073.8 | 1738 | yes | solid | solid | solid |
-| derived | Pb | solid | 600.65 | 2023 | yes | solid | solid | solid |
+| derived | Pb | solid | 600.65 | 2017 | yes | solid | solid | solid |
 | derived | Zn | solid | 692.677 | 1180 | yes | solid | solid | solid |
 | derived | ethanol | liquid | 159 | 351.7 | yes | liquid | liquid | liquid |
-| derived | ethyl_acetate | liquid | 189.3 | 350.2 | yes | liquid | liquid | liquid |
-| derived | hexadecane | liquid | 291.3 | 554 | yes | solid | liquid | liquid |
+| derived | ethyl_acetate | liquid | 189.3 | 350.26 | yes | liquid | liquid | liquid |
+| derived | hexadecane | liquid | 291.3 | 559 | yes | solid | liquid | liquid |
 | derived | hexane | liquid | 177.84 | 341.892 | yes | liquid | liquid | liquid |
-| derived | isopropanol | liquid | 184.67 | 355.5 | yes | liquid | liquid | liquid |
+| derived | isopropanol | liquid | 184.67 | 355.4 | yes | liquid | liquid | liquid |
 | derived | methanol | liquid | 175.26 | 337.9 | yes | liquid | liquid | liquid |
-| derived | naphthalene | solid | 353.4 | 490 | yes | solid | solid | solid |
-| derived | propanone | liquid | 177.6 | 329.3 | yes | liquid | liquid | liquid |
-| derived | tert_butanol | liquid | 298.97 | 355.5 | yes | solid | solid | liquid |
+| derived | naphthalene | solid | 353.4 | 491.15 | yes | solid | solid | solid |
+| derived | propanone | liquid | 177.6 | 329.23 | yes | liquid | liquid | liquid |
+| derived | tert_butanol | liquid | 298.97 | 355.47 | yes | solid | solid | liquid |
 | derived | water | liquid | 273.15 | 373.15 | yes | liquid | liquid | liquid |
 | melting_point_without_latent_heat | AgCl | solid | 728 | 1830 | no | solid | solid | solid |
 | melting_point_without_latent_heat | AgNO3 | solid | 483 | — | no | solid | solid | solid |
@@ -47,7 +47,7 @@ Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 78, n
 | melting_point_without_latent_heat | CaO | solid | 2873 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | FeCl3 | solid | 577 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | H2O2 | liquid | 271.2 | — | no | liquid | liquid | liquid |
-| melting_point_without_latent_heat | I2 | solid | 386.8 | — | no | solid | solid | solid |
+| melting_point_without_latent_heat | I2 | solid | 386.8 | 457.2 | no | solid | solid | solid |
 | melting_point_without_latent_heat | KI | solid | 958 | 1597 | no | solid | solid | solid |
 | melting_point_without_latent_heat | KNO3 | solid | 610 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | KOH | solid | 673 | 1600 | no | solid | solid | solid |
@@ -58,9 +58,9 @@ Counts: derived 20, melting_point_without_latent_heat 22, no_melting_point 78, n
 | melting_point_without_latent_heat | NaBr | solid | 1023 | 1665 | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaNO3 | solid | 583 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaOH | solid | 593 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | S | solid | 392 | 717.76 | no | solid | solid | solid |
+| melting_point_without_latent_heat | S | solid | 392 | 718.2 | no | solid | solid | solid |
 | melting_point_without_latent_heat | bromoethane | liquid | 155 | 311.5 | no | liquid | liquid | liquid |
-| melting_point_without_latent_heat | dodecane | liquid | 263.57 | 489 | no | liquid | liquid | liquid |
+| melting_point_without_latent_heat | dodecane | liquid | 263.58 | 489.41 | no | liquid | liquid | liquid |
 | no_melting_point | Ag2CO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ag3PO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | AgBr | solid | — | — | no | solid | solid | solid |
