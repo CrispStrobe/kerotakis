@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""Oxidant / iodide redox route coverage (2026-11-11).
+
+For every oxidant half of the halogen redox half table
+(docs/halogen-redox-coverage-20261027.json, derived from llnl.dat by
+tools/halogen_redox_coverage.py) paired with iodide (reductant half I2/I-),
+states HOW the bench handles the pair:
+
+  equilibrium_solver  solved to K by crates/kerotakis-core/src/iodine_chemistry.rs
+                      ((2/n) Ox + 2 I- <=> (2/n) Red + I2(aq)), both directions
+  complete_writer     admitted limiting-reagent writer in halogen_redox.rs
+  owned_elsewhere     a curated row or kinetic law owns it
+  refused             named by not-modeled.redox-pair-unpriced (EN/DE/FR)
+  not_reachable       no registry form of the oxidant, so it never meets iodide
+  self                the iodine couple itself
+
+An equilibrium-limited pair is solved only when its half is a plain ion
+couple (no protons, no water, one reduced ion per oxidised ion), the same
+rule as `iodine_chemistry::equilibrium_couples`; otherwise it is refused.
+`--check` fails when docs/iodide-redox-coverage-20261111.{md,json} are stale.
+The Rust test `iodide_redox_coverage_is_current` holds the runtime to the JSON.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+HALOGEN = ROOT / "docs/halogen-redox-coverage-20261027.json"
+IODINE_SRC = ROOT / "crates/kerotakis-core/src/iodine_chemistry.rs"
+OUT_JS = ROOT / "docs/iodide-redox-coverage-20261111.json"
+OUT_MD = ROOT / "docs/iodide-redox-coverage-20261111.md"
+NERNST_V = 0.05916
+
+SOURCES = {
+    "e0_i2aq": "Bard, Parsons & Jordan, Standard Potentials in Aqueous Solution (IUPAC/Dekker 1985): "
+               "E(I2(aq)/I-) = +0.621 V",
+    "oxidant_halves": "llnl.dat (thermo.com.V8.R6, USGS conversion), derived and cross-checked in "
+                      "docs/halogen-redox-coverage-20261027 (Fe3+/Fe2+ 0.7696 V, cross-check value 0.771 V)",
+    "triiodide_k": "Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374",
+}
+
+HANDLING = {
+    "admitted": "complete_writer",
+    "owned_elsewhere": "owned_elsewhere",
+    "rate_not_reviewed": "refused",
+    "no_reviewed_couple": "refused",
+    "couple_rejected": "refused",
+    "product_not_determined": "refused",
+    "not_favourable": "not_favourable",
+    "no_registry_form": "not_reachable",
+    "self": "self",
+}
+
+TRIGGERS = [
+    ("batch2:ec-008", "Fe3+/I- equilibrium read through undissociated KI/FeCl3 forms; FeSO4 arm is the negative"),
+    ("new120:rx-004", "Fe3+/I- equilibrium with FeCl3 + KI; I2 vs I3- split reported with the absorbance"),
+    ("batch2:mo-012", "I2/I3-/I- split reported on the spectrophotometer reading and in inspect JSON"),
+]
+
+
+def const(src: str, name: str) -> float:
+    m = re.search(rf"pub const {name}: [^=]+= ([^;]+);", src)
+    if not m:
+        raise SystemExit(f"{name} not found in {IODINE_SRC}")
+    return float(m.group(1).strip().replace("_", ""))
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true")
+    a = ap.parse_args()
+    halogen = json.loads(HALOGEN.read_text(encoding="utf-8"))
+    src = IODINE_SRC.read_text(encoding="utf-8")
+    e_i2aq = const(src, "E0_I2AQ_IODIDE_V")
+    halves = {h["id"]: h for h in halogen["halves"]}
+    rows = []
+    for p in halogen["pairs"]:
+        if p["reductant"] != "I2/I-":
+            continue
+        h = halves.get(p["oxidant"])
+        status = p["status"]
+        plain = bool(h) and h["protons"] == 0 and h["water"] == 0 and \
+            sum(h["reduced"].values()) == 1 and h["electrons"] > 0
+        if status == "equilibrium_limited":
+            handling = "equilibrium_solver" if plain else "refused"
+        else:
+            handling = HANDLING[status]
+        row = dict(oxidant=p["oxidant"], halogen_status=status, handling=handling,
+                   oxidant_forms=p["oxidant_forms"])
+        if h:
+            row["e0_v"] = h["e0_v"]
+            row["delta_e_vs_i2aq_v"] = round(h["e0_v"] - e_i2aq, 4)
+        if handling == "equilibrium_solver":
+            row["log_k"] = round(2 * (h["e0_v"] - e_i2aq) / NERNST_V, 4)
+            row["equation"] = f"{2 // h['electrons']} Ox + 2 I- <=> {2 // h['electrons']} Red + I2(aq)"
+        if handling == "refused":
+            row["refusal_key"] = "not-modeled.redox-pair-unpriced"
+        rows.append(row)
+    counts: dict[str, int] = {}
+    for r in rows:
+        counts[r["handling"]] = counts.get(r["handling"], 0) + 1
+    doc = dict(schema="kerotakis.iodide-redox-coverage.v1", e0_i2aq_iodide_v=e_i2aq,
+               nernst_v=NERNST_V, sources=SOURCES, pairs=rows, counts=counts,
+               triggers=[dict(id=i, covered_by=c) for i, c in TRIGGERS])
+    js = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
+    md = ["# Oxidant / iodide redox route coverage (2026-11-11)", "",
+          "Generated by `tools/iodide_redox_coverage.py` from the halogen redox half table",
+          "(`docs/halogen-redox-coverage-20261027.json`) and `iodine_chemistry.rs`;",
+          "`iodide_redox_coverage_is_current` fails when the runtime disagrees.", "",
+          "Every oxidant in the half table is paired with iodide. Equilibrium-limited plain ion",
+          "couples are solved to K by one generic solver, `(2/n) Ox + 2 I- <=> (2/n) Red + I2(aq)`,",
+          "log K = 2 (E°ox − E°(I2(aq)/I-)) / 0.05916, with free I2 and I- from the triiodide split.",
+          "Oxidant, reduced ion and iodide are read from every dissolved registry form (bare ion,",
+          "Na/K iodide salts, Cl-/NO3-/SO4^2-/ClO4- salts of the cation); a reacting salt share",
+          "releases its counter-ions. Domain 0–60 °C with liquid water; outside it the pair is named",
+          "by `not-modeled.redox-pair-outside-medium`.", "",
+          "## Pairs", "",
+          "| oxidant | halogen status | E° (V) | ΔE° vs I2(aq)/I- (V) | handling | log K | oxidant forms |",
+          "|---|---|---|---|---|---|---|"]
+    for r in rows:
+        md.append(f"| {r['oxidant']} | {r['halogen_status']} | {r.get('e0_v', '')} | "
+                  f"{r.get('delta_e_vs_i2aq_v', '')} | {r['handling']} | {r.get('log_k', '')} | "
+                  f"{', '.join(r['oxidant_forms']) or '—'} |")
+    md += ["", "Counts: " + ", ".join(f"{k} {v}" for k, v in sorted(counts.items())), "",
+           "## Sources", ""]
+    md += [f"- {k}: {v}" for k, v in SOURCES.items()]
+    md += ["", "## Trigger originals (evidence, not targets)", "", "| id | covered by |", "|---|---|"]
+    md += [f"| {i} | {c} |" for i, c in TRIGGERS]
+    md += ["", "## Known limits", "",
+           "- Ideal activities: Fe3+ hydrolysis and chloro/sulfato complexation are not subtracted",
+           "  from the analytical Fe3+ in the quotient, so the extent is an upper estimate outside",
+           "  acidified solution.",
+           "- Triiodide stays a computed split of the I2(aq)/I- pools (not an inventory key); it is",
+           "  reported on the spectrophotometer reading (`measured.iodine-triiodide-split`) and as",
+           "  `iodine_speciation` in the CLI/API inspect JSON, from the same function the absorbance",
+           "  integrates.",
+           "- Rate-not-reviewed oxidants (iodate, chlorine) stay unreacted and are named, not run.",
+           "- No reaction heat is charged."]
+    mdtext = "\n".join(md) + "\n"
+    if a.check:
+        bad = [p for p, t in ((OUT_JS, js), (OUT_MD, mdtext))
+               if not p.exists() or p.read_text(encoding="utf-8") != t]
+        if bad:
+            print("stale:", *bad, file=sys.stderr)
+            return 1
+        return 0
+    OUT_JS.write_text(js, encoding="utf-8")
+    OUT_MD.write_text(mdtext, encoding="utf-8")
+    print(json.dumps(counts))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

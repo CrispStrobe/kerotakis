@@ -401,7 +401,7 @@ fn spectators(
     ((charge + ion.charge).abs() < 1e-9).then_some(out)
 }
 
-fn spectators_of(form: &str, ion: &str) -> Vec<(&'static str, f64)> {
+pub(crate) fn spectators_of(form: &str, ion: &str) -> Vec<(&'static str, f64)> {
     if form == ion {
         return Vec::new();
     }
@@ -886,9 +886,9 @@ fn display(key: &str) -> String {
 /// depends on; [`UNCOUPLED_OXIDANTS`] carries that class's oxidisers
 /// that have no couple here). A pair is grouped by its two member
 /// species; it is covered when any half-pair on them is admitted, owned
-/// by a curated row or kinetic law, unfavourable, equilibrium-limited
-/// (owned by the aqueous equilibrium solver), or a self pair. An
-/// admitted pair that cannot run because the vessel has no liquid water
+/// by a curated row or kinetic law, unfavourable, equilibrium-limited AND
+/// solved by `iodine_chemistry`, or a self pair. An admitted or solved
+/// pair that cannot run because the vessel has no liquid water
 /// or is outside `DOMAIN_K` gets its own note. At most one event of
 /// each kind, so a step says it once.
 pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
@@ -913,18 +913,24 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
         let label = format!("{} + {}", display(o), display(r));
         let group: Vec<&Pair> = pairs().iter().filter(|q| members(q) == (o, r)).collect();
         let admitted = group.iter().any(|q| q.status == PairStatus::Admitted);
+        // An equilibrium-limited pair is covered only where the aqueous
+        // equilibrium solver (`iodine_chemistry`) actually runs it; any
+        // other equilibrium-limited pair is a gap and is named as one.
+        let solved = group.iter().any(|q| {
+            q.status == PairStatus::EquilibriumLimited
+                && crate::iodine_chemistry::solves_pair(q.oxidant, q.reductant)
+        });
         let covered = group.iter().any(|q| {
             matches!(
                 q.status,
                 PairStatus::Admitted
                     | PairStatus::OwnedElsewhere
                     | PairStatus::NotFavourable
-                    | PairStatus::EquilibriumLimited
                     | PairStatus::SelfPair
                     | PairStatus::NoRegistryForm
             )
-        });
-        let list = if admitted && !medium_ok {
+        }) || solved;
+        let list = if (admitted || solved) && !medium_ok {
             &mut outside
         } else if covered {
             continue;

@@ -44,7 +44,9 @@ MECHANISMS = [
     ("starch-iodine complex absorbance", "eye colour stays the editorial band of starch_iodine.rs; "
      "spectrophotometer refuses with not-modeled.starch-iodine-absorptivity (EN/DE/FR)", "typed refusal"),
     ("2 Fe3+ + 2 I- <=> 2 Fe2+ + I2", "solved to log K = 2 (E_Fe - E_I2aq) / 0.05916 with free I2 "
-     "and I- from the triiodide split, both directions, 0-60 C, ideal activities", "modelled"),
+     "and I- from the triiodide split, both directions, 0-60 C, ideal activities; since 2026-11-11 "
+     "read from every dissolved form (KI/NaI, FeCl3, FeSO4 ...) and generic over equilibrium-limited "
+     "plain couples (docs/iodide-redox-coverage-20261111)", "modelled"),
     ("I2 + 2 S2O3^2- -> 2 I- + S4O6^2-", "existing curated limiting-reagent row, pinned by a "
      "closure test", "modelled"),
     ("AgI / AgBr solids", "registry solids lane (separate branch)", "out of scope here"),

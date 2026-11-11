@@ -1,0 +1,165 @@
+{
+  "schema": "kerotakis.iodide-redox-coverage.v1",
+  "e0_i2aq_iodide_v": 0.621,
+  "nernst_v": 0.05916,
+  "sources": {
+    "e0_i2aq": "Bard, Parsons & Jordan, Standard Potentials in Aqueous Solution (IUPAC/Dekker 1985): E(I2(aq)/I-) = +0.621 V",
+    "oxidant_halves": "llnl.dat (thermo.com.V8.R6, USGS conversion), derived and cross-checked in docs/halogen-redox-coverage-20261027 (Fe3+/Fe2+ 0.7696 V, cross-check value 0.771 V)",
+    "triiodide_k": "Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374"
+  },
+  "pairs": [
+    {
+      "oxidant": "I2/I-",
+      "halogen_status": "self",
+      "handling": "self",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "e0_v": 0.5355,
+      "delta_e_vs_i2aq_v": -0.0855
+    },
+    {
+      "oxidant": "I3-/I-",
+      "halogen_status": "no_registry_form",
+      "handling": "not_reachable",
+      "oxidant_forms": [],
+      "e0_v": 0.5404,
+      "delta_e_vs_i2aq_v": -0.0806
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "halogen_status": "rate_not_reviewed",
+      "handling": "refused",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "e0_v": 1.0975,
+      "delta_e_vs_i2aq_v": 0.4765,
+      "refusal_key": "not-modeled.redox-pair-unpriced"
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "halogen_status": "admitted",
+      "handling": "complete_writer",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "e0_v": 1.7186,
+      "delta_e_vs_i2aq_v": 1.0976
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "halogen_status": "admitted",
+      "handling": "complete_writer",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "e0_v": 1.4947,
+      "delta_e_vs_i2aq_v": 0.8737
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "halogen_status": "no_registry_form",
+      "handling": "not_reachable",
+      "oxidant_forms": [],
+      "e0_v": 1.4421,
+      "delta_e_vs_i2aq_v": 0.8211
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "halogen_status": "rate_not_reviewed",
+      "handling": "refused",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "e0_v": 1.358,
+      "delta_e_vs_i2aq_v": 0.737,
+      "refusal_key": "not-modeled.redox-pair-unpriced"
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "halogen_status": "no_registry_form",
+      "handling": "not_reachable",
+      "oxidant_forms": [],
+      "e0_v": 1.1038,
+      "delta_e_vs_i2aq_v": 0.4828
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "halogen_status": "no_registry_form",
+      "handling": "not_reachable",
+      "oxidant_forms": [],
+      "e0_v": 1.0627,
+      "delta_e_vs_i2aq_v": 0.4417
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "halogen_status": "no_registry_form",
+      "handling": "not_reachable",
+      "oxidant_forms": [],
+      "e0_v": 1.5948,
+      "delta_e_vs_i2aq_v": 0.9738
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "halogen_status": "no_registry_form",
+      "handling": "not_reachable",
+      "oxidant_forms": [],
+      "e0_v": 1.4409,
+      "delta_e_vs_i2aq_v": 0.8199
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "halogen_status": "equilibrium_limited",
+      "handling": "equilibrium_solver",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "e0_v": 0.7696,
+      "delta_e_vs_i2aq_v": 0.1486,
+      "log_k": 5.0237,
+      "equation": "2 Ox + 2 I- <=> 2 Red + I2(aq)"
+    },
+    {
+      "oxidant": "MnO4-",
+      "halogen_status": "no_reviewed_couple",
+      "handling": "refused",
+      "oxidant_forms": [
+        "MnO4-",
+        "KMnO4"
+      ],
+      "refusal_key": "not-modeled.redox-pair-unpriced"
+    },
+    {
+      "oxidant": "H2O2",
+      "halogen_status": "owned_elsewhere",
+      "handling": "owned_elsewhere",
+      "oxidant_forms": [
+        "H2O2"
+      ]
+    }
+  ],
+  "counts": {
+    "self": 1,
+    "not_reachable": 6,
+    "refused": 3,
+    "complete_writer": 2,
+    "equilibrium_solver": 1,
+    "owned_elsewhere": 1
+  },
+  "triggers": [
+    {
+      "id": "batch2:ec-008",
+      "covered_by": "Fe3+/I- equilibrium read through undissociated KI/FeCl3 forms; FeSO4 arm is the negative"
+    },
+    {
+      "id": "new120:rx-004",
+      "covered_by": "Fe3+/I- equilibrium with FeCl3 + KI; I2 vs I3- split reported with the absorbance"
+    },
+    {
+      "id": "batch2:mo-012",
+      "covered_by": "I2/I3-/I- split reported on the spectrophotometer reading and in inspect JSON"
+    }
+  ]
+}

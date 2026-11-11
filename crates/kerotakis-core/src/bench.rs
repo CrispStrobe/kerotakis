@@ -4810,13 +4810,30 @@ impl Bench {
                         let coverage = crate::solution_optics::coverage(v);
                         let gaps = coverage.missing_spectra;
                         if let Some(reading) = spec.measure(v) {
+                            // Iodine absorbance is integrated over the
+                            // triiodide split; the reading names that split
+                            // (one function feeds both), so I3⁻ is reported
+                            // wherever it is coloured.
+                            let iodine = crate::iodine_chemistry::optical_split(v).map(|s| {
+                                Phrase::new(
+                                    "measured.iodine-triiodide-split",
+                                    "iodine read as {iodine} mol free I₂, {triiodide} mol I₃⁻ and {iodide} mol free I⁻ (I₂ + I⁻ ⇌ I₃⁻, K = {k} L/mol at 25 °C, ideal activities); oxidised iodine I₂ + I₃⁻ = {oxidised} mol",
+                                    vec![
+                                        ("iodine".to_string(), Slot::number(format!("{:.4e}", s.iodine))),
+                                        ("triiodide".to_string(), Slot::number(format!("{:.4e}", s.triiodide))),
+                                        ("iodide".to_string(), Slot::number(format!("{:.4e}", s.iodide))),
+                                        ("k".to_string(), Slot::number(format!("{}", crate::iodine_chemistry::TRIIODIDE_K))),
+                                        ("oxidised".to_string(), Slot::number(format!("{:.4e}", s.iodine + s.triiodide))),
+                                    ],
+                                )
+                            });
                             events.push(Event::Measured {
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: reading.value,
                                 unit: reading.observable,
-                                note: None,
-                                note_reason: None,
+                                note: iodine.as_ref().map(|r| r.render(crate::Locale::EN)),
+                                note_reason: iodine,
                             });
                         } else if !coverage.missing_ph.is_empty() {
                             events.push(Event::not_modeled(

@@ -55,7 +55,7 @@
     },
     {
       "mechanism": "2 Fe3+ + 2 I- <=> 2 Fe2+ + I2",
-      "how": "solved to log K = 2 (E_Fe - E_I2aq) / 0.05916 with free I2 and I- from the triiodide split, both directions, 0-60 C, ideal activities",
+      "how": "solved to log K = 2 (E_Fe - E_I2aq) / 0.05916 with free I2 and I- from the triiodide split, both directions, 0-60 C, ideal activities; since 2026-11-11 read from every dissolved form (KI/NaI, FeCl3, FeSO4 ...) and generic over equilibrium-limited plain couples (docs/iodide-redox-coverage-20261111)",
       "status": "modelled"
     },
     {

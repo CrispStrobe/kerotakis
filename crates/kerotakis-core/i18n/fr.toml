@@ -1759,6 +1759,7 @@ neutral-water-baseline = "référence idéale de l’autoprotolyse de l’eau à
 conductivity-past-the-dilute-limit = "au-delà de I = {limit} mol/kgw, une somme de conductivités molaires limites n'est plus une lecture étalonnée : {where_it_stands}. Le type de charge et la taille des ions ne figurent pas dans la correction, si bien qu'un sel 2:2 est une affirmation plus faible qu'un sel 1:1"
 conductivity-fitted-correction = "le frottement ion-ion est corrigé par un facteur empirique ({factor}× la somme à dilution infinie ici), ajusté sur les chlorures de sodium et de potassium entre 0,01 et {limit} mol/kgw"
 conductivity-extrapolated = "cette solution est à I = {ionic_strength} mol/kgw, AU-DESSUS des {limit} mol/kgw sur lesquels la correction a été ajustée : le facteur appliqué ({factor}×) est donc une extrapolation"
+iodine-triiodide-split = "iode lu comme {iodine} mol de I₂ libre, {triiodide} mol de I₃⁻ et {iodide} mol de I⁻ libre (I₂ + I⁻ ⇌ I₃⁻, K = {k} L/mol à 25 °C, activités idéales) ; iode oxydé I₂ + I₃⁻ = {oxidised} mol"
 
 # The words around a drawn curve (I18N-12). `pH` and `pe` are notation
 # and stay as they are.

@@ -920,12 +920,34 @@ fn json_step(
 /// [`Repl::mask_json`] before it is printed, which is where a sealed
 /// unknown stops being nameable — see the doc there.
 fn json_inspect(step: usize, vessels: &[&Vessel]) -> serde_json::Value {
-    serde_json::json!({
+    let mut out = serde_json::json!({
         "step": step,
         "operator": { "op": "inspect" },
         "events": [],
         "bench": { "vessels": vessels },
-    })
+    });
+    // Triiodide is a computed split of the I2(aq)/I- pools, not an
+    // inventory entry; report it here from the same function the
+    // spectrophotometer integrates, so inspect and absorbance agree.
+    let iodine: Vec<serde_json::Value> = vessels
+        .iter()
+        .filter_map(|v| {
+            kerotakis_core::iodine_chemistry::optical_split(v).map(|s| {
+                serde_json::json!({
+                    "vessel": v.id,
+                    "free_i2_mol": s.iodine,
+                    "triiodide_mol": s.triiodide,
+                    "free_iodide_mol": s.iodide,
+                    "oxidised_iodine_mol": s.iodine + s.triiodide,
+                    "triiodide_k_l_per_mol": kerotakis_core::iodine_chemistry::TRIIODIDE_K,
+                })
+            })
+        })
+        .collect();
+    if !iodine.is_empty() {
+        out["iodine_speciation"] = serde_json::Value::Array(iodine);
+    }
+    out
 }
 
 fn json_particles(step: usize, v: &Vessel) -> serde_json::Value {

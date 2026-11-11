@@ -195,6 +195,29 @@ pub(crate) fn iodine_to_dissolve(vessel: &Vessel) -> Option<Moles> {
     ))
 }
 
+/// The split the optics read: dissolved iodine and iodide less the share
+/// bound in the starch complex (`complex` mol, one I2 and one I⁻ each).
+fn optical_parts(vessel: &Vessel, litres: f64, complex: f64) -> TriiodideSplit {
+    split(
+        (aqueous(vessel, IODINE) - complex).max(0.0),
+        (dissolved_iodide(vessel) - complex).max(0.0),
+        litres,
+    )
+}
+
+/// The free I2 / I3⁻ / free I⁻ amounts (mol) behind this vessel's iodine
+/// absorbance — the SAME split [`add_absorbance`] integrates, so a reading
+/// and its reported speciation cannot disagree. `None` when the vessel
+/// holds no liquid water or no dissolved iodine outside the starch complex.
+pub fn optical_split(vessel: &Vessel) -> Option<TriiodideSplit> {
+    if liquid_water(vessel) <= 0.0 {
+        return None;
+    }
+    let litres = vessel.liquid_volume().0.max(1e-9);
+    let parts = optical_parts(vessel, litres, crate::starch_iodine::complex_moles(vessel));
+    (parts.iodine + parts.triiodide > 0.0).then_some(parts)
+}
+
 /// Add free-I2 and I3⁻ absorbance. Iodine bound in the starch complex
 /// (`complex` mol, one I2 and one I⁻ each) is excluded: the complex has its
 /// own band.
@@ -209,11 +232,7 @@ pub fn add_absorbance(
         return;
     }
     let litres = litres.max(1e-12);
-    let parts = split(
-        (aqueous(vessel, IODINE) - complex).max(0.0),
-        (dissolved_iodide(vessel) - complex).max(0.0),
-        litres,
-    );
+    let parts = optical_parts(vessel, litres, complex);
     for (moles, band) in [(parts.iodine, I2_BAND), (parts.triiodide, I3_BAND)] {
         if moles <= 0.0 {
             continue;
@@ -226,12 +245,207 @@ pub fn add_absorbance(
 }
 
 // ---------------------------------------------------------------------------
-// Fe³⁺/I⁻: 2 Fe³⁺ + 2 I⁻ ⇌ 2 Fe²⁺ + I2(aq)
+// Oxidant/iodide equilibria: (2/n) Ox + 2 I⁻ ⇌ (2/n) Red + I2(aq)
 // ---------------------------------------------------------------------------
+//
+// One generic solver for every couple of the halogen redox half table that
+// the pair classifier calls EQUILIBRIUM-LIMITED against iodide (0 < ΔE° <
+// `COMPLETE_MARGIN_V`), so it cannot honestly run to completion. A couple
+// is solved here only when its half is a plain ion couple (no protons, no
+// water, one reduced ion per oxidised ion), so K is pH-independent and the
+// quotient is built from the two ions alone. On the current table that is
+// Fe³⁺/Fe²⁺ only; `solves_pair` names the set and the coverage table
+// `docs/iodide-redox-coverage-20261111.md` lists every oxidant × iodide pair
+// with how it is handled.
+//
+// Inventory: the oxidant, reduced ion and iodide are read from EVERY
+// dissolved form that delivers them — the bare ion and each registry salt
+// of it (KI/NaI for iodide; FeCl3, FeSO4 … for iron). The aqueous route
+// leaves a salt added this step undissociated until its own readback, and
+// reading the bare ion only is exactly why ferric chloride and potassium
+// iodide used to stand side by side unreacted (EC-008, RX-004). A salt
+// share that reacts releases its counter-ions as free ions.
 
-const FERRIC: &str = "Fe+3";
-const FERROUS: &str = "Fe+2";
 const IODIDE: &str = "I-";
+
+/// Anions a cation salt may carry and still count as that cation's
+/// dissolved form (a strong-acid anion that is a spectator in the couple).
+const SALT_ANIONS: &[&str] = &["Cl-", "NO3-", "SO4-2", "ClO4-"];
+
+/// One registry key delivering an ion: `per` ions per formula unit and the
+/// counter-ions (key, count per ion) a reacting share releases.
+#[derive(Debug, Clone)]
+struct Form {
+    key: String,
+    per: f64,
+    spectators: Vec<(String, f64)>,
+}
+
+fn formula_counts(key: &str) -> Option<crate::stoich::Formula> {
+    let data = crate::species::lookup_key(key)?;
+    crate::stoich::parse_formula(data.formula).ok()
+}
+
+/// `salt` = `a` × cation + `b` × one anion of `SALT_ANIONS`, electrically
+/// neutral, nothing else. Returns (a, anion, b).
+fn cation_salt(
+    salt: &crate::stoich::Formula,
+    cation: &crate::stoich::Formula,
+) -> Option<(f64, &'static str, f64)> {
+    if salt.charge != 0.0 || cation.charge <= 0.0 || cation.counts.len() != 1 {
+        return None;
+    }
+    let (el, n) = cation.counts.iter().next()?;
+    let a = salt.counts.get(el)? / n;
+    if a <= 0.0 || (a - a.round()).abs() > 1e-9 {
+        return None;
+    }
+    for &anion in SALT_ANIONS {
+        let Ok(af) = crate::stoich::parse_formula(anion) else {
+            continue;
+        };
+        let b = a * cation.charge / -af.charge;
+        let mut rest = salt.counts.clone();
+        rest.remove(el);
+        let fits = af.counts.iter().all(|(e, c)| {
+            rest.remove(e)
+                .is_some_and(|have| (have - b * c).abs() < 1e-9)
+        });
+        if fits && rest.is_empty() {
+            return Some((a, anion, b));
+        }
+    }
+    None
+}
+
+fn forms_uncached(ion: &str) -> Vec<Form> {
+    let Ok(ion_f) = crate::stoich::parse_formula(ion) else {
+        return Vec::new();
+    };
+    if ion_f.charge < 0.0 {
+        // Anions: the halogen table's Na/K salt derivation, shared.
+        return crate::halogen_redox::registry_forms(ion)
+            .into_iter()
+            .map(|key| Form {
+                spectators: crate::halogen_redox::spectators_of(&key, ion)
+                    .into_iter()
+                    .map(|(c, n)| (c.to_string(), n))
+                    .collect(),
+                key,
+                per: 1.0,
+            })
+            .collect();
+    }
+    let mut out = Vec::new();
+    if crate::species::REGISTRY.iter().any(|s| s.key == ion) {
+        out.push(Form {
+            key: ion.to_string(),
+            per: 1.0,
+            spectators: Vec::new(),
+        });
+    }
+    let mut salts: Vec<Form> = crate::species::REGISTRY
+        .iter()
+        .filter(|s| s.key != ion)
+        .filter_map(|s| {
+            let f = formula_counts(s.key)?;
+            let (a, anion, b) = cation_salt(&f, &ion_f)?;
+            Some(Form {
+                key: s.key.to_string(),
+                per: a,
+                spectators: vec![(anion.to_string(), b / a)],
+            })
+        })
+        .collect();
+    salts.sort_by(|x, y| x.key.cmp(&y.key));
+    out.extend(salts);
+    out
+}
+
+/// Every registry form of `ion`, cached per ion (the set of ions is the
+/// fixed couple list plus iodide).
+fn forms(ion: &str) -> &'static [Form] {
+    use std::collections::BTreeMap;
+    use std::sync::{Mutex, OnceLock};
+    static CACHE: OnceLock<Mutex<BTreeMap<String, &'static [Form]>>> = OnceLock::new();
+    let cache = CACHE.get_or_init(|| Mutex::new(BTreeMap::new()));
+    let mut map = cache.lock().unwrap_or_else(|e| e.into_inner());
+    if let Some(found) = map.get(ion) {
+        return *found;
+    }
+    let leaked: &'static [Form] = Box::leak(forms_uncached(ion).into_boxed_slice());
+    map.insert(ion.to_string(), leaked);
+    leaked
+}
+
+/// Registry keys counted as dissolved `ion` by the equilibrium solver.
+pub fn ion_form_keys(ion: &str) -> Vec<String> {
+    forms(ion).iter().map(|f| f.key.clone()).collect()
+}
+
+/// Dissolved moles of `ion` over all its forms.
+fn dissolved_ion(vessel: &Vessel, ion: &str) -> f64 {
+    forms(ion)
+        .iter()
+        .map(|f| aqueous(vessel, &f.key) * f.per)
+        .sum()
+}
+
+/// Remove `amount` mol of `ion` from its dissolved forms (bare ion first),
+/// releasing each reacting salt share's counter-ions.
+fn take_ion(vessel: &mut Vessel, ion: &str, amount: f64) {
+    let mut left = amount;
+    for form in forms(ion) {
+        if left <= 0.0 {
+            break;
+        }
+        let have = aqueous(vessel, &form.key) * form.per;
+        let take = have.min(left);
+        if take <= 0.0 {
+            continue;
+        }
+        vessel.withdraw_phase(
+            &SpeciesId::new(&form.key),
+            Moles(take / form.per),
+            Phase::Aqueous,
+        );
+        for (counter, n) in &form.spectators {
+            vessel.deposit(SpeciesId::new(counter), Moles(take * n), Phase::Aqueous);
+        }
+        left -= take;
+    }
+}
+
+/// A plain ion couple from the halogen half table that is equilibrium-
+/// limited against iodide and is solved here.
+fn plain(h: &crate::halogen_redox::Half) -> bool {
+    h.protons == 0.0
+        && h.water == 0.0
+        && (h.reduced_per_oxidised - 1.0).abs() < 1e-12
+        && h.electrons > 0.0
+}
+
+/// The couples this module solves against iodide, from the pair table.
+pub fn equilibrium_couples() -> Vec<&'static crate::halogen_redox::Half> {
+    use crate::halogen_redox::{half_by_id, pairs, PairStatus};
+    pairs()
+        .iter()
+        .filter(|p| p.reductant == "I2/I-" && p.status == PairStatus::EquilibriumLimited)
+        .filter_map(|p| half_by_id(p.oxidant))
+        .filter(|h| plain(h))
+        .collect()
+}
+
+/// Whether the (oxidant half, reductant half) pair is solved here.
+pub fn solves_pair(oxidant: &str, reductant: &str) -> bool {
+    reductant == "I2/I-" && equilibrium_couples().iter().any(|h| h.id == oxidant)
+}
+
+/// log10 K for (2/n) Ox + 2 I⁻ ⇌ (2/n) Red + I2(aq): two electrons
+/// transferred, so log K = 2 (E°ox − E°(I2(aq)/I⁻)) / (RT ln10 / F).
+pub fn couple_log_k(h: &crate::halogen_redox::Half) -> f64 {
+    2.0 * (h.e0_v - E0_I2AQ_IODIDE_V) / NERNST_V
+}
 
 /// log10 K for 2 Fe³⁺ + 2 I⁻ ⇌ 2 Fe²⁺ + I2(aq), from the two E° values.
 pub fn ferric_iodide_log_k() -> f64 {
@@ -241,35 +455,36 @@ pub fn ferric_iodide_log_k() -> f64 {
     2.0 * (fe - E0_I2AQ_IODIDE_V) / NERNST_V
 }
 
-/// Signed extent (mol) that brings this vessel to the ferric/iodide
-/// equilibrium: positive oxidises iodide, negative reduces iodine. Zero when
-/// the medium is not aqueous, outside the 25 °C constants' domain, or
-/// nothing can move.
-pub fn ferric_iodide_extent(vessel: &Vessel) -> f64 {
+/// Signed extent (mol of I2 formed) that brings this vessel to the couple's
+/// equilibrium with iodide: positive oxidises iodide, negative reduces
+/// iodine. Zero when the medium is not aqueous, outside the 25 °C
+/// constants' domain, or nothing can move.
+pub fn couple_extent(vessel: &Vessel, h: &crate::halogen_redox::Half) -> f64 {
     let (lo_k, hi_k) = crate::halogen_redox::DOMAIN_K;
     if liquid_water(vessel) <= 0.0 || !(lo_k..=hi_k).contains(&vessel.temperature.0) {
         return 0.0;
     }
-    let a = aqueous(vessel, FERRIC);
-    let b = aqueous(vessel, IODIDE);
-    let c = aqueous(vessel, FERROUS);
+    // Ox and Red per mole of I2 formed.
+    let nu = 2.0 / h.electrons;
+    let a = dissolved_ion(vessel, h.oxidised);
+    let b = dissolved_ion(vessel, IODIDE);
+    let c = dissolved_ion(vessel, h.reduced);
     let d = aqueous(vessel, IODINE);
-    // Forward needs Fe³⁺ and I⁻; reverse needs Fe²⁺ and I2.
-    let hi = (a / 2.0).min(b / 2.0);
-    let lo = -(c / 2.0).min(d);
+    // Forward needs Ox and I⁻; reverse needs Red and I2.
+    let hi = (a / nu).min(b / 2.0);
+    let lo = -(c / nu).min(d);
     if hi <= TRACE && -lo <= TRACE {
         return 0.0;
     }
     let litres = vessel.liquid_volume().0.max(1e-9);
-    let ln_k = ferric_iodide_log_k() * std::f64::consts::LN_10;
+    let ln_k = couple_log_k(h) * std::f64::consts::LN_10;
     // g(x) = ln Q(x) - ln K, increasing in x; Q uses FREE I2 and I⁻ from
     // the triiodide split (iodide bound as I3⁻ is not available).
     let g = |x: f64| {
         let parts = split(d + x, b - 2.0 * x, litres);
-        let fe3 = (a - 2.0 * x) / litres;
-        let fe2 = (c + 2.0 * x) / litres;
-        2.0 * fe2.ln() + (parts.iodine / litres).ln()
-            - 2.0 * fe3.ln()
+        let ox = (a - nu * x) / litres;
+        let red = (c + nu * x) / litres;
+        nu * (red.ln() - ox.ln()) + (parts.iodine / litres).ln()
             - 2.0 * (parts.iodide / litres).ln()
             - ln_k
     };
@@ -298,45 +513,84 @@ pub fn ferric_iodide_extent(vessel: &Vessel) -> f64 {
     }
 }
 
-/// Whether the ferric/iodide equilibrium would move this vessel.
-pub fn ferric_iodide_fires(vessel: &Vessel) -> bool {
-    ferric_iodide_extent(vessel) != 0.0
+/// Fe³⁺/I⁻ extent (see [`couple_extent`]).
+pub fn ferric_iodide_extent(vessel: &Vessel) -> f64 {
+    crate::halogen_redox::half_by_id("Fe+3/Fe+2")
+        .map(|h| couple_extent(vessel, h))
+        .unwrap_or(0.0)
 }
 
-/// Move the vessel to the ferric/iodide equilibrium. Element and charge
-/// closure is exact: 2 Fe³⁺ + 2 I⁻ (charge +4) ↔ 2 Fe²⁺ + I2 (charge +4).
-/// The caller refreshes `solute_charge`. No reaction heat is charged.
-pub fn ferric_iodide_apply(vessel: &mut Vessel, events: &mut Vec<crate::ops::Event>) -> bool {
-    let x = ferric_iodide_extent(vessel);
-    if x == 0.0 {
-        return false;
-    }
-    let (from, to, equation) = if x > 0.0 {
-        (
-            [(FERRIC, 2.0), (IODIDE, 2.0)],
-            [(FERROUS, 2.0), (IODINE, 1.0)],
-            "2 Fe³⁺ + 2 I⁻ → 2 Fe²⁺ + I₂",
-        )
+/// Whether any solved oxidant/iodide equilibrium would move this vessel.
+pub fn ferric_iodide_fires(vessel: &Vessel) -> bool {
+    equilibrium_couples()
+        .iter()
+        .any(|h| couple_extent(vessel, h) != 0.0)
+}
+
+fn coefficient(n: f64, key: &str) -> String {
+    let pretty = crate::halogen_redox::pretty(key);
+    if (n - 1.0).abs() < 1e-9 {
+        pretty
     } else {
-        (
-            [(FERROUS, 2.0), (IODINE, 1.0)],
-            [(FERRIC, 2.0), (IODIDE, 2.0)],
-            "2 Fe²⁺ + I₂ → 2 Fe³⁺ + 2 I⁻",
-        )
-    };
-    let x = x.abs();
-    for (key, n) in from {
-        vessel.withdraw_phase(&SpeciesId::new(key), Moles(x * n), Phase::Aqueous);
+        format!("{} {pretty}", n.round() as i64)
     }
-    for (key, n) in to {
-        vessel.deposit(SpeciesId::new(key), Moles(x * n), Phase::Aqueous);
+}
+
+/// Move the vessel to every solved oxidant/iodide equilibrium. Element and
+/// charge closure is exact: (2/n) Ox^q + 2 I⁻ ↔ (2/n) Red^(q−n) + I2 carries
+/// charge 2q/n − 2 on both sides, and a reacting salt share releases its
+/// counter-ions unchanged. The caller refreshes `solute_charge`. No
+/// reaction heat is charged.
+pub fn ferric_iodide_apply(vessel: &mut Vessel, events: &mut Vec<crate::ops::Event>) -> bool {
+    let mut moved = false;
+    for h in equilibrium_couples() {
+        let x = couple_extent(vessel, h);
+        if x == 0.0 {
+            continue;
+        }
+        let nu = 2.0 / h.electrons;
+        let left = format!(
+            "{} + 2 {}",
+            coefficient(nu, h.oxidised),
+            crate::halogen_redox::pretty(IODIDE)
+        );
+        let right = format!(
+            "{} + {}",
+            coefficient(nu, h.reduced),
+            crate::halogen_redox::pretty(IODINE)
+        );
+        let amount = x.abs();
+        let equation = if x > 0.0 {
+            take_ion(vessel, h.oxidised, nu * amount);
+            take_ion(vessel, IODIDE, 2.0 * amount);
+            vessel.deposit(
+                SpeciesId::new(h.reduced),
+                Moles(nu * amount),
+                Phase::Aqueous,
+            );
+            vessel.deposit(SpeciesId::new(IODINE), Moles(amount), Phase::Aqueous);
+            format!("{left} → {right}")
+        } else {
+            take_ion(vessel, h.reduced, nu * amount);
+            vessel.withdraw_phase(&SpeciesId::new(IODINE), Moles(amount), Phase::Aqueous);
+            vessel.deposit(
+                SpeciesId::new(h.oxidised),
+                Moles(nu * amount),
+                Phase::Aqueous,
+            );
+            vessel.deposit(SpeciesId::new(IODIDE), Moles(2.0 * amount), Phase::Aqueous);
+            format!("{right} → {left}")
+        };
+        events.push(crate::ops::Event::ReactionOccurred {
+            vessel: vessel.id,
+            equation,
+        });
+        moved = true;
     }
-    events.push(crate::ops::Event::ReactionOccurred {
-        vessel: vessel.id,
-        equation: equation.to_string(),
-    });
-    vessel.resolved.invalidate();
-    true
+    if moved {
+        vessel.resolved.invalidate();
+    }
+    moved
 }
 
 #[cfg(test)]
