@@ -1782,6 +1782,7 @@ no-reviewed-bulk-density = "die Dichte von {material} — das Rezept führt kein
 density-of-a-mixture = "eine einzelne Dichte für dieses Gefäß: es enthält {contents}, und eine Dichte gehört zu einem Stoff und nicht zu einem Gemisch daraus. Wiege sie einzeln"
 incomplete-absorbance = "die vollständige Absorption ist nicht verfügbar: für {species} liegt kein Absorptionsspektrum vor"
 unreviewed-molar-absorptivity = "die Absorption ist nicht verfügbar: {species} absorbiert sichtbares Licht, und es liegt kein geprüfter molarer Absorptionskoeffizient dafür vor"
+uvvis-absorptivity-no-data = "die Absorption bei {wavelength} nm ist nicht verfügbar: für {species} liegt bei dieser Wellenlänge und unter diesen Bedingungen kein belegter molarer Absorptionskoeffizient vor"
 starch-iodine-absorptivity = "die Absorption ist nicht verfügbar: der Stärke-Iod-Komplex absorbiert sichtbares Licht, aber es liegt kein geprüfter molarer Absorptionskoeffizient dafür vor; seine blauschwarze Farbe wird daher beschrieben und nicht gemessen"
 starch-iodine-binding-stoichiometry = "die Menge des an Stärke gebundenen Iods: die Bindungsstöchiometrie des Amylose-Polyiodid-Komplexes ist nicht geklärt, deshalb ist der stärkegebundene Anteil eine redaktionelle, nach oben begrenzte Schätzung (höchstens ein Triiodid je zwanzig Glucoseeinheiten) und keine gemessene Größe"
 no-group-decomposition = "die Säule hat keine kuratierte Gruppenzerlegung für {species} — eine echte Säule würde diese trennen, das ist also eine Lücke im Modell und kein Ergebnis"
@@ -2097,6 +2098,7 @@ conductivity-past-the-dilute-limit = "jenseits von I = {limit} mol/kgw ist eine 
 conductivity-fitted-correction = "die Ion-Ion-Reibung wird mit einem empirischen Faktor korrigiert ({factor}× der Summe bei unendlicher Verdünnung hier), angepasst an Natrium- und Kaliumchlorid zwischen 0,01 und {limit} mol/kgw"
 conductivity-extrapolated = "diese Lösung liegt bei I = {ionic_strength} mol/kgw, ÜBER den {limit} mol/kgw, an die die Korrektur angepasst wurde; der angewandte Faktor ({factor}×) ist also eine Extrapolation"
 iodine-triiodide-split = "Iod gelesen als {iodine} mol freies I₂, {triiodide} mol I₃⁻ und {iodide} mol freies I⁻ (I₂ + I⁻ ⇌ I₃⁻, K = {k} L/mol bei 25 °C, ideale Aktivitäten); oxidiertes Iod I₂ + I₃⁻ = {oxidised} mol"
+cited-absorptivity = "Lambert-Beer-Summe bei {wavelength} nm über {path} cm Schichtdicke aus {contributions}, jeweils mit belegtem molarem Absorptionskoeffizienten"
 
 # The words around a drawn curve (I18N-12). `pH` and `pe` are notation
 # and stay as they are.

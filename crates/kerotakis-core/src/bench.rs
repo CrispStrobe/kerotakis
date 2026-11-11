@@ -5032,6 +5032,54 @@ impl Bench {
                                             ),
                                         ));
                         }
+                        // Cited single-wavelength readings (lane F,
+                        // 2026-11-11): one per analytical wavelength of a
+                        // present species with a cited ε, Beer–Lambert
+                        // summed over every cited species there; refused
+                        // with a typed reason when anything present could
+                        // absorb at that wavelength without a cited ε.
+                        if spec.applies(v) {
+                            for cited in crate::uvvis_absorptivity::readings(v, spec.path_cm) {
+                                let nm = format!("{:.0}", cited.nm);
+                                if cited.blocked.is_empty() {
+                                    let terms: Vec<String> = cited
+                                        .contributions
+                                        .iter()
+                                        .map(|(s, e, c)| format!("{s} (ε {e:.1} L/mol/cm, {c:.4e} mol/L)"))
+                                        .collect();
+                                    let note = Phrase::new(
+                                        "measured.cited-absorptivity",
+                                        "Beer–Lambert sum at {wavelength} nm through {path} cm over {contributions}, each with a cited molar absorptivity",
+                                        vec![
+                                            ("wavelength".to_string(), Slot::number(nm.clone())),
+                                            ("path".to_string(), Slot::number(format!("{}", spec.path_cm))),
+                                            ("contributions".to_string(), Slot::texts(terms)),
+                                        ],
+                                    );
+                                    events.push(Event::Measured {
+                                        vessel: *vessel,
+                                        instrument: *instrument,
+                                        value: cited.absorbance,
+                                        unit: format!("absorbance at {nm} nm (cited molar absorptivity)"),
+                                        note: Some(note.render(crate::Locale::EN)),
+                                        note_reason: Some(note),
+                                    });
+                                } else {
+                                    events.push(Event::not_modeled(
+                                        *vessel,
+                                        crate::ops::NotModelledCause::NoReviewedDatum,
+                                        Phrase::new(
+                                            "not-modeled.uvvis-absorptivity-no-data",
+                                            "absorbance at {wavelength} nm is unavailable: no cited molar absorptivity at this wavelength and condition for {species}",
+                                            vec![
+                                                ("wavelength".to_string(), Slot::number(nm)),
+                                                ("species".to_string(), Slot::texts(cited.blocked)),
+                                            ],
+                                        ),
+                                    ));
+                                }
+                            }
+                        }
                     }
                     Instrument::Calorimeter => {
                         let cal = crate::instrument::Calorimeter;

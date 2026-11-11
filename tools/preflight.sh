@@ -143,6 +143,7 @@ step "transition-point coverage"; python3 tools/transition_point_coverage.py --c
 step "organic partition coverage"; python3 tools/organic_partition_coverage.py --check
 step "registry-solid coverage"; python3 tools/registry_solid_coverage.py --check
 step "iodine chemistry coverage"; python3 tools/iodine_chemistry_coverage.py --check
+step "uvvis absorptivity coverage"; python3 tools/uvvis_absorptivity_coverage.py --check
 step "iodide redox route coverage"; python3 tools/iodide_redox_coverage.py --check
 step "iodine inventory coverage"; python3 tools/iodine_inventory_coverage.py --check
 step "sulfur(IV) coupling coverage"; python3 tools/sulfur_iv_coupling_coverage.py --check

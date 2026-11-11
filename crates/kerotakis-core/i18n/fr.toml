@@ -1574,6 +1574,7 @@ no-reviewed-bulk-density = "la masse volumique de {material} — la recette ne p
 density-of-a-mixture = "une masse volumique unique pour ce récipient : il contient {contents}, et une masse volumique appartient à une substance, pas à un mélange. Pèse-les séparément"
 incomplete-absorbance = "l'absorbance complète est indisponible : aucun spectre d'absorption pour {species}"
 unreviewed-molar-absorptivity = "l’absorbance est indisponible : {species} absorbe la lumière visible et aucun coefficient d’absorption molaire vérifié n’est disponible"
+uvvis-absorptivity-no-data = "l’absorbance à {wavelength} nm est indisponible : aucun coefficient d’absorption molaire sourcé à cette longueur d’onde et dans ces conditions pour {species}"
 starch-iodine-absorptivity = "l’absorbance est indisponible : le complexe amidon–iode absorbe la lumière visible, mais aucun coefficient d’absorption molaire vérifié n’existe pour lui ; sa couleur bleu-noir est donc décrite et non mesurée"
 starch-iodine-binding-stoichiometry = "la quantité d’iode retenue par l’amidon : la stœchiométrie de liaison du complexe amylose–polyiodure n’est pas établie, la part liée à l’amidon est donc une estimation éditoriale bornée supérieurement (au plus un triiodure pour vingt unités de glucose) et non une grandeur mesurée"
 no-group-decomposition = "la colonne n'a aucune décomposition en groupes curatée pour {species} — une vraie colonne les séparerait, c'est donc une lacune du modèle plutôt qu'un résultat"
@@ -1813,6 +1814,7 @@ conductivity-past-the-dilute-limit = "au-delà de I = {limit} mol/kgw, une somme
 conductivity-fitted-correction = "le frottement ion-ion est corrigé par un facteur empirique ({factor}× la somme à dilution infinie ici), ajusté sur les chlorures de sodium et de potassium entre 0,01 et {limit} mol/kgw"
 conductivity-extrapolated = "cette solution est à I = {ionic_strength} mol/kgw, AU-DESSUS des {limit} mol/kgw sur lesquels la correction a été ajustée : le facteur appliqué ({factor}×) est donc une extrapolation"
 iodine-triiodide-split = "iode lu comme {iodine} mol de I₂ libre, {triiodide} mol de I₃⁻ et {iodide} mol de I⁻ libre (I₂ + I⁻ ⇌ I₃⁻, K = {k} L/mol à 25 °C, activités idéales) ; iode oxydé I₂ + I₃⁻ = {oxidised} mol"
+cited-absorptivity = "somme de Beer-Lambert à {wavelength} nm sur {path} cm de trajet optique pour {contributions}, chacun avec un coefficient d’absorption molaire sourcé"
 
 # The words around a drawn curve (I18N-12). `pH` and `pe` are notation
 # and stay as they are.

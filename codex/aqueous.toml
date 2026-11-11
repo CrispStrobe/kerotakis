@@ -1571,7 +1571,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "permanganate-is-visible-when-almost-absent"
 progress = "intermediate"
 spine = ["konzentrationsberechnungen"]
-equation = "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 2400 L mol⁻¹ cm⁻¹ at 525 nm)"
+equation = "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 3340 L mol⁻¹ cm⁻¹ at 525 nm)"
 concepts = ["colour-intensity"]
 requires = ["dissolving", "concentration"]
 apparatus = ["beaker", "balance"]
@@ -1602,7 +1602,7 @@ options = [
   "A faint purple only if you look through the whole length of the beaker",
 ]
 answer = 1
-misconception = "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 2400 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not."
+misconception = "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 3340 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
@@ -1612,11 +1612,11 @@ next = "`look v1`: the bench computes the colour from the absorption spectrum ra
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Colour conceded, but scaled to the speck: a tiny amount can only do tiny things, so the tint must need the beaker's full depth to accumulate."
-next = "The entry's own comparison is the discriminator: copper sulfate at the *same concentration* shows nothing through any depth, while permanganate is unmistakable in a centimetre. If amount set visibility they would match; ε ≈ 2400 against a few is what actually separates them."
+next = "The entry's own comparison is the discriminator: copper sulfate at the *same concentration* shows nothing through any depth, while permanganate is unmistakable in a centimetre. If amount set visibility they would match; ε ≈ 3340 against a few is what actually separates them."
 
 [reaction.registers]
 lv1 = "A speck of purple powder, less than a grain of rice, turns a whole litre of water purple. Some colours are astonishingly strong."
-lv2 = "0.016 g is 1.0 × 10⁻⁴ mol. In 1 L that is 10⁻⁴ mol/L, and with a molar absorptivity near 2400 the absorbance through a normal beaker is around 0.2 — plainly visible. The solution stays neutral at pH 7.00: neither K⁺ nor MnO₄⁻ reacts with water."
+lv2 = "0.016 g is 1.0 × 10⁻⁴ mol. In 1 L that is 10⁻⁴ mol/L, and with a molar absorptivity near 3340 the absorbance through a 1 cm path is around 0.3 — plainly visible. The solution stays neutral at pH 7.00: neither K⁺ nor MnO₄⁻ reacts with water."
 lv3 = "Two different kinds of claim sit in one beaker, and the lab keeps them apart. The pH 7.00 and the speciation are computed. The colour is curated — the registry carries permanganate's sRGB and a tinting strength of 12 000, because a real d–d and charge-transfer spectrum is not something a thermodynamic database or a cheap calculation can give honestly. The provenance says which is which."
 
 [reaction.provenance]
