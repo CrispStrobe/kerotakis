@@ -118,14 +118,14 @@ def problems() -> list[str]:
     errs = []
     for row in ROWS:
         path, fn = ROOT / row[5], row[6]
-        if not path.exists() or not re.search(rf"\bfn {re.escape(fn)}\(", path.read_text("utf-8")):
+        if not path.exists() or not re.search(rf"\bfn {re.escape(fn)}\(", path.read_text(encoding="utf-8")):
             errs.append(f"missing test {row[5]}::{fn}")
-    render = RENDER.read_text("utf-8")
+    render = RENDER.read_text(encoding="utf-8")
     for key in KEYS:
         if f'"event.{key}"' not in render:
             errs.append(f"render.rs does not use event.{key}")
         for lang in LOCALES:
-            data = tomllib.loads((ROOT / f"crates/kerotakis-core/i18n/{lang}.toml").read_text("utf-8"))
+            data = tomllib.loads((ROOT / f"crates/kerotakis-core/i18n/{lang}.toml").read_text(encoding="utf-8"))
             if key not in data.get("event", {}):
                 errs.append(f"{lang}.toml lacks event.{key}")
     return errs
@@ -175,12 +175,12 @@ def main() -> int:
     md, js = build()
     if args.check:
         stale = [p for p, t in ((OUT_MD, md), (OUT_JSON, js))
-                 if not p.exists() or p.read_text("utf-8") != t]
+                 if not p.exists() or p.read_text(encoding="utf-8") != t]
         for p in stale:
             print("stale:", p, file=sys.stderr)
         return 1 if errs or stale else 0
-    OUT_MD.write_text(md, "utf-8")
-    OUT_JSON.write_text(js, "utf-8")
+    OUT_MD.write_text(md, encoding="utf-8")
+    OUT_JSON.write_text(js, encoding="utf-8")
     print(f"{len(ROWS)} configurations, {len(errs)} problems")
     return 1 if errs else 0
 
