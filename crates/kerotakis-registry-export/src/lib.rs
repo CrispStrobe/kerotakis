@@ -650,8 +650,12 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     // Runtime SpeciesData carries the scalar but cannot retain its per-field
     // uncertainty, conditions or source. Preserve explicitly reviewed heat
     // records instead of exporting those claims as generic legacy data.
-    const REVIEWED_THERMO_SOURCES: &[&str] =
-        &["literature/berg-vanderzee-anhydrous-carbonate-dissolution"];
+    const REVIEWED_THERMO_SOURCES: &[&str] = &[
+        "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        // 2026-11-11: 28 % aqueous ammonia at 20 C, International Critical
+        // Tables vol. 3 p. 59 (replaces the unsourced legacy 0.91 g/mL).
+        "literature/ict-vol3-aqueous-ammonia-density",
+    ];
     for record in reviewed
         .phase_thermodynamics
         .iter()

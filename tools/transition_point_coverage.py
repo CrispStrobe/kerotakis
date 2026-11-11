@@ -129,9 +129,12 @@ def apply():
                 cited.append(row["source_id"])
             inserts.append((last_at.get(sp), sp, chunk(rec)))
     for at, sp, c in sorted(inserts, key=lambda t: -(t[0] or 0)):
-        if at is None:  # no transition record yet: after the molar mass
-            at = next(k + 1 for k, x in enumerate(out)
-                      if json.loads(x)["id"] == f"molar-mass/{sp}")
+        if at is None:  # no transition record yet: where the exporter pushes
+            # transitions, i.e. after the species' density (molar mass, heat
+            # capacity, density, transitions, dissolution enthalpy)
+            ids = [json.loads(x)["id"] for x in out]
+            at = next(ids.index(f"{p}/{sp}") + 1 for p in ("density", "heat-capacity", "molar-mass")
+                      if f"{p}/{sp}" in ids)
         out.insert(at, c)
     text = text[:s] + ",\n".join(out) + text[e:]
     # sources: replace the withdrawn record, at its position, by the cited
@@ -238,7 +241,8 @@ def main():
     out = dict(schema="kerotakis.transition-point-coverage.v2", counts=dict(sorted(counts.items())),
                originals=[dict(id=i, question=q) for i, q in ORIGINALS],
                sources={sp: dict(source_id=r["source_id"], citation=r["citation"]) for sp, r in sorted(rows.items())},
-               ranges=ranges, dropped=doc.get("dropped", []), species=species_rows)
+               ranges=ranges, dropped=doc.get("dropped", []), not_applied=doc.get("not_applied", []),
+               species=species_rows)
     js = json.dumps(out, indent=2, ensure_ascii=False) + "\n"
 
     def cell(t):
@@ -283,6 +287,11 @@ def main():
         md += ["", "## Withdrawn values dropped (no primary source found)", "",
                "| species | property | withdrawn value | reason |", "|---|---|---|---|"]
         md += [f"| {d['species']} | {d['property']} | {d['old_k']:g} K | {d['reason']} |" for d in doc["dropped"]]
+    if doc.get("not_applied"):
+        md += ["", "## Sourced values deliberately not attached", "",
+               "The value was read, but it is for a different substance than the registry key", "",
+               "| species | reason |", "|---|---|"]
+        md += [f"| {d['species']} | {d['reason']} |" for d in doc["not_applied"]]
     mdtext = "\n".join(md) + "\n"
     out_js, out_md = OUT.with_suffix(".json"), OUT.with_suffix(".md")
     if a.check:
