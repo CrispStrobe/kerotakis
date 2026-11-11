@@ -436,10 +436,13 @@ pub enum Operator {
     /// magnet and are dropped into `to`; everything else stays behind.
     Magnet { from: VesselId, to: VesselId },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
-    /// transport with an explicit Courant fraction. The inlet is an external
-    /// constant-composition reservoir (a representative full-cell boundary
-    /// composition, not consumed), unless `drain` declares it a finite feed
-    /// vessel debited by exactly what it injects. Local equilibrium is
+    /// transport with an explicit Courant fraction. With `drain` the inlet
+    /// is a finite feed vessel debited by exactly what it injects; this is
+    /// what the script verb produces unless it says `reservoir`. With
+    /// `drain == false` the inlet is an external constant-composition
+    /// reservoir (a representative full-cell boundary composition, not
+    /// consumed) whose supply the event reports as a source term. The serde
+    /// default stays `false` so logged payloads replay unchanged. Local equilibrium is
     /// re-established in every cell after every step; the effluent collects
     /// in the receiver.
     Transport {
@@ -450,7 +453,8 @@ pub enum Operator {
         courant: f64,
         /// The protocol states a finite feed: the inlet vessel is drained by
         /// exactly what enters the column, and a feed that cannot supply a
-        /// step is refused. Off by default (constant reservoir).
+        /// step is refused. The script parser sets it unless the line says
+        /// `reservoir`; absent from a serialised payload means reservoir.
         #[serde(default, skip_serializing_if = "is_false")]
         drain: bool,
     },

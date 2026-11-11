@@ -303,6 +303,23 @@ impl Refuses for BenchError {
             // and `IntegrationError` into keys of their own is the same
             // exercise one layer down, and it is not this change.
             BenchError::Kinetics(e) => Refusal::new("error.kinetics", "{detail}").with("detail", e),
+            // The one transport refusal a learner meets in ordinary use now
+            // that a bench inlet is a finite feed by default (TR-006): it
+            // has a key of its own, so it reads in the learner's language.
+            BenchError::Transport(crate::transport::TransportError::InletExhausted {
+                step,
+                required_l,
+                available_l,
+            }) => Refusal::new(
+                "error.transport-feed-exhausted",
+                "the feed vessel holds {available_ml} mL of liquid but transport step {step} needs \
+                 {required_ml} mL; the feed is a vessel on the bench and is debited by exactly what \
+                 enters the column, so add more feed or declare 'reservoir' for an external \
+                 constant-composition boundary",
+            )
+            .with("step", step)
+            .with_number("available_ml", format!("{:.3}", available_l * 1000.0))
+            .with_number("required_ml", format!("{:.3}", required_l * 1000.0)),
             BenchError::Transport(e) => {
                 Refusal::new("error.transport", "{detail}").with("detail", e)
             }

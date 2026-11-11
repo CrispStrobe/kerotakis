@@ -1155,6 +1155,7 @@ boiled = "a bouilli"
 # translating `{detail}` is not a translation, it is a promise to keep.
 "kinetics" = "{detail}"
 "transport" = "{detail}"
+"transport-feed-exhausted" = "le récipient d'alimentation contient {available_ml} mL de liquide mais l'étape de transport {step} en demande {required_ml} mL ; l'alimentation est un récipient de la paillasse et perd exactement ce qui entre dans la colonne — ajoute de l'alimentation ou déclare 'reservoir' pour une limite extérieure de composition constante"
 
 [severity]
 Caution = "Prudence"

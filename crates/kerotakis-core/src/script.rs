@@ -155,8 +155,26 @@ pub const HEAT_SOURCE_WORDS: &[&str] = &[
 /// The small words that hold a command together and mean nothing on
 /// their own.
 pub const GRAMMAR_WORDS: &[&str] = &[
-    "until", "into", "from", "to", "steps", "courant", "drain", "max", "stages", "persists",
-    "colour", "color", "ph", "pe", "above", "below", "on", "with", "@",
+    "until",
+    "into",
+    "from",
+    "to",
+    "steps",
+    "courant",
+    "drain",
+    "reservoir",
+    "max",
+    "stages",
+    "persists",
+    "colour",
+    "color",
+    "ph",
+    "pe",
+    "above",
+    "below",
+    "on",
+    "with",
+    "@",
 ];
 
 /// Is this word already a verb of the English grammar?
@@ -1927,7 +1945,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let (from_pos, to_pos, steps_pos) = match (from_pos, to_pos, steps_pos) {
                 (Some(f), Some(t), Some(s)) => (f, t, s),
                 _ => return Err(usage(
-                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain]",
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain|reservoir]",
                 )),
             };
             if from_pos < 2 {
@@ -1968,14 +1986,20 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 })?;
             if to_pos != from_pos + 2 || steps_pos != to_pos + 2 {
                 return Err(usage(
-                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain]",
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain|reservoir]",
                 ));
             }
-            // A trailing `drain` declares a finite feed vessel that is debited
-            // as it flows; without it the inlet is a constant reservoir.
+            // The inlet is a vessel on the bench, so by default it is a
+            // finite feed debited by exactly what enters the column (TR-006:
+            // an undebited inlet double-counted every species it supplied).
+            // `drain` states that default explicitly; only a trailing
+            // `reservoir` opts into an external constant-composition
+            // boundary (a PHREEQC TRANSPORT boundary solution), which every
+            // event then labels as a source term from outside the bench.
             let (tail, drain) = match &words[steps_pos + 2..] {
                 [rest @ .., "drain"] => (rest, true),
-                rest => (rest, false),
+                [rest @ .., "reservoir"] => (rest, false),
+                rest => (rest, true),
             };
             let courant: f64 = match tail {
                 [] => 1.0,
@@ -1991,7 +2015,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     ))
                 }
                 _ => return Err(usage(
-                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain]",
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>] [drain|reservoir]",
                 )),
             };
             Operator::Transport {

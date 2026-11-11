@@ -24,7 +24,7 @@
       "test": "crates/kerotakis-core/tests/transport_reservoir_source_term.rs::tr006_two_reservoir_ledger_closes_with_the_surface_pool"
     },
     {
-      "configuration": "tr-006 original, native PHREEQC stack, both commands",
+      "configuration": "tr-006 original declared reservoir, native PHREEQC stack, both commands",
       "inlet": "reservoir",
       "pools": "ConservedLedger: contents + adsorbed + surfaces + exchanges + solid solutions",
       "identity": "after == before + inflow (N, S, Na, Cl per command)",

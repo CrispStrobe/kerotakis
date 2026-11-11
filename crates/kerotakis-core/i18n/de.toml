@@ -1219,6 +1219,7 @@ boiled = "siedete"
 # translating `{detail}` is not a translation, it is a promise to keep.
 "kinetics" = "{detail}"
 "transport" = "{detail}"
+"transport-feed-exhausted" = "das Zulaufgefäß enthält {available_ml} mL Flüssigkeit, aber Transportschritt {step} braucht {required_ml} mL; der Zulauf ist ein Gefäß auf dem Labortisch und verliert genau das, was in die Säule fließt — gib mehr Zulauf dazu oder erkläre mit 'reservoir' einen äußeren Vorrat konstanter Zusammensetzung"
 [severity]
 Caution = "Vorsicht"
 Danger = "Gefahr"
