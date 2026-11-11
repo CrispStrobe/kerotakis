@@ -2,15 +2,21 @@
   "generated_by": "tools/sulfur_iv_coupling_coverage.py",
   "case": "batch2:ki-011",
   "constants": {
-    "K_I2_HSO3": 1700000000.0,
-    "K_I3_HSO3": 15000000.0,
-    "K_I2_SO3": 3100000000.0,
-    "K_I3_SO3": 290000000.0,
+    "K_I2_HSO3": 1800000000.0,
+    "K_I3_HSO3": 14000000.0,
+    "K_I2_SO3": 3200000000.0,
+    "K_I3_SO3": 280000000.0,
     "MH_K1_M1_S1": 2600000.0,
     "MH_K2_OVER_KM1_M1": 16.0,
     "MH_DH_ACT_J_MOL": 37000.0,
     "MH_T_K": 288.15,
-    "MAX_INSTANT_S": 1.0
+    "MAX_INSTANT_S": 1.0,
+    "HC_K_M2_S1": 75000000.0,
+    "HC_KEQ_M1": 13.0,
+    "HC_T_K": 298.15,
+    "HOBR_K_SO3": 5000000000.0,
+    "OBR_K_SO3": 100000000.0,
+    "HOCL_K_SO3": 760000000.0
   },
   "oxidants": [
     "I2",
@@ -125,13 +131,349 @@
       ]
     }
   ],
+  "oxidant_table": [
+    {
+      "oxidant": "I2",
+      "products": [
+        [
+          "I-",
+          2.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 0.0,
+      "water": 0.0,
+      "k_so2_hso3_so3": [
+        null,
+        1800000000.0,
+        3200000000.0
+      ],
+      "pricing": "competing",
+      "registry_forms": [
+        "I2"
+      ],
+      "status": "writer (closed-form iodine/peroxide competition)",
+      "refusal_keys": null,
+      "source": "Yiin & Margerum 1990 (doi:10.1021/ic00333a023), constants as printed in the Yiin 1990 Purdue dissertation abstract (AAI9018935)"
+    },
+    {
+      "oxidant": "H2O2",
+      "products": [],
+      "electrons": 2.0,
+      "protons": 2.0,
+      "water": 2.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "competing",
+      "registry_forms": [
+        "H2O2"
+      ],
+      "status": "writer (closed-form iodine/peroxide competition)",
+      "refusal_keys": null,
+      "source": "Hoffmann & Calvert 1985 Vol. II summary table (k 7.50e7 M^-2 s^-1, K 13 M^-1, 25 C); McArdle & Hoffmann 1983 (doi:10.1021/j150644a024) dH 37 kJ/mol and pH 0-4.5 range"
+    },
+    {
+      "oxidant": "O3",
+      "products": [
+        [
+          "O2",
+          1.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 2.0,
+      "water": 1.0,
+      "k_so2_hso3_so3": [
+        24000.0,
+        370000.0,
+        1500000000.0
+      ],
+      "pricing": "rated",
+      "registry_forms": [],
+      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant and every present form has k and lives <= MAX_INSTANT_S",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-slow",
+        "not-modeled.sulfite-oxidant-no-rate-for-form",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "Hoffmann & Calvert 1985 Vol. II summary table: k0 2.40e4, k1 3.70e5, k2 1.50e9 M^-1 s^-1"
+    },
+    {
+      "oxidant": "HBrO",
+      "products": [
+        [
+          "Br-",
+          1.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 1.0,
+      "water": 1.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        5000000000.0
+      ],
+      "pricing": "rated",
+      "registry_forms": [],
+      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant and every present form has k and lives <= MAX_INSTANT_S",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-slow",
+        "not-modeled.sulfite-oxidant-no-rate-for-form",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "Troy & Margerum 1991 (doi:10.1021/ic00018a028), 5.0e9 M^-1 s^-1 as quoted by Liu et al. 2020 GRL (doi:10.1029/2019GL086465); a database page gives 2.3e9 (conflict, not resolved here)"
+    },
+    {
+      "oxidant": "BrO-",
+      "products": [
+        [
+          "Br-",
+          1.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 2.0,
+      "water": 1.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        100000000.0
+      ],
+      "pricing": "rated",
+      "registry_forms": [],
+      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant and every present form has k and lives <= MAX_INSTANT_S",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-slow",
+        "not-modeled.sulfite-oxidant-no-rate-for-form",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "Troy & Margerum 1991 (doi:10.1021/ic00018a028), 1.0e8 M^-1 s^-1 as quoted in J. Phys. Chem. A 113 (2009) 9988"
+    },
+    {
+      "oxidant": "HClO",
+      "products": [
+        [
+          "Cl-",
+          1.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 1.0,
+      "water": 1.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        760000000.0
+      ],
+      "pricing": "halogen_writer",
+      "registry_forms": [
+        "HClO"
+      ],
+      "status": "admitted halogen_redox row (instantaneous)",
+      "refusal_keys": null,
+      "source": "Fogelman, Walker & Margerum 1989 (doi:10.1021/ic00305a002), HOCl + SO3^2- 7.6e8 M^-1 s^-1, 25 C, mu 0.5 (abstract; re-quoted by Liu et al. 2020); halogen_redox FAST row"
+    },
+    {
+      "oxidant": "ClO-",
+      "products": [
+        [
+          "Cl-",
+          1.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 2.0,
+      "water": 1.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "halogen_writer",
+      "registry_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "status": "admitted halogen_redox row (instantaneous)",
+      "refusal_keys": null,
+      "source": "Fogelman, Walker & Margerum 1989 (doi:10.1021/ic00305a002); halogen_redox FAST row, no k used"
+    },
+    {
+      "oxidant": "Br2",
+      "products": [
+        [
+          "Br-",
+          2.0
+        ]
+      ],
+      "electrons": 2.0,
+      "protons": 0.0,
+      "water": 0.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "stoichiometric",
+      "registry_forms": [],
+      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-no-rate-claimed",
+        "not-modeled.sulfite-oxidant-acid-limited",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "no rate constant found (searched Yiin/Margerum, Troy & Margerum); no rate claimed"
+    },
+    {
+      "oxidant": "MnO4-",
+      "products": [
+        [
+          "Mn+2",
+          1.0
+        ]
+      ],
+      "electrons": 5.0,
+      "protons": 8.0,
+      "water": 4.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "stoichiometric",
+      "registry_forms": [
+        "MnO4-",
+        "KMnO4"
+      ],
+      "status": "writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-no-rate-claimed",
+        "not-modeled.sulfite-oxidant-acid-limited",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "no rate constant obtained (Ernst, Cyfert & Wilgocki 1992, doi:10.1002/kin.550241008, gives the basic-solution form only); no rate claimed; acid product Mn2+"
+    },
+    {
+      "oxidant": "Cr2O7-2",
+      "products": [
+        [
+          "Cr+3",
+          2.0
+        ]
+      ],
+      "electrons": 6.0,
+      "protons": 14.0,
+      "water": 7.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "stoichiometric",
+      "registry_forms": [],
+      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-no-rate-claimed",
+        "not-modeled.sulfite-oxidant-acid-limited",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "Haight et al. 1965 (doi:10.1021/ja01095a009) form only; no rate claimed; acid product Cr3+"
+    },
+    {
+      "oxidant": "HCrO4-",
+      "products": [
+        [
+          "Cr+3",
+          1.0
+        ]
+      ],
+      "electrons": 3.0,
+      "protons": 7.0,
+      "water": 4.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "stoichiometric",
+      "registry_forms": [],
+      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-no-rate-claimed",
+        "not-modeled.sulfite-oxidant-acid-limited",
+        "not-modeled.sulfite-oxidant-competition-unpriced"
+      ],
+      "source": "Haight et al. 1965 (doi:10.1021/ja01095a009) form only; no rate claimed; acid product Cr3+"
+    },
+    {
+      "oxidant": "NO2-",
+      "products": [],
+      "electrons": 0.0,
+      "protons": 0.0,
+      "water": 0.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "product_not_in_registry",
+      "registry_forms": [
+        "NO2-"
+      ],
+      "status": "refused",
+      "refusal_keys": [
+        "not-modeled.sulfite-oxidant-product-not-in-registry"
+      ],
+      "source": "Oblath 1981, LBL-13026 PhD thesis, Table II: rate = k[NO2-][HSO3-][H+], k 4.0-4.5e3 M^-2 s^-1 at 22 C, mu 0.20; product hydroxylamine disulfonate (not in the registry)"
+    },
+    {
+      "oxidant": "O2",
+      "products": [],
+      "electrons": 0.0,
+      "protons": 0.0,
+      "water": 0.0,
+      "k_so2_hso3_so3": [
+        null,
+        null,
+        null
+      ],
+      "pricing": "no_reviewed_rate",
+      "registry_forms": [
+        "O2"
+      ],
+      "status": "refused",
+      "refusal_keys": [
+        "not-modeled.sulfite-autoxidation"
+      ],
+      "source": "Hoffmann & Calvert 1985 and Martin & Hill 1987 (doi:10.1016/0004-6981(87)90361-1): metal-catalysed rates depend on catalyst, pH and ionic strength; no reviewed uncatalysed rate"
+    }
+  ],
   "sources": [
     {
       "id": "yiin-margerum-1990",
       "citation": "B. S. Yiin and D. W. Margerum, Non-metal redox kinetics: reactions of iodine and triiodide with sulfite and hydrogen sulfite and the hydrolysis of iodosulfate, Inorg. Chem. 29 (1990) 1559-1564",
       "doi": "10.1021/ic00333a023",
       "values": "k(I3- + HSO3-) 1.5e7, k(I2 + HSO3-) 1.7e9, k(I3- + SO3^2-) 2.9e8, k(I2 + SO3^2-) 3.1e9 M^-1 s^-1, 25.0 C, mu 0.50 M",
-      "read": "values as quoted from the paper's abstract (secondary abstract page, lookchem CAS 126901-00-6); full text not readable here. DOI verified via Crossref."
+      "values_used_2026_11_11c": "1.4e7 (I3- + HSO3-), 1.8e9 (I2 + HSO3-), 2.8e8 (I3- + SO3^2-), 3.2e9 (I2 + SO3^2-) M^-1 s^-1, 25.0 C, mu 0.50 M, p[H+] 4.1-6.6",
+      "read": "constants as printed in the abstract of B. S. Yiin, PhD dissertation, Purdue 1990 (AAI9018935, docs.lib.purdue.edu/dissertations/AAI9018935), the same work; they replace the earlier secondary-abstract reading (lookchem). DOI verified via Crossref."
+    },
+    {
+      "id": "hoffmann-calvert-1985",
+      "citation": "M. R. Hoffmann and J. G. Calvert, Chemical transformation modules for Eulerian acid deposition models, Vol. II: The aqueous-phase chemistry, NCAR / US EPA (1985)",
+      "doi": null,
+      "values": "H2O2: k = 7.50E+07 M^-2 s^-1, K = 1.30E+01 M^-1; O3: k0 2.40E+04, k1 3.70E+05, k2 1.50E+09 M^-1 s^-1 (25 C)",
+      "read": "archive.org OCR (_djvu.txt) of the report, rate-law summary table and ozone recommendation text; the textbook 7.45e7 is not what the table prints"
+    },
+    {
+      "id": "liebhafsky-mohammad-1933",
+      "citation": "H. A. Liebhafsky and A. Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986",
+      "doi": "10.1021/ja01337a010",
+      "values": "iodine clock (same lane): k0 = 0.69 L mol^-1 min^-1 = 0.0115 M^-1 s^-1 replaces the editorial iodide/peroxide catalysis constant; lowest measured (H+) 0.00762 M (Table I, Curve II, p. 3980)",
+      "read": "archive.org scan dli.ernet.233065"
     },
     {
       "id": "mcardle-hoffmann-1983",
@@ -160,6 +502,10 @@
     "The I2/I3- split used for the iodine constant is the split at the start of the coupling.",
     "Rates are written on HSO3-; the shared alpha1 fraction cancels in the competition. A direct SO2(aq) + I2 path and SO3^2- at higher pH are not separately priced.",
     "Yiin-Margerum constants are 25 C values (no temperature dependence applied); k2/k-1 is held at its 15 C value; k1 is moved with Eyring and dH1.",
+    "Other oxidants run only as the sole S(IV) oxidant in the vessel; with any second S(IV) oxidant (iodine, peroxide, a halogen row or another table oxidant) they are refused typed (competition unpriced) and the others proceed.",
+    "Rated rows use 25 C constants without temperature dependence; stoichiometric rows claim no rate.",
+    "Permanganate and dichromate are admitted only as far as represented acid covers their proton demand (acid products Mn2+ / Cr3+); neutral or basic products are refused typed.",
+    "Dissolved O2 is refused only when booked aqueous; O2 in a vessel's gas phase is not dissolved O2.",
     "Thiosulfate's iodine titration (curated row) runs before the S(IV) coupling inside one tail pass; their competition for iodine within a step is not resolved.",
     "SO2 booked as gas by the thiosulfate-acid law and still held by the vessel counts as S(IV) while the vessel holds liquid water; vented SO2 is gone.",
     "Released protons stay in the charge balance (halogen_redox convention); no reaction heat."

@@ -109,6 +109,31 @@ fn sulfur_iv_coverage_is_current() {
         .map(|o| o.as_str().unwrap())
         .collect();
     assert_eq!(oxidants, sulfur_iv::OXIDANTS);
+    assert_eq!(k["HC_K_M2_S1"].as_f64().unwrap(), sulfur_iv::HC_K_M2_S1);
+    assert_eq!(k["HC_KEQ_M1"].as_f64().unwrap(), sulfur_iv::HC_KEQ_M1);
+    // Every table oxidant: key, pricing and rate constants.
+    let table: Vec<(String, String, Vec<Option<f64>>)> = doc["oxidant_table"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|o| {
+            (
+                o["oxidant"].as_str().unwrap().to_string(),
+                o["pricing"].as_str().unwrap().to_string(),
+                o["k_so2_hso3_so3"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|v| v.as_f64())
+                    .collect(),
+            )
+        })
+        .collect();
+    let runtime: Vec<(String, String, Vec<Option<f64>>)> = sulfur_iv::OXIDANT_TABLE
+        .iter()
+        .map(|o| (o.key.to_string(), o.pricing.key().to_string(), o.k.to_vec()))
+        .collect();
+    assert_eq!(table, runtime);
 }
 
 #[test]
@@ -276,4 +301,147 @@ fn ledger_invisible_extent_stays_silent() {
     v.deposit(SpeciesId::new("O2"), Moles(1.0), Phase::Gas);
     assert!(!clock::ledger_visible_extent(&v, decomposition, 1e-12));
     assert!(!clock::ledger_visible_extent(&v, decomposition, 0.0));
+}
+
+fn equilibrate_events(v: &mut Vessel) -> Vec<Event> {
+    v.solute_charge = displacement::solute_charge(v);
+    CuratedEquilibrator.equilibrate(v).unwrap()
+}
+
+fn event_keys(events: &[Event]) -> Vec<String> {
+    events
+        .iter()
+        .filter_map(|e| match e {
+            Event::NotYetModeled {
+                reason: Some(r), ..
+            } => Some(r.key.clone()),
+            _ => None,
+        })
+        .collect()
+}
+
+#[test]
+fn acid_permanganate_titrates_hydrogen_sulfite_stoichiometrically() {
+    let mut v = water();
+    acidify(&mut v, 0.001);
+    aq(&mut v, "MnO4-", 2e-5);
+    aq(&mut v, "K+", 2e-5);
+    aq(&mut v, "HSO3-", 5e-5);
+    aq(&mut v, "Na+", 5e-5);
+    v.solute_charge = displacement::solute_charge(&v);
+    let plan = sulfur_iv::other_plan(&v).expect("permanganate and S(IV)");
+    // All of it: one proton per five hydrogen sulfite is well inside the
+    // represented acid, and 2e-5 mol MnO4- takes exactly 5e-5 mol S(IV).
+    assert_eq!(plan.run.map(|r| (r.oxidant, r.s_iv)), Some(("MnO4-", 5e-5)));
+    assert!(plan.gaps.is_empty(), "{:?}", plan.gaps);
+    assert!(sulfur_iv::fires(&v));
+    let events = equilibrate_events(&mut v);
+    let equations: Vec<String> = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::ReactionOccurred { equation, .. } => Some(equation.clone()),
+            _ => None,
+        })
+        .collect();
+    assert!(
+        equations.contains(&"2 MnO₄⁻ + 5 HSO₃⁻ + H⁺ → 2 Mn²⁺ + 5 SO₄²⁻ + 3 H₂O".to_string()),
+        "{equations:?}"
+    );
+    assert!(
+        event_keys(&events).contains(&"not-modeled.sulfite-oxidant-no-rate-claimed".to_string())
+    );
+    assert!(m(&v, "MnO4-") < 1e-15);
+    assert!(m(&v, "HSO3-") < 1e-15);
+    assert!((m(&v, "Mn+2") - 2e-5).abs() < 1e-15);
+    assert!((m(&v, "SO4-2") - (0.001 + 5e-5)).abs() < 1e-15);
+}
+
+#[test]
+fn neutral_permanganate_and_sulfite_is_acid_limited_and_typed() {
+    let mut v = water();
+    aq(&mut v, "MnO4-", 1e-5);
+    aq(&mut v, "K+", 1e-5);
+    aq(&mut v, "SO3-2", 1e-5);
+    aq(&mut v, "Na+", 2e-5);
+    v.solute_charge = displacement::solute_charge(&v);
+    let plan = sulfur_iv::other_plan(&v).expect("permanganate and sulfite");
+    assert!(plan.run.is_none());
+    assert!(!sulfur_iv::fires(&v));
+    let keys = note_keys(&v);
+    assert!(
+        keys.contains(&"not-modeled.sulfite-oxidant-acid-limited".to_string()),
+        "{keys:?}"
+    );
+    assert!(
+        !keys.contains(&"not-modeled.redox-pair-unpriced".to_string()),
+        "{keys:?}"
+    );
+    assert!(react(&mut v).is_empty());
+    assert!((m(&v, "MnO4-") - 1e-5).abs() < 1e-18);
+}
+
+#[test]
+fn permanganate_beside_iodine_is_an_unpriced_competition() {
+    let mut v = water();
+    acidify(&mut v, 0.001);
+    aq(&mut v, "I2", 1e-5);
+    aq(&mut v, "MnO4-", 1e-5);
+    aq(&mut v, "K+", 1e-5);
+    aq(&mut v, "SO2", 1e-5);
+    let plan = sulfur_iv::other_plan(&v).unwrap();
+    assert!(plan.run.is_none());
+    assert!(plan
+        .gaps
+        .contains(&sulfur_iv::OtherGap::Competition { oxidant: "MnO4-" }));
+    assert!(note_keys(&v).contains(&"not-modeled.sulfite-oxidant-competition-unpriced".to_string()));
+}
+
+#[test]
+fn nitrite_and_sulfite_are_refused_for_the_unregistered_product() {
+    let mut v = water();
+    acidify(&mut v, 0.001);
+    aq(&mut v, "NO2-", 1e-4);
+    aq(&mut v, "Na+", 1e-4);
+    aq(&mut v, "SO2", 1e-5);
+    assert!(!sulfur_iv::fires(&v));
+    let plan = sulfur_iv::other_plan(&v).unwrap();
+    assert_eq!(
+        plan.gaps,
+        vec![sulfur_iv::OtherGap::ProductNotInRegistry {
+            oxidant: "NO2-",
+            product: sulfur_iv::NITRITE_PRODUCT,
+        }]
+    );
+    assert!(
+        note_keys(&v).contains(&"not-modeled.sulfite-oxidant-product-not-in-registry".to_string())
+    );
+}
+
+#[test]
+fn dissolved_oxygen_autoxidation_is_refused_typed() {
+    let mut v = water();
+    aq(&mut v, "O2", 2.5e-5);
+    aq(&mut v, "HSO3-", 1e-5);
+    aq(&mut v, "Na+", 1e-5);
+    assert!(!sulfur_iv::fires(&v));
+    assert!(note_keys(&v).contains(&"not-modeled.sulfite-autoxidation".to_string()));
+    // Oxygen only in the gas phase is not dissolved oxygen.
+    let mut gas = water();
+    gas.deposit(SpeciesId::new("O2"), Moles(1e-3), Phase::Gas);
+    aq(&mut gas, "HSO3-", 1e-5);
+    aq(&mut gas, "Na+", 1e-5);
+    assert!(sulfur_iv::other_plan(&gas).is_none());
+}
+
+#[test]
+fn rated_oxidants_without_a_registry_form_never_fire() {
+    // Ozone, HOBr and OBr- carry cited constants but no registry form;
+    // the table keeps them so that a registry addition is priced at once.
+    for key in ["O3", "HBrO", "BrO-", "Br2", "Cr2O7-2", "HCrO4-"] {
+        let o = sulfur_iv::oxidant(key).unwrap();
+        assert!(halogen_redox::registry_forms(o.key).is_empty(), "{key}");
+    }
+    let o3 = sulfur_iv::oxidant("O3").unwrap();
+    assert_eq!(o3.k, [Some(2.4e4), Some(3.7e5), Some(1.5e9)]);
+    assert_eq!(o3.pricing, sulfur_iv::Pricing::Rated);
 }
