@@ -60,6 +60,7 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/aqueous_continuation.rs",
     ROOT / "crates/kerotakis-core/src/displacement.rs",
     ROOT / "crates/kerotakis-core/src/flame.rs",
+    ROOT / "crates/kerotakis-core/src/gas_escape.rs",
     ROOT / "crates/kerotakis-core/src/starch_amylase.rs",
     ROOT / "crates/kerotakis-core/src/melting_range.rs",
     ROOT / "crates/kerotakis-core/src/iodine_chemistry.rs",

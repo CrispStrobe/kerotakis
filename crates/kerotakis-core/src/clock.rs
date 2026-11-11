@@ -1262,9 +1262,10 @@ pub const CO2_TRANSFER_FLOOR_MOL: f64 = crate::OBSERVABLE_MOLES;
 /// This clock is the inward direction, and it is a rate because that is
 /// what it physically is — the same way the room was wrong about heat
 /// before the ambient clock: the destination was right and the journey was
-/// missing. Outward transport is unchanged and still instantaneous; see
-/// the note in `advance` for why that half needs a decision rather than a
-/// patch.
+/// missing. Since lane E (2026-11-11) the outward half is a rate too:
+/// the aqueous adapter releases only bubble-forming gas (fizz) from an
+/// open vessel and this clock seeps the rest out through the generic
+/// two-film law in [`crate::gas_escape`].
 ///
 /// The flux across a still surface is
 ///
@@ -1330,7 +1331,7 @@ impl Clock for GasExchangeClock {
         vessel: &mut Vessel,
         seconds: f64,
         _ctx: &ClockContext,
-        _events: &mut Vec<Event>,
+        events: &mut Vec<Event>,
     ) -> Result<(), IntegrationError> {
         if seconds <= 0.0 {
             return Ok(());
@@ -1341,6 +1342,10 @@ impl Clock for GasExchangeClock {
         if !matches!(vessel.headspace, crate::vessel::Headspace::Open) {
             return Ok(());
         }
+        // Lane E (2026-11-11): a dissolved free molecular gas whose escape
+        // rate cannot be priced is refused, typed, rather than silently
+        // held or silently vented (`gas_escape`).
+        events.extend(crate::gas_escape::refusals(vessel.id, vessel));
         // Nothing has characterised this solution, so there is no measured
         // pressure to drive anything. A vessel nobody has solved is not
         // yet carbonating: the first solve measures it, and the next wait
@@ -1357,37 +1362,36 @@ impl Clock for GasExchangeClock {
         };
         let k_h = crate::properties::henry_at_t(coeff, vessel.temperature.0).value;
         let driving = ATMOSPHERIC_CO2_ATM - p_solution;
-        // INWARD only, for now, and the asymmetry is deliberate rather
-        // than an oversight.
-        //
-        // Carbon leaving is already handled, and well: the aqueous adapter
-        // offers an open vessel a CO2(g) phase holding zero moles, so a
-        // supersaturated solution degasses to the atmospheric value within
-        // the step. That is the `dt -> infinity` answer for the outward
-        // direction too, and it is wrong in the same way — but replacing
-        // it needs a rule this clock cannot yet state, because the two
-        // ways carbon leaves a beaker are not one process:
-        //
-        //   * FIZZ. Vinegar on baking soda. Bubbles nucleate and rise, and
-        //     it is over in seconds. Thermodynamically a bubble needs the
-        //     dissolved gas above the ambient TOTAL pressure to hold
-        //     itself open — but a well-mixed model never sees the local
-        //     supersaturation at the grain where the acid lands, so a
-        //     1 atm threshold silently stops hydrochloric acid on
-        //     bicarbonate from fizzing at all. Measured while writing
-        //     this: 0.02 mol in a litre reaches 0.59 atm, and the beaker
-        //     went quiet.
-        //   * SEEPING. A bicarbonate solution standing on the bench,
-        //     drifting basic over days. That IS this film transfer, and
-        //     it is what the outward rate would be for.
-        //
-        // Deciding between them changes what the bench teaches about the
-        // most-performed reaction there is, so it is left to a reviewed
-        // change of its own rather than settled here as a side effect.
-        // Taking the inward direction alone is strictly additive: nothing
-        // that degasses today behaves differently, and the direction that
-        // could not happen AT ALL now can.
-        if driving <= 0.0 {
+        // OUTWARD (lane E, 2026-11-11). The aqueous adapter no longer
+        // relaxes an open vessel to room air within a step: it releases
+        // only gas above the bubble threshold (the vessel's total
+        // pressure), which is FIZZ. Everything below it is SEEPING, the
+        // film transfer this clock owns, priced by the generic two-film
+        // law in `gas_escape` (liquid-film limit; CO2 is in the cited
+        // liquid-controlled class). The excess is the Henry excess above
+        // the room, relaxed exponentially with `K_L*A/V`. Carbon that
+        // bicarbonate re-supplies as the dissolved gas leaves is not
+        // counted within one wait — the next solve re-measures the
+        // pressure and the next wait picks up from there — so a single
+        // long wait UNDER-states a buffered solution's loss.
+        if driving < 0.0 {
+            let area = free_surface_area_m2(&vessel.label);
+            let Ok(rate) = crate::gas_escape::escape_rate_constant_per_s(
+                "CO2",
+                vessel.temperature.0,
+                area,
+                volume_l,
+            ) else {
+                return Ok(());
+            };
+            let excess = k_h * (-driving) * volume_l;
+            let out = crate::gas_escape::escaped_moles(excess, rate, seconds);
+            if out.is_finite() && out > 0.0 {
+                vessel.pending_co2_transfer_mol -= out;
+            }
+            return Ok(());
+        }
+        if driving == 0.0 {
             return Ok(());
         }
 
@@ -1918,22 +1922,46 @@ mod tests {
         );
     }
 
-    /// Soda water is far above the room's partial pressure, and this clock
-    /// deliberately does NOT touch it. Outward transport still belongs to
-    /// the aqueous adapter, which degasses an open vessel to the
-    /// atmospheric value within the step; a second engine moving the same
-    /// carbon would move it twice. The boundary is asserted so that
-    /// whoever makes degassing a rate has to come here and say so.
+    /// Lane E: soda water below the bubble threshold SEEPS out through
+    /// this clock at the two-film rate, and never more than its excess.
     #[test]
-    fn a_supersaturated_vessel_is_left_to_the_aqueous_adapter() {
+    fn a_supersaturated_vessel_seeps_out_at_the_film_rate() {
         let mut v = open_beaker_of_water();
-        v.co2_partial_pressure_atm = Some(1.0);
+        v.co2_partial_pressure_atm = Some(0.5);
+        let volume_l = v.liquid_volume().0;
         let mut events = Vec::new();
-        advance(&mut v, 86_400.0, ClockContext::default(), &mut events).expect("advances");
-        assert_eq!(
-            v.pending_co2_transfer_mol, 0.0,
-            "outgassing is not this clock's to move"
+        advance(&mut v, 600.0, ClockContext::default(), &mut events).expect("advances");
+        let k_h = crate::properties::henry_at_t(
+            crate::properties::henry_lookup("CO2").expect("CO2 is tabulated"),
+            298.15,
+        )
+        .value;
+        let excess = k_h * (0.5 - ATMOSPHERIC_CO2_ATM) * volume_l;
+        let rate = crate::gas_escape::escape_rate_constant_per_s(
+            "CO2",
+            298.15,
+            free_surface_area_m2("beaker"),
+            volume_l,
+        )
+        .expect("CO2 covered");
+        let expected = excess * (1.0 - (-rate * 600.0).exp());
+        assert!(
+            (-v.pending_co2_transfer_mol - expected).abs() < expected * 1e-9,
+            "expected {expected} mol out, got {}",
+            v.pending_co2_transfer_mol
         );
+        // A month removes the excess and no more.
+        let mut v = open_beaker_of_water();
+        v.co2_partial_pressure_atm = Some(0.5);
+        advance(
+            &mut v,
+            86_400.0 * 30.0,
+            ClockContext::default(),
+            &mut events,
+        )
+        .expect("advances");
+        assert!(-v.pending_co2_transfer_mol <= excess * (1.0 + 1e-9));
+        assert!(-v.pending_co2_transfer_mol > excess * 0.99);
     }
 
     /// A long enough wait arrives, and does not sail past and come back.
