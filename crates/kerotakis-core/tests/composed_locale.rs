@@ -117,6 +117,12 @@ const COMPOSERS: &[(&str, &str)] = &[
     // The typed refusal for a solid standing above where it melts with no
     // sourced latent heat (`not-modeled.melting-not-modelled`).
     ("melting_range.rs", include_str!("../src/melting_range.rs")),
+    // AN-004: the editorial starch-bound iodine pool in `inspect`
+    // (`not-modeled.starch-iodine-binding-stoichiometry`).
+    (
+        "iodine_chemistry.rs",
+        include_str!("../src/iodine_chemistry.rs"),
+    ),
 ];
 
 /// Every `#[cfg(test)] mod … { … }` removed, braces matched.

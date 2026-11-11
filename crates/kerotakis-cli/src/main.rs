@@ -927,23 +927,27 @@ fn json_inspect(step: usize, vessels: &[&Vessel]) -> serde_json::Value {
         "bench": { "vessels": vessels },
     });
     // Triiodide is a computed split of the I2(aq)/I- pools, not an
-    // inventory entry; report it here from the same function the
-    // spectrophotometer integrates, so inspect and absorbance agree.
-    let iodine: Vec<serde_json::Value> = vessels
+    // inventory entry; report it here from the same split the
+    // spectrophotometer integrates, so inspect and absorbance agree. AN-004:
+    // every iodine pool is named (free I2, I3-, free I-, the starch-bound
+    // complex and any other iodine-bearing portion) and closed against the
+    // ledger, and once any vessel holds iodine EVERY vessel is listed, so a
+    // control whose iodine is all starch-bound (or a blank) is never dropped.
+    let inventories: Vec<_> = vessels
         .iter()
-        .filter_map(|v| {
-            kerotakis_core::iodine_chemistry::optical_split(v).map(|s| {
-                serde_json::json!({
-                    "vessel": v.id,
-                    "free_i2_mol": s.iodine,
-                    "triiodide_mol": s.triiodide,
-                    "free_iodide_mol": s.iodide,
-                    "oxidised_iodine_mol": s.iodine + s.triiodide,
-                    "triiodide_k_l_per_mol": kerotakis_core::iodine_chemistry::TRIIODIDE_K,
-                })
-            })
-        })
+        .map(|&v| kerotakis_core::iodine_chemistry::iodine_inventory(v))
         .collect();
+    let iodine: Vec<serde_json::Value> = if inventories
+        .iter()
+        .any(kerotakis_core::iodine_chemistry::holds_iodine)
+    {
+        inventories
+            .iter()
+            .map(|inv| serde_json::to_value(inv).unwrap_or(serde_json::Value::Null))
+            .collect()
+    } else {
+        Vec::new()
+    };
     if !iodine.is_empty() {
         out["iodine_speciation"] = serde_json::Value::Array(iodine);
     }

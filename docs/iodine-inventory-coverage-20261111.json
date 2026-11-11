@@ -1,0 +1,56 @@
+{
+  "generated_by": "tools/iodine_inventory_coverage.py",
+  "constants": {
+    "triiodide_k": 698.0,
+    "starch_site_fraction": 0.05
+  },
+  "starch_binding_limitation": "not-modeled.starch-iodine-binding-stoichiometry",
+  "species": [
+    {
+      "species": "AgI",
+      "formula": "AgI",
+      "iodine_atoms": 1.0,
+      "class": "other-pool"
+    },
+    {
+      "species": "HI",
+      "formula": "HI",
+      "iodine_atoms": 1.0,
+      "class": "other-pool"
+    },
+    {
+      "species": "KIO3",
+      "formula": "KIO3",
+      "iodine_atoms": 1.0,
+      "class": "other-pool"
+    },
+    {
+      "species": "PbI2",
+      "formula": "PbI2",
+      "iodine_atoms": 2.0,
+      "class": "other-pool"
+    },
+    {
+      "species": "I-",
+      "formula": "I-",
+      "iodine_atoms": 1.0,
+      "class": "split-iodide (aqueous)"
+    },
+    {
+      "species": "KI",
+      "formula": "KI",
+      "iodine_atoms": 1.0,
+      "class": "split-iodide (aqueous)"
+    },
+    {
+      "species": "I2",
+      "formula": "I2",
+      "iodine_atoms": 2.0,
+      "class": "split-oxidised (aqueous)"
+    }
+  ],
+  "sources": [
+    "Triiodide K = 698 L/mol at 25 C: Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374 (spectrophotometric range 698-770: Awtrey & Connick, J. Am. Chem. Soc. 73 (1951) 1842, doi:10.1021/ja01148a097).",
+    "Starch-iodine binding stoichiometry NOT settled (hence the editorial site fraction and the typed limitation): Pesek et al., Molecules 27 (2022) 8974, doi:10.3390/molecules27248974; Pesek & Silaghi-Dumitrescu, Molecules 29 (2024) 641, doi:10.3390/molecules29030641."
+  ]
+}

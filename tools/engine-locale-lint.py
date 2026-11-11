@@ -62,6 +62,7 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/flame.rs",
     ROOT / "crates/kerotakis-core/src/starch_amylase.rs",
     ROOT / "crates/kerotakis-core/src/melting_range.rs",
+    ROOT / "crates/kerotakis-core/src/iodine_chemistry.rs",
     ROOT / "crates/kerotakis-core/src/solve.rs",
     ROOT / "crates/kerotakis-core/src/nonaqueous.rs",
     # I18N-11. `scene.rs` composes the sentences the WEB bench paints from
