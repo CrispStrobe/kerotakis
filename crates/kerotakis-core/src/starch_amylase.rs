@@ -83,8 +83,7 @@
 //!   the bench's single `starch` species does not carry, so no generic
 //!   granule rate is claimed. Since round 4 the plant source is read from
 //!   the material recipe instead (below); native granules of unstated
-//!   source are refused with `not-modeled.amylase-starch-source-unspecified`
-//!   and stay as they are.
+//!   source are digested as maize with a typed assumption note.
 //! * Gelatinised state: starch held in liquid water at or above 85 °C during
 //!   a clock step is booked as gelatinised (`Vessel::starch_gelatinised_moles`,
 //!   irreversible; retrogradation not modelled). 85 °C is the HIGHEST onset
@@ -145,9 +144,10 @@
 //! * Plain `starch` (no material recipe: a generic laboratory starch of
 //!   unstated plant source, insoluble in the registry) keeps the A3176
 //!   soluble-starch unit-rate route once gelatinised (the unit is defined
-//!   on dissolved starch). Native or retrograded starch of unstated source
-//!   is refused (`not-modeled.amylase-starch-source-unspecified`): native
-//!   RDS spans 1.7 % (green banana) to 19.6 % (wheat) in protocol W.
+//!   on dissolved starch). Native or retrograded plain starch is ASSUMED
+//!   to be maize ([`ASSUMED_BOTANICAL`]), with a typed note every time
+//!   (`not-modeled.amylase-starch-source-assumed-maize`): native RDS spans
+//!   1.7 % (green banana) to 19.6 % (wheat) in protocol W.
 //! * A material whose starch has no row (whole foods such as flour, bread,
 //!   rice grain or potato tuber: the starch sits in a food matrix the
 //!   isolated-starch tables do not describe; no readable primary value was
@@ -414,12 +414,26 @@ pub const DIGESTIBILITY: &[DigestibilityRow] = &[
     },
 ];
 
+/// Plant source assumed for plain `starch` (no material recipe) when it is
+/// native or retrograded: maize, the commonest laboratory and school starch
+/// (cornstarch). The assumption is reported every time it is used
+/// (`not-modeled.amylase-starch-source-assumed-maize`) with the native
+/// 20-min range across the table, 1.7 % (green banana, Molecules 23 (2018)
+/// 2312, Table 4) to 19.6 % (wheat, Sci. Rep. 7 (2017) 12312, Table 5).
+pub const ASSUMED_BOTANICAL: &str = "maize";
+
 /// Every registry material whose recipe resolves `starch`, with the
 /// botanical row it reads (`None`: no measured row; refused typed).
 /// `tools/starch_amylase_coverage.py --check` fails when a starch-bearing
 /// recipe is missing here.
 pub const MATERIAL_BOTANICAL: &[(&str, Option<&str>)] = &[
     ("household/cornstarch", Some("maize")),
+    ("household/potato-starch", Some("potato")),
+    ("household/pea-starch", Some("pea")),
+    ("household/wheat-starch", Some("wheat")),
+    ("household/rice-starch", Some("rice")),
+    ("household/green-banana-starch", Some("green banana")),
+    ("household/sweet-potato-starch", Some("sweet potato")),
     ("household/heat-activated-baking-powder-surrogate", None),
     ("household/cocoa-powder", None),
     ("household/wheat-flour-surrogate", None),
@@ -667,13 +681,13 @@ fn grams_of(moles: f64) -> f64 {
     species::lookup_key(SUBSTRATE).map_or(0.0, |d| moles * d.molar_mass)
 }
 
-fn source_unspecified_event(vessel: &Vessel, moles: f64) -> Event {
+fn source_assumed_event(vessel: &Vessel, moles: f64) -> Event {
     Event::not_modeled(
         vessel.id,
         crate::ops::NotModelledCause::NoReviewedDatum,
         Phrase::new(
-            "not-modeled.amylase-starch-source-unspecified",
-            "starch digestion by amylase: {grams} g of the starch is uncooked (native) or retrograded starch of unstated plant source; how much of such starch amylase digests depends on the source (at the same dose and 37 °C, 1.7 % in 20 min for green banana starch, 6.45 % for maize, 19.6 % for wheat), so no digestion of it is booked and it is left as it is; naming the starch, for example cornstarch, selects a measured fraction",
+            "not-modeled.amylase-starch-source-assumed-maize",
+            "starch digestion by amylase: the plant source of {grams} g of uncooked (native) or retrograded starch is not stated, so maize starch, the commonest laboratory starch, is assumed; at the same dose and 37 °C uncooked starch of other sources digests between 1.7 % (green banana) and 19.6 % (wheat) in 20 min, so naming the starch, for example potato starch, selects its own measured fraction",
             vec![("grams".to_string(), Slot::number(format!("{:.3}", grams_of(moles))))],
         ),
     )
@@ -751,7 +765,7 @@ pub fn consumes(vessel: &Vessel, species: &SpeciesId) -> bool {
         && (gelatinised_moles(vessel) > 0.0
             || source_shares(vessel)
                 .iter()
-                .any(|(id, _)| botanical_of(id).is_some()))
+                .any(|(id, _)| id.is_empty() || botanical_of(id).is_some()))
 }
 
 /// Active enzyme milligrams, or `None` when the dose has no registry molar
@@ -908,23 +922,31 @@ fn digest(vessel: &mut Vessel, mg: f64, seconds: f64, events: &mut Vec<Event>) {
 
     // (source, state, repeat units digested)
     let mut digested: Vec<(String, StarchState, f64)> = Vec::new();
-    let mut unspecified_refused = 0.0;
+    let mut assumed = 0.0;
     let mut unspecified_gel = 0.0;
     let mut table_used = false;
     let mut outside = false;
     let mut beyond = false;
     for (source, m) in source_shares(vessel) {
         let parts = pools(m);
-        if source.is_empty() {
-            unspecified_refused += parts[0].1 + parts[2].1;
-            unspecified_gel += parts[1].1;
-            continue;
-        }
+        let botanical = if source.is_empty() {
+            Some(ASSUMED_BOTANICAL)
+        } else {
+            botanical_of(&source)
+        };
         for (st, pool) in parts {
             if pool <= 0.0 {
                 continue;
             }
-            let Some(r) = botanical_of(&source).and_then(|b| row(b, st)) else {
+            if source.is_empty() {
+                if st == StarchState::Gelatinised {
+                    // Dissolved plain starch: the A3176 unit-rate route.
+                    unspecified_gel += pool;
+                    continue;
+                }
+                assumed += pool;
+            }
+            let Some(r) = botanical.and_then(|b| row(b, st)) else {
                 events.push(no_data_event(vessel, &source, st, pool));
                 continue;
             };
@@ -945,8 +967,8 @@ fn digest(vessel: &mut Vessel, mg: f64, seconds: f64, events: &mut Vec<Event>) {
     if outside {
         events.push(outside_protocol_event(vessel, u_per_g));
     }
-    if unspecified_refused > 0.0 {
-        events.push(source_unspecified_event(vessel, unspecified_refused));
+    if assumed > 0.0 && in_window {
+        events.push(source_assumed_event(vessel, assumed));
     }
     // Plain gelatinised starch: the A3176 unit-rate route (dissolved starch).
     if unspecified_gel > 0.0 {
@@ -1130,5 +1152,36 @@ mod tests {
         let ratio = with_iodine(treated) / with_iodine(control);
         // Gelatinised maize RDS 81.59 % (Molecules 23 (2018) 2132, Table 6).
         assert!((ratio - (1.0 - 0.8159)).abs() < 1e-9, "{ratio}");
+    }
+
+    #[test]
+    fn en001_iodine_complex_follows_the_assumed_maize_native_fraction() {
+        // Plain starch (no recipe), 0.20 g, 37 °C; 10 mg amylase = 250 U/g.
+        let make = || {
+            let mut v = Vessel::new(crate::VesselId(0), "en-001");
+            v.deposit(SpeciesId::new("water"), Moles(2.767), Phase::Liquid);
+            v.deposit_lot(
+                SpeciesId::new(SUBSTRATE),
+                Moles(0.20 / 162.14),
+                Phase::Solid,
+                None,
+                None,
+            );
+            v.temperature = crate::units::Kelvin::from_celsius(37.0);
+            v
+        };
+        let control = make();
+        let mut treated = make();
+        let m = species::lookup_key(ENZYME).unwrap().molar_mass;
+        treated.deposit(SpeciesId::new(ENZYME), Moles(0.010 / m), Phase::Aqueous);
+        advance(&mut treated, 1200.0);
+        let with_iodine = |mut v: Vessel| {
+            v.deposit(SpeciesId::new("I2"), Moles(1.0), Phase::Aqueous);
+            v.deposit(SpeciesId::new("I-"), Moles(1.0), Phase::Aqueous);
+            crate::starch_iodine::complex_moles(&v)
+        };
+        let ratio = with_iodine(treated) / with_iodine(control);
+        // Native maize RDS 6.45 % (Molecules 23 (2018) 2132, Table 6).
+        assert!((ratio - (1.0 - 0.0645)).abs() < 1e-9, "{ratio}");
     }
 }

@@ -27,12 +27,12 @@ State: Vessel::amylase_inactive_moles (irreversible; not carried by a pour). Typ
 Rule: plain `starch` (no material recipe; generic laboratory starch of unstated plant source, insoluble in the registry) booked as gelatinised (held in liquid water at >= GELATINISED_AT_K during a clock step) is digested at the soluble-starch A3176 unit rate; plain native or retrograded starch is refused; starch from a material recipe follows the digestibility table. Gelatinised at: 358.15 K.
 Gelatinisation source: Belitz, Grosch, Schieberle, Food Chemistry, 3rd ed., Springer 2004, pp. 318-323 (ISBN 3-540-40818-5): unmodified native starches start swelling at 55 °C (some types) to 85 °C (others); value as quoted by https://en.wikipedia.org/wiki/Starch_gelatinization.
 Why no granule rate: Slaughter, Ellis, Butterworth, Biochim. Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8: gelatinisation raises porcine pancreatic α-amylase k_cat/K_m 13-fold (waxy rice) to 239-fold (potato); source-dependent, so no generic granule rate.
-State: Vessel::starch_gelatinised_moles (re-gelatinised by >= 85 C) and Vessel::starch_digestion (retrograded pool, 4 C hold seconds, table clock, digested per lot source); not carried by a pour. Typed reason: `not-modeled.amylase-starch-source-unspecified`.
+State: Vessel::starch_gelatinised_moles (re-gelatinised by >= 85 C) and Vessel::starch_digestion (retrograded pool, 4 C hold seconds, table clock, digested per lot source); not carried by a pour. Typed reason: `not-modeled.amylase-starch-source-assumed-maize`.
 Product: booked as maltose equivalents (the unit counts reducing sugar as maltose); maltose, maltotriose and alpha-limit dextrins split NOT modelled: no sourced split (typed note not-modeled.amylase-starch-product-split-unsourced).
 
 | enzyme | route | module | typed refusals |
 |---|---|---|---|
-| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated, not-modeled.amylase-starch-source-unspecified, not-modeled.amylase-starch-fraction-no-data, not-modeled.amylase-starch-outside-source-protocol, not-modeled.amylase-starch-beyond-source-time, not-modeled.amylase-starch-product-split-unsourced |
+| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated, not-modeled.amylase-starch-source-assumed-maize, not-modeled.amylase-starch-fraction-no-data, not-modeled.amylase-starch-outside-source-protocol, not-modeled.amylase-starch-beyond-source-time, not-modeled.amylase-starch-product-split-unsourced |
 | lactase | bounded-activity | enzyme_activity | — |
 | protease | bounded-activity | enzyme_activity | — |
 | lipase | bounded-activity | enzyme_activity | — |
@@ -48,8 +48,9 @@ Retrogradation: gelatinised starch held in liquid water at 4 C for a cumulative 
 Caveat: tabulated values include amyloglucosidase, which acts synergistically on granules; amylase alone is expected to digest no faster, so booked digestion is an upper-bound-like figure.
 Products: maltose equivalents; alpha-amylase gives maltose, maltotriose (minor maltotetraose) and alpha-limit dextrins (PLoS One 8 (2013) e59745, doi:10.1371/journal.pone.0059745); split unsourced, typed note not-modeled.amylase-starch-product-split-unsourced.
 Iodine: the starch-iodine complex reads remaining ledger starch (starch_iodine::complex_moles).
+Plain `starch` default: maize (native 20-min range across rows 1.7-19.6 %; typed note `not-modeled.amylase-starch-source-assumed-maize`).
 
-Rows: 18 (7 botanical sources); starch-bearing registry materials: 14, with a row: 1, refused typed: 13.
+Rows: 18 (7 botanical sources); starch-bearing registry materials: 20, with a row: 7, refused typed: 13.
 
 | botanical | state | RDS % (used) | digested by 120 min % (used) | reported RDS / SDS / RS | source |
 |---|---|---|---|---|---|
@@ -76,6 +77,12 @@ Rows: 18 (7 botanical sources); starch-bearing registry materials: 14, with a ro
 |---|---|---|---|
 | household/heat-activated-baking-powder-surrogate | 0.25 | — | refused: not-modeled.amylase-starch-fraction-no-data |
 | household/cornstarch | 1.0 | maize | table (native, gelatinised, retrograded) |
+| household/potato-starch | 1.0 | potato | table (native, gelatinised, retrograded) |
+| household/pea-starch | 1.0 | pea | table (native, gelatinised, retrograded) |
+| household/wheat-starch | 1.0 | wheat | table (native, gelatinised, retrograded) |
+| household/rice-starch | 1.0 | rice | table (gelatinised, retrograded) |
+| household/green-banana-starch | 1.0 | green banana | table (native, gelatinised) |
+| household/sweet-potato-starch | 1.0 | sweet potato | table (native, gelatinised) |
 | household/cocoa-powder | 0.11 | — | refused: not-modeled.amylase-starch-fraction-no-data |
 | household/wheat-flour-surrogate | 0.7 | — | refused: not-modeled.amylase-starch-fraction-no-data |
 | household/flour-and-water-dough | 0.42 | — | refused: not-modeled.amylase-starch-fraction-no-data |
@@ -89,7 +96,7 @@ Rows: 18 (7 botanical sources); starch-bearing registry materials: 14, with a ro
 | food/cake-batter | 0.24 | — | refused: not-modeled.amylase-starch-fraction-no-data |
 | food/popcorn-kernel | 0.62 | — | refused: not-modeled.amylase-starch-fraction-no-data |
 
-Not sourced (refused or no registry material): isolated potato, pea, wheat, rice, green-banana and sweet-potato starches have rows but no registry material yet; native rice (figure only); whole foods (flour, dough, bread, pasta, rice grain, potato tuber, beans, seeds, batter, popcorn, cocoa, baking powder): Englyst 1992 (Eur J Clin Nutr 46 S33) and 1999 (AJCN 69:448) food tables not readable.
+Not sourced (refused or no registry material): native rice starch (figure only in the source); whole foods (flour, dough, bread, pasta, rice grain, potato tuber, beans, seeds, batter, popcorn, cocoa, baking powder): Englyst 1992 (Eur J Clin Nutr 46 S33) and 1999 (AJCN 69:448) food tables not readable.
 
 ## 2. Starch-iodine complex absorbance
 

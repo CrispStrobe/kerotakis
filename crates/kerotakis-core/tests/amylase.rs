@@ -477,31 +477,34 @@ fn native_refusal(events: &[Event]) -> Option<&Phrase> {
     events.iter().find_map(|e| match e {
         Event::NotYetModeled {
             reason: Some(p), ..
-        } if p.key == "not-modeled.amylase-starch-source-unspecified" => Some(p),
+        } if p.key == "not-modeled.amylase-starch-source-assumed-maize" => Some(p),
         _ => None,
     })
 }
 
 #[test]
-fn native_starch_granules_at_37_c_are_refused_typed_not_digested() {
-    // The EN-001 protocol: starch stirred into 37 °C water, amylase, 20 min.
+fn en001_plain_native_starch_at_37_c_digests_the_assumed_maize_fraction() {
+    // EN-001: 50 mL water at 37 °C, 0.20 g starch, 0.010 g amylase, 20 min.
+    // 10 mg × 5 U/mg = 50 U per 0.20 g = 250 U/g, inside 200-800 U/g.
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "water", 2.767);
     bench.vessels[0].temperature = Kelvin::from_celsius(37.0);
     add(&mut bench, &mut s, "starch", 0.20 / 162.14);
-    add(&mut bench, &mut s, "amylase", 1.8e-7);
+    let m = species::lookup_key("amylase").unwrap().molar_mass;
+    add(&mut bench, &mut s, "amylase", 0.010 / m);
     let events = wait(&mut bench, &mut s, 1200.0);
     let phrase = native_refusal(&events)
-        .unwrap_or_else(|| panic!("typed native-granule refusal: {events:?}"));
+        .unwrap_or_else(|| panic!("typed maize assumption note: {events:?}"));
     let en = phrase.render(i18n::Locale::EN);
+    assert!(en.contains("1.7") && en.contains("19.6"), "{en}");
     for locale in ["de", "fr"] {
         assert_ne!(phrase.render(i18n::Locale::parse(locale)), en);
     }
-    assert!(!events.iter().any(|e| matches!(e,
-        Event::ReactionOccurred { equation, .. } if equation.contains("amylase"))));
-    assert!((total_moles(&bench, "starch") - 0.20 / 162.14).abs() < 1e-15);
-    assert_eq!(total_moles(&bench, "maltose"), 0.0);
+    // Native maize RDS 6.45 % (Molecules 23 (2018) 2132, Table 6).
+    let left = total_moles(&bench, "starch") / (0.20 / 162.14);
+    assert!((left - (1.0 - 0.0645)).abs() < 1e-6, "{left}");
+    assert!(total_moles(&bench, "maltose") > 0.0);
 }
 
 #[test]
@@ -536,7 +539,15 @@ fn only_the_gelatinised_pool_is_digested_when_raw_starch_is_added_after_cooking(
     v.deposit(SpeciesId::new("starch"), Moles(0.02), Phase::Solid);
     v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
     let events = starch_amylase::advance(&mut v, 4.0 * 3600.0);
-    assert!(native_refusal(&events).is_some(), "{events:?}");
+    // 55 mg × 5 U/mg over 4.9 g starch is ~57 U/g, below 200 U/g: the raw
+    // pool is outside the measured protocol and is refused, typed.
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::NotYetModeled { reason: Some(p), .. }
+            if p.key == "not-modeled.amylase-starch-outside-source-protocol")),
+        "{events:?}"
+    );
     let maltose = v.moles_of(&SpeciesId::new("maltose")).0;
     assert!(
         (maltose - 0.005).abs() < 1e-12,
@@ -544,7 +555,6 @@ fn only_the_gelatinised_pool_is_digested_when_raw_starch_is_added_after_cooking(
     );
     assert!((v.moles_of(&SpeciesId::new("starch")).0 - 0.02).abs() < 1e-12);
     assert_eq!(starch_amylase::gelatinised_moles(&v), 0.0);
-    assert!(!starch_amylase::consumes(&v, &SpeciesId::new("starch")));
 }
 
 #[test]
@@ -560,7 +570,7 @@ fn gelatinisation_constants_match_the_coverage_table() {
     );
     assert_eq!(
         g["refusal"],
-        "not-modeled.amylase-starch-source-unspecified"
+        "not-modeled.amylase-starch-source-assumed-maize"
     );
 }
 
@@ -632,7 +642,7 @@ fn cornstarch_native_at_37_c_digests_the_measured_rds_then_sds_then_stops() {
     ));
     assert!(!has_key(
         &events,
-        "not-modeled.amylase-starch-source-unspecified"
+        "not-modeled.amylase-starch-source-assumed-maize"
     ));
     let maltose = v.moles_of(&SpeciesId::new("maltose")).0;
     assert!((maltose - 0.0645 * STARCH_G / STARCH_M / 2.0).abs() < 1e-15);
@@ -712,7 +722,7 @@ fn starch_of_a_material_without_a_row_is_refused_typed() {
 }
 
 #[test]
-fn plain_and_attributed_starch_in_one_vessel_are_handled_separately() {
+fn plain_and_attributed_starch_in_one_vessel_both_digest_as_maize() {
     let mut v = attributed_vessel(CORNSTARCH, 20.0, 37.0);
     // As much plain starch again: 20 mg × 5 / 0.40 g = 250 U/g.
     v.deposit_lot(
@@ -725,10 +735,10 @@ fn plain_and_attributed_starch_in_one_vessel_are_handled_separately() {
     let events = starch_amylase::advance(&mut v, 1200.0);
     assert!(has_key(
         &events,
-        "not-modeled.amylase-starch-source-unspecified"
+        "not-modeled.amylase-starch-source-assumed-maize"
     ));
     let left = v.moles_of(&SpeciesId::new("starch")).0;
-    let expected = 2.0 * STARCH_G / STARCH_M - 0.0645 * STARCH_G / STARCH_M;
+    let expected = 2.0 * STARCH_G / STARCH_M * (1.0 - 0.0645);
     assert!((left - expected).abs() < 1e-12, "{left} vs {expected}");
 }
 
@@ -742,11 +752,31 @@ fn digestibility_rows_are_consistent_and_every_named_source_has_a_native_row() {
     for (id, b) in starch_amylase::MATERIAL_BOTANICAL {
         if let Some(b) = b {
             assert!(
-                starch_amylase::row(b, starch_amylase::StarchState::Native).is_some(),
+                starch_amylase::StarchState::ALL
+                    .iter()
+                    .any(|st| starch_amylase::row(b, *st).is_some()),
                 "{id}"
             );
         }
     }
+    // Every row is reachable from a registry material.
+    for r in starch_amylase::DIGESTIBILITY {
+        assert!(
+            starch_amylase::MATERIAL_BOTANICAL
+                .iter()
+                .any(|(_, b)| *b == Some(r.botanical)),
+            "{r:?}"
+        );
+    }
+    // The assumed default and the range quoted in its note.
+    assert_eq!(starch_amylase::ASSUMED_BOTANICAL, "maize");
+    let natives: Vec<f64> = starch_amylase::DIGESTIBILITY
+        .iter()
+        .filter(|r| r.state == starch_amylase::StarchState::Native)
+        .map(|r| r.rds_pct)
+        .collect();
+    assert_eq!(natives.iter().cloned().fold(f64::INFINITY, f64::min), 1.7);
+    assert_eq!(natives.iter().cloned().fold(0.0, f64::max), 19.6);
     let table: serde_json::Value = serde_json::from_str(include_str!(
         "../../../docs/starch-amylase-coverage-20261111.json"
     ))
@@ -759,4 +789,36 @@ fn digestibility_rows_are_consistent_and_every_named_source_has_a_native_row() {
             .unwrap(),
         starch_amylase::PROTOCOL_DOSE_U_PER_G
     );
+}
+
+#[test]
+fn every_isolated_starch_material_reaches_its_native_row() {
+    for (recipe, botanical, rds) in [
+        ("household/potato-starch", "potato", 0.0227),
+        ("household/pea-starch", "pea", 0.0620),
+        ("household/wheat-starch", "wheat", 0.196),
+        ("household/green-banana-starch", "green banana", 0.017),
+        ("household/sweet-potato-starch", "sweet potato", 0.027),
+    ] {
+        assert_eq!(starch_amylase::botanical_of(recipe), Some(botanical));
+        assert!(material::all().iter().any(|r| r.id == recipe), "{recipe}");
+        let mut v = attributed_vessel(&format!("material recipe {recipe}"), 10.0, 37.0);
+        starch_amylase::advance(&mut v, 1200.0);
+        assert!((digested_fraction_of(&v) - rds).abs() < 1e-9, "{recipe}");
+    }
+    // Rice starch: rows for cooked and retrograded only; native is refused.
+    let mut v = attributed_vessel("material recipe household/rice-starch", 10.0, 37.0);
+    let events = starch_amylase::advance(&mut v, 1200.0);
+    assert!(has_key(
+        &events,
+        "not-modeled.amylase-starch-fraction-no-data"
+    ));
+    assert_eq!(digested_fraction_of(&v), 0.0);
+    let mut v = attributed_vessel("material recipe household/rice-starch", 0.0, 95.0);
+    starch_amylase::advance(&mut v, 60.0);
+    v.temperature = Kelvin::from_celsius(37.0);
+    let m = species::lookup_key("amylase").unwrap().molar_mass;
+    v.deposit(SpeciesId::new("amylase"), Moles(0.010 / m), Phase::Aqueous);
+    starch_amylase::advance(&mut v, 1200.0);
+    assert!((digested_fraction_of(&v) - 0.736).abs() < 1e-9);
 }

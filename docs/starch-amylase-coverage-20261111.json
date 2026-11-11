@@ -30,7 +30,7 @@
     "gelatinisation_source": "Belitz, Grosch, Schieberle, Food Chemistry, 3rd ed., Springer 2004, pp. 318-323 (ISBN 3-540-40818-5): unmodified native starches start swelling at 55 °C (some types) to 85 °C (others); value as quoted by https://en.wikipedia.org/wiki/Starch_gelatinization",
     "granule_rate_source": "Slaughter, Ellis, Butterworth, Biochim. Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8: gelatinisation raises porcine pancreatic α-amylase k_cat/K_m 13-fold (waxy rice) to 239-fold (potato); source-dependent, so no generic granule rate",
     "rule": "plain `starch` (no material recipe; generic laboratory starch of unstated plant source, insoluble in the registry) booked as gelatinised (held in liquid water at >= GELATINISED_AT_K during a clock step) is digested at the soluble-starch A3176 unit rate; plain native or retrograded starch is refused; starch from a material recipe follows the digestibility table",
-    "refusal": "not-modeled.amylase-starch-source-unspecified",
+    "refusal": "not-modeled.amylase-starch-source-assumed-maize",
     "state": "Vessel::starch_gelatinised_moles (re-gelatinised by >= 85 C) and Vessel::starch_digestion (retrograded pool, 4 C hold seconds, table clock, digested per lot source); not carried by a pour",
     "product": "booked as maltose equivalents (the unit counts reducing sugar as maltose); maltose, maltotriose and alpha-limit dextrins split NOT modelled: no sourced split (typed note not-modeled.amylase-starch-product-split-unsourced)",
     "target": "batch3-diverse:en-001"
@@ -204,6 +204,42 @@
         "outcome": "table (native, gelatinised, retrograded)"
       },
       {
+        "id": "household/potato-starch",
+        "starch_fraction": 1.0,
+        "botanical": "potato",
+        "outcome": "table (native, gelatinised, retrograded)"
+      },
+      {
+        "id": "household/pea-starch",
+        "starch_fraction": 1.0,
+        "botanical": "pea",
+        "outcome": "table (native, gelatinised, retrograded)"
+      },
+      {
+        "id": "household/wheat-starch",
+        "starch_fraction": 1.0,
+        "botanical": "wheat",
+        "outcome": "table (native, gelatinised, retrograded)"
+      },
+      {
+        "id": "household/rice-starch",
+        "starch_fraction": 1.0,
+        "botanical": "rice",
+        "outcome": "table (gelatinised, retrograded)"
+      },
+      {
+        "id": "household/green-banana-starch",
+        "starch_fraction": 1.0,
+        "botanical": "green banana",
+        "outcome": "table (native, gelatinised)"
+      },
+      {
+        "id": "household/sweet-potato-starch",
+        "starch_fraction": 1.0,
+        "botanical": "sweet potato",
+        "outcome": "table (native, gelatinised)"
+      },
+      {
         "id": "household/cocoa-powder",
         "starch_fraction": 0.11,
         "botanical": null,
@@ -278,11 +314,19 @@
     ],
     "counts": {
       "botanical_sources": 7,
-      "starch_materials": 14,
-      "materials_with_row": 1,
+      "starch_materials": 20,
+      "materials_with_row": 7,
       "materials_refused": 13
     },
-    "not_sourced": "isolated potato, pea, wheat, rice, green-banana and sweet-potato starches have rows but no registry material yet; native rice (figure only); whole foods (flour, dough, bread, pasta, rice grain, potato tuber, beans, seeds, batter, popcorn, cocoa, baking powder): Englyst 1992 (Eur J Clin Nutr 46 S33) and 1999 (AJCN 69:448) food tables not readable"
+    "assumed_default": {
+      "botanical": "maize",
+      "native_rds_range_pct": [
+        1.7,
+        19.6
+      ],
+      "note": "not-modeled.amylase-starch-source-assumed-maize"
+    },
+    "not_sourced": "native rice starch (figure only in the source); whole foods (flour, dough, bread, pasta, rice grain, potato tuber, beans, seeds, batter, popcorn, cocoa, baking powder): Englyst 1992 (Eur J Clin Nutr 46 S33) and 1999 (AJCN 69:448) food tables not readable"
   },
   "enzymes": [
     {
@@ -293,7 +337,7 @@
         "not-modeled.amylase-outside-unit-conditions",
         "not-modeled.amylase-dose-not-convertible",
         "not-modeled.amylase-heat-inactivated",
-        "not-modeled.amylase-starch-source-unspecified",
+        "not-modeled.amylase-starch-source-assumed-maize",
         "not-modeled.amylase-starch-fraction-no-data",
         "not-modeled.amylase-starch-outside-source-protocol",
         "not-modeled.amylase-starch-beyond-source-time",

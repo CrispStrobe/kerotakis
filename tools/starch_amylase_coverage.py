@@ -103,8 +103,11 @@ def digestibility(amy: str) -> dict:
         counts=dict(botanical_sources=len({r["botanical"] for r in rows}), starch_materials=len(materials),
                     materials_with_row=sum(1 for m in materials if m["botanical"]),
                     materials_refused=sum(1 for m in materials if not m["botanical"])),
-        not_sourced=("isolated potato, pea, wheat, rice, green-banana and sweet-potato starches have rows but no "
-                     "registry material yet; native rice (figure only); whole foods (flour, dough, bread, pasta, "
+        assumed_default=dict(botanical=re.search(r'pub const ASSUMED_BOTANICAL: &str = "([^"]+)"', amy).group(1),
+                             native_rds_range_pct=[min(r["rds_pct"] for r in rows if r["state"] == "native"),
+                                                   max(r["rds_pct"] for r in rows if r["state"] == "native")],
+                             note="not-modeled.amylase-starch-source-assumed-maize"),
+        not_sourced=("native rice starch (figure only in the source); whole foods (flour, dough, bread, pasta, "
                      "rice grain, potato tuber, beans, seeds, batter, popcorn, cocoa, baking powder): Englyst 1992 "
                      "(Eur J Clin Nutr 46 S33) and 1999 (AJCN 69:448) food tables not readable"),
     )
@@ -150,7 +153,7 @@ def main() -> int:
                  refusals=["not-modeled.amylase-outside-unit-conditions",
                            "not-modeled.amylase-dose-not-convertible",
                            "not-modeled.amylase-heat-inactivated",
-                           "not-modeled.amylase-starch-source-unspecified",
+                           "not-modeled.amylase-starch-source-assumed-maize",
                            "not-modeled.amylase-starch-fraction-no-data",
                            "not-modeled.amylase-starch-outside-source-protocol",
                            "not-modeled.amylase-starch-beyond-source-time",
@@ -174,7 +177,7 @@ def main() -> int:
               "insoluble in the registry) booked as gelatinised (held in liquid water at >= GELATINISED_AT_K "
               "during a clock step) is digested at the soluble-starch A3176 unit rate; plain native or "
               "retrograded starch is refused; starch from a material recipe follows the digestibility table"),
-        refusal="not-modeled.amylase-starch-source-unspecified",
+        refusal="not-modeled.amylase-starch-source-assumed-maize",
         state=("Vessel::starch_gelatinised_moles (re-gelatinised by >= 85 C) and Vessel::starch_digestion "
                "(retrograded pool, 4 C hold seconds, table clock, digested per lot source); not carried by a pour"),
         product=("booked as maltose equivalents (the unit counts reducing sugar as maltose); maltose, maltotriose "
@@ -236,7 +239,10 @@ def main() -> int:
            f"Window: {dig['window']}. Time course: {dig['time_course']}.",
            f"Retrogradation: {dig['retrogradation']}.",
            f"Caveat: {dig['caveat']}.", f"Products: {dig['products']}.",
-           f"Iodine: {dig['iodine']}.", "",
+           f"Iodine: {dig['iodine']}.",
+           f"Plain `starch` default: {dig['assumed_default']['botanical']} (native 20-min range across rows "
+           f"{dig['assumed_default']['native_rds_range_pct'][0]}-{dig['assumed_default']['native_rds_range_pct'][1]} %; "
+           f"typed note `{dig['assumed_default']['note']}`).", "",
            f"Rows: {len(dig['rows'])} ({dig['counts']['botanical_sources']} botanical sources); "
            f"starch-bearing registry materials: {dig['counts']['starch_materials']}, "
            f"with a row: {dig['counts']['materials_with_row']}, refused typed: {dig['counts']['materials_refused']}.", "",
