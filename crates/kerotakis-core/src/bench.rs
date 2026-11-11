@@ -6029,6 +6029,7 @@ impl Bench {
                         effluent_moles: Vec::new(),
                         inflow_moles: Vec::new(),
                         drain,
+                        inlet: Some(*inlet),
                     });
                     return Ok(events);
                 }
@@ -6159,6 +6160,7 @@ impl Bench {
                     effluent_moles: total_effluent,
                     inflow_moles: total_inflow,
                     drain,
+                    inlet: Some(*inlet),
                 });
             }
             Operator::Titrate { .. } => {

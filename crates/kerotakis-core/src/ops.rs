@@ -2336,6 +2336,13 @@ pub enum Event {
         /// The inflow was debited from a finite feed vessel.
         #[serde(default, skip_serializing_if = "is_false")]
         drain: bool,
+        /// The inlet vessel. With `drain == false` it is a constant
+        /// reservoir: it is NOT debited, and `inflow_moles` is a source term
+        /// from outside the bench that a reader must subtract to close the
+        /// ledger (cells + surfaces + receiver - inflow = before). Absent on
+        /// payloads written before the inlet was recorded.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        inlet: Option<VesselId>,
     },
 }
 

@@ -1,0 +1,145 @@
+{
+  "date": "2026-11-11",
+  "render_keys": [
+    "event.transported.reservoir",
+    "event.transported.finite-feed",
+    "event.transported.inflow-none",
+    "event.transported.inlet-unnamed"
+  ],
+  "configurations": [
+    {
+      "configuration": "single reservoir inlet, inert column",
+      "inlet": "reservoir",
+      "pools": "cells + receiver + reservoir",
+      "identity": "after - inflow == before (per species)",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_feed_ledger.rs::the_default_reservoir_is_not_drained_and_its_inflow_is_recorded"
+    },
+    {
+      "configuration": "two reservoir inlets in turn (tr-006) + charcoal bed",
+      "inlet": "reservoir",
+      "pools": "cells + receiver + both reservoirs + adsorbed surface pool",
+      "identity": "after - sum(inflow) == before (water, dye, NaCl, carbon)",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_reservoir_source_term.rs::tr006_two_reservoir_ledger_closes_with_the_surface_pool"
+    },
+    {
+      "configuration": "tr-006 original, native PHREEQC stack, both commands",
+      "inlet": "reservoir",
+      "pools": "ConservedLedger: contents + adsorbed + surfaces + exchanges + solid solutions",
+      "identity": "after == before + inflow (N, S, Na, Cl per command)",
+      "closes": "yes",
+      "test": "crates/kerotakis-phreeqc/tests/transport_feed_triggers.rs::tr006_original_closes_dye_and_bound_pool_elements_per_command"
+    },
+    {
+      "configuration": "clean-water reservoir desorbing a loaded bed",
+      "inlet": "reservoir",
+      "pools": "cells + receiver + adsorbed surface pool",
+      "identity": "after == before + inflow (dye; inflow 0)",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_surface_reequilibration.rs::a_clean_water_flush_desorbs_toward_the_isotherm"
+    },
+    {
+      "configuration": "dye front onto a fresh bed",
+      "inlet": "reservoir",
+      "pools": "cells + receiver + reservoir + adsorbed",
+      "identity": "after == before + inflow (dye)",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_surface_reequilibration.rs::a_dye_front_is_adsorbed_as_it_arrives"
+    },
+    {
+      "configuration": "reactive bed, reaction after every step (toy cementation)",
+      "inlet": "reservoir",
+      "pools": "cells + receiver + deposit",
+      "identity": "ion + deposit and bed + deposit balances",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_feed_ledger.rs::reactions_run_after_every_step_so_an_excess_bed_retains_the_ion"
+    },
+    {
+      "configuration": "tr-004 silver column, native",
+      "inlet": "reservoir",
+      "pools": "ConservedLedger (all pools)",
+      "identity": "after == before + inflow (Ag, Na, Cl, N)",
+      "closes": "yes",
+      "test": "crates/kerotakis-phreeqc/tests/transport_feed_triggers.rs::tr004_original_records_reservoir_inflow_and_keeps_silver"
+    },
+    {
+      "configuration": "tr-008 iron bed retaining copper, native",
+      "inlet": "reservoir",
+      "pools": "ConservedLedger (all pools)",
+      "identity": "after == before + inflow (Fe, Cu, S)",
+      "closes": "yes",
+      "test": "crates/kerotakis-phreeqc/tests/transport_feed_triggers.rs::tr008_original_excess_iron_bed_retains_copper_per_step"
+    },
+    {
+      "configuration": "single drained feed",
+      "inlet": "drain",
+      "pools": "feed + cells + receiver",
+      "identity": "after == before; inflow == feed loss",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_feed_ledger.rs::finite_feed_conserves_every_species_across_feed_cells_and_effluent"
+    },
+    {
+      "configuration": "two drained feeds in turn + charcoal bed",
+      "inlet": "drain",
+      "pools": "feeds + cells + receiver + adsorbed",
+      "identity": "after == before; inflow == feed loss",
+      "closes": "yes",
+      "test": "crates/kerotakis-core/tests/transport_reservoir_source_term.rs::tr006_drained_feeds_close_without_a_source_term"
+    },
+    {
+      "configuration": "tr-006 drained, native",
+      "inlet": "drain",
+      "pools": "ConservedLedger (all pools)",
+      "identity": "after == before (Na, Cl)",
+      "closes": "yes",
+      "test": "crates/kerotakis-phreeqc/tests/transport_feed_triggers.rs::tr006_drained_feed_counts_salt_once"
+    },
+    {
+      "configuration": "drained feed asked for more than it holds",
+      "inlet": "drain",
+      "pools": "bench unchanged",
+      "identity": "typed InletExhausted refusal, atomic",
+      "closes": "refused (no partial move)",
+      "test": "crates/kerotakis-core/tests/transport_feed_ledger.rs::an_exhausted_feed_is_a_typed_atomic_refusal"
+    },
+    {
+      "configuration": "Courant 0",
+      "inlet": "reservoir",
+      "pools": "bench unchanged",
+      "identity": "inflow empty; line says the reservoir supplied nothing",
+      "closes": "yes (trivially)",
+      "test": "crates/kerotakis-core/tests/transport_reservoir_source_term.rs::a_zero_courant_reservoir_reports_that_it_supplied_nothing"
+    },
+    {
+      "configuration": "source term stated at LV1/LV2/LV3 in EN/DE/FR",
+      "inlet": "both",
+      "pools": "rendered line",
+      "identity": "reservoir/finite-feed label + per-species inflow",
+      "closes": "n/a (report)",
+      "test": "crates/kerotakis-core/tests/transport_reservoir_source_term.rs::every_register_and_locale_states_the_reservoir_source_term"
+    },
+    {
+      "configuration": "event payload names inlet; older payloads still read",
+      "inlet": "both",
+      "pools": "event JSON",
+      "identity": "`inlet`, `inflow_moles`, `drain`",
+      "closes": "n/a (report)",
+      "test": "crates/kerotakis-core/tests/transport_reservoir_source_term.rs::the_event_payload_carries_inlet_and_inflow"
+    }
+  ],
+  "open_terms": [
+    {
+      "term": "open-headspace gas exchange during transport (e.g. CO2 with air)",
+      "status": "a second open boundary that `inflow_moles` does not record; carbon and H/O are therefore not asserted in the native closure tests"
+    },
+    {
+      "term": "free H+/OH- and solute-charge carried by the parcel",
+      "status": "moved with the parcel but not listed in `inflow_moles` (not species amounts)"
+    },
+    {
+      "term": "PHREEQC surface-complexation / exchange beds in a transport cell",
+      "status": "counted by `ConservedLedger`; no dedicated transport closure test yet beyond the native trigger scripts above"
+    }
+  ]
+}

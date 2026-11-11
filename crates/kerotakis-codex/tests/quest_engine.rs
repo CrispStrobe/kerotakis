@@ -700,6 +700,7 @@ fn design_counts_the_stages_actually_connected() {
             effluent_moles: vec![],
             inflow_moles: vec![],
             drain: false,
+            inlet: None,
         }]
     };
     assert_eq!(ask(&spec, &[], &bench).unmet, Some(Unmet::NothingYet));

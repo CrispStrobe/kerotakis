@@ -891,6 +891,10 @@ hydroxylapatite = "hydroxylapatite"
 
 "transported.lv2" = "{cells} cellule(s) × {steps} étape(s) (Cf={courant}) ; éluat → {receiver} : {what}"
 "transported.lv2-portion" = "{moles} {name}"
+"transported.reservoir" = "L'entrée {inlet} est un réservoir à composition constante et n'est pas débitée ; elle a fourni depuis l'extérieur du plan de travail (terme source) : {what}."
+"transported.finite-feed" = "L'entrée {inlet} est une alimentation finie et a été débitée de ce qui est entré dans la colonne : {what}."
+"transported.inflow-none" = "rien"
+"transported.inlet-unnamed" = "(non enregistrée)"
 
 # The melting/boiling apparatus. Every one of its refusals is the lesson —
 # a mixture is told WHY it has no sharp point — so an English refusal in a
