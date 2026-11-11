@@ -109,7 +109,13 @@ fn closed_bicarbonate_keeps_carbon_and_differs_from_an_open_beaker() {
     let mut open_solver = PhreeqcEquilibrator::new().expect("engine");
     let mut open = Bench::new();
     add(&mut open, &mut open_solver, vessel, "water", 55.51);
-    let open_events = add(&mut open, &mut open_solver, vessel, "NaHCO3", 0.05);
+    let mut open_events = add(&mut open, &mut open_solver, vessel, "NaHCO3", 0.05);
+    // The open beaker loses CO2 once time passes (an `add` takes none).
+    open_events.extend(step(
+        &mut open,
+        &mut open_solver,
+        Operator::Wait { seconds: 3600.0 },
+    ));
     let open_ph = open.vessel(vessel).unwrap().solution.as_ref().unwrap().ph;
     assert!(open_events.iter().any(|event| matches!(
         event,

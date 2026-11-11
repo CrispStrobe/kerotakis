@@ -1477,6 +1477,17 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
     // unchanged native addition-order comparison and reports aq-023 healed
     // at this gate. Remove its allowance; retain every order threshold and
     // the independent finite-venting exception above.
+    //
+    // Back 2026-11-11, at 1.18e-5 relative (4.0e-9 mol of 3.43e-4), when
+    // `add` became a zero-time dose: neither order now takes CO2 from the
+    // room, so the conserved `2·O − H` residue is no longer washed through
+    // an atmospheric reservoir on every step and the same floating-point
+    // wobble described above shows through. Same size class, same cause;
+    // still the stabler-sum fix, not a physics departure.
+    (
+        "aq-023",
+        "base_equivalents residue 4e-9 mol: floating-point accumulation in the conserved 2·O − H sum, exposed when zero-time adds stopped exchanging CO2 with the room",
+    ),
 ];
 
 const SCALE_DEPARTURES: &[(&str, &str)] = &[

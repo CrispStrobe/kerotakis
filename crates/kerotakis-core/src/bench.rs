@@ -1034,8 +1034,10 @@ impl Bench {
                 // as the dominant dissolved carbon and CO2 above room air,
                 // the dose has protonated carbonate to CO2: that is fizz,
                 // and the step is re-solved with the room as the sink.
-                let zero_time = matches!(&op, Operator::Add { .. })
-                    && matches!(vessel.headspace, Headspace::Open);
+                let zero_time = matches!(
+                    &op,
+                    Operator::Add { .. } | Operator::Wait { seconds } if *seconds <= 0.0
+                ) && matches!(vessel.headspace, Headspace::Open);
                 let before = zero_time.then(|| vessel.clone());
                 vessel.zero_time_dose = zero_time;
                 let mut outcome = solver.equilibrate(vessel);

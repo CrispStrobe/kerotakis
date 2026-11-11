@@ -680,6 +680,14 @@ fn bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_dri
         "route replay published multiple provisional CO2 crossings: {dose:?}"
     );
     assert_no_ionic_curated_replay(&dose, "high-bicarbonate route replay");
+    // An `add` takes no time, so the bicarbonate keeps its carbon (and its
+    // concentrated potential load) until the room takes CO2 over an hour.
+    apply_with_ledger(
+        &mut bench,
+        &mut stack,
+        "wait 3600s",
+        "open-beaker degassing",
+    );
 
     let settled = bench
         .vessel(VesselId(0))

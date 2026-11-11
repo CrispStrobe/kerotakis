@@ -83,7 +83,17 @@ fn baking_soda_alone_degasses_slowly_not_dramatically() {
     let mut bench = Bench::new();
     let v = VesselId(0);
     add_with(&mut bench, &mut eq, v, "water", 55.51);
-    let events = add_with(&mut bench, &mut eq, v, "NaHCO3", 0.05);
+    let added = add_with(&mut bench, &mut eq, v, "NaHCO3", 0.05);
+    // An `add` takes no time (2026-11-11 fizz rule): no acid, so nothing
+    // leaves until time passes.
+    assert_eq!(evolved_co2(&added), 0.0);
+    let events = bench
+        .step_with(
+            Operator::Wait { seconds: 3600.0 },
+            &mut eq,
+            &ReactiveGroupScreen,
+        )
+        .expect("wait");
 
     let co2 = evolved_co2(&events);
     assert!(

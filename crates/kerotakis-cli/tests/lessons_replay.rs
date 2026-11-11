@@ -1239,8 +1239,10 @@ fn the_kitchen_ph_map_says_which_bottle_it_cannot_price() {
         "v1 pH meter: 2.41",
         // Current adiabatic model snapshot; complete material/charge and
         // zero-time controls live in phreeqc/tests/lesson_thermal_contract.rs.
-        // The matched 298.15 K bath does not reproduce the historical 10.02.
-        "v2 pH meter: 9.96",
+        // Freshly stirred baking soda: an `add` takes no time, so the CO2
+        // that an open beaker loses over hours is still in solution (the
+        // earlier 9.96 was the room-air endpoint reached instantly).
+        "v2 pH meter: 7.82",
         "v4 pH meter: 1.86",
     ] {
         assert!(out.contains(reading), "missing {reading}:\n{out}");
