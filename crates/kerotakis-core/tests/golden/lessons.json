@@ -8072,7 +8072,7 @@
       "v4: +0.0856 mol sodium chloride",
       "v4: 0.0856 mol sodium chloride dissolved",
       "v5: new vessel",
-      "3 cell(s) × 3 step(s) (Cf=0.50); effluent → v5: 8.3014 mol water",
+      "3 cell(s) × 3 step(s) (Cf=0.50); effluent → v5: 8.3014 mol water. Inlet v4 is a constant reservoir and is not debited; it supplied from outside the bench (source term): 8.3014 mol water, 0.1283 mol sodium chloride.",
       "v1 balance: 104.08 g",
       "v2 balance: 102.20 g",
       "v3 balance: 100.33 g",

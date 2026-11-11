@@ -248,6 +248,28 @@ fn tr006_original_ledger_closes_with_recorded_inflow() {
     assert_eq!(shape(&outcomes), vec![true, true]);
 }
 
+/// Both tr-006 commands, the elements only the dye and salt carry: the bound
+/// dye on the charcoal is a ledger term (`ConservedLedger` counts
+/// `adsorbed`), so N, S, Na and Cl close against before + inflow. Carbon is
+/// left out: an open beaker may exchange CO2 with the air.
+#[test]
+fn tr006_original_closes_dye_and_bound_pool_elements_per_command() {
+    let outcomes = run(TR006, false, |_, before, after, events| {
+        assert_open_closed(before, after, events, &["N", "S", "Na", "Cl"]);
+        assert!(matches!(
+            events
+                .iter()
+                .find(|e| matches!(e, Event::Transported { .. })),
+            Some(Event::Transported {
+                inlet: Some(_),
+                drain: false,
+                ..
+            })
+        ));
+    });
+    assert_eq!(shape(&outcomes), vec![true, true]);
+}
+
 #[test]
 fn tr006_drained_feed_counts_salt_once() {
     let outcomes = run(TR006, true, |index, before, after, _| {

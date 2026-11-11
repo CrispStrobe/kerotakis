@@ -5036,11 +5036,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             steps,
             courant,
             effluent_moles,
-            ..
+            inflow_moles,
+            drain,
+            inlet,
         } => {
             let cells = chain.len();
             let total: f64 = effluent_moles.iter().map(|(_, m)| m.0).sum();
-            match register.level() {
+            let source_term = transport_source_term(locale, inflow_moles, *drain, *inlet);
+            let body = match register.level() {
                 1 => locale.fill(
                     "event.transported.lv1",
                     "Solution flows through {cells} column cells and collects in {receiver}.",
@@ -5084,8 +5087,65 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                      effluent total {total} mol → {receiver}",
                     &[("cells", &cells.to_string()), ("steps", &steps.to_string()), ("courant", &locale.number(format!("{courant:.4}"))), ("total", &locale.number(format!("{total:.6}"))), ("receiver", &receiver.to_string())],
                 ),
-            }
+            };
+            let joiner = if body.ends_with('.') { " " } else { ". " };
+            format!("{body}{joiner}{source_term}")
         }
+    }
+}
+
+/// The boundary source term of an open column, stated at every register.
+///
+/// The default inlet is a constant-composition reservoir (as a PHREEQC
+/// TRANSPORT boundary solution): it is never debited, so the matter that
+/// entered the first cell came from outside the bench. Without this line a
+/// reader summing the vessels sees that matter as duplicated. A drained
+/// (finite) feed states the same amounts as what the feed lost.
+fn transport_source_term(
+    locale: Locale,
+    inflow_moles: &[(SpeciesId, crate::units::Moles)],
+    drain: bool,
+    inlet: Option<crate::vessel::VesselId>,
+) -> String {
+    let portions: Vec<String> = inflow_moles
+        .iter()
+        .filter(|(_, m)| m.0 > 0.0)
+        .map(|(s, m)| {
+            locale.fill(
+                "event.transported.lv2-portion",
+                "{moles} {name}",
+                &[
+                    ("moles", &moles_amount(locale, m.0)),
+                    ("name", species_name(locale, s)),
+                ],
+            )
+        })
+        .collect();
+    let what = if portions.is_empty() {
+        locale
+            .t("event.transported.inflow-none", "nothing")
+            .to_string()
+    } else {
+        portions.join(", ")
+    };
+    let inlet = match inlet {
+        Some(v) => v.to_string(),
+        None => locale
+            .t("event.transported.inlet-unnamed", "(not recorded)")
+            .to_string(),
+    };
+    if drain {
+        locale.fill(
+            "event.transported.finite-feed",
+            "Inlet {inlet} is a finite feed and was debited by what entered the column: {what}.",
+            &[("inlet", &inlet), ("what", &what)],
+        )
+    } else {
+        locale.fill(
+            "event.transported.reservoir",
+            "Inlet {inlet} is a constant reservoir and is not debited; it supplied from outside the bench (source term): {what}.",
+            &[("inlet", &inlet), ("what", &what)],
+        )
     }
 }
 
