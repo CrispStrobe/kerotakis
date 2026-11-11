@@ -74,6 +74,7 @@ pub mod ledger;
 pub mod local_equilibrium;
 pub mod material;
 pub mod measurement;
+pub mod melting_range;
 pub mod molecule;
 mod named_alkaline;
 pub mod nonaqueous;

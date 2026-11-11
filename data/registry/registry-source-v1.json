@@ -1694,13 +1694,256 @@
       "retrieved": null
     },
     {
-      "id": "kerotakis/phase-transitions-v1",
-      "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. The commentary that remains is worth keeping: these are the transition temperatures the general references agree on for these substances, and the editorial care in the rest of this paragraph was real. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. (The reviewer confirmation recorded 2026-09-01 confirmed a handbook agreement, which is the claim that has just stopped; it is not evidence for the values and is no longer offered as any.) Withdrawn 2026-09-13. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+      "id": "literature/transition-points/Ag",
+      "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
+      "revision": "Metrologia 27 (1990) 3-10, Table 1",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Al",
+      "citation": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point 2793.0 K: R. E. Honig and D. A. Kramer, 'Vapor pressure data for the solid and liquid elements', RCA Review 30 (1969) 285-305 (no doi), as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7429905&Units=SI&Mask=4, retrieved 2026-11-11.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
+      "revision": "Metrologia 27 (1990) 3-10, Table 1",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/CH3COOH",
+      "citation": "Melting point 289.77 K and normal boiling point 391.4 K (118.2 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), phase-transition tables; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read 2026-11-11 through the scanned text layer, which drops substance names from the value lines: the row was identified by its position in the formula-ordered block, so a reviewer should confirm it against the page image. The melting value is the same one Circular 500 prints beside acetic acid's enthalpy of fusion.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Cu",
+      "citation": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
+      "revision": "Metrologia 27 (1990) 3-10, Table 1",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Fe",
+      "citation": "Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://stacks.cdc.gov/view/cdc/219421",
+      "revision": "US Bureau of Mines Bulletin 672 (1982)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/KCl",
+      "citation": "Melting point 1044 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.6028/NBS.NSRDS.37",
+      "revision": "NSRDS-NBS 37 (1971), ClK table",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Mg",
+      "citation": "Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point 1363.0 K: R. E. Honig and D. A. Kramer, 'Vapor pressure data for the solid and liquid elements', RCA Review 30 (1969) 285-305 (no doi), as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7439954&Units=SI&Mask=4, retrieved 2026-11-11.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://stacks.cdc.gov/view/cdc/219421",
+      "revision": "US Bureau of Mines Bulletin 672 (1982)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/NaCl",
+      "citation": "Melting point 1073.8 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.6028/NBS.NSRDS.37",
+      "revision": "NSRDS-NBS 37 (1971), ClNa table",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Pb",
+      "citation": "Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://stacks.cdc.gov/view/cdc/219421",
+      "revision": "US Bureau of Mines Bulletin 672 (1982)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Zn",
+      "citation": "Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
+      "revision": "Metrologia 27 (1990) 3-10, Table 1",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/dry_ice",
+      "citation": "Sublimation temperature 194.686 K at 101.325 kPa: R. Span and W. Wagner, 'A new equation of state for carbon dioxide covering the fluid region from the triple-point temperature to 1100 K at pressures up to 800 MPa', J. Phys. Chem. Ref. Data 25 (1996) 1509-1596, doi:10.1063/1.555991. Value recalled from the paper's sublimation-curve tabulation, not re-read in this lane: PENDING REVIEW.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1063/1.555991",
+      "revision": "J. Phys. Chem. Ref. Data 25 (1996) 1509",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/ethanol",
+      "citation": "Melting point 159.00 K (crystal I to liquid): T. Haida, H. Suga and S. Seki, J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 351.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1016/0021-9614(77)90115-X",
+      "revision": "J. Chem. Thermodyn. 9 (1977) 1133; NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/hexadecane",
+      "citation": "Melting point 291.3 K: H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a009 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 554.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C544763&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja01631a009",
+      "revision": "J. Am. Chem. Soc. 76 (1954) 333",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/hexane",
+      "citation": "Melting point 177.84 K: D. R. Douslin and H. M. Huffman, J. Am. Chem. Soc. 68 (1946) 1704-1708, doi:10.1021/ja01213a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 341.892 K (68.742 degrees Celsius): F. D. Rossini et al., Selected Values of Properties of Hydrocarbons, National Bureau of Standards Circular C461 (1947), Table 2m, normal boiling point at 1 atm; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular461.pdf, a United States Government work in the public domain (no doi).",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja01213a006",
+      "revision": "J. Am. Chem. Soc. 68 (1946) 1704; NBS Circular C461 (1947)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/isopropanol",
+      "citation": "Melting point 184.67 K: K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 355.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C67630&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja01379a022",
+      "revision": "J. Am. Chem. Soc. 51 (1929) 1145; Ind. Eng. Chem. 39 (1947) 517",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/ethyl_acetate",
+      "citation": "Melting point 189.3 K: G. S. Parks, H. M. Huffman and M. Barmore, J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 350.2 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C141786&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja01334a016",
+      "revision": "J. Am. Chem. Soc. 55 (1933) 2733",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/liquid_nitrogen",
+      "citation": "Triple-point (melting) temperature 63.14 K and normal boiling point 77.34 K: R. T. Jacobsen, R. B. Stewart and M. Jahangiri, 'Thermodynamic properties of nitrogen from the freezing line to 2000 K at pressures to 1000 MPa', J. Phys. Chem. Ref. Data 15 (1986) 735-909, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Units=SI&Mask=4, retrieved 2026-11-11.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Units=SI&Mask=4",
+      "revision": "J. Phys. Chem. Ref. Data 15 (1986) 735",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/methanol",
+      "citation": "Melting point 175.26 K and normal boiling point 337.9 K (64.7 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), phase-transition tables; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read 2026-11-11 through the scanned text layer, which drops substance names from the value lines: the row was identified by its position in the formula-ordered block, so a reviewer should confirm it against the page image. The melting value is the one Circular 500 prints beside methanol's enthalpy of fusion; the primary measurement behind it is K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 180, doi:10.1021/ja01376a022.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/naphthalene",
+      "citation": "Melting point 353.40 K: J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 490.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C91203&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/j150554a016",
+      "revision": "J. Phys. Chem. 61 (1957) 1105",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/propanone",
+      "citation": "Melting point 177.6 K: G. S. Parks and K. K. Kelley, J. Phys. Chem. 32 (1928) 734-737, doi:10.1021/j150287a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 329.3 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C67641&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/j150287a006",
+      "revision": "J. Phys. Chem. 32 (1928) 734; Ind. Eng. Chem. 39 (1947) 517",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/tert_butanol",
+      "citation": "Melting point 298.97 K (stable crystal to liquid): F. L. Oetting, J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane; PENDING REVIEW). Normal boiling point: Tboil 355.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C75650&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/j100806a061",
+      "revision": "J. Phys. Chem. 67 (1963) 2757",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/water",
+      "citation": "Melting 273.15 K and normal boiling 373.15 K: the solvent model's constants (states::WATER_FREEZING_K, WATER_BOILING_K), which the apparatus must agree with. The primary values are 273.1525 K for melting at 101.325 kPa (W. Wagner, T. Riethmann, R. Feistel and A. H. Harvey, J. Phys. Chem. Ref. Data 40 (2011) 043103, doi:10.1063/1.3657937) and 373.124 K for the normal boiling point on ITS-90 (W. Wagner and A. Pruss, J. Phys. Chem. Ref. Data 31 (2002) 387-535, doi:10.1063/1.1461829); the shipped constants differ from them by 0.003 K and 0.026 K, inside the apparatus's stated 0.5 K, and are kept so the two routes cannot disagree.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1063/1.1461829",
+      "revision": "J. Phys. Chem. Ref. Data 31 (2002) 387; 40 (2011) 043103",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/chalcanthite",
+      "citation": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation).",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
-      "origin": "crates/kerotakis-registry-export/src/lib.rs",
-      "revision": "v1",
-      "retrieved": "2026-08-29"
+      "origin": "crates/kerotakis-core/src/phase_route.rs",
+      "revision": "model threshold",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/epsomite",
+      "citation": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation).",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-core/src/phase_route.rs",
+      "revision": "model threshold",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/H2O2",
+      "citation": "Melting point 272.26 K: A. C. Cuthbertson, G. L. Matheson and O. Maass, 'The freezing point and density of pure hydrogen peroxide', J. Am. Chem. Soc. 50 (1928) 1120, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7722841&Units=SI&Mask=4, retrieved 2026-11-11. Boiling point: the WebBook lists none and none is claimed.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C7722841&Units=SI&Mask=4",
+      "revision": "J. Am. Chem. Soc. 50 (1928) 1120",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/dodecane",
+      "citation": "Melting (triple-point) temperature: Ttriple 263.57 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it. Normal boiling point: Tboil 489.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "LicenseRef-NIST-SRD",
+      "lane": "runtime",
+      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4",
+      "revision": "NIST SRD 69 phase-change table",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/bromoethane",
+      "citation": "Melting point: Tfus 155.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it. Normal boiling point: Tboil 311.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "licence": "LicenseRef-NIST-SRD",
+      "lane": "runtime",
+      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4",
+      "revision": "NIST SRD 69 phase-change table",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/sucrose",
+      "citation": "Melting with decomposition at 461.0 K: L. Kofler and H. Sitte, 'Melting point determination of substances which melt with decomposition', Monatsh. Chem. 81 (1950) 619, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C57501&Units=SI&Mask=4, retrieved 2026-11-11 (the WebBook lists 461 and 462 K from the same work; the lower is taken). The registry classifies this as decomposition rather than melting, as its notes explain.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C57501&Units=SI&Mask=4",
+      "revision": "Monatsh. Chem. 81 (1950) 619",
+      "retrieved": "2026-11-11"
     },
     {
       "id": "kerotakis/dissolution-enthalpies-v1",
@@ -25516,10 +25759,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/water",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -25553,10 +25796,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/water",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -25746,7 +25989,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 159.01,
+        "value": 159.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -25770,10 +26013,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/ethanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -25783,7 +26026,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 351.39,
+        "value": 351.5,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -25807,10 +26050,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/ethanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -25912,7 +26155,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 1073.85,
+        "value": 1073.8,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -25936,47 +26179,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/NaCl",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/NaCl",
-      "species_id": "NaCl",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1738.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -26101,43 +26307,6 @@
       }
     },
     {
-      "id": "melting-point/AgNO3",
-      "species_id": "AgNO3",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 483.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "silver nitrate decomposes well below any boiling point; no boiling point is claimed"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "dissolution-enthalpy/AgNO3",
       "species_id": "AgNO3",
       "phase": "solid",
@@ -26254,80 +26423,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/AgCl",
-      "species_id": "AgCl",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 728.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/AgCl",
-      "species_id": "AgCl",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1820.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -26457,7 +26552,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 272.72,
+        "value": 272.26,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -26481,47 +26576,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/H2O2",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/H2O2",
-      "species_id": "H2O2",
-      "phase": "liquid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 423.35,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "liquid",
-          "notes": "the boiling point is the pure liquid's; concentrated hydrogen peroxide decomposes well before reaching it, and that decomposition is not modelled by this row"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -26972,80 +27030,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/S",
-      "species_id": "S",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 388.36,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/S",
-      "species_id": "S",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 717.76,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -28076,80 +28060,6 @@
       }
     },
     {
-      "id": "melting-point/NaOH",
-      "species_id": "NaOH",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 596.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/NaOH",
-      "species_id": "NaOH",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1661.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "dissolution-enthalpy/NaOH",
       "species_id": "NaOH",
       "phase": "solid",
@@ -28825,7 +28735,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 289.75,
+        "value": 289.77,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -28849,10 +28759,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/CH3COOH",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -28862,7 +28772,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 391.05,
+        "value": 391.4,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -28886,10 +28796,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/CH3COOH",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -29318,43 +29228,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/Na2CO3",
-      "species_id": "Na2CO3",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1129.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "sodium carbonate decomposes above its melting point rather than boiling; no boiling point is claimed"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -29856,7 +29729,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 1044.15,
+        "value": 1044.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -29880,10 +29753,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/KCl",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -30004,80 +29877,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/CaCl2",
-      "species_id": "CaCl2",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1048.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/CaCl2",
-      "species_id": "CaCl2",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 2208.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -30288,43 +30087,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/MgSO4",
-      "species_id": "MgSO4",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1410.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "magnesium sulfate melts with decomposition; no boiling point is claimed"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -30959,43 +30721,6 @@
       }
     },
     {
-      "id": "melting-point/CaO",
-      "species_id": "CaO",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 2886.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "molar-mass/Mg",
       "species_id": "Mg",
       "phase": "solid",
@@ -31091,7 +30816,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 923.15,
+        "value": 922.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31115,10 +30840,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Mg",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -31128,7 +30853,7 @@
       "phase": "solid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 1363.15,
+        "value": 1363.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31152,10 +30877,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Mg",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -31320,47 +31045,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Cu",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/Cu",
-      "species_id": "Cu",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 2835.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -31501,7 +31189,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 692.68,
+        "value": 692.677,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31525,47 +31213,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Zn",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/Zn",
-      "species_id": "Zn",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1180.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -31730,47 +31381,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Ag",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/Ag",
-      "species_id": "Ag",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 2435.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -31911,7 +31525,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 1811.15,
+        "value": 1811.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31935,47 +31549,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Fe",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/Fe",
-      "species_id": "Fe",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 3134.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -32107,43 +31684,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/MgO",
-      "species_id": "MgO",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 3098.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -32510,45 +32050,6 @@
       }
     },
     {
-      "id": "decomposition-point/CuSO4",
-      "species_id": "CuSO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 833.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "dissolution-enthalpy/CuSO4",
       "species_id": "CuSO4",
       "phase": "solid",
@@ -32759,45 +32260,6 @@
       }
     },
     {
-      "id": "decomposition-point/KMnO4",
-      "species_id": "KMnO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 513.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting CRC 97th ed. prints only 'dec' with no temperature; ~240 degC is the common textbook figure, not a CRC-97 citation."
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "dissolution-enthalpy/KMnO4",
       "species_id": "KMnO4",
       "phase": "solid",
@@ -32914,45 +32376,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "decomposition-point/FeSO4",
-      "species_id": "FeSO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 953.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting CRC 97th ed. tabulates no temperature for anhydrous FeSO4; ~680 degC follows general secondary references and stays flagged for a stronger source."
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -34039,45 +33462,6 @@
       }
     },
     {
-      "id": "decomposition-point/ZnSO4",
-      "species_id": "ZnSO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 953.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "dissolution-enthalpy/ZnSO4",
       "species_id": "ZnSO4",
       "phase": "solid",
@@ -34295,7 +33679,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 600.61,
+        "value": 600.65,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -34319,47 +33703,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Pb",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/Pb",
-      "species_id": "Pb",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 2022.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -34544,45 +33891,6 @@
       }
     },
     {
-      "id": "decomposition-point/Pb(NO3)2",
-      "species_id": "Pb(NO3)2",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 743.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "dissolution-enthalpy/Pb(NO3)2",
       "species_id": "Pb(NO3)2",
       "phase": "solid",
@@ -34710,7 +34018,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 175.62,
+        "value": 175.26,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -34734,10 +34042,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/methanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -34747,7 +34055,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 337.75,
+        "value": 337.9,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -34771,10 +34079,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/methanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -34876,7 +34184,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 177.88,
+        "value": 177.84,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -34900,10 +34208,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/hexane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -34913,7 +34221,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 341.88,
+        "value": 341.892,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -34937,10 +34245,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/hexane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35042,7 +34350,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 178.45,
+        "value": 177.6,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -35066,10 +34374,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/propanone",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35079,7 +34387,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 329.2,
+        "value": 329.3,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -35103,10 +34411,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/propanone",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35208,7 +34516,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 189.55,
+        "value": 189.3,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -35232,10 +34540,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/ethyl_acetate",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35245,7 +34553,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 350.26,
+        "value": 350.2,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -35269,10 +34577,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/ethyl_acetate",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35363,80 +34671,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/KOH",
-      "species_id": "KOH",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 679.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/KOH",
-      "species_id": "KOH",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1600.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -35653,43 +34887,6 @@
       }
     },
     {
-      "id": "melting-point/NaNO3",
-      "species_id": "NaNO3",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 579.65,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "sodium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "molar-mass/KNO3",
       "species_id": "KNO3",
       "phase": "solid",
@@ -35776,43 +34973,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/KNO3",
-      "species_id": "KNO3",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 607.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "potassium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed CRC 97th places the decomposition near 400 degC ('dec' in the boiling column): it melts first, then comes apart."
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -35995,80 +35155,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/I2",
-      "species_id": "I2",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 386.85,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/I2",
-      "species_id": "I2",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 457.55,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -36615,80 +35701,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/KI",
-      "species_id": "KI",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 954.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/KI",
-      "species_id": "KI",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1596.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -37970,7 +36982,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 933.47,
+        "value": 933.473,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -37994,10 +37006,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Al",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -38007,7 +37019,7 @@
       "phase": "solid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 2792.15,
+        "value": 2793.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -38031,10 +37043,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/Al",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -38710,80 +37722,6 @@
       }
     },
     {
-      "id": "melting-point/NaBr",
-      "species_id": "NaBr",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1020.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/NaBr",
-      "species_id": "NaBr",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1663.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "molar-mass/bromoethane",
       "species_id": "bromoethane",
       "phase": "liquid",
@@ -38879,7 +37817,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 154.55,
+        "value": 155.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -38903,10 +37841,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/bromoethane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -38916,7 +37854,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 311.45,
+        "value": 311.5,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -38940,10 +37878,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/bromoethane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39229,7 +38167,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 298.96,
+        "value": 298.97,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -39253,10 +38191,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/tert_butanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39266,7 +38204,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 355.45,
+        "value": 355.5,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -39290,10 +38228,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/tert_butanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39485,7 +38423,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 185.25,
+        "value": 184.67,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -39509,10 +38447,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/isopropanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39522,7 +38460,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 355.36,
+        "value": 355.5,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -39546,10 +38484,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/isopropanol",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39653,7 +38591,7 @@
         "other": "decomposition_temperature"
       },
       "quantity": {
-        "value": 459.15,
+        "value": 461.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -39677,10 +38615,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/sucrose",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39896,10 +38834,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/epsomite",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -40080,45 +39018,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "sublimation-point/NH4Cl",
-      "species_id": "NH4Cl",
-      "phase": "solid",
-      "property": {
-        "other": "sublimation_temperature"
-      },
-      "quantity": {
-        "value": 611.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "ammonium chloride vapour is really ammonia and hydrogen chloride, recombining on the cold surface; the bench moves the intact formula unit, which is what the recovered crust weighs but is not what the vapour contains"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -40333,43 +39232,6 @@
       }
     },
     {
-      "id": "melting-point/FeCl3",
-      "species_id": "FeCl3",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 580.75,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "iron(III) chloride boils barely a dozen degrees above its melting point and is partly dimerised and partly dissociated in the vapour; no boiling point is claimed"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "molar-mass/Na2SO4",
       "species_id": "Na2SO4",
       "phase": "solid",
@@ -40456,43 +39318,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/Na2SO4",
-      "species_id": "Na2SO4",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1157.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -40613,80 +39438,6 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "melting-point/BaCl2",
-      "species_id": "BaCl2",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1234.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
-      "id": "boiling-point/BaCl2",
-      "species_id": "BaCl2",
-      "phase": "solid",
-      "property": "boiling_temperature",
-      "quantity": {
-        "value": 1833.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -40961,43 +39712,6 @@
       }
     },
     {
-      "id": "melting-point/BaSO4",
-      "species_id": "BaSO4",
-      "phase": "solid",
-      "property": "melting_temperature",
-      "quantity": {
-        "value": 1853.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "kerotakis/phase-transitions-v1",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
-        }
-      }
-    },
-    {
       "id": "molar-mass/H2C2O4",
       "species_id": "H2C2O4",
       "phase": "solid",
@@ -41211,10 +39925,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/chalcanthite",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -43421,10 +42135,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/naphthalene",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -43434,7 +42148,7 @@
       "phase": "solid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 491.1,
+        "value": 490.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -43458,10 +42172,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/naphthalene",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44015,7 +42729,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 263.55,
+        "value": 263.57,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44039,10 +42753,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/dodecane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44052,7 +42766,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 489.45,
+        "value": 489.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44076,10 +42790,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/dodecane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44181,7 +42895,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 291.35,
+        "value": 291.3,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44205,10 +42919,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/hexadecane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44218,7 +42932,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 559.95,
+        "value": 554.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44242,10 +42956,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/hexadecane",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44529,7 +43243,7 @@
         "other": "sublimation_temperature"
       },
       "quantity": {
-        "value": 194.65,
+        "value": 194.686,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44553,10 +43267,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/dry_ice",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44748,7 +43462,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 63.15,
+        "value": 63.14,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44772,10 +43486,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/liquid_nitrogen",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -44785,7 +43499,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 77.36,
+        "value": 77.34,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -44809,10 +43523,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "kerotakis/phase-transitions-v1",
+        "source_id": "literature/transition-points/liquid_nitrogen",
         "method": {
           "kind": "curated",
-          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },

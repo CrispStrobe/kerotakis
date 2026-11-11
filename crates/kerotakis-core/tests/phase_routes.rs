@@ -86,6 +86,7 @@ fn molar_mass(key: &str) -> f64 {
 // ── sublimation ────────────────────────────────────────────────────
 
 #[test]
+#[ignore = "NH4Cl's sublimation temperature stood only on the withdrawn kerotakis/phase-transitions-v1 tranche and was dropped 2026-11-11 (docs/transition-point-coverage-20261111.md); restore with a primary value"]
 fn ammonium_chloride_leaves_and_common_salt_stays() {
     // The separation quest, in six lines. Heat the mixture past 338 °C and
     // one of the two components is simply gone from the crucible.
@@ -137,6 +138,7 @@ fn ammonium_chloride_leaves_and_common_salt_stays() {
 }
 
 #[test]
+#[ignore = "NH4Cl's sublimation temperature stood only on the withdrawn kerotakis/phase-transitions-v1 tranche and was dropped 2026-11-11 (docs/transition-point-coverage-20261111.md); restore with a primary value"]
 fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
     // The cold-finger half. Sealed, nothing crosses the boundary at all, so
     // the balance never moves — and the solid comes back when it cools.
@@ -201,6 +203,7 @@ fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
 }
 
 #[test]
+#[ignore = "NH4Cl's sublimation temperature stood only on the withdrawn kerotakis/phase-transitions-v1 tranche and was dropped 2026-11-11 (docs/transition-point-coverage-20261111.md); restore with a primary value"]
 fn a_sealed_flask_of_subliming_solid_on_a_hot_plate_bursts() {
     // Not a curiosity: sublimation makes gas out of a solid, and a sealed
     // vessel has a limit. Ten times the sample in half the volume is a bomb,
@@ -376,7 +379,7 @@ fn a_lone_block_of_dry_ice_settles_on_its_own_sublimation_point() {
 
     let t = vessel_of(&bench).temperature.0;
     assert!(
-        (t - 194.65).abs() < 1e-6,
+        (t - 194.686).abs() < 1e-6,
         "a flask of dry ice is at -78.5 C, not at room temperature; got {t} K"
     );
     assert!(
@@ -441,7 +444,7 @@ fn liquid_nitrogen_freezes_ethanol_solid() {
 
     let t = vessel_of(&bench).temperature.0;
     assert!(
-        (t - 77.36).abs() < 0.01,
+        (t - 77.34).abs() < 0.01,
         "the flask sits at the nitrogen's boiling point while any is left; got {t} K"
     );
     assert!(
@@ -527,7 +530,7 @@ fn a_lone_dewar_of_liquid_nitrogen_settles_on_its_boiling_point() {
 
     let t = vessel_of(&bench).temperature.0;
     assert!(
-        (t - 77.36).abs() < 1e-6,
+        (t - 77.34).abs() < 1e-6,
         "a dewar of liquid nitrogen is at -196 C, not at room temperature; got {t} K"
     );
     assert!(

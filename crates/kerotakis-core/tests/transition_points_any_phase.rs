@@ -114,7 +114,7 @@ fn two_liquids_are_still_a_mixture_in_the_fallback() {
 
 #[test]
 fn the_classic_path_carries_the_wanted_phase_and_no_note() {
-    let sample = vessel_with(&[("NaNO3", 0.05, Phase::Solid)]);
+    let sample = vessel_with(&[("naphthalene", 0.05, Phase::Solid)]);
     let r = read_transition(&sample, TransitionRead::Melting);
     assert_eq!(r.sample_phase, Some(Phase::Solid));
     let events = vec![Event::TransitionPointRead {

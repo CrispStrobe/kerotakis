@@ -549,6 +549,10 @@ pub enum PurityVerdict {
     NotIsolated,
     /// One substance, isolated, but no transition temperature is curated.
     NoData,
+    /// One material that has no melting point but a sourced melting RANGE
+    /// (a wax blend, a semicrystalline polymer): `range_c` carries it and
+    /// `value_c` stays empty, because there is no point to report.
+    MeltingRange,
     /// Nothing of the right phase is in the vessel at all.
     NothingToTest,
 }
@@ -593,6 +597,13 @@ pub struct TransitionReading {
     /// observed crossing.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub sample_phase: Option<Phase>,
+    /// The sourced lower end of a `MeltingRange`, °C, where one exists.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub range_low_c: Option<f64>,
+    /// The sourced upper end of a `MeltingRange`, °C: nothing of the
+    /// material stays solid above it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub range_high_c: Option<f64>,
 }
 
 /// The phases, in priority order, the apparatus takes its sample from when
@@ -677,6 +688,8 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
         lowest_component_c: None,
         boundary: None,
         sample_phase: None,
+        range_low_c: None,
+        range_high_c: None,
     };
     if total <= 0.0 {
         return reading;
@@ -688,10 +701,21 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
     reading.lowest_component_c = holder
         .iter()
         .filter_map(|(s, _)| {
-            let t = crate::species::lookup(s)?.transitions?;
-            let (k, _) = match kind {
-                TransitionRead::Melting => t.melting_reading()?,
-                TransitionRead::Boiling => t.boiling_reading()?,
+            let curated = crate::species::lookup(s)?
+                .transitions
+                .and_then(|t| match kind {
+                    TransitionRead::Melting => t.melting_reading(),
+                    TransitionRead::Boiling => t.boiling_reading(),
+                });
+            let k = match (curated, kind) {
+                (Some((k, _)), _) => k,
+                // A material with a sourced melting RANGE melts from its
+                // lower bound, which is the honest bound for a blend.
+                (None, TransitionRead::Melting) => {
+                    let row = crate::melting_range::range(&s.0)?;
+                    row.lower_k.unwrap_or(row.upper_k)
+                }
+                (None, TransitionRead::Boiling) => return None,
             };
             Some(k - 273.15)
         })
@@ -775,7 +799,17 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
                 }
             }
         }
-        None => reading.verdict = PurityVerdict::NoData,
+        None => match (kind, crate::melting_range::range(&only.0)) {
+            (TransitionRead::Melting, Some(row)) => {
+                reading.verdict = PurityVerdict::MeltingRange;
+                reading.range_low_c = row.lower_k.map(|k| k - 273.15);
+                reading.range_high_c = Some(row.upper_k - 273.15);
+                reading.outcome = Some(crate::species::TransitionOutcome::Melts);
+                reading.source = Some(row.source.to_string());
+                reading.boundary = Some(format!("{APPARATUS_BOUNDARY}. {}", row.boundary));
+            }
+            _ => reading.verdict = PurityVerdict::NoData,
+        },
     }
     reading
 }

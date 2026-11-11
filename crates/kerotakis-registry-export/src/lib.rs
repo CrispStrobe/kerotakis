@@ -130,13 +130,62 @@ const IRON_III_OXIDE_SOURCE: &str = "us-federal/nasa-cea-hematite";
 const IRON_III_OXIDE_CITATION: &str = "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27";
 const EPSOMITE_SOURCE: &str = "us-federal/usgs-epsomite";
 const EPSOMITE_CITATION: &str = "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27";
-/// EXP-33. Transition temperatures get their own source record rather than
-/// riding each species' molar-mass citation, because they are a different
-/// claim with a different origin: the melting-point apparatus prints THIS
-/// line, and a reader who wants to check the number must land on the book
-/// the number came from.
-const PHASE_TRANSITION_SOURCE: &str = "kerotakis/phase-transitions-v1";
-const PHASE_TRANSITION_CITATION: &str = "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. The commentary that remains is worth keeping: these are the transition temperatures the general references agree on for these substances, and the editorial care in the rest of this paragraph was real. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. (The reviewer confirmation recorded 2026-09-01 confirmed a handbook agreement, which is the claim that has just stopped; it is not evidence for the values and is no longer offered as any.) Withdrawn 2026-09-13. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29";
+/// EXP-33, re-sourced 2026-11-11 (reviewed-transition-points lane).
+/// Transition temperatures get their own source record rather than riding
+/// each species' molar-mass citation, because the melting-point apparatus
+/// prints THIS line and a reader who wants to check the number must land
+/// on the measurement it came from. The withdrawn editorial tranche
+/// `kerotakis/phase-transitions-v1` is gone: every species now has one
+/// `literature/transition-points/<species>` record naming the primary
+/// measurement (with DOI) or public-domain government table behind each of
+/// its values, and a species nobody could source carries no value at all.
+/// The citations live in one reviewed data file so that the exporter and
+/// `tools/transition_point_coverage.py` read the same text.
+const TRANSITION_SOURCES_JSON: &str =
+    include_str!("../../../data/registry/transition-points-reviewed-20261111.json");
+
+/// `(species, source id, citation, licence, origin, revision, retrieved)`
+/// for every reviewed transition row, in file order.
+fn transition_sources() -> Vec<[String; 7]> {
+    let doc: serde_json::Value = serde_json::from_str(TRANSITION_SOURCES_JSON)
+        .expect("transition-points-reviewed-20261111.json parses");
+    let field = |row: &serde_json::Value, name: &str| -> String {
+        row[name]
+            .as_str()
+            .unwrap_or_else(|| panic!("transition source row lacks `{name}`: {row}"))
+            .to_string()
+    };
+    doc["rows"]
+        .as_array()
+        .expect("`rows` array")
+        .iter()
+        .map(|row| {
+            [
+                field(row, "species"),
+                field(row, "source_id"),
+                field(row, "citation"),
+                field(row, "licence"),
+                field(row, "origin"),
+                field(row, "revision"),
+                field(row, "retrieved"),
+            ]
+        })
+        .collect()
+}
+
+/// The reviewed source id behind a species' transition values.
+fn transition_source_id(species: &str) -> Result<String, String> {
+    transition_sources()
+        .into_iter()
+        .find(|row| row[0] == species)
+        .map(|row| row[1].clone())
+        .ok_or_else(|| {
+            format!(
+                "{species}: carries transition temperatures but has no reviewed source row in \
+                 data/registry/transition-points-reviewed-20261111.json"
+            )
+        })
+}
 const CHALCANTHITE_SOURCE: &str = "us-federal/usgs-chalcanthite";
 /// The dissolution enthalpies get their own source record for the same
 /// reason the transition temperatures do: an enthalpy of dissolution is a
@@ -474,23 +523,25 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     if !REGISTRY.iter().any(|species| species.key == "SiO2") {
         export_species(&mut document, &SILICA_SEED)?;
     }
-    // EXP-33: one source record for the whole transition tranche, pushed
-    // once and only if something actually cites it — an orphan source is a
-    // claim nobody made.
-    if document
-        .phase_thermodynamics
-        .iter()
-        .any(|record| record.quantity.source_id == PHASE_TRANSITION_SOURCE)
-    {
-        document.sources.push(SourceRecord {
-            id: PHASE_TRANSITION_SOURCE.to_string(),
-            citation: PHASE_TRANSITION_CITATION.to_string(),
-            licence: "AGPL-3.0-or-later".to_string(),
-            lane: SourceLane::Runtime,
-            origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
-            revision: Some("v1".to_string()),
-            retrieved: Some("2026-08-29".to_string()),
-        });
+    // EXP-33: one source record per reviewed species, pushed only if a
+    // transition value actually cites it — an orphan source is a claim
+    // nobody made.
+    for [_, id, citation, licence, origin, revision, retrieved] in transition_sources() {
+        if document
+            .phase_thermodynamics
+            .iter()
+            .any(|record| record.quantity.source_id == id)
+        {
+            document.sources.push(SourceRecord {
+                id,
+                citation,
+                licence,
+                lane: SourceLane::Runtime,
+                origin: Some(origin),
+                revision: Some(revision),
+                retrieved: Some(retrieved),
+            });
+        }
     }
     // Same guard as the transition tranche above: an orphan source record is
     // a claim nobody made.
@@ -5961,10 +6012,11 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                             ..Applicability::default()
                         },
                         uncertainty: Uncertainty::Unestablished,
-                        source_id: PHASE_TRANSITION_SOURCE.to_string(),
+                        source_id: transition_source_id(species.key)?,
                         method: Method::Curated(
-                            "EXP-33 curated transition tranche; value corroborated against \
-                             the handbook literature named in the source citation"
+                            "EXP-33 transition value, re-sourced 2026-11-11: transcribed from \
+                             the primary measurement or public-domain table named in the \
+                             source citation"
                                 .to_string(),
                         ),
                     },

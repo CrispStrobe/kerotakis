@@ -228,15 +228,34 @@ fn every_legacy_field_is_present_and_unchanged() {
         RESISTIVITY_KEYS.len(),
         "every exported resistivity must come back into REGISTRY"
     );
-    // The tranche is one source record, cited by every transition value.
-    assert_eq!(
-        document
-            .sources
-            .iter()
-            .filter(|source| source.id == "kerotakis/phase-transitions-v1")
-            .count(),
-        1
-    );
+    // The withdrawn editorial tranche is gone (2026-11-11): every
+    // transition value cites its own reviewed per-species source, and no
+    // record may still point at `kerotakis/phase-transitions-v1`.
+    assert!(!document
+        .sources
+        .iter()
+        .any(|source| source.id == "kerotakis/phase-transitions-v1"));
+    for record in &document.phase_thermodynamics {
+        if record.id.contains("-point/") {
+            assert!(
+                record
+                    .quantity
+                    .source_id
+                    .starts_with("literature/transition-points/"),
+                "{} cites {}",
+                record.id,
+                record.quantity.source_id
+            );
+            assert!(
+                document
+                    .sources
+                    .iter()
+                    .any(|source| source.id == record.quantity.source_id),
+                "{} cites a source that was not exported",
+                record.id
+            );
+        }
+    }
     // Legacy dissolution values retain their own tranche. The independently
     // reviewed anhydrous carbonate reference has a separate source below.
     let dissolution = document

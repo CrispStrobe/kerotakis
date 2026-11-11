@@ -1426,6 +1426,10 @@ impl Equilibrator for PhaseRouteEquilibrator {
         // a hydrate's water leaving is a change to the vessel and the
         // plastic should be read against the vessel as it ends the step.
         events.extend(crate::plastics::settle(vessel));
+        // Reviewed-transition-points lane: a solid above its sourced
+        // melting point or range with no latent heat to melt it is told,
+        // never silently kept solid (`melting_range`).
+        events.extend(crate::melting_range::unmodelled_melts(vessel));
         Ok(events)
     }
 }

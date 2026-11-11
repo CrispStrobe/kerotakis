@@ -1,148 +1,263 @@
 #!/usr/bin/env python3
-"""Transition-point coverage of the melting/boiling-point apparatus (2026-11-10).
+"""Reviewed transition-point coverage (2026-11-11; supersedes the 2026-11-10 table).
 
-Classifies EVERY registry species with the same rule as
-`kerotakis_core::instrument::read_transition` for a pure, isolated sample:
+Every registry species' melting / boiling (or sublimation, decomposition,
+dehydration) temperature, with the primary source that stands behind it, plus
+the sourced melting RANGES of the materials that have no point
+(`crates/kerotakis-core/src/melting_range.rs`).
 
-  reported            the species has a sourced reading for that technique
-                      (melting: melting/sublimation/decomposition/dehydration
-                      temperature; boiling: boiling/sublimation/decomposition)
-                      and the apparatus reports it in whatever phase the
-                      sample is in, stating that phase
-  no_data             one isolated substance, nothing curated: the typed
-                      `no_data` verdict ("no value is invented"), never
-                      `nothing_to_test`
+The reviewed values and citations live in
+`data/registry/transition-points-reviewed-20261111.json`; the registry export
+reads the same citations. `--apply` rewrites the transition records of
+`data/registry/registry-source-v1.json` from that file (byte-preserving
+everything else). `--check` fails when
 
-The `provenance` column names the record's source and whether that source
-claims a primary reference. Rows on `kerotakis/phase-transitions-v1` carry the
-tranche's own withdrawal notice: the values stand, the primary citation is an
-open gap the table makes visible rather than papers over.
+  * any value or source still cites the withdrawn `kerotakis/phase-transitions-v1`
+    (or carries its "NO PRIMARY REFERENCE IS CLAIMED" notice),
+  * a registry transition value or its source differs from the reviewed file,
+  * a reviewed citation names no DOI and no public-domain government document,
+  * the generated docs are stale.
 
-Writes docs/transition-point-coverage-20261110.{md,json}; `--check` fails when
-they are stale.
+Rows without a source are `no_data`: no value is invented.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-WITHDRAWN = "NO PRIMARY REFERENCE IS CLAIMED"
-MELT = ("melting_temperature", "sublimation_temperature", "decomposition_temperature",
-        "dehydration_temperature")
-BOIL = ("boiling_temperature", "sublimation_temperature", "decomposition_temperature")
-# Originals whose transition questions this lane answers, and what is still open.
+REGISTRY = ROOT / "data/registry/registry-source-v1.json"
+REVIEWED = ROOT / "data/registry/transition-points-reviewed-20261111.json"
+RANGES_RS = ROOT / "crates/kerotakis-core/src/melting_range.rs"
+OUT = ROOT / "docs/transition-point-coverage-20261111"
+WITHDRAWN_ID = "kerotakis/phase-transitions-v1"
+WITHDRAWN_TEXT = "NO PRIMARY REFERENCE IS CLAIMED"
+PROPS = [  # (record id prefix, registry property, reviewed key)
+    ("melting-point", "melting_temperature", "melting_k"),
+    ("boiling-point", "boiling_temperature", "boiling_k"),
+    ("sublimation-point", {"other": "sublimation_temperature"}, "sublimation_k"),
+    ("decomposition-point", {"other": "decomposition_temperature"}, "decomposition_k"),
+    ("dehydration-point", {"other": "dehydration_temperature"}, "dehydration_k"),
+]
+MELT = ("melting_k", "sublimation_k", "decomposition_k", "dehydration_k")
+BOIL = ("boiling_k", "sublimation_k", "decomposition_k")
+METHOD = ("EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary "
+          "measurement or public-domain table named in the source citation")
 ORIGINALS = [
-    ("batch3-diverse:th-003", "isopropanol mp (liquid sample), tert-butanol bp (solid sample)",
-     "reported via the any-phase reading"),
-    ("batch3-diverse:th-002", "dodecane mp (liquid sample)", "reported via the any-phase reading"),
-    ("batch3-diverse:an-007", "ethanol/isopropanol/propanone mp (liquid samples); bp",
-     "reported via the any-phase reading; values remain on the withdrawn-primary tranche"),
-    ("batch3-diverse:th-004", "hexadecane mp (liquid sample) as the paraffin model",
-     "hexadecane reported; a paraffin-wax melting RANGE and latent-heat surrogate is NOT covered"),
-    ("batch3-diverse:po-009", "polyethylene / polypropylene melting",
-     "NOT covered: no polymer species or cleared polymer melting-range source in the registry"),
+    ("batch3-diverse:th-003", "tert-butanol / isopropanol mp and bp; tBuOH melting plateau"),
+    ("batch3-diverse:an-007", "ethanol / isopropanol / propanone mp and bp"),
+    ("batch3-diverse:th-004", "paraffin wax melting range; warning above it"),
+    ("batch3-diverse:po-009", "PE / PP melting ranges; blend warning above them"),
 ]
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-def prop(record):
-    p = record["property"]
-    return p if isinstance(p, str) else p.get("other")
+
+def split_array(text, key):
+    start = text.index(f'\n  "{key}": [\n') + len(f'\n  "{key}": [\n')
+    end = text.index("\n  ]", start)
+    return start, end, re.split(r"(?<=\n    \}),\n(?=    \{)", text[start:end])
+
+
+def chunk(obj):
+    return "\n".join("    " + line for line in json.dumps(obj, indent=2, ensure_ascii=False).split("\n"))
+
+
+def reviewed():
+    doc = json.loads(REVIEWED.read_text(encoding="utf-8"))
+    return {row["species"]: row for row in doc["rows"]}, doc
+
+
+def apply():
+    rows, doc = reviewed()
+    text = REGISTRY.read_text(encoding="utf-8")
+    # phase_thermodynamics: rewrite or drop transition records
+    s, e, chunks = split_array(text, "phase_thermodynamics")
+    out, cited = [], []
+    for c in chunks:
+        rec = json.loads(c)
+        prefix = rec["id"].split("/", 1)[0]
+        prop = next((p for p in PROPS if p[0] == prefix), None)
+        if prop is None:
+            out.append(c)
+            continue
+        row = rows.get(rec["species_id"])
+        value = row.get(prop[2]) if row else None
+        if value is None:
+            continue  # unsourced: no value is invented
+        rec["quantity"]["value"] = float(value)
+        rec["quantity"]["source_id"] = row["source_id"]
+        rec["quantity"]["method"]["detail"] = METHOD
+        if row["source_id"] not in cited:
+            cited.append(row["source_id"])
+        out.append(chunk(rec))
+    text = text[:s] + ",\n".join(out) + text[e:]
+    # sources: replace the withdrawn record, at its position, by the cited
+    # reviewed records in file order (the exporter pushes them the same way)
+    s, e, chunks = split_array(text, "sources")
+    ids = [json.loads(c)["id"] for c in chunks]
+    keep = [c for c, i in zip(chunks, ids) if i != WITHDRAWN_ID and not i.startswith("literature/transition-points/")]
+    at = ids.index(WITHDRAWN_ID) if WITHDRAWN_ID in ids else next(
+        k for k, i in enumerate(ids) if i.startswith("literature/transition-points/"))
+    before = len([i for i in ids[:at] if i != WITHDRAWN_ID and not i.startswith("literature/transition-points/")])
+    new = []
+    for row in doc["rows"]:
+        if row["source_id"] in cited:
+            new.append(chunk(dict(id=row["source_id"], citation=row["citation"], licence=row["licence"],
+                                  lane="runtime", origin=row["origin"], revision=row["revision"],
+                                  retrieved=row["retrieved"])))
+    keep[before:before] = new
+    text = text[:s] + ",\n".join(keep) + text[e:]
+    REGISTRY.write_text(text, encoding="utf-8")
+
+
+def parse_ranges():
+    src = RANGES_RS.read_text(encoding="utf-8")
+    out = []
+    for m in re.finditer(r'MeltingRange \{\s*species: "([^"]+)",\s*lower_k: (?:Some\(([\d.]+)\)|None),\s*upper_k: ([\d.]+),\s*'
+                         r'source: "((?:[^"\\]|\\.)*)"', src):
+        out.append(dict(species=m.group(1), lower_k=float(m.group(2)) if m.group(2) else None, upper_k=float(m.group(3)),
+                        source=m.group(4)))
+    return out
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--apply", action="store_true")
     a = ap.parse_args()
-    reg = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
+    if a.apply:
+        apply()
+    rows, doc = reviewed()
+    reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
     sources = {s["id"]: s for s in reg["sources"]}
-    props = {}
-    for r in reg["phase_thermodynamics"]:
-        props.setdefault(r["species_id"], {})[prop(r)] = r
-    phase = {k: v["molar_mass"]["phase"] for k, v in props.items() if "molar_mass" in v}
+    problems = []
+    if WITHDRAWN_ID in sources:
+        problems.append(f"registry still carries the withdrawn source {WITHDRAWN_ID}")
+    got = {}
+    for rec in reg["phase_thermodynamics"]:
+        prefix = rec["id"].split("/", 1)[0]
+        prop = next((p for p in PROPS if p[0] == prefix), None)
+        if prop is None:
+            continue
+        q = rec["quantity"]
+        sid = q["source_id"]
+        got.setdefault(rec["species_id"], {})[prop[2]] = (q["value"], sid)
+        cit = sources.get(sid, {}).get("citation", "")
+        if sid == WITHDRAWN_ID or WITHDRAWN_TEXT in cit:
+            problems.append(f"{rec['id']} cites the withdrawn tranche")
+        row = rows.get(rec["species_id"])
+        if not row or row.get(prop[2]) is None:
+            problems.append(f"{rec['id']} has no reviewed value")
+        elif abs(float(row[prop[2]]) - q["value"]) > 1e-9 or row["source_id"] != sid:
+            problems.append(f"{rec['id']} differs from the reviewed file")
+    for sp, row in rows.items():
+        if row.get("kind") != "model_threshold" and not re.search(r"doi:|public domain|webbook\.nist\.gov", row["citation"]):
+            problems.append(f"{sp}: citation names neither a DOI nor a public-domain document")
+        if WITHDRAWN_TEXT in row["citation"] or "phase-transitions-v1" in row["citation"]:
+            problems.append(f"{sp}: reviewed citation cites the withdrawn tranche")
+        for _, _, key in PROPS:
+            if row.get(key) is not None and got.get(sp, {}).get(key) is None:
+                problems.append(f"{sp}.{key} reviewed but not in the registry")
+    ranges = parse_ranges()
+    for r in ranges:
+        if "doi" not in r["source"]:
+            problems.append(f"range {r['species']} has no DOI")
 
-    def reading(p, names):
-        for n in names:
-            if n in p:
-                q = p[n]["quantity"]
-                return n.replace("_temperature", ""), q["value"], q["source_id"]
-        return None
-
-    rows = []
+    species_rows = []
+    phase = {}
+    for rec in reg["phase_thermodynamics"]:
+        if rec["id"].startswith("molar-mass/"):
+            phase[rec["species_id"]] = rec["phase"]
+    rng = {r["species"]: r for r in ranges}
+    dropped = {(d["species"], d["property"]): d for d in doc.get("dropped", [])}
     for ident in reg["identities"]:
-        key = ident["id"]
-        p = props.get(key, {})
-        row = dict(species=key, standard_phase=phase.get(key))
-        for tag, names in (("melting", MELT), ("boiling", BOIL)):
-            r = reading(p, names)
-            if r is None:
-                row[tag] = dict(basis="no_data")
+        sp = ident["id"]
+        g = got.get(sp, {})
+        entry = dict(species=sp, standard_phase=phase.get(sp))
+        for tag, keys in (("melting", MELT), ("boiling", BOIL)):
+            hit = next(((k, g[k]) for k in keys if k in g), None)
+            if hit:
+                k, (v, sid) = hit
+                entry[tag] = dict(basis="reported", outcome=k[:-2], kelvin=v, source=sid)
+            elif tag == "melting" and sp in rng:
+                r = rng[sp]
+                entry[tag] = dict(basis="range", lower_k=r["lower_k"], upper_k=r["upper_k"])
             else:
-                kind, k, sid = r
-                cited = WITHDRAWN not in sources.get(sid, {}).get("citation", "")
-                row[tag] = dict(basis="reported", outcome=kind, kelvin=k, source=sid,
-                                primary_reference=cited)
-        rows.append(row)
-    rows.sort(key=lambda r: r["species"])
+                d = next((dropped[(sp, k)] for k in keys if (sp, k) in dropped), None)
+                entry[tag] = dict(basis="no_data", **({"withdrawn_value_dropped_k": d["old_k"]} if d else {}))
+        species_rows.append(entry)
+    species_rows.sort(key=lambda r: r["species"])
     counts = {}
-    for r in rows:
+    for r in species_rows:
         for tag in ("melting", "boiling"):
-            b = r[tag]["basis"]
-            if b == "reported" and not r[tag]["primary_reference"]:
-                b = "reported_without_primary_reference"
-            counts[f"{tag}.{b}"] = counts.get(f"{tag}.{b}", 0) + 1
-    doc = dict(schema="kerotakis.transition-point-coverage.v1", counts=dict(sorted(counts.items())),
-               originals=[dict(id=i, question=q, status=s) for i, q, s in ORIGINALS], species=rows)
-    js = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
+            key = f"{tag}.{r[tag]['basis']}"
+            counts[key] = counts.get(key, 0) + 1
+    out = dict(schema="kerotakis.transition-point-coverage.v2", counts=dict(sorted(counts.items())),
+               originals=[dict(id=i, question=q) for i, q in ORIGINALS],
+               sources={sp: dict(source_id=r["source_id"], citation=r["citation"]) for sp, r in sorted(rows.items())},
+               ranges=ranges, dropped=doc.get("dropped", []), species=species_rows)
+    js = json.dumps(out, indent=2, ensure_ascii=False) + "\n"
 
     def cell(t):
-        if t["basis"] == "no_data":
-            return "no_data"
-        mark = "" if t["primary_reference"] else " †"
-        return f"{t['outcome']} {t['kelvin']:g} K{mark}"
+        if t["basis"] == "reported":
+            return f"{t['outcome']} {t['kelvin']:g} K"
+        if t["basis"] == "range":
+            low = f"{t['lower_k']:g}" if t["lower_k"] is not None else "(unsourced)"
+            return f"range {low}–{t['upper_k']:g} K"
+        return "no_data" + (" (withdrawn value dropped)" if "withdrawn_value_dropped_k" in t else "")
 
-    md = ["# Transition-point coverage of the melting/boiling-point apparatus (2026-11-10)", "",
-          "Generated by `tools/transition_point_coverage.py` from the registry source document;",
-          "`--check` fails when this file is stale.", "",
-          "`measure vN melting_point` / `boiling_point` report a species' sourced constant whatever",
-          "phase the sample is in. When nothing of the technique's own phase (solid for melting,",
-          "liquid for boiling) is in the vessel, the sample is taken from the other condensed phase,",
-          "then the gas; the reading carries `sample_phase` and every register says the sample's",
-          "current phase, so the constant is never read as an observed crossing. Purity rules are",
-          "unchanged: two substances are a mixture, and dissolved matter makes the sample not",
-          "isolated. `nothing_to_test` now means an empty vessel (or one with only dissolved",
-          "matter). A single isolated species with nothing curated gets the typed `no_data`",
-          "verdict in EN/DE/FR.", "",
-          "† = value on `kerotakis/phase-transitions-v1`, whose citation records that NO primary",
-          "reference is claimed (the project's provenance audit excludes the handbook and the",
-          "online webbook as shipping sources). These values are reported with that notice; giving",
-          "each one a primary measurement with a DOI is an open, per-row data task and was not",
-          "done by guessing references here.", "",
-          "## Trigger originals", "", "| original | question | status |", "|---|---|---|"]
-    for i, q, s in ORIGINALS:
-        md.append(f"| {i} | {q} | {s} |")
-    md += ["", f"Counts: {', '.join(f'{k} {v}' for k, v in doc['counts'].items())}.", "",
-           "## Species", "", "| species | standard phase | melting apparatus | boiling apparatus |",
-           "|---|---|---|---|"]
-    for r in rows:
-        md.append(f"| {r['species']} | {r['standard_phase'] or '—'} | {cell(r['melting'])} "
-                  f"| {cell(r['boiling'])} |")
+    md = ["# Reviewed transition-point coverage (2026-11-11)", "",
+          "Generated by `tools/transition_point_coverage.py` from the registry source document,",
+          "`data/registry/transition-points-reviewed-20261111.json` and",
+          "`crates/kerotakis-core/src/melting_range.rs`; `--check` fails when this file is stale,",
+          "when any value still cites the withdrawn `kerotakis/phase-transitions-v1`, or when the",
+          "registry and the reviewed file disagree.", "",
+          "Every transition value the melting/boiling-point apparatus prints now carries a",
+          "per-species source `literature/transition-points/<species>` naming the primary",
+          "measurement (with DOI) or public-domain government table behind it. A value nobody could",
+          "source was DROPPED and reads `no_data` (typed, EN/DE/FR) instead of being kept on the",
+          "withdrawn tranche. Paraffin wax and the polyolefins have no melting point but a sourced",
+          "melting RANGE (`PurityVerdict::MeltingRange`). A solid heated above its sourced melting",
+          "point or the top of its range with no sourced enthalpy of fusion is never shown silently",
+          "solid: the bench emits `not-modeled.melting-not-modelled` (EN/DE/FR). Solids with a",
+          "sourced enthalpy of fusion (`phase_route::FUSION_ENTHALPIES`, e.g. tert-butanol) still",
+          "melt on their plateau.", "",
+          "## Trigger originals", "", "| original | question |", "|---|---|"]
+    md += [f"| {i} | {q} |" for i, q in ORIGINALS]
+    md += ["", f"Counts: {', '.join(f'{k} {v}' for k, v in out['counts'].items())}.", "",
+           "## Melting ranges", "", "| material | range | source |", "|---|---|---|"]
+    md += [f"| {r['species']} | {r['lower_k'] if r['lower_k'] is not None else '(lower end unsourced)'}–{r['upper_k']:g} K | {r['source']} |" for r in ranges]
+    md += ["", "## Species", "", "| species | standard phase | melting apparatus | boiling apparatus | source |",
+           "|---|---|---|---|---|"]
+    for r in species_rows:
+        sid = rows[r["species"]]["source_id"] if r["species"] in rows else "—"
+        if rows.get(r["species"], {}).get("kind") == "model_threshold":
+            sid += " (model threshold, not a literature value)"
+        md.append(f"| {r['species']} | {r['standard_phase'] or '—'} | {cell(r['melting'])} | {cell(r['boiling'])} | {sid} |")
+    md += ["", "## Sources", ""]
+    md += [f"- **{sp}** (`{r['source_id']}`): {r['citation']}" for sp, r in sorted(rows.items())]
+    if doc.get("dropped"):
+        md += ["", "## Withdrawn values dropped (no primary source found)", "",
+               "| species | property | withdrawn value | reason |", "|---|---|---|---|"]
+        md += [f"| {d['species']} | {d['property']} | {d['old_k']:g} K | {d['reason']} |" for d in doc["dropped"]]
     mdtext = "\n".join(md) + "\n"
-    out_js = ROOT / "docs/transition-point-coverage-20261110.json"
-    out_md = ROOT / "docs/transition-point-coverage-20261110.md"
+    out_js, out_md = OUT.with_suffix(".json"), OUT.with_suffix(".md")
     if a.check:
-        bad = [p for p, t in ((out_js, js), (out_md, mdtext))
+        bad = [str(p) for p, t in ((out_js, js), (out_md, mdtext))
                if not p.exists() or p.read_text(encoding="utf-8") != t]
-        if bad:
-            print("stale:", *bad, file=sys.stderr)
-            return 1
-        return 0
+        for p in problems + [f"stale: {b}" for b in bad]:
+            print(p, file=sys.stderr)
+        return 1 if problems or bad else 0
+    for p in problems:
+        print("PROBLEM:", p, file=sys.stderr)
     out_js.write_text(js, encoding="utf-8")
     out_md.write_text(mdtext, encoding="utf-8")
-    print(json.dumps(doc["counts"]))
-    return 0
+    print(json.dumps(out["counts"]))
+    return 1 if problems else 0
 
 
 if __name__ == "__main__":

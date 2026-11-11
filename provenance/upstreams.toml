@@ -809,13 +809,6 @@ reason = "The citation describes vendored NASA CEA thermo.inp bytes, Apache-2.0,
 
 [[citation]]
 surface = "registry"
-subject = "kerotakis/phase-transitions-v1"
-upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
-role = "mentioned"
-reason = "Withdrawn 2026-09-13 (PR #589). The citation names these three sources only to record that the claim resting on them has stopped, and says so in terms: 'Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone.' No value here is offered as coming from any of them."
-
-[[citation]]
-surface = "registry"
 subject = "kerotakis/dissolution-enthalpies-v1"
 upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
 role = "mentioned"

@@ -142,7 +142,7 @@ fn cold_stocked_hexadecane_melts_when_warmed_past_its_melting_point() {
     );
     assert!(moles(&bench, "hexadecane", Phase::Solid) < 1e-9);
     let t = bench.vessel(VesselId(0)).unwrap().temperature.0;
-    assert!(t > 291.35, "ended at {t} K, below the melting point");
+    assert!(t > 291.3, "ended at {t} K, below the melting point");
 }
 
 /// th-003: tert-butanol at 15 °C is a solid, isopropanol is not.
