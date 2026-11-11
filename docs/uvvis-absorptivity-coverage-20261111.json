@@ -1,0 +1,193 @@
+{
+  "generated_by": "tools/uvvis_absorptivity_coverage.py",
+  "mechanism": "A(lambda) = l * sum eps(species, lambda, T) * c(species) over every species with a cited row within 1 nm; any present absorber without a cited row at that wavelength (or outside a row's temperature range) blocks the reading with not-modeled.uvvis-absorptivity-no-data (EN/DE/FR)",
+  "counts": {
+    "rows": 14,
+    "covered_species": 13,
+    "refused_species": 4,
+    "lower_confidence_rows": 4
+  },
+  "rows": [
+    {
+      "species": "I2",
+      "nm": 460.0,
+      "epsilon": 722.0,
+      "temperature": [
+        -0.0019,
+        20.0,
+        35.0
+      ],
+      "carriers": [],
+      "confidence": "read",
+      "source": "Colorimetric Determination of Dissolved Oxygen: Assessment of Methodological Influences on Iodine Spectra, Isosbestic Point, Precision and Accuracy, ACS Omega 9 (2024) 47350, doi:10.1021/acsomega.4c09084, open access PMC11603272, Table 3 (read 2026-11-11)"
+    },
+    {
+      "species": "I3-",
+      "nm": 460.0,
+      "epsilon": 1022.0,
+      "temperature": [
+        0.0048,
+        20.0,
+        35.0
+      ],
+      "carriers": [],
+      "confidence": "read",
+      "source": "Colorimetric Determination of Dissolved Oxygen: Assessment of Methodological Influences on Iodine Spectra, Isosbestic Point, Precision and Accuracy, ACS Omega 9 (2024) 47350, doi:10.1021/acsomega.4c09084, open access PMC11603272, Table 3 (read 2026-11-11)"
+    },
+    {
+      "species": "MnO4-",
+      "nm": 525.0,
+      "epsilon": 3340.0,
+      "temperature": null,
+      "carriers": [
+        "MnO4-",
+        "KMnO4"
+      ],
+      "confidence": "quoted",
+      "source": "McBeath, Wilkinson & Graham, Chemosphere 251 (2020) 126626, doi:10.1016/j.chemosphere.2020.126626 (\"3340 M-1 cm-1 at 525 nm\"), as quoted by Heliyon 2023, PMC9958420; 545 nm value from the same source. Older teaching value 2400-2500 at 525 nm conflicts"
+    },
+    {
+      "species": "MnO4-",
+      "nm": 545.0,
+      "epsilon": 3220.0,
+      "temperature": null,
+      "carriers": [
+        "MnO4-",
+        "KMnO4"
+      ],
+      "confidence": "quoted",
+      "source": "McBeath, Wilkinson & Graham, Chemosphere 251 (2020) 126626, doi:10.1016/j.chemosphere.2020.126626 (\"3340 M-1 cm-1 at 525 nm\"), as quoted by Heliyon 2023, PMC9958420; 545 nm value from the same source. Older teaching value 2400-2500 at 525 nm conflicts"
+    },
+    {
+      "species": "MnO4-2",
+      "nm": 606.0,
+      "epsilon": 1710.0,
+      "temperature": null,
+      "carriers": [
+        "MnO4-2",
+        "K2MnO4"
+      ],
+      "confidence": "quoted",
+      "source": "Carrington & Symons, J. Chem. Soc. (1956) 3373, doi:10.1039/JR9560003373, value as quoted by Wikipedia 'Manganate' (lambda_max 606 nm, epsilon 1710)"
+    },
+    {
+      "species": "Cr2O7-2",
+      "nm": 350.0,
+      "epsilon": 3136.0,
+      "temperature": null,
+      "carriers": [
+        "Cr2O7-2",
+        "K2Cr2O7",
+        "Na2Cr2O7"
+      ],
+      "confidence": "read",
+      "source": "Burke & Mavrodineanu, J. Res. NBS 80A (1976) 631, doi:10.6028/jres.080a.062, PMC5293529, Table II: 10.661 kg g-1 cm-1 at 350 nm for K2Cr2O7 in 0.001 M HClO4, 23.5 C (x 294.18 g/mol = 3136 per Cr2O7, 1568 per Cr; >= 95.8 % of Cr as HCrO4-)"
+    },
+    {
+      "species": "HCrO4-",
+      "nm": 350.0,
+      "epsilon": 1568.0,
+      "temperature": null,
+      "carriers": [
+        "HCrO4-"
+      ],
+      "confidence": "read",
+      "source": "Burke & Mavrodineanu, J. Res. NBS 80A (1976) 631, doi:10.6028/jres.080a.062, PMC5293529, Table II: 10.661 kg g-1 cm-1 at 350 nm for K2Cr2O7 in 0.001 M HClO4, 23.5 C (x 294.18 g/mol = 3136 per Cr2O7, 1568 per Cr; >= 95.8 % of Cr as HCrO4-)"
+    },
+    {
+      "species": "HOCl",
+      "nm": 235.0,
+      "epsilon": 100.0,
+      "temperature": null,
+      "carriers": [
+        "HOCl"
+      ],
+      "confidence": "read",
+      "source": "Environ. Sci.: Water Res. Technol. 2 (2016) 565 (NSF PAR 10283504): HOCl 98-101 M-1 cm-1 at 235 nm, OCl- 359-365 M-1 cm-1 at 292 nm (midpoints used)"
+    },
+    {
+      "species": "OCl-",
+      "nm": 292.0,
+      "epsilon": 362.0,
+      "temperature": null,
+      "carriers": [
+        "OCl-"
+      ],
+      "confidence": "read",
+      "source": "Environ. Sci.: Water Res. Technol. 2 (2016) 565 (NSF PAR 10283504): HOCl 98-101 M-1 cm-1 at 235 nm, OCl- 359-365 M-1 cm-1 at 292 nm (midpoints used)"
+    },
+    {
+      "species": "Br2",
+      "nm": 390.0,
+      "epsilon": 171.0,
+      "temperature": null,
+      "carriers": [
+        "Br2"
+      ],
+      "confidence": "snippet",
+      "source": "'Oxidation of Thiourea by Aqueous Bromine' (snippet via lookchem PDF): Br2 171 and Br3- 1006 mol-1 dm3 cm-1 at 390 nm"
+    },
+    {
+      "species": "Br3-",
+      "nm": 390.0,
+      "epsilon": 1006.0,
+      "temperature": null,
+      "carriers": [
+        "Br3-"
+      ],
+      "confidence": "snippet",
+      "source": "'Oxidation of Thiourea by Aqueous Bromine' (snippet via lookchem PDF): Br2 171 and Br3- 1006 mol-1 dm3 cm-1 at 390 nm"
+    },
+    {
+      "species": "FeSCN+2",
+      "nm": 447.0,
+      "epsilon": 4700.0,
+      "temperature": null,
+      "carriers": [
+        "FeSCN+2"
+      ],
+      "confidence": "quoted",
+      "source": "Frank & Oswalt, J. Am. Chem. Soc. 69 (1947) 1321, doi:10.1021/ja01198a026, as quoted by a university handout (4700 L mol-1 cm-1, acidic HClO4); an I = 0.5 M study gives 2841, so the value is condition dependent"
+    },
+    {
+      "species": "Cu(NH3)4+2",
+      "nm": 640.0,
+      "epsilon": 77.0,
+      "temperature": null,
+      "carriers": [
+        "Cu(NH3)4+2"
+      ],
+      "confidence": "snippet",
+      "source": "Anal. Chim. Acta (2002), S0003267002001356 (snippet): epsilon(640) = 77 M-1 cm-1 for Cu(NH3)4 2+"
+    },
+    {
+      "species": "Ni+2",
+      "nm": 395.0,
+      "epsilon": 5.2,
+      "temperature": null,
+      "carriers": [
+        "Ni+2"
+      ],
+      "confidence": "snippet",
+      "source": "Metz group (UMass) paper (snippet): Ni(H2O)6 2+ 395 nm, epsilon about 5.2 M-1 cm-1"
+    }
+  ],
+  "no_data": [
+    {
+      "species": "CrO4-2",
+      "reason": "372 nm, about 4810-4830 only on non-primary web pages; no primary found"
+    },
+    {
+      "species": "Co+2",
+      "reason": "Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced"
+    },
+    {
+      "species": "Cl2",
+      "reason": "Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used)"
+    },
+    {
+      "species": "FeCl+2",
+      "reason": "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure"
+    }
+  ]
+}

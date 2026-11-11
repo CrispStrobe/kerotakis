@@ -13,14 +13,14 @@ Activities are taken as molarities (no activity coefficients); constants are 25 
 
 - K(I2 + I- = I3-) = 698 L/mol
 - E°(I2(aq)/I-) = 0.621 V; E°(Fe3+/Fe2+) = 0.7696 V; log K(2 Fe3+ + 2 I- = 2 Fe2+ + I2) = 5.0237
-- I2 band (centre nm, ε, σ nm) = (460.0, 746.0, 42.0)
-- I3- band (centre nm, ε, σ nm) = (353.0, 26400.0, 41.66); fitted ε(460 nm) = 975.3 (cited 975)
+- I2 band (centre nm, ε, σ nm) = (460.0, 722.0, 42.0)
+- I3- band (centre nm, ε, σ nm) = (353.0, 26400.0, 41.96); fitted ε(460 nm) = 1022.2 (cited 1022)
 - spectrophotometer-parameterised keys: I2
 
 ## Sources
 
 - triiodide_k: Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374 (molal constant, used as L/mol; literature range 698-770; Awtrey & Connick 1951)
-- epsilon: Awtrey & Connick, J. Am. Chem. Soc. 73 (1951) 1842, doi:10.1021/ja01148a097: I2 460 nm 746 (not yet confirmed by a second source); I3- 460 nm 975, 353 nm 26400 L/mol/cm (later sources 24800-26400)
+- epsilon: ACS Omega 9 (2024) 47350, doi:10.1021/acsomega.4c09084, PMC11603272 Table 3: I2 460 nm 722 (-0.19 %/C), I3- 460 nm 1022 (+0.48 %/C) at 25 C; replaces the unconfirmed 746/975 of Awtrey & Connick, J. Am. Chem. Soc. 73 (1951) 1842, doi:10.1021/ja01148a097, which still supplies I3- 353 nm 26400 L/mol/cm (later sources 24800-26400)
 - e0_i2aq: Bard, Parsons & Jordan, Standard Potentials in Aqueous Solution (IUPAC/Dekker 1985): I2(aq)/I- 0.621 V
 - e0_fe: halogen redox half table Fe+3/Fe+2 (llnl.dat, docs/halogen-redox-coverage-20261027)
 - thiosulfate: curated iodometric row (Vogel; Harris), crates/kerotakis-core/src/curated.rs

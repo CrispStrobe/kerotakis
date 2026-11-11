@@ -127,6 +127,7 @@ pub mod swelling;
 pub mod transport;
 pub mod units;
 pub mod uv;
+pub mod uvvis_absorptivity;
 pub mod vessel;
 pub mod volatility;
 /// Shared pure-ice/liquid-water fusion and liquidus model.
