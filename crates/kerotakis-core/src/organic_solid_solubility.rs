@@ -164,7 +164,7 @@ mod tests {
     fn maltose_row_reproduces_the_deposited_mass_fractions() {
         // Back from x (anhydrous maltose with hydrate water as solvent) to
         // the deposited monohydrate mass fraction w.
-        let (m_hydrate, m_water) = (360.31, 18.015);
+        let (m_hydrate, m_water) = (360.31, crate::constants::WATER_MOLAR_MASS_G_PER_MOL);
         for ((_, x), w) in row("maltose")
             .unwrap()
             .mole_fraction

@@ -871,7 +871,26 @@ fn execute_prompt(
             // that moved the pH.
             || all_events
                 .iter()
-                .any(|event| matches!(event, Event::Corroded { .. })));
+                .any(|event| matches!(event, Event::Corroded { .. }))
+            // EXP-9: amylase digestion used to be the curated instant row
+            // this clause names ("a curated reaction has digested it"). It
+            // is now the clock-driven `starch_amylase` route — a zero-order
+            // rate from the cited Sigma A3176 unit definition, booked over
+            // the wait — which reports a `ReactionOccurred` and no solver
+            // route at all. The starch that "does not dissolve" at the
+            // `add` line is then digested, so the remark is an aside again.
+            // Matched on that route's own equation, not on any reaction, so
+            // `bio-042`'s acid speciating beside starch stays qualitative.
+            // A refused digestion (`amylase-outside-unit-conditions`,
+            // `amylase-dose-not-convertible`) books no such event and
+            // leaves the row where it was.
+            || all_events.iter().any(|event| {
+                matches!(
+                    event,
+                    Event::ReactionOccurred { equation, .. }
+                        if equation == kerotakis_core::starch_amylase::EQUATION
+                )
+            }));
     if typed_observation && !plated_beside_an_aside && !inert_beside_an_answer {
         return Ok(result(
             prompt,
@@ -1044,7 +1063,7 @@ mod tests {
     #[test]
     fn unsupported_dissolution_and_visual_inspection_are_not_computed() {
         let result =
-            execute_prompt(&original_prompt("bio-034"), &mut crate::build_stack()).unwrap();
+            execute_prompt(&original_prompt("bio-026"), &mut crate::build_stack()).unwrap();
         assert_eq!(result.observed, Disposition::Qualitative);
         assert_eq!(result.reason_code, "typed-observation");
     }
@@ -1059,20 +1078,47 @@ mod tests {
 
     #[test]
     fn unrelated_vessel_bookkeeping_cannot_upgrade_an_unsupported_observation() {
-        let mut prompt = original_prompt("bio-034");
+        let mut prompt = original_prompt("bio-026");
         prompt.script.push("new".into());
         let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
         assert_eq!(result.observed, Disposition::Qualitative);
         assert_eq!(result.reason_code, "typed-observation");
     }
 
+    /// Built from events rather than from a prompt: the original used
+    /// `bio-034` (maltose) minus its `look`, and maltose now dissolves from
+    /// a reviewed solubility row, so no shipped prompt is guaranteed to stay
+    /// a pure model limit. The rule under test is the classifier's, so the
+    /// events are stated directly.
     #[test]
     fn a_model_limit_and_handling_without_observation_are_not_a_computation() {
-        let mut prompt = original_prompt("bio-034");
-        assert_eq!(prompt.script.pop().as_deref(), Some("look v1"));
-        let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
-        assert_eq!(result.observed, Disposition::Missing);
-        assert_eq!(result.reason_code, "not-yet-modeled");
+        use kerotakis_core::ops::NotModelledCause;
+        use kerotakis_core::phrase::Phrase;
+        use kerotakis_core::VesselId;
+        let vessel = VesselId(0);
+        let limit = Event::not_modeled(
+            vessel,
+            NotModelledCause::NoReviewedDatum,
+            Phrase::bare(
+                "not-modeled.organic-solid-no-solubility",
+                "the dissolution route has no reviewed aqueous solubility",
+            ),
+        );
+        let events = vec![Event::VesselCreated { vessel }, limit.clone()];
+        assert_eq!(
+            unsupported_observation(&events),
+            Some((Disposition::Missing, "not-yet-modeled"))
+        );
+        // A model limit beside an event that is not handling is not this
+        // rule's to grade.
+        let reacted = vec![
+            limit,
+            Event::ReactionOccurred {
+                vessel,
+                equation: "A -> B".into(),
+            },
+        ];
+        assert_eq!(unsupported_observation(&reacted), None);
     }
 
     #[test]

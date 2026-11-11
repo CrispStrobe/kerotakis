@@ -917,26 +917,26 @@ reason_code = "typed-observation"
 [[observation]]
 id = "bio-028"
 owning_task = "EXP-9"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-029"
 owning_task = "EXP-9"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-030"
 owning_task = "BRD-050"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-031"
 owning_task = "BRD-050"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-032"
@@ -947,14 +947,14 @@ reason_code = "curated-route"
 [[observation]]
 id = "bio-033"
 owning_task = "EXP-9"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-034"
 owning_task = "BRD-012"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-035"

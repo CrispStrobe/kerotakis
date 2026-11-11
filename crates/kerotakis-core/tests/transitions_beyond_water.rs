@@ -81,11 +81,11 @@ fn cool(bench: &mut Bench, stack: &mut SolverStack, joules: f64) -> Vec<Event> {
         .expect("cool")
 }
 
-/// The one the PLAN item names: a spirit burner's fuel boils at 78.4 °C
+/// The one the PLAN item names: a spirit burner's fuel boils at 78.5 °C
 /// and the thermometer holds there while it does.
 ///
 /// 1 mol of ethanol is 46 g, about 58 mL. Warming it from 25 °C to its
-/// boiling point costs 112.3 × 53.24 ≈ 6.0 kJ; boiling all of it would cost
+/// boiling point costs 112.3 × 53.55 ≈ 6.0 kJ; boiling all of it would cost
 /// a further 38.6 kJ. 20 kJ therefore lands squarely on the plateau with
 /// most of the ethanol still in the flask, which is the observation.
 #[test]
@@ -101,8 +101,12 @@ fn pure_ethanol_boils_at_its_own_point_and_the_thermometer_holds_there() {
         .and_then(|t| t.boiling_k)
         .expect("the registry carries ethanol's boiling point")
         - 273.15;
+    // 351.7 K = 78.55 C: NBS Circular 500 (Rossini, Wagman, Evans, Levine
+    // and Jaffe, 1952), Table 23-16, vaporization at 760 mm Hg — the same
+    // table the still's 38.58 kJ/mol latent heat comes from, and the one
+    // value `volatility` now reads for ethanol too.
     assert!(
-        (boiling_c - 78.24).abs() < 0.2,
+        (boiling_c - 78.55).abs() < 0.2,
         "the registry's ethanol boiling point moved: {boiling_c} C"
     );
     assert!(

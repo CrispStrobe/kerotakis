@@ -2521,3 +2521,23 @@ Its `battery_electrolyte` is the registry's 30 % w/w KOH teaching surrogate
 outside a cited electrolyte range instead of extrapolating
 (`docs/activity-model-range-coverage-20261109.md`). No question, script or
 requirement changes; the other 499 records are unchanged.
+
+### 2026-11-11: maltose solubility row and time-stepped amylase digestion
+
+- `bio-034` (maltose) now dissolves from the reviewed Gong et al. (2012,
+  doi:10.1021/je300885g) solubility row, so its requirement moves from
+  `qualitative` to `computed` and its record to `computed / computed-route`.
+- Amylase digestion moved from a curated instant row to the clock-driven
+  `starch_amylase` route (Sigma A3176 unit-definition rate over the wait). It
+  reports a `ReactionOccurred` and no curated solver route, so the starch
+  `Inert` remark at the `add` line had begun to outrank it. The classifier now
+  treats that route's own equation as the answer beside the remark, as it
+  already did for a curated route. `bio-028`, `bio-029` and `bio-033` record
+  `computed`.
+- `bio-030` (water at 100 C) records `computed` because the engine digests at
+  the 20 C unit rate: it has no sourced thermal-inactivation bound for the
+  enzyme, so denaturation is NOT modelled. The record describes what the
+  engine does, not that boiling leaves amylase active.
+- `bio-031` (0.01 mol HCl) records `qualitative / typed-observation`: the
+  solution pH is outside the source's 5.5-8.0 window, digestion is refused
+  with `not-modeled.amylase-outside-unit-conditions`, and nothing is digested.

@@ -147,11 +147,25 @@ pub fn additional_solvent_cut(
     let mut models = Vec::new();
     for (key, amount) in inventory {
         let existing = match key.as_str() {
-            // The existing still's own latent-reference temperatures (100 C
-            // and 78.3 C, documented beside its latent heats), not the
-            // separately licensed registry phase-transition table.
-            "water" => Some((373.15, kerotakis_thermo::vle::WATER_HVAP_KJ_PER_MOL)),
-            "ethanol" => Some((351.45, kerotakis_thermo::vle::ETHANOL_HVAP_KJ_PER_MOL)),
+            // The boiling point is the registry's own row, so there is one
+            // value per substance: the still used to carry 351.45 K for
+            // ethanol beside a different registry figure. Ethanol's 351.7 K
+            // (78.5 C) is NBS Circular 500 (Rossini et al., 1952), Table
+            // 23-16 — the same table and temperature the 38.58 kJ/mol latent
+            // heat in `kerotakis_thermo::vle` is quoted at. Water's row is
+            // the solvent model's 373.15 K. No registry boiling point means
+            // no reviewed still property, and the typed refusal below.
+            "water" | "ethanol" => species::lookup_key(&key)
+                .and_then(|data| data.transitions)
+                .and_then(|transitions| transitions.boiling_k)
+                .map(|boiling_k| {
+                    let latent = if key == "water" {
+                        kerotakis_thermo::vle::WATER_HVAP_KJ_PER_MOL
+                    } else {
+                        kerotakis_thermo::vle::ETHANOL_HVAP_KJ_PER_MOL
+                    };
+                    (boiling_k, latent)
+                }),
             _ => None,
         };
         let properties = existing.or_else(|| {
