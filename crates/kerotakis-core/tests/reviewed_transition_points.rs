@@ -266,12 +266,11 @@ fn dry_ice_is_reviewed_against_span_and_wagner() {
 #[test]
 fn unsourced_decompositions_and_boils_stay_absent() {
     // Negative: no value is invented where no primary was read.
-    for key in ["Pb(NO3)2"] {
-        let dec = species::lookup(&SpeciesId::new(key))
-            .and_then(|d| d.transitions)
-            .and_then(|t| t.decomposition_k);
-        assert!(dec.is_none(), "{key} decomposition must stay no_data");
-    }
+    let key = "Pb(NO3)2";
+    let dec = species::lookup(&SpeciesId::new(key))
+        .and_then(|d| d.transitions)
+        .and_then(|t| t.decomposition_k);
+    assert!(dec.is_none(), "{key} decomposition must stay no_data");
     for key in ["H2O2", "NaOH", "CaCl2", "BaCl2"] {
         assert!(
             transitions(key).boiling_k.is_none(),

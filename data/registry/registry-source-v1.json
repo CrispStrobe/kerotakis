@@ -32798,45 +32798,6 @@
       }
     },
     {
-      "id": "decomposition-point/CuSO4",
-      "species_id": "CuSO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 873.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "literature/transition-points/CuSO4",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
-        }
-      }
-    },
-    {
       "id": "heat-capacity/CuSO4",
       "species_id": "CuSO4",
       "phase": "solid",
@@ -32893,6 +32854,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/CuSO4",
+      "species_id": "CuSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 873.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/CuSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -33047,45 +33047,6 @@
       }
     },
     {
-      "id": "decomposition-point/KMnO4",
-      "species_id": "KMnO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 523.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "literature/transition-points/KMnO4",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
-        }
-      }
-    },
-    {
       "id": "heat-capacity/KMnO4",
       "species_id": "KMnO4",
       "phase": "solid",
@@ -33142,6 +33103,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/KMnO4",
+      "species_id": "KMnO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 523.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KMnO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -33206,45 +33206,6 @@
       }
     },
     {
-      "id": "decomposition-point/FeSO4",
-      "species_id": "FeSO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 873.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "literature/transition-points/FeSO4",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
-        }
-      }
-    },
-    {
       "id": "heat-capacity/FeSO4",
       "species_id": "FeSO4",
       "phase": "solid",
@@ -33301,6 +33262,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/FeSO4",
+      "species_id": "FeSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 873.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/FeSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -34327,45 +34327,6 @@
       }
     },
     {
-      "id": "decomposition-point/ZnSO4",
-      "species_id": "ZnSO4",
-      "phase": "solid",
-      "property": {
-        "other": "decomposition_temperature"
-      },
-      "quantity": {
-        "value": 863.15,
-        "unit": {
-          "symbol": "K",
-          "dimension": "temperature"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": {
-            "lower": 101325.0,
-            "upper": 101325.0,
-            "unit": {
-              "symbol": "Pa",
-              "dimension": "pressure"
-            }
-          },
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "literature/transition-points/ZnSO4",
-        "method": {
-          "kind": "curated",
-          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
-        }
-      }
-    },
-    {
       "id": "heat-capacity/ZnSO4",
       "species_id": "ZnSO4",
       "phase": "solid",
@@ -34422,6 +34383,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/ZnSO4",
+      "species_id": "ZnSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 863.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/ZnSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
