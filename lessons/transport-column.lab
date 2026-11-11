@@ -24,7 +24,7 @@ add v4 NaCl 5g
 new
 
 #@part.4 push the salt through three steps
-transport v1 v2 v3 from v4 to v5 steps 3 courant 0.5
+transport v1 v2 v3 from v4 to v5 steps 3 courant 0.5 reservoir
 
 #@part.5 look at what ended up where
 measure v1 balance

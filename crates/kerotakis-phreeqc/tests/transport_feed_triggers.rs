@@ -2,16 +2,20 @@
 //! Batch-3 transport trigger scripts through the standard native stack.
 //!
 //! The originals are reproduced verbatim (setup and transport lines only;
-//! read-outs are skipped) as evidence and run with the default boundary: an
-//! external constant-composition reservoir. They exposed three defects that
+//! read-outs are skipped) as evidence. They were written when the script
+//! default was an external constant-composition reservoir; the reservoir
+//! tests below therefore append the explicit `reservoir` declaration, and
+//! `Mode::Verbatim` runs the lines as written, which now drains the inlet
+//! vessel (TR-006 follow-up: an undebited bench inlet duplicated every
+//! species it supplied). They exposed three defects that
 //! hold in any boundary mode: the reservoir's supply was not recorded, so the
 //! open-column ledger could not be audited (tr-004, tr-006); reactions ran
 //! once per command rather than per step (tr-008 let Cu2+ break through an
 //! excess Fe bed); and ppm-level solvent-proxy differences refused the run
 //! (tr-003, tr-007). Every original now closes its element ledger counting
-//! the recorded `inflow_moles`. The same scripts with `drain` appended
-//! exercise the opt-in finite feed: each feed holds one cell volume, so a
-//! command asking for more is a typed `InletExhausted` refusal.
+//! the recorded `inflow_moles`. The same scripts with `drain` appended (or
+//! verbatim, the default) exercise the finite feed: each feed holds one cell
+//! volume, so a command asking for more is a typed `InletExhausted` refusal.
 
 use std::collections::BTreeMap;
 
@@ -177,12 +181,23 @@ enum Outcome {
     Exhausted,
 }
 
-/// Run setup and transport lines; `drain` appends the declaration to every
-/// transport line. `check` sees the bench before and after each successful
+/// How each transport line is declared before it is parsed.
+#[derive(Clone, Copy)]
+enum Mode {
+    /// The line exactly as the original wrote it (the finite-feed default).
+    Verbatim,
+    /// `reservoir` appended: the external constant-composition boundary.
+    Reservoir,
+    /// `drain` appended: the finite feed, stated explicitly.
+    Drain,
+}
+
+/// Run setup and transport lines, declaring each transport line per
+/// `mode`. `check` sees the bench before and after each successful
 /// transport, with its events.
 fn run(
     script: &str,
-    drain: bool,
+    mode: Mode,
     mut check: impl FnMut(usize, &Bench, &Bench, &[Event]),
 ) -> Vec<Outcome> {
     let mut bench = Bench::new();
@@ -193,10 +208,10 @@ fn run(
         if !matches!(verb, "new" | "add" | "transport") {
             continue;
         }
-        let line = if verb == "transport" && drain {
-            format!("{line} drain")
-        } else {
-            line.to_string()
+        let line = match (verb, mode) {
+            ("transport", Mode::Reservoir) => format!("{line} reservoir"),
+            ("transport", Mode::Drain) => format!("{line} drain"),
+            _ => line.to_string(),
         };
         let op = kerotakis_core::script::parse_op(&line)
             .unwrap()
@@ -242,7 +257,7 @@ fn element_in(bench: &Bench, vessel: usize, element: &str) -> f64 {
 
 #[test]
 fn tr006_original_ledger_closes_with_recorded_inflow() {
-    let outcomes = run(TR006, false, |_, before, after, events| {
+    let outcomes = run(TR006, Mode::Reservoir, |_, before, after, events| {
         assert_open_closed(before, after, events, &["Na", "Cl"]);
     });
     assert_eq!(shape(&outcomes), vec![true, true]);
@@ -254,7 +269,7 @@ fn tr006_original_ledger_closes_with_recorded_inflow() {
 /// left out: an open beaker may exchange CO2 with the air.
 #[test]
 fn tr006_original_closes_dye_and_bound_pool_elements_per_command() {
-    let outcomes = run(TR006, false, |_, before, after, events| {
+    let outcomes = run(TR006, Mode::Reservoir, |_, before, after, events| {
         assert_open_closed(before, after, events, &["N", "S", "Na", "Cl"]);
         assert!(matches!(
             events
@@ -272,7 +287,7 @@ fn tr006_original_closes_dye_and_bound_pool_elements_per_command() {
 
 #[test]
 fn tr006_drained_feed_counts_salt_once() {
-    let outcomes = run(TR006, true, |index, before, after, _| {
+    let outcomes = run(TR006, Mode::Drain, |index, before, after, _| {
         let all = all_vessels(before);
         assert_closed(
             &elements(before, &all),
@@ -296,7 +311,7 @@ fn tr006_drained_feed_counts_salt_once() {
 
 #[test]
 fn tr004_original_records_reservoir_inflow_and_keeps_silver() {
-    let outcomes = run(TR004, false, |_, before, after, events| {
+    let outcomes = run(TR004, Mode::Reservoir, |_, before, after, events| {
         assert_open_closed(before, after, events, &["Ag", "Na", "Cl", "N"]);
         assert!(inflow_elements(events).get("Na").copied().unwrap_or(0.0) > 0.0);
         // The reservoir itself is not drawn down.
@@ -307,7 +322,7 @@ fn tr004_original_records_reservoir_inflow_and_keeps_silver() {
 
 #[test]
 fn tr004_drained_feed_is_finite() {
-    let outcomes = run(TR004, true, |_, before, after, events| {
+    let outcomes = run(TR004, Mode::Drain, |_, before, after, events| {
         let all = all_vessels(before);
         assert_closed(
             &elements(before, &all),
@@ -323,7 +338,7 @@ fn tr004_drained_feed_is_finite() {
 
 #[test]
 fn tr008_original_excess_iron_bed_retains_copper_per_step() {
-    let outcomes = run(TR008, false, |_, before, after, events| {
+    let outcomes = run(TR008, Mode::Reservoir, |_, before, after, events| {
         assert_open_closed(before, after, events, &["Fe", "Cu", "S"]);
         let cu_in_receiver = element_in(after, 4, "Cu");
         let cu_in_column: f64 = [0, 1, 2].iter().map(|v| element_in(after, *v, "Cu")).sum();
@@ -336,7 +351,7 @@ fn tr008_original_excess_iron_bed_retains_copper_per_step() {
     assert_eq!(shape(&outcomes), vec![true, true]);
     // A drained 20 mL feed cannot supply 1.5 cell volumes.
     assert_eq!(
-        shape(&run(TR008, true, |_, _, _, _| {})),
+        shape(&run(TR008, Mode::Drain, |_, _, _, _| {})),
         vec![false, false]
     );
 }
@@ -347,14 +362,79 @@ fn tr003_and_tr007_are_not_refused_for_solvent_proxy_rounding() {
     // hydrate water moves cell 1 by ~564 ppm. Both are inside the documented
     // hydraulic tolerance.
     for (script, conserved) in [(TR003, &["Ca"][..]), (TR007, &["Ca", "S"][..])] {
-        let original = run(script, false, |_, before, after, events| {
+        let original = run(script, Mode::Reservoir, |_, before, after, events| {
             assert_open_closed(before, after, events, conserved);
         });
         assert_eq!(shape(&original), vec![true, true]);
         // Drained, the one-volume feed is the binding limit.
         assert_eq!(
-            shape(&run(script, true, |_, _, _, _| {})),
+            shape(&run(script, Mode::Drain, |_, _, _, _| {})),
             vec![false, false]
         );
     }
+}
+
+/// The verbatim tr-006 script (no boundary word) drains its bench inlet:
+/// whatever entered the column left v4, so the whole bench closes per
+/// element with NO source term, the transported event says `drain`, and its
+/// recorded inflow equals exactly what the inlet lost. The second command
+/// asks a 20 mL rinse vessel for three cell volumes and is refused, leaving
+/// the bench as it was rather than inventing two volumes of water.
+#[test]
+fn tr006_verbatim_inlet_is_debited_by_what_entered_the_column() {
+    let outcomes = run(TR006, Mode::Verbatim, |_, before, after, events| {
+        let all = all_vessels(before);
+        assert_closed(
+            &elements(before, &all),
+            &elements(after, &all),
+            &["N", "S", "Na", "Cl"],
+        );
+        let Some(Event::Transported {
+            drain,
+            inlet: Some(inlet),
+            ..
+        }) = events
+            .iter()
+            .find(|e| matches!(e, Event::Transported { .. }))
+        else {
+            panic!("transport must report its ledger: {events:?}");
+        };
+        assert!(*drain, "a verbatim bench inlet must be a finite feed");
+        let inflow = inflow_elements(events);
+        for element in ["Na", "Cl", "N", "S"] {
+            let lost = element_in(before, inlet.0, element) - element_in(after, inlet.0, element);
+            let reported = inflow.get(element).copied().unwrap_or(0.0);
+            assert!(reported > 0.0, "{element} must enter the column");
+            assert!(
+                (lost - reported).abs() <= 1e-12 * reported,
+                "{element}: inlet lost {lost:e}, column received {reported:e}"
+            );
+        }
+    });
+    assert_eq!(shape(&outcomes), vec![true, false]);
+}
+
+/// Negative control: the same lines declared `reservoir` keep the inlet
+/// whole, and the bench grows by exactly the recorded source term.
+#[test]
+fn tr006_declared_reservoir_is_not_debited_and_states_its_source_term() {
+    let outcomes = run(TR006, Mode::Reservoir, |_, before, after, events| {
+        assert_open_closed(before, after, events, &["Na", "Cl", "N", "S"]);
+        let inlet = match events
+            .iter()
+            .find(|e| matches!(e, Event::Transported { .. }))
+        {
+            Some(Event::Transported {
+                drain: false,
+                inlet: Some(inlet),
+                ..
+            }) => inlet.0,
+            other => panic!("a declared reservoir must say so: {other:?}"),
+        };
+        assert_eq!(
+            element_in(before, inlet, "Cl"),
+            element_in(after, inlet, "Cl")
+        );
+    });
+    assert_eq!(shape(&outcomes), vec![true, true]);
 }

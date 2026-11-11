@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-11",
+  "defect": "batch3-diverse:tr-006 - transport inlet supplied matter without being debited",
+  "rule": "for every inter-vessel operator, source debit == destination credit per element and charge; an external boundary must be declared and reported as a source term",
+  "boundary_reference": "Parkhurst, D.L., Appelo, C.A.J. (2013) Description of input and examples for PHREEQC version 3, USGS Techniques and Methods 6-A43, doi:10.3133/tm6A43 (TRANSPORT keyword: boundary solution 0 is a constant-composition external reservoir)",
+  "constants": "none introduced",
+  "operators": [
+    {
+      "operator": "Cell",
+      "vessel_fields": [
+        "a",
+        "b"
+      ],
+      "status": "no-transfer",
+      "debit": "open-circuit voltmeter: nothing moves",
+      "tests": []
+    },
+    {
+      "operator": "Decant",
+      "vessel_fields": [
+        "from",
+        "to"
+      ],
+      "status": "debited",
+      "debit": "liquid fraction withdrawn from `from`, deposited in `to`",
+      "tests": [
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::decant_debits_source_by_exactly_the_destination_credit"
+      ]
+    },
+    {
+      "operator": "Distil",
+      "vessel_fields": [
+        "from",
+        "to"
+      ],
+      "status": "debited",
+      "debit": "distillate withdrawn from the pot",
+      "tests": [
+        "crates/kerotakis-core/tests/distil.rs::distillation_conserves_matter"
+      ]
+    },
+    {
+      "operator": "Drain",
+      "vessel_fields": [
+        "from",
+        "to"
+      ],
+      "status": "debited",
+      "debit": "lower layer withdrawn from `from`",
+      "tests": [
+        "crates/kerotakis-core/tests/phase_owned_transfers.rs::drain_ordinary_aqueous_first_keeps_both_inventories",
+        "crates/kerotakis-core/tests/liquid_partition_refusals.rs::refused_drain_creates_no_receiver_and_moves_no_material"
+      ]
+    },
+    {
+      "operator": "Extract",
+      "vessel_fields": [
+        "from",
+        "to"
+      ],
+      "status": "debited+stated-addition",
+      "debit": "solute withdrawn from the aqueous source; the fresh extracting solvent is an explicit stated addition (`total_solvent`)",
+      "tests": [
+        "crates/kerotakis-core/tests/liquid_extraction.rs::repeated_fresh_portions_extract_more_and_conserve_every_species"
+      ]
+    },
+    {
+      "operator": "Filter",
+      "vessel_fields": [
+        "from",
+        "to"
+      ],
+      "status": "debited",
+      "debit": "mobile phase withdrawn from `from`, solids retained",
+      "tests": [
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::filter_debits_source_by_exactly_the_filtrate_credit"
+      ]
+    },
+    {
+      "operator": "Impact",
+      "vessel_fields": [
+        "destination_if_broken",
+        "vessel"
+      ],
+      "status": "debited",
+      "debit": "a broken vessel's contents move once to the destination",
+      "tests": [
+        "crates/kerotakis-core/tests/spill_breakage.rs::breaking_moves_contents_once_and_recovery_cannot_duplicate_stock"
+      ]
+    },
+    {
+      "operator": "Magnet",
+      "vessel_fields": [
+        "from",
+        "to"
+      ],
+      "status": "debited",
+      "debit": "magnetic solids removed from `from`, deposited in `to`",
+      "tests": [
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::magnet_debits_source_by_exactly_the_attracted_credit"
+      ]
+    },
+    {
+      "operator": "Mix",
+      "vessel_fields": [
+        "a",
+        "b",
+        "into"
+      ],
+      "status": "debited",
+      "debit": "each source keeps (1 - fraction) of its liquid",
+      "tests": [
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::mix_debits_both_sources_by_exactly_the_receiver_credit"
+      ]
+    },
+    {
+      "operator": "RecoverSpill",
+      "vessel_fields": [
+        "destination",
+        "to"
+      ],
+      "status": "debited",
+      "debit": "fraction withdrawn from the spill surface",
+      "tests": [
+        "crates/kerotakis-core/tests/spill_breakage.rs::breaking_moves_contents_once_and_recovery_cannot_duplicate_stock"
+      ]
+    },
+    {
+      "operator": "Spill",
+      "vessel_fields": [
+        "destination",
+        "from"
+      ],
+      "status": "debited",
+      "debit": "fraction withdrawn from `from` into the spill surface",
+      "tests": [
+        "crates/kerotakis-core/tests/spill_breakage.rs::partial_spill_is_frame_policy_independent_and_closes_ledgers"
+      ]
+    },
+    {
+      "operator": "Transport",
+      "vessel_fields": [
+        "chain",
+        "inlet",
+        "receiver"
+      ],
+      "status": "debited",
+      "debit": "finite feed by default: inlet debited by exactly the injected parcel (`advance_from_feed`); an explicit `reservoir` is an external boundary whose supply the event reports as `inflow_moles` (source term)",
+      "tests": [
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::transport_default_debits_inlet_by_exactly_the_destination_credit",
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::declared_reservoir_keeps_inlet_and_reports_exact_source_term",
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::exhausted_feed_is_a_typed_localized_refusal_and_moves_nothing",
+        "crates/kerotakis-core/tests/transport_source_withdrawal.rs::transport_script_default_is_a_finite_feed_and_reservoir_is_explicit",
+        "crates/kerotakis-phreeqc/tests/transport_feed_triggers.rs::tr006_verbatim_inlet_is_debited_by_what_entered_the_column",
+        "crates/kerotakis-phreeqc/tests/transport_feed_triggers.rs::tr006_declared_reservoir_is_not_debited_and_states_its_source_term"
+      ]
+    }
+  ]
+}

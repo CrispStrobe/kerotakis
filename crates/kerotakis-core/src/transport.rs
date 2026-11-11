@@ -7,9 +7,11 @@
 //! mutates, so the result does not depend on iteration order.
 //!
 //! The boundary is either a finite feed vessel, debited by exactly the parcel
-//! it injects ([`CellChain::advance_from_feed`]; for the bench
-//! verb only when declared, `transport ... drain`), or the default
-//! constant-composition reservoir ([`CellChain::advance`]). In both cases the
+//! it injects ([`CellChain::advance_from_feed`]; the default of the script
+//! verb, because the inlet is a vessel on the bench), or an external
+//! constant-composition reservoir ([`CellChain::advance`]; only when the
+//! script declares `transport ... reservoir`, and every event then reports
+//! its supply as a source term from outside the bench). In both cases the
 //! per-step ledger is `old + injected = new + effluent` for every species.
 //!
 //! [`CellChain::advance`] deliberately performs no chemistry and invalidates
@@ -64,8 +66,8 @@ pub enum TransportError {
     InletVolume { expected_l: f64, actual_l: f64 },
     #[error(
         "the feed vessel holds {available_l} L of liquid but transport step {step} needs {required_l} L; \
-         the command declared 'drain', so the feed vessel is finite and is debited as it flows (add more \
-         feed, or omit 'drain' for a constant-composition reservoir)"
+         the feed vessel is finite and is debited by exactly what enters the column (add more feed, or \
+         declare 'reservoir' for an external constant-composition boundary)"
     )]
     InletExhausted {
         step: u32,
