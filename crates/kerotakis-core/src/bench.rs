@@ -4207,6 +4207,75 @@ impl Bench {
                     if moles <= 0.0 {
                         continue;
                     }
+                    // SP-011: a distribution coefficient holds for the
+                    // FREE neutral solute. Where the solute also forms an
+                    // aqueous-only complex with a dissolved ligand (I2 + I-
+                    // -> I3-), only the free share partitions and the
+                    // complex re-equilibrates after every stage.
+                    let complexation = crate::apparatus::aqueous_only_complex(&solute)
+                        .map(|row| (row, (row.ligand_moles)(&source)))
+                        .filter(|(_, ligand)| *ligand > 0.0);
+                    if let Some((row, ligand)) = complexation {
+                        if !source.temperature.0.is_finite()
+                            || (source.temperature.0 - row.reference_temperature_k).abs()
+                                > row.temperature_tolerance_k
+                        {
+                            events.push(Event::not_modeled(
+                                *from,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.aqueous-complex-temperature",
+                                    "{solute} also forms {complex} with {ligand} in the water, and that association constant is only reviewed at {reviewed} K (tolerance +/- {tolerance} K); this vessel is at {actual} K, so the free {solute} that partitions is not computed",
+                                    vec![("solute".to_string(), Slot::text(solute.0.clone())), ("complex".to_string(), Slot::text(row.complex.to_string())), ("ligand".to_string(), Slot::text(row.ligand.to_string())), ("reviewed".to_string(), Slot::number(format!("{:.2}", row.reference_temperature_k))), ("tolerance".to_string(), Slot::number(format!("{:.2}", row.temperature_tolerance_k))), ("actual".to_string(), Slot::number(format!("{:.2}", source.temperature.0)))],
+                                ),
+                            ));
+                            continue;
+                        }
+                        if solid_moles > 0.0 {
+                            events.push(Event::not_modeled(
+                                *from,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.aqueous-complex-with-solid",
+                                    "undissolved {solute} beside {ligand}: a solid reservoir that also feeds the aqueous {complex} complex during extraction is not yet modelled",
+                                    vec![("solute".to_string(), Slot::text(solute.0.clone())), ("complex".to_string(), Slot::text(row.complex.to_string())), ("ligand".to_string(), Slot::text(row.ligand.to_string()))],
+                                ),
+                            ));
+                            continue;
+                        }
+                        let single = crate::apparatus::extract_free_solute(
+                            moles,
+                            ligand,
+                            water_volume_l,
+                            organic_volume_l,
+                            prediction.k_organic_over_aqueous,
+                            row.association_k_l_per_mol,
+                            1,
+                        );
+                        let repeated = crate::apparatus::extract_free_solute(
+                            moles,
+                            ligand,
+                            water_volume_l,
+                            organic_volume_l / f64::from(*stages),
+                            prediction.k_organic_over_aqueous,
+                            row.association_k_l_per_mol,
+                            *stages as usize,
+                        );
+                        splits.push(ExtractionSplit {
+                            species: solute,
+                            extracted: Moles(repeated.organic_moles),
+                            remaining: Moles(repeated.aqueous_moles),
+                            partition_k: prediction.k_organic_over_aqueous,
+                            single_stage_efficiency: single.efficiency,
+                            staged_efficiency: repeated.efficiency,
+                            model: format!(
+                                "ideal equilibrium stages; fresh equal solvent portions; {}; only free {} partitions, aqueous-only {} with {} re-equilibrated after each stage",
+                                prediction.model, row.solute, row.complex, row.ligand
+                            ),
+                            provenance: format!("{}; {}", prediction.provenance, row.source),
+                        });
+                        continue;
+                    }
                     let (single, repeated) = if solid_moles > 0.0 {
                         let limit = solubility.expect("solid inventory was gated on solubility");
                         let single = crate::apparatus::extract_repeated_with_aqueous_solubility(
