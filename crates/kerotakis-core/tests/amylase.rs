@@ -316,3 +316,134 @@ fn the_coverage_table_matches_the_cited_constants() {
         .any(|r| r.catalyst == Some("amylase")));
     assert_eq!(table["starch_iodine_optics"]["status"], "refused");
 }
+
+// ── Heat inactivation (Miłek 2021, doi:10.3390/molecules26144117) ───
+
+fn heated_digestion_vessel(celsius: f64) -> Vessel {
+    let mut v = Vessel::new(VesselId(0), "heated digestion");
+    v.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+    v.deposit(SpeciesId::new("starch"), Moles(0.1), Phase::Solid);
+    v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
+    v.temperature = Kelvin::from_celsius(celsius);
+    v
+}
+
+#[test]
+fn boiling_inactivates_amylase_and_digests_nothing() {
+    // curiosity bio-030: starch and amylase in water at 100 °C.
+    let mut v = heated_digestion_vessel(100.0);
+    let events = starch_amylase::advance(&mut v, 300.0);
+    let phrase = events
+        .iter()
+        .find_map(|e| match e {
+            Event::NotYetModeled {
+                reason: Some(p), ..
+            } if p.key == "not-modeled.amylase-heat-inactivated" => Some(p),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("typed heat-inactivation event: {events:?}"));
+    let en = phrase.render(i18n::Locale::EN);
+    for locale in ["de", "fr"] {
+        assert_ne!(phrase.render(i18n::Locale::parse(locale)), en);
+    }
+    assert!(!events
+        .iter()
+        .any(|e| matches!(e, Event::ReactionOccurred { .. })));
+    assert!((v.moles_of(&SpeciesId::new("starch")).0 - 0.1).abs() < 1e-12);
+    assert_eq!(v.moles_of(&SpeciesId::new("maltose")).0, 0.0);
+    assert_eq!(starch_amylase::active_enzyme_moles(&v), 0.0);
+    assert!(!starch_amylase::consumes(&v, &SpeciesId::new("starch")));
+}
+
+#[test]
+fn heat_inactivation_is_irreversible_on_cooling_but_fresh_enzyme_works() {
+    let mut v = heated_digestion_vessel(90.0);
+    starch_amylase::advance(&mut v, 60.0);
+    v.temperature = Kelvin::from_celsius(20.0);
+    let events = starch_amylase::advance(&mut v, 600.0);
+    assert!(events.iter().any(|e| matches!(
+        e,
+        Event::NotYetModeled { reason: Some(p), .. }
+            if p.key == "not-modeled.amylase-heat-inactivated"
+    )));
+    assert_eq!(v.moles_of(&SpeciesId::new("maltose")).0, 0.0);
+    // A fresh dose added after cooling is active.
+    v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
+    assert!((starch_amylase::active_enzyme_moles(&v) - 1e-6).abs() < 1e-15);
+    starch_amylase::advance(&mut v, 600.0);
+    assert!(v.moles_of(&SpeciesId::new("maltose")).0 > 0.0);
+}
+
+#[test]
+fn body_temperature_and_room_temperature_digestion_are_unchanged() {
+    // At or below the fitted optimum (311.06 K) no inactivation is claimed.
+    for celsius in [20.0, 37.0] {
+        let mut v = heated_digestion_vessel(celsius);
+        starch_amylase::advance(&mut v, 600.0);
+        assert_eq!(v.amylase_inactive_moles, None, "{celsius} °C");
+        // 1e-6 mol = 55 mg (registry mass), 275 U, 600 s: 916.7 mg maltose.
+        let mg = v.moles_of(&SpeciesId::new("maltose")).0
+            * species::lookup_key("maltose").unwrap().molar_mass
+            * 1000.0;
+        let m = species::lookup_key("amylase").unwrap().molar_mass;
+        let expected = 1e-6 * m * 1000.0 * 5.0 * 600.0 / 180.0;
+        assert!((mg - expected).abs() < 1e-6 * expected, "{celsius}: {mg}");
+    }
+}
+
+#[test]
+fn falling_limb_inactivation_follows_the_cited_first_order_constant() {
+    // 50 °C: k_d = (1.46/3) exp[(164900/8.315)(1/311.06 - 1/323.15)] per min.
+    let t = 323.15;
+    let k_min = 1.46 / 3.0 * (164_900.0 / 8.315 * (1.0 / 311.06 - 1.0 / t)).exp();
+    let k = starch_amylase::inactivation_rate_per_s(t).unwrap();
+    assert!((k * 60.0 - k_min).abs() < 1e-9 * k_min);
+    let mut v = heated_digestion_vessel(50.0);
+    starch_amylase::advance(&mut v, 60.0);
+    let lost = v.amylase_inactive_moles.unwrap();
+    let expected = 1e-6 * (1.0 - (-k * 60.0).exp());
+    assert!((lost - expected).abs() < 1e-12 * 1e-6 + 1e-9 * expected);
+    // Partial digestion: less than the same minute at 37 °C, more than zero.
+    let warm = v.moles_of(&SpeciesId::new("maltose")).0;
+    let mut body = heated_digestion_vessel(37.0);
+    starch_amylase::advance(&mut body, 60.0);
+    let full = body.moles_of(&SpeciesId::new("maltose")).0;
+    assert!(warm > 0.0 && warm < full, "{warm} vs {full}");
+    assert!((warm - full * (1.0 - (-k * 60.0).exp()) / (k * 60.0)).abs() < 1e-9 * full);
+    // Monotone, and complete above the fitted data ceiling.
+    assert_eq!(starch_amylase::inactivation_rate_per_s(311.06), Some(0.0));
+    assert!(
+        starch_amylase::inactivation_rate_per_s(333.15).unwrap()
+            > starch_amylase::inactivation_rate_per_s(323.15).unwrap()
+    );
+    assert_eq!(
+        starch_amylase::inactivation_rate_per_s(343.16),
+        Some(f64::INFINITY)
+    );
+}
+
+#[test]
+fn heat_inactivation_constants_match_the_coverage_table() {
+    let table: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../docs/starch-amylase-coverage-20261111.json"
+    ))
+    .unwrap();
+    let h = &table["heat_inactivation"];
+    assert_eq!(
+        h["t_opt_k"].as_f64().unwrap(),
+        starch_amylase::INACTIVATION_T_OPT_K
+    );
+    assert_eq!(
+        h["e_d_j_per_mol"].as_f64().unwrap(),
+        starch_amylase::INACTIVATION_E_D_J_PER_MOL
+    );
+    assert_eq!(
+        h["beta"].as_f64().unwrap(),
+        starch_amylase::INACTIVATION_BETA
+    );
+    assert_eq!(
+        h["complete_loss_above_k"].as_f64().unwrap(),
+        starch_amylase::COMPLETE_LOSS_ABOVE_K
+    );
+    assert_eq!(h["refusal"], "not-modeled.amylase-heat-inactivated");
+}

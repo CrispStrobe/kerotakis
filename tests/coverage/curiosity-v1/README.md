@@ -2548,3 +2548,11 @@ but these prompts only `look` at the vessel afterwards, and the classifier
 grades that observation as a qualitative route; bio-033 adds iodine after the
 wait and stays computed. Expected for bio-028/029 lowered to match what the
 corpus observes, not what the engine computes internally.
+
+2026-11-11 (amylase heat inactivation): `bio-030` (starch + amylase in water
+at 100 °C, wait 5 min) no longer digests. The enzyme is booked as irreversibly
+heat-inactivated (`starch_amylase`, Miłek 2021 doi:10.3390/molecules26144117
+first-order deactivation above T_opt, complete above 343.15 K), the typed
+`not-modeled.amylase-heat-inactivated` reason is reported, and no
+`ReactionOccurred` lifts the starch insolubility aside any more. Recorded as
+`qualitative / typed-observation`, the same shape as `bio-031`'s pH refusal.

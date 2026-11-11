@@ -10,6 +10,21 @@
     "source": "Sigma-Aldrich A3176 alpha-amylase (porcine pancreas, Type VI-B): 1 U liberates 1.0 mg maltose from starch in 3 min at pH 6.9, 20 °C; ≥5 U/mg solid",
     "instant_curated_row_present": false
   },
+  "heat_inactivation": {
+    "model": "first-order irreversible deactivation, k_d(T) = (beta/t_a) exp[(E_d/R)(1/T_opt - 1/T)]",
+    "t_opt_k": 311.06,
+    "e_d_j_per_mol": 164900.0,
+    "beta": 1.46,
+    "assay_minutes": 3.0,
+    "gas_constant": 8.315,
+    "complete_loss_above_k": 343.15,
+    "applied": "only above T_opt (falling limb); none claimed at or below T_opt",
+    "source": "Miłek, Molecules 26 (2021) 4117, doi:10.3390/molecules26144117, Table 1 row 1a (Sigma porcine pancreatic α-amylase, data of Akhond et al. 2016, doi:10.1007/s12010-016-2145-1): first-order deactivation, T_opt 311.06 K, E_d 164.9 kJ/mol, β 1.46, t_a 3 min",
+    "corroboration": "Singh, Shandilya, Kundu, Kayastha, PLoS ONE 10 (2015) e0129203, doi:10.1371/journal.pone.0129203, Fig 3A: WHEAT alpha-amylase unperturbed to 65 C, 4% loss at 70 C, complete loss around 85 C (different organism; not used as a constant)",
+    "refusal": "not-modeled.amylase-heat-inactivated",
+    "state": "Vessel::amylase_inactive_moles (irreversible; not carried by a pour)",
+    "target": "curiosity-v1 bio-030"
+  },
   "enzymes": [
     {
       "enzyme": "amylase",
@@ -17,7 +32,8 @@
       "module": "starch_amylase",
       "refusals": [
         "not-modeled.amylase-outside-unit-conditions",
-        "not-modeled.amylase-dose-not-convertible"
+        "not-modeled.amylase-dose-not-convertible",
+        "not-modeled.amylase-heat-inactivated"
       ]
     },
     {
@@ -61,7 +77,7 @@
     "observable": "starch-iodine complex absorbance",
     "status": "refused",
     "key": "not-modeled.starch-iodine-absorptivity",
-    "reason": "Pesek et al., Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, sect. 2.1: 'reliable extinction coefficients for the amylose-iodine-iodide complex are not known'. The blue-value assay (Corn Refiners Association AMYLO.01, 620 nm) calibrates against amylose standards rather than an epsilon. No value was found that could be cited.",
+    "reason": "Pesek et al., Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, sect. 2.1: 'reliable extinction coefficients for the amylose-iodine-iodide complex are not known'. The blue-value assay (Corn Refiners Association AMYLO.01, 620 nm) calibrates against amylose standards rather than an epsilon. No value was found that could be cited. Retried 2026-11-11: Pesek & Silaghi-Dumitrescu, Molecules 29 (2024) 641, doi:10.3390/molecules29030641 (full text) gives no coefficient; Knutson, Carbohydr. Polym. 42 (2000) 65, doi:10.1016/S0144-8617(99)00126-5 and Abe, Bull. Chem. Soc. Jpn. 31 (1958) 661, doi:10.1246/bcsj.31.661 are paywalled (not read); open analytical papers report APPARENT absorptivities per iodide/iodine of 4e4 to 6e5 L/(mol cm) that depend on starch source, amylose fraction and excess-starch conditions, so none transfers to a generic 'starch' whose amylose fraction the bench does not know.",
     "still_read": "free I2 and I3- from their cited epsilon values (iodine_chemistry)"
   },
   "sugars": "see docs/organic-solid-dissolution-coverage-20261111.md (maltose row added)"

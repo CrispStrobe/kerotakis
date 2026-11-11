@@ -27,9 +27,42 @@
 //! and one water, the same aggregate stoichiometry the retired row used.
 //!
 //! Declared boundaries:
-//! * The rate is the unit-definition rate (20 °C, pH 6.9). No temperature
-//!   or pH dependence is claimed inside the source's pH window, and none is
-//!   invented: the event says so.
+//! * The rate is the unit-definition rate (20 °C, pH 6.9). No Arrhenius
+//!   speed-up of the catalytic rate is claimed, and none is invented.
+//!
+//! Heat inactivation (2026-11-11, curiosity bio-030 "Does boiling destroy
+//! amylase activity?" — the bench used to digest starch at 100 °C):
+//!
+//! * Source: Miłek J., "Determination of Activation Energies and the
+//!   Optimum Temperatures of Hydrolysis of Starch by α-Amylase from Porcine
+//!   Pancreas", Molecules 26 (2021) 4117, doi:10.3390/molecules26144117
+//!   (open access, PMC8306296). Read in full via Europe PMC: Eqs. (2)-(7)
+//!   treat deactivation as first order, `da/dt = -k_d a`,
+//!   `k_d(T) = B exp(-E_d/RT)`, `β = B t_a exp(-E_d/(R T_opt))`, R = 8.315
+//!   J/(mol K). Table 1 row 1a (Sigma-Aldrich porcine pancreatic enzyme,
+//!   pH 6.9 sodium phosphate, t_a = 3 min — the same supplier, pH and assay
+//!   time as the A3176 unit definition above; data of Akhond et al., Appl.
+//!   Biochem. Biotechnol. 180 (2016) 954-968, doi:10.1007/s12010-016-2145-1):
+//!   T_opt = 311.06 K, E_d = 164.9 kJ/mol, β = 1.46. Hence
+//!   `k_d(T) = (β/t_a) exp[(E_d/R)(1/T_opt - 1/T)]` per minute.
+//! * Applied only on the falling limb, T > T_opt, which is where Eq. (6)
+//!   attributes the measured activity loss to deactivation. Below T_opt
+//!   the same fit is dominated by the catalytic Arrhenius term and its
+//!   k_d is not constrained by the data, so no inactivation is claimed
+//!   there (37 °C digestion is unchanged).
+//! * The fitted data (Fig. 1a) end at 343 K. Above 343.15 K no extrapolation
+//!   is claimed: the enzyme is booked as completely inactivated at once
+//!   (the fit's own k_d there already exceeds 180 per minute, a half-life
+//!   under a quarter of a second). Corroboration only, different organism:
+//!   wheat α-amylase loses activity completely around 85 °C (Singh,
+//!   Shandilya, Kundu, Kayastha, PLoS ONE 10 (2015) e0129203,
+//!   doi:10.1371/journal.pone.0129203, Fig. 3A), and wheat amylase is the
+//!   more heat-stable of the two.
+//! * Irreversible: the inactivated moles are kept on the vessel
+//!   (`Vessel::amylase_inactive_moles`); cooling does not restore them and
+//!   freshly added enzyme is active. Not carried by a pour (declared).
+//! * Starch present with no active enzyme left is reported with
+//!   `not-modeled.amylase-heat-inactivated` and nothing is digested.
 //! * A characterised solution with pH outside 5.5-8.0 is outside the
 //!   source; digestion is then refused with
 //!   `not-modeled.amylase-outside-unit-conditions` instead of run.
@@ -57,6 +90,22 @@ pub const UNIT_SECONDS: f64 = 180.0;
 pub const PH_RANGE: (f64, f64) = (5.5, 8.0);
 
 pub const EQUATION: &str = "2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁";
+/// Miłek 2021 (doi:10.3390/molecules26144117) Table 1 row 1a: optimum
+/// temperature of the Sigma porcine pancreatic enzyme, K.
+pub const INACTIVATION_T_OPT_K: f64 = 311.06;
+/// Same row: activation energy of deactivation, J/mol (164.9 kJ/mol).
+pub const INACTIVATION_E_D_J_PER_MOL: f64 = 164_900.0;
+/// Same row: dimensionless β = B t_a exp(-E_d/(R T_opt)).
+pub const INACTIVATION_BETA: f64 = 1.46;
+/// Same row: assay time t_a, minutes.
+pub const INACTIVATION_ASSAY_MINUTES: f64 = 3.0;
+/// Gas constant as the paper uses it, J/(mol K).
+pub const INACTIVATION_GAS_CONSTANT: f64 = 8.315;
+/// Highest temperature in the fitted data (Fig. 1a), K. Above it the enzyme
+/// is booked as completely inactivated rather than extrapolated.
+pub const COMPLETE_LOSS_ABOVE_K: f64 = 343.15;
+pub const INACTIVATION_SOURCE: &str = "Miłek, Molecules 26 (2021) 4117, doi:10.3390/molecules26144117, Table 1 row 1a (Sigma porcine pancreatic α-amylase, data of Akhond et al. 2016, doi:10.1007/s12010-016-2145-1): first-order deactivation, T_opt 311.06 K, E_d 164.9 kJ/mol, β 1.46, t_a 3 min";
+
 pub const SOURCE: &str = "Sigma-Aldrich A3176 alpha-amylase (porcine pancreas, Type VI-B): 1 U liberates 1.0 mg maltose from starch in 3 min at pH 6.9, 20 °C; ≥5 U/mg solid";
 
 fn total(vessel: &Vessel, key: &str) -> f64 {
@@ -75,22 +124,81 @@ fn has_liquid_water(vessel: &Vessel) -> bool {
         .any(|p| p.species.0 == "water" && p.phase == Phase::Liquid && p.moles.0 > 0.0)
 }
 
+/// First-order heat-inactivation rate constant, per second, at `t_k`.
+///
+/// `Some(0.0)` at or below the fitted optimum (no inactivation claimed),
+/// `Some(f64::INFINITY)` above `COMPLETE_LOSS_ABOVE_K` (complete loss), the
+/// Miłek 2021 Eq. (5)/(7) value in between. `None` for a non-finite input.
+pub fn inactivation_rate_per_s(t_k: f64) -> Option<f64> {
+    if !t_k.is_finite() || t_k <= 0.0 {
+        return None;
+    }
+    if t_k <= INACTIVATION_T_OPT_K {
+        return Some(0.0);
+    }
+    if t_k > COMPLETE_LOSS_ABOVE_K {
+        return Some(f64::INFINITY);
+    }
+    let per_minute = INACTIVATION_BETA / INACTIVATION_ASSAY_MINUTES
+        * (INACTIVATION_E_D_J_PER_MOL / INACTIVATION_GAS_CONSTANT
+            * (1.0 / INACTIVATION_T_OPT_K - 1.0 / t_k))
+            .exp();
+    Some(per_minute / 60.0)
+}
+
+/// Active (not heat-inactivated) amylase, mol.
+pub fn active_enzyme_moles(vessel: &Vessel) -> f64 {
+    (total(vessel, ENZYME) - vessel.amylase_inactive_moles.unwrap_or(0.0)).max(0.0)
+}
+
 /// Whether amylase can digest starch here (enzyme, substrate and liquid
 /// water present). Used by the insolubility remark so it does not tell a
 /// learner "starch does not react" while the clock is digesting it.
 pub fn consumes(vessel: &Vessel, species: &SpeciesId) -> bool {
     species.0 == SUBSTRATE
-        && total(vessel, ENZYME) > 0.0
+        && active_enzyme_moles(vessel) > 0.0
         && total(vessel, SUBSTRATE) > 0.0
         && has_liquid_water(vessel)
 }
 
-/// Enzyme milligrams from the ledger, or `None` when the dose has no
-/// registry molar mass to convert it.
+/// Active enzyme milligrams, or `None` when the dose has no registry molar
+/// mass to convert it.
 pub fn enzyme_mg(vessel: &Vessel) -> Option<f64> {
     let data = species::lookup_key(ENZYME)?;
     (data.molar_mass.is_finite() && data.molar_mass > 0.0)
-        .then(|| total(vessel, ENZYME) * data.molar_mass * 1000.0)
+        .then(|| active_enzyme_moles(vessel) * data.molar_mass * 1000.0)
+}
+
+/// Book first-order inactivation over `seconds` at the vessel temperature.
+/// Returns the enzyme-weighted effective digestion time: the seconds of
+/// full activity the surviving enzyme delivers, `(1 - e^{-k t}) / k`.
+fn inactivate(vessel: &mut Vessel, seconds: f64) -> f64 {
+    let active = active_enzyme_moles(vessel);
+    let k = inactivation_rate_per_s(vessel.temperature.0).unwrap_or(0.0);
+    if active <= 0.0 || k <= 0.0 {
+        return seconds;
+    }
+    let (lost, effective) = if k.is_infinite() {
+        (active, 0.0)
+    } else {
+        let surviving = (-k * seconds).exp();
+        (active * (1.0 - surviving), (1.0 - surviving) / k)
+    };
+    vessel.amylase_inactive_moles = Some(vessel.amylase_inactive_moles.unwrap_or(0.0) + lost);
+    effective
+}
+
+fn heat_inactivated_event(vessel: &Vessel) -> Event {
+    let celsius = vessel.temperature.0 - 273.15;
+    Event::not_modeled(
+        vessel.id,
+        crate::ops::NotModelledCause::ModelBoundary,
+        Phrase::new(
+            "not-modeled.amylase-heat-inactivated",
+            "starch digestion by amylase at {celsius} °C: the enzyme has been irreversibly heat-inactivated (first-order loss of activity above its 38 °C optimum, complete above 70 °C), so no digestion is booked and the starch is left as it is",
+            vec![("celsius".to_string(), Slot::number(format!("{celsius:.0}")))],
+        ),
+    )
 }
 
 /// Maltose (mol) the stated activity liberates in `seconds`, before the
@@ -107,14 +215,24 @@ pub fn maltose_capacity_moles(enzyme_mg: f64, seconds: f64) -> Option<f64> {
 /// Advance the digestion over `seconds`. Returns the events to report.
 pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<Event> {
     let mut events = Vec::new();
-    if seconds <= 0.0
-        || total(vessel, ENZYME) <= 0.0
-        || total(vessel, SUBSTRATE) <= 0.0
-        || !has_liquid_water(vessel)
-    {
+    if seconds <= 0.0 || total(vessel, ENZYME) <= 0.0 || !has_liquid_water(vessel) {
         return events;
     }
-    let Some(mg) = enzyme_mg(vessel) else {
+    // Inactivation is booked whether or not starch is present: a boiled
+    // enzyme stays dead when the starch arrives later.
+    // The dose is read BEFORE this interval's inactivation: the effective
+    // time below already weights it by the surviving fraction.
+    let had_active = active_enzyme_moles(vessel) > 0.0;
+    let dose_mg = enzyme_mg(vessel);
+    let effective_seconds = inactivate(vessel, seconds);
+    if total(vessel, SUBSTRATE) <= 0.0 {
+        return events;
+    }
+    if !had_active || effective_seconds <= 0.0 {
+        events.push(heat_inactivated_event(vessel));
+        return events;
+    }
+    let Some(mg) = dose_mg else {
         events.push(Event::not_modeled(
             vessel.id,
             crate::ops::NotModelledCause::NoReviewedDatum,
@@ -144,7 +262,7 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<Event> {
             return events;
         }
     }
-    let Some(capacity) = maltose_capacity_moles(mg, seconds) else {
+    let Some(capacity) = maltose_capacity_moles(mg, effective_seconds) else {
         return events;
     };
     let starch = total(vessel, SUBSTRATE);

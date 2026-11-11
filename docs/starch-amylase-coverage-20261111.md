@@ -13,9 +13,18 @@ Rate: maltose mg/s = enzyme mg x 5.0 U/mg x 1.0 mg / 180.0 s, zero order in star
 the starch present; 2 repeat units + H2O -> maltose. Inside the pH window no temperature or pH
 dependence is claimed. Outside it: typed refusal. Instant curated row present: False.
 
+
+### Heat inactivation (bio-030)
+
+Source: Miłek, Molecules 26 (2021) 4117, doi:10.3390/molecules26144117, Table 1 row 1a (Sigma porcine pancreatic α-amylase, data of Akhond et al. 2016, doi:10.1007/s12010-016-2145-1): first-order deactivation, T_opt 311.06 K, E_d 164.9 kJ/mol, β 1.46, t_a 3 min.
+Model: first-order irreversible deactivation, k_d(T) = (beta/t_a) exp[(E_d/R)(1/T_opt - 1/T)]; R = 8.315 J/(mol K). Applied only above T_opt (falling limb); none claimed at or below T_opt.
+Above 343.15 K (top of the fitted data) the enzyme is booked as completely
+inactivated, not extrapolated. Corroboration: Singh, Shandilya, Kundu, Kayastha, PLoS ONE 10 (2015) e0129203, doi:10.1371/journal.pone.0129203, Fig 3A: WHEAT alpha-amylase unperturbed to 65 C, 4% loss at 70 C, complete loss around 85 C (different organism; not used as a constant).
+State: Vessel::amylase_inactive_moles (irreversible; not carried by a pour). Typed reason: `not-modeled.amylase-heat-inactivated`.
+
 | enzyme | route | module | typed refusals |
 |---|---|---|---|
-| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible |
+| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated |
 | lactase | bounded-activity | enzyme_activity | — |
 | protease | bounded-activity | enzyme_activity | — |
 | lipase | bounded-activity | enzyme_activity | — |
@@ -25,7 +34,7 @@ dependence is claimed. Outside it: typed refusal. Instant curated row present: F
 
 ## 2. Starch-iodine complex absorbance
 
-Status: **refused** (`not-modeled.starch-iodine-absorptivity`). Pesek et al., Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, sect. 2.1: 'reliable extinction coefficients for the amylose-iodine-iodide complex are not known'. The blue-value assay (Corn Refiners Association AMYLO.01, 620 nm) calibrates against amylose standards rather than an epsilon. No value was found that could be cited.
+Status: **refused** (`not-modeled.starch-iodine-absorptivity`). Pesek et al., Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, sect. 2.1: 'reliable extinction coefficients for the amylose-iodine-iodide complex are not known'. The blue-value assay (Corn Refiners Association AMYLO.01, 620 nm) calibrates against amylose standards rather than an epsilon. No value was found that could be cited. Retried 2026-11-11: Pesek & Silaghi-Dumitrescu, Molecules 29 (2024) 641, doi:10.3390/molecules29030641 (full text) gives no coefficient; Knutson, Carbohydr. Polym. 42 (2000) 65, doi:10.1016/S0144-8617(99)00126-5 and Abe, Bull. Chem. Soc. Jpn. 31 (1958) 661, doi:10.1246/bcsj.31.661 are paywalled (not read); open analytical papers report APPARENT absorptivities per iodide/iodine of 4e4 to 6e5 L/(mol cm) that depend on starch source, amylose fraction and excess-starch conditions, so none transfers to a generic 'starch' whose amylose fraction the bench does not know.
 Still read: free I2 and I3- from their cited epsilon values (iodine_chemistry).
 
 ## 3. Sugar dissolution
