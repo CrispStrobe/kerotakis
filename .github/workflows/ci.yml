@@ -160,7 +160,15 @@ jobs:
         # each of them: installing librsvg let it run for the first time
         # and it got as far as `No module named 'PIL'`.
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin
+          # The runner's Azure apt mirror can fail DNS for a whole
+          # afternoon (2026-11-11); retry, then fall back to the primary
+          # Ubuntu archive instead of failing the gate on infrastructure.
+          install() { sudo apt-get update -qq && sudo apt-get install -y -qq -o Acquire::Retries=3 librsvg2-bin; }
+          install || { sleep 20; install; } || {
+            echo "apt mirror unreachable; switching to archive.ubuntu.com"
+            sudo sed -i 's#mirror+file:/etc/apt/apt-mirrors.txt#http://archive.ubuntu.com/ubuntu/#g' /etc/apt/sources.list.d/*.sources /etc/apt/sources.list 2>/dev/null || true
+            install
+          }
           python3 -m pip install --quiet --upgrade Pillow
       - name: Run tools/preflight.sh
         # --no-clippy: the `Test (native)` matrix above already runs the
