@@ -1,0 +1,51 @@
+{
+  "generated_by": "tools/melting_range_latent_heat_coverage.py",
+  "model": "liquid fraction linear from lower to upper bound; sourced enthalpy of fusion spread evenly over it",
+  "ranges": [
+    {
+      "species": "paraffin",
+      "lower_k": 315.15,
+      "upper_k": 341.15,
+      "fusion_j_per_kg": 189000.0,
+      "source": "A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi, 'Review on thermal energy storage with phase change materials and applications', Renew. Sustain. Energy Rev. 13 (2009) 318-345, doi:10.1016/j.rser.2007.10.005, Table 2a: technical-grade paraffin waxes melt between 42-44 and 66-68 degrees Celsius depending on grade; latent heat of fusion 189 kJ/kg for five grades (compiled from A. Abhat, Solar Energy 30 (1983) 313-332, doi:10.1016/0038-092X(83)90186-X)",
+      "class": "paid"
+    },
+    {
+      "species": "PE",
+      "lower_k": null,
+      "upper_k": 414.6,
+      "fusion_j_per_kg": null,
+      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K",
+      "class": "refused"
+    },
+    {
+      "species": "PP",
+      "lower_k": null,
+      "upper_k": 460.7,
+      "fusion_j_per_kg": null,
+      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K",
+      "class": "refused"
+    }
+  ],
+  "blends": [
+    {
+      "a": "PE",
+      "b": "PP",
+      "cls": "immiscible",
+      "source": "S. Teh, A. Rudin and J. C. Keung, 'A review of polyethylene-polypropylene blends and their compatibilization', Adv. Polym. Technol. 13 (1994) 1-23, doi:10.1002/adv.1994.060130101"
+    },
+    {
+      "a": "PE",
+      "b": "paraffin",
+      "cls": "solution-law",
+      "source": null
+    },
+    {
+      "a": "PP",
+      "b": "paraffin",
+      "cls": "solution-law",
+      "source": null
+    }
+  ],
+  "refusal_key": "not-modeled.melting-range-latent-heat-unsourced"
+}

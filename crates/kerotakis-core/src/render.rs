@@ -4038,6 +4038,25 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         _ => line,
                     }
                 }
+                // po-009: components immiscible in the melt are not a
+                // solution, so no depression is said; each melts alone.
+                (V::Mixture, level) if reading.immiscible_blend => match level {
+                    1 => locale.fill(
+                        "event.transition-point.immiscible.lv1",
+                        "These do not mix when molten, so nothing is lowered: each one melts over its own range, just as it would on its own.",
+                        &[],
+                    ),
+                    2 => locale.fill(
+                        "event.transition-point.immiscible.lv2",
+                        "{vessel} {what}: no single point — the sample is a blend of components that do not mix in the melt ({listed}). Each melts over its own range as it would alone; the blend is not depressed below its components",
+                        &[("vessel", &vessel.to_string()), ("what", what), ("listed", &listed)],
+                    ),
+                    _ => locale.fill(
+                        "event.transition-point.immiscible.lv3",
+                        "{vessel} {what}: refused — {listed} are immiscible in the melt, so the blend has no transition of its own to report; read each component's own melting. {boundary}",
+                        &[("vessel", &vessel.to_string()), ("what", what), ("listed", &listed), ("boundary", reading.boundary.as_deref().unwrap_or(""))],
+                    ),
+                },
                 (V::Mixture, level) => {
                     let bound = reading
                         .lowest_component_c
