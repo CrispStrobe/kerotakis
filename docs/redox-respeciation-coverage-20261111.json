@@ -1,0 +1,95 @@
+{
+  "lane": "EC-008/RX-004 held fast-redox split respeciation",
+  "date": "2026-11-11",
+  "refusal_key": "not-modeled.redox-split-not-respeciated",
+  "fast_redox": [
+    "Fe",
+    "Mn",
+    "Cu",
+    "Cr"
+  ],
+  "safe_partners": [
+    "S",
+    "C"
+  ],
+  "rows": [
+    {
+      "database": "wateq4f",
+      "element": "Fe",
+      "posable_states": [
+        2,
+        3
+      ],
+      "held_split": "respeciated_from_ledger"
+    },
+    {
+      "database": "wateq4f",
+      "element": "Mn",
+      "posable_states": [
+        2,
+        3,
+        6,
+        7
+      ],
+      "held_split": "respeciated_from_ledger"
+    },
+    {
+      "database": "wateq4f",
+      "element": "Cu",
+      "posable_states": [
+        1,
+        2
+      ],
+      "held_split": "respeciated_from_ledger"
+    },
+    {
+      "database": "wateq4f",
+      "element": "Cr",
+      "posable_states": [],
+      "held_split": "no_redox_states_on_this_database"
+    },
+    {
+      "database": "minteq.v4",
+      "element": "Fe",
+      "posable_states": [
+        2,
+        3
+      ],
+      "held_split": "respeciated_from_ledger"
+    },
+    {
+      "database": "minteq.v4",
+      "element": "Mn",
+      "posable_states": [
+        2,
+        3,
+        6,
+        7
+      ],
+      "held_split": "respeciated_from_ledger"
+    },
+    {
+      "database": "minteq.v4",
+      "element": "Cu",
+      "posable_states": [
+        1,
+        2
+      ],
+      "held_split": "respeciated_from_ledger"
+    },
+    {
+      "database": "minteq.v4",
+      "element": "Cr",
+      "posable_states": [
+        2,
+        3,
+        6
+      ],
+      "held_split": "respeciated_from_ledger"
+    }
+  ],
+  "sources": [
+    "Singer P.C., Stumm W., Science 167 (1970) 1121, doi:10.1126/science.167.3921.1121 (Fe(II) oxygenation slow below pH ~4)",
+    "Stumm W., Morgan J.J., Aquatic Chemistry, 3rd ed., Wiley 1996, ISBN 0-471-51185-4, ch. 8 (redox ladder ordering; qualitative only)"
+  ]
+}

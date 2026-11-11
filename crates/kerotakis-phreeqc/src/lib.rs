@@ -32,6 +32,8 @@ mod native_namespace;
 mod phase_diagnostics;
 pub mod pourbaix;
 mod redox_isolation;
+/// Held-split respeciation coverage surface (`docs/redox-respeciation-coverage-20261111.json`).
+pub use aqueous::{fast_redox_elements, posable_fast_redox_states, respeciation_safe_partners};
 pub use aqueous::{
     CacheData, CacheEntry, PathOutcome, PathResult, PeAuthority, PhreeqcEquilibrator, SolveHook,
     SolveOutput,

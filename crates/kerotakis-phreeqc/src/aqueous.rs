@@ -10515,6 +10515,31 @@ impl PhreeqcEquilibrator {
             ));
         }
 
+        // A fast element the ledger holds in several states that could not
+        // be posed from that split (`held_redox_split`): its speciation was
+        // solved against atmospheric oxygen, so the reported state split,
+        // pe and the species list may differ from the reacted inventory.
+        // Said, typed, rather than published as the beaker.
+        let held = held_redox_split(&problem.totals, db_tag);
+        if !held.refused.is_empty() {
+            events.push(Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    "not-modeled.redox-split-not-respeciated",
+                    "the oxidation-state split of {element} shown with this solution is not solved \
+                     from the reacted inventory: the routed database cannot pose each of its held \
+                     states, or another redox element in the beaker would exchange electrons with \
+                     it at that potential. The inventory keeps the split the reactions produced; \
+                     the reported speciation and potential do not describe it",
+                    vec![(
+                        "element".to_string(),
+                        Slot::text(held.refused.join(", ")),
+                    )],
+                ),
+            ));
+        }
+
         redox.sort_by(|a, b| {
             a.element
                 .cmp(&b.element)
@@ -13012,6 +13037,9 @@ fn build_mix_input(
     if redox_coupling(merged, db_tag).is_none() {
         input.push_str(&fast_redox_pin_block(&merged.totals, db_tag));
     }
+    // A fast element the merged ledger holds in two states is posed from
+    // that split, not from an O2(g) pe — the same rule as `build_input_at`.
+    let held = held_redox_split(&merged.totals, db_tag);
 
     // SELECTED_OUTPUT is stated *before* the first simulation, and that
     // placement is load-bearing rather than cosmetic.
@@ -13049,6 +13077,7 @@ fn build_mix_input(
     writeln!(input, "    water     {:.16e}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
+        && held.posed.is_empty()
     {
         writeln!(
             input,
@@ -13057,6 +13086,7 @@ fn build_mix_input(
         .unwrap();
     }
     for (el, moles) in &problem_a.totals {
+        let el = held_split_key(el, &held);
         writeln!(input, "    {el} {:.12e}", moles / problem_a.kgw).unwrap();
     }
     writeln!(input, "END").unwrap();
@@ -13074,6 +13104,7 @@ fn build_mix_input(
     writeln!(input, "    water     {:.16e}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
+        && held.posed.is_empty()
     {
         writeln!(
             input,
@@ -13082,6 +13113,7 @@ fn build_mix_input(
         .unwrap();
     }
     for (el, moles) in &problem_b.totals {
+        let el = held_split_key(el, &held);
         writeln!(input, "    {el} {:.12e}", moles / problem_b.kgw).unwrap();
     }
     writeln!(input, "END").unwrap();
@@ -13245,6 +13277,144 @@ fn fast_redox_pin_block(totals: &[(String, f64)], db_tag: &str) -> String {
     format!("SOLUTION_SPECIES\n{block}")
 }
 
+/// Redox elements that may sit beside a held two-state fast-redox element
+/// when that element's own couple, not atmospheric oxygen, sets the solve's
+/// pe (see `held_redox_split`).
+///
+/// Sulfate/sulfide and carbonate/methane are the slow couples `FAST_REDOX`
+/// already holds as added, and neither is reduced at the potential of the
+/// Fe(III)/Fe(II), Cu(II)/Cu(I), Mn or Cr couples in acidic to neutral
+/// water: on the redox ladder both lie far below those couples (Stumm &
+/// Morgan, *Aquatic Chemistry*, 3rd ed., Wiley 1996, ISBN 0-471-51185-4,
+/// ch. 8, Fig. 8.6 / Table 8.6 — qualitative ordering only, no number is
+/// taken from it here). Nitrate is deliberately absent: nitrate → N2 is
+/// thermodynamically favoured at the iron couple's potential (same source),
+/// so a solve that equilibrated it there would publish a denitrification
+/// that is kinetically blocked on a bench. Every other redox element
+/// (N, As, Se, U, V, …) refuses the respeciation with a typed reason
+/// instead of guessing.
+const RESPECIATION_SAFE_PARTNERS: &[&str] = &["S", "C"];
+
+/// The tagged oxidation states a fast-redox element can be posed in on
+/// `db_tag`, i.e. the `Base(n)` master species that database defines.
+/// Public so the coverage table (`docs/redox-respeciation-coverage-20261111.json`)
+/// can be held to the runtime.
+pub fn posable_fast_redox_states(db_tag: &str, base: &str) -> Vec<i32> {
+    let idx = derived::index_for(db_tag);
+    let mut states: Vec<i32> = idx
+        .masters
+        .keys()
+        .filter(|key| key.split('(').next() == Some(base) && key.contains('('))
+        .filter_map(|key| tagged_state(key))
+        .collect();
+    states.sort_unstable();
+    states.dedup();
+    states
+}
+
+/// The elements `FAST_REDOX` holds as curated fast couples, for the
+/// coverage table.
+pub fn fast_redox_elements() -> &'static [&'static str] {
+    FAST_REDOX
+}
+
+/// The redox partners admitted beside a respeciated held split, for the
+/// coverage table.
+pub fn respeciation_safe_partners() -> &'static [&'static str] {
+    RESPECIATION_SAFE_PARTNERS
+}
+
+/// A fast-redox element the ledger holds in two or more oxidation states
+/// with no second fast element to couple to — iron(II) and iron(III) after
+/// the curated `2 Fe³⁺ + 2 I⁻ → 2 Fe²⁺ + I₂` step, whose iodine the
+/// databases cannot speciate (wateq4f/minteq define iodine only as I⁻).
+///
+/// The ledger is the authority for that split: a reaction the bench ran
+/// produced it. Before 2026-11-11 the solve still fixed pe from atmospheric
+/// oxygen, so PHREEQC's reaction step re-oxidised part of the ferrous iron
+/// with dissolved O2 the bench never booked — the readback kept the ledger
+/// split (`FAST_REDOX` law) but the reported speciation, redox block and
+/// pe were a different beaker: 47% ferric in the view against 20% in the
+/// ledger (RX-004), 28% against 1.4% (EC-008), and the UV-vis refusal was
+/// drawn from the ferric-rich view. Iron(II) oxygenation is slow below
+/// pH ~4 (Singer & Stumm, Science 167 (1970) 1121, doi:10.1126/science.167.3921.1121),
+/// so the atmospheric pe is not the bench-timescale answer either.
+///
+/// `posed`: bases whose every held state is a master species on this
+/// database and whose only other redox partners are `RESPECIATION_SAFE_PARTNERS`.
+/// Their totals are written valence-tagged and pe is left to the held couple
+/// (no O2(g) pin), so the speciation is solved from the reacted inventory.
+/// `refused`: bases held in several states that cannot be posed that way;
+/// they keep the previous input and the view says so
+/// (`not-modeled.redox-split-not-respeciated`).
+#[derive(Debug, Default, Clone, PartialEq)]
+struct HeldRedoxSplit {
+    posed: Vec<String>,
+    refused: Vec<String>,
+}
+
+fn held_state(key: &str, base: &str) -> Option<i32> {
+    tagged_state(key).or_else(|| {
+        derived::booking_ion(base)
+            .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
+            .map(|f| f.charge as i32)
+    })
+}
+
+fn held_redox_split(totals: &[(String, f64)], db_tag: &str) -> HeldRedoxSplit {
+    let mut split = HeldRedoxSplit::default();
+    // A coupled problem bisects pe over every fast element; nothing is held.
+    if redox_coupling_totals(totals, db_tag).is_some() {
+        return split;
+    }
+    let idx = derived::index_for(db_tag);
+    for base in FAST_REDOX {
+        if !idx.redox_elements.contains(*base) {
+            continue;
+        }
+        let mut states: Vec<i32> = totals
+            .iter()
+            .filter(|(k, n)| k.split('(').next().unwrap_or(k) == *base && *n > 0.0)
+            .filter_map(|(k, _)| held_state(k, base))
+            .collect();
+        states.sort_unstable();
+        states.dedup();
+        if states.len() < 2 {
+            continue;
+        }
+        let posable = posable_fast_redox_states(db_tag, base);
+        let every_state_posable = states.iter().all(|s| posable.contains(s));
+        let partners_safe = totals.iter().all(|(k, n)| {
+            let b = k.split('(').next().unwrap_or(k);
+            *n <= 0.0
+                || b == *base
+                || b == "H"
+                || b == "O"
+                || !idx.redox_elements.contains(b)
+                || RESPECIATION_SAFE_PARTNERS.contains(&b)
+        });
+        if every_state_posable && partners_safe {
+            split.posed.push(base.to_string());
+        } else {
+            split.refused.push(base.to_string());
+        }
+    }
+    split
+}
+
+/// The PHREEQC totals key for `el` when its base is a posed held split: the
+/// untagged booking key (`Fe`, booked as Fe²⁺) is written with its state so
+/// each held state carries its own mass balance.
+fn held_split_key(el: &str, split: &HeldRedoxSplit) -> String {
+    let base = el.split('(').next().unwrap_or(el);
+    if tagged_state(el).is_none() && split.posed.iter().any(|b| b.as_str() == base) {
+        if let Some(state) = held_state(el, base) {
+            return format!("{base}({state})");
+        }
+    }
+    el.to_string()
+}
+
 /// The input, optionally with the fast-redox elements coupled at a trial pe.
 ///
 /// Coupling is done by *removing* the valence tag: `Mn(7) 5e-4` pins
@@ -13270,6 +13440,12 @@ fn build_input_at(
             db_tag,
         ));
     }
+    // Only consulted on the uncoupled path; a coupled solve holds nothing.
+    let held = if couple.is_none() {
+        held_redox_split(&problem.totals, db_tag)
+    } else {
+        HeldRedoxSplit::default()
+    };
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
@@ -13302,8 +13478,17 @@ fn build_input_at(
         // major-ion brine model and carries no O2(g) at all — asking it for
         // one is an error, and it has no redox chemistry to get wrong
         // anyway.
+        //
+        // Except where the ledger holds a fast element in two states with
+        // no partner to couple to (`held_redox_split`): there the held
+        // couple is the bench-timescale redox state, and an O2(g) pin would
+        // hand PHREEQC's reaction step dissolved oxygen the bench never
+        // booked to re-oxidise it with. PHREEQC's default pe 4 leaves
+        // negligible O(0)/H(0) in the initial solution, so the reaction
+        // step's electron balance is the held states' own.
         None if vessel.uses_atmospheric_reservoir()
-            && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN) =>
+            && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
+            && held.posed.is_empty() =>
         {
             writeln!(
                 input,
@@ -13320,7 +13505,8 @@ fn build_input_at(
         let base = el.split('(').next().unwrap_or(el);
         let key = match couple {
             Some(_) if FAST_REDOX.contains(&base) => base.to_string(),
-            _ => el.clone(),
+            Some(_) => el.clone(),
+            None => held_split_key(el, &held),
         };
         match totals.iter_mut().find(|(k, _)| *k == key) {
             Some(entry) => entry.1 += moles,

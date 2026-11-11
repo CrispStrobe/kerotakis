@@ -1884,6 +1884,7 @@ milk-casein-buffer-residual = "diese Milch wurde auf pH {ph} angesäuert, und nu
 
 # Looked up by VALUE. Substrate and nucleophile classes are WORDS, which
 # is why they are not baked into the sentence: German declines them.
+redox-split-not-respeciated = "die Verteilung der Oxidationsstufen von {element}, die mit dieser Lösung gezeigt wird, ist nicht aus dem umgesetzten Bestand berechnet: die gewählte Datenbank kann nicht jede der gehaltenen Stufen ansetzen, oder ein anderes Redoxelement im Becherglas würde bei diesem Potential Elektronen mit ihm austauschen. Der Bestand behält die Verteilung, die die Reaktionen ergeben haben; die gemeldete Speziation und das Potential beschreiben ihn nicht"
 [substrate-class]
 methyl = "Methyl"
 primary = "primär"
