@@ -1,0 +1,363 @@
+{
+ "production_sha": "731931f090e3bc41059d0aef98ae64ca0223138b",
+ "raw_dir": "<private>",
+ "brief": "review/FORMAL-BRIEF.md",
+ "precheck_used_as_evidence": false,
+ "reviewed": [
+  "batch2:ec-008",
+  "batch2:ki-011",
+  "batch3-diverse:an-004",
+  "batch3-diverse:po-009",
+  "batch3-diverse:th-004",
+  "new120:rx-004",
+  "new120:sp-011"
+ ],
+ "formal": [
+  {
+   "id": "batch2:ec-008",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "EC-008-C1",
+     "text": "Link iodine production to Fe(III) reduction rather than merely to iron colour.",
+     "verdict": "PASS",
+     "evidence": "Step 3 ledger: Fe2+ 3.94221e-4, Fe3+ 5.7785e-6, I2(ox) 1.97111e-4, I- 6.05779e-4; dFe(II)=3.9422e-4 = 2 x dI2 exactly. Prior defect FIXED: the same step's PHREEQC redox block now gives Fe(II) 3.954077e-3 m x 0.0997 kg = 3.9422e-4 mol and Fe(III) 5.7959e-5 m -> 5.779e-6 mol (matches ledger to 4 digits; species list FeSO4+/Fe+3/... sum consistent), pe no longer reported. Equilibrium check with free species from inspect (free I2 4.714e-5, free I- 4.558e-4 mol, 0.1 L): Q=(68.22)^2 x 4.714e-4/(4.558e-3)^2 = 1.06e5 vs K=10^5.07 from E0 0.771/0.621 V (Bard-Parsons-Jordan). Triiodide K recomputed 698 (Palmer et al. 1984)."
+    },
+    {
+     "id": "EC-008-C2",
+     "text": "Check dissolved oxygen or other oxidants before interpreting the ferrous arm.",
+     "verdict": "PASS",
+     "evidence": "v1 ledger: Fe+2 4e-4, I- 1e-3, SO4-2 1.4e-3, H+ 2e-3; no oxidant pool; I2 0 (inspect oxidised_iodine 0). PHREEQC view of v1 shows O2 2.649e-4 m (~air saturation, 2.64e-5 mol) not present in the ledger; even so Fe2+ oxygenation at pH<3 is negligible on bench time (Singer & Stumm, Science 167 (1970) 1121) and acid air-oxidation of iodide is slow, so the negative ferrous arm is chemically right. Sulfate held as slow couple (routing note)."
+    },
+    {
+     "id": "forecast",
+     "text": "Ferric iron can oxidise iodide; ferrous iron is not an equivalent oxidant; total iron alone does not determine redox capacity.",
+     "verdict": "PASS",
+     "evidence": "Equal total Fe 4e-4 mol: ferric arm 1.971e-4 mol oxidised iodine (free I2 4.71e-5 + I3- 1.50e-4), ferrous arm 0."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cl": 0,
+     "Fe": 0,
+     "H": 0,
+     "I": 0,
+     "K": 0,
+     "O": 0,
+     "S": 0,
+     "note": "all elements <=3.3e-16 relative at every step (script-independent recomputation: sum of all vessel contents vs cumulative add/extract-solvent amounts; formula map for named organics)"
+    },
+    "charge": "ledger per vessel 0 (<1e-18); electron balance exact; PHREEQC Fe(II)/Fe(III) now matches ledger",
+    "energy": "FeSO4 dissolution dT +0.0701 K x ~417 J/K = 29.2 J = 73 kJ/mol vs -70.0 kJ/mol from NBS DfH (FeSO4(s) -928.4; Fe2+ -89.1; SO4-2 -909.3) - 4%; FeCl3/KI/I2 heats explicitly unpriced (labelled)"
+   },
+   "observed_result": "0.4 mmol Fe(III) + 1 mmol KI in 10 mM H2SO4 gives 0.197 mmol oxidised iodine (0.047 free I2 + 0.150 I3-) and 0.394 mmol Fe(II), consistent in ledger and reported speciation; the matched Fe(II) arm gives no iodine.",
+   "limitations": "Reaction heats unpriced; UV-vis refused for iron species; goethite/hematite supersaturation not modelled (labelled); Fe(III)-sulfate complexation not fed back into the Fe/I extent.",
+   "doubts": "PHREEQC view reports I- as the ledger total (6.06e-4) not free iodide (4.56e-4) and carries air-saturation O2 (2.6e-5 mol) absent from the ledger; neither touches the criteria. Ledger uses free-ion E0; sulfate complexation of Fe(III) would leave somewhat more Fe(III) (formal potential lower).",
+   "adversarial": "survives: tried redox-view consistency (now 4-digit agreement), K recomputation, O2 in ferrous arm, iodine solubility (1.97e-4 mol mostly as I3-, free I2 4.7e-4 M < 1.33e-3 M)."
+  },
+  {
+   "id": "batch2:ki-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "KI-011-C1",
+     "text": "Distinguish gross iodine production from surviving iodine inventory.",
+     "verdict": "PASS",
+     "evidence": "Gross I2 (sum of iodide-peroxide-clock + clock-direct events over 100 s) v0 5.2461e-5, v1 5.2256e-5; surviving oxidised iodine at 100 s v0 1.5669e-5 (free I2 1.07e-6 + I3- 1.46e-5), v1 0. Scavenged = S4O6-2 v0 3.7706e-5 (=5.246e-5-1.567e-5 exact), v1 5.3163e-5. Source rate ~5.25e-7 mol/s vs Liebhafsky & Mohammad (JACS 55 (1933) 3977) k=0.0115+0.175[H+] at [H+]~0.0125, 0.02 M each -> 5.4e-7 mol/s (3% agreement). Prior defect (peroxide disproportionation 20x the clock) FIXED: O2 now 8.0e-7 mol per vessel."
+    },
+    {
+     "id": "KI-011-C2",
+     "text": "Compare sink exhaustion and precursor consumption, not colour onset alone.",
+     "verdict": "FAIL",
+     "evidence": "v0 sink exhausted (S2O3 0) with 2.4588e-5 mol (25%) lost to the thiosulfate-acid route S2O3 + 2H+ -> S + SO2 + H2O; the product SO2 2.4588e-5 mol is retained in v0 contents as an inert pool beside 1.567e-5 mol oxidised iodine and 1.945e-3 mol H2O2 (v1: SO2 5.906e-5 beside 1.945e-3 H2O2). S(IV) is itself a 2-electron iodine sink: I2/I3- + HSO3- is near diffusion-limited (k~1e9 M^-1 s^-1, Yiin & Margerum, Inorg. Chem. 29 (1990) 1942), and H2O2 oxidises S(IV) at pH 2 with k[H+][H2O2] ~ 7.5e7 M^-2 s^-1 (Hoffmann & Edwards, J. Phys. Chem. 79 (1975) 2096) -> lifetime ~ms at 0.02 M H2O2. An unreacted SO2 pool coexisting with both I2 and H2O2 for up to 100 s is impossible; the decomposition route is booked as sink LOSS whereas its S(IV) product retains (and doubles per S2O3) reducing capacity, and no not_yet_modeled label names the missing S(IV) coupling. Additionally 9.1e-7 mol H2O2 (first 10 s, v0) and the 8.0e-7 mol O2 per vessel are consumed/formed with no reacted event (unlogged pathway; S4O6 exceeds clock I2 by 9.1e-7 in that interval). Precursor/sink accounting therefore not established."
+    },
+    {
+     "id": "forecast",
+     "text": "A larger thiosulfate sink can delay iodine accumulation with similar source kinetics.",
+     "verdict": "PASS",
+     "evidence": "Source kinetics equal (5.246e-5 vs 5.226e-5 mol gross); v0 (1e-4 sink) accumulates 1.567e-5 mol oxidised iodine by 100 s, v1 (2e-4) none, S2O3 3.46e-5 left. Direction holds, but the v0 amount depends on the SO2 defect in C2."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0,
+     "O": 0,
+     "I": 0,
+     "K": 0,
+     "Na": 0,
+     "S": 0,
+     "note": "all elements <=3.3e-16 relative at every step incl. S(s), S(aq), SO2 and O2 pools"
+    },
+    "charge": "<5e-18 mol per vessel",
+    "energy": "dT 3.78e-4 K x ~420 J/K = 0.16 J = 1.6e-6 mol H2O2 decomposition x 98 kJ/mol; clock, thiosulfate and acid-decomposition heats unpriced (labelled for I2/KI/Na2S2O3)"
+   },
+   "observed_result": "Both arms make ~5.2e-5 mol I2 in 100 s at ~5.3e-7 mol/s (matching the Liebhafsky-Mohammad law); the 1e-4 mol sink is exhausted (25% by acid decomposition) leaving 1.57e-5 mol oxidised iodine, the 2e-4 mol sink is not.",
+   "limitations": "S(IV) from thiosulfate acid decomposition is not coupled to iodine or peroxide; clock law extrapolated below its measured [H+] (labelled); UV-vis refused for colloidal sulfur.",
+   "doubts": "Thiosulfate-acid rate (apparent k~0.34 M^-1 s^-1 at [H+] 0.013) not verified against a primary source. With S(IV) coupled, v0 iodine at 100 s would depend on the H2O2-vs-I2 competition for S(IV); while S2O3 is present S(IV) would be removed mainly by H2O2 (so surviving I2 might change little), but the reported inventory state remains impossible.",
+   "adversarial": "refuted: SO2 2.46e-5 mol retained unreacted beside I2 1.57e-5 and H2O2 1.9e-3 mol for 60-100 s; unlogged H2O2 consumption 9.1e-7 mol."
+  },
+  {
+   "id": "batch3-diverse:an-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a reducing interferent give a weak iodine signal while starch is still present?",
+     "verdict": "PASS",
+     "evidence": "v0 (starch+ascorbate): first 2e-5 mol I2 consumed (C6H8O6 + I2 -> C6H6O6 + 2HI; ascorbic 1e-5 left, dehydroascorbic 2e-5, H+ 4e-5 -> pH 3.02 in 40 mL, i.e. 1.0e-3 M, consistent), A405 0.0, 'colourless and cloudy', starch 6.1675e-4 unchanged; after +5e-5 I2: ascorbate exhausted (dehydro 3e-5), oxidised iodine 4e-5, 'blue-black and cloudy'."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained/transferred material, unresolved pools and losses.",
+     "verdict": "PASS",
+     "evidence": "Prior defect FIXED: inspect iodine_speciation v0 now reports starch_bound_triiodide 3.0838e-5 + free I3- 6.249e-6 + free I2 2.913e-6 = 4.000e-5 = ledger I2; iodine atoms 1.2291e-4 + 3x6.249e-6 + 3x3.0838e-5 + 2x2.913e-6 = 2.400e-4 = ledger (residual 0). Starch control v1 now included (bound 2e-5, free I- 8e-5, residual -2.7e-20). Bound pool carries an explicit limitation (editorial upper bound, <=1 I3- per 20 glucose units). Ledger elements close <=1.4e-16."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables/missing couplings from negatives.",
+     "verdict": "PASS",
+     "evidence": "Starch-iodine absorbance typed refusal (no reviewed absorptivity) at steps 16/19; binding stoichiometry labelled as estimate; KI heat unpriced labelled."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret against v2 (starch, no reductant) and v3 (reductant, no starch).",
+     "verdict": "PASS",
+     "evidence": "v1 (starch only) blue-black with 2e-5 bound; v2 (ascorbate only) iodine consumed, A405 0.0, colourless and clear."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "O": 0,
+     "I": 0,
+     "K": 0,
+     "note": "all elements <=3.3e-16 relative at every step (script-independent recomputation: sum of all vessel contents vs cumulative add/extract-solvent amounts; formula map for named organics)"
+    },
+    "charge": "<2e-19",
+    "energy": "not requested"
+   },
+   "observed_result": "3e-5 mol ascorbate destroys the first 2e-5 mol iodine so the starch vessel stays colourless (A405 0); a further 5e-5 mol iodine leaves 4e-5 mol oxidised iodine (est. 3.08e-5 starch-bound) and the vessel turns blue-black.",
+   "limitations": "Starch-bound pool is an editorial upper-bound estimate (capped at 1 I3- per 20 glucose units); complex absorbance refused.",
+   "doubts": "v0 bound pool sits exactly at the cap (6.1675e-4/20 = 3.0838e-5) and v1 binds 100% (implied infinite affinity); real amylose iodine affinity (~19-20 g I2/100 g amylose, ~25% amylose in starch) suggests ~2e-5 mol capacity for 0.1 g, i.e. cap ~1.5x high. Qualitative observable unaffected.",
+   "adversarial": "survives: starch-binding fraction is reported, labelled as an upper bound and closes the iodine books; magnitude within ~1.5x of amylose iodine-affinity data; ascorbate stoichiometry and pH recomputed."
+  },
+  {
+   "id": "batch3-diverse:po-009",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "What does a melting-point instrument report for a PE/PP mixture?",
+     "verdict": "PASS",
+     "evidence": "Prior defect FIXED: blend reading is verdict 'mixture', immiscible_blend true, value_c null, boundary 'immiscible in the melt ... no melting-point depression is claimed: each component melts over its own range ... A single returned value is not evidence of miscibility' - matches PE/iPP immiscibility (Teh, Rudin & Keung, Adv. Polym. Technol. 13 (1994) 1). References: PE 141.45 C (414.6 K) and iPP 187.55 C (460.7 K) equilibrium Tm, Gaur & Wunderlich JPCRD 10 (1981) 119 and 1051, with 'real grades melt below' boundary."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions and losses.",
+     "verdict": "PASS",
+     "evidence": "PE 0.0356455, PP 0.0237637; blend PE 0.0178228 + PP 0.0118818 (0.5 g each, C2H4/C3H6 units) unchanged through heat."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "PASS",
+     "evidence": "Heat step (vessel 2) emits not_yet_modeled for PE and PP: 'enthalpy of fusion is not sourced, so the latent heat is not paid - the temperature shown overstates the warming, and the solid shown is not a prediction that it stays solid'. The subsequent thermometer value 193.89 C (300 J / 1.776 J/K) is thereby explicitly qualified as an overstatement; it is not the requested observable (melting-point instrument). Melting-point readings for the pure references refuse the melt rather than inventing values."
+    },
+    {
+     "id": "controls",
+     "text": "v1/v2 individual references.",
+     "verdict": "PASS",
+     "evidence": "Both references sourced, with below-range boundary; blend interpreted as each component's own range."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "note": "all elements <=3.3e-16 relative at every step (script-independent recomputation: sum of all vessel contents vs cumulative add/extract-solvent amounts; formula map for named organics)"
+    },
+    "charge": "n/a",
+    "energy": "300 J -> dT 168.89 K (1.776 J/K for 1 g, 25 C solid Cp); latent heat and Cp rise omitted, labelled"
+   },
+   "observed_result": "Melting-point apparatus returns sourced equilibrium Tm for PE (141.45 C) and iPP (187.55 C) and, for the 1:1 blend, no single value: immiscible components each melt over their own range, no depression claimed.",
+   "limitations": "Polymer fusion enthalpy and crystallinity unmodelled (labelled); the post-heating thermometer value (193.9 C) is a labelled overstatement and must not be catalogued as a prediction.",
+   "doubts": "The thermometer 'measured' event itself carries no inline qualifier; the qualification sits on the preceding heat step of the same vessel. Real 1 g blend with 300 J would sit at or below ~140 C (Cp ~2-2.9 J/gK plus PE fusion). Reviewer 2 may treat a step-level label as insufficient for a separate instrument reading.",
+   "adversarial": "survives (narrowly): unlabelled thermometer reading checked - the same-vessel heat step explicitly states the shown temperature overstates warming; requested observable is the melting-point reading, which is correct."
+  },
+  {
+   "id": "batch3-diverse:th-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can paraffin be used interchangeably with a pure hydrocarbon in a latent-heat interpretation?",
+     "verdict": "PASS",
+     "evidence": "Paraffin: verdict melting_range 42-68 C, value_c null, sourced (Sharma et al., RSER 13 (2009) 318, Table 2a; 189 kJ/kg from Abhat 1983) with boundary that technical grades are blends and curve shape is not sourced; hexadecane: pure mp 18.15 C (Finke et al. JACS 76 (1954) 333: 291.3 K). The declared property models contrast."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions and losses.",
+     "verdict": "PASS",
+     "evidence": "paraffin 0.0141767 mol (5 g, C25H52 basis) split 0.0106913 solid + 0.0034854 liquid after heating, 0.0141767 solid after cooling; hexadecane 0.0220801 unchanged."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "PASS",
+     "evidence": "Prior defect FIXED: latent heat is now paid. Heat 500 J: sensible 267.668 J (28.392 K x 9.428 J/K = 1.886 J/gK) + latent 0.24585 x 5 g x 189 J/g = 232.33 J = 500.00 J; 48.39 C lies 24.6% into the 42-68 C span = melted fraction 0.24585 (even-spread rule, labelled as unsourced shape). Cool 500 J returns exactly to 20.00 C all solid (232.33 J released + 267.67 J sensible). Hexadecane 500 J -> 45.145 K, Cp 501.6 J/mol K (NIST liquid ~501). Hexadecane already liquid at 20 C, so no plateau arises - consistent."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "note": "all elements <=3.3e-16 relative at every step (script-independent recomputation: sum of all vessel contents vs cumulative add/extract-solvent amounts; formula map for named organics)"
+    },
+    "charge": "n/a",
+    "energy": "paraffin heat and cool each close to 1e-13 J (sensible+latent); hexadecane sensible both ways"
+   },
+   "observed_result": "Paraffin is reported as a 42-68 C melting range with 189 kJ/kg spread over the span; 500 J into 5 g at 20 C gives 48.4 C with 25% melted, while hexadecane (pure, mp 18.15 C, already liquid) simply warms to 65.1 C.",
+   "limitations": "Melting-curve shape over the range is an even-spread assumption (labelled); solid Cp 1.886 J/gK is ~10% below typical paraffin solid values (~2.1 J/gK).",
+   "doubts": "(1) Scene 'white paraffin floats on top' of molten wax is physically wrong: solid paraffin (~0.90-0.93 g/mL) is denser than its melt (~0.76-0.78 g/mL) and sinks; unlabelled but not a criterion observable. (2) Cooling event reports freezing 'at' 293.15 K (20 C), outside the 42-68 C range declared for the same vessel; final state/energy are right but the event temperature is an artefact.",
+   "adversarial": "survives: energy recomputed exactly; Cp checks; float/sink and freezing-at artefacts found but outside the criteria - logged for follow-up."
+  },
+  {
+   "id": "new120:rx-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "RX-004-C1",
+     "text": "Link iodine production to decrease in ferric and increase in ferrous inventory.",
+     "verdict": "PASS",
+     "evidence": "Ledger: Fe2+ 3.19907e-4, Fe3+ 8.00927e-5, I2(ox) 1.59954e-4, I- 8.00927e-5; dFe(II)=2 x dI2 exactly. Prior defect FIXED: same-step PHREEQC redox block Fe(II) 3.2087e-3 m x 0.0997 = 3.1991e-4 mol, Fe(III) 8.0334e-4 m -> 8.009e-5 mol (matches ledger); pe null. Q from free species (I2 1.2296e-3 M, I- 4.31e-4 M) = 15.95 x 1.2296e-3/(4.31e-4)^2 = 1.06e5 vs K 10^5.07."
+    },
+    {
+     "id": "RX-004-C2",
+     "text": "Distinguish I2 from triiodide and from the yellow ferric solution.",
+     "verdict": "PASS",
+     "evidence": "iodine_speciation: free I2 1.2296e-4, I3- 3.699e-5 (K recomputed 698), free I- 4.31e-5, residual 0; ferric remainder 8.0e-5 separately; optical distinction refused with typed label listing nine Fe(III) species (inventory-based distinction only). Free I2 1.23e-3 M below solubility 1.33e-3 M (Hartley & Campbell 1908)."
+    },
+    {
+     "id": "forecast",
+     "text": "Ferric ions oxidise iodide while being reduced to ferrous ions, producing an iodine pool.",
+     "verdict": "PASS",
+     "evidence": "0.32 mmol Fe(II) and 0.16 mmol oxidised iodine from 0.4/0.4 mmol."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cl": 0,
+     "Fe": 0,
+     "H": 0,
+     "I": 0,
+     "K": 0,
+     "O": 0,
+     "note": "all elements <=3.3e-16 relative at every step (script-independent recomputation: sum of all vessel contents vs cumulative add/extract-solvent amounts; formula map for named organics)"
+    },
+    "charge": "ledger 0 within 2.2e-19; PHREEQC view now electron-consistent",
+    "energy": "reaction heat explicitly unpriced (labelled)"
+   },
+   "observed_result": "0.4 mmol FeCl3 + 0.4 mmol KI in 10 mM HCl reaches 80% conversion: 0.32 mmol Fe(II), 0.16 mmol oxidised iodine (0.123 free I2 + 0.037 I3-), 0.08 mmol Fe(III) left; reported speciation agrees.",
+   "limitations": "UV-vis refused for Fe(III) species; goethite/hematite/magnetite supersaturation not modelled (labelled); reaction heat unpriced.",
+   "doubts": "Step 2 PHREEQC view (before KI) carries O2 2.66e-4 m (air saturation) absent from the ledger; PHREEQC I- shown as ledger total not free iodide. Free I2 is at 92% of aqueous solubility. Chloro-complexation of Fe(III) not fed into extent.",
+   "adversarial": "survives: redox view, equilibrium constant, triiodide K and solubility all recomputed."
+  },
+  {
+   "id": "new120:sp-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-011-C1",
+     "text": "First verify the redox conversion in the reduced feed.",
+     "verdict": "PASS",
+     "evidence": "v0: I2 1e-4 + Na2S2O3 2e-4 -> I2 0, I- 1.2e-3, S4O6-2 1e-4, Na+ 4e-4 (reaction_occurred); iodine_speciation oxidised 0."
+    },
+    {
+     "id": "SP-011-C2",
+     "text": "Reduced-feed receiver contains less oxidised iodine than the control; sum all iodine species in both phases.",
+     "verdict": "FAIL",
+     "evidence": "Prior internal inconsistency FIXED: extraction now partitions free I2 only with I3- re-equilibrated: control 5.8922e-5 of 1e-4 to hexane (58.9%); residual free I2 5.314e-6, I3- 3.576e-5 (K3 698 recomputed), org/aq ratio 84 ~ K. But (a) the engine's own inspect for receiver v3 reports oxidised_iodine_mol 0.0 (I2 placed in other_pools with phase 'aqueous' in a hexane-only vessel), so by the reported iodine observable both receivers hold 0 oxidised iodine and the required inequality is not shown; (b) the quantity rests on K=85 whose provenance is an Edexcel A-level exam question, not a measurement; 85 is the classic CCl4/water value. Primary solubility data give K(hexane/water) ~ 26-35 (I2 mole-fraction solubility n-hexane ~0.0046, n-heptane 0.0068, Hildebrand & Jenks JACS 42 (1920) 2180 / Hildebrand & Scott; water 1.34e-3 M), so with I3- D ~ 3.4-4.5 and single-stage extraction ~31-37%, not 58.9%."
+    },
+    {
+     "id": "forecast",
+     "text": "Reducing iodine to iodide diminishes neutral iodine available for transfer.",
+     "verdict": "PASS",
+     "evidence": "Ledger direction holds: receiver from reduced feed 0, control 5.89e-5 mol I2."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0,
+     "O": 0,
+     "C": 0,
+     "I": 0,
+     "K": 0,
+     "Na": 0,
+     "S": 0,
+     "note": "all elements <=1.9e-16 relative at every step (extract solvent counted)"
+    },
+    "charge": "<1e-19",
+    "energy": "not requested"
+   },
+   "observed_result": "Thiosulfate-reduced iodine (all I-) gives an iodine-free hexane extract; the unreduced control is reported to transfer 58.9% of 1e-4 mol I2 into 0.1 mol hexane with K=85 and triiodide retention.",
+   "limitations": "Constant K for free I2 only; K=85 not primary-sourced; extracted I2 phase-tagged aqueous in the hexane receiver.",
+   "doubts": "Hexane/water K estimate is from saturation-ratio (regular-solution) reasoning, not a direct partition measurement; a direct primary hexane/water K should be located. The phase-tag error is what drives oxidised_iodine 0 in v3; fixing the tag would likely fix (a).",
+   "adversarial": "refuted: inspect reports oxidised_iodine 0 in the control receiver (phase 'aqueous' I2 in hexane); K=85 is non-primary and ~2.5-3x above solubility-derived hexane/water values."
+  }
+ ],
+ "adversarial_verify": [
+  {
+   "id": "batch2:ec-008",
+   "confirmed": true,
+   "reason": "survives: tried redox-view consistency (now 4-digit agreement), K recomputation, O2 in ferrous arm, iodine solubility (1.97e-4 mol mostly as I3-, free I2 4.7e-4 M < 1.33e-3 M)."
+  },
+  {
+   "id": "batch2:ki-011",
+   "confirmed": false,
+   "reason": "refuted: SO2 2.46e-5 mol retained unreacted beside I2 1.57e-5 and H2O2 1.9e-3 mol for 60-100 s; unlogged H2O2 consumption 9.1e-7 mol."
+  },
+  {
+   "id": "batch3-diverse:an-004",
+   "confirmed": true,
+   "reason": "survives: starch-binding fraction is reported, labelled as an upper bound and closes the iodine books; magnitude within ~1.5x of amylose iodine-affinity data; ascorbate stoichiometry and pH recomputed."
+  },
+  {
+   "id": "batch3-diverse:po-009",
+   "confirmed": true,
+   "reason": "survives (narrowly): unlabelled thermometer reading checked - the same-vessel heat step explicitly states the shown temperature overstates warming; requested observable is the melting-point reading, which is correct."
+  },
+  {
+   "id": "batch3-diverse:th-004",
+   "confirmed": true,
+   "reason": "survives: energy recomputed exactly; Cp checks; float/sink and freezing-at artefacts found but outside the criteria - logged for follow-up."
+  },
+  {
+   "id": "new120:rx-004",
+   "confirmed": true,
+   "reason": "survives: redox view, equilibrium constant, triiodide K and solubility all recomputed."
+  },
+  {
+   "id": "new120:sp-011",
+   "confirmed": false,
+   "reason": "refuted: inspect reports oxidised_iodine 0 in the control receiver (phase 'aqueous' I2 in hexane); K=85 is non-primary and ~2.5-3x above solubility-derived hexane/water values."
+  }
+ ],
+ "summary": {
+  "qualified": [
+   "batch2:ec-008",
+   "batch3-diverse:an-004",
+   "batch3-diverse:po-009",
+   "batch3-diverse:th-004",
+   "new120:rx-004"
+  ],
+  "rejected": {
+   "batch2:ki-011": [
+    "KI-011-C2"
+   ],
+   "new120:sp-011": [
+    "SP-011-C2"
+   ]
+  }
+ }
+}
