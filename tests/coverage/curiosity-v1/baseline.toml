@@ -917,20 +917,20 @@ reason_code = "typed-observation"
 [[observation]]
 id = "bio-028"
 owning_task = "EXP-9"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "qualitative-route"
 
 [[observation]]
 id = "bio-029"
 owning_task = "EXP-9"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "qualitative-route"
 
 [[observation]]
 id = "bio-030"
 owning_task = "BRD-050"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "qualitative-route"
 
 [[observation]]
 id = "bio-031"

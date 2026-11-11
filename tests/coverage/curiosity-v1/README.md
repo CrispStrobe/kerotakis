@@ -2541,3 +2541,10 @@ requirement changes; the other 499 records are unchanged.
 - `bio-031` (0.01 mol HCl) records `qualitative / typed-observation`: the
   solution pH is outside the source's 5.5-8.0 window, digestion is refused
   with `not-modeled.amylase-outside-unit-conditions`, and nothing is digested.
+
+2026-11-11 (hosted run of f6f81843): bio-028, bio-029 and bio-030 classify as
+qualitative/qualitative-route. The amylase digestion runs on the enzyme clock,
+but these prompts only `look` at the vessel afterwards, and the classifier
+grades that observation as a qualitative route; bio-033 adds iodine after the
+wait and stays computed. Expected for bio-028/029 lowered to match what the
+corpus observes, not what the engine computes internally.

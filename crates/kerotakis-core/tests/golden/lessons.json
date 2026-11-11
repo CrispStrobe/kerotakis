@@ -1903,30 +1903,30 @@
       "v1: +0.2000 mol ethanol",
       "v1: +0.0500 mol methanol",
       "v2: new vessel",
-      "v1 → v2: 0.030594 mol ethanol + 0.011278 mol methanol + 0.262128 mol water; 370.66 K → 370.91 K; 1 stage(s); 12.235 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature.",
+      "v1 → v2: 0.030355 mol ethanol + 0.011286 mol methanol + 0.262359 mol water; 370.69 K → 370.94 K; 1 stage(s); 12.236 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature.",
       "v3: new vessel",
       "v3: +3.5500 mol water",
       "v3: +0.2000 mol ethanol",
       "v3: +0.0500 mol methanol",
       "v4: new vessel",
-      "v3 → v4: 0.058879 mol ethanol + 0.020767 mol methanol + 0.528354 mol water; 370.66 K → 371.16 K; 1 stage(s); 24.485 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      "v3 → v4: 0.058458 mol ethanol + 0.020778 mol methanol + 0.528764 mol water; 370.69 K → 371.18 K; 1 stage(s); 24.486 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
     ],
     "lesson": "distillation-cut-controls-collection.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.16940643,
+            "moles": 0.16964513,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.03872198,
+            "moles": 0.03871413,
             "phase": "Liquid",
             "species": "methanol"
           },
           {
-            "moles": 3.28787159,
+            "moles": 3.28764074,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1938,17 +1938,17 @@
       {
         "contents": [
           {
-            "moles": 0.03059357,
+            "moles": 0.03035487,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.01127802,
+            "moles": 0.01128587,
             "phase": "Liquid",
             "species": "methanol"
           },
           {
-            "moles": 0.26212841,
+            "moles": 0.26235926,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1960,17 +1960,17 @@
       {
         "contents": [
           {
-            "moles": 0.14112092,
+            "moles": 0.14154233,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.02923333,
+            "moles": 0.02922188,
             "phase": "Liquid",
             "species": "methanol"
           },
           {
-            "moles": 3.02164575,
+            "moles": 3.02123579,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1982,17 +1982,17 @@
       {
         "contents": [
           {
-            "moles": 0.05887908,
+            "moles": 0.05845767,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.02076667,
+            "moles": 0.02077812,
             "phase": "Liquid",
             "species": "methanol"
           },
           {
-            "moles": 0.52835425,
+            "moles": 0.52876421,
             "phase": "Liquid",
             "species": "water"
           }
