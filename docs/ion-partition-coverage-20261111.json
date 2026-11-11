@@ -1,0 +1,262 @@
+{
+  "lane": "2026-11-11 ion partition",
+  "hydrocarbon_solvents": [
+    "dodecane",
+    "hexadecane",
+    "hexane"
+  ],
+  "classes": {
+    "monatomic cation": 16,
+    "monatomic anion": 3,
+    "small organic ion": 3,
+    "polyatomic inorganic ion": 19
+  },
+  "rows": [
+    {
+      "species": "Ag+",
+      "formula": "Ag+",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Ba+2",
+      "formula": "Ba+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Br-",
+      "formula": "Br-",
+      "ion_class": "monatomic anion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "C6H5O7-3",
+      "formula": "C6H5O7-3",
+      "ion_class": "small organic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "CH3COO-",
+      "formula": "CH3COO-",
+      "ion_class": "small organic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "CO3-2",
+      "formula": "CO3-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Ca+2",
+      "formula": "Ca+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Cl-",
+      "formula": "Cl-",
+      "ion_class": "monatomic anion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "ClO-",
+      "formula": "ClO-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Cu+1",
+      "formula": "Cu+1",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Cu+2",
+      "formula": "Cu+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Fe+2",
+      "formula": "Fe+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Fe+3",
+      "formula": "Fe+3",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "H+",
+      "formula": "H+",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "H2BO3-",
+      "formula": "H2BO3-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "H2PO4-",
+      "formula": "H2PO4-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "HCO3-",
+      "formula": "HCO3-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "HPO4-2",
+      "formula": "HPO4-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "HSO3-",
+      "formula": "HSO3-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "I-",
+      "formula": "I-",
+      "ion_class": "monatomic anion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "K+",
+      "formula": "K+",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Mg+2",
+      "formula": "Mg+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Mn+2",
+      "formula": "Mn+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Mn+3",
+      "formula": "Mn+3",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "MnO4-",
+      "formula": "MnO4-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "MnO4-2",
+      "formula": "MnO4-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "NH4+",
+      "formula": "NH4+",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "NO2-",
+      "formula": "NO2-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "NO3-",
+      "formula": "NO3-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Na+",
+      "formula": "Na+",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "OH-",
+      "formula": "OH-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "PO4-3",
+      "formula": "PO4-3",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Pb+2",
+      "formula": "Pb+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "S2O3-2",
+      "formula": "S2O3-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "S4O6-2",
+      "formula": "S4O6-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "SCN-",
+      "formula": "SCN-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "SO3-2",
+      "formula": "SO3-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "SO4-2",
+      "formula": "SO4-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Sr+2",
+      "formula": "Sr+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Zn+2",
+      "formula": "Zn+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "lactate",
+      "formula": "C3H5O3-",
+      "ion_class": "small organic ion",
+      "hydrocarbon_rule": "retained in water"
+    }
+  ]
+}

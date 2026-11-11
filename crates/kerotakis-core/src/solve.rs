@@ -3788,6 +3788,8 @@ impl Equilibrator for HonestyEquilibrator {
                         ),
                         crate::ops::NotModelledCause::NotSpeciated,
                     )
+                } else if let Some(reason) = organic_solid_without_solubility(&p.species, name) {
+                    (reason, crate::ops::NotModelledCause::NoReviewedDatum)
                 } else {
                     (
                         Phrase::new(
@@ -3936,6 +3938,8 @@ impl Equilibrator for HonestyEquilibrator {
                         ),
                         crate::ops::NotModelledCause::NotSpeciated,
                     )
+                } else if let Some(reason) = organic_solid_without_solubility(&p.species, name) {
+                    (reason, crate::ops::NotModelledCause::NoReviewedDatum)
                 } else {
                     (
                         Phrase::new(
@@ -3954,6 +3958,60 @@ impl Equilibrator for HonestyEquilibrator {
 
         Ok((delta, events))
     }
+}
+
+/// D3-AN-004: an organic molecular solid the bench has no reviewed aqueous
+/// solubility for is not "unmodelled by any solver" — the dissolution
+/// route exists and is the same one every other solid takes; what is
+/// missing is the one number it needs. Said as that, typed, so a database
+/// row is visibly what would fix it (`organic_solid_solubility`).
+fn organic_solid_without_solubility(species: &SpeciesId, name: &str) -> Option<Phrase> {
+    let data = species::lookup(species)?;
+    if !crate::organic_solid_solubility::is_organic_molecular(data)
+        || data
+            .aqueous_solubility_at(crate::units::Kelvin::STANDARD.0)
+            .is_some()
+    {
+        return None;
+    }
+    Some(Phrase::new(
+        "not-modeled.organic-solid-no-solubility",
+        "{name} stays an undissolved solid: the dissolution route has no reviewed aqueous solubility for it, so none of it is counted as dissolved",
+        vec![("name".to_string(), Slot::term("species", name))],
+    ))
+}
+
+/// D3-AN-004: a curated reaction drew `species` straight from its
+/// undissolved solid while liquid water was present and no reviewed
+/// solubility could have dissolved it first. The reaction is still booked —
+/// the stoichiometry is the row's — but it is labelled as a solid-phase
+/// step, so it cannot read as a solution reaction the dissolution route
+/// had declined to set up.
+pub fn solid_phase_reaction_label(species: &SpeciesId, equation: &str) -> Phrase {
+    let name = species::lookup(species)
+        .map(|d| d.name)
+        .unwrap_or(species.0.as_str());
+    Phrase::new(
+        "not-modeled.solid-phase-reaction",
+        "{name} reacted directly from the undissolved solid in {equation}: no reviewed aqueous solubility dissolves it first, so this is booked as a solid-phase step and no dissolution or rate is claimed",
+        vec![
+            ("name".to_string(), Slot::term("species", name)),
+            ("equation".to_string(), Slot::text(equation.to_string())),
+        ],
+    )
+}
+
+/// Whether a curated reactant drawn from solid inventory needs that label:
+/// an organic molecular solid, liquid water present, and no reviewed
+/// aqueous solubility at the vessel's temperature.
+pub fn needs_solid_phase_label(vessel: &Vessel, species: &SpeciesId) -> bool {
+    species::lookup(species).is_some_and(|data| {
+        crate::organic_solid_solubility::is_organic_molecular(data)
+            && data.aqueous_solubility_at(vessel.temperature.0).is_none()
+    }) && vessel
+        .contents
+        .iter()
+        .any(|p| p.species.0 == SOLVENT && p.phase == Phase::Liquid && p.moles.0 > 0.0)
 }
 
 /// The temperature at which every part of an adiabatic mix comes to rest:

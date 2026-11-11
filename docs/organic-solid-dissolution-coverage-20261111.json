@@ -1,0 +1,159 @@
+{
+  "lane": "2026-11-11 solid reagent",
+  "counts": {
+    "registry-solubility": 13,
+    "other-route": 2,
+    "reviewed-row": 1,
+    "refused": 5
+  },
+  "rows": [
+    {
+      "species": "H2C2O4",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 11.8,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "PE",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "PET",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "PP",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "PS",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "PVA",
+      "cls": "other-route",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "registry dissolves-without-speciation: honesty says not-modeled.dissolves-unspeciated"
+    },
+    {
+      "species": "ascorbic_acid",
+      "cls": "reviewed-row",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 29.07,
+      "at_k": 293.0,
+      "source": "Shalmashi & Eliassi, J. Chem. Eng. Data 53(6), 1332-1334 (2008), doi:10.1021/je800056h"
+    },
+    {
+      "species": "cellulose",
+      "cls": "refused",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "no primary measurement read: not-modeled.organic-solid-no-solubility"
+    },
+    {
+      "species": "citric_acid",
+      "cls": "other-route",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "speciated as Citrate by the PHREEQC derived route (kerotakis-phreeqc derived.rs)"
+    },
+    {
+      "species": "dehydroascorbic_acid",
+      "cls": "refused",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "no primary measurement read: not-modeled.organic-solid-no-solubility"
+    },
+    {
+      "species": "fructose",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 400.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "glucose",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 90.9,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "hair_pigment",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "hair_pigment_ox",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "malic_acid",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 55.8,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "maltose",
+      "cls": "refused",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "no primary measurement read: not-modeled.organic-solid-no-solubility"
+    },
+    {
+      "species": "naphthalene",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.003,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "nylon",
+      "cls": "refused",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "no primary measurement read: not-modeled.organic-solid-no-solubility"
+    },
+    {
+      "species": "paraffin",
+      "cls": "refused",
+      "dissolves_by_route": false,
+      "g_per_100_ml": null,
+      "source": "no primary measurement read: not-modeled.organic-solid-no-solubility"
+    },
+    {
+      "species": "starch",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 0.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "sucrose",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 200.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    }
+  ]
+}

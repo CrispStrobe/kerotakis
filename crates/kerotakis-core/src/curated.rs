@@ -796,6 +796,16 @@ fn refresh_solute_charge(vessel: &mut Vessel) {
     vessel.solute_charge = crate::displacement::solute_charge(vessel);
 }
 
+fn solid_moles(vessel: &Vessel, species: &SpeciesId) -> f64 {
+    let id = species.canonical();
+    vessel
+        .contents
+        .iter()
+        .filter(|p| &p.species == id.as_ref() && p.phase == Phase::Solid)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
 fn reactant_moles(vessel: &Vessel, key: &str, phases: Option<&[Phase]>) -> f64 {
     let id = SpeciesId::new(key);
     match phases {
@@ -1047,7 +1057,10 @@ impl Equilibrator for CuratedEquilibrator {
                     crate::displacement::consume_acidity(vessel, ledger);
                     crate::strong_reserve::consume_literal_acid(vessel, literal);
                 }
+                let mut solid_phase_labels = Vec::new();
                 for (key, coeff) in reaction.reactants {
+                    let species = SpeciesId::new(key);
+                    let solid_before = solid_moles(vessel, &species);
                     if reaction.solvent.is_some() {
                         withdraw_from_solution(vessel, &SpeciesId::new(key), Moles(x * coeff));
                     } else if let Some(phases) = reaction.reactant_phases {
@@ -1060,11 +1073,28 @@ impl Equilibrator for CuratedEquilibrator {
                     } else {
                         vessel.withdraw(&SpeciesId::new(key), Moles(x * coeff));
                     }
+                    // D3-AN-004: an aqueous row that just drew an organic
+                    // solid out of its undissolved inventory, in water,
+                    // with no reviewed solubility to have dissolved it
+                    // first, is labelled a solid-phase step.
+                    if reaction.solvent.is_none()
+                        && solid_before - solid_moles(vessel, &species) > TRACE
+                        && crate::solve::needs_solid_phase_label(vessel, &species)
+                    {
+                        solid_phase_labels.push(species);
+                    }
                 }
                 events.push(Event::ReactionOccurred {
                     vessel: vessel.id,
                     equation: reaction.equation.to_string(),
                 });
+                for species in solid_phase_labels {
+                    events.push(Event::not_modeled(
+                        vessel.id,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        crate::solve::solid_phase_reaction_label(&species, reaction.equation),
+                    ));
+                }
                 for (key, coeff, phase) in reaction.products {
                     let n = Moles(x * coeff);
                     if *phase == Phase::Gas {

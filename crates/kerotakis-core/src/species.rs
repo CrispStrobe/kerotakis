@@ -889,8 +889,15 @@ impl SpeciesData {
     /// about 5% low, which is inside what a school experiment can see and
     /// far inside the difference this exists to show. A solute with only one
     /// reviewed point is returned unchanged at every temperature.
+    ///
+    /// A registry organic solid with no registry figure falls back to a
+    /// cited measured series (`organic_solid_solubility::ROWS`), so it
+    /// takes the same dissolution route as every other solid instead of
+    /// being declared unmodelled and then consumed undissolved.
     pub fn aqueous_solubility_at(&self, t_k: f64) -> Option<f64> {
-        let cold = self.aqueous_solubility_g_per_100_ml?;
+        let Some(cold) = self.aqueous_solubility_g_per_100_ml else {
+            return crate::organic_solid_solubility::g_per_100_ml(self.key, t_k);
+        };
         let Some(hot) = self.aqueous_solubility_g_per_100_ml_at_100c else {
             return Some(cold);
         };
