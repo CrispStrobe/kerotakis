@@ -8,6 +8,8 @@ at 298.15 K:
 
   covered   diffusivity + Henry constant + dimensionless H >= H(CO2)
             (liquid-film limit; Liss 1973 places O2/CO2 there)
+  upper_bound  more soluble than CO2: liquid-film k_L reported as an upper
+               bound (`not-modeled.gas-escape-upper-bound-only`), nothing moved
   refused   `not-modeled.gas-escape-no-data` with the typed gap
 
 Writes docs/open-vessel-gas-escape-coverage-20261111.{md,json};
@@ -47,7 +49,7 @@ SOURCES = [
     "Liquid-film admission: P. S. Liss (1973), Deep-Sea Res. 20, 221-238, "
     "doi:10.1016/0011-7471(73)90013-2 (abstract: O2 and CO2 exchange liquid-phase controlled).",
     "NOT sourced: a still-air gas-side velocity k_G (Hicks & Liss 1976, Tellus 28, 348-354, "
-    "not readable). Gases more soluble than CO2 are therefore refused, not priced.",
+    "not readable). Gases more soluble than CO2 therefore get only a liquid-film upper bound.",
     "NOT used: the 1.4e-6 m/s 'smooth-surface' figure attributed to Liss & Merlivat (1986); "
     "their smooth regime is 0.17*u10 cm/h, which is zero at no wind, so 1.4e-6 corresponds to "
     "u10 ~ 3 m/s and is not a still-air value.",
@@ -84,17 +86,17 @@ def main():
         elif h is None:
             cls, gap = "refused", "no sourced Henry constant"
         elif h < h_co2 * (1 - 1e-12):
-            cls, gap = "refused", "gas-side transfer velocity unsourced"
+            cls, gap = "upper_bound", "gas-side transfer velocity unsourced; liquid-film k_L is an upper bound, report only"
         else:
             cls, gap = "covered", ""
-        kl = k_ref * (d / d_co2) ** (2 / 3) if cls == "covered" else None
+        kl = k_ref * (d / d_co2) ** (2 / 3) if cls != "refused" else None
         out.append(dict(gas=gas, cls=cls, diffusivity_m2_s=d,
                         henry_dimensionless=None if h is None else float(f"{h:.4g}"),
                         k_l_m_per_s=None if kl is None else float(f"{kl:.4g}"), gap=gap))
-    counts = {"covered": sum(r["cls"] == "covered" for r in out),
-              "refused": sum(r["cls"] == "refused" for r in out)}
+    counts = {c: sum(r["cls"] == c for r in out) for c in ("covered", "upper_bound", "refused")}
     doc = dict(lane="open-vessel gas escape", date="2026-11-11", temperature_k=T,
                k_l_reference_m_per_s=k_ref, refusal_key="not-modeled.gas-escape-no-data",
+               upper_bound_key="not-modeled.gas-escape-upper-bound-only",
                counts=counts, rows=out, sources=SOURCES)
     js = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
     md = ["# Open-vessel gas escape coverage (2026-11-11)", "",
@@ -103,10 +105,13 @@ def main():
           "out on a `wait` at `K_L*A/V` (A = vessel mouth), `1/K_L = 1/k_L + 1/(H k_G)` taken in its",
           "liquid-film limit, `k_L = k_L,ref (D/D_CO2)^(2/3)`. Gases outside the cited liquid-film class or",
           "without data are refused with `not-modeled.gas-escape-no-data` (EN/DE/FR) on a `wait`.",
+          "Gases more soluble than CO2 (gas film matters, k_G unsourced) get status `upper_bound`: the",
+          "series gas film can only slow transfer, so `k_L*A*(c - c_eq)` bounds the flux from above. It is",
+          "reported with `not-modeled.gas-escape-upper-bound-only` (EN/DE/FR) and moves no matter.",
           "Today only CO2 is routed through the aqueous solver (`pending_co2_transfer_mol`); the other",
           "covered rows are priced by the law but no solver yet moves them.", "",
-          f"Counts at {T} K: covered {counts['covered']}, refused {counts['refused']}.", "",
-          "| gas | class | D (m²/s) | H (c_g/c_aq) | k_L (m/s) | gap |", "|---|---|---|---|---|---|"]
+          f"Counts at {T} K: covered {counts['covered']}, upper_bound {counts['upper_bound']}, refused {counts['refused']}.", "",
+          "| gas | status | D (m²/s) | H (c_g/c_aq) | k_L (m/s) | gap |", "|---|---|---|---|---|---|"]
     for r in out:
         md.append(f"| {r['gas']} | {r['cls']} | {r['diffusivity_m2_s'] or '—'} | "
                   f"{r['henry_dimensionless'] if r['henry_dimensionless'] is not None else '—'} | "

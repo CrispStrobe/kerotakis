@@ -41,10 +41,11 @@
 //! controlled by the liquid-phase resistance. A gas is admitted when its
 //! dimensionless `H` is at least CO₂'s at the same temperature — no more
 //! soluble than the most soluble gas the source places in the liquid-film
-//! class. Ammonia and chlorine are more soluble, their gas film matters,
-//! and they are refused with `not-modeled.gas-escape-no-data` rather than
-//! given a rate whose controlling resistance the bench cannot price. Gases
-//! with no tabulated diffusivity or Henry constant are refused the same way.
+//! class. Ammonia and chlorine are more soluble and their gas film
+//! matters: the bench reports only the liquid-film UPPER BOUND
+//! (`not-modeled.gas-escape-upper-bound-only`) and moves nothing by it.
+//! Gases with no tabulated diffusivity or Henry constant are refused with
+//! `not-modeled.gas-escape-no-data`.
 
 use crate::ops::{Event, NotModelledCause};
 use crate::phrase::{Phrase, Slot};
@@ -155,6 +156,26 @@ pub fn transfer_velocity_m_per_s(formula: &str, t_kelvin: f64) -> Result<f64, Es
     Ok(crate::clock::STILL_SURFACE_K_L_M_PER_S * (d / D_CO2_M2_S).powf(2.0 / 3.0))
 }
 
+/// Liquid-film-only UPPER BOUND on `K_L` (m/s) for a gas whose gas film
+/// is not negligible. The two resistances are in series, so the true
+/// `K_L` can only be smaller than `k_L`: the flux cannot exceed
+/// `k_L*A*(c_aq - c_aq,eq)`. Needs the same diffusivity and Henry constant
+/// as a covered gas; without them the gap is returned. Report only: the
+/// bench does not move matter by a bound.
+pub fn liquid_film_upper_bound_m_per_s(formula: &str, t_kelvin: f64) -> Result<f64, EscapeGap> {
+    match transfer_velocity_m_per_s(formula, t_kelvin) {
+        Err(EscapeGap::GasFilmUnsourced) => {
+            let d = ESCAPE_TABLE
+                .iter()
+                .find(|row| row.formula == formula)
+                .and_then(|row| row.diffusivity_m2_s)
+                .ok_or(EscapeGap::NoDiffusivity)?;
+            Ok(crate::clock::STILL_SURFACE_K_L_M_PER_S * (d / D_CO2_M2_S).powf(2.0 / 3.0))
+        }
+        other => other,
+    }
+}
+
 /// First-order escape rate constant `K_L*A/V` (1/s) for a vessel.
 pub fn escape_rate_constant_per_s(
     formula: &str,
@@ -200,6 +221,20 @@ pub fn refusals(vessel_id: VesselId, vessel: &Vessel) -> Vec<Event> {
             continue;
         };
         seen.push(row.formula);
+        if gap == EscapeGap::GasFilmUnsourced {
+            if let Ok(k) = liquid_film_upper_bound_m_per_s(row.formula, vessel.temperature.0) {
+                let area = crate::clock::free_surface_area_m2(&vessel.label);
+                let volume_l = vessel.liquid_volume().0;
+                if volume_l > 0.0 {
+                    out.push(upper_bound_note(
+                        vessel_id,
+                        row.formula,
+                        k * area * 1000.0 / volume_l,
+                    ));
+                    continue;
+                }
+            }
+        }
         out.push(refusal(vessel_id, row.formula, gap));
     }
     out
@@ -219,6 +254,33 @@ pub fn refusal(vessel_id: VesselId, formula: &str, gap: EscapeGap) -> Event {
                     Slot::term("species", species::english_name(formula)),
                 ),
                 ("gap".to_string(), Slot::text(gap.as_str().to_string())),
+            ],
+        ),
+    )
+}
+
+/// The upper-bound note for a gas-film-limited gas: the escape rate
+/// constant cannot exceed `rate_per_s` (liquid-film limit), and nothing is
+/// moved by it.
+pub fn upper_bound_note(vessel_id: VesselId, formula: &str, rate_per_s: f64) -> Event {
+    Event::not_modeled(
+        vessel_id,
+        NotModelledCause::NotParameterised,
+        Phrase::new(
+            "not-modeled.gas-escape-upper-bound-only",
+            "how fast dissolved {name} leaves the open vessel: only an upper bound is known (at most {bound} of the excess per hour, liquid-film limit; the gas-side resistance is unsourced and can only slow it), so the lab moves none of it",
+            vec![
+                (
+                    "name".to_string(),
+                    Slot::term("species", species::english_name(formula)),
+                ),
+                (
+                    "bound".to_string(),
+                    Slot::text(format!(
+                        "{:.0} %",
+                        100.0 * (1.0 - (-rate_per_s * 3600.0).exp())
+                    )),
+                ),
             ],
         ),
     )

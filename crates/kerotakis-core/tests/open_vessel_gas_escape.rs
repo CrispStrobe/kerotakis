@@ -65,22 +65,82 @@ fn escape_never_exceeds_the_excess() {
     assert!(long <= 1e-3 && long > 0.999e-3);
 }
 
-#[test]
-fn a_wait_on_open_dissolved_ammonia_is_refused_typed() {
-    let mut v = open_water();
-    v.deposit(SpeciesId::new("NH3"), Moles(0.01), Phase::Aqueous);
-    let mut events = Vec::new();
-    clock::advance(&mut v, 60.0, ClockContext::default(), &mut events).expect("advances");
-    let refused: Vec<_> = events
+fn keyed(events: &[Event], key: &str) -> usize {
+    events
         .iter()
         .filter(|e| {
             matches!(e, Event::NotYetModeled {
                 cause: NotModelledCause::NotParameterised,
                 reason: Some(reason), ..
-            } if reason.key == "not-modeled.gas-escape-no-data")
+            } if reason.key == key)
         })
-        .collect();
-    assert_eq!(refused.len(), 1, "{events:?}");
+        .count()
+}
+
+#[test]
+fn gas_film_limited_gases_get_a_liquid_film_upper_bound() {
+    for gas in ["NH3", "Cl2"] {
+        let bound = gas_escape::liquid_film_upper_bound_m_per_s(gas, 298.15)
+            .unwrap_or_else(|gap| panic!("{gas}: {gap:?}"));
+        assert!(bound > 0.0 && bound < 1e-5, "{gas}: {bound}");
+    }
+    let nh3 = gas_escape::liquid_film_upper_bound_m_per_s("NH3", 298.15).unwrap();
+    let co2 = gas_escape::transfer_velocity_m_per_s("CO2", 298.15).unwrap();
+    let expected = co2 * (1.64f64 / 1.92).powf(2.0 / 3.0);
+    assert!((nh3 - expected).abs() < expected * 1e-12);
+}
+
+#[test]
+fn bounds_need_the_same_data_as_a_rate() {
+    assert_eq!(
+        gas_escape::liquid_film_upper_bound_m_per_s("SO2", 298.15),
+        Err(EscapeGap::NoDiffusivity)
+    );
+    assert_eq!(
+        gas_escape::liquid_film_upper_bound_m_per_s("H2S", 298.15),
+        Err(EscapeGap::NoHenryConstant)
+    );
+    assert_eq!(
+        gas_escape::liquid_film_upper_bound_m_per_s("Br2", 298.15),
+        Err(EscapeGap::NoHenryConstant)
+    );
+}
+
+#[test]
+fn a_wait_on_open_dissolved_ammonia_reports_only_a_bound() {
+    let mut v = open_water();
+    v.deposit(SpeciesId::new("NH3"), Moles(0.01), Phase::Aqueous);
+    let before = v.contents.clone();
+    let mut events = Vec::new();
+    clock::advance(&mut v, 60.0, ClockContext::default(), &mut events).expect("advances");
+    assert_eq!(
+        keyed(&events, "not-modeled.gas-escape-upper-bound-only"),
+        1,
+        "{events:?}"
+    );
+    assert_eq!(keyed(&events, "not-modeled.gas-escape-no-data"), 0);
+    // Report only: the clock moves no ammonia by the bound.
+    let nh3 = |c: &[kerotakis_core::vessel::Portion]| -> f64 {
+        c.iter()
+            .filter(|p| p.species.0.as_str() == "NH3")
+            .map(|p| p.moles.0)
+            .sum()
+    };
+    assert_eq!(nh3(&before), nh3(&v.contents));
+}
+
+#[test]
+fn a_wait_on_open_dissolved_hydrogen_sulfide_is_still_refused() {
+    let mut v = open_water();
+    v.deposit(SpeciesId::new("H2S"), Moles(0.01), Phase::Aqueous);
+    let mut events = Vec::new();
+    clock::advance(&mut v, 60.0, ClockContext::default(), &mut events).expect("advances");
+    assert_eq!(
+        keyed(&events, "not-modeled.gas-escape-no-data"),
+        1,
+        "{events:?}"
+    );
+    assert_eq!(keyed(&events, "not-modeled.gas-escape-upper-bound-only"), 0);
 }
 
 #[test]
@@ -90,7 +150,7 @@ fn a_covered_gas_or_a_sealed_vessel_is_not_refused() {
     assert!(gas_escape::refusals(VesselId(0), &v).is_empty());
 
     let mut sealed = open_water();
-    sealed.deposit(SpeciesId::new("NH3"), Moles(0.01), Phase::Aqueous);
+    sealed.deposit(SpeciesId::new("H2S"), Moles(0.01), Phase::Aqueous);
     sealed.headspace = kerotakis_core::vessel::Headspace::Sealed {
         volume: kerotakis_core::units::Liters(0.05),
     };

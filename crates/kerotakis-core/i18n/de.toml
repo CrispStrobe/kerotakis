@@ -1787,6 +1787,7 @@ mostly-organic-solvent = "ein Mischlösungsmittel, das überwiegend organisch is
 combustion-no-solver = "ob dieser Inhalt brennt: kein angebundener Löser modelliert die Verbrennung dafür, das Labor kann es also weder bejahen noch verneinen"
 flame-emission-no-data = "die Flammenfarbe von {element} in {name}: das Labor hat keine belegten Emissionsdaten für dieses Kation und sagt deshalb nicht, welche Farbe es gibt"
 gas-escape-no-data = "wie schnell gelöstes {name} aus dem offenen Gefäß entweicht: das Labor hat dafür keine belegten Stofftransportdaten ({gap}) und gibt deshalb keine Entweichrate an"
+gas-escape-upper-bound-only = "wie schnell gelöstes {name} aus dem offenen Gefäß entweicht: bekannt ist nur eine Obergrenze (höchstens {bound} des Überschusses pro Stunde, Grenzfall des Flüssigkeitsfilms; der gasseitige Widerstand ist nicht belegt und kann es nur verlangsamen), deshalb bewegt das Labor nichts davon"
 melting-not-modelled = "{name} über den Schmelzpunkt erhitzt ({melting} °C): Das Schmelzen wird hier nicht modelliert; der angezeigte Feststoff ist also keine Vorhersage, dass er fest bleibt"
 melting-range-latent-heat-unsourced = "{name} über seinen Schmelzbereich hinaus erhitzt (bis {melting} °C): Seine Schmelzenthalpie ist nicht belegt, daher wird die latente Wärme nicht verbucht — die angezeigte Temperatur überschätzt die Erwärmung, und der angezeigte Feststoff ist keine Vorhersage, dass er fest bleibt"
 heating-an-empty-vessel = "Erwärmen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"

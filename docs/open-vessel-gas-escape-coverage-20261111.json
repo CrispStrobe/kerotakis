@@ -4,9 +4,11 @@
   "temperature_k": 298.15,
   "k_l_reference_m_per_s": 5.75e-06,
   "refusal_key": "not-modeled.gas-escape-no-data",
+  "upper_bound_key": "not-modeled.gas-escape-upper-bound-only",
   "counts": {
     "covered": 4,
-    "refused": 5
+    "upper_bound": 2,
+    "refused": 3
   },
   "rows": [
     {
@@ -43,19 +45,19 @@
     },
     {
       "gas": "NH3",
-      "cls": "refused",
+      "cls": "upper_bound",
       "diffusivity_m2_s": 1.64e-09,
       "henry_dimensionless": 0.0007171,
-      "k_l_m_per_s": null,
-      "gap": "gas-side transfer velocity unsourced"
+      "k_l_m_per_s": 5.176e-06,
+      "gap": "gas-side transfer velocity unsourced; liquid-film k_L is an upper bound, report only"
     },
     {
       "gas": "Cl2",
-      "cls": "refused",
+      "cls": "upper_bound",
       "diffusivity_m2_s": 1.25e-09,
       "henry_dimensionless": 0.4443,
-      "k_l_m_per_s": null,
-      "gap": "gas-side transfer velocity unsourced"
+      "k_l_m_per_s": 4.319e-06,
+      "gap": "gas-side transfer velocity unsourced; liquid-film k_L is an upper bound, report only"
     },
     {
       "gas": "Br2",
@@ -88,7 +90,7 @@
     "Diffusivities in water, 25 C: E. L. Cussler, Diffusion: Mass Transfer in Fluid Systems, 2nd ed., Cambridge University Press 1997, ISBN 0-521-45078-0; values as quoted by Wikipedia 'Mass diffusivity' (https://en.wikipedia.org/wiki/Mass_diffusivity, liquid table), read 2026-11-11.",
     "Henry constants: R. Sander (2015), Atmos. Chem. Phys. 15, 4399-4981, doi:10.5194/acp-15-4399-2015 (table already in properties.rs).",
     "Liquid-film admission: P. S. Liss (1973), Deep-Sea Res. 20, 221-238, doi:10.1016/0011-7471(73)90013-2 (abstract: O2 and CO2 exchange liquid-phase controlled).",
-    "NOT sourced: a still-air gas-side velocity k_G (Hicks & Liss 1976, Tellus 28, 348-354, not readable). Gases more soluble than CO2 are therefore refused, not priced.",
+    "NOT sourced: a still-air gas-side velocity k_G (Hicks & Liss 1976, Tellus 28, 348-354, not readable). Gases more soluble than CO2 therefore get only a liquid-film upper bound.",
     "NOT used: the 1.4e-6 m/s 'smooth-surface' figure attributed to Liss & Merlivat (1986); their smooth regime is 0.17*u10 cm/h, which is zero at no wind, so 1.4e-6 corresponds to u10 ~ 3 m/s and is not a still-air value."
   ]
 }
