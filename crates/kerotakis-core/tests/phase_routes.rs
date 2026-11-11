@@ -86,9 +86,9 @@ fn molar_mass(key: &str) -> f64 {
 // ── sublimation ────────────────────────────────────────────────────
 
 #[test]
-#[ignore = "NH4Cl's sublimation temperature stood only on the withdrawn kerotakis/phase-transitions-v1 tranche and was dropped 2026-11-11 (docs/transition-point-coverage-20261111.md); restore with a primary value"]
 fn ammonium_chloride_leaves_and_common_salt_stays() {
-    // The separation quest, in six lines. Heat the mixture past 338 °C and
+    // The separation quest, in six lines. Heat the mixture past 337.8 °C (Smith and Calvert 1914,
+    // doi:10.1021/ja02184a003: dissociation pressure 760.0 mm Hg) and
     // one of the two components is simply gone from the crucible.
     let mut bench = Bench::new();
     let mut stack = stack();
@@ -103,7 +103,7 @@ fn ammonium_chloride_leaves_and_common_salt_stays() {
     let events = heat(&mut bench, &mut stack, 9_000.0);
     let t = vessel_of(&bench).temperature.0;
     assert!(
-        (611.15..1073.85).contains(&t),
+        (610.95..1073.85).contains(&t),
         "the separation window is between the two transitions; landed at {t} K"
     );
 
@@ -138,7 +138,6 @@ fn ammonium_chloride_leaves_and_common_salt_stays() {
 }
 
 #[test]
-#[ignore = "NH4Cl's sublimation temperature stood only on the withdrawn kerotakis/phase-transitions-v1 tranche and was dropped 2026-11-11 (docs/transition-point-coverage-20261111.md); restore with a primary value"]
 fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
     // The cold-finger half. Sealed, nothing crosses the boundary at all, so
     // the balance never moves — and the solid comes back when it cools.
@@ -171,7 +170,7 @@ fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
     heat(&mut bench, &mut stack, 1_600.0);
     let hot = vessel_of(&bench).temperature.0;
     assert!(
-        hot >= 611.15,
+        hot >= 610.95,
         "should be past the sublimation point; {hot} K"
     );
     assert!(
@@ -192,7 +191,7 @@ fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
     cool(&mut bench, &mut stack, 900.0);
     let cold = vessel_of(&bench).temperature.0;
     assert!(
-        cold < 611.15,
+        cold < 610.95,
         "should be back below the threshold; {cold} K"
     );
     assert!(
@@ -203,7 +202,6 @@ fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
 }
 
 #[test]
-#[ignore = "NH4Cl's sublimation temperature stood only on the withdrawn kerotakis/phase-transitions-v1 tranche and was dropped 2026-11-11 (docs/transition-point-coverage-20261111.md); restore with a primary value"]
 fn a_sealed_flask_of_subliming_solid_on_a_hot_plate_bursts() {
     // Not a curiosity: sublimation makes gas out of a solid, and a sealed
     // vessel has a limit. Ten times the sample in half the volume is a bomb,

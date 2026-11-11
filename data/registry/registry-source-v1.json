@@ -1695,7 +1695,7 @@
     },
     {
       "id": "literature/transition-points/Ag",
-      "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.",
+      "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2466 K (2193 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-1, printed page 677.",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
@@ -1704,7 +1704,7 @@
     },
     {
       "id": "literature/transition-points/Al",
-      "citation": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point 2793.0 K: R. E. Honig and D. A. Kramer, 'Vapor pressure data for the solid and liquid elements', RCA Review 30 (1969) 285-305 (no doi), as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7429905&Units=SI&Mask=4, retrieved 2026-11-11.",
+      "citation": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2600 K (2327 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 59-1, printed page 731. This 1949 value is about 190 K below modern vapour-pressure evaluations; it is used because it is the readable public-domain primary table.",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
@@ -1722,7 +1722,7 @@
     },
     {
       "id": "literature/transition-points/Cu",
-      "citation": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.",
+      "citation": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2855 K (2582 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 34-1, printed page 674.",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
@@ -1731,7 +1731,7 @@
     },
     {
       "id": "literature/transition-points/Fe",
-      "citation": "Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.",
+      "citation": "Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 3073 K (2800 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 47-1, printed page 694.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://stacks.cdc.gov/view/cdc/219421",
@@ -1749,7 +1749,7 @@
     },
     {
       "id": "literature/transition-points/Mg",
-      "citation": "Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point 1363.0 K: R. E. Honig and D. A. Kramer, 'Vapor pressure data for the solid and liquid elements', RCA Review 30 (1969) 285-305 (no doi), as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7439954&Units=SI&Mask=4, retrieved 2026-11-11.",
+      "citation": "Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 1393 K (1120 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 86-1, printed page 772.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://stacks.cdc.gov/view/cdc/219421",
@@ -1758,7 +1758,7 @@
     },
     {
       "id": "literature/transition-points/NaCl",
-      "citation": "Melting point 1073.8 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.",
+      "citation": "Melting point 1073.8 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 1738 K (1465 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-1, printed page 796.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://doi.org/10.6028/NBS.NSRDS.37",
@@ -1767,7 +1767,7 @@
     },
     {
       "id": "literature/transition-points/Pb",
-      "citation": "Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.",
+      "citation": "Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 2023 K (1750 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 27-1, printed page 653.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://stacks.cdc.gov/view/cdc/219421",
@@ -1776,7 +1776,7 @@
     },
     {
       "id": "literature/transition-points/Zn",
-      "citation": "Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.",
+      "citation": "Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 1180 K (907 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 31-1, printed page 667.",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1088/0026-1394/27/1/002",
@@ -1785,7 +1785,7 @@
     },
     {
       "id": "literature/transition-points/dry_ice",
-      "citation": "Sublimation temperature 194.686 K at 101.325 kPa: R. Span and W. Wagner, 'A new equation of state for carbon dioxide covering the fluid region from the triple-point temperature to 1100 K at pressures up to 800 MPa', J. Phys. Chem. Ref. Data 25 (1996) 1509-1596, doi:10.1063/1.555991. Value recalled from the paper's sublimation-curve tabulation, not re-read in this lane: PENDING REVIEW.",
+      "citation": "Sublimation temperature 194.686 K at 101.325 kPa: R. Span and W. Wagner, 'A new equation of state for carbon dioxide covering the fluid region from the triple-point temperature to 1100 K at pressures up to 800 MPa', J. Phys. Chem. Ref. Data 25 (1996) 1509-1596, doi:10.1063/1.555991, section 3 (sublimation pressure, their Eq. 3.12): 'the most recent value for the sublimation temperature at normal pressure (p0 = 0.101325 MPa) is T = 194.6857 K +/- 0.0030 K; iteration with Eq. (3.12) yields T = 194.6855 K' (the former after Bedford et al.). REVIEWED 2026-11-11 against the paper's text; 194.686 K is both values rounded to the millikelvin.",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1063/1.555991",
@@ -1794,7 +1794,7 @@
     },
     {
       "id": "literature/transition-points/ethanol",
-      "citation": "Melting point 159.00 K (crystal I to liquid): T. Haida, H. Suga and S. Seki, J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 351.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
+      "citation": "Melting point 159.00 K (crystal I to liquid): T. Haida, H. Suga and S. Seki, J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 351.7 K (78.5 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 23-16, printed page 600.",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1016/0021-9614(77)90115-X",
@@ -1911,11 +1911,11 @@
     },
     {
       "id": "literature/transition-points/H2O2",
-      "citation": "Melting point 272.26 K: A. C. Cuthbertson, G. L. Matheson and O. Maass, 'The freezing point and density of pure hydrogen peroxide', J. Am. Chem. Soc. 50 (1928) 1120, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7722841&Units=SI&Mask=4, retrieved 2026-11-11. Boiling point: the WebBook lists none and none is claimed.",
-      "licence": "CC0-1.0",
+      "citation": "Melting point 271.2 K (-2.0 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 2-1, printed page 539. Boiling point: the table gives vaporization only at 2.1 mm Hg and 298.16 K (H2O2 decomposes on heating), no normal boiling point, and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
-      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C7722841&Units=SI&Mask=4",
-      "revision": "J. Am. Chem. Soc. 50 (1928) 1120",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
       "retrieved": "2026-11-11"
     },
     {
@@ -1929,11 +1929,11 @@
     },
     {
       "id": "literature/transition-points/bromoethane",
-      "citation": "Melting point: Tfus 155.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it. Normal boiling point: Tboil 311.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.",
-      "licence": "LicenseRef-NIST-SRD",
+      "citation": "Melting point 155.0 K (-118.2 degrees Celsius) and normal boiling point 311.5 K (38.3 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 23-26, printed page 610.",
+      "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
-      "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4",
-      "revision": "NIST SRD 69 phase-change table",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
       "retrieved": "2026-11-11"
     },
     {
@@ -1943,6 +1943,186 @@
       "lane": "runtime",
       "origin": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C57501&Units=SI&Mask=4",
       "revision": "Monatsh. Chem. 81 (1950) 619",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/AgNO3",
+      "citation": "Melting point 483 K (210 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-3, printed page 679. Boiling point: AgNO3 decomposes; none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/AgCl",
+      "citation": "Melting point 728 K (455 degrees Celsius) and normal boiling point 1830 K (1557 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-1, printed page 677.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/NaOH",
+      "citation": "Melting point 593 K (320 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-1, printed page 796. Boiling point: the table gives none and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Na2CO3",
+      "citation": "Melting point 1127 K (854 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-4, printed page 799.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/CaCl2",
+      "citation": "Melting point 1055 K (782 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 87-1, printed page 778. Boiling point: the table gives only a sublimation at 0.018 mm Hg, no normal boiling point, and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/MgSO4",
+      "citation": "Melting point 1400 K (1127 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 86-1, printed page 772.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/CaO",
+      "citation": "Melting point 2873 K (2600 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 87-1, printed page 778.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/MgO",
+      "citation": "Melting point 3173 K (2800 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 86-1, printed page 772.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/KOH",
+      "citation": "Melting point 673 K (400 degrees Celsius; fusion of crystal I) and normal boiling point 1600 K (1327 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 93-1, printed page 803.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/NaNO3",
+      "citation": "Melting point 583 K (310 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-3, printed page 798.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/KNO3",
+      "citation": "Melting point 610 K (337 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 93-4, printed page 806.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/KI",
+      "citation": "Melting point 958 K (685 degrees Celsius) and normal boiling point 1597 K (1324 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 93-2, printed page 804.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/NaBr",
+      "citation": "Melting point 1023 K (750 degrees Celsius) and normal boiling point 1665 K (1392 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-2, printed page 797.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/FeCl3",
+      "citation": "Melting point 577 K (304 degrees Celsius; fusion of FeCl3 to liquid Fe2Cl6 at its own vapour pressure, 582 mm Hg, not at 1 atm; the table puts vaporization at 760 mm Hg at 592 K, so FeCl3 melts only under its own vapour and sublimes at 1 atm): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 47-2, printed page 695.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Na2SO4",
+      "citation": "Melting point 1163 K (890 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-3, printed page 798.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/BaCl2",
+      "citation": "Melting point 1235 K (962 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 89-1, printed page 787. Boiling point: the table gives vaporization only at 6.3 mm Hg, no normal boiling point, and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/BaSO4",
+      "citation": "Melting point 1623 K (1350 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 89-2, printed page 788. The withdrawn tranche had 1853.15 K; Circular 500's value is the one read and used.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/I2",
+      "citation": "Melting point 386.8 K (113.6 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 12-1, printed page 551. Boiling point: the table gives sublimation at 0.31 mm Hg and 298.16 K only, no normal boiling point, and none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/S",
+      "citation": "Melting point 392 K (119 degrees Celsius; fusion of monoclinic crystal I, the form rhombic sulfur becomes at 368.6 K) and normal boiling point 717.76 K (444.60 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 14-1, printed page 552.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
+      "revision": "NBS Circular 500 (1952)",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/NH4Cl",
+      "citation": "Dissociative sublimation NH4Cl(c) = NH3(g) + HCl(g) at 101.325 kPa: 610.95 K, i.e. 337.8 degrees Celsius, the temperature at which the dissociation pressure is 760.0 mm Hg in Table VI ('Dissociation pressures of NH4Cl at rounded temperatures') of A. Smith and R. H. Calvert, 'The dissociation pressures of ammonium- and tetramethylammonium halides and of phosphonium iodide and phosphorus pentachloride', J. Am. Chem. Soc. 36 (1914) 1363-1382, doi:10.1021/ja02184a003 (static isoteniscope measurement; their smoothed-curve fit passes through 338 C, 764.8 mm). Read 2026-11-11 from the public-domain (pre-1929) volume scan https://archive.org/details/dli.ernet.232695. Circular 500 Table 18-6 has no 1 atm value (only the 457.6 K transition and fusion at 793 K under 2.62e4 mm Hg).",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja02184a003",
+      "revision": "J. Am. Chem. Soc. 36 (1914) 1363, Table VI",
       "retrieved": "2026-11-11"
     },
     {
@@ -26026,7 +26206,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 351.5,
+        "value": 351.7,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -26187,6 +26367,43 @@
       }
     },
     {
+      "id": "boiling-point/NaCl",
+      "species_id": "NaCl",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1738.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NaCl",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/NaCl",
       "species_id": "NaCl",
       "phase": "solid",
@@ -26307,6 +26524,43 @@
       }
     },
     {
+      "id": "melting-point/AgNO3",
+      "species_id": "AgNO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 483.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "silver nitrate decomposes well below any boiling point; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/AgNO3",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/AgNO3",
       "species_id": "AgNO3",
       "phase": "solid",
@@ -26423,6 +26677,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/AgCl",
+      "species_id": "AgCl",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 728.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/AgCl",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/AgCl",
+      "species_id": "AgCl",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1830.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/AgCl",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -26552,7 +26880,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 272.26,
+        "value": 271.2,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -27030,6 +27358,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/S",
+      "species_id": "S",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 392.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/S",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/S",
+      "species_id": "S",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 717.76,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/S",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -28056,6 +28458,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/NaOH",
+      "species_id": "NaOH",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 593.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NaOH",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -29232,6 +29671,43 @@
       }
     },
     {
+      "id": "melting-point/Na2CO3",
+      "species_id": "Na2CO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1127.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "sodium carbonate decomposes above its melting point rather than boiling; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Na2CO3",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/Na2CO3",
       "species_id": "Na2CO3",
       "phase": "solid",
@@ -29881,6 +30357,43 @@
       }
     },
     {
+      "id": "melting-point/CaCl2",
+      "species_id": "CaCl2",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1055.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/CaCl2",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/CaCl2",
       "species_id": "CaCl2",
       "phase": "solid",
@@ -30087,6 +30600,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/MgSO4",
+      "species_id": "MgSO4",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1400.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "magnesium sulfate melts with decomposition; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/MgSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -30721,6 +31271,43 @@
       }
     },
     {
+      "id": "melting-point/CaO",
+      "species_id": "CaO",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 2873.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/CaO",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Mg",
       "species_id": "Mg",
       "phase": "solid",
@@ -30853,7 +31440,7 @@
       "phase": "solid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 1363.0,
+        "value": 1393.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31053,6 +31640,43 @@
       }
     },
     {
+      "id": "boiling-point/Cu",
+      "species_id": "Cu",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2855.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Cu",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "electrical-resistivity/Cu",
       "species_id": "Cu",
       "phase": "solid",
@@ -31190,6 +31814,43 @@
       "property": "melting_temperature",
       "quantity": {
         "value": 692.677,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Zn",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Zn",
+      "species_id": "Zn",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1180.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31389,6 +32050,43 @@
       }
     },
     {
+      "id": "boiling-point/Ag",
+      "species_id": "Ag",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2466.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Ag",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "electrical-resistivity/Ag",
       "species_id": "Ag",
       "phase": "solid",
@@ -31557,6 +32255,43 @@
       }
     },
     {
+      "id": "boiling-point/Fe",
+      "species_id": "Fe",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 3073.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Fe",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "electrical-resistivity/Fe",
       "species_id": "Fe",
       "phase": "solid",
@@ -31684,6 +32419,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/MgO",
+      "species_id": "MgO",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 3173.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/MgO",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -33711,6 +34483,43 @@
       }
     },
     {
+      "id": "boiling-point/Pb",
+      "species_id": "Pb",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2023.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Pb",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Pb+2",
       "species_id": "Pb+2",
       "phase": "aqueous",
@@ -34675,6 +35484,80 @@
       }
     },
     {
+      "id": "melting-point/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 673.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1600.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/KOH",
       "species_id": "KOH",
       "phase": "solid",
@@ -34887,6 +35770,43 @@
       }
     },
     {
+      "id": "melting-point/NaNO3",
+      "species_id": "NaNO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 583.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "sodium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NaNO3",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/KNO3",
       "species_id": "KNO3",
       "phase": "solid",
@@ -34973,6 +35893,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 610.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "potassium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed CRC 97th places the decomposition near 400 degC ('dec' in the boiling column): it melts first, then comes apart."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KNO3",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35155,6 +36112,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/I2",
+      "species_id": "I2",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 386.8,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/I2",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -35701,6 +36695,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/KI",
+      "species_id": "KI",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 958.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KI",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/KI",
+      "species_id": "KI",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1597.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KI",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -37019,7 +38087,7 @@
       "phase": "solid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 2793.0,
+        "value": 2600.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -37718,6 +38786,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1023.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NaBr",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1665.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NaBr",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39022,6 +40164,45 @@
       }
     },
     {
+      "id": "sublimation-point/NH4Cl",
+      "species_id": "NH4Cl",
+      "phase": "solid",
+      "property": {
+        "other": "sublimation_temperature"
+      },
+      "quantity": {
+        "value": 610.95,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "ammonium chloride vapour is really ammonia and hydrogen chloride, recombining on the cold surface; the bench moves the intact formula unit, which is what the recovered crust weighs but is not what the vapour contains"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NH4Cl",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/NH4Cl",
       "species_id": "NH4Cl",
       "phase": "solid",
@@ -39232,6 +40413,43 @@
       }
     },
     {
+      "id": "melting-point/FeCl3",
+      "species_id": "FeCl3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 577.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "iron(III) chloride boils barely a dozen degrees above its melting point and is partly dimerised and partly dissociated in the vapour; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/FeCl3",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Na2SO4",
       "species_id": "Na2SO4",
       "phase": "solid",
@@ -39318,6 +40536,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/Na2SO4",
+      "species_id": "Na2SO4",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1163.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Na2SO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39438,6 +40693,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/BaCl2",
+      "species_id": "BaCl2",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1235.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/BaCl2",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39708,6 +41000,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/BaSO4",
+      "species_id": "BaSO4",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1623.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/BaSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },

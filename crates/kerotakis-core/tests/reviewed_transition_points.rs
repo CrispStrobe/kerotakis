@@ -189,3 +189,92 @@ fn the_warning_is_rendered_in_german_and_french() {
     assert!(de.contains("Schmelzpunkt"), "{de}");
     assert!(fr.contains("point de fusion"), "{fr}");
 }
+
+// ── Restored 2026-11-11 (transition-data-restore lane) ─────────────────
+//
+// Values dropped with the withdrawn tranche and restored from a primary
+// table read off its page image: NBS Circular 500 (1952), Series II
+// (public domain), or Smith and Calvert, J. Am. Chem. Soc. 36 (1914) 1363,
+// doi:10.1021/ja02184a003, for NH4Cl. Decompositions with no thermal-
+// analysis source stay absent.
+
+fn transitions(key: &str) -> species::PhaseTransitions {
+    species::lookup(&SpeciesId::new(key))
+        .and_then(|d| d.transitions)
+        .unwrap_or_else(|| panic!("{key} has no transitions"))
+}
+
+#[test]
+fn restored_circular_500_points_carry_their_table_values() {
+    // (species, melting K, boiling K) exactly as printed in the K column.
+    let rows: [(&str, Option<f64>, Option<f64>); 25] = [
+        ("NaCl", Some(1073.8), Some(1738.0)),
+        ("AgNO3", Some(483.0), None),
+        ("AgCl", Some(728.0), Some(1830.0)),
+        ("NaOH", Some(593.0), None),
+        ("Na2CO3", Some(1127.0), None),
+        ("CaCl2", Some(1055.0), None),
+        ("MgSO4", Some(1400.0), None),
+        ("CaO", Some(2873.0), None),
+        ("MgO", Some(3173.0), None),
+        ("KOH", Some(673.0), Some(1600.0)),
+        ("NaNO3", Some(583.0), None),
+        ("KNO3", Some(610.0), None),
+        ("KI", Some(958.0), Some(1597.0)),
+        ("NaBr", Some(1023.0), Some(1665.0)),
+        ("FeCl3", Some(577.0), None),
+        ("Na2SO4", Some(1163.0), None),
+        ("BaCl2", Some(1235.0), None),
+        ("BaSO4", Some(1623.0), None),
+        ("I2", Some(386.8), None),
+        ("S", Some(392.0), Some(717.76)),
+        ("Ag", Some(1234.93), Some(2466.0)),
+        ("Cu", Some(1357.77), Some(2855.0)),
+        ("Fe", Some(1811.0), Some(3073.0)),
+        ("Pb", Some(600.65), Some(2023.0)),
+        ("Zn", Some(692.677), Some(1180.0)),
+    ];
+    for (key, melting, boiling) in rows {
+        let t = transitions(key);
+        assert_eq!(t.melting_k, melting, "{key} melting");
+        assert_eq!(t.boiling_k, boiling, "{key} boiling");
+        assert!(
+            t.source.contains("Circular 500"),
+            "{key} must name the table it was read from: {}",
+            t.source
+        );
+    }
+}
+
+#[test]
+fn ammonium_chloride_sublimes_at_the_measured_one_atmosphere_point() {
+    let t = transitions("NH4Cl");
+    assert_eq!(t.sublimation_k, Some(610.95));
+    assert!(t.melting_k.is_none() && t.boiling_k.is_none());
+    assert!(t.source.contains("doi:10.1021/ja02184a003"), "{}", t.source);
+}
+
+#[test]
+fn dry_ice_is_reviewed_against_span_and_wagner() {
+    let t = transitions("dry_ice");
+    assert_eq!(t.sublimation_k, Some(194.686));
+    assert!(t.source.contains("doi:10.1063/1.555991"));
+    assert!(!t.source.contains("PENDING"), "{}", t.source);
+}
+
+#[test]
+fn unsourced_decompositions_and_boils_stay_absent() {
+    // Negative: no value is invented where no primary was read.
+    for key in ["CuSO4", "KMnO4", "FeSO4", "ZnSO4", "Pb(NO3)2"] {
+        let dec = species::lookup(&SpeciesId::new(key))
+            .and_then(|d| d.transitions)
+            .and_then(|t| t.decomposition_k);
+        assert!(dec.is_none(), "{key} decomposition must stay no_data");
+    }
+    for key in ["H2O2", "NaOH", "CaCl2", "I2", "BaCl2"] {
+        assert!(
+            transitions(key).boiling_k.is_none(),
+            "{key} boiling must stay no_data"
+        );
+    }
+}
