@@ -308,6 +308,14 @@ pub fn settle_range_melts(vessel: &mut Vessel) -> Vec<Event> {
     let mut events = Vec::new();
     for m in &melters {
         let target = m.total * melted_fraction(m.row, t1);
+        // The moved fraction changed phase INSIDE the material's range, not
+        // at wherever the vessel ended up: wax cooled from 48 °C to 20 °C
+        // finished freezing at the bottom of its range, not at 20 °C
+        // (th-004). The event reports the vessel temperature clamped into
+        // the range, which is the last temperature at which this linear
+        // model moves any of it.
+        let at =
+            crate::units::Kelvin(t1.clamp(m.row.lower_k.unwrap_or(m.row.upper_k), m.row.upper_k));
         let delta = target - m.liquid0;
         let id = SpeciesId::new(&m.key);
         if delta > TRACE {
@@ -319,7 +327,7 @@ pub fn settle_range_melts(vessel: &mut Vessel) -> Vec<Event> {
                 id,
                 Phase::Solid,
                 Phase::Liquid,
-                crate::units::Kelvin(t1),
+                at,
                 0.0,
                 crate::units::Moles(n),
             ));
@@ -332,7 +340,7 @@ pub fn settle_range_melts(vessel: &mut Vessel) -> Vec<Event> {
                 id,
                 Phase::Liquid,
                 Phase::Solid,
-                crate::units::Kelvin(t1),
+                at,
                 0.0,
                 crate::units::Moles(n),
             ));

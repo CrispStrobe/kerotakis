@@ -1,0 +1,42 @@
+{
+  "generated_by": "tools/phase_density_coverage.py",
+  "pairs": [
+    {
+      "species": "paraffin",
+      "solid_g_per_ml": 0.88,
+      "solid_at_c": 15.0,
+      "liquid_g_per_ml": 0.77,
+      "liquid_at_c": 80.0,
+      "source": "A. Gasia, L. Miró, A. de Gracia, C. Barreneche and L. F. Cabeza, Appl. Sci. 6 (2016) 112, doi:10.3390/app6040112, Table 1 (paraffin RT58): density solid 0.88 kg/L at 15 °C, liquid 0.77 kg/L at 80 °C",
+      "solid_sinks_in_melt": true
+    }
+  ],
+  "range_materials": [
+    {
+      "species": "paraffin",
+      "pair": true
+    },
+    {
+      "species": "PE",
+      "pair": false
+    },
+    {
+      "species": "PP",
+      "pair": false
+    }
+  ],
+  "wiring": {
+    "floats_in reads the solid-phase density": true,
+    "liquid density applies the pair's melt density": true,
+    "range transition event clamped into the range": true
+  },
+  "tests": [
+    "paraffin_pair_is_sourced_and_denser_as_a_solid",
+    "molten_paraffin_has_its_sourced_liquid_density",
+    "solid_paraffin_sinks_in_its_own_melt",
+    "solid_paraffin_still_floats_on_water",
+    "a_species_without_a_pair_keeps_its_registry_density",
+    "th004_freezing_on_cooling_is_reported_inside_the_declared_range",
+    "melting_inside_the_range_is_reported_at_the_vessel_temperature"
+  ]
+}

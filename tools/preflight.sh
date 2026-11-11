@@ -130,6 +130,7 @@ step "flame emission coverage"; python3 tools/flame_emission_coverage.py --check
 step "redox respeciation coverage"; python3 tools/redox_respeciation_coverage.py --check
 step "melting-range latent heat coverage"; python3 tools/melting_range_latent_heat_coverage.py --check
 step "thermometer latent-heat qualifier coverage"; python3 tools/thermometer_latent_qualifier_coverage.py --check
+step "solid-vs-melt density coverage"; python3 tools/phase_density_coverage.py --check
 step "free-solute partition coverage"; python3 tools/free_solute_partition_coverage.py --check
 step "starch amylase coverage"; python3 tools/starch_amylase_coverage.py --check
 step "transport ledger coverage"; python3 tools/transport_ledger_coverage.py --check
