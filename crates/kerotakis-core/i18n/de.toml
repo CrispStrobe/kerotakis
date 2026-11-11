@@ -2129,6 +2129,7 @@ numerical-range = "der Aktivitätskoeffizient für Komponente {component} lässt
 "thiosulfate-acid" = "Ansäuerung von Thiosulfat"
 "peroxide-decomposition" = "Peroxidzersetzung"
 "iodide-peroxide-clock" = "Iodid-Peroxid-Uhrreaktion"
+"iodide-peroxide-clock-direct" = "Iodid-Peroxid-Uhrreaktion (säureunabhängiger Term)"
 "iodate-bisulfite-clock" = "Iodat-Bisulfit-Uhrreaktion"
 "iron-corrosion" = "Eisenkorrosion"
 "zinc-corrosion" = "Zinkkorrosion"

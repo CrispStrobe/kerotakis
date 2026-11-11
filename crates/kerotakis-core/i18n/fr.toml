@@ -1867,6 +1867,7 @@ numerical-range = "le coefficient d’activité du composant {component} ne peut
 "thiosulfate-acid" = "Acidification du thiosulfate"
 "peroxide-decomposition" = "Décomposition du peroxyde"
 "iodide-peroxide-clock" = "Réaction horloge iodure-peroxyde"
+"iodide-peroxide-clock-direct" = "Réaction horloge iodure-peroxyde (terme indépendant de l’acide)"
 "iodate-bisulfite-clock" = "Réaction horloge iodate-bisulfite"
 "iron-corrosion" = "Corrosion du fer"
 "zinc-corrosion" = "Corrosion du zinc"
