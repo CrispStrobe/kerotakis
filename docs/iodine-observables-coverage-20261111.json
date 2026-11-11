@@ -1,0 +1,1017 @@
+{
+  "schema": "kerotakis/iodine-observables-coverage-v1",
+  "solvent": "hexane",
+  "counts": {
+    "ion-stays-aqueous": 40,
+    "neutral-refused": 147,
+    "partitions": 9
+  },
+  "cases": [
+    {
+      "id": "new120:sp-011",
+      "observable": "hexane extraction of a thiosulfate-reduced iodine feed",
+      "status": "fixed",
+      "mechanism": "ion-only feeds are extracted: hexane dispensed, ions kept aqueous and named (not-modeled.extraction-ions-stay-aqueous, EN/DE/FR); residual I2, if any, partitions with the existing reviewed K = 85 row",
+      "tests": [
+        "separation_receivers::ions_alone_are_extracted_as_nothing_and_kept_in_the_water",
+        "separation_receivers::ions_beside_an_unparameterised_neutral_still_refuse_and_dispense_nothing"
+      ]
+    },
+    {
+      "id": "batch2:ki-011",
+      "observable": "iodine-clock delay vs thiosulfate sink within 100 s; UV-vis with colloidal sulfur",
+      "status": "refusal-kept; kinetics data gap recorded",
+      "mechanism": "UV-vis refusal for sulfur (not-modeled.unreviewed-molar-absorptivity) is kept: colloidal sulfur scatters and no reviewed extinction exists. The clock row `iodide-peroxide-clock` uses an editorial pre-exponential (single [H+]-first-order term); the primary two-term law of Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010 could not be read to transcribe its constants, so no number was changed. The iodide-catalysed `peroxide-decomposition` catalyst row shares the H2O2 + I- rate-determining step and is not suppressed in acid; it removes about half the peroxide in 100 s here and slows the clock. Both need the primary constants.",
+      "tests": []
+    },
+    {
+      "id": "batch3-diverse:en-001",
+      "observable": "starch-triiodide absorbance; amylase digestion over the wait",
+      "status": "refusal-kept; enzyme-rate data gap recorded",
+      "mechanism": "not-modeled.starch-iodine-absorptivity kept: no primary molar absorptivity for the amylose-triiodide complex could be sourced and verified. Amylase hydrolysis is a curated instantaneous reaction; a Michaelis-Menten route needs a cited kcat/Km for the enzyme preparation, not available, so it is recorded rather than tuned.",
+      "tests": []
+    }
+  ],
+  "species": [
+    {
+      "species": "Ag+",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Ba+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Br-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "C6H5O7-3",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "CH3COO-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "CO3-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Ca+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Cl-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "ClO-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Cu+1",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Cu+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Fe+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Fe+3",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "H+",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "H2BO3-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "H2PO4-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "HCO3-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "HPO4-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "HSO3-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "I-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "K+",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Mg+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Mn+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Mn+3",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "MnO4-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "MnO4-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "NH4+",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "NO2-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "NO3-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Na+",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "OH-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "PO4-3",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Pb+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "S2O3-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "S4O6-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "SCN-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "SO3-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "SO4-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Sr+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Zn+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Ag",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Ag2CO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Ag3PO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "AgBr",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "AgCl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "AgI",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "AgNO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Al",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Ba(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "BaCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "BaCl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "BaSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "C",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CO2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CO2(aq)",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Ca(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Ca3(PO4)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CaCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CaCl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CaO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Cl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Cu",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Cu(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CuO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CuSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Fe",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Fe(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Fe(OH)3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Fe2O3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "FeCl3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "FeSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "H2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "H2C2O4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "H2O2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "H2SO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "H3BO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "H3PO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "HBr",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "HCl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "HClO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "HI",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KCl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KI",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KIO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KMnO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KNO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KOH",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KSCN",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Mg",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Mg(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "MgO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "MgSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "MnO2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "N2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NH2Cl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NH3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NH4Cl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NH4NO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na2B4O7",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na2CO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na2S2O3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na2SO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na2SO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaBr",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaCl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaHCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaHSO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaHSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaNO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaOAc",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaOCl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaOH",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "O2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PE",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PET",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PP",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PS",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PVA",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Pb",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Pb(NO3)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PbCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PbI2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PbSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "S",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "SO2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "SiO2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Zn",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Zn(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "ZnSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "activated_charcoal",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "amylase",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "anthocyanin",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "antlerite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "ascorbic_acid",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "atacamite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "betanin",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "betanin_ox",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "brochantite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "bromoethane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "bromothymol_blue",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "butane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "catalase",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "cellulose",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "chalcanthite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "chlorophyll",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "citric_acid",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "curcumin",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "curcumin_ox",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "dehydroascorbic_acid",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "diamond",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "dodecane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "dry_ice",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "epsomite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "ethene",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "fructose",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "glucose",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "graphite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "gypsum",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "hair_pigment",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "hair_pigment_ox",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "helium",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "hexadecane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "hexane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "hydrogen_sulfide",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "hydroxylapatite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "indigo_carmine",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "indigo_carmine_ox",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "isobutylene",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "lactate",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "lactic_acid",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "langite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "liquid_nitrogen",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "malic_acid",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "maltose",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "methane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "methyl_orange",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "nylon",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "octacalcium_phosphate",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "paraffin",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "phenolphthalein",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "propane",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "starch",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "sucrose",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "tert_butyl_bromide",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "uranium",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "water",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CH3COOH",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "I2",
+      "class": "partitions",
+      "basis": "empirical"
+    },
+    {
+      "species": "ethanol",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "ethyl_acetate",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "isopropanol",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "methanol",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "naphthalene",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "propanone",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    },
+    {
+      "species": "tert_butanol",
+      "class": "partitions",
+      "basis": "unifac-group-model"
+    }
+  ]
+}

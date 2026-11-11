@@ -1540,6 +1540,7 @@ loading-exceeds-capacity = "la charge en {solute} dépasse la capacité eau/{sol
 no-distribution-coefficient = "aucun coefficient de partage {solvent}/eau vérifié pour {solutes} ; aucun solvant n’a été versé et le récipient récepteur est inchangé"
 any-solute-here = "le moindre soluté dans ce récipient"
 extraction-without-coefficient = "l'extraction a déplacé les solutés pris en charge, mais il n'existe aucun coefficient de partage {solvent}/eau vérifié pour {solutes}"
+extraction-ions-stay-aqueous = "{solutes} sont des ions et restent dans l’eau : un ion seul ne peut passer dans {solvent} sans contre-ion et aucun partage de paires d’ions n’est modélisé ; le {solvent} a été versé et rien n’a été transféré"
 no-reviewed-density = "la masse volumique de {species} — le registre n'en porte aucune valeur vérifiée, le morceau a donc ici une masse et pas de taille"
 no-reviewed-bulk-density = "la masse volumique de {material} — la recette ne porte aucune masse volumique apparente vérifiée"
 density-of-a-mixture = "une masse volumique unique pour ce récipient : il contient {contents}, et une masse volumique appartient à une substance, pas à un mélange. Pèse-les séparément"

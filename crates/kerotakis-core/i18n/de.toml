@@ -1748,6 +1748,7 @@ loading-exceeds-capacity = "die Beladung mit {solute} übersteigt die geprüfte 
 no-distribution-coefficient = "kein geprüfter Verteilungskoeffizient {solvent}/Wasser für {solutes}; es wurde kein Lösungsmittel zugegeben und die Vorlage ist unverändert"
 any-solute-here = "irgendeinen gelösten Stoff in diesem Gefäß"
 extraction-without-coefficient = "die Extraktion hat die unterstützten gelösten Stoffe bewegt, aber es gibt keinen geprüften Verteilungskoeffizienten {solvent}/Wasser für {solutes}"
+extraction-ions-stay-aqueous = "{solutes} sind Ionen und bleiben im Wasser: ein einzelnes Ion kann ohne Gegenion nicht in {solvent} übergehen und eine Ionenpaar-Verteilung wird nicht modelliert; das {solvent} wurde zugegeben, übergegangen ist nichts"
 no-reviewed-density = "die Dichte von {species} — das Verzeichnis führt keine geprüfte Dichte dafür, das Stück hat hier also eine Masse und keine Größe"
 no-reviewed-bulk-density = "die Dichte von {material} — das Rezept führt keine geprüfte Schüttdichte"
 density-of-a-mixture = "eine einzelne Dichte für dieses Gefäß: es enthält {contents}, und eine Dichte gehört zu einem Stoff und nicht zu einem Gemisch daraus. Wiege sie einzeln"

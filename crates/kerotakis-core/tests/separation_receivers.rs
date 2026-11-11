@@ -199,19 +199,65 @@ fn an_unparameterised_neutral_solute_refuses_naming_it_and_dispenses_nothing() {
 }
 
 #[test]
-fn ions_alone_refuse_naming_each_and_dispense_no_solvent() {
-    // SP-011 reduced arm shape: only ions remain after reduction.
-    let mut b = setup(&["add v1 water 100mL", "add v1 KI 0.001mol", "new"]);
+fn ions_alone_are_extracted_as_nothing_and_kept_in_the_water() {
+    // SP-011 reduced arm (2026-11-11): after thiosulfate reduces the iodine
+    // only ions remain. The extraction proceeds: hexane is dispensed into the
+    // receiver, every ion stays in the water and is named, nothing moves.
+    let mut b = setup(&["add v1 water 100mL", "new"]);
+    for (key, n) in [
+        ("I-", 0.0012),
+        ("K+", 0.001),
+        ("Na+", 0.0004),
+        ("S4O6-2", 0.0001),
+    ] {
+        b.vessels[0].deposit(SpeciesId::new(key), Moles(n), Phase::Aqueous);
+    }
+    let events = step(&mut b, "extract v1 v2 hexane 0.1mol stages 1");
+    let solutes = events
+        .iter()
+        .find_map(|e| match e {
+            Event::Extracted { solutes, .. } => Some(solutes),
+            _ => None,
+        })
+        .expect("an ion-only feed is still extracted");
+    assert!(solutes.is_empty(), "no ion partitions: {solutes:?}");
+    let reason = refusal(&events, "not-modeled.extraction-ions-stay-aqueous");
+    let text = reason.render(i18n::Locale::EN);
+    for ion in ["I-", "K+", "Na+", "S4O6-2"] {
+        assert!(text.contains(ion), "{ion} not named: {text}");
+    }
+    assert_localised(reason);
+    assert!(!events.iter().any(|e| matches!(
+        e,
+        Event::NotYetModeled { reason: Some(p), .. } if p.key == "not-modeled.no-distribution-coefficient"
+    )));
+    let receiver = b.vessel(VesselId(1)).unwrap();
+    assert!((receiver.moles_of(&SpeciesId::new("hexane")).0 - 0.1).abs() < 1e-12);
+    for (key, n) in [
+        ("I-", 0.0012),
+        ("K+", 0.001),
+        ("Na+", 0.0004),
+        ("S4O6-2", 0.0001),
+    ] {
+        let id = SpeciesId::new(key);
+        assert_eq!(receiver.moles_of(&id).0, 0.0, "{key} crossed into hexane");
+        assert!((b.vessel(VesselId(0)).unwrap().moles_of(&id).0 - n).abs() < 1e-15);
+    }
+}
+
+#[test]
+fn ions_beside_an_unparameterised_neutral_still_refuse_and_dispense_nothing() {
+    // Negative control: the ion allowance never covers a neutral solute
+    // that has no coefficient.
+    let mut b = setup(&["add v1 water 100mL", "new"]);
+    for (key, n) in [("K+", 0.001), ("I-", 0.001), ("glucose", 1e-4)] {
+        b.vessels[0].deposit(SpeciesId::new(key), Moles(n), Phase::Aqueous);
+    }
     let before = serde_json::to_value(&b.vessels).unwrap();
     let events = step(&mut b, "extract v1 v2 hexane 0.1mol stages 1");
     assert_moves_or_refuses(&before, &b, &events);
     let text = refusal(&events, "not-modeled.no-distribution-coefficient").render(i18n::Locale::EN);
-    // The core bench has no aqueous solver, so the salt may still be named as
-    // the undissolved KI rather than as its ions; either names what is missing.
-    assert!(
-        text.contains("KI") || (text.contains("I-") && text.contains("K+")),
-        "{text}"
-    );
+    assert!(text.contains("glucose"), "{text}");
     assert_eq!(total(&b, "hexane"), 0.0);
 }
 

@@ -4232,7 +4232,22 @@ impl Bench {
                         provenance: prediction.provenance,
                     });
                 }
-                if splits.is_empty() {
+                // A feed whose only unsupported solutes are dissolved ions
+                // (SP-011's thiosulfate-reduced iodine: I-, K+, Na+,
+                // S4O6-2) is still extracted. A single ion cannot enter a
+                // non-aqueous layer without a counter-ion, and no ion-pair
+                // partition is modelled, so every ion is kept in the water
+                // and named; the solvent is dispensed and the receiver holds
+                // what partitioned, possibly nothing. This is a stated model
+                // boundary, not a measured zero coefficient. Any neutral
+                // solute without a coefficient still refuses atomically.
+                let ions_only = splits.is_empty()
+                    && events.is_empty()
+                    && !outside.is_empty()
+                    && outside
+                        .iter()
+                        .all(|species| crate::conductivity::ion_charge(&species.0) != 0);
+                if splits.is_empty() && !ions_only {
                     if events.is_empty() || !outside.is_empty() {
                         // Named rather than inlined: which of the two it is depends
                         // on the vessel, and only one of them is a sentence.
@@ -4263,7 +4278,23 @@ impl Bench {
                     *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
-                if !outside.is_empty() {
+                if ions_only {
+                    events.push(Event::not_modeled(
+                        *from,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        Phrase::new(
+                            "not-modeled.extraction-ions-stay-aqueous",
+                            "{solutes} are ions and stay in the water: a single ion cannot enter {solvent} without a counter-ion and no ion-pair partition is modelled, so the {solvent} was dispensed and nothing transferred",
+                            vec![
+                                ("solvent".to_string(), Slot::text(solvent.0.clone())),
+                                (
+                                    "solutes".to_string(),
+                                    Slot::texts(outside.iter().map(|species| species.0.as_str())),
+                                ),
+                            ],
+                        ),
+                    ));
+                } else if !outside.is_empty() {
                     events.push(Event::not_modeled(
                                     *from,
                                     crate::ops::NotModelledCause::NotParameterised,
