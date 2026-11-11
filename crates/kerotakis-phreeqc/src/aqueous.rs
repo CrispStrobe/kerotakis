@@ -3647,14 +3647,10 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             // diffusive exchange with room air: only gas above the bubble
             // threshold (SI = log10 of total pressure in atm) leaves.
             // See `Vessel::zero_time_dose`.
-            //
-            // Lane E (2026-11-11): EVERY open solve now prices fizz only.
-            // Sub-threshold escape (seeping) is a rate owned by the
-            // gas-exchange clock through `kerotakis_core::gas_escape`, so
-            // an `add` with no elapsed time no longer vents dissolved CO2
-            // to room air (AB-035/GS-013 lost carbon before sealing), and
-            // a `wait` moves it at the two-film rate.
-            Headspace::Open => Some(effervescence_log_partial_pressure(vessel)),
+            Headspace::Open if vessel.zero_time_dose => {
+                Some(effervescence_log_partial_pressure(vessel))
+            }
+            Headspace::Open => None,
             Headspace::Swept { .. } => Some(SWEPT_LOG_PARTIAL_PRESSURE),
             _ => unreachable!("finite gas boundaries handled above"),
         };
@@ -11040,9 +11036,7 @@ fn reservoir_opaque_component_owner(
                                 candidate.as_str() == *phase
                                     && *initial == 0.0
                                     && actual_target.is_finite()
-                                    && (*actual_target == *target
-                                        || *actual_target
-                                            == effervescence_log_partial_pressure(vessel))
+                                    && *actual_target == *target
                             })
                 })
         })

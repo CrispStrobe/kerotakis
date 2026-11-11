@@ -142,10 +142,9 @@ fn warder_endpoints_follow_composition() {
 }
 
 #[test]
-fn ordinary_open_solve_vents_only_above_the_bubble_threshold() {
-    // Lane E (2026-11-11): an ordinary solve of an open beaker no longer
-    // relaxes it to room air; it releases only gas above the vessel's
-    // total pressure. Sub-threshold escape is the gas-exchange clock's.
+fn zero_time_dose_does_not_change_ordinary_open_beaker_venting() {
+    // Scope control: once the titration is over, an ordinary solve of the
+    // CO2-supersaturated beaker still relaxes it toward room air.
     let mut solver = PhreeqcEquilibrator::new().unwrap();
     let mut bench = sample(&mut solver, &[("Na2CO3", 0.5)]);
     let (_, _, _) = titrate_to(&mut bench, &mut solver, 4.5);
@@ -155,12 +154,16 @@ fn ordinary_open_solve_vents_only_above_the_bubble_threshold() {
         "flag must not persist past the titration"
     );
     v.solution = None;
-    let _ = solver.equilibrate(v).unwrap();
-    let total_atm = v.pressure.0 / 101_325.0;
-    if let Some(p) = v.co2_partial_pressure_atm {
-        assert!(
-            p <= total_atm * (1.0 + 1e-6),
-            "an open solve must not leave CO2 above the bubble threshold: {p} atm"
-        );
-    }
+    let events = solver.equilibrate(v).unwrap();
+    let vented: f64 = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    assert!(
+        vented > 0.0,
+        "ordinary open-beaker solve stopped venting: {events:?}"
+    );
 }
