@@ -940,3 +940,18 @@ fn baking_soda_keeps_its_carbon_until_acid_or_time_takes_it() {
         "a standing bicarbonate solution loses CO2 to the room over time"
     );
 }
+
+/// SP-011 verbatim: thiosulfate reduces the iodine, so the hexane that
+/// shakes the reduced arm receives none, while the control's hexane holds
+/// I2 as a non-aqueous solution.
+#[test]
+fn sp011_reduced_receiver_is_empty() {
+    let steps = run(
+        "add v1 water 100mL\nadd v1 KI 0.001mol\nadd v1 I2 0.0001mol\n\
+         add v1 Na2S2O3 0.0002mol\nnew\nadd v2 water 100mL\nadd v2 KI 0.001mol\n\
+         add v2 I2 0.0001mol\nwait 1s\nnew\nnew\n\
+         extract v1 v3 hexane 0.1mol stages 1\nextract v2 v4 hexane 0.1mol stages 1\n",
+    );
+    assert_eq!(moles_of(&vessel(&steps, 2), "I2"), 0.0);
+    assert!(moles_of(&vessel(&steps, 3), "I2") > 1e-5);
+}

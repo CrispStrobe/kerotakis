@@ -286,7 +286,7 @@ fn sub_observable_kinetic_extent_is_still_a_reacted_event() {
     let mut v = water();
     v.deposit(SpeciesId::new("H2O2"), Moles(0.002 - 1.6e-7), Phase::Liquid);
     v.deposit(SpeciesId::new("O2"), Moles(8e-8), Phase::Gas);
-    assert!(8e-8 < OBSERVABLE_MOLES);
+    const { assert!(8e-8 < OBSERVABLE_MOLES) };
     assert!(clock::ledger_visible_extent(&v, decomposition, 8e-8));
 }
 

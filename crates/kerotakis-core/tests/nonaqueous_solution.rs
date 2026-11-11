@@ -143,10 +143,11 @@ fn sp011_receivers_report_oxidised_iodine_in_hexane() {
             .step(script::parse_op(line).unwrap().expect("operator"))
             .unwrap();
     }
-    let reduced = iodine::iodine_inventory(bench.vessel(VesselId(2)).unwrap());
+    // The reduced arm's empty receiver needs the native thiosulfate
+    // reaction, so it is asserted end to end in the CLI test
+    // `sp011_reduced_receiver_is_empty` (perturbation.rs).
     let control_vessel = bench.vessel(VesselId(3)).unwrap();
     let control = iodine::iodine_inventory(control_vessel);
-    assert_eq!(reduced.oxidised_iodine_mol, 0.0, "{reduced:?}");
     assert!(control.oxidised_iodine_mol > 0.0, "{control:?}");
     assert_eq!(control.oxidised_iodine_mol, control.nonaqueous_i2_mol);
     assert_eq!(control.nonaqueous_solvent.as_deref(), Some("hexane"));

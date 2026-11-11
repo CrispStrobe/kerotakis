@@ -1643,8 +1643,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-024"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-025"
@@ -2619,14 +2619,14 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-061"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-062"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-063"

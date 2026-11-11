@@ -132,6 +132,12 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+Refreshed 2026-11-11 (three rows), after the polymer latent-heat and
+transition-point lanes: `mat-024` (`missing` -> `curated`) and `th-061`,
+`th-062` (`computed` -> `curated`). The polyethylene melting and the
+reviewed transition points now answer these prompts from curated, cited
+rows (ΔHf = Xc·ΔHf(100 %)) rather than from no data or a generic route.
+
 
 ## Correction 2026-09-07 — lactate had been speciated all along
 
