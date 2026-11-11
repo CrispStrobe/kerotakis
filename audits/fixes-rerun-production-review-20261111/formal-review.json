@@ -1,0 +1,609 @@
+{
+ "production_sha": "d930a986cef0db74e3b6ff58aac970cae8dbc46c",
+ "raw_dir": "<private>",
+ "brief": "FORMAL-BRIEF.md",
+ "reviewed": "2026-11-11",
+ "formal": [
+  {
+   "id": "batch2:ec-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "EC-008-C1",
+     "text": "Link iodine production to Fe(III) reduction rather than merely to iron colour.",
+     "verdict": "FAIL",
+     "evidence": "Ledger (step 3, v0): reaction_occurred 2Fe3+ + 2I- -> 2Fe2+ + I2; Fe2+ 3.94221e-4, Fe3+ 5.7785e-6, I2(ox) 1.97111e-4, I- 6.05779e-4; dFe(II)=3.9422e-4 = 2 x dI2 (exact). Ideal check with the engine's own I2(aq)/I- couple (E0 0.621 vs 0.771 V, logK~5.07): Q=1.05e5 -> ledger is at equilibrium. BUT the same step's reported PHREEQC solution (pe 11.40, redox block, species list) splits Fe as Fe(II) 0.0028932 mol/kg x 0.0997 kg = 2.885e-4 mol and Fe(III) 1.1155e-4 mol (FeSO4+ 8.69e-4 m, Fe+3 1.06e-4 m, ...), contains no I2/I3-, i.e. 28% of iron still ferric vs 1.4% in the ledger; electron books in that view: Fe(II) 2.885e-4 vs 2xI2 3.942e-4 (27% deficit). The UV-vis refusal (step 9) is generated from this Fe(III)-rich speciation. Two reported observables disagree on the very quantity the criterion links."
+    },
+    {
+     "id": "EC-008-C2",
+     "text": "Check dissolved oxygen or other oxidants before interpreting the ferrous arm.",
+     "verdict": "PASS",
+     "evidence": "v1 ferrous arm inventory: Fe+2 4e-4, I- 1e-3, K+ 1e-3, SO4-2 1.4e-3, H+ 2e-3; no O2/oxidant pool; sulfate explicitly held as a slow couple (routing note). No I2 produced. Real chemistry agrees on bench time: Fe2+ oxygenation at pH<3 is negligibly slow (Singer & Stumm, Science 167 (1970) 1121) and E0(Fe3+/Fe2+) is not exceeded by sulfate kinetically."
+    },
+    {
+     "id": "forecast",
+     "text": "Ferric iron can oxidise iodide; ferrous iron is not an equivalent oxidant; total iron alone does not determine redox capacity.",
+     "verdict": "PASS",
+     "evidence": "Ferric arm 1.97e-4 mol oxidised iodine (inspect iodine_speciation: free I2 4.71e-5, I3- 1.50e-4, K=698 L/mol) vs ferrous arm 0, equal total Fe 4e-4."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cl": 0,
+     "Fe": 0,
+     "H": 0,
+     "I": 0,
+     "K": 0,
+     "O": 0,
+     "S": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts)"
+    },
+    "charge": "ledger per vessel: cations-anions = 0 within 1e-18; electron balance ledger exact; PHREEQC speciation view NOT electron-consistent (27% deficit, iodine absent)",
+    "energy": "FeSO4 dissolution +0.0701 K (~29 J, ~73 kJ/mol vs DfH-derived ~70 kJ/mol, NBS tables) plausible; FeCl3/KI/I2 reaction heats explicitly unpriced"
+   },
+   "observed_result": "0.4 mmol Fe(III) + 1 mmol KI in 10 mM H2SO4 gives 0.197 mmol oxidised iodine (0.047 free I2 + 0.150 I3-) and 0.394 mmol Fe(II) in the ledger; ferrous arm gives none.",
+   "limitations": "Reaction heat unpriced; UV-vis refused for Fe species; Fe(III) hydroxide supersaturation (goethite SI +2.1) explicitly not modelled.",
+   "doubts": "Ledger chemistry is right; rejection rests on the contradictory post-reaction PHREEQC speciation (resolved.valid=false). Reviewer 2 should confirm that the solution block is a user-visible observable and not an internal stale cache.",
+   "adversarial": "refuted: PHREEQC solution block of the same step: Fe(III) 1.12e-4 mol vs ledger 5.8e-6; no iodine species; electron deficit 27%."
+  },
+  {
+   "id": "batch2:se-002",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "SE-002-C1",
+     "text": "Confirm that naphthalene was dissolved before filtration.",
+     "verdict": "PASS",
+     "evidence": "Step 2 'dissolved' 5e-6 mol; filtrate v1 holds naphthalene(aq) 5e-6, filter residue v0 empty. 5e-5 M is below the 2.4e-4 M (31 mg/L) aqueous solubility (Mackay & Shiu, J. Chem. Eng. Data 22 (1977) 399)."
+    },
+    {
+     "id": "SE-002-C2",
+     "text": "Track sodium/chloride and naphthalene separately through extraction.",
+     "verdict": "PASS",
+     "evidence": "Extract event: naphthalene K=7062.6 (UNIFAC, Fredenslund 1975), extracted 4.99646e-6, remaining 3.537e-9; Na+ and Cl- 1.0e-3 each 'retained' by an explicit cited rule (ions not extracted into hydrocarbon without ion-pairing agent; Rydberg et al. 2004; Marcus 1991). v2 = hexane 0.15331 mol (20.2 mL) + naphthalene only. Conductivity of raffinate 1204.3 uS/cm (1e-2 M NaCl: lit. ~1185 uS/cm at 25 C from Lambda=118.5 S cm2/mol) ."
+    },
+    {
+     "id": "forecast",
+     "text": "Naphthalene passes the filter but favours hexane; the salt remains mainly aqueous.",
+     "verdict": "PASS",
+     "evidence": "99.93% naphthalene to hexane, 100% Na+/Cl- retained by a positive, sourced rule (previous held reason - salt retention was a default of missing data - is fixed)."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "O": 0,
+     "Na": 0,
+     "Cl": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts) (extract solvent counted)"
+    },
+    "charge": "0 in every vessel",
+    "energy": "NaCl dissolution -0.0093 K (3.88 kJ/mol x 1 mmol / 418 J/K) matches lit. dHsoln 3.88 kJ/mol"
+   },
+   "observed_result": "Dissolved naphthalene (5 umol) passes the filter; one 20 mL hexane extraction removes 99.93% (UNIFAC K=7063) while all 1 mmol NaCl stays aqueous (1204 uS/cm raffinate).",
+   "limitations": "Partition coefficient is a UNIFAC prediction, not a measured hexane/water K; chromatograph on the hexane extract is a typed refusal (needs aqueous sample).",
+   "doubts": "Naphthalene in the hexane receiver is phase-tagged 'aqueous' (cosmetic, location correct). Experimental alkane/water logK for naphthalene (~3.3-3.6) is lower than UNIFAC 3.85; extraction would still be >99.5%.",
+   "adversarial": "survived: Even K=1000 gives >99.5% extraction; salt rule cited; closure exact. Only a phase-tag cosmetic remains."
+  },
+  {
+   "id": "batch2:mo-012",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "MO-012-C1",
+     "text": "Compare oxidised-iodine equivalents across I2 and I3- rather than either species alone.",
+     "verdict": "PASS",
+     "evidence": "Spectrophotometer notes and inspect iodine_speciation: undiluted 1.2628e-6 I2 + 8.7372e-6 I3- = 1.0000e-5; after dilution to ~1 L 5.8992e-6 I2 + 4.1008e-6 I3- = 1.0000e-5 (K=698 L/mol; Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673 gives ~698-723 at 25 C). Recomputed both splits from K and volumes: agree to 4 digits."
+    },
+    {
+     "id": "MO-012-C2",
+     "text": "Reconcile total iodine in both arms; reducing-agent oxidation only in the chemical arm.",
+     "verdict": "PASS",
+     "evidence": "v0 I: 2x1e-5 + 1e-3 = 1.02e-3; v1: I- 1.02e-3, I2 0; ascorbic 1e-5 -> dehydroascorbic 1e-5 only in v1 (C6H8O6 + I2 -> C6H6O6 + 2HI), H+ 2e-5 -> pH 3.74 (2e-4 M with activity) consistent."
+    },
+    {
+     "id": "forecast",
+     "text": "Both treatments weaken colour; dilution preserves oxidised iodine, ascorbic acid reduces it; spectral changes need not be equal.",
+     "verdict": "PASS",
+     "evidence": "A405 1.0624 (both) -> 0.05154 after 10x dilution (20.6x drop because I3- dissociates; implied eps405 ~1.2e4 for I3- and ~3.4e2 for I2, self-consistent across both readings) and -> 0.0 after ascorbate."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0,
+     "O": 0,
+     "C": 0,
+     "I": 0,
+     "K": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts) (dilution water counted)"
+    },
+    "charge": "0 within 1e-19",
+    "energy": "not requested; KI heat unpriced (reported)"
+   },
+   "observed_result": "Dilution 10x keeps 1.0e-5 mol oxidised iodine (I3- share 87% -> 41%) and drops A405 1.062 -> 0.052; 1e-5 mol ascorbic acid reduces all of it to I- (A405 0, colourless).",
+   "limitations": "Ideal-activity triiodide equilibrium at 25 C; absorptivities not separately sourced in output.",
+   "doubts": "Eyes reading for the diluted arm says 'brown' with strength 0.0 and rgb(255,255,240) - wording is too strong for A405 0.05. Not a criterion.",
+   "adversarial": "survived: Recomputed I3-/I2 splits match to 4 digits in both dilution states; two-component eps fit consistent; H+ 2e-5 -> pH 3.74 matches. Eyes 'brown' at strength 0 noted, not a criterion."
+  },
+  {
+   "id": "batch2:ki-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "KI-011-C1",
+     "text": "Distinguish gross iodine production from surviving iodine inventory.",
+     "verdict": "PASS",
+     "evidence": "Gross I2 (sum of iodide-peroxide-clock events) v0 2.272e-5, v1 2.220e-5 over 100 s; surviving I2 0 in both; S4O6-2 2.2717e-5 / 2.2202e-5 equals gross."
+    },
+    {
+     "id": "KI-011-C2",
+     "text": "Compare sink exhaustion and precursor consumption, not colour onset alone.",
+     "verdict": "FAIL",
+     "evidence": "Neither sink exhausted (S2O3 v0 2.43e-5 of 1e-4, v1 9.05e-5 of 2e-4). H2O2 2e-3 -> 9.85e-4 mol, but 0.99e-3 of that went to iodide-catalysed DISPROPORTIONATION (O2 4.96e-4 mol) and only 2.3e-5 to iodine. In acid (pH 1.9, 0.02 M I-) the rate-limiting H2O2 + I- step (k=0.0115 + 0.175[H+] M^-1 s^-1, Liebhafsky & Mohammad, JACS 55 (1933) 3977) is followed by HOI + I- + H+ -> I2, which outcompetes HOI + H2O2 -> O2 by orders of magnitude; expected I2 formation ~5.6e-7 mol/s (v0 sink exhausted in ~90 s) with negligible O2. Engine has peroxide decomposition 6.7e-6 mol O2/s (~20x the clock) - precursor-consumption accounting is physically wrong."
+    },
+    {
+     "id": "forecast",
+     "text": "A larger thiosulfate sink can delay iodine accumulation with similar source kinetics.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "No accumulation in either arm within the 100 s script, so no delay observable; all four UV-vis readings are typed refusals (colloidal sulfur has no absorptivity)."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0,
+     "O": 0,
+     "I": 0,
+     "K": 0,
+     "Na": 0,
+     "S": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts) (O2/SO2 gas pools retained in contents)"
+    },
+    "charge": "<1e-17",
+    "energy": "decomposition heat 13.10 J per 6.672e-5 mol O2 = 98.2 kJ/mol H2O2 (lit. 98.2); dT 0.0313 K with 418.6 J/K"
+   },
+   "observed_result": "Over 100 s both arms make ~2.2e-5 mol I2, all scavenged by thiosulfate (no free iodine); half the H2O2 is lost as O2 by iodide-catalysed decomposition.",
+   "limitations": "Script window ends before any sink exhaustion; UV-vis refused; acid/thiosulfate decomposition included as a separate rate.",
+   "doubts": "Same outcome as the 2026-11-10 review; nothing in this lane changed. Rate-constant comparison uses literature k at 25 C; confirm the engine's peroxide-decomposition rate law and whether it is meant for neutral solution.",
+   "adversarial": "rejected on formal pass; adversarial pass not needed to overturn a rejection (re-checked that each FAIL is not an artefact of digest reading - confirmed from raw JSON)"
+  },
+  {
+   "id": "batch3-diverse:an-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a reducing interferent give a weak iodine signal while starch is still present?",
+     "verdict": "PASS",
+     "evidence": "v0 first 2e-5 mol I2 consumed by ascorbate (dehydroascorbic 2e-5, ascorbic 1e-5 left), A405 0.0, scene 'colourless and cloudy' with starch 6.1675e-4 retained; after +5e-5 I2 ascorbate exhausted (dehydroascorbic 3e-5), ledger I2 4e-5, scene 'blue-black'."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained/transferred material, unresolved pools and losses.",
+     "verdict": "FAIL",
+     "evidence": "Ledger elements close (<1e-15), but the new inspect iodine_speciation for the same vessel reports oxidised_iodine 9.162e-6 mol (free I2 2.913e-6, I3- 6.249e-6, free I- 1.2291e-4) while the ledger holds I2 4.0e-5 and I- 1.6e-4. The missing 3.08e-5 mol I2 + 3.08e-5 mol I- (=3.08e-5 I3-, 77% of oxidised iodine) is an implicit starch-bound pool that is never named or quantified; the starch control v1 (I2 2e-5) is omitted from iodine_speciation altogether. An unresolved pool is hidden, not reported."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables/missing couplings from negatives.",
+     "verdict": "PASS",
+     "evidence": "Starch-iodine absorbance is a typed refusal (no reviewed absorptivity); KI heat unpriced reported."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret against v2 (starch, no reductant) and v3 (reductant, no starch).",
+     "verdict": "PASS",
+     "evidence": "v1 blue-black with I2 2e-5; v2 I2 consumed, A405 0.0, colourless and clear."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "O": 0,
+     "I": 0,
+     "K": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts)"
+    },
+    "charge": "<2e-19",
+    "energy": "not requested"
+   },
+   "observed_result": "Ascorbate (3e-5 mol) destroys the first 2e-5 mol iodine so the starch vessel stays colourless; a 5e-5 mol iodine excess then turns it blue-black with starch unchanged.",
+   "limitations": "Starch-iodine binding is applied silently (no pool, no source); absorbance of the complex refused.",
+   "doubts": "Previously qualified at cbc741fe; this field is new at d930. If the project accepts the iodine_speciation block as 'free iodine only' by definition, it still needs the bound pool reported for the inventory criterion.",
+   "adversarial": "refuted: oxidised_iodine 9.16e-6 vs ledger I2 4.0e-5; 3.08e-5 I3- equivalent unaccounted; v1 starch control omitted from the field."
+  },
+  {
+   "id": "batch3-diverse:an-007",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can density plus transition properties distinguish ethanol, isopropanol and acetone better than one property?",
+     "verdict": "PASS",
+     "evidence": "Density 0.789/0.785/0.7845 g/mL (spread 0.0045, non-discriminating); bp 78.55/82.35/56.15 C; mp -114.15/-88.48/-95.55 C; combination separates all three. Readings carry the boundary 'identity is the evidence for the number' (lookup, not an observed boiling curve). Values now carry primary sources (NBS Circ. 500; Haida et al. 1977; Kelley 1929; Parks & Kelley 1928; NIST WebBook AVG) and agree with CRC (ethanol 78.29/-114.1, IPA 82.3/-89.5..-88, acetone 56.05/-94.7) within 0.3 K except acetone mp (0.85 K low, Parks & Kelley value)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions and losses.",
+     "verdict": "PASS",
+     "evidence": "ethanol 0.217066, isopropanol 0.166400, propanone 0.172176 mol (10 g each) unchanged; no evaporation step."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "PASS",
+     "evidence": "Every transition reading states it is a curated constant, sources flagged 'not re-read against the paper' or 'WebBook average' honestly."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "O": 0
+    },
+    "charge": "n/a",
+    "energy": "n/a"
+   },
+   "observed_result": "Densities of ethanol, isopropanol and acetone differ by only 0.0045 g/mL, while sourced boiling (78.6/82.4/56.2 C) and melting (-114.2/-88.5/-95.6 C) constants separate all three.",
+   "limitations": "Transition values are lookups keyed to the known identity; density reading has no temperature/provenance.",
+   "doubts": "Density values match 20 C literature for the alcohols (0.7893, 0.7855) but 25 C for acetone (0.7845); at the bench's 25 C ethanol would be 0.7849, making density even less discriminating - conclusion unchanged.",
+   "adversarial": "survived: Transition constants within 0.3 K (acetone mp 0.85 K); circularity is explicitly declared in the boundary text as the forecast requires. Density temperature basis mixed (20/25 C) - strengthens rather than refutes the non-discrimination point."
+  },
+  {
+   "id": "batch3-diverse:en-001",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can an endpoint starch test distinguish enzyme-treated starch from intact starch and a maltose control?",
+     "verdict": "PASS",
+     "evidence": "After 20 min: treated v0 starch 0, maltose 6.1675e-4; iodine scene 'brown' (A405 2.741, free I2/I3-); intact control v1 'blue-black ... blue starch at the bottom' (absorbance typed refusal); maltose control v2 'brown' A405 2.740."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions, pools, losses; inspect substrate/product inventory.",
+     "verdict": "FAIL",
+     "evidence": "Atoms close (water debited 6.17e-4 = hydrolysis water), but the product inventory is chemically wrong: 0.2 g of starch that the engine itself declares insoluble (solubility 0, settled) is converted 100% to maltose during the wait by a stoichiometric 'reaction_occurred' with no rate/extent model. alpha-Amylase cannot cleave alpha-1,6 branch points, so amylopectin leaves alpha-limit dextrins plus maltotriose/glucose (Robyt & French, Arch. Biochem. Biophys. 122 (1967) 8); raw (ungelatinised) granules are hydrolysed only partially on a 20-min timescale (Englyst et al., Eur. J. Clin. Nutr. 46 Suppl 2 (1992) S33). 'Complete conversion to maltose' is a silent fill of the requested substrate/product observable."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "FAIL",
+     "evidence": "No not_yet_modeled label for amylase kinetics/product distribution; the complete conversion is presented as computed. (Starch-iodine absorbance refusal and KI heat label are correct.)"
+    },
+    {
+     "id": "controls",
+     "text": "v2 intact starch without enzyme; v3 maltose without enzyme.",
+     "verdict": "PASS",
+     "evidence": "Control colours: intact blue-black vs maltose brown; treated equals maltose control (A405 2.741 vs 2.740)."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "O": 0,
+     "I": 0,
+     "K": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts); amylase tracked as its own pseudo-element (unchanged)"
+    },
+    "charge": "0",
+    "energy": "all three vessels cool 310.14 -> 302.58 K in 20 min (ambient loss, labelled via temperature events); hydrolysis heat negligible (<3 J)"
+   },
+   "observed_result": "With 10 mg amylase at 37 C, 0.2 g starch is reported fully converted to 6.17e-4 mol maltose in 20 min; iodine then reads brown (A405 2.74) like the maltose control, while intact starch stains blue-black.",
+   "limitations": "Enzyme hydrolysis is stoichiometric and complete with maltose as the only product; starch-iodine absorbance refused; iodine K=698 applied at 29 C.",
+   "doubts": "Colour verdict itself is plausible for gelatinised starch with a high (5% w/w) enzyme load; rejection is on the product inventory. Starch 'settled 4.75 m' in a beaker (distance > vessel) is cosmetic.",
+   "adversarial": "rejected on formal pass; adversarial pass not needed to overturn a rejection (re-checked that each FAIL is not an artefact of digest reading - confirmed from raw JSON)"
+  },
+  {
+   "id": "batch3-diverse:po-009",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "What does a melting-point instrument report for a PE/PP mixture?",
+     "verdict": "FAIL",
+     "evidence": "Pure references now return sourced equilibrium Tm (PE 141.45 C = 414.6 K, PP 187.55 C = 460.7 K; Gaur & Wunderlich, JPCRD 10 (1981) 119 and 1051) with 'real grades melt below' boundary - correct. The blend reading claims as 'a law': 'a mixture melts below its lowest-melting pure component and over a range'. PE and isotactic PP are immiscible in the melt and crystallise separately; blends show two melting endotherms close to each pure component (Teh, Rudin & Keung, Adv. Polym. Technol. 13 (1994) 1), so the PP phase does not melt below PE's Tm. The engine applies freezing-point depression (which presumes miscibility) - exactly the miscibility claim the forecast forbids."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions and losses.",
+     "verdict": "PASS",
+     "evidence": "PE 0.0356455, PP 0.0237637; blend PE 0.0178228 + PP 0.0118818 unchanged."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "FAIL",
+     "evidence": "Heating 300 J now emits typed labels that PE and PP melting are not modelled (fixed). But the thermometer then reports 193.89 C as a measurement: 300 J was charged entirely as sensible heat (1.776 J/K for 1 g). Real: ~2 J/(g K) to reach the PE melt (~230 J) plus PE fusion (~0.5 g x ~150-180 J/g at typical crystallinity) exceeds 300 J, so the blend would sit at or below ~140 C. The temperature reading depends on the unmodelled latent heat yet carries no not_yet_modeled qualifier."
+    },
+    {
+     "id": "controls",
+     "text": "v1/v2 individual references.",
+     "verdict": "PASS",
+     "evidence": "Both references give sourced equilibrium values with a below-range boundary."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0
+    },
+    "charge": "n/a",
+    "energy": "300 J -> dT 168.9 K, all sensible; latent heat omitted (see coverage)"
+   },
+   "observed_result": "References report equilibrium Tm 141.45 C (PE) and 187.55 C (PP); the blend is reported as melting below 141 C over a range; 300 J heats the 1 g blend to 193.9 C with no fusion heat.",
+   "limitations": "Polymer melting and fusion enthalpy unmodelled (labelled); blend phase behaviour asserted by colligative rule.",
+   "doubts": "Reviewer 2: the depression rule may be generic code for any 'mixture' verdict; for immiscible polymers it is wrong in direction of magnitude (no depression of the higher-melting phase).",
+   "adversarial": "rejected on formal pass; adversarial pass not needed to overturn a rejection (re-checked that each FAIL is not an artefact of digest reading - confirmed from raw JSON)"
+  },
+  {
+   "id": "batch3-diverse:th-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can tert-butanol and isopropanol be distinguished by a low-temperature phase test?",
+     "verdict": "PASS",
+     "evidence": "At 15 C tBuOH is solid, IPA liquid. Lookups: mp 25.82 C (Oetting 1963: 298.97 K) vs -88.48 C; bp 82.35 vs 82.35 C (355.5 K both, NIST WebBook AVG; lit. 82.4/82.3) - boiling non-discriminating, melting decisive. Heating 400 J: tBuOH 288.15 -> 298.97 K using 159.55 J, then 0.035888 of 0.067455 mol melts on the plateau with the remaining 240.45 J -> implied dHfus 6.700 kJ/mol (lit. 6.70 kJ/mol, Oetting 1963). IPA 288.15 -> 319.74 K (Cp 152.2 J/mol K; lit. liquid ~155-156)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions and losses.",
+     "verdict": "PASS",
+     "evidence": "tBuOH solid 0.0315673 + liquid 0.0358882 = 0.0674554 (added 0.0674554); IPA 0.0832002 unchanged; no evaporation."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "PASS",
+     "evidence": "Transition readings carry lookup boundary and source (tBuOH mp marked 'PENDING REVIEW'); the solid-in-melt 'no aqueous solubility' label is not a dissolution claim."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "O": 0
+    },
+    "charge": "n/a",
+    "energy": "tBuOH: 159.55 sensible + 240.45 latent = 400.00 J (closes); IPA 400.00 J sensible"
+   },
+   "observed_result": "Both alcohols boil near 82.4 C, but at 15 C tert-butanol is solid (mp 25.8 C) and 400 J melts 53% of 5 g on a 25.8 C plateau, while isopropanol simply warms to 46.6 C.",
+   "limitations": "Transition values are lookups; tBuOH mp provenance marked pending review.",
+   "doubts": "Solid tBuOH sensible heat implies Cp 218.6 J/mol K, i.e. the LIQUID value; solid Cp near 290 K is lower (Oetting 1963 calorimetry, roughly 145-150 J/mol K, not re-verified here), which would raise the melted fraction from 53% to ~65%. Qualitative plateau verdict unaffected; quantitative melted amount should not be catalogued as precise.",
+   "adversarial": "survived: 400 J closes; dHfus 6.700 kJ/mol and plateau 298.97 K match Oetting 1963. Weakness: solid Cp uses liquid value (~+50%), so melted fraction (53%) is quantitatively uncertain; qualitative verdict stands."
+  },
+  {
+   "id": "batch3-diverse:th-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can paraffin be used interchangeably with a pure hydrocarbon in a latent-heat interpretation?",
+     "verdict": "PASS",
+     "evidence": "Paraffin reading now returns a sourced RANGE 42-68 C (Sharma et al., RSER 13 (2009) 318, Table 2a; latent heat 189 kJ/kg) with value null and the statement that no single plateau exists so melting is not modelled; hexadecane returns a pure mp 18.15 C (Finke et al. 1954: 291.3 K; lit. 18.2 C). The contrast of declared property models is produced."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions and losses.",
+     "verdict": "PASS",
+     "evidence": "paraffin 0.0141767, hexadecane 0.0220801 mol unchanged through heat/cool."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "FAIL",
+     "evidence": "Melting now has a typed label ('solid shown is not a prediction'), but the thermometer reports 73.04 C after 500 J into 5 g wax, all charged as sensible heat at 1.886 J/(g K). The wax's own cited latent heat (189 J/g x 5 g = 945 J) and its 42-68 C range mean 500 J cannot carry it past ~the middle of the range (lit. solid Cp ~2.1-2.9 J/g K, e.g. Sharma 2009), so the 73 C reading and the 500 J cool-back to exactly 20.00 C are physically wrong yet unlabelled."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0,
+     "H": 0,
+     "paraffin": 0
+    },
+    "charge": "n/a",
+    "energy": "paraffin 500 J sensible (dT 53.04 K), hexadecane 500 J sensible (Cp 501.6 J/mol K vs lit. ~499-501, fine); cool returns both to 293.15 K exactly"
+   },
+   "observed_result": "Paraffin is reported as a 42-68 C melting range (no single plateau, melting not modelled) versus hexadecane mp 18.15 C; 500 J nevertheless reads 73.0 C in the wax with no latent heat charged.",
+   "limitations": "Wax melting/latent heat unmodelled (labelled for the phase, not for the temperature); hexadecane is already liquid at 20 C so no plateau contrast arises.",
+   "doubts": "If the project deems the phase label to cover dependent temperature readings, coverage could be argued PASS; I do not, because the thermometer is a separate measured observable.",
+   "adversarial": "rejected on formal pass; adversarial pass not needed to overturn a rejection (re-checked that each FAIL is not an artefact of digest reading - confirmed from raw JSON)"
+  },
+  {
+   "id": "batch3-diverse:tr-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does an adsorbent produce different transport for dye and NaCl?",
+     "verdict": "PASS",
+     "evidence": "Receiver after pulse+6-step flush: Na+ 7.148e-5 of 1e-4 (71.5%), methyl orange 4.208e-7 of 3.055e-6 (13.8%); bound dye 1.373e-6 -> 2.641e-6 -> 1.897e-6 (equilibrium refreshed during transport). A465 0.1367, 111.6 uS/cm."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for additions, retained/transferred material, pools, losses.",
+     "verdict": "FAIL",
+     "evidence": "UNCHANGED DEFECT: inlet vessels are never debited. After both transports inlet v4 (script) still holds methyl orange 3.055e-6, Na+/Cl- 1e-4, water 1.10686 mol, and flush inlet v6 still 1.10686 mol water, although transported events report exactly those as inflow_moles. Bench totals: Cl +100%, Na +98%, dye +100%, water +4.43 mol (+80% H/O). Chain+receiver+adsorbed alone reconcile with inflow (<1e-15). No reservoir/infinite-source label."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish unsupported observables from negatives.",
+     "verdict": "PASS",
+     "evidence": "Methyl orange not-speciated labels; adsorption 'equilibrium, not rate; no pH term' boundary."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cl": "+1.00",
+     "Na": "+0.98",
+     "O": "+0.80",
+     "H": "+0.80",
+     "N/S (dye)": "+0.38",
+     "C": "+0.009",
+     "note": "relative excess of bench total over explicit additions after step 14; chain+receiver+adsorbed vs inflow <1e-15"
+    },
+    "charge": "0 per vessel",
+    "energy": "n/a"
+   },
+   "observed_result": "Charcoal column passes 71.5% of NaCl but only 13.8% of methyl orange to the receiver (1.90e-6 mol dye adsorbed) - but the source vessels keep their full contents, duplicating inventory.",
+   "limitations": "Equilibrium monolayer adsorption without pH/rate; dye unspeciated.",
+   "doubts": "Same as 2026-11-10; the fix lane did not touch transport-source debiting.",
+   "adversarial": "rejected on formal pass; adversarial pass not needed to overturn a rejection (re-checked that each FAIL is not an artefact of digest reading - confirmed from raw JSON)"
+  },
+  {
+   "id": "new120:rx-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "RX-004-C1",
+     "text": "Link iodine production to decrease in ferric and increase in ferrous inventory.",
+     "verdict": "FAIL",
+     "evidence": "Ledger now reacts (fixed): Fe2+ 3.19907e-4, Fe3+ 8.00927e-5, I2(ox) 1.59954e-4, I- 8.00927e-5; dFe(II) = 2 x dI2 exactly; ideal Q (I2(aq)/I-, logK 5.07) = 1.05e5 at equilibrium. BUT the same step's PHREEQC solution (pe 12.45) reports Fe(II) 0.0021447 m x 0.0997 kg = 2.138e-4 mol and Fe(III) 1.862e-4 mol (47% ferric vs 20% in ledger), no I2/I3-; electron deficit 33%. The UV-vis refusal lists nine Fe(III) species drawn from this view. Same defect as EC-008."
+    },
+    {
+     "id": "RX-004-C2",
+     "text": "Distinguish I2 from triiodide and from the yellow ferric solution.",
+     "verdict": "PASS",
+     "evidence": "inspect iodine_speciation: free I2 1.2296e-4, I3- 3.699e-5 (K recomputed 697), free I- 4.31e-5; ferric remainder 8.0e-5 separately in ledger. Optical distinction refused with typed label (no Fe(III) spectra) - inventory-based distinction only."
+    },
+    {
+     "id": "forecast",
+     "text": "Ferric ions oxidise iodide while being reduced to ferrous ions, producing an iodine pool.",
+     "verdict": "PASS",
+     "evidence": "Ledger: 0.32 mmol Fe(II), 0.16 mmol oxidised iodine from 0.4/0.4 mmol."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cl": 0,
+     "Fe": 0,
+     "H": 0,
+     "I": 0,
+     "K": 0,
+     "O": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts)"
+    },
+    "charge": "ledger 0 within 1e-18; PHREEQC view electron-inconsistent",
+    "energy": "reaction heat explicitly unpriced"
+   },
+   "observed_result": "0.4 mmol FeCl3 + 0.4 mmol KI in 10 mM HCl reaches 80% conversion: 0.32 mmol Fe(II), 0.16 mmol oxidised iodine (0.123 free I2 + 0.037 I3-), 0.08 mmol Fe(III) left.",
+   "limitations": "UV-vis refused for Fe(III) species; hematite/goethite supersaturation not modelled (labelled).",
+   "doubts": "Real Fe(III)-chloro complexation would lower extent slightly; ledger value plausible. Rejection rests on the contradictory reported speciation.",
+   "adversarial": "refuted: Speciation Fe(III) 1.86e-4 vs ledger 8.0e-5; electron deficit 33%."
+  },
+  {
+   "id": "new120:sp-011",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-011-C1",
+     "text": "First verify the redox conversion in the reduced feed.",
+     "verdict": "PASS",
+     "evidence": "v0: I2 1e-4 + Na2S2O3 2e-4 -> I2 0, I- 1.2e-3, S4O6-2 1e-4, Na+ 4e-4 (reaction_occurred)."
+    },
+    {
+     "id": "SP-011-C2",
+     "text": "Reduced-feed receiver contains less oxidised iodine than the control; sum all iodine species in both phases.",
+     "verdict": "FAIL",
+     "evidence": "Reduced arm now extracted (fixed): ions retained by cited rule, receiver v2 hexane 0.1 mol and 0 iodine. Control: K=85 applied to TOTAL aqueous I2 -> 9.1728e-5 of 1e-4 to hexane (0.9173). The engine's own inspect of the post-extraction aqueous phase shows 87% of the residual 8.27e-6 as I3- (K3=698, [I-]~0.01 M), i.e. free I2 1.04e-6 mol (1.05e-5 M) against 7.0e-3 M in 13.1 mL hexane: implied partition ~670, 8x its stated K. With I3- formation D = 85/(1+698x0.0099) ~ 10.7, so ~58% (5.8e-5 mol) should extract. The control receiver number is wrong by ~+58%. K=85 provenance is an A-level exam question, not a primary measurement."
+    },
+    {
+     "id": "forecast",
+     "text": "Reducing iodine to iodide diminishes neutral iodine available for transfer.",
+     "verdict": "PASS",
+     "evidence": "Direction holds: 0 vs >0 in receiver."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0,
+     "O": 0,
+     "C": 0,
+     "I": 0,
+     "K": 0,
+     "Na": 0,
+     "S": 0,
+     "note": "all elements <=1e-15 relative at every step (script-independent recomputation from vessel contents vs added/diluted/extracted amounts) (extract solvent counted)"
+    },
+    "charge": "0",
+    "energy": "not requested"
+   },
+   "observed_result": "Thiosulfate-reduced iodine (all I-) gives an iodine-free hexane extract; the unreduced control is reported to transfer 91.7% of 1e-4 mol I2 into 0.1 mol hexane.",
+   "limitations": "Extraction uses a constant K for I2 only; triiodide equilibrium is ignored during partition.",
+   "doubts": "The comparative inequality survives any K; rejection is for the quantitative control value and internal inconsistency (stated K vs implied 670). Iodine in hexane is phase-tagged 'aqueous' (cosmetic).",
+   "adversarial": "refuted: Implied K 670 vs stated 85; expected ~58% not 91.7% extraction."
+  }
+ ],
+ "adversarial_verify": [
+  {
+   "id": "batch2:se-002",
+   "confirmed": true,
+   "reason": "Tried: salt retention as default (now a cited rule), naphthalene solubility, K magnitude, closure.",
+   "evidence": "Even K=1000 gives >99.5% extraction; salt rule cited; closure exact. Only a phase-tag cosmetic remains."
+  },
+  {
+   "id": "batch2:mo-012",
+   "confirmed": true,
+   "reason": "Tried: triiodide split vs K and volume, absorbance self-consistency, ascorbate stoichiometry, iodine totals.",
+   "evidence": "Recomputed I3-/I2 splits match to 4 digits in both dilution states; two-component eps fit consistent; H+ 2e-5 -> pH 3.74 matches. Eyes 'brown' at strength 0 noted, not a criterion."
+  },
+  {
+   "id": "batch3-diverse:an-007",
+   "confirmed": true,
+   "reason": "Tried: source quality and values vs CRC; density temperature basis; circularity.",
+   "evidence": "Transition constants within 0.3 K (acetone mp 0.85 K); circularity is explicitly declared in the boundary text as the forecast requires. Density temperature basis mixed (20/25 C) - strengthens rather than refutes the non-discrimination point."
+  },
+  {
+   "id": "batch3-diverse:th-003",
+   "confirmed": true,
+   "reason": "Tried: energy closure, fusion enthalpy, plateau temperature, Cp values.",
+   "evidence": "400 J closes; dHfus 6.700 kJ/mol and plateau 298.97 K match Oetting 1963. Weakness: solid Cp uses liquid value (~+50%), so melted fraction (53%) is quantitatively uncertain; qualitative verdict stands."
+  },
+  {
+   "id": "batch2:ec-008",
+   "confirmed": false,
+   "reason": "Refuted the ledger-only PASS of C1.",
+   "evidence": "PHREEQC solution block of the same step: Fe(III) 1.12e-4 mol vs ledger 5.8e-6; no iodine species; electron deficit 27%."
+  },
+  {
+   "id": "new120:rx-004",
+   "confirmed": false,
+   "reason": "Same refutation as EC-008.",
+   "evidence": "Speciation Fe(III) 1.86e-4 vs ledger 8.0e-5; electron deficit 33%."
+  },
+  {
+   "id": "batch3-diverse:an-004",
+   "confirmed": false,
+   "reason": "Refuted the prior (cbc741fe) qualification via the new iodine_speciation field.",
+   "evidence": "oxidised_iodine 9.16e-6 vs ledger I2 4.0e-5; 3.08e-5 I3- equivalent unaccounted; v1 starch control omitted from the field."
+  },
+  {
+   "id": "new120:sp-011",
+   "confirmed": false,
+   "reason": "Partition applied to total I2 ignoring the engine's own triiodide equilibrium.",
+   "evidence": "Implied K 670 vs stated 85; expected ~58% not 91.7% extraction."
+  }
+ ],
+ "summary": {
+  "qualified": [
+   "batch2:se-002",
+   "batch2:mo-012",
+   "batch3-diverse:an-007",
+   "batch3-diverse:th-003"
+  ],
+  "rejected": [
+   "batch2:ec-008",
+   "batch2:ki-011",
+   "batch3-diverse:an-004",
+   "batch3-diverse:en-001",
+   "batch3-diverse:po-009",
+   "batch3-diverse:th-004",
+   "batch3-diverse:tr-006",
+   "new120:rx-004",
+   "new120:sp-011"
+  ]
+ }
+}
