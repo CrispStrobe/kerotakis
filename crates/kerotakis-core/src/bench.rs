@@ -4554,14 +4554,22 @@ impl Bench {
             Operator::Measure { vessel, instrument } => {
                 let v = self.vessel(*vessel)?;
                 match instrument {
-                    Instrument::Thermometer => events.push(Event::Measured {
-                        vessel: *vessel,
-                        instrument: *instrument,
-                        value: v.temperature.to_celsius(),
-                        unit: "°C".to_string(),
-                        note: None,
-                        note_reason: None,
-                    }),
+                    Instrument::Thermometer => {
+                        // A solid above where it melts with no latent heat
+                        // paid: the reading is sensible heat only and says
+                        // so on itself (po-009).
+                        let qualifier = crate::melting_range::thermometer_qualifier(v);
+                        events.push(Event::Measured {
+                            vessel: *vessel,
+                            instrument: *instrument,
+                            value: v.temperature.to_celsius(),
+                            unit: "°C".to_string(),
+                            note: qualifier
+                                .as_ref()
+                                .map(|reason| reason.render(crate::Locale::EN)),
+                            note_reason: qualifier,
+                        })
+                    }
                     Instrument::Balance => events.push(Event::Measured {
                         vessel: *vessel,
                         instrument: *instrument,

@@ -1,0 +1,38 @@
+{
+  "generated_by": "tools/thermometer_latent_qualifier_coverage.py",
+  "predicate": "melting_range::unpaid_melts",
+  "qualifier_key": "measured.thermometer-latent-heat-unpaid",
+  "readouts": [
+    {
+      "instrument": "Thermometer",
+      "qualified": true
+    }
+  ],
+  "ranges": [
+    {
+      "species": "paraffin",
+      "upper_k": 341.15,
+      "cls": "paid"
+    },
+    {
+      "species": "PE",
+      "upper_k": 414.6,
+      "cls": "qualified"
+    },
+    {
+      "species": "PP",
+      "upper_k": 460.7,
+      "cls": "qualified"
+    }
+  ],
+  "tests": [
+    "po009_blend_thermometer_reading_carries_the_unpaid_latent_heat_qualifier",
+    "thermometer_qualifier_names_every_unpaid_polymer_and_renders_de_fr",
+    "only_the_polymer_above_its_range_is_named",
+    "step_refusal_and_reading_qualifier_share_one_predicate",
+    "a_polymer_below_its_range_reads_unqualified",
+    "a_paid_wax_melt_reads_unqualified",
+    "heated_water_reads_unqualified",
+    "a_melted_polymer_liquid_is_not_named"
+  ]
+}
