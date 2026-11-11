@@ -15,7 +15,14 @@ Source of the new row: Shalmashi, A.; Eliassi, A. J. Chem. Eng. Data 2008, 53(6)
 doi:10.1021/je800056h (L-ascorbic acid, water, 293-323 K, gravimetric; values as deposited in
 NIST ThermoML).
 
-Counts: other-route 2, refused 5, registry-solubility 13, reviewed-row 1.
+Maltose row (2026-11-11, batch3-diverse:en-001): Gong, X.; Wang, C.; Zhang, L.; Qu, H.
+J. Chem. Eng. Data 2012, 57(11), 3264-3269, doi:10.1021/je300885g, NIST ThermoML deposit:
+D-(+)-maltose monohydrate in water, mass fraction w = 0.4106 / 0.4424 / 0.4792 at
+278.2 / 288.2 / 298.2 K (gravimetric). Converted to anhydrous-maltose mole fraction with the
+hydrate water counted as solvent. Other sugars: glucose, fructose and sucrose already carry a
+registry solubility; no other sugar is a registry solid.
+
+Counts: other-route 2, refused 4, registry-solubility 13, reviewed-row 2.
 
 | species | class | dissolves by route | g/100 mL | source |
 |---|---|---|---|---|
@@ -34,7 +41,7 @@ Counts: other-route 2, refused 5, registry-solubility 13, reviewed-row 1.
 | hair_pigment | registry-solubility | yes | 0 | registry model_parameters aqueous-solubility-g-per-100-ml |
 | hair_pigment_ox | registry-solubility | yes | 0 | registry model_parameters aqueous-solubility-g-per-100-ml |
 | malic_acid | registry-solubility | yes | 55.8 | registry model_parameters aqueous-solubility-g-per-100-ml |
-| maltose | refused | no | — | no primary measurement read: not-modeled.organic-solid-no-solubility |
+| maltose | reviewed-row | yes | 63.756 at 278.2 K | Gong, Wang, Zhang & Qu, J. Chem. Eng. Data 57(11), 3264-3269 (2012), doi:10.1021/je300885g (NIST ThermoML deposit, maltose monohydrate in water) |
 | naphthalene | registry-solubility | yes | 0.003 | registry model_parameters aqueous-solubility-g-per-100-ml |
 | nylon | refused | no | — | no primary measurement read: not-modeled.organic-solid-no-solubility |
 | paraffin | refused | no | — | no primary measurement read: not-modeled.organic-solid-no-solubility |

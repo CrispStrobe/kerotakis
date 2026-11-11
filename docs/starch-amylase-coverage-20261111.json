@@ -1,0 +1,68 @@
+{
+  "activity": {
+    "specific_activity_u_per_mg": 5.0,
+    "unit_maltose_mg": 1.0,
+    "unit_seconds": 180.0,
+    "ph_range": [
+      5.5,
+      8.0
+    ],
+    "source": "Sigma-Aldrich A3176 alpha-amylase (porcine pancreas, Type VI-B): 1 U liberates 1.0 mg maltose from starch in 3 min at pH 6.9, 20 °C; ≥5 U/mg solid",
+    "instant_curated_row_present": false
+  },
+  "enzymes": [
+    {
+      "enzyme": "amylase",
+      "route": "unit-definition-rate",
+      "module": "starch_amylase",
+      "refusals": [
+        "not-modeled.amylase-outside-unit-conditions",
+        "not-modeled.amylase-dose-not-convertible"
+      ]
+    },
+    {
+      "enzyme": "lactase",
+      "route": "bounded-activity",
+      "module": "enzyme_activity",
+      "refusals": []
+    },
+    {
+      "enzyme": "protease",
+      "route": "bounded-activity",
+      "module": "enzyme_activity",
+      "refusals": []
+    },
+    {
+      "enzyme": "lipase",
+      "route": "bounded-activity",
+      "module": "enzyme_activity",
+      "refusals": []
+    },
+    {
+      "enzyme": "catalase",
+      "route": "curated-kinetics",
+      "module": "kinetics",
+      "refusals": []
+    },
+    {
+      "enzyme": "pepsin",
+      "route": "bounded-activity",
+      "module": "enzyme_activity",
+      "refusals": []
+    },
+    {
+      "enzyme": "bromelain",
+      "route": "bounded-activity",
+      "module": "enzyme_activity",
+      "refusals": []
+    }
+  ],
+  "starch_iodine_optics": {
+    "observable": "starch-iodine complex absorbance",
+    "status": "refused",
+    "key": "not-modeled.starch-iodine-absorptivity",
+    "reason": "Pesek et al., Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, sect. 2.1: 'reliable extinction coefficients for the amylose-iodine-iodide complex are not known'. The blue-value assay (Corn Refiners Association AMYLO.01, 620 nm) calibrates against amylose standards rather than an epsilon. No value was found that could be cited.",
+    "still_read": "free I2 and I3- from their cited epsilon values (iodine_chemistry)"
+  },
+  "sugars": "see docs/organic-solid-dissolution-coverage-20261111.md (maltose row added)"
+}

@@ -30,7 +30,13 @@
 //! The starch–iodine complex keeps its editorial eye colour in
 //! [`crate::starch_iodine`]; no reviewed molar absorptivity exists for it
 //! here, so the spectrophotometer refuses a vessel holding the complex with
-//! a typed reason instead of a number.
+//! a typed reason instead of a number. Re-checked 2026-11-11
+//! (batch3-diverse:en-001): the cited optical source itself states
+//! "reliable extinction coefficients for the amylose-iodine-iodide complex
+//! are not known" (Pesek et al., Molecules 27 (2022) 8974, section 2.1,
+//! doi:10.3390/molecules27248974), and the blue-value assay (Corn Refiners
+//! Association method AMYLO.01, 620 nm, 1 cm) calibrates against starches
+//! of known amylose content instead of using an ε. See docs/starch-amylase-coverage-20261111.md.
 
 use crate::species::Phase;
 use crate::vessel::Vessel;

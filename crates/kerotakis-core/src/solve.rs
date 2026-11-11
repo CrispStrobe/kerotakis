@@ -3715,6 +3715,11 @@ impl Equilibrator for HonestyEquilibrator {
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
                     continue;
                 }
+                // Starch that amylase is digesting over bench time
+                // (`starch_amylase`, 2026-11-11) is wired, not unmodelled.
+                if crate::starch_amylase::consumes(vessel, &p.species) {
+                    continue;
+                }
                 // A declared kinetic catalyst is already wired even when
                 // this equilibrium rung cannot speciate the salt. The slow
                 // clock consumes its catalytic effect and deliberately leaves
@@ -3751,6 +3756,7 @@ impl Equilibrator for HonestyEquilibrator {
                 // claim about reactivity, is a false one.
                 if !crate::curated::consumes(vessel, &p.species)
                     && !crate::kinetics::consumes(vessel, &p.species)
+                    && !crate::starch_amylase::consumes(vessel, &p.species)
                 {
                     if let Some(limit) = species::lookup(&p.species)
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
@@ -3868,6 +3874,11 @@ impl Equilibrator for HonestyEquilibrator {
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
                     continue;
                 }
+                // Starch that amylase is digesting over bench time
+                // (`starch_amylase`, 2026-11-11) is wired, not unmodelled.
+                if crate::starch_amylase::consumes(vessel, &p.species) {
+                    continue;
+                }
                 if crate::kinetics::applicable(vessel).iter().any(|reaction| {
                     reaction
                         .catalysts
@@ -3899,6 +3910,7 @@ impl Equilibrator for HonestyEquilibrator {
                 // claim about reactivity, is a false one.
                 if !crate::curated::consumes(vessel, &p.species)
                     && !crate::kinetics::consumes(vessel, &p.species)
+                    && !crate::starch_amylase::consumes(vessel, &p.species)
                 {
                     if let Some(limit) = species::lookup(&p.species)
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))

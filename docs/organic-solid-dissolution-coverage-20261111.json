@@ -3,8 +3,8 @@
   "counts": {
     "registry-solubility": 13,
     "other-route": 2,
-    "reviewed-row": 1,
-    "refused": 5
+    "reviewed-row": 2,
+    "refused": 4
   },
   "rows": [
     {
@@ -115,10 +115,11 @@
     },
     {
       "species": "maltose",
-      "cls": "refused",
-      "dissolves_by_route": false,
-      "g_per_100_ml": null,
-      "source": "no primary measurement read: not-modeled.organic-solid-no-solubility"
+      "cls": "reviewed-row",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 63.756,
+      "at_k": 278.2,
+      "source": "Gong, Wang, Zhang & Qu, J. Chem. Eng. Data 57(11), 3264-3269 (2012), doi:10.1021/je300885g (NIST ThermoML deposit, maltose monohydrate in water)"
     },
     {
       "species": "naphthalene",

@@ -110,11 +110,32 @@ fn ascorbic_acid_beyond_its_reviewed_solubility_stays_partly_solid() {
 }
 
 #[test]
+fn maltose_dissolves_through_its_reviewed_row() {
+    // batch3-diverse:en-001 v3: 0.20 g maltose in 50 mL water at 37 °C was
+    // left solid with "no wired solver" while the enzyme arm's maltose was
+    // aqueous. Gong et al. 2012 (doi:10.1021/je300885g) put the limit near
+    // 84 g per 100 mL, so all of it dissolves.
+    let mut bench = Bench::new();
+    let mut s = stack();
+    add(&mut bench, &mut s, "water", 2.7671);
+    let events = add(&mut bench, &mut s, "maltose", 5.843e-4);
+    assert!(
+        !events
+            .iter()
+            .any(|e| matches!(e, Event::NotYetModeled { what, .. }
+            if what.contains("no wired solver"))),
+        "{events:?}"
+    );
+    assert!((phase_moles(&bench, "maltose", Phase::Aqueous) - 5.843e-4).abs() < 1e-12);
+    assert_eq!(phase_moles(&bench, "maltose", Phase::Solid), 0.0);
+}
+
+#[test]
 fn an_organic_solid_without_a_reviewed_solubility_is_a_typed_refusal() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "water", 2.2137);
-    let events = add(&mut bench, &mut s, "maltose", 1e-4);
+    let events = add(&mut bench, &mut s, "dehydroascorbic_acid", 1e-4);
     let phrase = events
         .iter()
         .find_map(|event| match event {
@@ -128,7 +149,10 @@ fn an_organic_solid_without_a_reviewed_solubility_is_a_typed_refusal() {
     for locale in ["de", "fr"] {
         assert_ne!(phrase.render(i18n::Locale::parse(locale)), en);
     }
-    assert_eq!(phase_moles(&bench, "maltose", Phase::Aqueous), 0.0);
+    assert_eq!(
+        phase_moles(&bench, "dehydroascorbic_acid", Phase::Aqueous),
+        0.0
+    );
 }
 
 #[test]
@@ -137,7 +161,7 @@ fn the_solid_phase_label_applies_only_to_undissolvable_organic_solids_in_water()
     wet.deposit(SpeciesId::new("water"), Moles(2.0), Phase::Liquid);
     assert!(solve::needs_solid_phase_label(
         &wet,
-        &SpeciesId::new("maltose")
+        &SpeciesId::new("dehydroascorbic_acid")
     ));
     assert!(!solve::needs_solid_phase_label(
         &wet,
@@ -150,9 +174,9 @@ fn the_solid_phase_label_applies_only_to_undissolvable_organic_solids_in_water()
     let dry = Vessel::new(VesselId(1), "dry");
     assert!(!solve::needs_solid_phase_label(
         &dry,
-        &SpeciesId::new("maltose")
+        &SpeciesId::new("dehydroascorbic_acid")
     ));
-    let label = solve::solid_phase_reaction_label(&SpeciesId::new("maltose"), "X → Y");
+    let label = solve::solid_phase_reaction_label(&SpeciesId::new("dehydroascorbic_acid"), "X → Y");
     assert!(label.render(i18n::Locale::EN).contains("solid-phase"));
     assert_ne!(
         label.render(i18n::Locale::parse("de")),

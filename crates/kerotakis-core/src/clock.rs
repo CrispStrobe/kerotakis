@@ -619,6 +619,8 @@ impl Clock for EnzymeClock {
         _ctx: &ClockContext,
         events: &mut Vec<Event>,
     ) -> Result<(), IntegrationError> {
+        // Starch digestion by amylase at the cited unit-definition rate.
+        events.extend(crate::starch_amylase::advance(vessel, seconds));
         for step in crate::enzyme_activity::advance(vessel, seconds) {
             events.push(Event::EnzymeHydrolysed {
                 vessel: vessel.id,

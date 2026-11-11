@@ -29,8 +29,8 @@
 //! - organic solids that are already carried by another route (glucose,
 //!   sucrose, fructose, malic and oxalic acid have registry solubilities;
 //!   citric acid is speciated as Citrate by the PHREEQC derived route);
-//! - organic solids for which no primary measurement was read (maltose,
-//!   dehydroascorbic acid, cellulose, nylon, paraffin): they are refused
+//! - organic solids for which no primary measurement was read
+//!   (dehydroascorbic acid, cellulose, nylon, paraffin): they are refused
 //!   with `not-modeled.organic-solid-no-solubility`, never given a guess.
 
 use crate::species::{self, SpeciesData};
@@ -67,6 +67,26 @@ pub const ROWS: &[OrganicSolubilityRow] = &[
         ],
         source:
             "Shalmashi & Eliassi, J. Chem. Eng. Data 53(6), 1332-1334 (2008), doi:10.1021/je800056h",
+    },
+    // Maltose in water, gravimetric, 278.2-298.2 K, solid phase D-(+)-maltose
+    // monohydrate: Gong, X.; Wang, C.; Zhang, L.; Qu, H. "Solubility of
+    // Xylose, Mannose, Maltose Monohydrate, and Trehalose Dihydrate in
+    // Ethanol-Water Solutions." J. Chem. Eng. Data 2012, 57(11), 3264-3269,
+    // doi:10.1021/je300885g. Read from the NIST ThermoML deposit for that
+    // DOI (trc.nist.gov/ThermoML/10.1021/je300885g.xml, data set 5,
+    // maltose monohydrate + water): mass fraction of the MONOHYDRATE
+    // w = 0.4106 (278.2 K), 0.4424 (288.2 K), 0.4792 (298.2 K; expanded
+    // uncertainty 0.0746 at 95 %). The registry's maltose is anhydrous
+    // C12H22O11, so the hydrate water counts as solvent:
+    // x = (w/360.31) / ((w/360.31) + (1-w)/18.015 + w/360.31),
+    // giving the mole fractions below (5 significant figures);
+    // `maltose_row_reproduces_the_deposited_mass_fractions` re-derives w.
+    // Above 298.2 K (the 37 °C digestion) the 298.2 K value is held, a
+    // lower bound since the solubility rises with temperature.
+    OrganicSolubilityRow {
+        species: "maltose",
+        mole_fraction: &[(278.2, 0.032_56), (288.2, 0.036_75), (298.2, 0.042_13)],
+        source: "Gong, Wang, Zhang & Qu, J. Chem. Eng. Data 57(11), 3264-3269 (2012), doi:10.1021/je300885g (NIST ThermoML deposit, maltose monohydrate in water)",
     },
 ];
 
@@ -141,8 +161,30 @@ mod tests {
     }
 
     #[test]
+    fn maltose_row_reproduces_the_deposited_mass_fractions() {
+        // Back from x (anhydrous maltose with hydrate water as solvent) to
+        // the deposited monohydrate mass fraction w.
+        let (m_hydrate, m_water) = (360.31, 18.015);
+        for ((_, x), w) in row("maltose")
+            .unwrap()
+            .mole_fraction
+            .iter()
+            .zip([0.4106, 0.4424, 0.4792])
+        {
+            let n = *x; // per mole of solution
+            let water_free = 1.0 - x - n; // solvent water minus hydrate water
+            let mass_hydrate = n * m_hydrate;
+            let back = mass_hydrate / (mass_hydrate + water_free * m_water);
+            assert!((back - w).abs() < 2e-4, "{back} vs {w}");
+        }
+        // Far above the 0.2 g in 50 mL of the starch-digestion control.
+        let g = g_per_100_ml("maltose", 298.2).unwrap();
+        assert!(g > 70.0 && g < 95.0, "{g}");
+    }
+
+    #[test]
     fn a_species_without_a_row_has_no_number() {
-        assert!(g_per_100_ml("maltose", 298.15).is_none());
+        assert!(g_per_100_ml("dehydroascorbic_acid", 298.15).is_none());
         assert!(g_per_100_ml("cellulose", 298.15).is_none());
     }
 }

@@ -60,7 +60,8 @@ def reviewed_rows():
     src = SOL_SRC.read_text(encoding="utf-8").split("#[cfg(test)]")[0]
     rows = {}
     for m in re.finditer(r'OrganicSolubilityRow \{\s*species: "([^"]+)",\s*mole_fraction: &\[(.*?)\],\s*source:\s*"([^"]+)"', src, re.S):
-        pts = [(float(t), float(x)) for t, x in re.findall(r"\(([\d.]+),\s*([\d.]+)\)", m.group(2))]
+        pts = [(float(t.replace("_", "")), float(x.replace("_", "")))
+               for t, x in re.findall(r"\(([\d._]+),\s*([\d._]+)\)", m.group(2))]
         rows[m.group(1)] = dict(points=pts, source=m.group(3))
     return rows
 
@@ -152,6 +153,12 @@ def main():
           "Source of the new row: Shalmashi, A.; Eliassi, A. J. Chem. Eng. Data 2008, 53(6), 1332-1334,",
           "doi:10.1021/je800056h (L-ascorbic acid, water, 293-323 K, gravimetric; values as deposited in",
           "NIST ThermoML).", "",
+          "Maltose row (2026-11-11, batch3-diverse:en-001): Gong, X.; Wang, C.; Zhang, L.; Qu, H.",
+          "J. Chem. Eng. Data 2012, 57(11), 3264-3269, doi:10.1021/je300885g, NIST ThermoML deposit:",
+          "D-(+)-maltose monohydrate in water, mass fraction w = 0.4106 / 0.4424 / 0.4792 at",
+          "278.2 / 288.2 / 298.2 K (gravimetric). Converted to anhydrous-maltose mole fraction with the",
+          "hydrate water counted as solvent. Other sugars: glucose, fructose and sucrose already carry a",
+          "registry solubility; no other sugar is a registry solid.", "",
           f"Counts: {', '.join(f'{k} {v}' for k, v in sorted(counts_by.items()))}.", "",
           "| species | class | dissolves by route | g/100 mL | source |", "|---|---|---|---|---|"]
     for r in out:

@@ -553,20 +553,10 @@ pub const REACTIONS: &[CuratedReaction] = &[
         reactant_phases: None,
     },
     // ── enzymatic hydrolysis (EXP-14: Das süße Brot) ────────────
-    // Amylase catalyses starch hydrolysis to maltose. The enzyme
-    // is not consumed. Simplified: 2 monomer units + H₂O → maltose.
-    CuratedReaction {
-        equation: "2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁",
-        reactants: &[("starch", 2.0), ("water", 1.0)],
-        products: &[("maltose", 1.0, Phase::Aqueous)],
-        solvent: None,
-        min_temp_k: None,
-        catalyst: Some("amylase"),
-        acid_protons: None,
-        post_aqueous: None,
-        aqueous_overlap: None,
-        reactant_phases: None,
-    },
+    // Retired 2026-11-11 (batch3-diverse:en-001): this row completed the
+    // whole digestion the instant amylase was added. Starch digestion now
+    // advances over bench time at a cited unit-definition rate in
+    // `crate::starch_amylase` (clock::EnzymeClock).
     // ── EXP-5: hypochlorite bleaching of dyes ──────────────────────
     CuratedReaction {
         equation: "betanin + NaOCl → betanin(ox) + NaCl",
