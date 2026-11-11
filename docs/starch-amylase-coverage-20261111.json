@@ -25,6 +25,16 @@
     "state": "Vessel::amylase_inactive_moles (irreversible; not carried by a pour)",
     "target": "curiosity-v1 bio-030"
   },
+  "native_granules": {
+    "gelatinised_at_k": 358.15,
+    "gelatinisation_source": "Belitz, Grosch, Schieberle, Food Chemistry, 3rd ed., Springer 2004, pp. 318-323 (ISBN 3-540-40818-5): unmodified native starches start swelling at 55 °C (some types) to 85 °C (others); value as quoted by https://en.wikipedia.org/wiki/Starch_gelatinization",
+    "granule_rate_source": "Slaughter, Ellis, Butterworth, Biochim. Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8: gelatinisation raises porcine pancreatic α-amylase k_cat/K_m 13-fold (waxy rice) to 239-fold (potato); source-dependent, so no generic granule rate",
+    "rule": "only starch booked as gelatinised (held in liquid water at >= GELATINISED_AT_K during a clock step) is digested at the soluble-starch unit rate; native granules are refused, not digested",
+    "refusal": "not-modeled.amylase-native-starch-granules",
+    "state": "Vessel::starch_gelatinised_moles (irreversible; retrogradation and pours not modelled)",
+    "product": "booked as maltose equivalents (the unit counts reducing sugar as maltose); maltotriose and alpha-limit dextrin end point NOT modelled: no sourced limit extent",
+    "target": "batch3-diverse:en-001"
+  },
   "enzymes": [
     {
       "enzyme": "amylase",
@@ -33,7 +43,8 @@
       "refusals": [
         "not-modeled.amylase-outside-unit-conditions",
         "not-modeled.amylase-dose-not-convertible",
-        "not-modeled.amylase-heat-inactivated"
+        "not-modeled.amylase-heat-inactivated",
+        "not-modeled.amylase-native-starch-granules"
       ]
     },
     {

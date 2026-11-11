@@ -68,6 +68,36 @@
 //!   `not-modeled.amylase-outside-unit-conditions` instead of run.
 //! * An enzyme dose that cannot be converted to milligrams (no registry
 //!   molar mass) is refused with `not-modeled.amylase-dose-not-convertible`.
+//!
+//! Native (ungelatinised) starch granules (2026-11-11, EN-001 rerun: 0.20 g
+//! starch stirred into 37 °C water was digested completely to maltose at
+//! the soluble-starch rate):
+//!
+//! * The A3176 unit is measured on a starch SOLUTION (Bernfeld assay), i.e.
+//!   gelatinised starch. Granular starch is a different substrate: Slaughter,
+//!   Ellis, Butterworth, "An investigation of the action of porcine
+//!   pancreatic α-amylase on native and gelatinised starches", Biochim.
+//!   Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8,
+//!   report that gelatinisation raised k_cat/K_m by 13-fold (waxy rice) to
+//!   239-fold (potato). The factor depends on the botanical source, which
+//!   the bench's single `starch` species does not carry, so no granule rate
+//!   is claimed: digestion of native granules is refused with
+//!   `not-modeled.amylase-native-starch-granules` and they stay as they are.
+//! * Gelatinised state: starch held in liquid water at or above 85 °C during
+//!   a clock step is booked as gelatinised (`Vessel::starch_gelatinised_moles`,
+//!   irreversible; retrogradation not modelled). 85 °C is the HIGHEST onset
+//!   in the cited range "some types of unmodified native starches start
+//!   swelling at 55 °C, other types at 85 °C" (Belitz, Grosch, Schieberle,
+//!   Food Chemistry, 3rd ed., Springer 2004, pp. 318-323, ISBN
+//!   3-540-40818-5; value as quoted by
+//!   https://en.wikipedia.org/wiki/Starch_gelatinization). Between 55 and
+//!   85 °C the state depends on the unknown botanical source, so it is not
+//!   booked. Starch added later is native again.
+//! * Product spectrum: α-amylase gives maltose, maltotriose and α-limit
+//!   dextrins, not pure maltose; the unit definition counts reducing sugar
+//!   as maltose equivalents. The product is booked as maltose equivalents
+//!   at the cited rate; the limit-dextrin end point is NOT modelled (no
+//!   sourced limit extent) and is disclosed, not hidden.
 //! * The chloride requirement is disclosed, not gated: the unit's assay
 //!   buffer supplies it, and the bench does not know a chloride threshold.
 
@@ -105,6 +135,13 @@ pub const INACTIVATION_GAS_CONSTANT: f64 = 8.315;
 /// is booked as completely inactivated rather than extrapolated.
 pub const COMPLETE_LOSS_ABOVE_K: f64 = 343.15;
 pub const INACTIVATION_SOURCE: &str = "Miłek, Molecules 26 (2021) 4117, doi:10.3390/molecules26144117, Table 1 row 1a (Sigma porcine pancreatic α-amylase, data of Akhond et al. 2016, doi:10.1007/s12010-016-2145-1): first-order deactivation, T_opt 311.06 K, E_d 164.9 kJ/mol, β 1.46, t_a 3 min";
+
+/// Highest native-starch swelling onset, K (85 °C; Belitz, Grosch,
+/// Schieberle, Food Chemistry 3rd ed. 2004 pp. 318-323, as quoted by
+/// Wikipedia "Starch gelatinization").
+pub const GELATINISED_AT_K: f64 = 358.15;
+pub const GELATINISATION_SOURCE: &str = "Belitz, Grosch, Schieberle, Food Chemistry, 3rd ed., Springer 2004, pp. 318-323 (ISBN 3-540-40818-5): unmodified native starches start swelling at 55 °C (some types) to 85 °C (others); value as quoted by https://en.wikipedia.org/wiki/Starch_gelatinization";
+pub const NATIVE_GRANULE_SOURCE: &str = "Slaughter, Ellis, Butterworth, Biochim. Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8: gelatinisation raises porcine pancreatic α-amylase k_cat/K_m 13-fold (waxy rice) to 239-fold (potato); source-dependent, so no generic granule rate";
 
 pub const SOURCE: &str = "Sigma-Aldrich A3176 alpha-amylase (porcine pancreas, Type VI-B): 1 U liberates 1.0 mg maltose from starch in 3 min at pH 6.9, 20 °C; ≥5 U/mg solid";
 
@@ -151,13 +188,54 @@ pub fn active_enzyme_moles(vessel: &Vessel) -> f64 {
     (total(vessel, ENZYME) - vessel.amylase_inactive_moles.unwrap_or(0.0)).max(0.0)
 }
 
+/// Gelatinised starch repeat units available to the unit-rate route, mol
+/// (capped by the ledger total).
+pub fn gelatinised_moles(vessel: &Vessel) -> f64 {
+    vessel
+        .starch_gelatinised_moles
+        .unwrap_or(0.0)
+        .min(total(vessel, SUBSTRATE))
+        .max(0.0)
+}
+
+/// Book every starch repeat unit as gelatinised when the vessel holds
+/// liquid water at or above `GELATINISED_AT_K` while time passes.
+pub fn record_gelatinisation(vessel: &mut Vessel, seconds: f64) {
+    if seconds <= 0.0
+        || !has_liquid_water(vessel)
+        || !vessel.temperature.0.is_finite()
+        || vessel.temperature.0 < GELATINISED_AT_K
+    {
+        return;
+    }
+    let starch = total(vessel, SUBSTRATE);
+    if starch > 0.0 {
+        vessel.starch_gelatinised_moles = Some(starch);
+    }
+}
+
+fn native_granules_event(vessel: &Vessel, native: f64) -> Event {
+    let grams = species::lookup_key(SUBSTRATE)
+        .map(|d| native * d.molar_mass)
+        .unwrap_or(0.0);
+    Event::not_modeled(
+        vessel.id,
+        crate::ops::NotModelledCause::ModelBoundary,
+        Phrase::new(
+            "not-modeled.amylase-native-starch-granules",
+            "starch digestion by amylase: {grams} g of the starch is native, ungelatinised granules (never held in water at 85 °C or above); the cited activity is for dissolved, gelatinised starch and granules are digested many times more slowly by an amount that depends on the plant source, so no digestion of the granules is booked and they are left as they are",
+            vec![("grams".to_string(), Slot::number(format!("{grams:.3}")))],
+        ),
+    )
+}
+
 /// Whether amylase can digest starch here (enzyme, substrate and liquid
 /// water present). Used by the insolubility remark so it does not tell a
 /// learner "starch does not react" while the clock is digesting it.
 pub fn consumes(vessel: &Vessel, species: &SpeciesId) -> bool {
     species.0 == SUBSTRATE
         && active_enzyme_moles(vessel) > 0.0
-        && total(vessel, SUBSTRATE) > 0.0
+        && gelatinised_moles(vessel) > 0.0
         && has_liquid_water(vessel)
 }
 
@@ -215,6 +293,8 @@ pub fn maltose_capacity_moles(enzyme_mg: f64, seconds: f64) -> Option<f64> {
 /// Advance the digestion over `seconds`. Returns the events to report.
 pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<Event> {
     let mut events = Vec::new();
+    // Gelatinisation is booked with or without enzyme (cook, cool, digest).
+    record_gelatinisation(vessel, seconds);
     if seconds <= 0.0 || total(vessel, ENZYME) <= 0.0 || !has_liquid_water(vessel) {
         return events;
     }
@@ -262,10 +342,14 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<Event> {
             return events;
         }
     }
+    let native = (total(vessel, SUBSTRATE) - gelatinised_moles(vessel)).max(0.0);
+    if native > 0.0 {
+        events.push(native_granules_event(vessel, native));
+    }
     let Some(capacity) = maltose_capacity_moles(mg, effective_seconds) else {
         return events;
     };
-    let starch = total(vessel, SUBSTRATE);
+    let starch = gelatinised_moles(vessel);
     let water = vessel
         .contents
         .iter()
@@ -288,6 +372,8 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<Event> {
     }
     let digested = 2.0 * extent - take.max(0.0);
     let extent = digested / 2.0;
+    vessel.starch_gelatinised_moles =
+        Some((vessel.starch_gelatinised_moles.unwrap_or(0.0) - digested).max(0.0));
     vessel.withdraw_phase(&SpeciesId::new("water"), Moles(extent), Phase::Liquid);
     vessel.deposit(SpeciesId::new(PRODUCT), Moles(extent), Phase::Aqueous);
     events.push(Event::ReactionOccurred {
@@ -312,6 +398,8 @@ mod tests {
         );
         let m = species::lookup_key(ENZYME).unwrap().molar_mass;
         v.deposit(SpeciesId::new(ENZYME), Moles(enzyme_g / m), Phase::Aqueous);
+        // Cooked starch: the unit rate is for gelatinised starch.
+        v.starch_gelatinised_moles = Some(0.20 / 162.14);
         v
     }
 
