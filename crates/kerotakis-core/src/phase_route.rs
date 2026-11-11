@@ -387,13 +387,24 @@ pub(crate) fn refreeze_flame_melts(vessel: &mut Vessel, step: &[Event]) -> Vec<E
         .collect();
     let mut events = Vec::new();
     for (species, at, moles) in melted {
-        let Some(melting) = melts_at(&species.0) else {
+        let liquid = moles_in_phase(vessel, &species, Phase::Liquid);
+        let n = if let Some(melting) = melts_at(&species.0) {
+            if vessel.temperature.0 >= melting {
+                continue;
+            }
+            moles.min(liquid)
+        } else if let Some(row) = crate::melting_range::range(&species.0)
+            .filter(|_| crate::melting_range::fusion_j_per_mol(&species.0).is_some())
+        {
+            // A range material (po-009 / th-004) refreezes only down to
+            // the liquid fraction its range allows at the restored
+            // temperature: none of it below the lower bound.
+            let total = liquid + moles_in_phase(vessel, &species, Phase::Solid);
+            let allowed = total * crate::melting_range::melted_fraction(row, vessel.temperature.0);
+            moles.min(liquid - allowed)
+        } else {
             continue;
         };
-        if vessel.temperature.0 >= melting {
-            continue;
-        }
-        let n = moles.min(moles_in_phase(vessel, &species, Phase::Liquid));
         if n <= TRACE {
             continue;
         }
@@ -1429,6 +1440,11 @@ impl Equilibrator for PhaseRouteEquilibrator {
         // Reviewed-transition-points lane: a solid above its sourced
         // melting point or range with no latent heat to melt it is told,
         // never silently kept solid (`melting_range`).
+        // po-009 / th-004: a material that melts over a sourced RANGE with
+        // a sourced enthalpy of fusion pays that latent heat as it is
+        // heated through the range (and gets it back on cooling) before
+        // anything is said about what stays solid.
+        events.extend(crate::melting_range::settle_range_melts(vessel));
         events.extend(crate::melting_range::unmodelled_melts(vessel));
         Ok(events)
     }

@@ -128,6 +128,7 @@ step "i18n engine self-test"; python3 -m unittest tools.tests.test_engine_locale
 step "separation coverage"; python3 tools/separation_coverage.py --check
 step "flame emission coverage"; python3 tools/flame_emission_coverage.py --check
 step "redox respeciation coverage"; python3 tools/redox_respeciation_coverage.py --check
+step "melting-range latent heat coverage"; python3 tools/melting_range_latent_heat_coverage.py --check
 step "starch amylase coverage"; python3 tools/starch_amylase_coverage.py --check
 step "transport ledger coverage"; python3 tools/transport_ledger_coverage.py --check
 step "solid reagent / ion partition coverage"; python3 tools/solid_reagent_ion_partition_coverage.py --check

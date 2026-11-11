@@ -32,7 +32,8 @@ fn unmodelled(events: &[Event]) -> Vec<&Event> {
             matches!(e, Event::NotYetModeled {
                 cause: NotModelledCause::NoReviewedDatum,
                 reason: Some(reason), ..
-            } if reason.key == "not-modeled.melting-not-modelled")
+            } if reason.key == "not-modeled.melting-not-modelled"
+                || reason.key == "not-modeled.melting-range-latent-heat-unsourced")
         })
         .collect()
 }
@@ -132,11 +133,14 @@ fn a_polyolefin_blend_is_a_mixture_bounded_by_the_lower_range() {
 }
 
 #[test]
-fn heated_past_its_range_a_wax_is_told_melting_is_not_modelled() {
+fn heated_past_its_range_a_wax_pays_its_sourced_latent_heat_instead_of_a_warning() {
+    // po-009 / th-004 (2026-11-11): paraffin now carries a sourced
+    // enthalpy of fusion, so it is melted and paid for, not warned about.
     let row = melting_range::range("paraffin").expect("paraffin range");
     let mut v = vessel_with(&[("paraffin", 0.014, Phase::Solid)], row.upper_k + 5.0);
     let events = settle(&mut v);
-    assert_eq!(unmodelled(&events).len(), 1, "{events:?}");
+    assert!(unmodelled(&events).is_empty(), "{events:?}");
+    assert!(v.temperature.0 < row.upper_k + 5.0, "the melt cooled it");
 }
 
 #[test]
@@ -184,10 +188,14 @@ fn the_warning_is_rendered_in_german_and_french() {
     let en = reason.render(Locale::EN);
     let de = reason.render(Locale::parse("de"));
     let fr = reason.render(Locale::parse("fr"));
-    assert!(en.contains("melting is not modelled"), "{en}");
+    assert_eq!(
+        reason.key,
+        "not-modeled.melting-range-latent-heat-unsourced"
+    );
+    assert!(en.contains("enthalpy of fusion is not sourced"), "{en}");
     assert!(en.contains("141"), "the sourced upper end is quoted: {en}");
-    assert!(de.contains("Schmelzpunkt"), "{de}");
-    assert!(fr.contains("point de fusion"), "{fr}");
+    assert!(de.contains("Schmelzbereich"), "{de}");
+    assert!(fr.contains("plage de fusion"), "{fr}");
 }
 
 // ── Restored 2026-11-11 (transition-data-restore lane) ─────────────────

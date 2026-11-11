@@ -584,8 +584,10 @@ pub struct TransitionReading {
     /// Everything of the wanted phase, in registry order. For a mixture this
     /// is the answer: these are the things that are in the way.
     pub components: Vec<SpeciesId>,
-    /// The lowest pure melting point among the components — the bound the
-    /// mixture's own range begins below. Direction only; see `boundary`.
+    /// The lowest pure melting point among the components — for a mixture
+    /// that is miscible in the melt, the bound its own range begins below
+    /// (direction only; see `boundary`); for an immiscible blend, simply
+    /// the lowest component's own value, NOT a depressed onset.
     pub lowest_component_c: Option<f64>,
     /// What the reading does NOT claim.
     pub boundary: Option<String>,
@@ -604,6 +606,11 @@ pub struct TransitionReading {
     /// material stays solid above it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub range_high_c: Option<f64>,
+    /// A mixture whose components are all sourced as immiscible in the
+    /// melt (`melting_range::IMMISCIBLE_MELTS`): each melts over its own
+    /// range and the blend is NOT depressed below its lowest component.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub immiscible_blend: bool,
 }
 
 /// The phases, in priority order, the apparatus takes its sample from when
@@ -627,10 +634,20 @@ pub const APPARATUS_BOUNDARY: &str =
 /// The mixture refusal's own boundary — the one number this bench will not
 /// invent.
 pub const MIXTURE_BOUNDARY: &str =
-    "the direction is a law and is claimed: a mixture melts below its lowest-melting pure \
-     component and over a range, not at a point. The SIZE of the depression is not claimed — \
-     that needs the cryoscopic constant and enthalpy of fusion of the major component, and \
-     this registry curates neither for solids other than water";
+    "the direction is claimed only for components that dissolve in each other's melt (a \
+     solution or eutectic system): such a mixture melts below its lowest-melting pure \
+     component and over a range, not at a point. Components that do not mix when molten \
+     (most polymer pairs) are not depressed: each melts over its own range. The SIZE of the \
+     depression is not claimed — that needs the cryoscopic constant and enthalpy of fusion \
+     of the major component, and this registry curates neither for solids other than water";
+
+/// The boundary of a blend whose components are all sourced as immiscible
+/// in the melt (po-009): no depression law applies.
+pub const IMMISCIBLE_BLEND_BOUNDARY: &str =
+    "these components are immiscible in the melt, so the blend is not a solution and no \
+     melting-point depression is claimed: each component melts over its own range as it \
+     would alone, and the blend shows each component's own melting rather than one lowered \
+     transition. A single returned value is not evidence of miscibility";
 
 /// Read a melting or boiling point off a vessel.
 ///
@@ -690,6 +707,7 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
         sample_phase: None,
         range_low_c: None,
         range_high_c: None,
+        immiscible_blend: false,
     };
     if total <= 0.0 {
         return reading;
@@ -729,7 +747,13 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
         .collect();
     if significant.len() > 1 {
         reading.verdict = PurityVerdict::Mixture;
-        reading.boundary = Some(MIXTURE_BOUNDARY.to_string());
+        let keys: Vec<&str> = significant.iter().map(|(s, _)| s.0.as_str()).collect();
+        if crate::melting_range::all_immiscible(&keys) {
+            reading.immiscible_blend = true;
+            reading.boundary = Some(IMMISCIBLE_BLEND_BOUNDARY.to_string());
+        } else {
+            reading.boundary = Some(MIXTURE_BOUNDARY.to_string());
+        }
         return reading;
     }
     let (only, _) = significant
