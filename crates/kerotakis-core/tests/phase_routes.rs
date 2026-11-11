@@ -444,7 +444,7 @@ fn liquid_nitrogen_freezes_ethanol_solid() {
 
     let t = vessel_of(&bench).temperature.0;
     assert!(
-        (t - 77.36).abs() < 0.01,
+        (t - 77.34).abs() < 0.01,
         "the flask sits at the nitrogen's boiling point while any is left; got {t} K"
     );
     assert!(
@@ -530,7 +530,7 @@ fn a_lone_dewar_of_liquid_nitrogen_settles_on_its_boiling_point() {
 
     let t = vessel_of(&bench).temperature.0;
     assert!(
-        (t - 77.355).abs() < 1e-6,
+        (t - 77.34).abs() < 1e-6,
         "a dewar of liquid nitrogen is at -196 C, not at room temperature; got {t} K"
     );
     assert!(

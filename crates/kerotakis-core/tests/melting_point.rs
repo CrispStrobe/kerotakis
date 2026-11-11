@@ -117,15 +117,17 @@ fn a_wet_sample_is_refused_rather_than_read_low() {
 }
 
 #[test]
-fn a_decomposition_with_no_primary_source_is_not_reported() {
-    // Sucrose has no melting point, and its 186 C decomposition onset
-    // stood only on the withdrawn editorial tranche (dropped 2026-11-11).
-    // The apparatus says it has no value rather than printing an
-    // unsourced one.
+fn a_substance_that_decomposes_is_told_that_it_decomposes() {
+    // Sucrose has no melting point: Kofler and Sitte (1950) record it
+    // melting with decomposition near 461 K, which the registry classifies
+    // as decomposition. Reporting it as a melting point would teach the
+    // commonest lie in the school data tables.
     let sample = vessel_with(&[("sucrose", 0.01, species::Phase::Solid)]);
     let r = read(&sample, TransitionRead::Melting);
-    assert_eq!(r.verdict, PurityVerdict::NoData);
-    assert!(r.value_c.is_none());
+    assert_eq!(r.verdict, PurityVerdict::Pure);
+    assert_eq!(r.outcome, Some(TransitionOutcome::Decomposes));
+    assert!((r.value_c.unwrap() - 187.85).abs() < 0.05);
+    assert!(r.boundary.unwrap().contains("does not melt"));
 }
 
 #[test]

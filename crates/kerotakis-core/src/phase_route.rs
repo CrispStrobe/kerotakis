@@ -750,14 +750,12 @@ pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[
         kj_per_mol: 28.85,
         provenance: "Hexane enthalpy of vaporisation 28.85 kJ/mol at its 68.742 degrees Celsius boiling point. NBS Circular 461, F. D. Rossini et al., Selected Values of Properties of Hydrocarbons, National Bureau of Standards, 1947; retrieved 2026-09-13 from https://archive.org/details/circularofbureau461ross. This is the edition of American Petroleum Institute Research Project 44 that the NBS issued through the Government Printing Office - masthead 'American Petroleum Institute Research Project 44 / National Bureau of Standards' - and the whole document contains no occurrence of the word copyright. The later Thermodynamics Research Center editions of API RP-44 are a separate and copyrighted product; this is not one of them. Table 2m prints 80.03 cal/g, equivalently 6.896 kcal/mol, at 68.742 degrees Celsius, which is 28853 J/mol - agreeing with the shipped value to one part in ten thousand. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. This is the cleanest row in the table: a public-domain United States Government document that prints the quantity at the temperature the bench uses it at, and no value change at all",
     },
-    // Ethyl acetate's row (31.94 kJ/mol, J. E. Connett, J. F. Counsell and
-    // D. A. Lee, J. Chem. Thermodyn. 8 (1976) 1199,
-    // doi:10.1016/0021-9614(76)90129-4) was removed on 2026-11-11: its
-    // boiling point stood only on the withdrawn phase-transitions tranche
-    // and no primary value was read, so the registry now carries no
-    // boiling point for it, and a latent heat with no temperature to pay
-    // it at is a row `tests/phase_routes.rs` rightly refuses. Restore it
-    // together with a sourced normal boiling point.
+    LatentHeat {
+        species: "ethyl_acetate",
+        // 31.94 kJ/mol.
+        kj_per_mol: 31.94,
+        provenance: "Ethyl acetate enthalpy of vaporisation 31.94 kJ/mol at its normal boiling point. J. E. Connett, J. F. Counsell and D. A. Lee, 'Thermodynamic properties of organic oxygen compounds: enthalpy of vaporization of ethyl acetate', J. Chem. Thermodyn. 8 (1976) 1199-1203, doi:10.1016/0021-9614(76)90129-4. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO, in the same way as propan-2-ol above: the publication is right and its DOI resolves, but the value was read through the NIST WebBook's rendering rather than off the paper. A public-domain corroboration was read in full and DISAGREES by two per cent, which is why it is recorded rather than adopted: A. C. Brown, J. Chem. Soc. Trans. 83 (1903) 987, doi:10.1039/CT9038300987, measured 88.37 cal/g at 77.3 degrees Celsius, which is 32.58 kJ/mol. A 1903 determination two per cent above a 1976 one is the expected direction and not a reason to move the value, but a reviewer should know both numbers exist",
+    },
     LatentHeat {
         species: "CH3COOH",
         // 24.39 kJ/mol.

@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.range 3, melting.reported 24.
+Counts: boiling.no_data 178, boiling.reported 18, melting.no_data 165, melting.range 3, melting.reported 28.
 
 ## Melting ranges
 
@@ -48,7 +48,7 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | AgCl | solid | no_data (withdrawn value dropped) | no_data (withdrawn value dropped) | — |
 | AgI | solid | no_data | no_data | — |
 | AgNO3 | solid | no_data (withdrawn value dropped) | no_data | — |
-| Al | solid | melting 933.473 K | no_data (withdrawn value dropped) | literature/transition-points/Al |
+| Al | solid | melting 933.473 K | boiling 2793 K | literature/transition-points/Al |
 | Ba(OH)2 | solid | no_data | no_data | — |
 | Ba+2 | aqueous | no_data | no_data | — |
 | BaCO3 | solid | no_data | no_data | — |
@@ -90,7 +90,7 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | H2 | gas | no_data | no_data | — |
 | H2BO3- | aqueous | no_data | no_data | — |
 | H2C2O4 | solid | no_data | no_data | — |
-| H2O2 | liquid | no_data (withdrawn value dropped) | no_data (withdrawn value dropped) | — |
+| H2O2 | liquid | melting 272.26 K | no_data (withdrawn value dropped) | literature/transition-points/H2O2 |
 | H2PO4- | aqueous | no_data | no_data | — |
 | H2SO4 | liquid | no_data | no_data | — |
 | H3BO3 | aqueous | no_data | no_data | — |
@@ -112,7 +112,7 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | KNO3 | solid | no_data (withdrawn value dropped) | no_data | — |
 | KOH | solid | no_data (withdrawn value dropped) | no_data (withdrawn value dropped) | — |
 | KSCN | aqueous | no_data | no_data | — |
-| Mg | solid | melting 922 K | no_data (withdrawn value dropped) | literature/transition-points/Mg |
+| Mg | solid | melting 922 K | boiling 1363 K | literature/transition-points/Mg |
 | Mg(OH)2 | solid | no_data | no_data | — |
 | Mg+2 | aqueous | no_data | no_data | — |
 | MgO | solid | no_data (withdrawn value dropped) | no_data | — |
@@ -181,7 +181,7 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | betanin | aqueous | no_data | no_data | — |
 | betanin_ox | aqueous | no_data | no_data | — |
 | brochantite | solid | no_data | no_data | — |
-| bromoethane | liquid | no_data (withdrawn value dropped) | no_data (withdrawn value dropped) | — |
+| bromoethane | liquid | melting 155 K | boiling 311.5 K | literature/transition-points/bromoethane |
 | bromothymol_blue | aqueous | no_data | no_data | — |
 | butane | gas | no_data | no_data | — |
 | catalase | aqueous | no_data | no_data | — |
@@ -193,12 +193,12 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | curcumin_ox | aqueous | no_data | no_data | — |
 | dehydroascorbic_acid | solid | no_data | no_data | — |
 | diamond | solid | no_data | no_data | — |
-| dodecane | liquid | no_data (withdrawn value dropped) | no_data (withdrawn value dropped) | — |
+| dodecane | liquid | melting 263.57 K | boiling 489 K | literature/transition-points/dodecane |
 | dry_ice | solid | sublimation 194.686 K | sublimation 194.686 K | literature/transition-points/dry_ice |
 | epsomite | solid | dehydration 473.15 K | no_data | literature/transition-points/epsomite (model threshold, not a literature value) |
-| ethanol | liquid | melting 159 K | boiling 351.7 K | literature/transition-points/ethanol |
+| ethanol | liquid | melting 159 K | boiling 351.5 K | literature/transition-points/ethanol |
 | ethene | gas | no_data | no_data | — |
-| ethyl_acetate | liquid | melting 189.3 K | no_data (withdrawn value dropped) | literature/transition-points/ethyl_acetate |
+| ethyl_acetate | liquid | melting 189.3 K | boiling 350.2 K | literature/transition-points/ethyl_acetate |
 | fructose | solid | no_data | no_data | — |
 | glucose | solid | no_data | no_data | — |
 | graphite | solid | no_data | no_data | — |
@@ -206,33 +206,33 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | hair_pigment | solid | no_data | no_data | — |
 | hair_pigment_ox | solid | no_data | no_data | — |
 | helium | gas | no_data | no_data | — |
-| hexadecane | liquid | melting 291.3 K | no_data (withdrawn value dropped) | literature/transition-points/hexadecane |
+| hexadecane | liquid | melting 291.3 K | boiling 554 K | literature/transition-points/hexadecane |
 | hexane | liquid | melting 177.84 K | boiling 341.892 K | literature/transition-points/hexane |
 | hydrogen_sulfide | gas | no_data | no_data | — |
 | hydroxylapatite | solid | no_data | no_data | — |
 | indigo_carmine | aqueous | no_data | no_data | — |
 | indigo_carmine_ox | aqueous | no_data | no_data | — |
 | isobutylene | gas | no_data | no_data | — |
-| isopropanol | liquid | melting 184.67 K | boiling 355.39 K | literature/transition-points/isopropanol |
+| isopropanol | liquid | melting 184.67 K | boiling 355.5 K | literature/transition-points/isopropanol |
 | lactate | aqueous | no_data | no_data | — |
 | lactic_acid | liquid | no_data | no_data | — |
 | langite | solid | no_data | no_data | — |
-| liquid_nitrogen | liquid | melting 63.151 K | boiling 77.355 K | literature/transition-points/liquid_nitrogen |
+| liquid_nitrogen | liquid | melting 63.14 K | boiling 77.34 K | literature/transition-points/liquid_nitrogen |
 | malic_acid | solid | no_data | no_data | — |
 | maltose | solid | no_data | no_data | — |
 | methane | gas | no_data | no_data | — |
 | methanol | liquid | melting 175.26 K | boiling 337.9 K | literature/transition-points/methanol |
 | methyl_orange | aqueous | no_data | no_data | — |
-| naphthalene | solid | melting 353.4 K | no_data (withdrawn value dropped) | literature/transition-points/naphthalene |
+| naphthalene | solid | melting 353.4 K | boiling 490 K | literature/transition-points/naphthalene |
 | nylon | solid | no_data | no_data | — |
 | octacalcium_phosphate | solid | no_data | no_data | — |
 | paraffin | solid | range 315.15–341.15 K | no_data | — |
 | phenolphthalein | aqueous | no_data | no_data | — |
 | propane | gas | no_data | no_data | — |
-| propanone | liquid | melting 177.6 K | boiling 329.34 K | literature/transition-points/propanone |
+| propanone | liquid | melting 177.6 K | boiling 329.3 K | literature/transition-points/propanone |
 | starch | solid | no_data | no_data | — |
-| sucrose | solid | no_data (withdrawn value dropped) | no_data (withdrawn value dropped) | — |
-| tert_butanol | liquid | melting 298.97 K | no_data (withdrawn value dropped) | literature/transition-points/tert_butanol |
+| sucrose | solid | decomposition 461 K | decomposition 461 K | literature/transition-points/sucrose |
+| tert_butanol | liquid | melting 298.97 K | boiling 355.5 K | literature/transition-points/tert_butanol |
 | tert_butyl_bromide | liquid | no_data | no_data | — |
 | uranium | solid | no_data | no_data | — |
 | water | liquid | melting 273.15 K | boiling 373.15 K | literature/transition-points/water |
@@ -240,28 +240,32 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 ## Sources
 
 - **Ag** (`literature/transition-points/Ag`): Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.
-- **Al** (`literature/transition-points/Al`): Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.
+- **Al** (`literature/transition-points/Al`): Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point 2793.0 K: R. E. Honig and D. A. Kramer, 'Vapor pressure data for the solid and liquid elements', RCA Review 30 (1969) 285-305 (no doi), as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7429905&Units=SI&Mask=4, retrieved 2026-11-11.
 - **CH3COOH** (`literature/transition-points/CH3COOH`): Melting point 289.77 K and normal boiling point 391.4 K (118.2 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), phase-transition tables; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read 2026-11-11 through the scanned text layer, which drops substance names from the value lines: the row was identified by its position in the formula-ordered block, so a reviewer should confirm it against the page image. The melting value is the same one Circular 500 prints beside acetic acid's enthalpy of fusion.
 - **Cu** (`literature/transition-points/Cu`): Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.
 - **Fe** (`literature/transition-points/Fe`): Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.
+- **H2O2** (`literature/transition-points/H2O2`): Melting point 272.26 K: A. C. Cuthbertson, G. L. Matheson and O. Maass, 'The freezing point and density of pure hydrogen peroxide', J. Am. Chem. Soc. 50 (1928) 1120, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7722841&Units=SI&Mask=4, retrieved 2026-11-11. Boiling point: the WebBook lists none and none is claimed.
 - **KCl** (`literature/transition-points/KCl`): Melting point 1044 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES.
-- **Mg** (`literature/transition-points/Mg`): Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.
+- **Mg** (`literature/transition-points/Mg`): Melting point 922 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point 1363.0 K: R. E. Honig and D. A. Kramer, 'Vapor pressure data for the solid and liquid elements', RCA Review 30 (1969) 285-305 (no doi), as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7439954&Units=SI&Mask=4, retrieved 2026-11-11.
 - **NaCl** (`literature/transition-points/NaCl`): Melting point 1073.8 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.
 - **Pb** (`literature/transition-points/Pb`): Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Boiling point: no primary value was found and none is claimed.
 - **Zn** (`literature/transition-points/Zn`): Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Boiling point: no primary value was found and none is claimed.
+- **bromoethane** (`literature/transition-points/bromoethane`): Melting point: Tfus 155.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it. Normal boiling point: Tboil 311.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C74964&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
 - **chalcanthite** (`literature/transition-points/chalcanthite`): NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation).
+- **dodecane** (`literature/transition-points/dodecane`): Melting (triple-point) temperature: Ttriple 263.57 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it. Normal boiling point: Tboil 489.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C112403&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
 - **dry_ice** (`literature/transition-points/dry_ice`): Sublimation temperature 194.686 K at 101.325 kPa: R. Span and W. Wagner, 'A new equation of state for carbon dioxide covering the fluid region from the triple-point temperature to 1100 K at pressures up to 800 MPa', J. Phys. Chem. Ref. Data 25 (1996) 1509-1596, doi:10.1063/1.555991. Value recalled from the paper's sublimation-curve tabulation, not re-read in this lane: PENDING REVIEW.
 - **epsomite** (`literature/transition-points/epsomite`): NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation).
-- **ethanol** (`literature/transition-points/ethanol`): Melting point 159.00 K (crystal I to liquid): T. Haida, H. Suga and S. Seki, J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 351.7 K (78.5 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), phase-transition tables; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read 2026-11-11 through the scanned text layer, which drops substance names from the value lines: the row was identified by its position in the formula-ordered block, so a reviewer should confirm it against the page image.
-- **ethyl_acetate** (`literature/transition-points/ethyl_acetate`): Melting point 189.3 K: G. S. Parks, H. M. Huffman and M. Barmore, J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Boiling point: no primary value was found and none is claimed.
-- **hexadecane** (`literature/transition-points/hexadecane`): Melting point 291.3 K: H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a009 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Boiling point: no primary value was found and none is claimed.
+- **ethanol** (`literature/transition-points/ethanol`): Melting point 159.00 K (crystal I to liquid): T. Haida, H. Suga and S. Seki, J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 351.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
+- **ethyl_acetate** (`literature/transition-points/ethyl_acetate`): Melting point 189.3 K: G. S. Parks, H. M. Huffman and M. Barmore, J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 350.2 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C141786&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
+- **hexadecane** (`literature/transition-points/hexadecane`): Melting point 291.3 K: H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a009 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 554.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C544763&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
 - **hexane** (`literature/transition-points/hexane`): Melting point 177.84 K: D. R. Douslin and H. M. Huffman, J. Am. Chem. Soc. 68 (1946) 1704-1708, doi:10.1021/ja01213a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 341.892 K (68.742 degrees Celsius): F. D. Rossini et al., Selected Values of Properties of Hydrocarbons, National Bureau of Standards Circular C461 (1947), Table 2m, normal boiling point at 1 atm; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular461.pdf, a United States Government work in the public domain (no doi).
-- **isopropanol** (`literature/transition-points/isopropanol`): Melting point 184.67 K: K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 355.39 K: COMPUTED, not tabulated: the temperature at which the vapour-pressure fit this repository already ships (kerotakis-thermo pack, D. R. Stull, 'Vapor pressure of pure substances: organic compounds', Ind. Eng. Chem. 39 (1947) 517-540, doi:10.1021/ie50448a022, lane pending review) reaches 101.325 kPa, log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814), solved at P = 1.01325 bar.
-- **liquid_nitrogen** (`literature/transition-points/liquid_nitrogen`): Triple-point (melting) temperature 63.151 K and normal boiling point 77.355 K: R. Span, E. W. Lemmon, R. T. Jacobsen, W. Wagner and A. Yokozeki, 'A reference equation of state for the thermodynamic properties of nitrogen for temperatures from 63.151 to 1000 K and pressures to 2200 MPa', J. Phys. Chem. Ref. Data 29 (2000) 1361-1433, doi:10.1063/1.1349047. The triple point is in the title; the normal boiling point is recalled from the paper and PENDING REVIEW.
+- **isopropanol** (`literature/transition-points/isopropanol`): Melting point 184.67 K: K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 355.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C67630&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
+- **liquid_nitrogen** (`literature/transition-points/liquid_nitrogen`): Triple-point (melting) temperature 63.14 K and normal boiling point 77.34 K: R. T. Jacobsen, R. B. Stewart and M. Jahangiri, 'Thermodynamic properties of nitrogen from the freezing line to 2000 K at pressures to 1000 MPa', J. Phys. Chem. Ref. Data 15 (1986) 735-909, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Units=SI&Mask=4, retrieved 2026-11-11.
 - **methanol** (`literature/transition-points/methanol`): Melting point 175.26 K and normal boiling point 337.9 K (64.7 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), phase-transition tables; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read 2026-11-11 through the scanned text layer, which drops substance names from the value lines: the row was identified by its position in the formula-ordered block, so a reviewer should confirm it against the page image. The melting value is the one Circular 500 prints beside methanol's enthalpy of fusion; the primary measurement behind it is K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 180, doi:10.1021/ja01376a022.
-- **naphthalene** (`literature/transition-points/naphthalene`): Melting point 353.40 K: J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Boiling point: no primary value was found and none is claimed.
-- **propanone** (`literature/transition-points/propanone`): Melting point 177.6 K: G. S. Parks and K. K. Kelley, J. Phys. Chem. 32 (1928) 734-737, doi:10.1021/j150287a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 329.34 K: COMPUTED, not tabulated: the temperature at which the vapour-pressure fit this repository already ships (kerotakis-thermo pack, D. R. Stull, 'Vapor pressure of pure substances: organic compounds', Ind. Eng. Chem. 39 (1947) 517-540, doi:10.1021/ie50448a022, lane pending review) reaches 101.325 kPa, log10(P/mmHg) = 7.02447 - 1161.0/(t/degC + 224.0), solved at P = 760 mmHg.
-- **tert_butanol** (`literature/transition-points/tert_butanol`): Melting point 298.97 K (stable crystal to liquid): F. L. Oetting, J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane; PENDING REVIEW). Boiling point: the primary determination (D. Ambrose and C. H. S. Sprake, J. Chem. Thermodyn. 2 (1970) 631, doi:10.1016/0021-9614(70)90038-8) was identified but could not be read, so none is claimed.
+- **naphthalene** (`literature/transition-points/naphthalene`): Melting point 353.40 K: J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 490.0 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C91203&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
+- **propanone** (`literature/transition-points/propanone`): Melting point 177.6 K: G. S. Parks and K. K. Kelley, J. Phys. Chem. 32 (1928) 734-737, doi:10.1021/j150287a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point: Tboil 329.3 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C67641&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
+- **sucrose** (`literature/transition-points/sucrose`): Melting with decomposition at 461.0 K: L. Kofler and H. Sitte, 'Melting point determination of substances which melt with decomposition', Monatsh. Chem. 81 (1950) 619, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C57501&Units=SI&Mask=4, retrieved 2026-11-11 (the WebBook lists 461 and 462 K from the same work; the lower is taken). The registry classifies this as decomposition rather than melting, as its notes explain.
+- **tert_butanol** (`literature/transition-points/tert_butanol`): Melting point 298.97 K (stable crystal to liquid): F. L. Oetting, J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane; PENDING REVIEW). Normal boiling point: Tboil 355.5 K: the NIST Chemistry WebBook (SRD 69, P. J. Linstrom and W. G. Mallard, eds.) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C75650&Units=SI&Mask=4, retrieved 2026-11-11; this row is the WebBook's own average (AVG) of the measurements it lists, so no single primary reference stands behind it.
 - **water** (`literature/transition-points/water`): Melting 273.15 K and normal boiling 373.15 K: the solvent model's constants (states::WATER_FREEZING_K, WATER_BOILING_K), which the apparatus must agree with. The primary values are 273.1525 K for melting at 101.325 kPa (W. Wagner, T. Riethmann, R. Feistel and A. H. Harvey, J. Phys. Chem. Ref. Data 40 (2011) 043103, doi:10.1063/1.3657937) and 373.124 K for the normal boiling point on ITS-90 (W. Wagner and A. Pruss, J. Phys. Chem. Ref. Data 31 (2002) 387-535, doi:10.1063/1.1461829); the shipped constants differ from them by 0.003 K and 0.026 K, inside the apparatus's stated 0.5 K, and are kept so the two routes cannot disagree.
 
 ## Withdrawn values dropped (no primary source found)
@@ -272,7 +276,6 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | AgNO3 | melting_k | 483.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | AgCl | melting_k | 728.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | AgCl | boiling_k | 1820.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| H2O2 | melting_k | 272.72 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | H2O2 | boiling_k | 423.35 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | S | melting_k | 388.36 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | S | boiling_k | 717.76 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
@@ -283,7 +286,6 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | CaCl2 | boiling_k | 2208.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | MgSO4 | melting_k | 1410.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | CaO | melting_k | 2886.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| Mg | boiling_k | 1363.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | Cu | boiling_k | 2835.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | Zn | boiling_k | 1180.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | Ag | boiling_k | 2435.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
@@ -295,7 +297,6 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | ZnSO4 | decomposition_k | 953.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | Pb | boiling_k | 2022.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | Pb(NO3)2 | decomposition_k | 743.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| ethyl_acetate | boiling_k | 350.26 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | KOH | melting_k | 679.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | KOH | boiling_k | 1600.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | NaNO3 | melting_k | 579.65 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
@@ -304,20 +305,11 @@ Counts: boiling.no_data 187, boiling.reported 9, melting.no_data 169, melting.ra
 | I2 | boiling_k | 457.55 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | KI | melting_k | 954.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | KI | boiling_k | 1596.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| Al | boiling_k | 2792.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | NaBr | melting_k | 1020.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | NaBr | boiling_k | 1663.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| bromoethane | melting_k | 154.55 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| bromoethane | boiling_k | 311.45 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| tert_butanol | boiling_k | 355.45 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| sucrose | decomposition_k | 459.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | NH4Cl | sublimation_k | 611.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | FeCl3 | melting_k | 580.75 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | Na2SO4 | melting_k | 1157.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | BaCl2 | melting_k | 1234.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | BaCl2 | boiling_k | 1833.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
 | BaSO4 | melting_k | 1853.15 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| naphthalene | boiling_k | 491.1 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| dodecane | melting_k | 263.55 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| dodecane | boiling_k | 489.45 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |
-| hexadecane | boiling_k | 559.95 K | only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane |

@@ -203,12 +203,12 @@ fn a_reagent_without_a_melting_point_falls_back_to_its_standard_phase() {
         StockingBasis::NoMeltingPoint
     );
     assert_eq!(phase_route::stocked_phase(data, 346.0), data.standard_phase);
-    // Dodecane's melting point stood only on the withdrawn tranche and was
-    // dropped 2026-11-11, so at -20 °C it falls back to its standard phase.
+    // And a melting point without a latent heat is not acted on either:
+    // dodecane at -20 °C would otherwise be a solid nothing could melt.
     let dodecane = species::lookup(&SpeciesId::new("dodecane")).unwrap();
     assert_eq!(
         phase_route::stocking_basis(dodecane),
-        StockingBasis::NoMeltingPoint
+        StockingBasis::MeltingPointWithoutLatentHeat
     );
     assert_eq!(phase_route::stocked_phase(dodecane, 253.15), Phase::Liquid);
 }

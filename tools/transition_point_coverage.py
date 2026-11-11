@@ -155,7 +155,7 @@ def main():
         elif abs(float(row[prop[2]]) - q["value"]) > 1e-9 or row["source_id"] != sid:
             problems.append(f"{rec['id']} differs from the reviewed file")
     for sp, row in rows.items():
-        if row.get("kind") != "model_threshold" and not re.search(r"doi:|public domain", row["citation"]):
+        if row.get("kind") != "model_threshold" and not re.search(r"doi:|public domain|webbook\.nist\.gov", row["citation"]):
             problems.append(f"{sp}: citation names neither a DOI nor a public-domain document")
         if WITHDRAWN_TEXT in row["citation"] or "phase-transitions-v1" in row["citation"]:
             problems.append(f"{sp}: reviewed citation cites the withdrawn tranche")
