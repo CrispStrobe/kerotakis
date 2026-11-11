@@ -260,24 +260,46 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, moles: f64) -> Vec
 
 #[test]
 fn bench_ferric_chloride_then_potassium_iodide_forms_ferrous_iron_and_iodine() {
-    for order in [["FeCl3", "KI"], ["KI", "FeCl3"]] {
+    // This stack (mixing, curated, honesty) has no dissolution route for
+    // FeCl3: the registry carries no reviewed aqueous solubility for it, and
+    // in production the native aqueous solver dissolves it (EC-008/RX-004
+    // hosted runs: "dissolved FeCl3", then 2 Fe3+ + 2 I- -> 2 Fe2+ + I2).
+    // So the ferric salt is placed as the undissociated aqueous salt an
+    // addition leaves before the aqueous readback splits it, which is
+    // exactly the inventory this route must read. KI goes through the
+    // bench's own dissolution. Both orders: iodide added onto the ferric
+    // salt, and the ferric salt arriving into dissolved iodide.
+    for ferric_first in [true, false] {
         let mut bench = Bench::new();
         let mut s = stack();
         add(&mut bench, &mut s, "water", 5.534);
-        add(&mut bench, &mut s, order[0], 4e-4);
-        let events = add(&mut bench, &mut s, order[1], 4e-4);
+        if !ferric_first {
+            add(&mut bench, &mut s, "KI", 4e-4);
+        }
+        aq(&mut bench.vessels[0], "FeCl3", 4e-4);
+        let events = if ferric_first {
+            add(&mut bench, &mut s, "KI", 4e-4)
+        } else {
+            add(&mut bench, &mut s, "water", 1e-3)
+        };
         assert!(
             events
                 .iter()
                 .any(|e| matches!(e, Event::ReactionOccurred { equation, .. }
                 if equation == "2 Fe³⁺ + 2 I⁻ → 2 Fe²⁺ + I₂")),
-            "{order:?}: {events:?}"
+            "ferric_first={ferric_first}: {events:?}"
         );
         let v = bench.vessel(VesselId(0)).unwrap();
-        assert!(m(v, "Fe+2") > 0.0, "{order:?}");
-        assert!(m(v, "I2") > 0.0, "{order:?}");
-        assert!((element(v, "Fe") - 4e-4).abs() < 1e-15, "{order:?}");
-        assert!((element(v, "I") - 4e-4).abs() < 1e-15, "{order:?}");
+        assert!(m(v, "Fe+2") > 0.0, "ferric_first={ferric_first}");
+        assert!(m(v, "I2") > 0.0, "ferric_first={ferric_first}");
+        assert!(
+            (element(v, "Fe") - 4e-4).abs() < 1e-15,
+            "ferric_first={ferric_first}"
+        );
+        assert!(
+            (element(v, "I") - 4e-4).abs() < 1e-15,
+            "ferric_first={ferric_first}"
+        );
     }
 }
 

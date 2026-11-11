@@ -429,7 +429,7 @@ fn nitrogen_moles() -> f64 {
 
 /// th-123, and the answer is the one the question hopes for.
 ///
-/// The nitrogen boils at 77.36 K taking the ethanol's heat with it; the
+/// The nitrogen boils at 77.34 K (Jacobsen, Stewart and Jahangiri 1986) taking the ethanol's heat with it; the
 /// ethanol reaches 159.01 K, freezes, and the heat THAT releases boils
 /// still more nitrogen rather than warming anything. There is nitrogen
 /// left over, which is why a cold bath works.
@@ -486,7 +486,7 @@ fn liquid_nitrogen_freezes_ethanol_solid() {
 ///
 /// This is the assertion that would fail if freezing warmed the flask
 /// instead of boiling nitrogen. The heat the ethanol gave up is its
-/// sensible heat from room temperature down to 77.36 K plus its enthalpy
+/// sensible heat from room temperature down to 77.34 K plus its enthalpy
 /// of fusion, and every joule of it has to come back out as boiled
 /// nitrogen — nothing else in the vessel can hold it.
 #[test]
@@ -501,7 +501,7 @@ fn the_heat_of_freezing_boils_nitrogen_rather_than_warming_the_flask() {
         * species::lookup(&SpeciesId::new("ethanol"))
             .unwrap()
             .heat_capacity;
-    let sensible = cp * (298.15 - 77.36);
+    let sensible = cp * (298.15 - 77.34);
     let fusion = ethanol_moles() * 4930.0;
     // 5580 J/mol, not the 5600 this line carried until 2026-09-13: the row was
     // re-sourced off the NIST WebBook and onto NBS Technical Note 129

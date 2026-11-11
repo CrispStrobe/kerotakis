@@ -114,6 +114,9 @@ const COMPOSERS: &[(&str, &str)] = &[
     // instead of them, and it was the third place a solver welded a
     // finished English paragraph shut with `format!`.
     ("combustion.rs", include_str!("../src/combustion.rs")),
+    // The typed refusal for a solid standing above where it melts with no
+    // sourced latent heat (`not-modeled.melting-not-modelled`).
+    ("melting_range.rs", include_str!("../src/melting_range.rs")),
 ];
 
 /// Every `#[cfg(test)] mod … { … }` removed, braces matched.

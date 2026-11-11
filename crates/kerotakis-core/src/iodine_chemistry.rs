@@ -377,7 +377,7 @@ fn forms(ion: &str) -> &'static [Form] {
     let cache = CACHE.get_or_init(|| Mutex::new(BTreeMap::new()));
     let mut map = cache.lock().unwrap_or_else(|e| e.into_inner());
     if let Some(found) = map.get(ion) {
-        return *found;
+        return found;
     }
     let leaked: &'static [Form] = Box::leak(forms_uncached(ion).into_boxed_slice());
     map.insert(ion.to_string(), leaked);

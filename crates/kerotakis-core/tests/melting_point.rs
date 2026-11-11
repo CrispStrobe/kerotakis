@@ -180,9 +180,12 @@ fn the_boiling_apparatus_reads_liquids_and_agrees_with_the_states_model() {
 
     let sample = vessel_with(&[("ethanol", 1.0, species::Phase::Liquid)]);
     let c = read(&sample, TransitionRead::Boiling).value_c.unwrap();
+    // 351.7 K: NBS Circular 500 (1952), Table 23-16, printed page 600,
+    // the registry's re-sourced normal boiling point (2026-11-11). It
+    // replaced the withdrawn editorial 351.44 K, and this line follows it.
     assert!(
-        (c - 78.29).abs() < 0.05,
-        "ethanol boils at 78.29 C, got {c}"
+        (c - 78.55).abs() < 0.05,
+        "ethanol boils at 78.55 C, got {c}"
     );
 }
 
