@@ -659,7 +659,14 @@ pub struct IodineInventory {
     pub free_iodide_mol: f64,
     /// Starch–triiodide complex, as I3⁻ equivalents (one I2 + one I⁻ each).
     pub starch_bound_triiodide_mol: f64,
-    /// Oxidised iodine as I2 equivalents: free I2 + I3⁻ + starch-bound.
+    /// I2 dissolved in a water-free liquid solvent (an extraction receiver
+    /// such as hexane): molecular I2, no triiodide or starch split.
+    pub nonaqueous_i2_mol: f64,
+    /// The liquid hosting `nonaqueous_i2_mol`, when the vessel has no water.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nonaqueous_solvent: Option<String>,
+    /// Oxidised iodine as I2 equivalents: free I2 + I3⁻ + starch-bound +
+    /// I2 held in a non-aqueous solvent.
     pub oxidised_iodine_mol: f64,
     /// Iodine-bearing portions outside the split above.
     pub other_pools: Vec<IodinePool>,
@@ -701,6 +708,11 @@ fn may_name_iodine(text: &str) -> bool {
 pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
     let iodide_keys = crate::halogen_redox::registry_forms(IODIDE);
     let has_water = liquid_water(vessel) > 0.0;
+    // SP-011: a water-free liquid (hexane after an extraction) holds I2 as
+    // dissolved molecules. That is oxidised iodine and must be counted as
+    // such, not filed as an "other" pool beside a false aqueous tag.
+    let solvent = crate::vessel::nonaqueous_solvent(&vessel.contents).cloned();
+    let mut nonaqueous_i2 = 0.0;
     let mut ledger = 0.0;
     let mut other: Vec<IodinePool> = Vec::new();
     let mut unresolved: Vec<String> = Vec::new();
@@ -723,6 +735,10 @@ pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
             && p.phase == Phase::Aqueous
             && (key == IODINE || iodide_keys.iter().any(|k| k == key));
         if in_split {
+            continue;
+        }
+        if solvent.is_some() && p.phase == Phase::Aqueous && key == IODINE {
+            nonaqueous_i2 += p.moles.0;
             continue;
         }
         match other
@@ -759,7 +775,7 @@ pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
     // the ledger), so the closure below is a real check.
     let split_pooled = 2.0 * parts.iodine + 3.0 * parts.triiodide + parts.iodide + 3.0 * complex;
     let other_atoms: f64 = other.iter().map(|o| o.iodine_atoms_mol).sum();
-    let pooled = split_pooled + other_atoms;
+    let pooled = split_pooled + other_atoms + 2.0 * nonaqueous_i2;
     let mut limitations = Vec::new();
     if complex > TRACE {
         limitations.push(crate::phrase::Phrase::new(
@@ -774,7 +790,13 @@ pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
         triiodide_mol: parts.triiodide,
         free_iodide_mol: parts.iodide,
         starch_bound_triiodide_mol: complex,
-        oxidised_iodine_mol: parts.iodine + parts.triiodide + complex,
+        nonaqueous_i2_mol: nonaqueous_i2,
+        nonaqueous_solvent: if nonaqueous_i2 > 0.0 {
+            solvent.map(|s| s.0)
+        } else {
+            None
+        },
+        oxidised_iodine_mol: parts.iodine + parts.triiodide + complex + nonaqueous_i2,
         other_pools: other,
         unresolved_species: unresolved,
         ledger_iodine_atoms_mol: ledger,

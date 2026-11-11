@@ -1,0 +1,54 @@
+{
+  "snapshot_label": "nonaqueous_solution",
+  "iodine_pool": "nonaqueous_i2_mol",
+  "mechanism": "vessel::nonaqueous_solvent: most abundant liquid portion of a vessel with no liquid water",
+  "consumers": [
+    {
+      "consumer": "vessel snapshot contents (JSON)",
+      "file": "crates/kerotakis-core/src/vessel.rs",
+      "wired": true
+    },
+    {
+      "consumer": "vessel snapshot label",
+      "file": "crates/kerotakis-core/src/vessel.rs",
+      "wired": true
+    },
+    {
+      "consumer": "snapshot read-back alias",
+      "file": "crates/kerotakis-core/src/species.rs",
+      "wired": true
+    },
+    {
+      "consumer": "inspect iodine inventory pool",
+      "file": "crates/kerotakis-core/src/iodine_chemistry.rs",
+      "wired": true
+    },
+    {
+      "consumer": "inspect oxidised iodine sum",
+      "file": "crates/kerotakis-core/src/iodine_chemistry.rs",
+      "wired": true
+    }
+  ],
+  "receiver_solvents": [
+    {
+      "solvent": "hexane",
+      "covered_by": "generic nonaqueous_solvent"
+    }
+  ],
+  "partition_rows": [
+    {
+      "solute": "I2",
+      "receiver_solvent": "hexane",
+      "k": "85.0",
+      "primary_measurement": false,
+      "source": "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model; NOT a primary measurement (85-86 matches the classic CCl4/water ratio; no primary hexane/water K located 2026-11-11, see docs/nonaqueous-solution-coverage-20261111.md)"
+    }
+  ],
+  "i2_hydrocarbon_k_search": [
+    "Wanted: primary measured K = [I2]hydrocarbon/[I2]water near 25 C (hexane, heptane or other alkane).",
+    "Found (primary, read): K1 = 80 for I2 between cyclohexane and 1.00 F H2SO4 at 25 C, Van de Steeg, Univ. New Mexico report/dissertation for the US AEC (1968), doi:10.2172/4770773, OSTI PDF p. 71 (K1 = [I2]nonaq/[I2]aq defined p. 70). Not hexane, not pure water; not adopted.",
+    "Not found as primary: any hexane/water or heptane/water I2 distribution coefficient. Secondary teaching pages give water/CCl4 = 0.0116-0.0117 (i.e. CCl4/water about 86), consistent with K = 85 being the classic CCl4 value, but Jakowkin (1895) itself was not reached.",
+    "Searched: WebSearch phrasings 'partition coefficient iodine hexane water 25 C', 'distribution of iodine between carbon tetrachloride and water Jakowkin', iodine heptane water distribution, 'distribution of iodine between' water and hexane/cyclohexane/heptane in J. Phys. Chem./J. Chem. Soc./JACS; Crossref query 'distribution iodine water cyclohexane coefficient'; OSTI full text; UNT digital library (connection refused). Rejected as non-primary: Edexcel exam (85), A-level illustrative K = 30 (hexane), student lab reports, povidone-iodine patents (iodophor, not I2).",
+    "Not yet searched: Hildebrand & Jenks JACS 42 (1920) 2180 full text, Katzin & Gebert, IUPAC-NIST Solubility Data Series, Europe PMC, archive.org scans of Z. phys. Chem. 1895."
+  ]
+}
