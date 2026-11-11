@@ -1668,6 +1668,12 @@ pub struct Vessel {
     /// Omitted when absent so existing snapshots serialise unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub starch_gelatinised_moles: Option<f64>,
+    /// Retrogradation, the table-route clock and per-source digested
+    /// amounts (`starch_amylase::StarchDigestionState`). Not carried by a
+    /// pour (declared). Omitted when absent so existing snapshots
+    /// serialise unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub starch_digestion: Option<crate::starch_amylase::StarchDigestionState>,
 }
 
 impl Vessel {
@@ -1678,6 +1684,7 @@ impl Vessel {
             activity_range_refusal: None,
             amylase_inactive_moles: None,
             starch_gelatinised_moles: None,
+            starch_digestion: None,
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,
