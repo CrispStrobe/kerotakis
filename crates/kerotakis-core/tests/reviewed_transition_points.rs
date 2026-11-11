@@ -258,7 +258,7 @@ fn dry_ice_is_reviewed_against_span_and_wagner() {
 #[test]
 fn unsourced_decompositions_and_boils_stay_absent() {
     // Negative: no value is invented where no primary was read.
-    for key in ["CuSO4", "KMnO4", "FeSO4", "ZnSO4", "Pb(NO3)2"] {
+    for key in ["Pb(NO3)2"] {
         let dec = species::lookup(&SpeciesId::new(key))
             .and_then(|d| d.transitions)
             .and_then(|t| t.decomposition_k);
@@ -354,4 +354,40 @@ fn webbook_averages_are_replaced_by_one_cited_measurement() {
     assert!(transitions("sucrose")
         .source
         .contains("doi:10.1007/BF00912664"));
+}
+
+#[test]
+fn sourced_decompositions_and_dehydrations_carry_their_thermal_analysis_values() {
+    // (species, decomposition K, dehydration K, DOI of the primary)
+    for (key, dec, dehyd, doi) in [
+        ("CuSO4", Some(873.15), None, "10.1016/0040-6031(75)80038-4"),
+        ("KMnO4", Some(523.15), None, "10.1039/j19710001821"),
+        ("FeSO4", Some(873.15), None, "10.3390/ma17122800"),
+        ("ZnSO4", Some(863.15), None, "10.1021/i200015a010"),
+        (
+            "chalcanthite",
+            None,
+            Some(473.15),
+            "10.3390/molecules31081342",
+        ),
+        ("epsomite", None, Some(538.15), "10.1115/1.4000275"),
+    ] {
+        let t = transitions(key);
+        assert_eq!(t.decomposition_k, dec, "{key} decomposition");
+        assert_eq!(t.dehydration_k, dehyd, "{key} dehydration");
+        assert!(
+            t.source.contains(doi),
+            "{key} must cite {doi}: {}",
+            t.source
+        );
+        assert!(
+            !t.source.contains("NOT A MEASURED TRANSITION"),
+            "{key} is still the model threshold: {}",
+            t.source
+        );
+    }
+    // A decomposing salt reads as decomposing, never as melting.
+    let (k, outcome) = transitions("KMnO4").melting_reading().expect("a reading");
+    assert_eq!(k, 523.15);
+    assert_eq!(outcome, species::TransitionOutcome::Decomposes);
 }

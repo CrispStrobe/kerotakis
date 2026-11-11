@@ -1893,20 +1893,20 @@
     },
     {
       "id": "literature/transition-points/chalcanthite",
-      "citation": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation).",
-      "licence": "AGPL-3.0-or-later",
+      "citation": "Dehydration of CuSO4.5H2O complete at 473.15 K: 'At 200 degrees Celsius, the sample is almost entirely converted to anhydrous CuSO4' (stepwise: 5H2O -> 3H2O by 60, -> 1H2O near 110, -> anhydrous near 210 degrees Celsius; TGA at 10 K/min under N2 with variable-temperature XRD): Jiao et al., Molecules 31 (2026) 1342, doi:10.3390/molecules31081342 (open access, PMC13119230, read 2026-11-11). This bench drives all five waters off in one step at that temperature; the intermediate hydrates are not modelled.",
+      "licence": "CC0-1.0",
       "lane": "runtime",
-      "origin": "crates/kerotakis-core/src/phase_route.rs",
-      "revision": "model threshold",
+      "origin": "https://doi.org/10.3390/molecules31081342",
+      "revision": "Molecules 31 (2026) 1342",
       "retrieved": "2026-11-11"
     },
     {
       "id": "literature/transition-points/epsomite",
-      "citation": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation).",
-      "licence": "AGPL-3.0-or-later",
+      "citation": "Dehydration of MgSO4.7H2O to crystalline anhydrous MgSO4 above about 538.15 K ('Crystalline anhydrous MgSO4 forms at temperatures above ~265 degrees Celsius'; 7 -> 6 H2O at 25-55, main loss 60-265 degrees Celsius at low water-vapour pressure): V. M. van Essen et al., J. Sol. Energy Eng. 131 (2009) 041014, doi:10.1115/1.4000275, value as quoted by Teshome et al., ACS Omega 11 (2026) 46603, doi:10.1021/acsomega.6c04368 (open access, PMC13470712, introduction, ref. 7, read 2026-11-11); the primary itself was not read. This bench drives all seven waters off in one step at that temperature.",
+      "licence": "CC0-1.0",
       "lane": "runtime",
-      "origin": "crates/kerotakis-core/src/phase_route.rs",
-      "revision": "model threshold",
+      "origin": "https://doi.org/10.1115/1.4000275",
+      "revision": "J. Sol. Energy Eng. 131 (2009) 041014",
       "retrieved": "2026-11-11"
     },
     {
@@ -2123,6 +2123,42 @@
       "lane": "runtime",
       "origin": "https://doi.org/10.1021/ja02184a003",
       "revision": "J. Am. Chem. Soc. 36 (1914) 1363, Table VI",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/CuSO4",
+      "citation": "Decomposition of anhydrous CuSO4 from 873.15 K (600 degrees Celsius, lower end of the printed 600-880 degrees Celsius range; TGA/DTA in air, CuSO4 -> CuO.CuSO4 + SO3 -> 2 CuO + SO3): A. A. Kolta and M. H. Askar, Thermochim. Acta 11 (1975) 65-72, doi:10.1016/0040-6031(75)80038-4, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1016/0040-6031(75)80038-4",
+      "revision": "Thermochim. Acta 11 (1975) 65",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/KMnO4",
+      "citation": "Decomposition of KMnO4 in air at 523.15 K (250 degrees Celsius; 10 KMnO4 -> 2.65 K2MnO4 + [2.35 K2O.7.75 MnO2.05] + 6 O2): F. H. Herbstein, G. Ron and A. Weissman, J. Chem. Soc. A (1971) 1821-1826, doi:10.1039/j19710001821, value as quoted by Nanomaterials 9 (2019) 1156 (open access, PMC6723270, introduction, ref. 21, read 2026-11-11); the primary itself was not read.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1039/j19710001821",
+      "revision": "J. Chem. Soc. A (1971) 1821",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/FeSO4",
+      "citation": "Decomposition of anhydrous FeSO4 beginning at about 873.15 K (stage IV 'begins at around 600 degrees Celsius', 6 FeSO4 -> Fe2(SO4)3 + 2 Fe2O3 + 3 SO2 at 550-610 degrees Celsius; TGA at 10 K/min in argon): Li et al., Materials 17 (2024) 2800, doi:10.3390/ma17122800 (open access, PMC11204637, results section, read 2026-11-11).",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.3390/ma17122800",
+      "revision": "Materials 17 (2024) 2800",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/ZnSO4",
+      "citation": "Decomposition of anhydrous ZnSO4 from 863.15 K (formation of zinc oxysulfate 'started at 590 degrees Celsius', final decomposition to ZnO above 900 degrees Celsius): J. Mu and D. D. Perlmutter, Ind. Eng. Chem. Process Des. Dev. 20 (1981) 640-646, doi:10.1021/i200015a010, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/i200015a010",
+      "revision": "Ind. Eng. Chem. Process Des. Dev. 20 (1981) 640",
       "retrieved": "2026-11-11"
     },
     {
@@ -32762,6 +32798,45 @@
       }
     },
     {
+      "id": "decomposition-point/CuSO4",
+      "species_id": "CuSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 873.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/CuSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "heat-capacity/CuSO4",
       "species_id": "CuSO4",
       "phase": "solid",
@@ -32972,6 +33047,45 @@
       }
     },
     {
+      "id": "decomposition-point/KMnO4",
+      "species_id": "KMnO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 523.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KMnO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "heat-capacity/KMnO4",
       "species_id": "KMnO4",
       "phase": "solid",
@@ -33088,6 +33202,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/FeSO4",
+      "species_id": "FeSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 873.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/FeSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -34170,6 +34323,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/ZnSO4",
+      "species_id": "ZnSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 863.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/ZnSO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -39989,7 +40181,7 @@
         "other": "dehydration_temperature"
       },
       "quantity": {
-        "value": 473.15,
+        "value": 538.15,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"

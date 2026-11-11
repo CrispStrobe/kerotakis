@@ -1,11 +1,11 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 165,
-    "boiling.reported": 31,
-    "melting.no_data": 145,
+    "boiling.no_data": 161,
+    "boiling.reported": 35,
+    "melting.no_data": 141,
     "melting.range": 3,
-    "melting.reported": 48
+    "melting.reported": 52
   },
   "originals": [
     {
@@ -66,6 +66,10 @@
       "source_id": "literature/transition-points/Cu",
       "citation": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2868 K (2595 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     },
+    "CuSO4": {
+      "source_id": "literature/transition-points/CuSO4",
+      "citation": "Decomposition of anhydrous CuSO4 from 873.15 K (600 degrees Celsius, lower end of the printed 600-880 degrees Celsius range; TGA/DTA in air, CuSO4 -> CuO.CuSO4 + SO3 -> 2 CuO + SO3): A. A. Kolta and M. H. Askar, Thermochim. Acta 11 (1975) 65-72, doi:10.1016/0040-6031(75)80038-4, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read."
+    },
     "Fe": {
       "source_id": "literature/transition-points/Fe",
       "citation": "Melting point 1811 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 3273 K (3000 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
@@ -73,6 +77,10 @@
     "FeCl3": {
       "source_id": "literature/transition-points/FeCl3",
       "citation": "Melting point 577 K (304 degrees Celsius; fusion of FeCl3 to liquid Fe2Cl6 at its own vapour pressure, 582 mm Hg, not at 1 atm; the table puts vaporization at 760 mm Hg at 592 K, so FeCl3 melts only under its own vapour and sublimes at 1 atm): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 47-2, printed page 695."
+    },
+    "FeSO4": {
+      "source_id": "literature/transition-points/FeSO4",
+      "citation": "Decomposition of anhydrous FeSO4 beginning at about 873.15 K (stage IV 'begins at around 600 degrees Celsius', 6 FeSO4 -> Fe2(SO4)3 + 2 Fe2O3 + 3 SO2 at 550-610 degrees Celsius; TGA at 10 K/min in argon): Li et al., Materials 17 (2024) 2800, doi:10.3390/ma17122800 (open access, PMC11204637, results section, read 2026-11-11)."
     },
     "H2O2": {
       "source_id": "literature/transition-points/H2O2",
@@ -89,6 +97,10 @@
     "KI": {
       "source_id": "literature/transition-points/KI",
       "citation": "Melting point 958 K (685 degrees Celsius) and normal boiling point 1597 K (1324 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 93-2, printed page 804."
+    },
+    "KMnO4": {
+      "source_id": "literature/transition-points/KMnO4",
+      "citation": "Decomposition of KMnO4 in air at 523.15 K (250 degrees Celsius; 10 KMnO4 -> 2.65 K2MnO4 + [2.35 K2O.7.75 MnO2.05] + 6 O2): F. H. Herbstein, G. Ron and A. Weissman, J. Chem. Soc. A (1971) 1821-1826, doi:10.1039/j19710001821, value as quoted by Nanomaterials 9 (2019) 1156 (open access, PMC6723270, introduction, ref. 21, read 2026-11-11); the primary itself was not read."
     },
     "KNO3": {
       "source_id": "literature/transition-points/KNO3",
@@ -150,13 +162,17 @@
       "source_id": "literature/transition-points/Zn",
       "citation": "Melting point 692.677 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 1180 K (907 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     },
+    "ZnSO4": {
+      "source_id": "literature/transition-points/ZnSO4",
+      "citation": "Decomposition of anhydrous ZnSO4 from 863.15 K (formation of zinc oxysulfate 'started at 590 degrees Celsius', final decomposition to ZnO above 900 degrees Celsius): J. Mu and D. D. Perlmutter, Ind. Eng. Chem. Process Des. Dev. 20 (1981) 640-646, doi:10.1021/i200015a010, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read."
+    },
     "bromoethane": {
       "source_id": "literature/transition-points/bromoethane",
       "citation": "Melting point 155.0 K (-118.2 degrees Celsius) and normal boiling point 311.5 K (38.3 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 23-26, printed page 610."
     },
     "chalcanthite": {
       "source_id": "literature/transition-points/chalcanthite",
-      "citation": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation)."
+      "citation": "Dehydration of CuSO4.5H2O complete at 473.15 K: 'At 200 degrees Celsius, the sample is almost entirely converted to anhydrous CuSO4' (stepwise: 5H2O -> 3H2O by 60, -> 1H2O near 110, -> anhydrous near 210 degrees Celsius; TGA at 10 K/min under N2 with variable-temperature XRD): Jiao et al., Molecules 31 (2026) 1342, doi:10.3390/molecules31081342 (open access, PMC13119230, read 2026-11-11). This bench drives all five waters off in one step at that temperature; the intermediate hydrates are not modelled."
     },
     "dodecane": {
       "source_id": "literature/transition-points/dodecane",
@@ -168,7 +184,7 @@
     },
     "epsomite": {
       "source_id": "literature/transition-points/epsomite",
-      "citation": "NOT A MEASURED TRANSITION AND NO LITERATURE VALUE IS CLAIMED: 473.15 K (200 degrees Celsius) is this bench's model threshold for driving the waters of crystallisation off in phase_route::hydrates, an editorial parameter of the dehydration route. Real dehydration is stepwise through intermediate hydrates and depends on heating rate and water vapour pressure; a primary thermogravimetric source has not been attached yet. Model threshold, kerotakis 2026-11-11 (no doi; not a literature citation)."
+      "citation": "Dehydration of MgSO4.7H2O to crystalline anhydrous MgSO4 above about 538.15 K ('Crystalline anhydrous MgSO4 forms at temperatures above ~265 degrees Celsius'; 7 -> 6 H2O at 25-55, main loss 60-265 degrees Celsius at low water-vapour pressure): V. M. van Essen et al., J. Sol. Energy Eng. 131 (2009) 041014, doi:10.1115/1.4000275, value as quoted by Teshome et al., ACS Omega 11 (2026) 46603, doi:10.1021/acsomega.6c04368 (open access, PMC13470712, introduction, ref. 7, read 2026-11-11); the primary itself was not read. This bench drives all seven waters off in one step at that temperature."
     },
     "ethanol": {
       "source_id": "literature/transition-points/ethanol",
@@ -244,55 +260,31 @@
       "species": "H2O2",
       "property": "boiling_k",
       "old_k": 423.35,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
+      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
     },
     {
       "species": "NaOH",
       "property": "boiling_k",
       "old_k": 1661.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
+      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
     },
     {
       "species": "CaCl2",
       "property": "boiling_k",
       "old_k": 2208.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
-    },
-    {
-      "species": "CuSO4",
-      "property": "decomposition_k",
-      "old_k": 833.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
-    },
-    {
-      "species": "KMnO4",
-      "property": "decomposition_k",
-      "old_k": 513.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
-    },
-    {
-      "species": "FeSO4",
-      "property": "decomposition_k",
-      "old_k": 953.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
-    },
-    {
-      "species": "ZnSO4",
-      "property": "decomposition_k",
-      "old_k": 953.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
+      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
     },
     {
       "species": "Pb(NO3)2",
       "property": "decomposition_k",
       "old_k": 743.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
+      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
     },
     {
       "species": "BaCl2",
       "property": "boiling_k",
       "old_k": 1833.15,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read in this lane"
+      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
     }
   ],
   "species": [
@@ -717,12 +709,16 @@
       "species": "CuSO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 833.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 873.15,
+        "source": "literature/transition-points/CuSO4"
       },
       "boiling": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 833.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 873.15,
+        "source": "literature/transition-points/CuSO4"
       }
     },
     {
@@ -808,12 +804,16 @@
       "species": "FeSO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 953.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 873.15,
+        "source": "literature/transition-points/FeSO4"
       },
       "boiling": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 953.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 873.15,
+        "source": "literature/transition-points/FeSO4"
       }
     },
     {
@@ -1059,12 +1059,16 @@
       "species": "KMnO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 513.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 523.15,
+        "source": "literature/transition-points/KMnO4"
       },
       "boiling": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 513.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 523.15,
+        "source": "literature/transition-points/KMnO4"
       }
     },
     {
@@ -1767,12 +1771,16 @@
       "species": "ZnSO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 953.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 863.15,
+        "source": "literature/transition-points/ZnSO4"
       },
       "boiling": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 953.15
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 863.15,
+        "source": "literature/transition-points/ZnSO4"
       }
     },
     {
@@ -2032,7 +2040,7 @@
       "melting": {
         "basis": "reported",
         "outcome": "dehydration",
-        "kelvin": 473.15,
+        "kelvin": 538.15,
         "source": "literature/transition-points/epsomite"
       },
       "boiling": {
