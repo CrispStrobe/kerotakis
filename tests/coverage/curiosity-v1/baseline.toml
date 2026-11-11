@@ -918,13 +918,13 @@ reason_code = "typed-observation"
 id = "bio-028"
 owning_task = "EXP-9"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-029"
 owning_task = "EXP-9"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-030"
@@ -947,8 +947,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "bio-033"
 owning_task = "EXP-9"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-034"

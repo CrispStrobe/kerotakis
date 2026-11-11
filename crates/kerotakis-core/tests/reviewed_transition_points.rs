@@ -215,7 +215,7 @@ fn transitions(key: &str) -> species::PhaseTransitions {
 #[test]
 fn restored_circular_500_points_carry_their_table_values() {
     // (species, melting K, boiling K) exactly as printed in the K column.
-    let rows: [(&str, Option<f64>, Option<f64>); 17] = [
+    let rows: [(&str, Option<f64>, Option<f64>); 18] = [
         ("NaCl", Some(1073.8), Some(1738.0)),
         ("AgNO3", Some(483.0), None),
         ("AgCl", Some(728.0), Some(1830.0)),
