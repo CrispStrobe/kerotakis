@@ -49,6 +49,7 @@ const COMPOSERS: &[(&str, &str)] = &[
     ),
     ("orchestrator.rs", include_str!("../src/orchestrator.rs")),
     ("flame.rs", include_str!("../src/flame.rs")),
+    ("gas_escape.rs", include_str!("../src/gas_escape.rs")),
     (
         "starch_amylase.rs",
         include_str!("../src/starch_amylase.rs"),
