@@ -132,6 +132,8 @@ fn sp011_receivers_report_oxidised_iodine_in_hexane() {
         "add v2 water 100mL",
         "add v2 KI 0.001mol",
         "add v2 I2 0.0001mol",
+        // SP-011 verbatim: thiosulfate reduces the iodine on the clock.
+        "wait 1s",
         "new",
         "new",
         "extract v1 v3 hexane 0.1mol stages 1",
