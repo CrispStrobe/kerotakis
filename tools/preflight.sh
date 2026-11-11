@@ -130,6 +130,7 @@ step "flame emission coverage"; python3 tools/flame_emission_coverage.py --check
 step "transport ledger coverage"; python3 tools/transport_ledger_coverage.py --check
 step "solid reagent / ion partition coverage"; python3 tools/solid_reagent_ion_partition_coverage.py --check
 step "solid reagent / ion partition coverage"; python3 tools/solid_reagent_ion_partition_coverage.py --check
+step "iodine observables coverage"; python3 tools/iodine_observables_coverage.py --check
 step "transition-point coverage"; python3 tools/transition_point_coverage.py --check
 step "organic partition coverage"; python3 tools/organic_partition_coverage.py --check
 step "registry-solid coverage"; python3 tools/registry_solid_coverage.py --check
