@@ -1,0 +1,167 @@
+{
+  "generated_by": "tools/sulfur_iv_coupling_coverage.py",
+  "case": "batch2:ki-011",
+  "constants": {
+    "K_I2_HSO3": 1700000000.0,
+    "K_I3_HSO3": 15000000.0,
+    "K_I2_SO3": 3100000000.0,
+    "K_I3_SO3": 290000000.0,
+    "MH_K1_M1_S1": 2600000.0,
+    "MH_K2_OVER_KM1_M1": 16.0,
+    "MH_DH_ACT_J_MOL": 37000.0,
+    "MH_T_K": 288.15,
+    "MAX_INSTANT_S": 1.0
+  },
+  "oxidants": [
+    "I2",
+    "H2O2"
+  ],
+  "forms": [
+    {
+      "form": "SO2",
+      "ion": "SO2"
+    },
+    {
+      "form": "HSO3-",
+      "ion": "HSO3-"
+    },
+    {
+      "form": "NaHSO3",
+      "ion": "HSO3-"
+    },
+    {
+      "form": "SO3-2",
+      "ion": "SO3-2"
+    },
+    {
+      "form": "Na2SO3",
+      "ion": "SO3-2"
+    }
+  ],
+  "cells": [
+    {
+      "form": "SO2",
+      "ion": "SO2",
+      "oxidant": "I2",
+      "status": "writer",
+      "refusal_keys": null
+    },
+    {
+      "form": "SO2",
+      "ion": "SO2",
+      "oxidant": "H2O2",
+      "status": "writer_in_measured_acid_and_fast",
+      "refusal_keys": [
+        "not-modeled.sulfite-peroxide-outside-measured-acid",
+        "not-modeled.sulfite-peroxide-slow"
+      ]
+    },
+    {
+      "form": "HSO3-",
+      "ion": "HSO3-",
+      "oxidant": "I2",
+      "status": "writer_with_peroxide_else_halogen_writer",
+      "refusal_keys": null
+    },
+    {
+      "form": "HSO3-",
+      "ion": "HSO3-",
+      "oxidant": "H2O2",
+      "status": "writer_in_measured_acid_and_fast",
+      "refusal_keys": [
+        "not-modeled.sulfite-peroxide-outside-measured-acid",
+        "not-modeled.sulfite-peroxide-slow"
+      ]
+    },
+    {
+      "form": "NaHSO3",
+      "ion": "HSO3-",
+      "oxidant": "I2",
+      "status": "writer_with_peroxide_else_halogen_writer",
+      "refusal_keys": null
+    },
+    {
+      "form": "NaHSO3",
+      "ion": "HSO3-",
+      "oxidant": "H2O2",
+      "status": "writer_in_measured_acid_and_fast",
+      "refusal_keys": [
+        "not-modeled.sulfite-peroxide-outside-measured-acid",
+        "not-modeled.sulfite-peroxide-slow"
+      ]
+    },
+    {
+      "form": "SO3-2",
+      "ion": "SO3-2",
+      "oxidant": "I2",
+      "status": "writer_with_peroxide_else_halogen_writer",
+      "refusal_keys": null
+    },
+    {
+      "form": "SO3-2",
+      "ion": "SO3-2",
+      "oxidant": "H2O2",
+      "status": "writer_in_measured_acid_and_fast",
+      "refusal_keys": [
+        "not-modeled.sulfite-peroxide-outside-measured-acid",
+        "not-modeled.sulfite-peroxide-slow"
+      ]
+    },
+    {
+      "form": "Na2SO3",
+      "ion": "SO3-2",
+      "oxidant": "I2",
+      "status": "writer_with_peroxide_else_halogen_writer",
+      "refusal_keys": null
+    },
+    {
+      "form": "Na2SO3",
+      "ion": "SO3-2",
+      "oxidant": "H2O2",
+      "status": "writer_in_measured_acid_and_fast",
+      "refusal_keys": [
+        "not-modeled.sulfite-peroxide-outside-measured-acid",
+        "not-modeled.sulfite-peroxide-slow"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "yiin-margerum-1990",
+      "citation": "B. S. Yiin and D. W. Margerum, Non-metal redox kinetics: reactions of iodine and triiodide with sulfite and hydrogen sulfite and the hydrolysis of iodosulfate, Inorg. Chem. 29 (1990) 1559-1564",
+      "doi": "10.1021/ic00333a023",
+      "values": "k(I3- + HSO3-) 1.5e7, k(I2 + HSO3-) 1.7e9, k(I3- + SO3^2-) 2.9e8, k(I2 + SO3^2-) 3.1e9 M^-1 s^-1, 25.0 C, mu 0.50 M",
+      "read": "values as quoted from the paper's abstract (secondary abstract page, lookchem CAS 126901-00-6); full text not readable here. DOI verified via Crossref."
+    },
+    {
+      "id": "mcardle-hoffmann-1983",
+      "citation": "J. V. McArdle and M. R. Hoffmann, Kinetics and mechanism of the oxidation of aquated sulfur dioxide by hydrogen peroxide at low pH, J. Phys. Chem. 87 (1983) 5425-5429",
+      "doi": "10.1021/j150644a024",
+      "values": "k1 = (2.6 +- 0.5)e6 M^-1 s^-1, k2/k-1 = 16 +- 4 M^-1 at 15 C; dH1 = 37 +- 2 kJ/mol; pH 0.0-4.5",
+      "read": "abstract, CaltechAUTHORS record 59779 (authors.library.caltech.edu/59779). DOI verified via Crossref."
+    },
+    {
+      "id": "hoffmann-edwards-1975",
+      "citation": "M. R. Hoffmann and J. O. Edwards, Kinetics of the oxidation of sulfite by hydrogen peroxide in acidic solution, J. Phys. Chem. 79 (1975) 2096-2098",
+      "doi": "10.1021/j100587a005",
+      "values": "context only (earlier acid-solution law); no number used",
+      "read": "DOI verified via Crossref."
+    },
+    {
+      "id": "palmer-1984",
+      "citation": "triiodide K = 698 L/mol (Palmer et al. 1984), reused from iodine_chemistry::TRIIODIDE_K",
+      "doi": null,
+      "values": "698 L/mol",
+      "read": "already cited in iodine_chemistry.rs"
+    }
+  ],
+  "limitations": [
+    "Both oxidations are treated as instantaneous on the bench clock; the peroxide path only when the S(IV) pseudo-first-order lifetime is <= MAX_INSTANT_S (a modelling bound, not a constant).",
+    "The I2/I3- split used for the iodine constant is the split at the start of the coupling.",
+    "Rates are written on HSO3-; the shared alpha1 fraction cancels in the competition. A direct SO2(aq) + I2 path and SO3^2- at higher pH are not separately priced.",
+    "Yiin-Margerum constants are 25 C values (no temperature dependence applied); k2/k-1 is held at its 15 C value; k1 is moved with Eyring and dH1.",
+    "Thiosulfate's iodine titration (curated row) runs before the S(IV) coupling inside one tail pass; their competition for iodine within a step is not resolved.",
+    "SO2 booked as gas by the thiosulfate-acid law and still held by the vessel counts as S(IV) while the vessel holds liquid water; vented SO2 is gone.",
+    "Released protons stay in the charge balance (halogen_redox convention); no reaction heat."
+  ]
+}

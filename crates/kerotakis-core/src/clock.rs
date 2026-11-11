@@ -434,12 +434,20 @@ impl Clock for CuratedKineticsClock {
                     }
                 }
             }
-            if moles.0 < crate::OBSERVABLE_MOLES {
+            // KI-011: an extent below `OBSERVABLE_MOLES` still changes the
+            // ledger (9.1e-7 mol of H2O2 left a 2 mmol pool and 8e-8 mol of
+            // O2 appeared with no event). The narration notes below stay
+            // behind the observable bar; the `reacted` event itself is
+            // emitted whenever the change is visible in the ledger, so no
+            // amount ever moves without a named reaction.
+            let observable = moles.0 >= crate::OBSERVABLE_MOLES;
+            if !observable && !ledger_visible_extent(vessel, reaction, moles.0) {
                 continue;
             }
-            if reaction
-                .reactants()
-                .any(|term| term.species == crate::kinetics::PROTON)
+            if observable
+                && reaction
+                    .reactants()
+                    .any(|term| term.species == crate::kinetics::PROTON)
             {
                 let reason = Phrase::new(
                     "not-modeled.finite-acid-inventory",
@@ -454,6 +462,7 @@ impl Clock for CuratedKineticsClock {
             }
             if let Some((h, floor)) =
                 crate::kinetics::pathway_owner_below_measured_acid(reaction.id, vessel)
+                    .filter(|_| observable)
             {
                 let reason = Phrase::new(
                     "not-modeled.pathway-owner-below-measured-acid",
@@ -472,7 +481,7 @@ impl Clock for CuratedKineticsClock {
             }
             let (ea, catalyst) =
                 reaction.effective_activation_energy_with_context(vessel, ctx.kinetic);
-            if let Some(selected) = catalyst {
+            if let Some(selected) = catalyst.filter(|_| observable) {
                 if crate::kinetics::catalyst_branch_acid_unowned(
                     reaction.id,
                     selected.species,
@@ -509,6 +518,35 @@ impl Clock for CuratedKineticsClock {
         }
         Ok(())
     }
+}
+
+/// Relative ledger change (one part per million) at which a sub-observable
+/// kinetic extent is still reported. The ledger prints six significant
+/// digits, so a change this large is visible in the reported amounts.
+pub const LEDGER_VISIBLE_RELATIVE: f64 = 1e-6;
+
+/// Whether advancing `reaction` by `extent` mol moved any participant's
+/// ledger amount by at least [`LEDGER_VISIBLE_RELATIVE`] of what it holds
+/// (a product made from nothing always counts). Read after the advance:
+/// a reactant's pre-step amount is its current amount plus what it lost.
+pub fn ledger_visible_extent(
+    vessel: &Vessel,
+    reaction: &crate::kinetics::KineticReaction<'_>,
+    extent: f64,
+) -> bool {
+    if extent.is_nan() || extent <= 1e-15 {
+        return false;
+    }
+    reaction.stoichiometry.iter().any(|term| {
+        let change = extent * term.coefficient.abs();
+        let now = vessel.moles_of(&SpeciesId::new(term.species)).0.max(0.0);
+        let reference = if term.coefficient < 0.0 {
+            now + change
+        } else {
+            now.max(change)
+        };
+        reference > 0.0 && change / reference >= LEDGER_VISIBLE_RELATIVE
+    })
 }
 
 /// BRD-041: the shipped gas-phase mechanism packs, run on any vessel that

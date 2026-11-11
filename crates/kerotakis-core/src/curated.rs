@@ -980,7 +980,8 @@ impl Equilibrator for CuratedEquilibrator {
     fn applies_with_aqueous_owner(&self, vessel: &Vessel, owned: bool) -> bool {
         REACTIONS.iter().any(|r| {
             r.post_aqueous.is_none() && !(owned && r.aqueous_overlap.is_some()) && fires(vessel, r)
-        }) || crate::halogen_redox::fires(vessel)
+        }) || crate::sulfur_iv::fires(vessel)
+            || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
     }
 
@@ -1106,6 +1107,13 @@ impl Equilibrator for CuratedEquilibrator {
                         vessel.deposit(SpeciesId::new(key), n, *phase);
                     }
                 }
+            }
+            // S(IV) (SO2, HSO3-, SO3-2) is shared between iodine and
+            // hydrogen peroxide by their competing rate laws BEFORE the
+            // halogen writers, whose iodine/sulfite rows would otherwise
+            // give it all to iodine (see sulfur_iv).
+            if crate::sulfur_iv::apply(vessel, &mut events) {
+                progressed = true;
             }
             // The generic halogen/oxyhalogen writers run after the hand
             // rows, which own every pair they share (see halogen_redox).
