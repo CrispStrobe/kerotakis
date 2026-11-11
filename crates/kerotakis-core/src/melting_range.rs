@@ -352,21 +352,36 @@ pub fn settle_range_melts(vessel: &mut Vessel) -> Vec<Event> {
     events
 }
 
-/// One typed refusal per solid species standing above where it melts
-/// without a latent heat to melt it with.
-pub fn unmodelled_melts(vessel: &Vessel) -> Vec<Event> {
+/// A solid standing above where it melts with no latent heat on the bench
+/// to melt it with: the species key, the temperature it melts above (K),
+/// and whether that is a sharp melting point (`true`) or the top of a
+/// melting range (`false`).
+#[derive(Debug, Clone, PartialEq)]
+pub struct UnpaidMelt {
+    pub species: String,
+    pub melts_above_k: f64,
+    pub sharp_point: bool,
+}
+
+/// Every solid species in `vessel` that stands above its sourced melting
+/// point or range with no latent heat the bench can pay: neither
+/// [`crate::phase_route::fusion_enthalpy`] nor [`fusion_j_per_mol`] has a
+/// value for it. Water's ice is owned by the solvent model and skipped.
+///
+/// This one predicate drives both the step-level refusal
+/// ([`unmodelled_melts`]) and the inline qualifier on a thermometer reading
+/// ([`thermometer_qualifier`]), so the two can never disagree.
+pub fn unpaid_melts(vessel: &Vessel) -> Vec<UnpaidMelt> {
     let now = vessel.temperature.0;
-    let mut seen: Vec<&str> = Vec::new();
-    let mut events = Vec::new();
+    let mut out: Vec<UnpaidMelt> = Vec::new();
     for portion in &vessel.contents {
         if portion.phase != Phase::Solid || portion.moles.0 <= 1e-12 {
             continue;
         }
         let key = portion.species.0.as_str();
-        if seen.contains(&key) {
+        if out.iter().any(|u| u.species == key) {
             continue;
         }
-        seen.push(key);
         // A latent heat on the bench means the phase route melts it; water's
         // ice belongs to the solvent model (`solve::StateEquilibrator`).
         if key == "water"
@@ -381,24 +396,38 @@ pub fn unmodelled_melts(vessel: &Vessel) -> Vec<Event> {
         if now <= melts {
             continue;
         }
-        // A sharp melting point and a melting range say different things:
-        // past a range, the thermometer has also skipped a latent heat
-        // whose size this bench does not know.
-        let has_point = species::lookup(&SpeciesId::new(key))
+        let sharp_point = species::lookup(&SpeciesId::new(key))
             .and_then(|data| data.transitions)
             .and_then(|t| t.melting_k)
             .is_some();
+        out.push(UnpaidMelt {
+            species: key.to_string(),
+            melts_above_k: melts,
+            sharp_point,
+        });
+    }
+    out
+}
+
+/// One typed refusal per solid species standing above where it melts
+/// without a latent heat to melt it with.
+pub fn unmodelled_melts(vessel: &Vessel) -> Vec<Event> {
+    let mut events = Vec::new();
+    for unpaid in unpaid_melts(vessel) {
         let slots = vec![
             (
                 "name".to_string(),
-                Slot::term("species", species::english_name(key)),
+                Slot::term("species", species::english_name(&unpaid.species)),
             ),
             (
                 "melting".to_string(),
-                Slot::number(format!("{:.0}", melts - 273.15)),
+                Slot::number(format!("{:.0}", unpaid.melts_above_k - 273.15)),
             ),
         ];
-        let phrase = if has_point {
+        // A sharp melting point and a melting range say different things:
+        // past a range, the thermometer has also skipped a latent heat
+        // whose size this bench does not know.
+        let phrase = if unpaid.sharp_point {
             Phrase::new(
                 "not-modeled.melting-not-modelled",
                 "{name} heated above its melting point ({melting} °C): melting is not modelled here, so the solid shown is not a prediction that it stays solid",
@@ -418,6 +447,32 @@ pub fn unmodelled_melts(vessel: &Vessel) -> Vec<Event> {
         ));
     }
     events
+}
+
+/// The inline qualifier a thermometer reading carries when the vessel's
+/// heat accounting skipped a latent heat (po-009, 2026-11-11).
+///
+/// A solid standing above where it melts, with no enthalpy of fusion on the
+/// bench, was warmed by sensible heat alone: the energy a real sample
+/// would have spent melting went into the thermometer instead. The number
+/// is therefore an upper bound on the warming, not a prediction, and the
+/// reading says so on itself rather than relying on a refusal filed by an
+/// earlier step. `None` when every solid's melt is paid (or none stands
+/// above where it melts): the reading is then unqualified.
+pub fn thermometer_qualifier(vessel: &Vessel) -> Option<Phrase> {
+    let unpaid = unpaid_melts(vessel);
+    if unpaid.is_empty() {
+        return None;
+    }
+    let names: Vec<String> = unpaid
+        .iter()
+        .map(|u| species::english_name(&u.species).to_string())
+        .collect();
+    Some(Phrase::new(
+        "measured.thermometer-latent-heat-unpaid",
+        "{names} stands above where it melts and no enthalpy of fusion was paid for it: this temperature counts sensible heat only, so it overstates the warming and is not a prediction of what a real thermometer would read",
+        vec![("names".to_string(), Slot::terms("species", names))],
+    ))
 }
 
 #[cfg(test)]
