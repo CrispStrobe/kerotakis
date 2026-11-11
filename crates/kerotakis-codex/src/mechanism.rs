@@ -65,8 +65,8 @@
 //!   different rule.
 //!
 //! - **The registry's own strings.** `kinetics.rs` carries `provenance`
-//!   and `uncertainty` prose, and `iodide-peroxide-clock`'s reads "Orders
-//!   (1,1,1) in [H₂O₂], [I⁻], [H⁺]". That one is CORRECT — it cites
+//!   and `uncertainty` prose, and `iodide-peroxide-clock`'s states the
+//!   two-term law "(k0 + k1[H+])[H2O2][I-]". That one is CORRECT — it cites
 //!   Liebhafsky & Mohammad, where the order really is in iodide — and is
 //!   deliberately left alone. It is named here because it is the same
 //!   spelling that was false one file away, and because a Rust string

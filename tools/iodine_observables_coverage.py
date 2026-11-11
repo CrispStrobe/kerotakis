@@ -40,16 +40,15 @@ CASES = [
     {
         "id": "batch2:ki-011",
         "observable": "iodine-clock delay vs thiosulfate sink within 100 s; UV-vis with colloidal sulfur",
-        "status": "refusal-kept; kinetics data gap recorded",
+        "status": "refusal-kept; kinetics fixed (see docs/iodine-clock-kinetics-coverage-20261111.md)",
         "mechanism": "UV-vis refusal for sulfur (not-modeled.unreviewed-molar-absorptivity) is kept: "
-                     "colloidal sulfur scatters and no reviewed extinction exists. The clock row "
-                     "`iodide-peroxide-clock` uses an editorial pre-exponential (single [H+]-first-order term); "
-                     "the primary two-term law of Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) "
-                     "3977-3986, doi:10.1021/ja01337a010 could not be read to transcribe its constants, so no "
-                     "number was changed. The iodide-catalysed `peroxide-decomposition` catalyst row shares "
-                     "the H2O2 + I- rate-determining step and is not suppressed in acid; it removes about half "
-                     "the peroxide in 100 s here and slows the clock. Both need the primary constants.",
-        "tests": [],
+                     "colloidal sulfur scatters and no reviewed extinction exists. The clock is now the "
+                     "measured two-term law rate = (k0 + k1[H+])[H2O2][I-], k0 = 0.69 L/mol/min, k1 = 10.5 "
+                     "L2/mol2/min at 25 C (Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, "
+                     "doi:10.1021/ja01337a010), and the iodide-catalysed `peroxide-decomposition` branch "
+                     "stands down while the clock rows can run (one owner of H2O2 + I- in acid).",
+        "tests": ["iodide_peroxide_two_term::ki011_gross_iodine_meets_each_sink_at_the_hand_computed_time",
+                  "iodide_peroxide_two_term::acid_iodide_peroxide_has_one_owner_no_catalytic_oxygen"],
     },
     {
         "id": "batch3-diverse:en-001",

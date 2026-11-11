@@ -800,11 +800,32 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 },
             ],
             arrhenius: RateLaw {
-                // Calibrated so 0.05 M KI + 0.05 M H2O2 at pH 1.7 and 25 °C
-                // produces visible I2 (0.001 M) in about thirty seconds.
-                pre_exponential: 4.0e9,
+                // THE ACID TERM OF A MEASURED TWO-TERM LAW, no longer a
+                // single term tuned to a clock time (2026-11-11).
+                // Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933)
+                // 3977-3986, doi:10.1021/ja01337a010, measured
+                //   d(I3-)/dt = -d(H2O2)/dt = (k0 + k1 (H+)) (H2O2)(I-)
+                // in perchloric acid / sodium iodide at 0-50 C. Read in the
+                // scanned volume (archive.org dli.ernet.233065, JACS vol.
+                // 55): Summary item 2 "At 25 deg, k0 = 0.69 and k1 = 10.5";
+                // Table III k1 = 2.05 / 5.50 / 10.4 / 22.9 at 0 / 15 / 25 /
+                // 40 C; Summary item 5 k1 = 4.58e8 exp(-10,450/RT) from 0
+                // to 40 C (calories), error 120 cal. TIME IS IN MINUTES:
+                // Table II's Magnanini runs are tabulated in minutes and
+                // the "50 HCl" run's k'/(I-) = 6.66 equals 0.69 + 10.5 x
+                // 0.567, so k1 = 10.5 L2 mol-2 min-1 = 0.175 L2 mol-2 s-1.
+                // Ea = 10,450 cal/mol x 4.184 = 43,723 J/mol. A is that
+                // Ea anchored on the measured 25 C value:
+                // 0.175 x exp(43,722.8 / (R x 298.15)) = 7.9973e6
+                // (the paper's own 4.58e8 min-1 prefactor gives 10.0
+                // rather than 10.5 at 25 C; the measured point wins).
+                // The k0 term is its own row, `iodide-peroxide-clock-direct`,
+                // because the IR's rate expression is one mass-action
+                // product; the two rows share one stoichiometry and are
+                // together the whole law.
+                pre_exponential: 7.9973e6,
                 temperature_exponent: 0.0,
-                activation_energy: 56_000.0,
+                activation_energy: 43_723.0,
             },
         },
         reverse: None,
@@ -816,14 +837,102 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         validity: Validity {
             temperature_k: None,
             pressure_pa: None,
-            note: "calibrated near room temperature for aqueous school-practical conditions with acid in excess",
+            note: "measured 0-40 C in perchloric acid / sodium iodide, (H+) about 0.04-0.8 M, without appreciable kinetic salt effect between ionic strengths 0.05 and 0.5 (Liebhafsky & Mohammad 1933); the proton term reads 10^-pH and represented strong-acid equivalents are consumed at a locally frozen activity coefficient; less acidic vessels are an extrapolation of the same law",
         },
         uncertainty: Uncertainty {
-            relative: None,
-            note: "absolute rate is calibrated to visible I₂ appearance; the acid dependence is read from pH",
+            relative: Some(0.1),
+            note: "exact at the measured 25 C point; against the source's Table III (0, 15, 40 C) this anchored Arrhenius form is within +2 % to +7 %",
         },
         source_ids: &["kerotakis:kinetics:iodide-peroxide-clock"],
-        provenance: "Orders (1,1,1) in [H₂O₂], [I⁻], [H⁺] are the standard kinetics result (Liebhafsky & Mohammad 1933; Atkins' Physical Chemistry). Ea ≈ 56 kJ/mol (physical chemistry texts, commonly 50–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable clock time rather than measured",
+        provenance: "Acid term k1 of rate = (k0 + k1[H+])[H2O2][I-]: k1 = 10.5 L2 mol-2 min-1 at 25 C (0.175 L2 mol-2 s-1) and Q = 10,450 +/- 120 cal/mol from Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977, doi:10.1021/ja01337a010 (read in the archive.org scan of JACS vol. 55, dli.ernet.233065; time unit verified as minutes against the paper's Table II). An independent later measurement in perchloric acid, Arias, Mata & Perez-Benito, Can. J. Chem. 68 (1990) 1499, doi:10.1139/v90-230, reports 52 +/- 1 and 49 +/- 1 kJ/mol for the two terms (abstract via Crossref); the 1933 values are used because their constants could be read. In acid the HOI intermediate goes on to iodine: the source's own rate law equates iodine formation with peroxide loss, which is why the iodide-catalysed branch of `peroxide-decomposition` hands this pathway to the two clock rows while they can run (see CATALYST_PATHWAY_OWNERS)",
+    },
+    KineticReaction {
+        id: "iodide-peroxide-clock-direct",
+        // The k0 term of the same measured law. Same net equation as the
+        // acid term: Liebhafsky & Mohammad's Equation 5 counts BOTH terms
+        // in d(I3-)/dt = -d(H2O2)/dt, i.e. in acid the IO-/HOI formed by
+        // H2O2 + I- -> H2O + IO- (their Reaction 3) also ends as iodine.
+        // The protons are therefore still consumed, so this row is
+        // bounded by the represented acid exactly like its sibling, and a
+        // neutral vessel (no represented acid) cannot run it: there the
+        // same elementary step is the rate-determining step of the
+        // iodide-catalysed decomposition, which `peroxide-decomposition`
+        // owns.
+        equation: "H₂O₂ + 2 I⁻ + 2 H⁺ → I₂ + 2 H₂O",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "I-",
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: PROTON,
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "I2",
+                coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "water",
+                coefficient: 2.0,
+                phase: Phase::Liquid,
+            },
+        ],
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "H2O2",
+                    phase: Some(Phase::Liquid),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: "I-",
+                    phase: Some(Phase::Aqueous),
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // k0 = 0.69 L mol-1 min-1 at 25 C = 0.0115 L mol-1 s-1
+                // (Liebhafsky & Mohammad 1933, Summary item 2; Table III
+                // 0.094 / 0.35 / 0.69 / 2.19 at 0 / 15 / 25 / 40 C, and
+                // 0.71 at 25.1 C from oxygen evolution in initially
+                // neutral solution - the same elementary step). Q =
+                // 13,400 +/- 105 cal/mol, 0-50 C (Summary item 5; also
+                // quoted as 13,400 by Moelwyn-Hughes, The Kinetics of
+                // Reactions in Solution, 2nd ed., 1947, ch. II) = 56,066
+                // J/mol. A anchored on the measured 25 C value:
+                // 0.0115 x exp(56,065.6 / (R x 298.15)) = 7.6378e7.
+                pre_exponential: 7.6378e7,
+                temperature_exponent: 0.0,
+                activation_energy: 56_066.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "measured 0-50 C; as the acid-independent term of the acid-solution law it applies while represented acid remains to carry the iodine-forming stoichiometry",
+        },
+        uncertainty: Uncertainty {
+            relative: Some(0.1),
+            note: "exact at the measured 25 C point; against the source's Table III (0, 15, 40 C) this anchored Arrhenius form is within -10 % to -7 %, the scatter of the source's own acid and oxygen-evolution series",
+        },
+        source_ids: &["kerotakis:kinetics:iodide-peroxide-clock"],
+        provenance: "Acid-independent term k0 of rate = (k0 + k1[H+])[H2O2][I-]: k0 = 0.69 L mol-1 min-1 at 25 C (0.0115 L mol-1 s-1), Q = 13,400 +/- 105 cal/mol, Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977, doi:10.1021/ja01337a010 (archive.org scan dli.ernet.233065). Shares the acid term's net equation because the source's rate law equates iodine formation with peroxide loss for both terms in acid solution",
     },
     KineticReaction {
         id: "iodate-bisulfite-clock",
@@ -1687,6 +1796,52 @@ pub fn is_solution_catalyst(species: &SpeciesId) -> bool {
     })
 }
 
+/// A catalysed pathway that another curated row owns under some vessel
+/// conditions: `(reaction, catalyst species, owner rows)`.
+///
+/// ONE OWNER PER ELEMENTARY STEP. Iodide's catalysis of peroxide
+/// decomposition runs through H2O2 + I- -> H2O + IO- followed by
+/// IO- + H2O2 -> I- + H2O + O2. In acid the same first step (and its
+/// proton-assisted twin) feeds iodine instead: Liebhafsky & Mohammad, J.
+/// Am. Chem. Soc. 55 (1933) 3977, doi:10.1021/ja01337a010, measured
+/// d(I3-)/dt = -d(H2O2)/dt for BOTH rate terms in acid solution, so every
+/// peroxide the step consumes there becomes iodine, not oxygen. While an
+/// owner row can actually run in the vessel (its reactants, including
+/// represented acid, are present and it is inside its validity domain)
+/// the catalyst branch stands down, so the step is integrated once. A
+/// neutral vessel holds no represented acid, no owner can run, and the
+/// iodide-catalysed decomposition is untouched; when the acid is spent
+/// mid-run the catalysis resumes. The bottle key `KI` is listed too: the
+/// owners are keyed on `I-`, so it only stands down once the salt has
+/// speciated, which is when the owners can run at all.
+const CATALYST_PATHWAY_OWNERS: &[(&str, &str, &[&str])] = &[
+    (
+        "peroxide-decomposition",
+        "I-",
+        &["iodide-peroxide-clock", "iodide-peroxide-clock-direct"],
+    ),
+    (
+        "peroxide-decomposition",
+        "KI",
+        &["iodide-peroxide-clock", "iodide-peroxide-clock-direct"],
+    ),
+];
+
+/// Whether `catalyst` on `reaction` is currently owned by another row that
+/// can run in this vessel (see [`CATALYST_PATHWAY_OWNERS`]).
+pub fn catalyst_pathway_owned_elsewhere(reaction: &str, catalyst: &str, vessel: &Vessel) -> bool {
+    CATALYST_PATHWAY_OWNERS
+        .iter()
+        .filter(|(row, species, _)| *row == reaction && *species == catalyst)
+        .flat_map(|(_, _, owners)| owners.iter())
+        .filter_map(|owner| lookup(owner))
+        .any(|owner| {
+            owner.in_validity_domain(vessel)
+                && owner.direction_available(vessel, true)
+                && crate::corrosion::allows_reaction(owner.id, vessel)
+        })
+}
+
 /// Which reactions have all their reactants present in this vessel.
 pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction<'static>> {
     REGISTRY
@@ -1872,6 +2027,7 @@ impl<'a> KineticReaction<'a> {
             .exp();
         self.catalysts
             .iter()
+            .filter(|catalyst| !catalyst_pathway_owned_elsewhere(self.id, catalyst.species, vessel))
             .filter_map(|catalyst| {
                 let activity = catalyst.activity_multiplier(vessel, litres, context, amount_of);
                 let strength = activity
