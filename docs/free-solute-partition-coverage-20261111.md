@@ -15,7 +15,7 @@ yields less iodine to hexane than iodide-free water.
 
 K_D sources (unchanged by this lane):
 
-- I2 hexane/water: K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model
+- I2 hexane/water: K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model; NOT a primary measurement (85-86 matches the classic CCl4/water ratio; no primary hexane/water K located 2026-11-11, see docs/nonaqueous-solution-coverage-20261111.md)
 
 Typed refusals (EN in code, DE/FR in crates/kerotakis-core/i18n): `not-modeled.aqueous-complex-temperature`, `not-modeled.aqueous-complex-with-solid`.
 
@@ -24,4 +24,8 @@ teaching exam question, not a primary measurement; a patent bench measurement
 (US 6,398,961) and lab handouts report about 35 for hexane, and 85 is the
 classic CCl4/water value. No primary hexane or CCl4 number could be read
 openly (Davies & Gwynne-type JACS papers, doi:10.1021/ja01562a008, are
-paywalled), so no K_D row was added or changed here.
+paywalled), so no K_D row was added or changed here. The 2026-11-11
+non-aqueous-solution lane searched again (see
+docs/nonaqueous-solution-coverage-20261111.md); the only primary alkane
+value found is K = 80 for cyclohexane / 1.00 F H2SO4 (Van de Steeg 1968,
+doi:10.2172/4770773), which is neither hexane nor pure water.

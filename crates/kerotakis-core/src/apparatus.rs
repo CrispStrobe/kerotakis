@@ -347,7 +347,7 @@ pub const PARTITION_COEFFICIENTS: &[PartitionCoefficient] = &[PartitionCoefficie
     // Admit only an ordinary room-temperature reading; a wider range would
     // be an invented temperature model.
     temperature_tolerance_k: 0.5,
-    source: "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model",
+    source: "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model; NOT a primary measurement (85-86 matches the classic CCl4/water ratio; no primary hexane/water K located 2026-11-11, see docs/nonaqueous-solution-coverage-20261111.md)",
 }];
 
 /// A partitioning solute that also forms a 1:1 complex `S + L ⇌ SL` that
