@@ -86,6 +86,7 @@ pub mod packs;
 pub mod packs_manifest;
 pub mod parallel;
 pub mod particles;
+pub mod phase_density;
 pub mod phase_route;
 pub mod photochem;
 pub mod phrase;

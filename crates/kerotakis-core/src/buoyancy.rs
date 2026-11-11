@@ -99,6 +99,13 @@ pub fn liquid_density_g_per_ml(vessel: &Vessel) -> Option<f64> {
         if dissolved && data.density > 0.0 {
             volume_ml += grams / data.density;
         }
+        // A melt with a sourced liquid density occupies THAT volume, not
+        // the registry's (solid) one `liquid_volume` counted it at (th-004).
+        if !dissolved && data.density > 0.0 {
+            if let Some(pair) = crate::phase_density::pair(portion.species.0.as_str()) {
+                volume_ml += grams / pair.liquid_g_per_ml - grams / data.density;
+            }
+        }
     }
     (volume_ml > 0.0).then(|| mass_g / volume_ml)
 }
@@ -145,8 +152,13 @@ pub fn ionic_volume_unaccounted(vessel: &Vessel) -> bool {
 /// surface tension. A steel boat floats and a steel nail does not, and this
 /// compares materials rather than objects — the same boundary the density
 /// meter states.
+///
+/// The solid's density is read for the SOLID phase
+/// (`phase_density::density_in_phase`): where a substance has a sourced
+/// solid/liquid pair, a lump of it in its own melt is compared at two
+/// measured densities, so solid paraffin sinks in molten paraffin.
 pub fn floats_in(species: &crate::SpeciesId, liquid_density_g_per_ml: f64) -> Option<bool> {
-    let density = crate::species::lookup(species)?.density;
+    let density = crate::phase_density::density_in_phase(species, crate::species::Phase::Solid)?;
     (density > 0.0 && liquid_density_g_per_ml > 0.0).then_some(density < liquid_density_g_per_ml)
 }
 
