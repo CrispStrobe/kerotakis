@@ -350,6 +350,143 @@ pub const PARTITION_COEFFICIENTS: &[PartitionCoefficient] = &[PartitionCoefficie
     source: "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model",
 }];
 
+/// A partitioning solute that also forms a 1:1 complex `S + L ⇌ SL` that
+/// exists ONLY in the aqueous phase (a charged complex such as I3⁻ does not
+/// enter a hydrocarbon or chlorocarbon layer). A distribution coefficient
+/// is the ratio of the FREE neutral solute in the two phases, so applying
+/// it to the analytical aqueous total (free + complexed) overstates the
+/// extracted amount whenever the ligand is present. Every row here makes
+/// [`extract_free_solute`] distribute only the free solute and
+/// re-equilibrate the complex after each stage.
+#[derive(Debug, Clone, Copy)]
+pub struct AqueousOnlyComplex {
+    /// Registry key of the partitioning solute (its analytical pool).
+    pub solute: &'static str,
+    /// The ligand, for display.
+    pub ligand: &'static str,
+    /// The aqueous-only complex, for display.
+    pub complex: &'static str,
+    /// Association constant, L/mol (ideal activities = molarities).
+    pub association_k_l_per_mol: f64,
+    pub reference_temperature_k: f64,
+    pub temperature_tolerance_k: f64,
+    /// Moles of dissolved ligand (free + bound) in the vessel.
+    pub ligand_moles: fn(&Vessel) -> f64,
+    pub source: &'static str,
+}
+
+/// Every reviewed aqueous-only complex of a partitioning solute.
+pub const AQUEOUS_ONLY_COMPLEXES: &[AqueousOnlyComplex] = &[AqueousOnlyComplex {
+    solute: "I2",
+    ligand: "I-",
+    complex: "I3-",
+    // Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673,
+    // doi:10.1007/BF00650374: K = 698 at 25 °C (the same constant
+    // `iodine_chemistry::TRIIODIDE_K` uses for capacity and optics).
+    association_k_l_per_mol: crate::iodine_chemistry::TRIIODIDE_K,
+    reference_temperature_k: 298.15,
+    // One cited 25 °C value is used; no temperature curve is applied.
+    temperature_tolerance_k: 0.5,
+    ligand_moles: crate::iodine_chemistry::dissolved_iodide,
+    source: "I2 + I- <=> I3-, K = 698 L/mol at 25 °C: Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374; only free I2 partitions, I3- stays in water",
+}];
+
+pub fn aqueous_only_complex(solute: &SpeciesId) -> Option<&'static AqueousOnlyComplex> {
+    AQUEOUS_ONLY_COMPLEXES
+        .iter()
+        .find(|row| row.solute == solute.0)
+}
+
+/// Free solute (mol) in one stage: analytical total `total` with dissolved
+/// ligand `ligand` in `aqueous_l` facing `organic_l` of fresh solvent.
+/// Solves total = a + k a B / (1 + k a) + r a (k = K/V_aq, r = K_D V_org /
+/// V_aq) by bisection; the right side is strictly increasing in a.
+fn free_solute_in_stage(total: f64, ligand: f64, k: f64, r: f64) -> f64 {
+    let held = |a: f64| a + k * a * ligand / (1.0 + k * a) + r * a;
+    let (mut lo, mut hi) = (0.0_f64, total);
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        if held(mid) < total {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+        if hi - lo <= total * 1e-16 {
+            break;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
+/// Staged extraction with fresh equal solvent portions where only the free
+/// solute partitions and a 1:1 aqueous-only complex with `ligand_moles`
+/// (conserved in the water) re-equilibrates after every stage. With no
+/// ligand this is exactly [`extract_repeated`]. Mass balance is exact:
+/// aqueous_moles + organic_moles = solute_moles.
+pub fn extract_free_solute(
+    solute_moles: f64,
+    ligand_moles: f64,
+    aqueous_volume_l: f64,
+    organic_volume_per_stage_l: f64,
+    partition_coefficient: f64,
+    association_k_l_per_mol: f64,
+    stages: usize,
+) -> ExtractionResult {
+    let ligand = if ligand_moles.is_finite() {
+        ligand_moles.max(0.0)
+    } else {
+        0.0
+    };
+    if ligand <= 0.0 || !association_k_l_per_mol.is_finite() || association_k_l_per_mol <= 0.0 {
+        return extract_repeated(
+            solute_moles,
+            aqueous_volume_l,
+            organic_volume_per_stage_l,
+            partition_coefficient,
+            stages,
+        );
+    }
+    let one = extract(
+        solute_moles,
+        aqueous_volume_l,
+        organic_volume_per_stage_l,
+        partition_coefficient,
+    );
+    if stages == 0 || one.efficiency == 0.0 {
+        return ExtractionResult {
+            aqueous_moles: solute_moles.max(0.0),
+            organic_moles: 0.0,
+            efficiency: 0.0,
+        };
+    }
+    let k = association_k_l_per_mol / aqueous_volume_l;
+    let r = partition_coefficient * organic_volume_per_stage_l / aqueous_volume_l;
+    let mut remaining = solute_moles;
+    let mut last_factor = f64::NAN;
+    let mut done = 0usize;
+    while done < stages {
+        let free = free_solute_in_stage(remaining, ligand, k, r);
+        let organic = (r * free).min(remaining);
+        let factor = (remaining - organic) / remaining;
+        remaining -= organic;
+        done += 1;
+        // Once the solute is dilute next to the ligand the per-stage
+        // fraction is constant (1 / (1 + r / (1 + k B))); finish the
+        // remaining stages in closed form instead of iterating millions.
+        if (factor - last_factor).abs() <= 1e-13 * factor || remaining <= 0.0 {
+            remaining *= factor.powf((stages - done) as f64);
+            break;
+        }
+        last_factor = factor;
+    }
+    let organic_moles = solute_moles - remaining;
+    ExtractionResult {
+        aqueous_moles: remaining,
+        organic_moles,
+        efficiency: organic_moles / solute_moles,
+    }
+}
+
 /// Liquids that are miscible with water in all proportions at room
 /// temperature (CRC Handbook of Chemistry and Physics, aqueous solubility
 /// "miscible"). A liquid-labelled portion of one of these in a single liquid

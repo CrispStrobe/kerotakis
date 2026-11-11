@@ -1884,6 +1884,8 @@ milk-casein-buffer-residual = "diese Milch wurde auf pH {ph} angesäuert, und nu
 
 # Looked up by VALUE. Substrate and nucleophile classes are WORDS, which
 # is why they are not baked into the sentence: German declines them.
+aqueous-complex-temperature = "{solute} bildet im Wasser mit {ligand} auch {complex}, und diese Assoziationskonstante ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß hat {actual} K, deshalb wird das freie {solute}, das sich verteilt, nicht berechnet"
+aqueous-complex-with-solid = "ungelöstes {solute} neben {ligand}: ein Feststoffvorrat, der während der Extraktion auch den wässrigen {complex}-Komplex speist, ist noch nicht modelliert"
 [substrate-class]
 methyl = "Methyl"
 primary = "primär"
