@@ -99,9 +99,10 @@ def render(rows, no_data):
     md += [f"| {d['species']} | {d['reason']} |" for d in no_data]
     md += ["", "The starch–iodine complex is refused as before (no reliable ε exists; see",
            "docs/starch-amylase-coverage-20261111.md).", "",
-           "Known conflict: the registry's 16-band MnO4⁻ colour spectrum still peaks at the older",
-           "teaching value 2400 at 525 nm; the cited reading uses 3340 (McBeath 2020). The",
-           "colour curve was not rescaled in this change.", ""]
+           "MnO4⁻: the registry's 16-band colour spectrum is scaled to the same 3340 at 525 nm",
+           "(shape kept), so the band-peak reading and the cited 525 nm reading agree",
+           "(`permanganate_band_peak_and_cited_525_reading_agree`). At 545 nm the scaled band gives",
+           "about 3092 against the cited 3220 (4 %), a band-shape difference, not a second value.", ""]
     return json.dumps(doc, indent=2, ensure_ascii=False) + "\n", "\n".join(md)
 
 

@@ -268,3 +268,24 @@ fn a_vessel_without_cited_species_gets_no_cited_reading() {
     assert!(!events.iter().any(|e| matches!(e,
         Event::Measured { unit, .. } if unit.contains("cited molar absorptivity"))));
 }
+
+#[test]
+fn permanganate_band_peak_and_cited_525_reading_agree() {
+    use kerotakis_core::instrument::{InstrumentContract, Spectrophotometer};
+    for amount in [1e-6, 1e-5, 1e-4] {
+        let mut v = water(100.0);
+        aq(&mut v, "MnO4-", amount);
+        let peak = Spectrophotometer::default()
+            .measure(&v)
+            .expect("band reading");
+        assert_eq!(peak.observable, "absorbance at 525 nm");
+        let cited = uv::absorbance_at(&v, 525.0, 1.0);
+        assert!(cited.blocked.is_empty(), "{:?}", cited.blocked);
+        assert!(
+            (peak.value - cited.absorbance).abs() <= 1e-3 * cited.absorbance,
+            "{} vs {}",
+            peak.value,
+            cited.absorbance
+        );
+    }
+}

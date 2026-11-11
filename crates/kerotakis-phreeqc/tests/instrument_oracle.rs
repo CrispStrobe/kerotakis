@@ -31,13 +31,14 @@ fn brine_with_kmno4(eq: &mut PhreeqcEquilibrator, mmol: f64) -> Bench {
 }
 
 /// The literature anchor: permanganate's molar absorptivity at 525 nm is
-/// ~2455 L mol⁻¹ cm⁻¹ (the classic self-indicating titrant value quoted
-/// across instrumental-analysis texts). 0.10 mmol KMnO₄ in 100 g water is
-/// 1.0 mmol/kgw; through a 1 cm cell the whole pipeline — engine
-/// speciation to registry spectrum to instrument — must land within 10 %
-/// of ε_lit·c·l. The registry curates ε(525) = 2400; the margin covers
-/// that curation plus band sampling, and a pipeline that drifts further
-/// than that has lost real chemistry somewhere.
+/// 3340 L mol⁻¹ cm⁻¹ (McBeath, Wilkinson & Graham, Chemosphere 251 (2020)
+/// 126626, doi:10.1016/j.chemosphere.2020.126626; the older teaching value
+/// 2400-2500 is superseded). 0.10 mmol KMnO₄ in 100 g water is 1.0 mmol/kgw;
+/// through a 1 cm cell the whole pipeline — engine speciation to registry
+/// spectrum to instrument — must land within 10 % of ε_lit·c·l. The registry
+/// spectrum is scaled to ε(525) = 3340, the same value as the cited
+/// single-wavelength row; the margin covers molality-vs-molarity and
+/// speciation, and a pipeline that drifts further has lost real chemistry.
 #[test]
 fn permanganate_absorbance_matches_the_literature_anchor() {
     let mut eq = PhreeqcEquilibrator::new().expect("engine");
@@ -45,7 +46,7 @@ fn permanganate_absorbance_matches_the_literature_anchor() {
     let bench = brine_with_kmno4(&mut eq, 0.1);
     let spec = Spectrophotometer { path_cm: 1.0 };
     let reading = spec.measure(&bench.vessels[1]).expect("reads");
-    let expected = 2455.0 * 1.0e-3 * 1.0; // ε_lit · c · l
+    let expected = 3340.0 * 1.0e-3 * 1.0; // ε_lit · c · l
     assert!(
         (reading.value - expected).abs() / expected < 0.10,
         "A(peak) = {:.4} vs literature {:.4}",

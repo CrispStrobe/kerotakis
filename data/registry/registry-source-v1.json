@@ -606,7 +606,7 @@
     },
     {
       "id": "legacy/MnO4-",
-      "citation": "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of MnO4- (ε ≈ 2400 L/mol/cm at 525 nm) — visible at 1e-5 M, which is why it is the classic titration indicator",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of MnO4- (ε = 3340 L/mol/cm at 525 nm: McBeath, Wilkinson & Graham, Chemosphere 251 (2020) 126626, doi:10.1016/j.chemosphere.2020.126626, as quoted by Heliyon 2023, PMC9958420; band shape kept, curve scaled from the earlier 2400 teaching value) — visible at 1e-5 M, which is why it is the classic titration indicator",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
@@ -51995,7 +51995,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0.000621,
+            "value": 0.000864,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52045,7 +52045,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0.085457,
+            "value": 0.118928,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52095,7 +52095,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 4.96805,
+            "value": 6.91387,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52145,7 +52145,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 102.162632,
+            "value": 142.17633,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52195,7 +52195,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 707.86632,
+            "value": 985.113962,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52245,7 +52245,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1827.543368,
+            "value": 2543.331187,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52295,7 +52295,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 2400.0,
+            "value": 3340.0,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52345,7 +52345,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 2221.552939,
+            "value": 3091.661173,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52395,7 +52395,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1413.578982,
+            "value": 1967.23075,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52445,7 +52445,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 488.459382,
+            "value": 679.77264,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52495,7 +52495,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 68.566424,
+            "value": 95.421607,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52545,7 +52545,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 3.225492,
+            "value": 4.48881,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52595,7 +52595,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0.046863,
+            "value": 0.065218,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52645,7 +52645,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0.000205,
+            "value": 0.000285,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
