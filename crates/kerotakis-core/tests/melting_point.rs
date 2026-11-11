@@ -27,21 +27,24 @@ fn read(v: &vessel::Vessel, kind: TransitionRead) -> instrument::TransitionReadi
 
 #[test]
 fn a_pure_solid_gives_a_sharp_point_with_its_citation() {
-    let sample = vessel_with(&[("NaNO3", 0.05, species::Phase::Solid)]);
+    // 2026-11-11: sodium nitrate's 306.5 C stood only on the withdrawn
+    // editorial tranche and was dropped; naphthalene's 353.40 K is a
+    // primary calorimetric value (McCullough et al. 1957).
+    let sample = vessel_with(&[("naphthalene", 0.05, species::Phase::Solid)]);
     let r = read(&sample, TransitionRead::Melting);
     assert_eq!(r.verdict, PurityVerdict::Pure);
-    assert_eq!(r.species.as_ref().unwrap().0.as_str(), "NaNO3");
+    assert_eq!(r.species.as_ref().unwrap().0.as_str(), "naphthalene");
     assert_eq!(r.outcome, Some(TransitionOutcome::Melts));
     let c = r.value_c.expect("a melting point");
     assert!(
-        (c - 306.5).abs() < 0.05,
-        "sodium nitrate melts at 306.5 C, got {c}"
+        (c - 80.25).abs() < 0.05,
+        "naphthalene melts at 80.25 C, got {c}"
     );
     // The number never travels without the line that stands behind it.
     let source = r.source.expect("per-record provenance");
     assert!(
-        source.contains("phase-transition"),
-        "the citation must name the tranche it came from: {source}"
+        source.contains("doi:10.1021/j150554a016"),
+        "the citation must name the measurement it came from: {source}"
     );
     assert!(
         r.boundary.as_deref().unwrap().contains("does not simulate"),
@@ -51,13 +54,11 @@ fn a_pure_solid_gives_a_sharp_point_with_its_citation() {
 
 #[test]
 fn two_solids_get_a_refusal_and_the_names_of_what_is_in_the_way() {
-    // The purity lesson. Sodium nitrate alone melts sharply at 306.5;
-    // sodium nitrate with potassium nitrate in it does not melt at 306.5,
-    // it does not melt at 334, and it does not melt at any single
-    // temperature at all.
+    // The purity lesson. Naphthalene alone melts sharply at 80.25 C;
+    // naphthalene with salt in it does not melt at any single temperature.
     let sample = vessel_with(&[
-        ("NaNO3", 0.05, species::Phase::Solid),
-        ("KNO3", 0.02, species::Phase::Solid),
+        ("naphthalene", 0.05, species::Phase::Solid),
+        ("NaCl", 0.02, species::Phase::Solid),
     ]);
     let r = read(&sample, TransitionRead::Melting);
     assert_eq!(r.verdict, PurityVerdict::Mixture);
@@ -68,7 +69,7 @@ fn two_solids_get_a_refusal_and_the_names_of_what_is_in_the_way() {
     assert_eq!(r.components.len(), 2);
     // The one grounded number: the bound the range begins below.
     let bound = r.lowest_component_c.expect("the lowest pure point");
-    assert!((bound - 306.5).abs() < 0.05, "bound was {bound}");
+    assert!((bound - 80.25).abs() < 0.05, "bound was {bound}");
     let boundary = r.boundary.unwrap();
     assert!(
         boundary.contains("SIZE of the depression is not claimed"),
@@ -116,23 +117,24 @@ fn a_wet_sample_is_refused_rather_than_read_low() {
 }
 
 #[test]
-fn a_substance_that_decomposes_is_told_that_it_decomposes() {
-    // Sucrose has no melting point. Reporting 186 °C as one would teach
-    // the single commonest lie in the school data tables.
+fn a_decomposition_with_no_primary_source_is_not_reported() {
+    // Sucrose has no melting point, and its 186 C decomposition onset
+    // stood only on the withdrawn editorial tranche (dropped 2026-11-11).
+    // The apparatus says it has no value rather than printing an
+    // unsourced one.
     let sample = vessel_with(&[("sucrose", 0.01, species::Phase::Solid)]);
     let r = read(&sample, TransitionRead::Melting);
-    assert_eq!(r.verdict, PurityVerdict::Pure);
-    assert_eq!(r.outcome, Some(TransitionOutcome::Decomposes));
-    assert!((r.value_c.unwrap() - 186.0).abs() < 0.05);
-    assert!(r.boundary.unwrap().contains("does not melt"));
+    assert_eq!(r.verdict, PurityVerdict::NoData);
+    assert!(r.value_c.is_none());
 }
 
 #[test]
 fn a_substance_that_sublimes_is_told_that_it_sublimes() {
-    let sample = vessel_with(&[("NH4Cl", 0.01, species::Phase::Solid)]);
+    // Span and Wagner (1996): CO2 sublimes at 194.686 K at 101.325 kPa.
+    let sample = vessel_with(&[("dry_ice", 0.01, species::Phase::Solid)]);
     let r = read(&sample, TransitionRead::Melting);
     assert_eq!(r.outcome, Some(TransitionOutcome::Sublimes));
-    assert!((r.value_c.unwrap() - 338.0).abs() < 0.05);
+    assert!((r.value_c.unwrap() + 78.464).abs() < 0.05);
 }
 
 #[test]
@@ -250,7 +252,7 @@ fn the_bench_emits_the_reading_as_an_event() {
     bench
         .step(Operator::Add {
             vessel: VesselId(0),
-            species: SpeciesId::new("NaNO3"),
+            species: SpeciesId::new("naphthalene"),
             moles: Moles(0.05),
             at: None,
         })
@@ -280,10 +282,7 @@ fn the_bench_emits_the_reading_as_an_event() {
         );
     }
     let lv3 = render_events(&events, Register::LV3).join("\n");
-    assert!(
-        lv3.contains("phase-transition"),
-        "lv3 must print the source: {lv3}"
-    );
+    assert!(lv3.contains("doi:"), "lv3 must print the source: {lv3}");
 }
 
 // BRD-032: the boiling-point apparatus reads at the vessel's own pressure.

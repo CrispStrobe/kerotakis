@@ -4063,6 +4063,41 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject)],
                     ),
                 },
+                // Reviewed-transition-points lane: a wax or a polymer
+                // melts over a sourced range, and the line says so rather
+                // than printing a point the material does not have.
+                (V::MeltingRange, level) => {
+                    let high = locale.number(format!("{:.0}", reading.range_high_c.unwrap_or_default()));
+                    let source = reading.source.as_deref().unwrap_or("uncited");
+                    let boundary = reading.boundary.as_deref().unwrap_or("");
+                    match (reading.range_low_c, level) {
+                        (_, 1) => locale.fill(
+                            "event.transition-point.range.lv1",
+                            "The sample from {vessel} does not melt at one temperature: it softens and melts over a range, and none of it is still solid above {high} °C.",
+                            &[("vessel", &vessel.to_string()), ("high", &high)],
+                        ),
+                        (Some(low), 2) => locale.fill(
+                            "event.transition-point.range.lv2",
+                            "{vessel} {what}: {subject} melts over a range, {low}–{high} °C — a blend or polymer, not one sharp point",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("low", &locale.number(format!("{low:.0}"))), ("high", &high)],
+                        ),
+                        (None, 2) => locale.fill(
+                            "event.transition-point.range-upper.lv2",
+                            "{vessel} {what}: {subject} melts over a range ending at {high} °C — a polymer, not one sharp point",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("high", &high)],
+                        ),
+                        (Some(low), _) => locale.fill(
+                            "event.transition-point.range.lv3",
+                            "{vessel} {what}: {subject} melts over the sourced range {low}–{high} °C; no single point is reported. Source: {source}. Boundary: {boundary}",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("low", &locale.number(format!("{low:.0}"))), ("high", &high), ("source", source), ("boundary", boundary)],
+                        ),
+                        (None, _) => locale.fill(
+                            "event.transition-point.range-upper.lv3",
+                            "{vessel} {what}: {subject} melts over a range whose sourced upper end is {high} °C; no single point is reported. Source: {source}. Boundary: {boundary}",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("high", &high), ("source", source), ("boundary", boundary)],
+                        ),
+                    }
+                }
                 (V::NothingToTest, level) => match level {
                     1 => locale.fill(
                         "event.transition-point.empty.lv1",

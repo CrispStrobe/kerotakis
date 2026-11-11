@@ -142,7 +142,7 @@ fn cold_stocked_hexadecane_melts_when_warmed_past_its_melting_point() {
     );
     assert!(moles(&bench, "hexadecane", Phase::Solid) < 1e-9);
     let t = bench.vessel(VesselId(0)).unwrap().temperature.0;
-    assert!(t > 291.35, "ended at {t} K, below the melting point");
+    assert!(t > 291.3, "ended at {t} K, below the melting point");
 }
 
 /// th-003: tert-butanol at 15 °C is a solid, isopropanol is not.
@@ -203,12 +203,12 @@ fn a_reagent_without_a_melting_point_falls_back_to_its_standard_phase() {
         StockingBasis::NoMeltingPoint
     );
     assert_eq!(phase_route::stocked_phase(data, 346.0), data.standard_phase);
-    // And a melting point without a latent heat is not acted on either:
-    // dodecane at -20 °C would otherwise be a solid nothing could melt.
+    // Dodecane's melting point stood only on the withdrawn tranche and was
+    // dropped 2026-11-11, so at -20 °C it falls back to its standard phase.
     let dodecane = species::lookup(&SpeciesId::new("dodecane")).unwrap();
     assert_eq!(
         phase_route::stocking_basis(dodecane),
-        StockingBasis::MeltingPointWithoutLatentHeat
+        StockingBasis::NoMeltingPoint
     );
     assert_eq!(phase_route::stocked_phase(dodecane, 253.15), Phase::Liquid);
 }

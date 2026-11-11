@@ -56,27 +56,29 @@ fn liquid_isopropanol_reports_its_melting_point_and_says_it_is_liquid() {
 }
 
 #[test]
-fn solid_tert_butanol_reports_its_boiling_point_and_says_it_is_solid() {
+fn solid_tert_butanol_reports_no_boiling_point_and_its_melting_point() {
+    // 2026-11-11: tert-butanol's boiling point stood only on the withdrawn
+    // tranche and was dropped (its primary determination could not be
+    // read), so the solid sample gets the typed no_data verdict; its
+    // melting point is primary (Oetting 1963).
     let sample = vessel_with(&[("tert_butanol", 0.1, Phase::Solid)]);
     let r = read_transition(&sample, TransitionRead::Boiling);
-    assert_eq!(r.verdict, PurityVerdict::Pure);
+    assert_eq!(r.verdict, PurityVerdict::NoData);
     assert_eq!(r.sample_phase, Some(Phase::Solid));
-    assert_eq!(r.outcome, Some(TransitionOutcome::Boils));
-    let c = r.value_c.unwrap();
-    assert!((c - registry_c("tert_butanol", TransitionRead::Boiling)).abs() < 0.05);
+    assert!(r.value_c.is_none());
     let m = read_transition(&sample, TransitionRead::Melting);
     assert_eq!(m.verdict, PurityVerdict::Pure);
     assert_eq!(m.sample_phase, Some(Phase::Solid));
 }
 
 #[test]
-fn liquid_dodecane_reports_its_melting_point() {
-    let sample = vessel_with(&[("dodecane", 0.05, Phase::Liquid)]);
+fn liquid_hexadecane_reports_its_melting_point() {
+    let sample = vessel_with(&[("hexadecane", 0.05, Phase::Liquid)]);
     let r = read_transition(&sample, TransitionRead::Melting);
     assert_eq!(r.verdict, PurityVerdict::Pure);
     assert_eq!(r.sample_phase, Some(Phase::Liquid));
     let c = r.value_c.unwrap();
-    assert!((c - registry_c("dodecane", TransitionRead::Melting)).abs() < 1e-9);
+    assert!((c - registry_c("hexadecane", TransitionRead::Melting)).abs() < 1e-9);
 }
 
 #[test]
@@ -114,7 +116,7 @@ fn two_liquids_are_still_a_mixture_in_the_fallback() {
 
 #[test]
 fn the_classic_path_carries_the_wanted_phase_and_no_note() {
-    let sample = vessel_with(&[("NaNO3", 0.05, Phase::Solid)]);
+    let sample = vessel_with(&[("naphthalene", 0.05, Phase::Solid)]);
     let r = read_transition(&sample, TransitionRead::Melting);
     assert_eq!(r.sample_phase, Some(Phase::Solid));
     let events = vec![Event::TransitionPointRead {
