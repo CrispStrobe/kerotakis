@@ -477,7 +477,7 @@ fn native_refusal(events: &[Event]) -> Option<&Phrase> {
     events.iter().find_map(|e| match e {
         Event::NotYetModeled {
             reason: Some(p), ..
-        } if p.key == "not-modeled.amylase-native-starch-granules" => Some(p),
+        } if p.key == "not-modeled.amylase-starch-source-unspecified" => Some(p),
         _ => None,
     })
 }
@@ -558,5 +558,205 @@ fn gelatinisation_constants_match_the_coverage_table() {
         g["gelatinised_at_k"].as_f64().unwrap(),
         starch_amylase::GELATINISED_AT_K
     );
-    assert_eq!(g["refusal"], "not-modeled.amylase-native-starch-granules");
+    assert_eq!(
+        g["refusal"],
+        "not-modeled.amylase-starch-source-unspecified"
+    );
+}
+
+// ── Per-material, per-state digestible fractions (lane A, round 4) ──
+// Protocol W (4 U Sigma A3176 + 4 U amyloglucosidase per 10 mg starch,
+// 37 °C); maize rows: Molecules 23 (2018) 2132,
+// doi:10.3390/molecules23092132, Table 6.
+
+const CORNSTARCH: &str = "material recipe household/cornstarch";
+const STARCH_G: f64 = 0.20;
+const STARCH_M: f64 = 162.14;
+
+fn attributed_vessel(source: &str, enzyme_mg: f64, celsius: f64) -> Vessel {
+    let mut v = Vessel::new(VesselId(0), "digest");
+    v.deposit(SpeciesId::new("water"), Moles(2.767), Phase::Liquid);
+    v.deposit_lot(
+        SpeciesId::new("starch"),
+        Moles(STARCH_G / STARCH_M),
+        Phase::Solid,
+        Some(source.to_string()),
+        None,
+    );
+    v.temperature = Kelvin::from_celsius(celsius);
+    if enzyme_mg > 0.0 {
+        let m = species::lookup_key("amylase").unwrap().molar_mass;
+        v.deposit(
+            SpeciesId::new("amylase"),
+            Moles(enzyme_mg / 1000.0 / m),
+            Phase::Aqueous,
+        );
+    }
+    v
+}
+
+fn digested_fraction_of(v: &Vessel) -> f64 {
+    1.0 - v.moles_of(&SpeciesId::new("starch")).0 / (STARCH_G / STARCH_M)
+}
+
+fn has_key(events: &[Event], key: &str) -> bool {
+    events
+        .iter()
+        .any(|e| matches!(e, Event::NotYetModeled { reason: Some(p), .. } if p.key == key))
+}
+
+fn phrase_of<'a>(events: &'a [Event], key: &str) -> &'a Phrase {
+    events
+        .iter()
+        .find_map(|e| match e {
+            Event::NotYetModeled {
+                reason: Some(p), ..
+            } if p.key == key => Some(p),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("{key}: {events:?}"))
+}
+
+#[test]
+fn cornstarch_native_at_37_c_digests_the_measured_rds_then_sds_then_stops() {
+    // 10 mg × 5 U/mg / 0.20 g = 250 U/g: inside 0.5x-2x of 400 U/g.
+    let mut v = attributed_vessel(CORNSTARCH, 10.0, 37.0);
+    let events = starch_amylase::advance(&mut v, 1200.0);
+    assert!(
+        (digested_fraction_of(&v) - 0.0645).abs() < 1e-9,
+        "{events:?}"
+    );
+    assert!(has_key(
+        &events,
+        "not-modeled.amylase-starch-product-split-unsourced"
+    ));
+    assert!(!has_key(
+        &events,
+        "not-modeled.amylase-starch-source-unspecified"
+    ));
+    let maltose = v.moles_of(&SpeciesId::new("maltose")).0;
+    assert!((maltose - 0.0645 * STARCH_G / STARCH_M / 2.0).abs() < 1e-15);
+    // To 120 min: 100 − RS = 29.44 %.
+    starch_amylase::advance(&mut v, 6000.0);
+    assert!((digested_fraction_of(&v) - 0.2944).abs() < 1e-9);
+    // Beyond 120 min nothing more is claimed, typed.
+    let events = starch_amylase::advance(&mut v, 3600.0);
+    assert!((digested_fraction_of(&v) - 0.2944).abs() < 1e-9);
+    assert!(has_key(
+        &events,
+        "not-modeled.amylase-starch-beyond-source-time"
+    ));
+}
+
+#[test]
+fn cornstarch_cooked_and_retrograded_follow_their_own_rows() {
+    let mut v = attributed_vessel(CORNSTARCH, 0.0, 95.0);
+    starch_amylase::advance(&mut v, 60.0);
+    let mut cold = v.clone();
+    v.temperature = Kelvin::from_celsius(37.0);
+    let m = species::lookup_key("amylase").unwrap().molar_mass;
+    v.deposit(SpeciesId::new("amylase"), Moles(0.010 / m), Phase::Aqueous);
+    starch_amylase::advance(&mut v, 1200.0);
+    assert!((digested_fraction_of(&v) - 0.8159).abs() < 1e-9);
+    // 4 °C for 36 h, then digest: the retrograded row (78.72 %).
+    cold.temperature = Kelvin::from_celsius(4.0);
+    starch_amylase::advance(&mut cold, 35.0 * 3600.0);
+    assert_eq!(starch_amylase::retrograded_moles(&cold), 0.0);
+    starch_amylase::advance(&mut cold, 3600.0);
+    assert!(starch_amylase::retrograded_moles(&cold) > 0.0);
+    cold.temperature = Kelvin::from_celsius(37.0);
+    cold.deposit(SpeciesId::new("amylase"), Moles(0.010 / m), Phase::Aqueous);
+    starch_amylase::advance(&mut cold, 1200.0);
+    assert!((digested_fraction_of(&cold) - 0.7872).abs() < 1e-9);
+}
+
+#[test]
+fn cornstarch_outside_the_dose_or_temperature_window_is_refused_typed() {
+    // 100 mg × 5 U/mg / 0.20 g = 2500 U/g, above 2x 400 U/g.
+    let mut high = attributed_vessel(CORNSTARCH, 100.0, 37.0);
+    let events = starch_amylase::advance(&mut high, 1200.0);
+    let p = phrase_of(
+        &events,
+        "not-modeled.amylase-starch-outside-source-protocol",
+    );
+    assert_ne!(
+        p.render(i18n::Locale::parse("de")),
+        p.render(i18n::Locale::EN)
+    );
+    assert_eq!(digested_fraction_of(&high), 0.0);
+    // 30 °C at the in-window dose.
+    let mut cool = attributed_vessel(CORNSTARCH, 10.0, 30.0);
+    let events = starch_amylase::advance(&mut cool, 1200.0);
+    assert!(has_key(
+        &events,
+        "not-modeled.amylase-starch-outside-source-protocol"
+    ));
+    assert_eq!(digested_fraction_of(&cool), 0.0);
+}
+
+#[test]
+fn starch_of_a_material_without_a_row_is_refused_typed() {
+    let mut v = attributed_vessel(
+        "material recipe household/wheat-flour-surrogate",
+        10.0,
+        37.0,
+    );
+    let events = starch_amylase::advance(&mut v, 1200.0);
+    let p = phrase_of(&events, "not-modeled.amylase-starch-fraction-no-data");
+    let en = p.render(i18n::Locale::EN);
+    for locale in ["de", "fr"] {
+        assert_ne!(p.render(i18n::Locale::parse(locale)), en);
+    }
+    assert_eq!(digested_fraction_of(&v), 0.0);
+    assert_eq!(v.moles_of(&SpeciesId::new("maltose")).0, 0.0);
+}
+
+#[test]
+fn plain_and_attributed_starch_in_one_vessel_are_handled_separately() {
+    let mut v = attributed_vessel(CORNSTARCH, 20.0, 37.0);
+    // As much plain starch again: 20 mg × 5 / 0.40 g = 250 U/g.
+    v.deposit_lot(
+        SpeciesId::new("starch"),
+        Moles(STARCH_G / STARCH_M),
+        Phase::Solid,
+        None,
+        None,
+    );
+    let events = starch_amylase::advance(&mut v, 1200.0);
+    assert!(has_key(
+        &events,
+        "not-modeled.amylase-starch-source-unspecified"
+    ));
+    let left = v.moles_of(&SpeciesId::new("starch")).0;
+    let expected = 2.0 * STARCH_G / STARCH_M - 0.0645 * STARCH_G / STARCH_M;
+    assert!((left - expected).abs() < 1e-12, "{left} vs {expected}");
+}
+
+#[test]
+fn digestibility_rows_are_consistent_and_every_named_source_has_a_native_row() {
+    for r in starch_amylase::DIGESTIBILITY {
+        assert!(r.rds_pct > 0.0 && r.rds_pct <= r.digested_120_pct, "{r:?}");
+        assert!(r.digested_120_pct <= 100.0, "{r:?}");
+        assert!(r.source.contains("doi:"), "{r:?}");
+    }
+    for (id, b) in starch_amylase::MATERIAL_BOTANICAL {
+        if let Some(b) = b {
+            assert!(
+                starch_amylase::row(b, starch_amylase::StarchState::Native).is_some(),
+                "{id}"
+            );
+        }
+    }
+    let table: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../docs/starch-amylase-coverage-20261111.json"
+    ))
+    .unwrap();
+    let rows = table["digestibility"]["rows"].as_array().unwrap();
+    assert_eq!(rows.len(), starch_amylase::DIGESTIBILITY.len());
+    assert_eq!(
+        table["digestibility"]["protocol_dose_u_per_g"]
+            .as_f64()
+            .unwrap(),
+        starch_amylase::PROTOCOL_DOSE_U_PER_G
+    );
 }
