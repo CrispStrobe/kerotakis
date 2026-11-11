@@ -1589,6 +1589,14 @@ pub struct Vessel {
     /// zero so existing snapshots serialise unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub amylase_inactive_moles: Option<f64>,
+    /// Moles of the `starch` ledger (repeat units) that have been held in
+    /// liquid water at or above the highest native gelatinisation onset
+    /// (`starch_amylase::GELATINISED_AT_K`, 85 °C, Belitz et al.). Only
+    /// this pool is digested at the soluble-starch unit rate; the rest is
+    /// native granules and refused. Not carried by a pour (declared).
+    /// Omitted when absent so existing snapshots serialise unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub starch_gelatinised_moles: Option<f64>,
 }
 
 impl Vessel {
@@ -1598,6 +1606,7 @@ impl Vessel {
             honesty_said: Vec::new(),
             activity_range_refusal: None,
             amylase_inactive_moles: None,
+            starch_gelatinised_moles: None,
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,

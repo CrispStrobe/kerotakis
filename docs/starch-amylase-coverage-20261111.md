@@ -22,9 +22,17 @@ Above 343.15 K (top of the fitted data) the enzyme is booked as completely
 inactivated, not extrapolated. Corroboration: Singh, Shandilya, Kundu, Kayastha, PLoS ONE 10 (2015) e0129203, doi:10.1371/journal.pone.0129203, Fig 3A: WHEAT alpha-amylase unperturbed to 65 C, 4% loss at 70 C, complete loss around 85 C (different organism; not used as a constant).
 State: Vessel::amylase_inactive_moles (irreversible; not carried by a pour). Typed reason: `not-modeled.amylase-heat-inactivated`.
 
+### Native (ungelatinised) starch granules (en-001)
+
+Rule: only starch booked as gelatinised (held in liquid water at >= GELATINISED_AT_K during a clock step) is digested at the soluble-starch unit rate; native granules are refused, not digested. Gelatinised at: 358.15 K.
+Gelatinisation source: Belitz, Grosch, Schieberle, Food Chemistry, 3rd ed., Springer 2004, pp. 318-323 (ISBN 3-540-40818-5): unmodified native starches start swelling at 55 °C (some types) to 85 °C (others); value as quoted by https://en.wikipedia.org/wiki/Starch_gelatinization.
+Why no granule rate: Slaughter, Ellis, Butterworth, Biochim. Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8: gelatinisation raises porcine pancreatic α-amylase k_cat/K_m 13-fold (waxy rice) to 239-fold (potato); source-dependent, so no generic granule rate.
+State: Vessel::starch_gelatinised_moles (irreversible; retrogradation and pours not modelled). Typed reason: `not-modeled.amylase-native-starch-granules`.
+Product: booked as maltose equivalents (the unit counts reducing sugar as maltose); maltotriose and alpha-limit dextrin end point NOT modelled: no sourced limit extent.
+
 | enzyme | route | module | typed refusals |
 |---|---|---|---|
-| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated |
+| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated, not-modeled.amylase-native-starch-granules |
 | lactase | bounded-activity | enzyme_activity | — |
 | protease | bounded-activity | enzyme_activity | — |
 | lipase | bounded-activity | enzyme_activity | — |

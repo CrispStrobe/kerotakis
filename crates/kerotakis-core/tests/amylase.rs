@@ -41,6 +41,16 @@ fn wait(bench: &mut Bench, stack: &mut SolverStack, seconds: f64) -> Vec<Event> 
         .expect("wait")
 }
 
+/// The unit rate is for gelatinised (cooked) starch. The bench books that
+/// state when starch sits in water at >= 85 °C while time passes
+/// (`cooking_at_85_c_or_above_gelatinises_starch_on_the_bench`); the
+/// positive tests below start from that booked state directly.
+fn cook(bench: &mut Bench) {
+    let v = &mut bench.vessels[0];
+    let starch = v.moles_of(&SpeciesId::new("starch")).0;
+    v.starch_gelatinised_moles = Some(starch);
+}
+
 fn total_moles(bench: &Bench, key: &str) -> f64 {
     bench
         .vessel(VesselId(0))
@@ -78,6 +88,7 @@ fn fires_with_amylase() {
     let mut s = stack();
     add(&mut bench, &mut s, "water", 55.0);
     add(&mut bench, &mut s, "starch", 0.1);
+    cook(&mut bench);
     let on_add = add(&mut bench, &mut s, "amylase", 1e-6);
     assert!(
         !on_add
@@ -117,6 +128,7 @@ fn amylase_not_consumed() {
     let mut s = stack();
     add(&mut bench, &mut s, "water", 55.0);
     add(&mut bench, &mut s, "starch", 0.1);
+    cook(&mut bench);
     add(&mut bench, &mut s, "amylase", 1e-6);
     wait(&mut bench, &mut s, 600.0);
     let amylase = total_moles(&bench, "amylase");
@@ -134,6 +146,7 @@ fn produces_maltose() {
     let mut s = stack();
     add(&mut bench, &mut s, "water", 55.0);
     add(&mut bench, &mut s, "starch", 0.1);
+    cook(&mut bench);
     add(&mut bench, &mut s, "amylase", 1e-6);
     wait(&mut bench, &mut s, DIGEST_SECONDS);
     let maltose = total_moles(&bench, "maltose");
@@ -149,6 +162,7 @@ fn starch_consumed() {
     let mut s = stack();
     add(&mut bench, &mut s, "water", 55.0);
     add(&mut bench, &mut s, "starch", 0.1);
+    cook(&mut bench);
     add(&mut bench, &mut s, "amylase", 1e-6);
     wait(&mut bench, &mut s, DIGEST_SECONDS);
     let starch = total_moles(&bench, "starch");
@@ -204,6 +218,7 @@ fn starch_negative_after_enzyme() {
     let mut s = stack();
     add(&mut bench, &mut s, "water", 55.0);
     add(&mut bench, &mut s, "starch", 0.1);
+    cook(&mut bench);
     add(&mut bench, &mut s, "amylase", 1e-6);
     wait(&mut bench, &mut s, DIGEST_SECONDS);
     let starch = total_moles(&bench, "starch");
@@ -237,6 +252,7 @@ fn digestion_is_partial_before_the_cited_rate_can_finish() {
     let mut s = stack();
     add(&mut bench, &mut s, "water", 55.0);
     add(&mut bench, &mut s, "starch", 0.1);
+    cook(&mut bench);
     add(&mut bench, &mut s, "amylase", 1e-6);
     assert!((total_moles(&bench, "starch") - 0.1).abs() < 1e-12);
     wait(&mut bench, &mut s, 600.0);
@@ -257,6 +273,7 @@ fn outside_the_cited_ph_window_digestion_is_refused_typed() {
     v.deposit(SpeciesId::new("water"), Moles(55.0), Phase::Liquid);
     v.deposit(SpeciesId::new("starch"), Moles(0.1), Phase::Solid);
     v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
+    v.starch_gelatinised_moles = Some(0.1);
     v.solution = Some(SolutionInfo {
         solvent_activity: None,
         scope: SolutionScope::Complete,
@@ -325,6 +342,7 @@ fn heated_digestion_vessel(celsius: f64) -> Vessel {
     v.deposit(SpeciesId::new("starch"), Moles(0.1), Phase::Solid);
     v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
     v.temperature = Kelvin::from_celsius(celsius);
+    v.starch_gelatinised_moles = Some(0.1);
     v
 }
 
@@ -446,4 +464,99 @@ fn heat_inactivation_constants_match_the_coverage_table() {
         starch_amylase::COMPLETE_LOSS_ABOVE_K
     );
     assert_eq!(h["refusal"], "not-modeled.amylase-heat-inactivated");
+}
+
+// ── Native granules vs gelatinised starch (EN-001 rerun) ────────────
+// Slaughter, Ellis, Butterworth, BBA 1525 (2001) 29-36,
+// doi:10.1016/S0304-4165(00)00162-8: granules are digested 13- to 239-fold
+// less efficiently depending on plant source, so no granule rate is claimed.
+// Gelatinisation onset 55-85 °C (Belitz et al., Food Chemistry 2004,
+// pp. 318-323, as quoted by Wikipedia "Starch gelatinization").
+
+fn native_refusal(events: &[Event]) -> Option<&Phrase> {
+    events.iter().find_map(|e| match e {
+        Event::NotYetModeled {
+            reason: Some(p), ..
+        } if p.key == "not-modeled.amylase-native-starch-granules" => Some(p),
+        _ => None,
+    })
+}
+
+#[test]
+fn native_starch_granules_at_37_c_are_refused_typed_not_digested() {
+    // The EN-001 protocol: starch stirred into 37 °C water, amylase, 20 min.
+    let mut bench = Bench::new();
+    let mut s = stack();
+    add(&mut bench, &mut s, "water", 2.767);
+    bench.vessels[0].temperature = Kelvin::from_celsius(37.0);
+    add(&mut bench, &mut s, "starch", 0.20 / 162.14);
+    add(&mut bench, &mut s, "amylase", 1.8e-7);
+    let events = wait(&mut bench, &mut s, 1200.0);
+    let phrase = native_refusal(&events)
+        .unwrap_or_else(|| panic!("typed native-granule refusal: {events:?}"));
+    let en = phrase.render(i18n::Locale::EN);
+    for locale in ["de", "fr"] {
+        assert_ne!(phrase.render(i18n::Locale::parse(locale)), en);
+    }
+    assert!(!events.iter().any(|e| matches!(e,
+        Event::ReactionOccurred { equation, .. } if equation.contains("amylase"))));
+    assert!((total_moles(&bench, "starch") - 0.20 / 162.14).abs() < 1e-15);
+    assert_eq!(total_moles(&bench, "maltose"), 0.0);
+}
+
+#[test]
+fn cooking_at_85_c_or_above_gelatinises_starch_on_the_bench() {
+    let mut v = Vessel::new(VesselId(0), "cook");
+    v.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+    v.deposit(SpeciesId::new("starch"), Moles(0.01), Phase::Solid);
+    // Below the highest cited onset nothing is booked.
+    v.temperature = Kelvin::from_celsius(80.0);
+    starch_amylase::advance(&mut v, 600.0);
+    assert_eq!(starch_amylase::gelatinised_moles(&v), 0.0);
+    // At 90 °C it is, irreversibly.
+    v.temperature = Kelvin::from_celsius(90.0);
+    starch_amylase::advance(&mut v, 60.0);
+    assert!((starch_amylase::gelatinised_moles(&v) - 0.01).abs() < 1e-15);
+    v.temperature = Kelvin::from_celsius(37.0);
+    v.deposit(SpeciesId::new("amylase"), Moles(1e-7), Phase::Aqueous);
+    let events = starch_amylase::advance(&mut v, 60.0);
+    assert!(native_refusal(&events).is_none(), "{events:?}");
+    assert!(v.moles_of(&SpeciesId::new("maltose")).0 > 0.0);
+}
+
+#[test]
+fn only_the_gelatinised_pool_is_digested_when_raw_starch_is_added_after_cooking() {
+    let mut v = Vessel::new(VesselId(0), "mixed pools");
+    v.deposit(SpeciesId::new("water"), Moles(55.0), Phase::Liquid);
+    v.deposit(SpeciesId::new("starch"), Moles(0.01), Phase::Solid);
+    v.temperature = Kelvin::from_celsius(95.0);
+    starch_amylase::advance(&mut v, 60.0);
+    v.temperature = Kelvin::from_celsius(37.0);
+    // Raw starch stirred in after cooling stays native.
+    v.deposit(SpeciesId::new("starch"), Moles(0.02), Phase::Solid);
+    v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
+    let events = starch_amylase::advance(&mut v, 4.0 * 3600.0);
+    assert!(native_refusal(&events).is_some(), "{events:?}");
+    let maltose = v.moles_of(&SpeciesId::new("maltose")).0;
+    assert!(
+        (maltose - 0.005).abs() < 1e-12,
+        "only cooked pool: {maltose}"
+    );
+    assert!((v.moles_of(&SpeciesId::new("starch")).0 - 0.02).abs() < 1e-12);
+    assert_eq!(starch_amylase::gelatinised_moles(&v), 0.0);
+    assert!(!starch_amylase::consumes(&v, &SpeciesId::new("starch")));
+}
+
+#[test]
+fn gelatinisation_constants_match_the_coverage_table() {
+    let table: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../docs/starch-amylase-coverage-20261111.json"
+    ))
+    .unwrap();
+    let g = &table["native_granules"];
+    assert_eq!(
+        g["gelatinised_at_k"].as_f64().unwrap(),
+        starch_amylase::GELATINISED_AT_K
+    );
+    assert_eq!(g["refusal"], "not-modeled.amylase-native-starch-granules");
 }
