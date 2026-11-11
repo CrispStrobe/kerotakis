@@ -36369,7 +36369,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": null
+          "notes": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model"
         },
         "uncertainty": {
           "kind": "unestablished"
