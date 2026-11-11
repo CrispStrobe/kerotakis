@@ -1842,6 +1842,67 @@ pub fn catalyst_pathway_owned_elsewhere(reaction: &str, catalyst: &str, vessel: 
         })
 }
 
+/// The proton activity range in which an owner row's law was MEASURED:
+/// `(owner row, lowest measured (H+) in mol/L)`.
+///
+/// Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977,
+/// doi:10.1021/ja01337a010, measured d(I3-)/dt = -d(H2O2)/dt =
+/// (k0 + k1 (H+))(H2O2)(I-) in perchloric acid / sodium iodide. The least
+/// acidic point of their 25 C series is Table I, Curve II: (H+) = 2.03 x
+/// 10^-2 M with k'/(I-) = 0.893 (= 0.69 + 10.4 x 0.0203, read in the
+/// archive.org scan of JACS vol. 55, dli.ernet.233065, p. 3980; the
+/// other series run 0.0413 and 0.0623-0.841 M). Their statement that the HOI
+/// intermediate ends as iodine rather than oxygen is a statement about
+/// that range. Below it the share of HOI that reacts with a second
+/// peroxide (HOI + H2O2 -> I- + O2 + H+ + H2O, the Bray-Liebhafsky
+/// decomposition step) instead of with iodide and acid has no rate
+/// constant this bench could read, so the iodine-only ownership is an
+/// extrapolation and is reported as one rather than presented as measured.
+const OWNER_MEASURED_PROTON_FLOOR: &[(&str, f64)] = &[
+    ("iodide-peroxide-clock", 0.0203),
+    ("iodide-peroxide-clock-direct", 0.0203),
+];
+
+fn proton_activity(vessel: &Vessel) -> Option<f64> {
+    vessel.solution.as_ref().map(|s| 10f64.powf(-s.ph))
+}
+
+/// When `reaction` is a pathway owner running below the proton activity
+/// its law was measured at, the current (H+) and that floor.
+pub fn pathway_owner_below_measured_acid(reaction: &str, vessel: &Vessel) -> Option<(f64, f64)> {
+    let floor = OWNER_MEASURED_PROTON_FLOOR
+        .iter()
+        .find(|(row, _)| *row == reaction)
+        .map(|(_, floor)| *floor)?;
+    let h = proton_activity(vessel)?;
+    (h < floor).then_some((h, floor))
+}
+
+/// Whether the `catalyst` branch of `reaction` is running in a solution
+/// as acidic as its owners' measured range while no owner can run (the
+/// acidity is not carried as a represented acid inventory the owners can
+/// consume, e.g. a weak acid or a pH set without acid). There the
+/// measured law says the step forms iodine, but the bench can only book
+/// it as the catalysed decomposition; the caller reports that typed.
+pub fn catalyst_branch_acid_unowned(reaction: &str, catalyst: &str, vessel: &Vessel) -> bool {
+    let owners: Vec<&str> = CATALYST_PATHWAY_OWNERS
+        .iter()
+        .filter(|(row, species, _)| *row == reaction && *species == catalyst)
+        .flat_map(|(_, _, owners)| owners.iter().copied())
+        .collect();
+    if owners.is_empty() || catalyst_pathway_owned_elsewhere(reaction, catalyst, vessel) {
+        return false;
+    }
+    let Some(h) = proton_activity(vessel) else {
+        return false;
+    };
+    owners.iter().any(|owner| {
+        OWNER_MEASURED_PROTON_FLOOR
+            .iter()
+            .any(|(row, floor)| row == owner && h >= *floor)
+    })
+}
+
 /// Which reactions have all their reactants present in this vessel.
 pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction<'static>> {
     REGISTRY

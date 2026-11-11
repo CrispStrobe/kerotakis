@@ -452,8 +452,47 @@ impl Clock for CuratedKineticsClock {
                     reason,
                 ));
             }
+            if let Some((h, floor)) =
+                crate::kinetics::pathway_owner_below_measured_acid(reaction.id, vessel)
+            {
+                let reason = Phrase::new(
+                    "not-modeled.pathway-owner-below-measured-acid",
+                    "{reaction} books all of H2O2 + I- as iodine, as the measured acid-solution law does; that law was measured at (H+) of {floor} mol/L and above, and here (H+) is {proton} mol/L. How much of the intermediate HOI would instead react with a second peroxide to give oxygen at this acidity has no rate constant on this bench, so the iodine-only split is an extrapolation, not a measurement.",
+                    vec![
+                        ("reaction".to_string(), Slot::text(reaction.id)),
+                        ("floor".to_string(), Slot::text(format!("{floor}"))),
+                        ("proton".to_string(), Slot::text(format!("{h:.3e}"))),
+                    ],
+                );
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    reason,
+                ));
+            }
             let (ea, catalyst) =
                 reaction.effective_activation_energy_with_context(vessel, ctx.kinetic);
+            if let Some(selected) = catalyst {
+                if crate::kinetics::catalyst_branch_acid_unowned(
+                    reaction.id,
+                    selected.species,
+                    vessel,
+                ) {
+                    let reason = Phrase::new(
+                        "not-modeled.catalyst-branch-acid-unowned",
+                        "{reaction} ran its {catalyst}-catalysed branch in a solution as acidic as the range where the measured law sends this step to iodine instead of oxygen, but the acidity is not held as an acid inventory the iodine-forming rows can consume. The oxygen booked here is therefore not what the measured law predicts, and the iodine it predicts is not formed.",
+                        vec![
+                            ("reaction".to_string(), Slot::text(reaction.id)),
+                            ("catalyst".to_string(), Slot::text(selected.species)),
+                        ],
+                    );
+                    events.push(Event::not_modeled(
+                        vessel.id,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        reason,
+                    ));
+                }
+            }
             events.push(Event::Reacted {
                 vessel: vessel.id,
                 reaction: reaction.id.to_string(),
