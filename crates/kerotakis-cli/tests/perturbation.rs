@@ -187,6 +187,10 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
         if acid_mol > 0.0 {
             script.push_str(&format!("add v1 HCl {acid_mol}mol\n"));
         }
+        // An `add` takes no time and this acid is below the fizz point
+        // (pH stays above carbonic acid's pK1), so the carbon leaves by
+        // exchange with the room, which needs time to pass.
+        script.push_str("wait 1h\n");
         vessel(&run(&script), 0)
     };
 
@@ -898,4 +902,41 @@ fn a_slot_named_hydroxide_moves_like_hydroxide() {
              residual cation charge, not {fell}"
         );
     }
+}
+
+/// The fizz rule, both sides. An `add` takes no time: baking soda stirred
+/// into an open beaker keeps all its carbon (AB-035/GS-013 seal it next),
+/// while strong acid in excess turns the carbonate into CO2 that leaves
+/// at once, and time passing lets the unreacted solution seep toward air.
+#[test]
+fn baking_soda_keeps_its_carbon_until_acid_or_time_takes_it() {
+    // Every carbon the vessel still holds, whatever key the readback uses.
+    let carbon_of = |v: &serde_json::Value| {
+        dissolved_inorganic_carbon(v) + moles_of(v, "CO2") + moles_of(v, "NaHCO3")
+    };
+    let fresh = vessel(&run("add v1 water 100mL\nadd v1 NaHCO3 0.001mol\n"), 0);
+    let carbon = carbon_of(&fresh);
+    assert!(
+        (carbon - 0.001).abs() < 1e-8,
+        "no time has passed, so no carbon may leave: {carbon} mol"
+    );
+
+    let acid = vessel(
+        &run("add v1 water 100mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\n"),
+        0,
+    );
+    assert!(
+        carbon_of(&acid) < 0.0001,
+        "excess strong acid must fizz the carbon off in the same step: {} mol",
+        carbon_of(&acid)
+    );
+
+    let stood = vessel(
+        &run("add v1 water 100mL\nadd v1 NaHCO3 0.001mol\nwait 1h\n"),
+        0,
+    );
+    assert!(
+        carbon_of(&stood) < carbon,
+        "a standing bicarbonate solution loses CO2 to the room over time"
+    );
 }

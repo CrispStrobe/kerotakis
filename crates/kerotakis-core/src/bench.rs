@@ -1022,7 +1022,32 @@ impl Bench {
                 }
             }
             if solver.applies(vessel) {
-                match solver.equilibrate(vessel) {
+                // An `add` takes no time, so an open beaker has no time to
+                // trade gas with the room by diffusion: the solve releases
+                // only gas above the bubble threshold (`zero_time_dose`).
+                // Baking soda stirred into water therefore keeps its carbon
+                // until time passes (AB-035/GS-013 seal it unchanged).
+                // Acid on carbonate is different: the reaction makes CO2
+                // at the acid's front, far above what a well-mixed model
+                // sees (0.02 mol/L mixes to ~0.6 atm and would never
+                // bubble). When the zero-time answer shows carbonic acid
+                // as the dominant dissolved carbon and CO2 above room air,
+                // the dose has protonated carbonate to CO2: that is fizz,
+                // and the step is re-solved with the room as the sink.
+                let zero_time = matches!(&op, Operator::Add { .. })
+                    && matches!(vessel.headspace, Headspace::Open);
+                let before = zero_time.then(|| vessel.clone());
+                vessel.zero_time_dose = zero_time;
+                let mut outcome = solver.equilibrate(vessel);
+                vessel.zero_time_dose = false;
+                if let Some(before) = before {
+                    if outcome.is_ok() && acid_carbonate_effervesces(vessel) {
+                        *vessel = before;
+                        vessel.zero_time_dose = false;
+                        outcome = solver.equilibrate(vessel);
+                    }
+                }
+                match outcome {
                     Ok(mut more) => events.append(&mut more),
                     Err(e) => events.push(Event::SolverFailed {
                         reason: e.owned_reason().cloned().map(Box::new),
@@ -7843,6 +7868,32 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     g.insert(1, 2);
     g.insert(2, 4);
     g
+}
+
+/// First acid dissociation constant of carbonic acid, pK1(T) = 3404.71/T
+/// - 14.8435 + 0.032786 T (6.352 at 25 °C): Harned & Davis, J. Am. Chem.
+/// Soc. 65 (1943) 2030-2037, doi:10.1021/ja01250a059. Below it, H2CO3*
+/// (dissolved CO2) is the dominant form of dissolved inorganic carbon.
+fn carbonic_acid_pk1(temperature_k: f64) -> f64 {
+    3404.71 / temperature_k - 14.8435 + 0.032786 * temperature_k
+}
+
+/// Whether a zero-time open solve shows an acid having converted carbonate
+/// into dissolved CO2, the condition under which acid on carbonate fizzes
+/// (see the `zero_time` comment in `Bench::step`).
+fn acid_carbonate_effervesces(vessel: &crate::vessel::Vessel) -> bool {
+    let Some(ph) = vessel.solution.as_ref().map(|solution| solution.ph) else {
+        return false;
+    };
+    let Some(p_co2) = vessel.co2_partial_pressure_atm else {
+        return false;
+    };
+    let temperature = vessel.temperature.0;
+    ph.is_finite()
+        && temperature.is_finite()
+        && temperature > 0.0
+        && ph < carbonic_acid_pk1(temperature)
+        && p_co2 > crate::clock::ATMOSPHERIC_CO2_ATM
 }
 
 #[cfg(test)]

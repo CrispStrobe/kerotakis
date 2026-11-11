@@ -687,6 +687,7 @@ source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2
 script = """
 add v1 water 1000mL
 add v1 NaHCO3 8.4g
+wait 1h
 """
 
 [reaction.expect]

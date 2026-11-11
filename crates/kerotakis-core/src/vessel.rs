@@ -1471,7 +1471,10 @@ pub struct Vessel {
     /// vented the CO2 that carbonate alkalinity was still holding at pH 9-10,
     /// each vented mole spending a proton, so a Warder titration read the
     /// phenolphthalein endpoint at total alkalinity minus residual carbon
-    /// rather than at OH- + CO3^2-. Never persisted; cleared after the solve.
+    /// rather than at OH- + CO3^2-. Since 2026-11-11 every `add` to an
+    /// open vessel is such a dose, unless it protonates carbonate to CO2
+    /// (fizz; see `acid_carbonate_effervesces` in bench.rs). Never
+    /// persisted; cleared after the solve.
     #[serde(skip)]
     pub zero_time_dose: bool,
     /// Free hydroxide the aqueous solver last MEASURED, in moles.
