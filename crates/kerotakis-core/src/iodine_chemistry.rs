@@ -599,6 +599,197 @@ pub fn ferric_iodide_apply(vessel: &mut Vessel, events: &mut Vec<crate::ops::Eve
     moved
 }
 
+// ---------------------------------------------------------------------------
+// Iodine inventory (AN-004, 2026-11-11): every iodine pool of a vessel
+// ---------------------------------------------------------------------------
+//
+// `inspect` used to report only `optical_split`, i.e. the free I2 / I3⁻ /
+// free I⁻ left OUTSIDE the starch complex, and dropped a vessel whose
+// dissolved iodine was entirely starch-bound. The bound share was then an
+// unnamed hole in the iodine ledger. `iodine_inventory` is the generic
+// replacement: every portion of the vessel that carries iodine atoms (by
+// its registry formula) lands in exactly one named pool, and the pools are
+// closed against the ledger's iodine atoms. Pools:
+//
+// * aqueous I2 + dissolved iodide (every registry form of I⁻) split into
+//   starch-bound complex, free I2, I3⁻ (K of Palmer et al. 1984, above)
+//   and free I⁻;
+// * every other iodine-bearing portion (solid I2, AgI, iodate, HI gas, …)
+//   reported as its own pool with its iodine-atom count;
+// * a portion whose formula cannot be parsed but names iodine is listed as
+//   unresolved, never silently counted as zero.
+//
+// The starch-bound amount is `starch_iodine::complex_moles`, bounded by an
+// EDITORIAL site fraction (one I3⁻ equivalent per twenty anhydroglucose
+// units). The binding stoichiometry of the amylose–polyiodide complex is
+// not settled (Pesek et al., Molecules 27 (2022) 8974,
+// doi:10.3390/molecules27248974; Pesek & Silaghi-Dumitrescu, Molecules 29
+// (2024) 641, doi:10.3390/molecules29030641), so whenever that pool is
+// non-zero the inventory carries the typed limitation
+// `not-modeled.starch-iodine-binding-stoichiometry` instead of presenting
+// the bound amount as a measured quantity.
+
+/// Editorial starch site fraction behind the starch-bound pool (iodine
+/// equivalents per anhydroglucose unit). Not a sourced constant: see the
+/// typed limitation above.
+pub const STARCH_SITE_FRACTION: f64 = crate::starch_iodine::STARCH_SITE_FRACTION;
+
+/// The typed limitation key carried by a non-zero starch-bound pool.
+pub const STARCH_BINDING_LIMITATION: &str = "not-modeled.starch-iodine-binding-stoichiometry";
+
+/// One iodine-bearing portion outside the I2/I⁻/I3⁻/starch split.
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct IodinePool {
+    pub species: String,
+    pub phase: Phase,
+    pub moles: f64,
+    /// Moles of iodine ATOMS this portion holds.
+    pub iodine_atoms_mol: f64,
+}
+
+/// Every iodine pool of one vessel, closed against its ledger.
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct IodineInventory {
+    pub vessel: crate::VesselId,
+    /// Free I2(aq) outside starch and triiodide.
+    pub free_i2_mol: f64,
+    /// I3⁻ (one I2 + one I⁻ each).
+    pub triiodide_mol: f64,
+    /// Free I⁻ (all registry iodide forms, less I3⁻ and starch share).
+    pub free_iodide_mol: f64,
+    /// Starch–triiodide complex, as I3⁻ equivalents (one I2 + one I⁻ each).
+    pub starch_bound_triiodide_mol: f64,
+    /// Oxidised iodine as I2 equivalents: free I2 + I3⁻ + starch-bound.
+    pub oxidised_iodine_mol: f64,
+    /// Iodine-bearing portions outside the split above.
+    pub other_pools: Vec<IodinePool>,
+    /// Species that may hold iodine but whose formula did not parse.
+    pub unresolved_species: Vec<String>,
+    /// Iodine atoms (mol) in the vessel's ledger.
+    pub ledger_iodine_atoms_mol: f64,
+    /// Iodine atoms (mol) summed over the pools above.
+    pub pooled_iodine_atoms_mol: f64,
+    /// ledger − pooled.
+    pub closure_residual_mol: f64,
+    pub triiodide_k_l_per_mol: f64,
+    /// Typed limitations on this inventory (e.g. the editorial starch pool).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub limitations: Vec<crate::phrase::Phrase>,
+}
+
+/// Iodine atoms per formula unit of `key`: `Some(n)` when the formula
+/// parses, `None` when it does not.
+fn iodine_atoms(key: &str) -> Option<f64> {
+    let data = crate::species::lookup_key(key)?;
+    let f = crate::stoich::parse_formula(data.formula).ok()?;
+    Some(f.counts.get("I").copied().unwrap_or(0.0))
+}
+
+/// Whether an unparsed key or formula text may name the element iodine
+/// (`I` not followed by a lowercase letter, so `In`/`Ir` do not count).
+fn may_name_iodine(text: &str) -> bool {
+    let chars: Vec<char> = text.chars().collect();
+    chars
+        .iter()
+        .enumerate()
+        .any(|(i, c)| *c == 'I' && !chars.get(i + 1).is_some_and(|n| n.is_ascii_lowercase()))
+}
+
+/// Every iodine pool of `vessel`. A vessel holding no iodine returns an
+/// inventory of zeros (callers list it so a control vessel is never
+/// silently dropped).
+pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
+    let iodide_keys = crate::halogen_redox::registry_forms(IODIDE);
+    let has_water = liquid_water(vessel) > 0.0;
+    let mut ledger = 0.0;
+    let mut other: Vec<IodinePool> = Vec::new();
+    let mut unresolved: Vec<String> = Vec::new();
+    for p in &vessel.contents {
+        let key = p.species.0.as_str();
+        let Some(n) = iodine_atoms(key) else {
+            let text = crate::species::lookup_key(key)
+                .map(|d| d.formula.to_string())
+                .unwrap_or_else(|| key.to_string());
+            if may_name_iodine(&text) && !unresolved.iter().any(|u| u == key) {
+                unresolved.push(key.to_string());
+            }
+            continue;
+        };
+        if n <= 0.0 || p.moles.0 <= 0.0 {
+            continue;
+        }
+        ledger += p.moles.0 * n;
+        let in_split = has_water
+            && p.phase == Phase::Aqueous
+            && (key == IODINE || iodide_keys.iter().any(|k| k == key));
+        if in_split {
+            continue;
+        }
+        match other
+            .iter_mut()
+            .find(|o| o.species == key && o.phase == p.phase)
+        {
+            Some(o) => {
+                o.moles += p.moles.0;
+                o.iodine_atoms_mol += p.moles.0 * n;
+            }
+            None => other.push(IodinePool {
+                species: key.to_string(),
+                phase: p.phase,
+                moles: p.moles.0,
+                iodine_atoms_mol: p.moles.0 * n,
+            }),
+        }
+    }
+    let (complex, parts) = if has_water {
+        let complex = crate::starch_iodine::complex_moles(vessel);
+        let litres = vessel.liquid_volume().0.max(1e-9);
+        (complex, optical_parts(vessel, litres, complex))
+    } else {
+        (
+            0.0,
+            TriiodideSplit {
+                iodine: 0.0,
+                triiodide: 0.0,
+                iodide: 0.0,
+            },
+        )
+    };
+    // The split's own atom count, computed from the split (not copied from
+    // the ledger), so the closure below is a real check.
+    let split_pooled = 2.0 * parts.iodine + 3.0 * parts.triiodide + parts.iodide + 3.0 * complex;
+    let other_atoms: f64 = other.iter().map(|o| o.iodine_atoms_mol).sum();
+    let pooled = split_pooled + other_atoms;
+    let mut limitations = Vec::new();
+    if complex > TRACE {
+        limitations.push(crate::phrase::Phrase::new(
+            "not-modeled.starch-iodine-binding-stoichiometry",
+            "the amount of iodine held by starch: the binding stoichiometry of the amylose–polyiodide complex is not settled, so the starch-bound pool is an editorial upper-bounded estimate (at most one triiodide per twenty glucose units), not a measured quantity",
+            Vec::new(),
+        ));
+    }
+    IodineInventory {
+        vessel: vessel.id,
+        free_i2_mol: parts.iodine,
+        triiodide_mol: parts.triiodide,
+        free_iodide_mol: parts.iodide,
+        starch_bound_triiodide_mol: complex,
+        oxidised_iodine_mol: parts.iodine + parts.triiodide + complex,
+        other_pools: other,
+        unresolved_species: unresolved,
+        ledger_iodine_atoms_mol: ledger,
+        pooled_iodine_atoms_mol: pooled,
+        closure_residual_mol: ledger - pooled,
+        triiodide_k_l_per_mol: TRIIODIDE_K,
+        limitations,
+    }
+}
+
+/// Whether the vessel holds any iodine (in its ledger or unresolved).
+pub fn holds_iodine(inv: &IodineInventory) -> bool {
+    inv.ledger_iodine_atoms_mol > 0.0 || !inv.unresolved_species.is_empty()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

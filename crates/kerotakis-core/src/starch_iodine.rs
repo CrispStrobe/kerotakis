@@ -35,7 +35,7 @@ const STARCH: &str = "starch";
 /// Editorial upper bound: one optically active iodine equivalent per twenty
 /// anhydroglucose units. This is a saturation parameter, not a molecular
 /// formula for a complex whose polyiodide structure remains unsettled.
-const STARCH_SITE_FRACTION: f64 = 0.05;
+pub(crate) const STARCH_SITE_FRACTION: f64 = 0.05;
 
 /// Literature-backed optical surrogate for the broad amylose-polyiodide band.
 /// Reviews and primary spectra place the maximum between roughly 600 and
