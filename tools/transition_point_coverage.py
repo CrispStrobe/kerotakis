@@ -77,11 +77,14 @@ def apply():
     # phase_thermodynamics: rewrite or drop transition records
     s, e, chunks = split_array(text, "phase_thermodynamics")
     out, cited = [], []
+    present, last_at, template = set(), {}, {}
     for c in chunks:
         rec = json.loads(c)
         prefix = rec["id"].split("/", 1)[0]
         prop = next((p for p in PROPS if p[0] == prefix), None)
         if prop is None:
+            if prefix == "molar-mass":
+                template.setdefault(rec["species_id"], rec)
             out.append(c)
             continue
         row = rows.get(rec["species_id"])
@@ -93,7 +96,43 @@ def apply():
         rec["quantity"]["method"]["detail"] = METHOD
         if row["source_id"] not in cited:
             cited.append(row["source_id"])
+        present.add((rec["species_id"], prop[2]))
+        template[rec["species_id"]] = rec
         out.append(chunk(rec))
+        last_at[rec["species_id"]] = len(out)
+    # a reviewed value with no registry record yet (a newly sourced boiling or
+    # decomposition point) gets one, shaped like the species' existing
+    # transition record (or its molar-mass record), placed after it
+    inserts = []
+    for sp, row in rows.items():
+        for prefix, prop_name, key in PROPS:
+            if row.get(key) is None or (sp, key) in present:
+                continue
+            base = template.get(sp)
+            if base is None:
+                continue  # not a registry species; --check reports it
+            rec = json.loads(json.dumps(base))
+            rec["id"] = f"{prefix}/{sp}"
+            rec["property"] = prop_name
+            q = rec["quantity"]
+            q["value"] = float(row[key])
+            q["unit"] = {"symbol": "K", "dimension": "temperature"}
+            q["conditions"] = {"temperature": None,
+                               "pressure": {"lower": 101325.0, "upper": 101325.0,
+                                            "unit": {"symbol": "Pa", "dimension": "pressure"}},
+                               "ph": None, "ionic_strength": None, "medium": None,
+                               "phase": rec["phase"], "notes": row.get(f"notes_{key}")}
+            q["uncertainty"] = {"kind": "unestablished"}
+            q["source_id"] = row["source_id"]
+            q["method"] = {"kind": "curated", "detail": METHOD}
+            if row["source_id"] not in cited:
+                cited.append(row["source_id"])
+            inserts.append((last_at.get(sp), sp, chunk(rec)))
+    for at, sp, c in sorted(inserts, key=lambda t: -(t[0] or 0)):
+        if at is None:  # no transition record yet: after the molar mass
+            at = next(k + 1 for k, x in enumerate(out)
+                      if json.loads(x)["id"] == f"molar-mass/{sp}")
+        out.insert(at, c)
     text = text[:s] + ",\n".join(out) + text[e:]
     # sources: replace the withdrawn record, at its position, by the cited
     # reviewed records in file order (the exporter pushes them the same way)

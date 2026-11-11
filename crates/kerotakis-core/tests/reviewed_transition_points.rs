@@ -207,7 +207,7 @@ fn transitions(key: &str) -> species::PhaseTransitions {
 #[test]
 fn restored_circular_500_points_carry_their_table_values() {
     // (species, melting K, boiling K) exactly as printed in the K column.
-    let rows: [(&str, Option<f64>, Option<f64>); 25] = [
+    let rows: [(&str, Option<f64>, Option<f64>); 17] = [
         ("NaCl", Some(1073.8), Some(1738.0)),
         ("AgNO3", Some(483.0), None),
         ("AgCl", Some(728.0), Some(1830.0)),
@@ -226,13 +226,6 @@ fn restored_circular_500_points_carry_their_table_values() {
         ("Na2SO4", Some(1163.0), None),
         ("BaCl2", Some(1235.0), None),
         ("BaSO4", Some(1623.0), None),
-        ("I2", Some(386.8), None),
-        ("S", Some(392.0), Some(717.76)),
-        ("Ag", Some(1234.93), Some(2466.0)),
-        ("Cu", Some(1357.77), Some(2855.0)),
-        ("Fe", Some(1811.0), Some(3073.0)),
-        ("Pb", Some(600.65), Some(2023.0)),
-        ("Zn", Some(692.677), Some(1180.0)),
     ];
     for (key, melting, boiling) in rows {
         let t = transitions(key);
@@ -271,10 +264,94 @@ fn unsourced_decompositions_and_boils_stay_absent() {
             .and_then(|t| t.decomposition_k);
         assert!(dec.is_none(), "{key} decomposition must stay no_data");
     }
-    for key in ["H2O2", "NaOH", "CaCl2", "I2", "BaCl2"] {
+    for key in ["H2O2", "NaOH", "CaCl2", "BaCl2"] {
         assert!(
             transitions(key).boiling_k.is_none(),
             "{key} boiling must stay no_data"
         );
     }
+}
+
+// ── Element boiling points from Zhang, Evans and Yang 2011 (2026-11-11) ──
+//
+// Y. Zhang, J. R. G. Evans and S. Yang, J. Chem. Eng. Data 56 (2011)
+// 328-337, doi:10.1021/je1011086, as quoted by Wikipedia's "Boiling points
+// of the elements (data page)". The NBS Circular 500 boiling points these
+// replace were up to ~190 K low (aluminium 2600 K against 2743 K).
+
+#[test]
+fn element_boiling_points_follow_zhang_evans_and_yang_2011() {
+    let rows: [(&str, Option<f64>, f64); 9] = [
+        ("Al", Some(933.473), 2743.0),
+        ("Mg", Some(922.0), 1383.0),
+        ("Fe", Some(1811.0), 3273.0),
+        ("Cu", Some(1357.77), 2868.0),
+        ("Zn", Some(692.677), 1180.0),
+        ("Ag", Some(1234.93), 2483.0),
+        ("Pb", Some(600.65), 2017.0),
+        ("S", Some(392.0), 718.2),
+        ("I2", Some(386.8), 457.2),
+    ];
+    for (key, melting, boiling) in rows {
+        let t = transitions(key);
+        assert_eq!(t.melting_k, melting, "{key} melting is unchanged");
+        assert_eq!(t.boiling_k, Some(boiling), "{key} boiling");
+        assert!(
+            t.source.contains("doi:10.1021/je1011086"),
+            "{key} must cite Zhang, Evans and Yang 2011: {}",
+            t.source
+        );
+    }
+}
+
+#[test]
+fn circular_500_boiling_points_are_gone_for_the_elements() {
+    // Negative: the 1949 values must not survive anywhere for these.
+    for (key, old) in [
+        ("Al", 2600.0),
+        ("Mg", 1393.0),
+        ("Fe", 3073.0),
+        ("Cu", 2855.0),
+        ("Ag", 2466.0),
+        ("Pb", 2023.0),
+        ("S", 717.76),
+    ] {
+        assert_ne!(transitions(key).boiling_k, Some(old), "{key}");
+    }
+}
+
+#[test]
+fn webbook_averages_are_replaced_by_one_cited_measurement() {
+    // (species, boiling K, DOI of the single measurement the WebBook lists)
+    for (key, boiling, doi) in [
+        ("isopropanol", 355.4, "10.1021/ja01658a031"),
+        ("propanone", 329.23, "10.1021/ja01658a031"),
+        ("tert_butanol", 355.47, "10.1016/0021-9614(69)90047-0"),
+        ("ethyl_acetate", 350.26, "10.6028/jres.018.028"),
+        ("hexadecane", 559.0, "10.1039/jr9500000075"),
+        ("naphthalene", 491.15, "10.1039/tf9676300447"),
+        ("dodecane", 489.41, "10.6028/jres.024.022"),
+    ] {
+        let t = transitions(key);
+        assert_eq!(t.boiling_k, Some(boiling), "{key} boiling");
+        assert!(
+            t.source.contains(doi),
+            "{key} must cite {doi}: {}",
+            t.source
+        );
+        assert!(
+            !t.source.contains("own average"),
+            "{key} still rests on a WebBook average: {}",
+            t.source
+        );
+    }
+    let dodecane = transitions("dodecane");
+    assert_eq!(dodecane.melting_k, Some(263.58));
+    assert!(dodecane.source.contains("doi:10.1021/ja01631a005"));
+    assert!(transitions("liquid_nitrogen")
+        .source
+        .contains("doi:10.1063/1.555754"));
+    assert!(transitions("sucrose")
+        .source
+        .contains("doi:10.1007/BF00912664"));
 }
