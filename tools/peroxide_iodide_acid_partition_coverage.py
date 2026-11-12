@@ -44,7 +44,7 @@ def block(text: str, name: str) -> str:
 
 
 def build() -> tuple[dict, list[str]]:
-    src = KINETICS.read_text()
+    src = KINETICS.read_text(encoding="utf-8")
     owners = re.findall(r'\(\s*"([^"]+)",\s*"([^"]+)",\s*&\[([^\]]*)\],?\s*\)',
                         block(src, "CATALYST_PATHWAY_OWNERS"))
     floors = dict((r, float(f)) for r, f in re.findall(r'\("([^"]+)",\s*([0-9.eE+-]+)\)',
@@ -67,12 +67,12 @@ def build() -> tuple[dict, list[str]]:
                 "neutral-catalysed": "catalysed decomposition (O2), measured outcome",
             },
         })
-    clock = CLOCK.read_text()
+    clock = CLOCK.read_text(encoding="utf-8")
     for key in KEYS:
         if f'"not-modeled.{key}"' not in clock:
             problems.append(f"clock.rs does not emit not-modeled.{key}")
         for loc in LOCALES:
-            if not re.search(rf"^{re.escape(key)} = ", loc.read_text(), re.M):
+            if not re.search(rf"^{re.escape(key)} = ", loc.read_text(encoding="utf-8"), re.M):
                 problems.append(f"{loc.name} lacks {key}")
     unsourced = [{
         "step": "HOI + H2O2 -> I- + O2 + H+ + H2O",
@@ -116,15 +116,15 @@ def main() -> int:
     data, problems = build()
     md, js = render(data), json.dumps(data, indent=2, sort_keys=True) + "\n"
     if args.check:
-        if not OUT_MD.exists() or OUT_MD.read_text() != md:
+        if not OUT_MD.exists() or OUT_MD.read_text(encoding="utf-8") != md:
             problems.append(f"{OUT_MD.name} stale")
-        if not OUT_JSON.exists() or OUT_JSON.read_text() != js:
+        if not OUT_JSON.exists() or OUT_JSON.read_text(encoding="utf-8") != js:
             problems.append(f"{OUT_JSON.name} stale")
         for p in problems:
             print("FAIL:", p)
         return 1 if problems else 0
-    OUT_MD.write_text(md)
-    OUT_JSON.write_text(js)
+    OUT_MD.write_text(md, encoding="utf-8")
+    OUT_JSON.write_text(js, encoding="utf-8")
     for p in problems:
         print("FAIL:", p)
     return 1 if problems else 0
