@@ -24,3 +24,7 @@ Artifact 13995386814 has ZIP SHA-256
 `d03ab90ea8da0a353c0b5e811b8becf89d00020f4586b0a6a99aa1703632fb2e`;
 its exported JSON SHA-256 is the same as the retained Linux actual export,
 `7845441d2193288071501e9746d82770ad1fc006790ac9811eb0cb512bea7bf9`.
+
+The same run's full preflight job 131550351219 also failed the export snapshot
+test. Its complete log SHA-256 is
+`9bb7343ab2f08ff65a1168bb06cab4f8dbe7713be3c0c68ad6096a1cbaddb8d1`.
