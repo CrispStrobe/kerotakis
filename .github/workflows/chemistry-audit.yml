@@ -12,9 +12,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
 env:
   CARGO_TERM_COLOR: always
 
