@@ -38,6 +38,9 @@ fn unmodelled(events: &[Event]) -> Vec<&Event> {
         .collect()
 }
 
+/// Species key with its NBS Circular 500 melting, boiling and sublimation K.
+type CircularRow = (&'static str, Option<f64>, Option<f64>, Option<f64>);
+
 #[test]
 fn no_transition_value_cites_the_withdrawn_tranche() {
     for data in species::registry() {
@@ -421,7 +424,7 @@ fn sourced_decompositions_and_dehydrations_carry_their_thermal_analysis_values()
 #[test]
 fn round3_circular_500_rows_carry_their_printed_values() {
     // (species, melting K, boiling K, sublimation K)
-    let rows: [(&str, Option<f64>, Option<f64>, Option<f64>); 27] = [
+    let rows: [CircularRow; 27] = [
         ("SO2", Some(197.68), Some(263.14), None),
         ("Cl2", Some(172.16), Some(239.1), None),
         ("CO2", None, None, Some(194.68)),
