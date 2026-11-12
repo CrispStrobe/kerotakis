@@ -104,10 +104,17 @@ epsilon(640) = 77 M-1 cm-1 for Cu(NH3)4 2+";
 const NI_AQUA: &str = "Metz group (UMass) paper (snippet): Ni(H2O)6 2+ 395 nm, epsilon about 5.2 \
 M-1 cm-1";
 
-const HAUPT_1952: &str = "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), \
-Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, \
+const HAUPT_1952: &str = "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, \
+nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, \
 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read \
 from nvlpubs.nist.gov";
+
+const DAVIS_GIBSON_1931: &str = "Davis & Gibson, Filters for the reproduction of sunlight and \
+daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), \
+Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L \
+H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, \
+4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication \
+read from nvlpubs.nist.gov";
 
 /// The cited table. Append rows; never edit a value without its source.
 pub const TABLE: &[CitedAbsorptivity] = &[
@@ -273,15 +280,38 @@ pub const TABLE: &[CitedAbsorptivity] = &[
         confidence: Confidence::Read,
         source: HAUPT_1952,
     },
+    CitedAbsorptivity {
+        species: "Co+2",
+        nm: 500.0,
+        epsilon: 4.46,
+        temperature: None,
+        carriers: &[("Co+2", 1.0)],
+        confidence: Confidence::Read,
+        source: DAVIS_GIBSON_1931,
+    },
+    CitedAbsorptivity {
+        species: "Co+2",
+        nm: 510.0,
+        epsilon: 4.75,
+        temperature: None,
+        carriers: &[("Co+2", 1.0)],
+        confidence: Confidence::Read,
+        source: DAVIS_GIBSON_1931,
+    },
+    CitedAbsorptivity {
+        species: "Co+2",
+        nm: 520.0,
+        epsilon: 4.61,
+        temperature: None,
+        carriers: &[("Co+2", 1.0)],
+        confidence: Confidence::Read,
+        source: DAVIS_GIBSON_1931,
+    },
 ];
 
 /// Absorbers known to be present-and-coloured with NO sourced ε: their
 /// presence blocks every cited reading (reason in the coverage doc).
 pub const NO_DATA: &[(&str, &str)] = &[
-    (
-        "Co+2",
-        "Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced",
-    ),
     (
         "Cl2",
         "Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used)",

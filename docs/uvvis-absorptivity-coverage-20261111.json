@@ -2,9 +2,9 @@
   "generated_by": "tools/uvvis_absorptivity_coverage.py",
   "mechanism": "A(lambda) = l * sum eps(species, lambda, T) * c(species) over every species with a cited row within 1 nm; any present absorber without a cited row at that wavelength (or outside a row's temperature range) blocks the reading with not-modeled.uvvis-absorptivity-no-data (EN/DE/FR)",
   "counts": {
-    "rows": 18,
-    "covered_species": 14,
-    "refused_species": 3,
+    "rows": 21,
+    "covered_species": 15,
+    "refused_species": 2,
     "lower_confidence_rows": 4
   },
   "rows": [
@@ -214,13 +214,42 @@
       ],
       "confidence": "read",
       "source": "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov"
+    },
+    {
+      "species": "Co+2",
+      "nm": 500.0,
+      "epsilon": 4.46,
+      "temperature": null,
+      "carriers": [
+        "Co+2"
+      ],
+      "confidence": "read",
+      "source": "Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov"
+    },
+    {
+      "species": "Co+2",
+      "nm": 510.0,
+      "epsilon": 4.75,
+      "temperature": null,
+      "carriers": [
+        "Co+2"
+      ],
+      "confidence": "read",
+      "source": "Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov"
+    },
+    {
+      "species": "Co+2",
+      "nm": 520.0,
+      "epsilon": 4.61,
+      "temperature": null,
+      "carriers": [
+        "Co+2"
+      ],
+      "confidence": "read",
+      "source": "Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov"
     }
   ],
   "no_data": [
-    {
-      "species": "Co+2",
-      "reason": "Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced"
-    },
     {
       "species": "Cl2",
       "reason": "Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used)"

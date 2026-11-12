@@ -14,7 +14,7 @@ species without a row at λ, a coloured registry species without reviewed ε, a
 Br2/Br⁻ association, a temperature outside the measured range) refuses that
 wavelength with `not-modeled.uvvis-absorptivity-no-data` (EN/DE/FR).
 
-Counts: 18 rows, 14 covered species, 3 refused species, 4 lower-confidence (snippet) rows.
+Counts: 21 rows, 15 covered species, 2 refused species, 4 lower-confidence (snippet) rows.
 
 Confidence: `read` = number read in the cited document; `quoted` = read in a secondary naming the primary; `snippet` = only a quotation was read (lower confidence).
 
@@ -38,12 +38,14 @@ Confidence: `read` = number read in the cited document; `quoted` = read in a sec
 | CrO4-2 | 375 | 4815 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
 | CrO4-2 | 400 | 1922 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
 | CrO4-2 | 450 | 160 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
+| Co+2 | 500 | 4.46 | — | read | Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov |
+| Co+2 | 510 | 4.75 | — | read | Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov |
+| Co+2 | 520 | 4.61 | — | read | Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov |
 
 ## Refused (no sourced ε)
 
 | species | reason |
 |---|---|
-| Co+2 | Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced |
 | Cl2 | Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used) |
 | FeCl+2 | 335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure |
 

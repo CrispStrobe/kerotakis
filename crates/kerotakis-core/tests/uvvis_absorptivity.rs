@@ -305,3 +305,19 @@ fn alkaline_chromate_reads_haupts_nbs_absorptivity() {
         r.absorbance
     );
 }
+
+#[test]
+fn aqueous_cobalt_reads_the_nbs_filter_solution_absorptivity() {
+    // Davis & Gibson 1931 (NBS MP114) Table 6: epsilon 4.75 at 510 nm.
+    let mut v = water(100.0);
+    native(&mut v, &[("Co+2", 0.05), ("SO4-2", 0.05)]);
+    let kg = v.solution.as_ref().unwrap().solvent_kg.unwrap();
+    let litres = v.liquid_volume().0;
+    let r = uv::absorbance_at(&v, 510.0, 1.0);
+    assert!(r.blocked.is_empty(), "{:?}", r.blocked);
+    assert!(
+        close(r.absorbance, 4.75 * 0.05 * kg / litres),
+        "{}",
+        r.absorbance
+    );
+}
