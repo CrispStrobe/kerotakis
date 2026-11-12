@@ -11,6 +11,8 @@ use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use std::collections::BTreeSet;
 
+const CALCITE_CURATED_ROW: &str = "CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑";
+const MOLECULAR_CURATED_ROW: &str = "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑";
 const IONIC_CURATED_ROW: &str = "HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑";
 
 fn production_stack() -> SolverStack {
@@ -78,9 +80,10 @@ fn assert_no_ionic_curated_replay(events: &[Event], context: &str) {
     assert!(
         !events.iter().any(|event| matches!(
             event,
-            Event::ReactionOccurred { equation, .. } if equation == IONIC_CURATED_ROW
+            Event::ReactionOccurred { equation, .. } if equation == IONIC_CURATED_ROW || equation == MOLECULAR_CURATED_ROW
+                    || equation == CALCITE_CURATED_ROW
         )),
-        "{context}: the tagged ionic curated row fired despite the selected aqueous owner"
+        "{context}: a carbonate curated row fired despite the selected aqueous owner"
     );
 }
 
@@ -297,6 +300,55 @@ fn fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_mo
             gas_event_moles(&later_fizz, false) > 1e-4,
             "{label}: later fresh acid did not evolve actual CO2"
         );
+    }
+}
+
+#[test]
+fn calcite_acid_doses_use_the_native_bounded_endpoint_in_both_orders() {
+    for acid in ["HCl", "CH3COOH"] {
+        for acid_first in [false, true] {
+            let label = format!("calcite + {acid}, acid first: {acid_first}");
+            let mut bench = Bench::new();
+            let mut stack = production_stack();
+            apply_with_ledger(&mut bench, &mut stack, "add v1 water 1L", &label);
+            let acid_command = format!("add v1 {acid} 0.03mol");
+            let (first, second) = if acid_first {
+                (acid_command.as_str(), "add v1 CaCO3 0.01mol")
+            } else {
+                ("add v1 CaCO3 0.01mol", acid_command.as_str())
+            };
+            apply_with_ledger(&mut bench, &mut stack, first, &label);
+            let events = apply_with_ledger(&mut bench, &mut stack, second, &label);
+            let gas = gas_event_moles(&events, false);
+            assert!(gas > 0.008, "{label}: only {gas} mol CO2 escaped");
+            assert!(
+                gas <= 0.01,
+                "{label}: escaped more than the supplied carbonate: {gas}"
+            );
+            let state = bench.vessel(VesselId(0)).unwrap();
+            assert!(
+                state
+                    .contents
+                    .iter()
+                    .filter(|p| p.species.0 == "CaCO3" && p.phase == Phase::Solid)
+                    .map(|p| p.moles.0)
+                    .sum::<f64>()
+                    < 1e-6,
+                "{label}: residual chalk"
+            );
+            let repeated = bench
+                .step_with(
+                    Operator::Wait { seconds: 0.0 },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("zero-time repeat");
+            assert_eq!(
+                gas_event_moles(&repeated, false),
+                0.0,
+                "{label}: replayed gas"
+            );
+        }
     }
 }
 

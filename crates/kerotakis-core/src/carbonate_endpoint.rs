@@ -43,10 +43,12 @@ fn literal_acid(v: &Vessel) -> f64 {
 }
 
 fn carbonate(v: &Vessel) -> f64 {
-    ["NaHCO3", "Na2CO3", "KHCO3", "K2CO3", "HCO3-", "CO3-2"]
-        .iter()
-        .map(|key| pool(v, key))
-        .sum()
+    [
+        "NaHCO3", "Na2CO3", "KHCO3", "K2CO3", "CaCO3", "HCO3-", "CO3-2",
+    ]
+    .iter()
+    .map(|key| pool(v, key))
+    .sum()
 }
 
 fn medium(v: &Vessel) -> bool {
@@ -54,10 +56,10 @@ fn medium(v: &Vessel) -> bool {
         && v.surfaces.is_empty() && v.exchanges.is_empty()
         && v.solid_solutions.is_empty() && v.electrodes.is_empty()
         && v.contents.iter().all(|p| p.phase != Phase::Gas && matches!(p.species.0.as_str(),
-            "water" | "Na+" | "K+" | "H+" | "OH-" | "base_equivalents"
+            "water" | "Na+" | "K+" | "Ca+2" | "H+" | "OH-" | "base_equivalents"
             | "Cl-" | "Br-" | "I-" | "NO3-"
             | "HCl" | "HBr" | "HI" | "HNO3"
-            | "NaHCO3" | "Na2CO3" | "KHCO3" | "K2CO3"
+            | "NaHCO3" | "Na2CO3" | "KHCO3" | "K2CO3" | "CaCO3"
             | "HCO3-" | "CO3-2" | "CO2(aq)"
             | "CH3COOH" | "CH3COO-" | "NaOAc"))
         // Nitric acid / iodide or bromide is a redox problem, not this
@@ -269,6 +271,28 @@ mod tests {
             v.deposit(SpeciesId::new(a), Moles(0.001), Phase::Aqueous);
             v.deposit(SpeciesId::new(b), Moles(0.001), Phase::Aqueous);
             assert!(!medium(&v), "{a} with {b}");
+        }
+    }
+
+    #[test]
+    fn calcite_and_its_native_calcium_readback_share_the_bounded_domain() {
+        let mut before = boundary_fixture();
+        before.deposit(SpeciesId::new("CaCO3"), Moles(0.01), Phase::Solid);
+        before.deposit(SpeciesId::new("Ca+2"), Moles(0.0001), Phase::Aqueous);
+        let mut supplied = before.clone();
+        supplied.deposit(SpeciesId::new("HCl"), Moles(0.001), Phase::Aqueous);
+        let dose = prepare(&before, &supplied).expect("calcite acid dose admitted");
+        let mut solved = before.clone();
+        solved.deposit(SpeciesId::new("CO2(aq)"), Moles(0.0003), Phase::Aqueous);
+        assert!((dose.extent(&solved, &[]).unwrap() - 0.0003).abs() < 1e-12);
+        assert!(
+            prepare(&before, &before).is_none(),
+            "calcite alone is not an acid dose"
+        );
+        for unreviewed in ["MgCO3", "Ca(OH)2", "gypsum"] {
+            let mut other = supplied.clone();
+            other.deposit(SpeciesId::new(unreviewed), Moles(0.001), Phase::Solid);
+            assert!(prepare(&before, &other).is_none(), "{unreviewed}");
         }
     }
 

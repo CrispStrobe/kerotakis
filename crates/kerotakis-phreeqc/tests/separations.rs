@@ -366,7 +366,7 @@ fn instantaneous_transfers_preserve_buffered_carbon_without_gas_export() {
             if acid_prepared {
                 // One HCl proton can turn at most one bicarbonate carbon into CO2.
                 // This is a reagent budget, independent of the predicted endpoint.
-                assert!(exported >= 0.0 && exported <= 0.0005 + 1e-8);
+                assert!((0.0..=0.0005 + 1e-8).contains(&exported));
                 assert!(before >= 0.004 - 0.0005 - 1e-8);
             } else {
                 assert!(before > 0.0039, "the sample must retain bicarbonate carbon");

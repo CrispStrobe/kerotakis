@@ -44,6 +44,10 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
     (
+        "carbonate_endpoint.rs",
+        include_str!("../src/carbonate_endpoint.rs"),
+    ),
+    (
         "kerotakis-phreeqc/inventory.rs",
         include_str!("../../kerotakis-phreeqc/src/inventory.rs"),
     ),

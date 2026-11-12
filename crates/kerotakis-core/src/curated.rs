@@ -98,14 +98,17 @@ pub const REACTIONS: &[CuratedReaction] = &[
         catalyst: None,
         acid_protons: None,
         post_aqueous: None,
-        aqueous_overlap: None,
+        aqueous_overlap: Some(AqueousOverlap::SpeciationAndGas),
         reactant_phases: None,
     },
     // ── familiar carbonate fizz (BRD-014) ─────────────────────────
     // Molecular bookkeeping for the observable household reaction. Sodium
     // acetate remains dissolved while carbon dioxide crosses the open vessel
-    // boundary (or enters a sealed headspace). No heat effect is claimed
-    // until a reviewed reaction enthalpy is installed.
+    // boundary (or enters a sealed headspace). Like the ionic spelling below,
+    // defer to a selected trusted aqueous owner: otherwise pouring powder
+    // into acid bypasses the bounded native gas endpoint while the reverse
+    // order uses it. The curated fallback remains available without that owner.
+    // No separate reaction heat is applied by this row.
     CuratedReaction {
         equation: "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑",
         reactants: &[("NaHCO3", 1.0), ("CH3COOH", 1.0)],
@@ -119,7 +122,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         catalyst: None,
         acid_protons: None,
         post_aqueous: None,
-        aqueous_overlap: None,
+        aqueous_overlap: Some(AqueousOverlap::SpeciationAndGas),
         reactant_phases: None,
     },
     // The same fizz, written in the names the beaker holds once the soda
