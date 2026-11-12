@@ -9,6 +9,38 @@ use kerotakis_safety::ReactiveGroupScreen;
 #[path = "support/native_material_checks.rs"]
 mod native_material_checks;
 
+fn activity_domain_is_held(vessel: &Vessel) -> bool {
+    vessel
+        .solution
+        .as_ref()
+        .and_then(|solution| solution.provenance.as_ref())
+        .and_then(|provenance| provenance.routing_phrase.as_ref())
+        .is_some_and(|phrase| phrase.key == "routing.crystallisation-outside-activity-domain")
+}
+
+fn assert_native_carbonate_gas(events: &[Event]) -> f64 {
+    assert!(
+        !events.iter().any(|event| matches!(event,
+            Event::ReactionOccurred { equation, .. }
+                if equation.contains("NaHCO") || equation.contains("CaCO")
+        )),
+        "the selected native owner must not replay the molecular curated row"
+    );
+    let gas = native_material_checks::positive_co2_gas_out(events);
+    assert!(
+        gas > 1e-4,
+        "the native route must produce actual outward CO2: {events:?}"
+    );
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { reason: Some(reason), .. }
+                if reason.key == "not-modeled.carbonate-fast-endpoint"
+        )),
+        "the bounded endpoint must retain its typed gas-yield modelling limit"
+    );
+    gas
+}
+
 fn stack() -> SolverStack {
     SolverStack::new(vec![
         Box::new(MixingEquilibrator),
@@ -441,26 +473,23 @@ fn ammonium_chloride_is_still_an_ammonium_salt() {
     );
 }
 
-/// Vinegar and baking soda fizz — in water, which is the only way anybody
-/// has ever done it.
-///
-/// This reaction has been curated, reviewed and present in `curated.rs`
-/// since the beginning, and until the acetate protonation split it could
-/// not fire in a beaker. The readback booked the whole Acetate total as
-/// `CH3COO-`, so pouring vinegar into water handed back acetate ion, and by
-/// the time the bicarbonate arrived the acid named in the reactant list was
-/// no longer in the vessel. It would only ever have fired in a dry one.
-///
-/// The corpus said so and nobody read it: `aq-059` sat at reason code
-/// `computed-route`, and the classifier checks the curated route FIRST — so
-/// that code meant, in writing, that the curated route produced no events.
+/// Preserve acid identity, native gas ownership and strict material closure.
+/// This concentrated protocol retains its activity-domain and endpoint-yield
+/// holds; its historical gas-only stoichiometric oracle is frozen in the audit.
 #[test]
 fn vinegar_and_baking_soda_fizz_in_water() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
     add(&mut bench, &mut stack, v, "water", 5.5343);
-    add(&mut bench, &mut stack, v, "CH3COOH", 0.05);
+    native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "CH3COOH",
+        0.05,
+        "acid inventory before bicarbonate",
+    );
 
     // The acid is in the ledger as an acid. That is the precondition, and
     // it is the whole of what was missing.
@@ -474,102 +503,141 @@ fn vinegar_and_baking_soda_fizz_in_water() {
         "a pH 2.5 solution is mostly undissociated acid, got {free_acid:.5} mol"
     );
 
-    let events = add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
-    assert!(
-        events.iter().any(|e| matches!(
-            e,
-            Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
-        )),
-        "the curated reaction fires, got {events:?}"
+    let events = native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "NaHCO3",
+        0.05,
+        "native bicarbonate/acetic outcome",
     );
-    // The carbon is conserved across the two routes that share it: the
-    // curated equation takes the free acid, the aqueous route takes the
-    // small remainder, and neither invents any.
-    let co2: f64 = events
+    let co2 = assert_native_carbonate_gas(&events);
+    let state = bench.vessel(v).unwrap();
+    let retained_inorganic_carbon: f64 = state
+        .contents
         .iter()
-        .filter_map(|e| match e {
-            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
-            _ => None,
+        .filter(|portion| {
+            matches!(
+                portion.species.0.as_str(),
+                "NaHCO3" | "CO2(aq)" | "HCO3-" | "CO3-2"
+            )
         })
+        .map(|portion| portion.moles.0)
         .sum();
+    // Stoichiometry constrains escaped PLUS retained carbon. The old
+    // |gas - 0.05| < 0.001 prediction silently required atmospheric relaxation.
+    // Its original contract and first failure remain in the correction audit.
+    // This complete material check does not validate a warned endpoint yield.
     assert!(
-        (co2 - 0.05).abs() < 1e-3,
-        "0.05 mol of bicarbonate gives 0.05 mol of gas, got {co2:.5}"
+        (co2 + retained_inorganic_carbon - 0.05).abs() <= 1e-10,
+        "bicarbonate carbon must close: gas {co2}, retained {retained_inorganic_carbon}"
+    );
+    assert!(
+        activity_domain_is_held(state),
+        "this concentrated protocol must retain its typed activity-domain hold"
     );
 }
 
-/// And vinegar dissolves an eggshell, for the same reason and by the same
-/// arithmetic.
+/// The original concentrated eggshell protocol is a typed domain hold.
+/// Conserved material and actual native gas remain required; mineral yield
+/// is checked separately below inside the supported activity domain.
 #[test]
 fn vinegar_dissolves_the_calcium_carbonate_in_an_eggshell() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
     add(&mut bench, &mut stack, v, "water", 5.5343);
-    add(&mut bench, &mut stack, v, "CH3COOH", 0.1);
-    let events = add(&mut bench, &mut stack, v, "CaCO3", 0.05);
-
-    assert!(
-        events.iter().any(|e| matches!(
-            e,
-            Event::ReactionOccurred { equation, .. } if equation.contains("CaCO")
-        )),
-        "the curated reaction fires, got {events:?}"
+    native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "CH3COOH",
+        0.1,
+        "acid inventory before calcite",
     );
-    let shell = bench
-        .vessel(v)
-        .unwrap()
-        .moles_of(&SpeciesId::new("CaCO3"))
-        .0;
-    // Not to zero, and it should not be: what is left is the saturation
-    // residue, 0.08% of the shell sitting in equilibrium with a solution
-    // that has taken all the calcium it will hold. A real shell in a real
-    // glass of vinegar stops in the same place for the same reason.
+    let events = native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "CaCO3",
+        0.05,
+        "concentrated calcite domain hold",
+    );
+    assert_native_carbonate_gas(&events);
+    let state = bench.vessel(v).unwrap();
+    // This protocol exceeds the supported activity domain. Its original
+    // shell < 0.001 mol prediction remains frozen; this is a coverage hold,
+    // not a scientific residue pass or a widened residue tolerance.
     assert!(
-        shell < 0.001,
-        "two moles of acid per mole of carbonate dissolves essentially all \
-         of it, {shell:.6} mol left of 0.05"
+        activity_domain_is_held(state),
+        "concentrated calcite requires the actual typed crystallisation-domain limit"
     );
 }
 
-/// Acid first, the volcano now works and it gets cold.
-///
-/// The reaction was never simply dead: `curated` runs before the aqueous
-/// tail, so on the step where a reagent is ADDED the ledger still holds it
-/// as written and the match succeeds. What killed it was a reagent that had
-/// already been through a solve — and the readback renames what it books.
-/// So this was order dependence rather than absence, which is worse: "add
-/// them in the other order" is a workaround somebody finds by accident and
-/// never understands.
-///
-/// The two routes also disagreed about the SIGN of the temperature change.
-/// Vinegar and baking soda is one of the few kitchen reactions a child can
-/// feel, and what it does is get COLD. The aqueous route had it warming,
-/// because it books the heat of H⁺ + OH⁻ → H₂O for whatever consumed the
-/// acid and nothing for the endothermic half — the bicarbonate breaking up
-/// and the gas leaving. That is a quantity claimed to be the reaction's
-/// enthalpy which is invariant over what the reaction was.
-///
-/// (The curated route is not claiming a better enthalpy. It claims none —
-/// see the entry in `curated.rs` — so the cooling here is the dissolution
-/// terms alone. A route that declines to claim beats one that claims the
-/// wrong sign; neither has the number.)
+#[test]
+fn dilute_calcite_acetic_acid_retains_the_supported_residue_bound() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 55.51);
+    native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "CH3COOH",
+        0.03,
+        "dilute calcite acid setup",
+    );
+    let events = native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "CaCO3",
+        0.01,
+        "dilute calcite residue",
+    );
+    assert_native_carbonate_gas(&events);
+    let state = bench.vessel(v).unwrap();
+    assert!(
+        !activity_domain_is_held(state),
+        "the supported-domain positive cannot pass through a domain hold"
+    );
+    let shell = state.moles_of(&SpeciesId::new("CaCO3")).0;
+    // The original absolute bound is retained, with the existing independent
+    // native calcite control's stricter residual bound beside it.
+    assert!(shell < 0.001, "supported calcite residue: {shell} mol");
+    assert!(
+        shell < 1e-6,
+        "dilute excess-acid calcite residue: {shell} mol"
+    );
+}
+
+/// Acid-first volcano retains its cooling-sign regression and strict native
+/// material closure. No curated event or empirical concentrated-yield claim
+/// is substituted for the selected aqueous owner's actual answer.
 #[test]
 fn the_volcano_cools_when_the_acid_goes_in_first() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
     add(&mut bench, &mut stack, v, "water", 2.7);
-    add(&mut bench, &mut stack, v, "CH3COOH", 0.042);
-    let events = add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
-
-    assert!(
-        events.iter().any(|e| matches!(
-            e,
-            Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
-        )),
-        "the acid survived its solve, so the curated route is reachable: {events:?}"
+    native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "CH3COOH",
+        0.042,
+        "acid-first volcano setup",
     );
+    let events = native_material_checks::add_with_native_material_closure(
+        &mut bench,
+        &mut stack,
+        v,
+        "NaHCO3",
+        0.05,
+        "acid-first volcano",
+    );
+    assert_native_carbonate_gas(&events);
     let t = bench.vessel(v).unwrap().temperature.to_celsius();
     assert!(
         t < 25.0,

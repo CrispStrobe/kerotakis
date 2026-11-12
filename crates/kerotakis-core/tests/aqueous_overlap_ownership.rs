@@ -195,11 +195,11 @@ fn direct_and_no_owner_stacks_keep_the_original_curated_fallback() {
 }
 
 #[test]
-fn an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner() {
+fn an_untagged_bleach_bottle_row_still_runs_before_an_aqueous_owner() {
     let mut vessel = Vessel::new(VesselId(0), "untagged curated mechanism");
     vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
-    vessel.deposit(SpeciesId::new("NaHCO3"), Moles(0.001), Phase::Solid);
-    vessel.deposit(SpeciesId::new("CH3COOH"), Moles(0.001), Phase::Aqueous);
+    vessel.deposit(SpeciesId::new("NaOCl"), Moles(0.001), Phase::Aqueous);
+    vessel.deposit(SpeciesId::new("HCl"), Moles(0.002), Phase::Aqueous);
     let mut stack = SolverStack::new(vec![
         Box::new(CuratedEquilibrator),
         Box::new(Trusted::new(Answer::Complete)),
@@ -207,9 +207,34 @@ fn an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner() {
     let events = stack.equilibrate(&mut vessel).unwrap();
     assert!(events.iter().any(|event| matches!(
         event,
-        Event::ReactionOccurred { equation, .. } if equation.starts_with("NaHCO₃ + CH₃COOH")
+        Event::ReactionOccurred { equation, .. } if equation.starts_with("NaOCl + 2 HCl")
     )));
     assert!(!failed(&events));
+}
+
+#[test]
+fn selected_complete_owner_preserves_both_molecular_carbonate_stocks() {
+    for carbonate in ["NaHCO3", "CaCO3"] {
+        let mut vessel = Vessel::new(VesselId(0), "molecular overlap mechanism");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new(carbonate), Moles(0.001), Phase::Solid);
+        vessel.deposit(SpeciesId::new("CH3COOH"), Moles(0.002), Phase::Aqueous);
+        let before = vessel.contents.clone();
+        let mut stack = SolverStack::new(vec![
+            Box::new(CuratedEquilibrator),
+            Box::new(Trusted::new(Answer::Complete)),
+        ]);
+        let events = stack.equilibrate(&mut vessel).unwrap();
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::ReactionOccurred { .. })));
+        assert!(!failed(&events));
+        assert_eq!(
+            vessel.contents, before,
+            "{carbonate}: synthetic owner changes no material"
+        );
+        assert!(!stack.aqueous_overlap_refused());
+    }
 }
 
 #[test]

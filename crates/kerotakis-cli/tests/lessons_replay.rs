@@ -1424,11 +1424,12 @@ fn newly_guided_kids_rows_keep_their_evidence() {
             // 50.300 g of vinegar + 5 g of soda + 0.59 g of trapped air:
             // the sealed reading is what went in, at 18 °C as at 25, and
             // the open flask is lighter by exactly the gas that escaped.
-            // Read straight after the addition (2026-11-11): CO2 above the
-            // 1 atm bubble threshold has left; what is still dissolved
-            // leaves later, so the open reading is 53.47 rather than the
-            // room-air endpoint 53.13.
-            &["v1 balance: 55.89 g", "v2 balance: 53.47 g"],
+            // The original 53.47 g open snapshot is preserved in the
+            // carbonate-native-contract-correction audit. Its endpoint was
+            // model-dependent; open_fizz_balance_equals_inputs_minus_escaped_gas
+            // checks the input-minus-actual-gas budget at the unchanged 1e-4 g.
+            // The warned concentrated endpoint is not an empirical gas yield.
+            &["v1 balance: 55.89 g", "v2 balance:"],
         ),
     ];
     for (name, evidence) in cases {

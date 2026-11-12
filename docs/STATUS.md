@@ -32,6 +32,12 @@ pending. Original heat and chalk assertions remain in place. Three atmospheric-e
 contracts also need independent review against the finite-time gas model. No full-fleet or
 release acceptance is claimed for this candidate.
 
+The `e862b601` workspace run subsequently passed the original chalk, pouring-order heat,
+gas-event and transfer controls and Clippy. Its remaining failures and three independently
+audited readbacks are preserved in [the native carbonate contract correction](../audits/carbonate-native-contract-correction-20261112/README.md).
+Concentrated mineral and gas yields remain model-domain holds. The successor controls and the
+full fleet require new source-bound execution before integration.
+
 Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.

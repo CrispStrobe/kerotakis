@@ -1,0 +1,20 @@
+{
+  "producer": {
+    "source": "e862b601fcdca68e4504656f8f6fbcc2a60bd424",
+    "tree": "2e9a6f94fc0a787a71bb5b14eabf63e44e4d78f1",
+    "binary_sha256": "4c3ac9945c990ae405d9cfa0d0b0fc78060cfcac5621adab32beae9f3fc95fe4",
+    "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "rust": "1.99.1"
+  },
+  "scripts": {
+    "soda": "9b8899b3d603ab632488800dff27cf101e6fb2d3534f15e0c46c39ae819a8375",
+    "calcite": "88fee33ef17338a02ef99e0284e1afe0d8f3f92e3fb07e9ac2a0bfc9250c996f",
+    "lesson": "a518ff749ed0ce09be6544f95647fef77092da262461e1df8eeed0d878b6e1bd"
+  },
+  "limits": {
+    "cpu_seconds": 30,
+    "address_space_bytes": 2147483648,
+    "timeout_seconds": 45
+  },
+  "note": "CLI uses production stack; soda/calcite doses equal failed acid_base protocols. No repeat or build."
+}

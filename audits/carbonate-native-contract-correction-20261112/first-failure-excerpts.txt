@@ -1,0 +1,135 @@
+---- newly_guided_kids_rows_keep_their_evidence stdout ----
+
+thread 'newly_guided_kids_rows_keep_their_evidence' (15004) panicked at crates/kerotakis-cli/tests/lessons_replay.rs:1439:13:
+sealed-mass-conservation.lab lost "v2 balance: 53.47 g":
+  v1: +50.300 g 5% white vinegar (2 known ingredient(s))
+  v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v1: pH 2.41
+  v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air
+  v1: pH 2.41
+  v1: headspace settled at 1.013 bar with 0.0204 mol gas
+  v1: 25.0 °C → 25.0 °C
+  v1: +5.000 g baking soda (1 known ingredient(s))
+  v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~2.5 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction. Saturation and crystallisation of Nahcolite at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction
+  v1: 0.0595 mol baking soda (sodium bicarbonate) dissolved
+  v1: 0.0382 mol carbon dioxide formed and remains in the closed headspace
+  v1: pH 6.80
+  v1: headspace settled at 2.845 bar with 0.0587 mol gas
+  v1: 25.0 °C → 18.4 °C
+  v1 balance: 55.89 g
+  v1 (beaker) — 18.45 °C, 55.9 g, 48.7 mL liquid, sealed 500.0 mL headspace at 2.845 bar, pH 6.80, I = 0.9250 m
+          0.0161 mol  nitrogen           Gas
+           4.28 mmol  oxygen             Gas
+            294 µmol  acetic acid        Aqueous
+          0.0416 mol  acetate ion        Aqueous
+           4.35 mmol  dissolved carbon dioxide Aqueous
+          0.0169 mol  bicarbonate ion    Aqueous
+           7.77 µmol  carbonate ion      Aqueous
+          0.0595 mol  sodium ion         Aqueous
+          0.0382 mol  carbon dioxide     Gas
+          2.6941 mol  water              Liquid
+            986 µmol  base equivalents   Aqueous
+  v2: new vessel
+  v2: +50.300 g 5% white vinegar (2 known ingredient(s))
+  v2: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v2: pH 2.41
+  v2: 25.0 °C → 25.0 °C
+  v2: +5.000 g baking soda (1 known ingredient(s))
+  v2: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~2.5 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction. Saturation and crystallisation of CO2(g), Nahcolite at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction
+  v2: 0.0595 mol baking soda (sodium bicarbonate) dissolved
+  v2: 0.0419 mol carbon dioxide ↑ (gas escapes the open vessel)
+  v2: pH 7.05
+  v2: 25.0 °C → 18.2 °C
+  v2: pH 7.05
+  v2: pH 7.69
+  v2: 18.2 °C → 18.0 °C
+  v2: not yet modelled — this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield
+  v2 balance: 53.46 g
+  v2 (flask) — 18.04 °C, 53.5 g, 48.7 mL liquid, open to atmosphere, pH 7.69, I = 0.9233 m
+           38.3 µmol  acetic acid        Aqueous
+          0.0418 mol  acetate ion        Aqueous
+            570 µmol  dissolved carbon dioxide Aqueous
+          0.0170 mol  bicarbonate ion    Aqueous
+           59.8 µmol  carbonate ion      Aqueous
+          0.0595 mol  sodium ion         Aqueous
+          2.6944 mol  water              Liquid
+            549 µmol  base equivalents   Aqueous
+
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: lessons_replay::newly_guided_kids_rows_keep_their_evidence
+   3: lessons_replay::newly_guided_kids_rows_keep_their_evidence::{closure#0}
+   4: <lessons_replay::newly_guided_kids_rows_keep_their_evidence::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+---- an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner stdout ----
+
+thread 'an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner' (16575) panicked at crates/kerotakis-core/tests/aqueous_overlap_ownership.rs:208:5:
+assertion failed: events.iter().any(|event|
+        matches!(event, Event::ReactionOccurred { equation, .. } if
+            equation.starts_with("NaHCO₃ + CH₃COOH")))
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::panic
+   3: aqueous_overlap_ownership::an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner
+   4: aqueous_overlap_ownership::an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner::{closure#0}
+   5: <aqueous_overlap_ownership::an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+---- the_volcano_cools_when_the_acid_goes_in_first stdout ----
+
+thread 'the_volcano_cools_when_the_acid_goes_in_first' (19149) panicked at crates/kerotakis-phreeqc/tests/acid_base.rs:566:5:
+the acid survived its solve, so the curated route is reachable: [TemperatureChanged { vessel: VesselId(0), from: Kelvin(298.15039879348944), to: Kelvin(298.150390591862) }, Added { vessel: VesselId(0), species: SpeciesId("NaHCO3"), moles: Moles(0.05), total_after: Some(Moles(0.05)) }, SolutionRouted { vessel: VesselId(0), provenance: Provenance { engine: "PHREEQC (IPhreeqc, USGS)", dataset: "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice", model: "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)", dataset_sources: ["usbm-ic9429-complexes-25c", "sander-2023-hbr-reference"], routing: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~2.1 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction. Saturation and crystallisation of CO2(g), Nahcolite at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction", routing_phrase: Some(Phrase { key: "routing.crystallisation-outside-activity-domain", en: "{routing}. Saturation and crystallisation of {phases} at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction", slots: [("routing", Phrase { phrase: Phrase { key: "routing.activity-model-fallback", en: "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction", slots: [("routing", Phrase { phrase: Phrase { key: "routing.extended-chemistry", en: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)", slots: [] } }), ("molality", Number { text: "2.1" })] } }), ("phases", Text { text: "CO2(g), Nahcolite" })] }), dataset_phrase: Some(Phrase { key: "provenance.dataset.with-gas-uptake-slice", en: "{file}, with the reviewed Sander HBr gas-uptake slice", slots: [("file", Phrase { phrase: Phrase { key: "provenance.dataset.plus-lactate-and-reference-complexes", en: "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes", slots: [("file", Text { text: "minteq.v4.dat" })] } })] }), model_phrase: Some(Phrase { key: "provenance.model.wateq-debye-huckel", en: "{name} extension (reliable to about I = {ionic_strength} mol/kgw)", slots: [("name", Text { text: "WATEQ Debye-Hückel" }), ("ionic_strength", Number { text: "1" })] }) } }, Dissolved { vessel: VesselId(0), species: SpeciesId("NaHCO3"), moles: Moles(0.05) }, GasEvolved { vessel: VesselId(0), species: SpeciesId("CO2"), moles: Moles(0.0420000000001335) }, SolutionCharacterized { vessel: VesselId(0), ph: 6.742382405213, ionic_strength: 0.7948263874371 }, TemperatureChanged { vessel: VesselId(0), from: Kelvin(298.150390591862), to: Kelvin(292.2600606443789) }, SolutionCharacterized { vessel: VesselId(0), ph: 6.742382405213, ionic_strength: 0.7948263874371 }, SolutionCharacterized { vessel: VesselId(0), ph: 7.732919338574, ionic_strength: 0.7940721475317 }, TemperatureChanged { vessel: VesselId(0), from: Kelvin(292.2600606443789), to: Kelvin(292.0565445176562) }, NotYetModeled { vessel: VesselId(0), what: "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield", cause: ModelBoundary, reason: Some(Phrase { key: "not-modeled.carbonate-fast-endpoint", en: "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield", slots: [] }), beside_a_visible_change: false }]
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: acid_base::the_volcano_cools_when_the_acid_goes_in_first
+   3: acid_base::the_volcano_cools_when_the_acid_goes_in_first::{closure#0}
+   4: <acid_base::the_volcano_cools_when_the_acid_goes_in_first::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- vinegar_and_baking_soda_fizz_in_water stdout ----
+
+thread 'vinegar_and_baking_soda_fizz_in_water' (19153) panicked at crates/kerotakis-phreeqc/tests/acid_base.rs:478:5:
+the curated reaction fires, got [TemperatureChanged { vessel: VesselId(0), from: Kelvin(298.1503046152242), to: Kelvin(298.1503014943203) }, Added { vessel: VesselId(0), species: SpeciesId("NaHCO3"), moles: Moles(0.05), total_after: Some(Moles(0.05)) }, SolutionRouted { vessel: VesselId(0), provenance: Provenance { engine: "PHREEQC (IPhreeqc, USGS)", dataset: "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice", model: "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)", dataset_sources: ["usbm-ic9429-complexes-25c", "sander-2023-hbr-reference"], routing: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~1.1 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction. Saturation and crystallisation of CO2(g), Nahcolite at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction", routing_phrase: Some(Phrase { key: "routing.crystallisation-outside-activity-domain", en: "{routing}. Saturation and crystallisation of {phases} at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction", slots: [("routing", Phrase { phrase: Phrase { key: "routing.activity-model-fallback", en: "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction", slots: [("routing", Phrase { phrase: Phrase { key: "routing.extended-chemistry", en: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)", slots: [] } }), ("molality", Number { text: "1.1" })] } }), ("phases", Text { text: "CO2(g), Nahcolite" })] }), dataset_phrase: Some(Phrase { key: "provenance.dataset.with-gas-uptake-slice", en: "{file}, with the reviewed Sander HBr gas-uptake slice", slots: [("file", Phrase { phrase: Phrase { key: "provenance.dataset.plus-lactate-and-reference-complexes", en: "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes", slots: [("file", Text { text: "minteq.v4.dat" })] } })] }), model_phrase: Some(Phrase { key: "provenance.model.wateq-debye-huckel", en: "{name} extension (reliable to about I = {ionic_strength} mol/kgw)", slots: [("name", Text { text: "WATEQ Debye-Hückel" }), ("ionic_strength", Number { text: "1" })] }) } }, Dissolved { vessel: VesselId(0), species: SpeciesId("NaHCO3"), moles: Moles(0.05) }, GasEvolved { vessel: VesselId(0), species: SpeciesId("CO2"), moles: Moles(0.048060922758632024) }, SolutionCharacterized { vessel: VesselId(0), ph: 5.918994252364, ionic_strength: 0.4339684604876 }, TemperatureChanged { vessel: VesselId(0), from: Kelvin(298.1503014943203), to: Kelvin(295.1877181092193) }, SolutionCharacterized { vessel: VesselId(0), ph: 5.918994252364, ionic_strength: 0.4339684604876 }, SolutionCharacterized { vessel: VesselId(0), ph: 6.230799238409, ionic_strength: 0.4338996482547 }, TemperatureChanged { vessel: VesselId(0), from: Kelvin(295.1877181092193), to: Kelvin(295.0302204691711) }, NotYetModeled { vessel: VesselId(0), what: "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield", cause: ModelBoundary, reason: Some(Phrase { key: "not-modeled.carbonate-fast-endpoint", en: "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield", slots: [] }), beside_a_visible_change: false }]
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: acid_base::vinegar_and_baking_soda_fizz_in_water
+   3: acid_base::vinegar_and_baking_soda_fizz_in_water::{closure#0}
+   4: <acid_base::vinegar_and_baking_soda_fizz_in_water::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- vinegar_dissolves_the_calcium_carbonate_in_an_eggshell stdout ----
+
+thread 'vinegar_dissolves_the_calcium_carbonate_in_an_eggshell' (19154) panicked at crates/kerotakis-phreeqc/tests/acid_base.rs:512:5:
+the curated reaction fires, got [TemperatureChanged { vessel: VesselId(0), from: Kelvin(298.1504291437218), to: Kelvin(298.1504249959156) }, Added { vessel: VesselId(0), species: SpeciesId("CaCO3"), moles: Moles(0.05), total_after: Some(Moles(0.05)) }, Dissolved { vessel: VesselId(0), species: SpeciesId("CaCO3"), moles: Moles(1.2988753831308185e-5) }, SolutionRouted { vessel: VesselId(0), provenance: Provenance { engine: "PHREEQC (IPhreeqc, USGS)", dataset: "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice", model: "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)", dataset_sources: ["usbm-ic9429-complexes-25c", "sander-2023-hbr-reference"], routing: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~1.5 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction. Saturation and crystallisation of CO2(g), Calcite, Lime, Portlandite at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction", routing_phrase: Some(Phrase { key: "routing.crystallisation-outside-activity-domain", en: "{routing}. Saturation and crystallisation of {phases} at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction", slots: [("routing", Phrase { phrase: Phrase { key: "routing.activity-model-fallback", en: "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction", slots: [("routing", Phrase { phrase: Phrase { key: "routing.extended-chemistry", en: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)", slots: [] } }), ("molality", Number { text: "1.5" })] } }), ("phases", Text { text: "CO2(g), Calcite, Lime, Portlandite" })] }), dataset_phrase: Some(Phrase { key: "provenance.dataset.with-gas-uptake-slice", en: "{file}, with the reviewed Sander HBr gas-uptake slice", slots: [("file", Phrase { phrase: Phrase { key: "provenance.dataset.plus-lactate-and-reference-complexes", en: "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes", slots: [("file", Text { text: "minteq.v4.dat" })] } })] }), model_phrase: Some(Phrase { key: "provenance.model.wateq-debye-huckel", en: "{name} extension (reliable to about I = {ionic_strength} mol/kgw)", slots: [("name", Text { text: "WATEQ Debye-Hückel" }), ("ionic_strength", Number { text: "1" })] }) } }, Dissolved { vessel: VesselId(0), species: SpeciesId("CaCO3"), moles: Moles(0.047968258764515694) }, GasEvolved { vessel: VesselId(0), species: SpeciesId("CO2"), moles: Moles(0.04694715065863388) }, SolutionCharacterized { vessel: VesselId(0), ph: 5.636564020816, ionic_strength: 0.6390809586569 }, TemperatureChanged { vessel: VesselId(0), from: Kelvin(298.1504249959156), to: Kelvin(299.8037663799197) }, SolutionCharacterized { vessel: VesselId(0), ph: 5.636564020817, ionic_strength: 0.6390809586569 }, Dissolved { vessel: VesselId(0), species: SpeciesId("CaCO3"), moles: Moles(0.000826224933778) }, SolutionCharacterized { vessel: VesselId(0), ph: 5.877551031905, ionic_strength: 0.6463161001157 }, TemperatureChanged { vessel: VesselId(0), from: Kelvin(299.8037663799197), to: Kelvin(299.71295018426304) }, NotYetModeled { vessel: VesselId(0), what: "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield", cause: ModelBoundary, reason: Some(Phrase { key: "not-modeled.carbonate-fast-endpoint", en: "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield", slots: [] }), beside_a_visible_change: false }]
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: acid_base::vinegar_dissolves_the_calcium_carbonate_in_an_eggshell
+   3: acid_base::vinegar_dissolves_the_calcium_carbonate_in_an_eggshell::{closure#0}
+   4: <acid_base::vinegar_dissolves_the_calcium_carbonate_in_an_eggshell::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+---- every_curated_reaction_is_reachable_in_every_order stdout ----
+
+thread 'every_curated_reaction_is_reachable_in_every_order' (19278) panicked at crates/kerotakis-phreeqc/tests/curated_reachability_at_runtime.rs:254:5:
+curated reactions that cannot be reached in some order of adding their own reagents. `curated` runs before the aqueous tail, so a reagent added FIRST goes through a solve and is renamed before the others arrive — and the reaction that names it can no longer match. The remedy is a sibling row written in the names the vessel holds afterwards, as `HCO₃⁻` is written beside `NaHCO3`:
+  CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑
+    silent when added in the order ["CaCO3", "CH3COOH"]
+  CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑
+    silent when added in the order ["CH3COOH", "CaCO3"]
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: curated_reachability_at_runtime::every_curated_reaction_is_reachable_in_every_order
+   3: curated_reachability_at_runtime::every_curated_reaction_is_reachable_in_every_order::{closure#0}
+   4: <curated_reachability_at_runtime::every_curated_reaction_is_reachable_in_every_order::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
