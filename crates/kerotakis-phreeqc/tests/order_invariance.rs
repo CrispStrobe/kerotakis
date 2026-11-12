@@ -227,7 +227,10 @@ fn aq_023(second: &str, third: &str) -> Read {
         ),
     ] {
         assert!(
-            before.is_finite() && after.is_finite() && (after - before).abs() <= 1e-10,
+            // 1e-9: since an `add` keeps its sub-bubble CO2 (2026-11-11), the
+            // repeat re-solves a supersaturated carbonate state and lands
+            // 1.6e-10 away in water activity, PHREEQC's convergence scale.
+            before.is_finite() && after.is_finite() && (after - before).abs() <= 1e-9,
             "native auxiliary {coordinate} changed at zero time: {before:.15e} -> {after:.15e}"
         );
     }
