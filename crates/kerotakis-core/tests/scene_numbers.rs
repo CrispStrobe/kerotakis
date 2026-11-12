@@ -364,3 +364,22 @@ fn an_old_scene_without_corrosion_data_still_deserializes() {
         serde_json::from_value(value).expect("legacy scene deserializes");
     assert!(restored.corrosion.is_empty());
 }
+
+#[test]
+fn a_sealed_jar_of_chlorine_shows_its_colour_in_the_scene() {
+    let mut v = Vessel::new(VesselId(0), "jar");
+    v.headspace = Headspace::Sealed {
+        volume: Liters(0.5),
+    };
+    v.deposit(SpeciesId::new("Cl2"), Moles(0.02), Phase::Gas);
+    let mut bench = Bench::new();
+    bench.vessels = vec![v];
+    let scene = kerotakis_core::scene(&bench);
+    let colour = scene.vessels[0]
+        .headspace_colour
+        .as_ref()
+        .expect("a sealed chlorine headspace has a colour");
+    assert_eq!(colour.gases, vec!["Cl2".to_string()]);
+    let [r, g, b] = colour.srgb.expect("chlorine is cited");
+    assert!(b < g && b < r, "yellow-green: {r} {g} {b}");
+}
