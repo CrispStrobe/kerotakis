@@ -14,7 +14,7 @@ assert hashlib.sha256(raw).hexdigest() == bindings["native_stdout_uncompressed_s
 frames = [json.loads(line) for line in raw.splitlines()]
 by_step = {frame["step"]: frame for frame in frames}
 original = json.loads((ROOT / "gui003-dom-five.original.json").read_text(encoding="utf-8"))
-actual = json.loads((ROOT / "gui003-dom-five.actual.json").read_text(encoding="utf-8"))
+actual = json.loads((ROOT / "browser-first-readback.json").read_text(encoding="utf-8"))
 delta = json.loads((ROOT / "eight-leaf-delta.json").read_text(encoding="utf-8"))
 allowed = {(0, vessel, field) for vessel in (1, 2) for field in (
     "boiling-k", "temperature-k", "srgb", "volume-l"
