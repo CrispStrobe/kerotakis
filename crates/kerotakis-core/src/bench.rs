@@ -1008,6 +1008,7 @@ impl Bench {
         // touch at most two). A touched vessel's previous solution
         // characterisation is stale by definition; the solver stack either
         // recomputes it or the honesty pass reports the gap.
+        let mut committed_carbonate_endpoint = false;
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
             let carbonate_dose = dose_before
@@ -1061,7 +1062,10 @@ impl Bench {
                 if let (Some(dose), Ok(more)) = (carbonate_dose, &mut outcome) {
                     if let Some(aqueous) = solver.trusted_aqueous_readback() {
                         match crate::carbonate_endpoint::run(vessel, dose, aqueous, more) {
-                            Ok(Some(mut endpoint)) => more.append(&mut endpoint),
+                            Ok(Some(mut endpoint)) => {
+                                more.append(&mut endpoint);
+                                committed_carbonate_endpoint = true;
+                            }
                             Ok(None) => {}
                             Err(error) => more.push(Event::SolverFailed {
                                 vessel: id,
@@ -1098,6 +1102,10 @@ impl Bench {
             self.vessel_mut(id)?.co2_film_boundary = false;
             crate::protein::record_heat_history(self.vessel_mut(id)?);
             self.vent_if_burst(id, &mut events);
+        }
+
+        if committed_carbonate_endpoint {
+            coalesce_external_gas_crossings(&mut events);
         }
 
         // A dose offered in passes is one act of heating, not eight. Fold
@@ -7391,6 +7399,63 @@ fn curated_reaction_extent(
     None
 }
 
+/// Publish successive internal parcels as one signed external crossing per
+/// vessel and species. Call only after their owners have validated and
+/// committed every parcel: this changes the public account, never inventory,
+/// receipts, retained headspace gas or the energy ledger.
+fn coalesce_external_gas_crossings(events: &mut Vec<Event>) {
+    let mut out = Vec::with_capacity(events.len());
+    let mut crossings: Vec<(VesselId, SpeciesId, f64, usize)> = Vec::new();
+    for event in std::mem::take(events) {
+        let crossing = match &event {
+            Event::GasEvolved {
+                vessel,
+                species,
+                moles,
+            } => Some((*vessel, species.clone(), moles.0)),
+            Event::GasAbsorbed {
+                vessel,
+                species,
+                moles,
+            } => Some((*vessel, species.clone(), -moles.0)),
+            _ => None,
+        };
+        if let Some((vessel, species, signed)) = crossing {
+            if let Some((_, _, total, _)) = crossings
+                .iter_mut()
+                .find(|(owner, gas, _, _)| *owner == vessel && *gas == species)
+            {
+                *total += signed;
+                continue;
+            }
+            crossings.push((vessel, species, signed, out.len()));
+        }
+        out.push(event);
+    }
+    for (vessel, species, total, index) in crossings {
+        out[index] = if total < 0.0 {
+            Event::GasAbsorbed {
+                vessel,
+                species,
+                moles: Moles(-total),
+            }
+        } else {
+            Event::GasEvolved {
+                vessel,
+                species,
+                moles: Moles(total),
+            }
+        };
+    }
+    // No observability cutoff: every genuine nonzero signed flux survives.
+    out.retain(|event| {
+        !matches!(event,
+        Event::GasEvolved { moles, .. } | Event::GasAbsorbed { moles, .. }
+            if moles.0 == 0.0)
+    });
+    *events = out;
+}
+
 /// The quantity a repeated event carries, and what makes two of them the
 /// same claim about the same thing.
 fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
@@ -7911,6 +7976,77 @@ pub(crate) fn carbonic_acid_pk1(temperature_k: f64) -> f64 {
 #[cfg(test)]
 mod react_diagnostic_tests {
     use super::*;
+
+    #[test]
+    fn external_gas_parcels_preserve_signed_flux_and_boundary_ownership() {
+        for (outward, inward) in [
+            (3.0, 1.0),
+            (1.0, 3.0),
+            (1e-14, 0.0),
+            (0.0, 1e-14),
+            (1.0, 1.0),
+        ] {
+            let retained = Event::GasContained {
+                vessel: VesselId(0),
+                species: SpeciesId::new("CO2"),
+                moles: Moles(4.0),
+            };
+            let other_vessel = Event::GasEvolved {
+                vessel: VesselId(1),
+                species: SpeciesId::new("CO2"),
+                moles: Moles(5.0),
+            };
+            let other_gas = Event::GasEvolved {
+                vessel: VesselId(0),
+                species: SpeciesId::new("O2"),
+                moles: Moles(6.0),
+            };
+            let mut events = vec![
+                Event::GasEvolved {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(outward / 2.0),
+                },
+                retained.clone(),
+                other_vessel.clone(),
+                other_gas.clone(),
+                Event::GasAbsorbed {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(inward),
+                },
+                Event::GasEvolved {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(outward / 2.0),
+                },
+            ];
+            coalesce_external_gas_crossings(&mut events);
+            let mut expected = vec![retained, other_vessel, other_gas];
+            let net = outward - inward;
+            if net != 0.0 {
+                expected.insert(
+                    0,
+                    if net < 0.0 {
+                        Event::GasAbsorbed {
+                            vessel: VesselId(0),
+                            species: SpeciesId::new("CO2"),
+                            moles: Moles(-net),
+                        }
+                    } else {
+                        Event::GasEvolved {
+                            vessel: VesselId(0),
+                            species: SpeciesId::new("CO2"),
+                            moles: Moles(net),
+                        }
+                    },
+                );
+            }
+            assert_eq!(events, expected);
+            coalesce_external_gas_crossings(&mut events);
+            assert_eq!(events, expected, "publication must be idempotent");
+        }
+    }
 
     #[test]
     fn react_diagnostic_refusal_and_nonfinite_are_single_model_boundaries() {

@@ -16,7 +16,12 @@ changed observables) once on that release, independently review and append only 
 
 Read [the carbonate repair acceptance scope](carbonate-boundaries-20261112.md) first. Preserve
 its original failed contracts and actual producer identities; do not label its first partial
-hosted result as acceptance of the later endpoint implementation.
+hosted result as acceptance of the later endpoint implementation. The
+[32f focused capsule](../audits/carbonate-focused-source-20261112/README.md) separately verifies
+72 cases/92 checks and eight equal same-binary aq-023 processes; it still fails two native and
+two template controls. Review the later Sol-medium event consolidation against its own source,
+keep all original physical bounds, and finish full own-fleet/required acceptance before delivery.
+The latest main concurrency policy must be pulled before pushing; do not edit its blocks.
 
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
 no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: primary, or "as quoted by"

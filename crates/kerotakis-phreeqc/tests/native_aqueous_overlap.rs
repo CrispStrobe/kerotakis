@@ -574,6 +574,68 @@ fn native_reentry_preserves_each_zero_time_stock_and_publishes_net_gas_once() {
     }
 }
 
+#[test]
+fn repeated_native_acid_doses_publish_each_open_crossing_without_venting_closed_stock() {
+    for sealed in [false, true] {
+        let mut bench = Bench::new();
+        let mut stack = production_stack();
+        apply_with_ledger(&mut bench, &mut stack, "add v1 water 100mL", "setup");
+        if sealed {
+            let events = run(&mut bench, &mut stack, "seal v1 500mL");
+            assert!(!events
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })));
+        }
+        apply_with_ledger(&mut bench, &mut stack, "add v1 NaHCO3 0.02mol", "setup");
+        for repeat in 0..2 {
+            let before = bench.vessel(VesselId(0)).unwrap().clone();
+            let events = apply_with_ledger(
+                &mut bench,
+                &mut stack,
+                "add v1 CH3COOH 0.005mol",
+                "repeated acid dose",
+            );
+            let after = bench.vessel(VesselId(0)).unwrap();
+            // Acetic acid adds carbon too; subtract its independently known
+            // 2 C per molecule before comparing the signed CO2 crossing.
+            let mut supplied = before.clone();
+            supplied.deposit(SpeciesId::new("CH3COOH"), Moles(0.005), Phase::Liquid);
+            assert_net_co2_event_once(&supplied, after, &events, "repeated acid dose");
+            if sealed {
+                assert_eq!(gas_event_moles(&events, false), 0.0, "sealed dose {repeat}");
+                assert!(
+                    gas_event_moles(&events, true) > 1e-4,
+                    "sealed dose {repeat}: {events:?}"
+                );
+            } else {
+                assert!(
+                    gas_event_moles(&events, false) > 1e-4,
+                    "open dose {repeat}: {events:?}"
+                );
+                assert_eq!(gas_event_moles(&events, true), 0.0);
+            }
+            let stable = after.clone();
+            let events = bench
+                .step_with(
+                    Operator::Wait { seconds: 0.0 },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("zero-time repeat after dose");
+            assert!(
+                !events
+                    .iter()
+                    .any(|event| matches!(event, Event::SolverFailed { .. })),
+                "zero-time repeat after dose: {events:?}"
+            );
+            let after = bench.vessel(VesselId(0)).unwrap();
+            assert_gas_adjusted_ledger(&stable, after, &events, None, "after repeated acid dose");
+            assert_native_physical_state_stable(&stable, after, "after repeated acid dose");
+            assert_net_co2_event_once(&stable, after, &events, "after repeated acid dose");
+        }
+    }
+}
+
 fn native_overlap_seed() -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "native cache parity");
     vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);

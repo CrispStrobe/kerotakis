@@ -58,6 +58,15 @@ transfer check, Warder titrations and order invariance. Its core unit build fail
 the typed zero-time operator. Both test-authoring errors are corrected, with original output
 preserved. That producer predates the new curated endpoint and cannot accept it.
 
+[The subsequent exact-source producer](../audits/carbonate-focused-source-20261112/README.md)
+on `32f3aed5` passes all three previously failing fleet families (72 cases/92 checks), core,
+Clippy and type checks. It exposes two native controls: the two genuine gas parcels still need
+one net public event, and a new separation fixture incorrectly budgets preparation gas as zero.
+The translator template also lacks six new terms. The current repair preserves the original
+single-event invariant, the pure bicarbonate inventory bound and all transfer tolerances; an
+additional acid-prepared companion independently closes carbon against its actual gas budget.
+The authenticated32f producer cannot accept those later source changes.
+
 The next exact-source hosted run must run core tests, existing overlap/Warder/mixing/clock/
 order controls, low-dose gas-budget and competing-base negatives, affected gas/carbonate/
 selectivity fleet laws, locale/presentation checks and source-integrity checks. Keep genuine

@@ -17,7 +17,15 @@ current. Its first failing head is `bb168622`: six starch display names lack Ger
 the bicarbonate demo lacks step prose, and carbonate/gas/selectivity fleet contracts fail. Repair
 work preserves those first failures and distinguishes physical source defects from invalid oracles.
 Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication
-and original qualifications are not yet earned. Round 4:
+and original qualifications are not yet earned.
+
+[Authenticated focused source results](../audits/carbonate-focused-source-20261112/README.md)
+show72 internal cases/92 declared checks passing on `32f3aed5`, plus core/Clippy/type checks and
+eight identical-process aq-023 readbacks. Two native controls and two translator-template checks
+still fail on that producer; their fixes require changed-source acceptance. This adds no original
+qualification.
+
+Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.
 - Iodine in hexane is labelled a non-aqueous solution and counted by `inspect`; hexane/water K_D = 26.0
