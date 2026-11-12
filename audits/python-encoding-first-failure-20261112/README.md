@@ -20,6 +20,5 @@ preflight remains required on the successor.
 A later complete local lint found eleven further implicit encodings in
 `tools/redox_respeciation_coverage.py` and `tools/tests/test_sundials_source_cache.py`.
 Those calls also use UTF-8 in the successor. The complete encoding lint then
-reported zero findings and all eight SUNDIALS source-cache tests passed. The
-redox coverage check was not executed to completion locally because its PHREEQC
-database submodule was unavailable; the hosted preflight remains required.
+reported zero findings and all eight SUNDIALS source-cache tests passed. The redox coverage check also passed using a database checkout verified against
+the pinned PHREEQC submodule commit; the hosted preflight remains required.
