@@ -25,9 +25,12 @@ Read [the carbonate repair acceptance scope](carbonate-boundaries-20261112.md) f
 its original failed contracts and actual producer identities; do not label its first partial
 hosted result as acceptance of the later endpoint implementation. The
 [32f focused capsule](../audits/carbonate-focused-source-20261112/README.md) separately verifies
-72 cases/92 checks and eight equal same-binary aq-023 processes; it still fails two native and
-two template controls. Review the later Sol-medium event consolidation against its own source,
-keep all original physical bounds, and finish full own-fleet/required acceptance before delivery.
+72 cases/92 checks and eight equal same-binary aq-023 processes; it failed two native and
+two template controls that later source-bound validation passed. Candidate `7bd82c80` passed
+the complete 702-case own fleet and hosted workspace/frontend checks, then macOS CI exposed a
+[Clippy 1.100 failure](../audits/macos-clippy-1100-first-failure-20261112/README.md). Verify
+the successor's owner ordering and changed-source checks; retain original physical bounds and
+all required CI before delivery. Preserve the earlier source-specific evidence independently.
 The latest main concurrency policy must be pulled before pushing; do not edit its blocks.
 
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or

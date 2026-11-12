@@ -1,0 +1,3 @@
+# macOS native CI first failure — 2026-11-12
+
+The [macOS native job](https://github.com/CrispStrobe/kerotakis/actions/runs/43306467715/job/131491254341) failed on candidate `7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd` under Rust Clippy 1.100.0: `needless_range_loop` rejects indexing the solver vector from a range loop. The previous source-bound hosted validation used Rust 1.99.1 and passed. This is a compiler/lint compatibility failure; it does not establish a chemistry failure. The full original job log remains retained, with its SHA256 in `binding.json`. The successor must preserve owner indices, solver order and all controls, and pass changed-source validation without suppressing the lint.

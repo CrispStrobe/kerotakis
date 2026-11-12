@@ -1,0 +1,3776 @@
+{
+  "commit": "7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd",
+  "complete_source_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "binary_sha256": "4c3ac9945c990ae405d9cfa0d0b0fc78060cfcac5621adab32beae9f3fc95fe4",
+  "lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "submodules": " 8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa sundials-kinetics-rs (heads/master)\n 47b459c4a5e3e20b9990fa304e207eca0dcc6ff1 vendor/iphreeqc (heads/master)\n",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "untracked_source_sha256": {},
+  "cases": [
+    {
+      "id": "459-ammonia-half-dose",
+      "question": "Does a half-dose of ammonia reach a finite sealed headspace?",
+      "exit": 0,
+      "seconds": 0.67,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "headspace_partitioned": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 8.673617379884035e-19,
+                "phase": "liquid",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.004999999999999999,
+                "phase": "gas",
+                "species": "NH3"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.005,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 126114.57029556701,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "460-ammonia-full-dose",
+      "question": "Does more ammonia put more ammonia in the same headspace?",
+      "exit": 0,
+      "seconds": 0.729,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "headspace_partitioned": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 1.734723475976807e-18,
+                "phase": "liquid",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.009999999999999998,
+                "phase": "gas",
+                "species": "NH3"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 150904.140591134,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "461-ammonia-water",
+      "question": "Does water retain part of ammonia against the headspace?",
+      "exit": 0,
+      "seconds": 0.725,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 2,
+        "vessel_sealed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "temperature_changed": 2,
+        "headspace_partitioned": 2,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 5.679264589649376e-09,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.911194759368586e-11,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.0841774247950456e-06,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 7.090496523036666e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.009820587345996428,
+                "phase": "aqueous",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.00014482962875566084,
+                "phase": "aqueous",
+                "species": "NH4+"
+              },
+              {
+                "moles": 1.158450865834e-10,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 3.458302524791e-05,
+                "phase": "gas",
+                "species": "NH3"
+              },
+              {
+                "moles": 5.534139252263826,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00012956445828478727,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.00012956445913663863,
+            "free_proton": 8.518169305940859e-13,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101547.44204033025,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.00012956445828479245,
+            "solution": {
+              "ionic_strength": 0.001523810504284,
+              "particle_molality": 0.1013380901275,
+              "pe": null,
+              "ph": 11.08619637041,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [
+                {
+                  "element": "N",
+                  "molality": 0.09995651960327,
+                  "oxidation": -3
+                }
+              ],
+              "solvent_kg": 0.09969751862414,
+              "species": [
+                {
+                  "activity": 0.9982772524678362,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0985,
+                  "molality": 0.0985,
+                  "name": "NH3"
+                },
+                {
+                  "activity": 0.001391,
+                  "molality": 0.001453,
+                  "name": "NH4+"
+                },
+                {
+                  "activity": 0.001244,
+                  "molality": 0.0013,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 5.991e-05,
+                  "molality": 7.112e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 1.042e-05,
+                  "molality": 1.087e-05,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.41892703833287,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "462-ammonia-more-water",
+      "question": "Does more water retain a larger share of ammonia?",
+      "exit": 0,
+      "seconds": 0.965,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 2,
+        "vessel_sealed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "temperature_changed": 2,
+        "headspace_partitioned": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 4.802779977532802e-09,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.114947425662045e-11,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 2.100820966046389e-06,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 6.073808792090269e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.009686303764310912,
+                "phase": "aqueous",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.0003069191573597822,
+                "phase": "aqueous",
+                "species": "NH4+"
+              },
+              {
+                "moles": 9.799725497713e-11,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 6.777078329307e-06,
+                "phase": "gas",
+                "species": "NH3"
+              },
+              {
+                "moles": 27.671084111631725,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002926707188095484,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.00029267072787430117,
+            "free_proton": 9.06477540962926e-12,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 27.671384956980294,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101357.10508848616,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0002926707188095553,
+            "solution": {
+              "ionic_strength": 0.0006278763854388,
+              "particle_molality": 0.02065031151225,
+              "pe": null,
+              "ph": 10.75220477073,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [
+                {
+                  "element": "N",
+                  "molality": 0.02004680355078,
+                  "oxidation": -3
+                }
+              ],
+              "solvent_kg": 0.4984945802634,
+              "species": [
+                {
+                  "activity": 0.999648944704295,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01943,
+                  "molality": 0.01943,
+                  "name": "NH3"
+                },
+                {
+                  "activity": 0.0005984,
+                  "molality": 0.0006157,
+                  "name": "NH4+"
+                },
+                {
+                  "activity": 0.0005706,
+                  "molality": 0.0005871,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 1.089e-05,
+                  "molality": 1.218e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 4.097e-06,
+                  "molality": 4.214e-06,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.2648671252456,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "463-ammonia-cold-water",
+      "question": "Does cold water retain more ammonia than warm water?",
+      "exit": 0,
+      "seconds": 0.9,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 2,
+        "vessel_sealed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "headspace_partitioned": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 7.693825263865195e-10,
+            "contents": [
+              {
+                "moles": 0.01700270138765895,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004508373548556575,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 3.960890178272897e-12,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 5.565686863403593e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 8.051284434796742e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.009844261776958433,
+                "phase": "aqueous",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.000138118570199044,
+                "phase": "aqueous",
+                "species": "NH4+"
+              },
+              {
+                "moles": 1.604170842992e-11,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 1.761965284252e-05,
+                "phase": "gas",
+                "species": "NH3"
+              },
+              {
+                "moles": 5.534146924110294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001214594326430958,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.00012145943290895765,
+            "free_proton": 2.659440844564202e-13,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101469.72599227524,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.00012145943264311016,
+            "solution": {
+              "ionic_strength": 0.001466131296788,
+              "particle_molality": 0.1014311465146,
+              "pe": null,
+              "ph": 11.59103967626,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [
+                {
+                  "element": "N",
+                  "molality": 0.1001265291906,
+                  "oxidation": -3
+                }
+              ],
+              "solvent_kg": 0.09969765683327,
+              "species": [
+                {
+                  "activity": 0.9982756705092527,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.09874,
+                  "molality": 0.09874,
+                  "name": "NH3"
+                },
+                {
+                  "activity": 0.001329,
+                  "molality": 0.001385,
+                  "name": "NH4+"
+                },
+                {
+                  "activity": 0.001168,
+                  "molality": 0.001218,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 6.85e-05,
+                  "molality": 8.076e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 5.358e-06,
+                  "molality": 5.583e-06,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 283.4357385506569,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "464-ammonia-warm-water",
+      "question": "Does warming shift ammonia toward the headspace?",
+      "exit": 0,
+      "seconds": 0.741,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 2,
+        "vessel_sealed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "headspace_partitioned": 2,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 3.639572767910225e-08,
+            "contents": [
+              {
+                "moles": 0.015373830106708071,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004076468051329377,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.340318733998866e-11,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.933580112462622e-06,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.848879474398651e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.009789676642407305,
+                "phase": "aqueous",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.00014692207788220507,
+                "phase": "aqueous",
+                "species": "NH4+"
+              },
+              {
+                "moles": 6.895661888628e-10,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 6.340127971049e-05,
+                "phase": "gas",
+                "species": "NH3"
+              },
+              {
+                "moles": 5.534135918197651,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00013329073882094658,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.00013329074118456405,
+            "free_proton": 2.3636238652722245e-12,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101693.30534665695,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.00013329073882094514,
+            "solution": {
+              "ionic_strength": 0.001532345577575,
+              "particle_molality": 0.10108253663,
+              "pe": null,
+              "ph": 10.64348924186,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [
+                {
+                  "element": "N",
+                  "molality": 0.09966752276124,
+                  "oxidation": -3
+                }
+              ],
+              "solvent_kg": 0.09969745856023,
+              "species": [
+                {
+                  "activity": 0.9982815968772907,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.09819,
+                  "molality": 0.09819,
+                  "name": "NH3"
+                },
+                {
+                  "activity": 0.001409,
+                  "molality": 0.001474,
+                  "name": "NH4+"
+                },
+                {
+                  "activity": 0.001278,
+                  "molality": 0.001337,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 4.916e-05,
+                  "molality": 5.867e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 1.856e-05,
+                  "molality": 1.939e-05,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 313.39246904862534,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "465-ester-balanced-feed",
+      "question": "Does an equal acid/alcohol feed approach the declared ester equilibrium?",
+      "exit": 0,
+      "seconds": 0.62,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "org_reacted": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "466-ester-water-rich",
+      "question": "Does added water reduce the forward esterification extent?",
+      "exit": 0,
+      "seconds": 0.685,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 1,
+        "solution_characterized": 2,
+        "org_reacted": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.006333241751133773,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.003666758248866227,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.00632275609729536,
+                "phase": "aqueous",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 1.0485653838413713e-05,
+                "phase": "aqueous",
+                "species": "CH3COO-"
+              },
+              {
+                "moles": 0.04366675824886623,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.0485653838439302e-05,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.496771277178156e-16,
+            "free_proton": 1.0485653839066851e-05,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.04,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -1.0485653838413713e-05,
+            "solution": {
+              "ionic_strength": 0.01332939070816,
+              "particle_molality": 8.064421734133,
+              "pe": null,
+              "ph": 1.925939490939,
+              "provenance": {
+                "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "minteq.v4.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~6.3 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+                "routing_phrase": {
+                  "en": "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+                  "key": "routing.activity-model-fallback",
+                  "slots": [
+                    [
+                      "routing",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                            "key": "routing.extended-chemistry"
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "molality",
+                      {
+                        "number": {
+                          "text": "6.3"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.0007866566498533,
+              "species": [
+                {
+                  "activity": 0.8629048305197409,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 8.038,
+                  "molality": 8.038,
+                  "name": "H(Acetate)"
+                },
+                {
+                  "activity": 0.01186,
+                  "molality": 0.01333,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.01186,
+                  "molality": 0.01333,
+                  "name": "Acetate-"
+                },
+                {
+                  "activity": 0.0002596,
+                  "molality": 0.0002588,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1508022764408,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "467-ester-product-rich",
+      "question": "Can a product-rich feed approach the same equilibrium from reverse?",
+      "exit": 0,
+      "seconds": 0.826,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 4,
+        "not_yet_modeled": 2,
+        "org_reacted": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "36"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 36% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "29"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 29% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.005482626312012458,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.006482626312012458,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.013517373687987541,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.010517373687987542,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.003,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.016,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethyl_acetate",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.013,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "468-ester-extensive-scale",
+      "question": "Does extensive scaling preserve the ester equilibrium quotient?",
+      "exit": 0,
+      "seconds": 0.625,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "org_reacted": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.006666666666666668,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.006666666666666668,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.013333333333333332,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.013333333333333332,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.02,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.02,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "469-ester-feed-order",
+      "question": "Does reversing acid and alcohol feed order preserve equilibrium?",
+      "exit": 0,
+      "seconds": 0.619,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "org_reacted": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "470-ester-repeat",
+      "question": "Is a repeated ester equilibrium request an explicit material no-op?",
+      "exit": 0,
+      "seconds": 0.704,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "org_reacted": 2,
+        "not_yet_modeled": 2
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "471-ester-low-water",
+      "question": "Does a low-water feed lie between dry and water-rich conversion?",
+      "exit": 0,
+      "seconds": 0.641,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "not_yet_modeled": 2,
+        "org_reacted": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "9"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 9% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "38"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 38% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.003643904066487104,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.003643904066487104,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.008356095933512896,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006356095933512896,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "472-ester-products-only",
+      "question": "Can ester and water regenerate acid and alcohol?",
+      "exit": 0,
+      "seconds": 0.666,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "org_reacted": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.006666666666666665,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.006666666666666665,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.003333333333333335,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.003333333333333335,
+                "phase": "liquid",
+                "species": "ethanol"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.8124185368355767e-11,
+            "free_proton": 1.8124185368355767e-11,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethyl_acetate",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "473-pop-positive",
+      "question": "Does hydrogen above its ignition floor give the curated pop verdict?",
+      "exit": 0,
+      "seconds": 0.706,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1,
+        "solution_routed": 1,
+        "solution_characterized": 1,
+        "headspace_equilibrated": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0004004257881878344,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.0014368876721529821,
+                "phase": "gas",
+                "species": "H2"
+              },
+              {
+                "moles": 2.1002273493036313e-09,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.7998399193367655e-10,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 7.275651283850978e-15,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 8.172328686249e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.00856311194785575,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 3.7999854348227946e-10,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.282013164714837e-13,
+            "free_proton": 3.806267445933669e-10,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "H2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 87221.37913426224,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -3.7999854323624426e-10,
+            "solution": {
+              "ionic_strength": 2.467412234482e-06,
+              "particle_molality": 1.854914308283e-05,
+              "pe": null,
+              "ph": 5.60856407102,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.0001542644617406,
+              "species": [
+                {
+                  "activity": 0.9999996846645683,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 1.361e-05,
+                  "molality": 1.361e-05,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 2.463e-06,
+                  "molality": 2.467e-06,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.459e-06,
+                  "molality": 2.463e-06,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 4.065e-09,
+                  "molality": 4.072e-09,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500455997559,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "474-pop-negative",
+      "question": "Does trace hydrogen stay below the pop-test floor?",
+      "exit": 0,
+      "seconds": 0.631,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 1e-05,
+                "phase": "gas",
+                "species": "H2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1e-05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "H2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101374.57914059114,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "475-splint-positive",
+      "question": "Does oxygen enrichment above the threshold relight a splint?",
+      "exit": 0,
+      "seconds": 0.687,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.02428155616392351,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.02,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 200483.281182268,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "476-splint-negative",
+      "question": "Does trace added oxygen stay below the enrichment threshold?",
+      "exit": 0,
+      "seconds": 0.68,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004291556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1e-05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101374.57914059114,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "477-limewater-positive",
+      "question": "Does carbon dioxide above the trace floor turn limewater cloudy?",
+      "exit": 0,
+      "seconds": 0.59,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.009008174808904867,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "CO2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 145946.2265320206,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "478-limewater-negative",
+      "question": "Does trace carbon dioxide remain below the limewater floor?",
+      "exit": 0,
+      "seconds": 0.632,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 9.17480890486589e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1e-06,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "CO2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101329.95791405912,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "479-litmus-positive",
+      "question": "Does partitioned ammonia above the trace floor turn damp litmus blue?",
+      "exit": 0,
+      "seconds": 0.575,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "headspace_partitioned": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.008,
+                "phase": "gas",
+                "species": "NH3"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.008,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 140988.31247290722,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "480-litmus-negative",
+      "question": "Does trace partitioned ammonia remain below the litmus floor?",
+      "exit": 0,
+      "seconds": 0.604,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "gas_tested": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.117582368135751e-22,
+                "phase": "liquid",
+                "species": "NH3"
+              },
+              {
+                "moles": 9.999999999999997e-07,
+                "phase": "gas",
+                "species": "NH3"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1e-06,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101329.95791405912,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "481-pressure-reference",
+      "question": "Does a sealed nitrogen charge obey the ideal-gas pressure relation?",
+      "exit": 0,
+      "seconds": 0.567,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.0822945825786727,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.008563112327847018,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.6349617809731778e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 1.0
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 225272.851477835,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "482-pressure-double-moles",
+      "question": "Does doubling added nitrogen increase pressure at fixed volume?",
+      "exit": 0,
+      "seconds": 0.564,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 349.22070295566994,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.13229458257867271,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.008563112327847018,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.6349617809731778e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 1.0
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.1,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 349220.70295566996,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "483-pressure-double-volume",
+      "question": "Does doubling headspace reduce the added-gas pressure contribution?",
+      "exit": 0,
+      "seconds": 0.561,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 163.29892573891752,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.1145891651573454,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.017126224655694036,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 3.2699235619463556e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 2.0
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 163298.92573891752,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "484-pressure-heated",
+      "question": "Does heating a fixed sealed gas increase its pressure consistently?",
+      "exit": 0,
+      "seconds": 0.574,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 2,
+        "temperature_changed": 1,
+        "energy_transferred": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 233.2521952211,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.0822945825786727,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.008563112327847018,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.6349617809731778e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 1.0
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 233252.1952211,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 308.7107103627777,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "485-pressure-extensive",
+      "question": "Does doubling gas and headspace preserve the added-gas pressure contribution?",
+      "exit": 0,
+      "seconds": 0.567,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.1645891651573454,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.017126224655694036,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 3.2699235619463556e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 2.0
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.1,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 225272.851477835,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "486-vent-nitrogen",
+      "question": "Does opening a pressurised nitrogen vessel return it to ambient pressure?",
+      "exit": 0,
+      "seconds": 0.515,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 2,
+        "vessel_opened": 1,
+        "gas_evolved": 3
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 101.325,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "487-vent-carbon-dioxide",
+      "question": "Does opening a pressurised carbon-dioxide vessel return it to ambient pressure?",
+      "exit": 0,
+      "seconds": 0.532,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 2,
+        "vessel_opened": 1,
+        "gas_evolved": 3
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783505,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 101.325,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.05,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "CO2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "488-pressure-small-charge",
+      "question": "Does a smaller nitrogen charge produce a smaller pressure rise?",
+      "exit": 0,
+      "seconds": 0.536,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "vessel_sealed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 126.114570295567,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.0422945825786727,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.008563112327847018,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.6349617809731778e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 1.0
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 126114.57029556701,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,393 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "411-ester-feed-forward-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "412-ester-feed-reverse-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "413-ester-feed-forward-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "414-ester-feed-reverse-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "415-ester-feed-forward-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "416-ester-feed-reverse-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "417-ester-feed-forward-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "418-ester-feed-reverse-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "419-ester-feed-forward-5: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "420-ester-feed-reverse-5: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "421-ester-feed-forward-6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "422-ester-feed-reverse-6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "423-ester-scale-base-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "424-ester-scale-large-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "425-ester-scale-base-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "426-ester-scale-large-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "427-ester-scale-base-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "428-ester-scale-large-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "429-ester-once-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "430-ester-repeat-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "431-ester-once-5: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "432-ester-repeat-5: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "433-ester-once-6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "434-ester-repeat-6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "organic-equilibria:r411-01-organic-feed-order-1",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.007067564493519432,
+          "ethanol|liquid": 0.003067564493519432,
+          "ethyl_acetate|liquid": 0.007932435506480567,
+          "water|liquid": 0.010932435506480567
+        },
+        {
+          "water|liquid": 0.010932435506480567,
+          "ethyl_acetate|liquid": 0.007932435506480567,
+          "ethanol|liquid": 0.003067564493519432,
+          "CH3COOH|liquid": 0.007067564493519432
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-02-organic-feed-order-2",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.0035249732715303874,
+          "ethanol|liquid": 0.008524973271530388,
+          "ethyl_acetate|liquid": 0.010475026728469613,
+          "water|liquid": 0.011475026728469612
+        },
+        {
+          "water|liquid": 0.011475026728469612,
+          "ethyl_acetate|liquid": 0.010475026728469613,
+          "ethanol|liquid": 0.008524973271530388,
+          "CH3COOH|liquid": 0.0035249732715303874
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-03-organic-feed-order-3",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.005759390005588269,
+          "ethanol|liquid": 0.00875939000558827,
+          "ethyl_acetate|liquid": 0.01524060999441173,
+          "water|liquid": 0.01324060999441173
+        },
+        {
+          "water|liquid": 0.01324060999441173,
+          "ethyl_acetate|liquid": 0.01524060999441173,
+          "ethanol|liquid": 0.00875939000558827,
+          "CH3COOH|liquid": 0.005759390005588269
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-04-organic-feed-order-4",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.01341427791356572,
+          "ethanol|liquid": 0.0014142779135657216,
+          "ethyl_acetate|liquid": 0.005585722086434279,
+          "water|liquid": 0.013585722086434278
+        },
+        {
+          "water|liquid": 0.013585722086434278,
+          "ethyl_acetate|liquid": 0.005585722086434279,
+          "ethanol|liquid": 0.0014142779135657216,
+          "CH3COOH|liquid": 0.01341427791356572
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-05-organic-feed-order-5",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.005551543801192131,
+          "ethanol|liquid": 0.009551543801192131,
+          "ethyl_acetate|liquid": 0.02244845619880787,
+          "water|liquid": 0.00944845619880787
+        },
+        {
+          "water|liquid": 0.00944845619880787,
+          "ethyl_acetate|liquid": 0.02244845619880787,
+          "ethanol|liquid": 0.009551543801192131,
+          "CH3COOH|liquid": 0.005551543801192131
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-06-organic-feed-order-6",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.010576505010795111,
+          "ethanol|liquid": 0.004576505010795109,
+          "ethyl_acetate|liquid": 0.01442349498920489,
+          "water|liquid": 0.01342349498920489
+        },
+        {
+          "water|liquid": 0.01342349498920489,
+          "ethyl_acetate|liquid": 0.01442349498920489,
+          "ethanol|liquid": 0.004576505010795109,
+          "CH3COOH|liquid": 0.010576505010795111
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-07-organic-scale-1",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.007067564493519432,
+          "ethanol|liquid": 0.003067564493519432,
+          "ethyl_acetate|liquid": 0.007932435506480567,
+          "water|liquid": 0.010932435506480567
+        },
+        {
+          "CH3COOH|liquid": 0.014135128987038864,
+          "ethanol|liquid": 0.006135128987038864,
+          "ethyl_acetate|liquid": 0.015864871012961135,
+          "water|liquid": 0.021864871012961133
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-08-organic-scale-2",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.0035249732715303874,
+          "ethanol|liquid": 0.008524973271530388,
+          "ethyl_acetate|liquid": 0.010475026728469613,
+          "water|liquid": 0.011475026728469612
+        },
+        {
+          "CH3COOH|liquid": 0.010574919814591174,
+          "ethanol|liquid": 0.025574919814591174,
+          "ethyl_acetate|liquid": 0.03142508018540883,
+          "water|liquid": 0.034425080185408824
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-09-organic-scale-3",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.005759390005588269,
+          "ethanol|liquid": 0.00875939000558827,
+          "ethyl_acetate|liquid": 0.01524060999441173,
+          "water|liquid": 0.01324060999441173
+        },
+        {
+          "CH3COOH|liquid": 0.023037560022353076,
+          "ethanol|liquid": 0.03503756002235308,
+          "ethyl_acetate|liquid": 0.06096243997764692,
+          "water|liquid": 0.05296243997764692
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-10-organic-idempotence-4",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.01341427791356572,
+          "ethanol|liquid": 0.0014142779135657216,
+          "ethyl_acetate|liquid": 0.005585722086434279,
+          "water|liquid": 0.013585722086434278
+        },
+        {
+          "CH3COOH|liquid": 0.01341427791356572,
+          "ethanol|liquid": 0.0014142779135657216,
+          "ethyl_acetate|liquid": 0.005585722086434279,
+          "water|liquid": 0.013585722086434278
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-11-organic-idempotence-5",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.005551543801192131,
+          "ethanol|liquid": 0.009551543801192131,
+          "ethyl_acetate|liquid": 0.02244845619880787,
+          "water|liquid": 0.00944845619880787
+        },
+        {
+          "CH3COOH|liquid": 0.005551543801192131,
+          "ethanol|liquid": 0.009551543801192131,
+          "ethyl_acetate|liquid": 0.02244845619880787,
+          "water|liquid": 0.00944845619880787
+        }
+      ]
+    },
+    {
+      "check": "organic-equilibria:r411-12-organic-idempotence-6",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "CH3COOH|liquid": 0.010576505010795111,
+          "ethanol|liquid": 0.004576505010795109,
+          "ethyl_acetate|liquid": 0.01442349498920489,
+          "water|liquid": 0.01342349498920489
+        },
+        {
+          "CH3COOH|liquid": 0.010576505010795111,
+          "ethanol|liquid": 0.004576505010795109,
+          "ethyl_acetate|liquid": 0.01442349498920489,
+          "water|liquid": 0.01342349498920489
+        }
+      ]
+    }
+  ],
+  "passed": 36,
+  "unmet": 0
+}

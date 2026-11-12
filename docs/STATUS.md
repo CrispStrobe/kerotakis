@@ -22,21 +22,26 @@ and original qualifications are not yet earned.
 [Authenticated focused source results](../audits/carbonate-focused-source-20261112/README.md)
 show72 internal cases/92 declared checks passing on `32f3aed5`, plus core/Clippy/type checks and
 eight identical-process aq-023 readbacks. Two native controls and two translator-template checks
-still fail on that producer; their fixes require changed-source acceptance. This adds no original
+failed on that producer; later source-bound runs passed their corrections. This adds no original
 qualification.
 
 The subsequent hosted workspace run on `583a681d` exposed additional carbonate ownership,
 locale inventory and Clippy failures. Candidate `e862b601` addresses the reported calcite and
-molecular-reagent ownership gaps and the two inventory/lint issues; its hosted validation is
-pending. Original heat and chalk assertions remain in place. Three atmospheric-equilibrium
-contracts also need independent review against the finite-time gas model. No full-fleet or
-release acceptance is claimed for this candidate.
+molecular-reagent ownership gaps and the two inventory/lint issues. Original heat and chalk
+assertions remain in place. Three atmospheric-equilibrium contracts were independently reviewed
+against the finite-time gas model, with their originals and first failures preserved. No release
+acceptance is claimed for this candidate.
 
 The `e862b601` workspace run subsequently passed the original chalk, pouring-order heat,
 gas-event and transfer controls and Clippy. Its remaining failures and three independently
 audited readbacks are preserved in [the native carbonate contract correction](../audits/carbonate-native-contract-correction-20261112/README.md).
 Concentrated mineral and gas yields remain model-domain holds. The successor controls and the
-full fleet require new source-bound execution before integration.
+full fleet were subsequently executed on the candidate described below.
+
+Candidate `7bd82c80` passed its [hosted workspace, frontend and 702-case own-fleet checks](../audits/source-acceptance-7bd-20261112/README.md).
+Its [macOS CI first failure](../audits/macos-clippy-1100-first-failure-20261112/README.md)
+is a Clippy 1.100 iterator lint in solver-owner discovery; the successor must validate the
+same solver order and ownership on the newer toolchain before this PR can be accepted.
 
 Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;

@@ -1,0 +1,4256 @@
+{
+  "schema": "kerotakis-source-evidence-v2",
+  "commit": "7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd",
+  "binary_sha256": "4c3ac9945c990ae405d9cfa0d0b0fc78060cfcac5621adab32beae9f3fc95fe4",
+  "manifest_sha256": {
+    "gas-production-transfer.json": "75e6f80a20f9fd604ab4f511fbe673e88e3719b1abe6386754b90ae361e4fc72"
+  },
+  "cases": [
+    {
+      "id": "561-carbonate-acid-dose-0.0005",
+      "family": "gas-production-transfer",
+      "question": "How does acid dose change carbon dioxide production?",
+      "exit": 0,
+      "seconds": 0.706,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 1,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.008176287054563624,
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.997385223700639e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 0.0034497028150721567,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 2.2776169501632426e-05,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.836215254659649,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 4.7448459245813535e-06,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.7668008422873294e-07,
+            "free_proton": 2.835527704253751e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0005,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 4.744845924578514e-06,
+            "solution": {
+              "ionic_strength": 0.01602591620458,
+              "particle_molality": 0.03242124061372,
+              "pe": null,
+              "ph": 7.990994725782,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.2492594178127,
+              "species": [
+                {
+                  "activity": 0.9994488389095668,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01407,
+                  "molality": 0.01594,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.01216,
+                  "molality": 0.01373,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 0.001763,
+                  "molality": 0.002006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002795,
+                  "molality": 0.0002785,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 0.000268,
+                  "molality": 0.000267,
+                  "name": "O2"
+                },
+                {
+                  "activity": 9.62e-05,
+                  "molality": 9.585e-05,
+                  "name": "NaHCO3"
+                },
+                {
+                  "activity": 5.578e-05,
+                  "molality": 9.065e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 1.456e-05,
+                  "molality": 1.644e-05,
+                  "name": "NaCO3-"
+                },
+                {
+                  "activity": 9.749e-07,
+                  "molality": 1.11e-06,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 1.021e-08,
+                  "molality": 1.138e-08,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.081427444262,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "562-carbonate-acid-dose-0.001",
+      "family": "gas-production-transfer",
+      "question": "How does acid dose change carbon dioxide production?",
+      "exit": 0,
+      "seconds": 0.702,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 3,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.007563474296649508,
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.473522521736214e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 0.0029598720813248424,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.812316820225939e-05,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.836710601658352,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 3.881582270638673e-06,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5652905667198665e-07,
+            "free_proton": 3.0572334495580404e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 3.88158227063891e-06,
+            "solution": {
+              "ionic_strength": 0.01602369394495,
+              "particle_molality": 0.03243801022948,
+              "pe": null,
+              "ph": 7.958312809057,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.2492683414889,
+              "species": [
+                {
+                  "activity": 0.9994485538260989,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01408,
+                  "molality": 0.01595,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.01043,
+                  "molality": 0.01178,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 0.003526,
+                  "molality": 0.004012,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.000268,
+                  "molality": 0.000267,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0002586,
+                  "molality": 0.0002577,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 8.263e-05,
+                  "molality": 8.233e-05,
+                  "name": "NaHCO3"
+                },
+                {
+                  "activity": 4.439e-05,
+                  "molality": 7.214e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 1.16e-05,
+                  "molality": 1.309e-05,
+                  "name": "NaCO3-"
+                },
+                {
+                  "activity": 9.039e-07,
+                  "molality": 1.029e-06,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 1.101e-08,
+                  "molality": 1.226e-08,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.07623965986545,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "563-carbonate-acid-dose-0.002",
+      "family": "gas-production-transfer",
+      "question": "How does acid dose change carbon dioxide production?",
+      "exit": 0,
+      "seconds": 0.703,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 4,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.006328445564516136,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.4171202616811004e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 0.001978366959534742,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 9.674606362009613e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.83770215309651,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.283827741244096e-06,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.047799897722778e-07,
+            "free_proton": 3.82729659197972e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 2.2838277412387225e-06,
+            "solution": {
+              "ionic_strength": 0.01602219600315,
+              "particle_molality": 0.0324667343371,
+              "pe": null,
+              "ph": 7.860778042924,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.249286204288,
+              "species": [
+                {
+                  "activity": 0.9994480655162693,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01411,
+                  "molality": 0.01598,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.007051,
+                  "molality": 0.008023,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.006976,
+                  "molality": 0.007876,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 0.0002681,
+                  "molality": 0.0002671,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0002165,
+                  "molality": 0.0002157,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 5.535e-05,
+                  "molality": 5.515e-05,
+                  "name": "NaHCO3"
+                },
+                {
+                  "activity": 2.37e-05,
+                  "molality": 3.851e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 6.201e-06,
+                  "molality": 7.001e-06,
+                  "name": "NaCO3-"
+                },
+                {
+                  "activity": 7.215e-07,
+                  "molality": 8.215e-07,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 1.378e-08,
+                  "molality": 1.535e-08,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.06584160911143,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "564-carbonate-acid-dose-0.003",
+      "family": "gas-production-transfer",
+      "question": "How does acid dose change carbon dioxide production?",
+      "exit": 0,
+      "seconds": 0.732,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 4,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.00563057572738703,
+            "contents": [
+              {
+                "moles": 0.003,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 4.819082388749225e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 0.0009935869917197869,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 2.7428906914685357e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.838695221380837,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.272268972938813e-07,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.1554171472126879e-07,
+            "free_proton": 6.779099641344706e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.003,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 9.272268972760674e-07,
+            "solution": {
+              "ionic_strength": 0.01602586373227,
+              "particle_molality": 0.03250577429146,
+              "pe": null,
+              "ph": 7.612532456775,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.2493040944132,
+              "species": [
+                {
+                  "activity": 0.9994474018370452,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01414,
+                  "molality": 0.01601,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.01057,
+                  "molality": 0.01203,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.003505,
+                  "molality": 0.003957,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 0.0002681,
+                  "molality": 0.0002671,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0001926,
+                  "molality": 0.0001919,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 2.786e-05,
+                  "molality": 2.776e-05,
+                  "name": "NaHCO3"
+                },
+                {
+                  "activity": 6.722e-06,
+                  "molality": 1.092e-05,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 1.761e-06,
+                  "molality": 1.989e-06,
+                  "name": "NaCO3-"
+                },
+                {
+                  "activity": 4.071e-07,
+                  "molality": 4.635e-07,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 2.44e-08,
+                  "molality": 2.719e-08,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.05549489481655,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "565-carbonate-dose-0.001",
+      "family": "gas-production-transfer",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "exit": 0,
+      "seconds": 0.693,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 3,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0013328407915020309,
+            "contents": [
+              {
+                "moles": 0.010000000000000002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 1.130397887384223e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.9346301968571687e-10,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 4.900176002239045e-19,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.836692478296683,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009000000193463017,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 9.667025746164711e-14,
+            "free_proton": 0.00900000019386264,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.009000000193463023,
+            "solution": {
+              "ionic_strength": 0.04011746229735,
+              "particle_molality": 0.08054562288818,
+              "pe": null,
+              "ph": 1.506582858451,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.2492680149965,
+              "species": [
+                {
+                  "activity": 0.9986307244109011,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.03318,
+                  "molality": 0.04012,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.03115,
+                  "molality": 0.03611,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.003353,
+                  "molality": 0.004012,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002678,
+                  "molality": 0.0002653,
+                  "name": "O2"
+                },
+                {
+                  "activity": 4.577e-05,
+                  "molality": 4.535e-05,
+                  "name": "CO2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1237704855288,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "566-carbonate-dose-0.002",
+      "family": "gas-production-transfer",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "exit": 0,
+      "seconds": 0.71,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 4,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 4,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0027518156399395956,
+            "contents": [
+              {
+                "moles": 0.009999999999999998,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.335668647590743e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 4.4958464115955285e-10,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.280442173272929e-18,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.837692478040562,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.008000000449584642,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.0855174566938276e-13,
+            "free_proton": 0.00800000045110492,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.00800000044958464,
+            "solution": {
+              "ionic_strength": 0.04011456418162,
+              "particle_molality": 0.08058828807718,
+              "pe": null,
+              "ph": 1.557762716604,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.2492860299919,
+              "species": [
+                {
+                  "activity": 0.9986299991026881,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.03318,
+                  "molality": 0.04011,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.02768,
+                  "molality": 0.03209,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.006706,
+                  "molality": 0.008023,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002679,
+                  "molality": 0.0002655,
+                  "name": "O2"
+                },
+                {
+                  "activity": 9.456e-05,
+                  "molality": 9.369e-05,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 1.516e-09,
+                  "molality": 1.803e-09,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.0975577660723,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "567-carbonate-dose-0.004",
+      "family": "gas-production-transfer",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "exit": 0,
+      "seconds": 0.722,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 3,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 4,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.005822346031047071,
+            "contents": [
+              {
+                "moles": 0.01,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 4.9495664349938255e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.2696022698026513e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 4.8163601856623725e-18,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.839692477220545,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0060000012696022845,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.4419744466521572e-13,
+            "free_proton": 0.006000001277718617,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.006000001269602279,
+            "solution": {
+              "ionic_strength": 0.04010877044199,
+              "particle_molality": 0.08068175919127,
+              "pe": null,
+              "ph": 1.682756083438,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)), posed with no phases, gas or interfaces and asked for a_w alone",
+                "routing_phrase": {
+                  "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                  "key": "routing.second-speciation-for-solvent",
+                  "slots": [
+                    [
+                      "routing",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "the default inorganic aqueous dataset",
+                            "key": "routing.default-inorganic"
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "dataset",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                            "key": "provenance.dataset.with-gas-uptake-slice",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "pitzer.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "model",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                            "key": "provenance.model.ion-interaction",
+                            "slots": [
+                              [
+                                "name",
+                                {
+                                  "text": {
+                                    "text": "Pitzer"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              },
+              "redox": [],
+              "solvent_activity": {
+                "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "pitzer.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "ionic_strength": 0.0401087705242,
+                "model": "Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                "model_phrase": {
+                  "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                  "key": "provenance.model.ion-interaction",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "Pitzer"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "particle_molality": 0.08041606196493,
+                "water_activity": 0.9986239662478226
+              },
+              "solvent_kg": 0.2493220599771,
+              "species": [
+                {
+                  "activity": 0.9986284100937485,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.03318,
+                  "molality": 0.04011,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.02076,
+                  "molality": 0.02407,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.01341,
+                  "molality": 0.01604,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002682,
+                  "molality": 0.0002657,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0002004,
+                  "molality": 0.0001985,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 4.281e-09,
+                  "molality": 5.092e-09,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.04518273124995,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "568-carbonate-dose-0.008",
+      "family": "gas-production-transfer",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "exit": 0,
+      "seconds": 0.728,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "dissolved": 1,
+        "solution_characterized": 4,
+        "temperature_changed": 4,
+        "hazard_warning": 1,
+        "neutralised": 1,
+        "gas_evolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield",
+            "key": "not-modeled.carbonate-fast-endpoint"
+          },
+          "vessel": 0,
+          "what": "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.012662078863336463,
+            "contents": [
+              {
+                "moles": 0.01,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.008,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 0.00010797609551716769,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 8.29984194715749e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 9.4268987544715e-17,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 13.843692470190303,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.002000008299842113,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.2938301577065554e-13,
+            "free_proton": 0.002000008404522778,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.008,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0020000082998421357,
+            "solution": {
+              "ionic_strength": 0.04009720961448,
+              "particle_molality": 0.08089353451943,
+              "pe": null,
+              "ph": 2.159985016143,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)), posed with no phases, gas or interfaces and asked for a_w alone",
+                "routing_phrase": {
+                  "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                  "key": "routing.second-speciation-for-solvent",
+                  "slots": [
+                    [
+                      "routing",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "the default inorganic aqueous dataset",
+                            "key": "routing.default-inorganic"
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "dataset",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                            "key": "provenance.dataset.with-gas-uptake-slice",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "pitzer.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "model",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                            "key": "provenance.model.ion-interaction",
+                            "slots": [
+                              [
+                                "name",
+                                {
+                                  "text": {
+                                    "text": "Pitzer"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              },
+              "redox": [],
+              "solvent_activity": {
+                "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "pitzer.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "ionic_strength": 0.04009720849294,
+                "model": "Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                "model_phrase": {
+                  "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                  "key": "provenance.model.ion-interaction",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "Pitzer"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "particle_molality": 0.08062737176168,
+                "water_activity": 0.9986229033636761
+              },
+              "solvent_kg": 0.2493941198505,
+              "species": [
+                {
+                  "activity": 0.9986248099131698,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.03317,
+                  "molality": 0.0401,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.02682,
+                  "molality": 0.03208,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.006919,
+                  "molality": 0.008019,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.000437,
+                  "molality": 0.000433,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 0.0002686,
+                  "molality": 0.0002662,
+                  "name": "O2"
+                },
+                {
+                  "activity": 2.798e-08,
+                  "molality": 3.328e-08,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 297.9405962131319,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "569-sealed-carbonate-0.001",
+      "family": "gas-production-transfer",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "exit": 0,
+      "seconds": 0.832,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 3,
+        "solution_routed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "temperature_changed": 2,
+        "dissolved": 1,
+        "gas_contained": 2,
+        "hazard_warning": 1,
+        "measured": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.026911122549522642,
+            "contents": [
+              {
+                "moles": 0.02422093693400452,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006422334245885264,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 0.00018260440405111646,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 4.354879467592816e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.4862775974711708e-17,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.0008296534544267,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 11.069553978437238,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.005000004354879496,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.0761454498439582e-13,
+            "free_proton": 0.005000004363874011,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.75
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 104016.70323528191,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.005000004354879497,
+            "solution": {
+              "ionic_strength": 0.03008757437159,
+              "particle_molality": 0.06109083534317,
+              "pe": null,
+              "ph": 1.659273137566,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994180149215,
+              "species": [
+                {
+                  "activity": 0.9989614557991668,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02541,
+                  "molality": 0.03009,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.02191,
+                  "molality": 0.02507,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.00427,
+                  "molality": 0.005015,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0009221,
+                  "molality": 0.0009157,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 1.869e-08,
+                  "molality": 2.184e-08,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.12133780405736,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "570-sealed-carbonate-0.002",
+      "family": "gas-production-transfer",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "exit": 0,
+      "seconds": 0.765,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 3,
+        "solution_routed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "temperature_changed": 4,
+        "dissolved": 1,
+        "gas_contained": 2,
+        "hazard_warning": 1,
+        "measured": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0534837099209022,
+            "contents": [
+              {
+                "moles": 0.02422093693400452,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006422334245885264,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.006000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 0.00036322593160999163,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.0824788260864627e-08,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 4.615504008031599e-17,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.001649025456959,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 11.07055397196733,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004000010824788364,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.3424498315159562e-13,
+            "free_proton": 0.004000010869101522,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.75
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 106714.4188775681,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.004000010824788354,
+            "solution": {
+              "ionic_strength": 0.03008488902827,
+              "particle_molality": 0.06199104341149,
+              "pe": null,
+              "ph": 1.756217173371,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.199436029805,
+              "species": [
+                {
+                  "activity": 0.9989461522620047,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02541,
+                  "molality": 0.03008,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01753,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.00854,
+                  "molality": 0.01003,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.001834,
+                  "molality": 0.001821,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 4.645e-08,
+                  "molality": 5.428e-08,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.09263692192326,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "571-sealed-carbonate-0.003",
+      "family": "gas-production-transfer",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "exit": 0,
+      "seconds": 0.765,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 3,
+        "solution_routed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "temperature_changed": 4,
+        "dissolved": 1,
+        "gas_contained": 2,
+        "hazard_warning": 1,
+        "measured": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.08004380477069088,
+            "contents": [
+              {
+                "moles": 0.02422093693400452,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006422334245885264,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.003,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 0.0005440751412287074,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 2.1612574468572756e-08,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.2280317946921296e-16,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.002468165459554,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 11.071553961179543,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.003000021612574705,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.7862920329778615e-13,
+            "free_proton": 0.003000021745045525,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.75
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.003,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 109410.85065142198,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.003000021612574714,
+            "solution": {
+              "ionic_strength": 0.03008222583032,
+              "particle_molality": 0.06289227371273,
+              "pe": null,
+              "ph": 1.881188780745,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994540446106,
+              "species": [
+                {
+                  "activity": 0.9989308313468863,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02541,
+                  "molality": 0.03008,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01315,
+                  "molality": 0.01504,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.01281,
+                  "molality": 0.01504,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.002747,
+                  "molality": 0.002728,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 9.273e-08,
+                  "molality": 1.084e-07,
+                  "name": "HCO3-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.06394732903254,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "572-sealed-carbonate-0.004",
+      "family": "gas-production-transfer",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "exit": 0,
+      "seconds": 0.736,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 3,
+        "solution_routed": 1,
+        "solution_characterized": 3,
+        "headspace_equilibrated": 3,
+        "temperature_changed": 4,
+        "dissolved": 1,
+        "gas_contained": 2,
+        "hazard_warning": 1,
+        "measured": 1
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+          "real_world": "Adding acid to a carbonate such as chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces.",
+          "rule": "acid-carbonate-co2",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.10659105975433326,
+            "contents": [
+              {
+                "moles": 0.02422093693400452,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006422334245885264,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 0.0007251498248962343,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 4.3194557696139095e-08,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 3.6794644764571917e-16,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.003287069193903,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 11.07255393959756,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.002000043194558432,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.6739799275545224e-13,
+            "free_proton": 0.002000043547329966,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.75
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 112105.98536564097,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0020000431945584323,
+            "solution": {
+              "ionic_strength": 0.03007961725673,
+              "particle_molality": 0.06379457987339,
+              "pe": null,
+              "ph": 2.057308611222,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994720592218,
+              "species": [
+                {
+                  "activity": 0.9989154921421532,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02541,
+                  "molality": 0.03008,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01708,
+                  "molality": 0.02005,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.008764,
+                  "molality": 0.01003,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.003661,
+                  "molality": 0.003635,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 1.853e-07,
+                  "molality": 2.165e-07,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 1.78e-09,
+                  "molality": 1.767e-09,
+                  "name": "NaHCO3"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.0352700419804,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "573-gas-amount-0.001",
+      "family": "gas-production-transfer",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "exit": 0,
+      "seconds": 0.553,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.02683566606293816,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006850489862277615,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.3079694247785423e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.8
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 104423.69628694588,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "574-gas-amount-0.002",
+      "family": "gas-production-transfer",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "exit": 0,
+      "seconds": 0.547,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.027835666062938157,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006850489862277615,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.3079694247785423e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.8
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 107522.39257389175,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "575-gas-amount-0.004",
+      "family": "gas-production-transfer",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "exit": 0,
+      "seconds": 0.558,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.02983566606293816,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006850489862277615,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.3079694247785423e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.8
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 113719.7851477835,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "576-gas-amount-0.008",
+      "family": "gas-production-transfer",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "exit": 0,
+      "seconds": 0.583,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.033835666062938155,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.006850489862277615,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.3079694247785423e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.8
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.008,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 126114.57029556697,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "577-gas-volume-1200",
+      "family": "gas-production-transfer",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "exit": 0,
+      "seconds": 0.616,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.04275349909440723,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.010275734793416423,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.9619541371678135e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 1.2
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 109588.19009852235,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "578-gas-volume-900",
+      "family": "gas-production-transfer",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "exit": 0,
+      "seconds": 0.601,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.033065124320805425,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007706801095062316,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.47146560287586e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.9
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 112342.58679802978,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "579-gas-volume-600",
+      "family": "gas-production-transfer",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "exit": 0,
+      "seconds": 0.546,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.023376749547203618,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.005137867396708211,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 9.809770685839067e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.6
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 117851.3801970447,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "580-gas-volume-300",
+      "family": "gas-production-transfer",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "exit": 0,
+      "seconds": 0.552,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.013688374773601809,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.0025689336983541057,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 4.904885342919534e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.3
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 134377.76039408936,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "581-gas-energy-0",
+      "family": "gas-production-transfer",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "exit": 0,
+      "seconds": 0.524,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.026606207805070888,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.005994178629492913,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.1444732466812246e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.7
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 115490.46874032402,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "582-gas-energy-50",
+      "family": "gas-production-transfer",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "exit": 0,
+      "seconds": 0.567,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.026606207805070888,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.005994178629492913,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.1444732466812246e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.7
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 143873.9468832024,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 371.4247394707253,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "583-gas-energy-100",
+      "family": "gas-production-transfer",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "exit": 0,
+      "seconds": 0.567,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.026606207805070888,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.005994178629492913,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.1444732466812246e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.7
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 171980.65897524983,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 443.98498016977453,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "584-gas-energy-150",
+      "family": "gas-production-transfer",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "exit": 0,
+      "seconds": 0.594,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "vessel_sealed": 1,
+        "added": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.026606207805070888,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.005994178629492913,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 1.1444732466812246e-05,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.7
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "N2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 199672.3079637072,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 515.473694658175,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}
