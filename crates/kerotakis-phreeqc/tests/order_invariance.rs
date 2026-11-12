@@ -227,10 +227,14 @@ fn aq_023(second: &str, third: &str) -> Read {
         ),
     ] {
         assert!(
-            // 1e-9: since an `add` keeps its sub-bubble CO2 (2026-11-11), the
-            // repeat re-solves a supersaturated carbonate state and lands
-            // 1.6e-10 away in water activity, PHREEQC's convergence scale.
-            before.is_finite() && after.is_finite() && (after - before).abs() <= 1e-9,
+            // Relative 1e-7: since an `add` keeps its sub-bubble CO2
+            // (2026-11-11), the repeat re-solves a supersaturated carbonate
+            // state against a zero-mole CO2(g) phase, and lands 1.6e-10 away
+            // in water activity and 1.9e-8 (relative) in particle molality:
+            // PHREEQC's convergence residue, not a moved equilibrium.
+            before.is_finite()
+                && after.is_finite()
+                && (after - before).abs() <= 1e-7 * before.abs().max(1.0),
             "native auxiliary {coordinate} changed at zero time: {before:.15e} -> {after:.15e}"
         );
     }
