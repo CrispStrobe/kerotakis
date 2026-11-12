@@ -1,0 +1,18 @@
+{
+  "source": "9af3175f5af775b834066641b4922ac17bffb6ce",
+  "tree": "74a80f741a68443def7a20f1f17fc2a36c3a146b",
+  "script_sha256": "1b29c3b48cd6fc30ba30accdd48131edf3dae9f4b34552722170e44f6b926c27",
+  "command": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit": 101,
+  "stderr_sha256": "cf77c1a323e45d6b440a39ffca9ee70a1a1e029169af1dfb6024ed63ded769e9"
+}

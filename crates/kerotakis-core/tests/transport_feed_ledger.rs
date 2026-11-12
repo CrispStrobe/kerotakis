@@ -275,8 +275,8 @@ fn reactions_run_after_every_step_so_an_excess_bed_retains_the_ion() {
     let ion = SpeciesId::new("toy-ion");
     let deposit = SpeciesId::new("toy-deposit");
     assert_eq!(bench.vessels[4].moles_of(&ion).0, 0.0, "no breakthrough");
-    for cell in 1..=2 {
-        assert_eq!(bench.vessels[cell].moles_of(&ion).0, 0.0);
+    for cell in &bench.vessels[1..=2] {
+        assert_eq!(cell.moles_of(&ion).0, 0.0);
     }
     assert_relative(
         bench.vessels[0].moles_of(&deposit).0,
