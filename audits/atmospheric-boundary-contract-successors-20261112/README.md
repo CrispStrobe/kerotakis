@@ -69,3 +69,5 @@ setup still requires `Complete` and the current numerical particle census.
 All gas, element, H/O, charge, spectator and alkalinity assertions are unchanged.
 This correction has only formatting and diff validation; its own exact-source
 runtime acceptance remains pending.
+
+The first source-bound solvent setup correction at `0b3baf11` did not compile: `Bench::vessel` returns `Result`, so `is_some_and` was invalid. The [first compiler failure](solvent-only-compile-first-failure.txt) and [producer command bindings](solvent-only-compile-first-producer.json) are preserved. The successor uses `is_ok_and` with the identical predicate; its changed-source execution remains required.

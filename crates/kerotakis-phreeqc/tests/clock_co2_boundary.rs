@@ -757,7 +757,7 @@ fn original_boundary_step(
     let pure_water_setup = matches!(&op,
         Operator::Add { vessel, species, .. }
             if *vessel == VesselId(0) && species.0 == "water")
-        && bench.vessel(VesselId(0)).is_some_and(|vessel| {
+        && bench.vessel(VesselId(0)).is_ok_and(|vessel| {
             matches!(vessel.headspace, Headspace::Open)
                 && vessel.contents.is_empty()
                 && vessel.unresolved_materials.is_empty()
