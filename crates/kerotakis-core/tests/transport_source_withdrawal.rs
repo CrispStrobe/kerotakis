@@ -63,8 +63,8 @@ fn bench_of(count: usize) -> Bench {
 /// feed of `feed_volumes` cell volumes, v5 an empty receiver.
 fn column(feed_volumes: f64) -> Bench {
     let mut bench = bench_of(5);
-    for index in 0..3 {
-        water(&mut bench.vessels[index], 1.0);
+    for vessel in &mut bench.vessels[..3] {
+        water(vessel, 1.0);
     }
     water(&mut bench.vessels[3], feed_volumes);
     bench.vessels[3].deposit(SpeciesId::new("NaCl"), Moles(1e-4), Phase::Aqueous);

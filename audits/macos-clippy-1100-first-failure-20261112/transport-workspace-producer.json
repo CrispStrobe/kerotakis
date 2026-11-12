@@ -1,0 +1,18 @@
+{
+  "source": "f29fab4fd64b77e88554dc90a61759bf917164c8",
+  "tree": "14981858064813aeac7b189b36908e6bb44bfa9b",
+  "script_sha256": "b987e0c0e0fa7d8d9df3c2ca1cfd8702b68b5b03e0474677f774599857a36db8",
+  "command": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "--workspace",
+    "--all-targets",
+    "--keep-going",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit": 101,
+  "stderr_sha256": "7b78a2749a4e783f53e1cefe567afd0b561a0b68c873de5aa9cfdb77fb75d42e"
+}
