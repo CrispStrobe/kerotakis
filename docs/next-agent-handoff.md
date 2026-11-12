@@ -19,6 +19,12 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
    a table of volatile conjugate pairs with their own pKa and room-air level: SO2/HSO3- (sulfite + acid),
    H2S/HS- (sulfide + acid), NH3/NH4+ (ammonium + base, fizz when pH > pKa). Acceptance: acid on Na2SO3
    or Na2S releases the gas in the step; neutral solutions keep it until time passes.
+   Findings 2026-11-12: SO2(g) is defined in none of the routed databases (phreeqc, wateq4f, minteq.v4,
+   pitzer), so SO2 needs a sourced gas-phase slice (as `aqueous_gases.rs` does for HBr) or stays with
+   `sulfur_iv`/`volatility`; H2S(g) exists natively (pitzer: `H2Sg(g)`), but the registry has no Na2S
+   and keys the gas as `hydrogen_sulfide`, so gas events must map to that key; ammonia has its own
+   Henry-law pass (`volatility.rs`), deliberately silent over an open vessel. A generic fizz test can
+   read dominance of the molecular form from the native speciation instead of a per-gas pKa table.
 2. **Headspace gas colour from cross sections.** The registry has gas entries (Cl2, SO2, H2S) without a
    spectrum, and no Br2 vapour or NO2. Build one mechanism mapping cited gas-phase cross sections
    (atlas) to the 16-band colour of a headspace at its partial pressure and path; cover Cl2, Br2, NO2,
