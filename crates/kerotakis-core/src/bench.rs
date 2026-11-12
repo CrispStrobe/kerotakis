@@ -1059,42 +1059,16 @@ impl Bench {
                 vessel.zero_time_dose = zero_time;
                 let mut outcome = solver.equilibrate(vessel);
                 if let (Some(dose), Ok(more)) = (carbonate_dose, &mut outcome) {
-                    if solver.trusted_aqueous_readback().is_some() {
-                        if let Some(amount) = dose.extent(vessel, more) {
-                            // Incremental ownership: retain the first solve's
-                            // public heat/events, then price only this parcel
-                            // and its re-equilibration from the closed state.
-                            // A failed candidate commits neither gas nor matter.
-                            let mut candidate = vessel.clone();
-                            candidate.step_start = Some(crate::vessel::StepStart::capture(vessel));
-                            candidate.heat_input = None;
-                            candidate.pending_co2_transfer_mol = -amount;
-                            candidate.zero_time_dose = true;
-                            candidate.co2_film_boundary = true;
-                            match solver.equilibrate(&mut candidate) {
-                                Ok(mut endpoint) if candidate.pending_co2_transfer_mol == 0.0
-                                    && !endpoint.iter().any(|e| matches!(e,
-                                        Event::SolverFailed { .. } | Event::NotYetModeled { .. })) => {
-                                    *vessel = candidate;
-                                    more.append(&mut endpoint);
-                                    more.push(crate::carbonate_endpoint::notice(id));
-                                }
-                                Ok(_) => more.push(Event::SolverFailed {
-                                    vessel: id,
-                                    solver: solver.name().to_string(),
-                                    reason: Some(Box::new(Phrase::bare(
-                                        "solver-reason.continuation.answer-incomplete",
-                                        "The trusted adapter did not supply a finite complete aqueous answer.",
-                                    ))),
-                                    detail: "carbonate endpoint did not commit its complete owned carbon parcel".into(),
-                                }),
-                                Err(error) => more.push(Event::SolverFailed {
-                                    vessel: id,
-                                    solver: solver.name().to_string(),
-                                    reason: error.owned_reason().cloned().map(Box::new),
-                                    detail: error.to_string(),
-                                }),
-                            }
+                    if let Some(aqueous) = solver.trusted_aqueous_readback() {
+                        match crate::carbonate_endpoint::run(vessel, dose, aqueous, more) {
+                            Ok(Some(mut endpoint)) => more.append(&mut endpoint),
+                            Ok(None) => {}
+                            Err(error) => more.push(Event::SolverFailed {
+                                vessel: id,
+                                solver: solver.name().to_string(),
+                                reason: error.owned_reason().cloned().map(Box::new),
+                                detail: error.to_string(),
+                            }),
                         }
                     }
                 }

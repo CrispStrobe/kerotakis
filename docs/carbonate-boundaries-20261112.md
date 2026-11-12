@@ -23,12 +23,15 @@ new temperature-dependent transport correlation claimed.
 The old acid fallback instead relaxed the whole supersaturated inventory whenever final bulk
 pH fell below pK1. It missed low acid doses and discharged preexisting CO2 at higher doses. The
 replacement is an explicitly bounded **curated endpoint approximation**, not measured
-instantaneous transport: a recognized acid/carbonate addition must form new neutral dissolved
+instantaneous transport or an order-independent quantitative yield: a recognized acid/carbonate addition must form new neutral dissolved
 CO2 in a complete native answer. The parcel cannot exceed either that new neutral population
 or available fresh reagent capacity, after reconciling first-pass gas exports. A cloned second
 pass applies the parcel through the existing conservative external-carbon owner, with a fresh
-incremental thermal snapshot and no second heat-input dose. Failure retains the first closed
-state and commits no endpoint gas. EN/DE/FR notices state that acid-front nucleation, escape
+incremental thermal snapshot and no second heat-input dose. Both the confirming closed pose and
+the parcel pose invalidate inherited diagnostics and require a typed receipt bound to the exact
+new question and returned complete answer, element/charge closure and the actual announced gas
+parcel. No-op, partial, stale-receipt and merely-cleared-pending adapters must fail atomically.
+Failure retains the first closed state and commits no endpoint gas. EN/DE/FR notices state that acid-front nucleation, escape
 times and calibrated instantaneous yield remain unmodelled.
 
 The admission domain is a simple water/alkali/carbonate/acetate/strong-acid medium. Opaque

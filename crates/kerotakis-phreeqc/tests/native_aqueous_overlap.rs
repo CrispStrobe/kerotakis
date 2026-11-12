@@ -872,3 +872,24 @@ fn competing_base_consumes_acid_before_a_fast_carbonate_gas_parcel() {
     assert_eq!(gas_event_moles(&events, false), 0.0, "{events:?}");
     assert!(bench.vessels[0].solution.as_ref().unwrap().ph > 10.0);
 }
+
+#[test]
+fn low_strong_acid_endpoint_is_bounded_in_both_reagent_orders() {
+    // This compares qualitative admission and conservative reagent budgets.
+    // The curated partition does not claim order-independent empirical yield.
+    for (first, second) in [
+        ("add v1 NaHCO3 0.004mol", "add v1 HCl 0.0005mol"),
+        ("add v1 HCl 0.0005mol", "add v1 NaHCO3 0.004mol"),
+    ] {
+        let mut bench = Bench::new();
+        let mut stack = production_stack();
+        apply_with_ledger(&mut bench, &mut stack, "add v1 water 250mL", "order setup");
+        apply_with_ledger(&mut bench, &mut stack, first, "first reagent");
+        let events = apply_with_ledger(&mut bench, &mut stack, second, "second reagent");
+        let gas = gas_event_moles(&events, false);
+        assert!(
+            gas > 1e-6 && gas <= 0.0005 + 1e-10,
+            "first={first}, second={second}, gas={gas}, events={events:?}"
+        );
+    }
+}
