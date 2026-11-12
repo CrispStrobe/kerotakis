@@ -14,6 +14,13 @@ protection remains intact. After exact-head acceptance, merge normally and deplo
 only affected originals (KI-011, SP-011, EN-001, PO-009, TH-004, AB-035, GS-013, plus demonstrated
 changed observables) once on that release, independently review and append only earned entries.
 
+After the accepted merge, release the new app and submit its actual uploaded builds to both
+internal and external TestFlight. First verify the release version and build identities, then use
+the App Store build workflow to sign and upload the merged source. Wait for Apple to mark each
+build valid, assign the verified build to internal testers, and submit it for external beta review.
+Read back the actual build and review states; a successful workflow alone is not proof of an
+accepted submission. Record any Apple processing or review pending state without claiming approval.
+
 Read [the carbonate repair acceptance scope](carbonate-boundaries-20261112.md) first. Preserve
 its original failed contracts and actual producer identities; do not label its first partial
 hosted result as acceptance of the later endpoint implementation. The

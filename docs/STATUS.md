@@ -25,6 +25,13 @@ eight identical-process aq-023 readbacks. Two native controls and two translator
 still fail on that producer; their fixes require changed-source acceptance. This adds no original
 qualification.
 
+The subsequent hosted workspace run on `583a681d` exposed additional carbonate ownership,
+locale inventory and Clippy failures. Candidate `e862b601` addresses the reported calcite and
+molecular-reagent ownership gaps and the two inventory/lint issues; its hosted validation is
+pending. Original heat and chalk assertions remain in place. Three atmospheric-equilibrium
+contracts also need independent review against the finite-time gas model. No full-fleet or
+release acceptance is claimed for this candidate.
+
 Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.
@@ -48,7 +55,8 @@ Round 5 (from the typical-experiment sweep): `ignite` burns liquid ethanol, meth
 n-hexane in an open dish (curated rows from Circular 500 / NIST-quoted formation enthalpies) instead
 of boiling them off; headspace gas colour (Cl2, Br2, I2, NO2, O3) from the MPI-Mainz atlas. Metal +
 acid and displacement heats were already charged by the displacement solver from formation
-enthalpies (a second route was tried and withdrawn: it double-counted).
+enthalpies. A second route was withdrawn after double counting: zinc in copper sulfate warmed
+51.8 K instead of about 25 K, and the metal-acid lesson lost its 25.0 to 36.2 °C reading.
 
 ## Open work (detail and acceptance in the [handoff](next-agent-handoff.md))
 

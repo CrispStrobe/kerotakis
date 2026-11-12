@@ -741,3 +741,141 @@ fn open_bicarbonate_wait_exports_only_the_finite_clock_parcel_once() {
         "zero-time outward repeat",
     );
 }
+
+// Versioned successors to the three atmospheric-equilibrium assertions exposed
+// by the first full-workspace producer. The old contracts and their first
+// failures remain separate; these controls earn no calibrated beaker rate or
+// finite-time sealed/open pH ordering.
+fn original_boundary_step(
+    bench: &mut Bench,
+    solver: &mut PhreeqcEquilibrator,
+    op: Operator,
+) -> Vec<Event> {
+    let events = bench
+        .step_with(op, solver, &PermissiveScreen)
+        .expect("original boundary protocol step");
+    assert_no_solver_failure(&events, "original boundary protocol");
+    assert_current_aqueous(&bench.vessels[0], "original boundary protocol", true);
+    events
+}
+
+fn original_boundary_add(
+    bench: &mut Bench,
+    solver: &mut PhreeqcEquilibrator,
+    key: &str,
+    moles: f64,
+) -> Vec<Event> {
+    original_boundary_step(
+        bench,
+        solver,
+        Operator::Add {
+            vessel: VesselId(0),
+            species: SpeciesId::new(key),
+            moles: Moles(moles),
+            at: None,
+        },
+    )
+}
+
+#[test]
+fn original_litre_bicarbonate_hour_closes_actual_finite_parcel() {
+    let mut bench = Bench::new();
+    let mut solver = PhreeqcEquilibrator::new().expect("native engine");
+    original_boundary_add(&mut bench, &mut solver, "water", 55.51);
+    let addition = original_boundary_add(&mut bench, &mut solver, "NaHCO3", 0.05);
+    assert!(co2_crossings(&addition).is_empty(), "zero-time addition");
+    let before = bench.vessels[0].clone();
+    let neutral = before.moles_of(&SpeciesId::new("CO2(aq)")).0;
+    assert!(neutral > CO2_TRANSFER_FLOOR_MOL);
+    let events =
+        original_boundary_step(&mut bench, &mut solver, Operator::Wait { seconds: 3600.0 });
+    let crossings = co2_crossings(&events);
+    assert_eq!(crossings.len(), 1, "one finite outward parcel: {events:?}");
+    assert!(!crossings[0].0);
+    assert!(crossings[0].1 > 0.0 && crossings[0].1 < neutral);
+    assert_boundary_closed(&before, &bench.vessels[0], &events, "original litre hour");
+    assert!((bench.vessels[0].moles_of(&SpeciesId::new("Na+")).0 - 0.05).abs() < 1e-9);
+    let before_repeat = bench.vessels[0].clone();
+    let repeated = original_boundary_step(&mut bench, &mut solver, Operator::Wait { seconds: 0.0 });
+    assert!(co2_crossings(&repeated).is_empty());
+    assert_boundary_closed(&before_repeat, &bench.vessels[0], &repeated, "no replay");
+}
+
+#[test]
+fn original_litre_sealed_bicarbonate_hour_has_no_external_carbon_crossing() {
+    let mut bench = Bench::new();
+    let mut solver = PhreeqcEquilibrator::new().expect("native engine");
+    // Seal the empty vessel as in the original headspace fixture. Its actual
+    // trapped air is included in every subsequent ledger, not assumed absent.
+    bench
+        .step_with(
+            Operator::Seal {
+                vessel: VesselId(0),
+                headspace_volume: Liters(1.0),
+            },
+            &mut solver,
+            &PermissiveScreen,
+        )
+        .expect("seal empty vessel");
+    let trapped = strict_ledger(&bench.vessels[0], "actual trapped air");
+    original_boundary_add(&mut bench, &mut solver, "water", 55.51);
+    let addition = original_boundary_add(&mut bench, &mut solver, "NaHCO3", 0.05);
+    assert!(co2_crossings(&addition).is_empty());
+    let before = bench.vessels[0].clone();
+    let carbon = strict_ledger(&before, "sealed bicarbonate").elements["C"];
+    assert!((carbon - trapped.elements.get("C").copied().unwrap_or(0.0) - 0.05).abs() < 1e-10);
+    let events =
+        original_boundary_step(&mut bench, &mut solver, Operator::Wait { seconds: 3600.0 });
+    assert!(
+        co2_crossings(&events).is_empty(),
+        "sealed boundary: {events:?}"
+    );
+    assert_boundary_closed(&before, &bench.vessels[0], &events, "sealed hour");
+    assert!(matches!(
+        bench.vessels[0].headspace,
+        Headspace::Sealed { .. }
+    ));
+}
+
+#[test]
+fn original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners() {
+    let mut baseline_ph = None;
+    for acid in [0.0, 0.001, 0.002, 0.004] {
+        let mut bench = Bench::new();
+        let mut solver = PhreeqcEquilibrator::new().expect("native engine");
+        let water = kerotakis_core::script::parse_op("add v1 water 1000mL")
+            .expect("original water command")
+            .expect("operator");
+        original_boundary_step(&mut bench, &mut solver, water);
+        original_boundary_add(&mut bench, &mut solver, "NaHCO3", 0.01);
+        if acid > 0.0 {
+            // Book the independent input explicitly, then reconcile every
+            // actual endpoint export; do not silently call it film transfer.
+            let mut supplied = bench.vessels[0].clone();
+            supplied.deposit(SpeciesId::new("HCl"), Moles(acid), Phase::Aqueous);
+            let events = original_boundary_add(&mut bench, &mut solver, "HCl", acid);
+            assert_boundary_closed(&supplied, &bench.vessels[0], &events, "acid addition");
+        }
+        let before = bench.vessels[0].clone();
+        let neutral = before.moles_of(&SpeciesId::new("CO2(aq)")).0;
+        let events =
+            original_boundary_step(&mut bench, &mut solver, Operator::Wait { seconds: 3600.0 });
+        let crossings = co2_crossings(&events);
+        assert_eq!(crossings.len(), 1, "acid={acid}: {events:?}");
+        assert!(!crossings[0].0 && crossings[0].1 > 0.0 && crossings[0].1 <= neutral);
+        let state = &bench.vessels[0];
+        assert_boundary_closed(&before, state, &events, "acidified finite hour");
+        let moles = |key: &str| state.moles_of(&SpeciesId::new(key)).0;
+        let alkalinity =
+            moles("HCO3-") + 2.0 * moles("CO3-2") + moles("base_equivalents") - moles("H+");
+        assert!((alkalinity - (0.01 - acid)).abs() < 1e-6);
+        assert!((moles("Na+") - 0.01).abs() < 1e-9);
+        assert!((moles("Cl-") - acid).abs() < 1e-9);
+        let ph = state.solution.as_ref().expect("current solution").ph;
+        if let Some(baseline) = baseline_ph {
+            assert!(ph < baseline, "acid={acid}: {baseline} -> {ph}");
+        } else {
+            baseline_ph = Some(ph);
+        }
+    }
+}

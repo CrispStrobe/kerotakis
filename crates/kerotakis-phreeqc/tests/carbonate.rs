@@ -1,20 +1,10 @@
-//! Carbonate chemistry with an open vessel: the fizz is computed.
+//! Carbonate boundary chemistry with an open vessel.
 //!
-//! An ACIDIFIED solution is driven far past saturation by the reaction
-//! itself, and the CO2 leaves within the step that makes it — that is the
-//! fizz, and it is chemistry rather than transport.
-//!
-//! Carbon LEAVING an open vessel is equilibrium, as it always was: the
-//! adapter offers a CO2(g) phase holding zero moles, so a supersaturated
-//! solution degasses to the atmospheric value and an undersaturated one
-//! does nothing.
-//!
-//! Carbon ARRIVING is new, and it is a rate. A phase with no moles in it
-//! cannot be dissolved from, so room air could previously only ever take
-//! carbon away — and the offer was gated on carbon already being present,
-//! so a beaker of hydroxide was not offered the room at all. EXP-57 gives
-//! that direction to `GasExchangeClock`, which means a vessel has to be
-//! WAITED on before it has taken anything up.
+//! Recognized acid/carbonate additions may earn a bounded curated endpoint
+//! parcel; this is not a calibrated instantaneous escape yield. Other open
+//! atmospheric exchange requires elapsed time and the finite film clock.
+//! The native owner books each actual parcel and its inventory exactly once.
+//! Historical equilibrium-only assumptions survive in the successor audit.
 
 #![cfg(feature = "engine")]
 
@@ -69,14 +59,10 @@ fn ph_of(bench: &Bench, v: VesselId) -> f64 {
         .ph
 }
 
-/// Chemistry the test author had to learn from the engine: a 0.05 m
-/// bicarbonate solution IS supersaturated versus atmospheric pCO2 and does
-/// lose CO2 in an open beaker, drifting basic — but only a modest fraction,
-/// nothing like an acidified fizz.
-///
-/// EXP-57 left this alone on purpose. Whether the loss is a fizz or a seep
-/// over days is still the equilibrium answer here; only the INWARD
-/// direction became a rate. See `GasExchangeClock::advance`.
+/// Versioned finite-time successor to the preserved atmospheric-equilibrium
+/// oracle. An hour exports a bounded neutral parcel and closes every element;
+/// it does not establish an empirical escape fraction. The original pH bound
+/// and zero-time assertion remain unchanged. See the successor audit.
 #[test]
 fn baking_soda_alone_degasses_slowly_not_dramatically() {
     let mut eq = PhreeqcEquilibrator::new().expect("engine");
@@ -87,6 +73,12 @@ fn baking_soda_alone_degasses_slowly_not_dramatically() {
     // An `add` takes no time (2026-11-11 fizz rule): no acid, so nothing
     // leaves until time passes.
     assert_eq!(evolved_co2(&added), 0.0);
+    let before = kerotakis_core::ledger::ConservedLedger::from_vessel(bench.vessel(v).unwrap());
+    let available = bench
+        .vessel(v)
+        .unwrap()
+        .moles_of(&SpeciesId::new("CO2(aq)"))
+        .0;
     let events = bench
         .step_with(
             Operator::Wait { seconds: 3600.0 },
@@ -97,9 +89,26 @@ fn baking_soda_alone_degasses_slowly_not_dramatically() {
 
     let co2 = evolved_co2(&events);
     assert!(
-        co2 > 0.005 && co2 < 0.02,
-        "open-vessel equilibrium releases a modest fraction (~23%), got {co2} mol"
+        co2 > 0.0 && co2 < available,
+        "a finite film interval exports only available neutral CO2, got {co2} of {available} mol"
     );
+    let after = kerotakis_core::ledger::ConservedLedger::from_vessel(bench.vessel(v).unwrap());
+    for element in ["Na", "C", "H", "O"] {
+        let exported = match element {
+            "C" => co2,
+            "O" => 2.0 * co2,
+            _ => 0.0,
+        };
+        assert!(
+            (before.elements.get(element).copied().unwrap_or(0.0)
+                - after.elements.get(element).copied().unwrap_or(0.0)
+                - exported)
+                .abs()
+                < 1e-10,
+            "{element} must close against the actual film parcel"
+        );
+    }
+    assert!((before.charge - after.charge).abs() < 1e-10);
     let ph = ph_of(&bench, v);
     assert!(
         ph > 8.0 && ph < 9.7,

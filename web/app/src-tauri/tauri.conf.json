@@ -45,12 +45,12 @@
       "entitlements": "entitlements.plist",
       "hardenedRuntime": true,
       "minimumSystemVersion": "11.0",
-      "bundleVersion": "3"
+      "bundleVersion": "4"
     },
     "iOS": {
       "developmentTeam": "N9XSJ4M3GT",
       "minimumSystemVersion": "15.0",
-      "bundleVersion": "4"
+      "bundleVersion": "5"
     }
   }
 }

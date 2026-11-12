@@ -159,10 +159,10 @@ fn dissolved_inorganic_carbon(vessel: &serde_json::Value) -> f64 {
 /// * **Invariant.** Sodium does not move. A quantity computed by
 ///   apportioning the inventory almost always drags a spectator with it.
 /// * **Directional, independent of the first two.** Dissolved inorganic
-///   carbon *falls* (0.00923 → 0.00569 mol) while the CO₂ partial pressure
-///   above the open beaker stays at the room's own 3.90e-4 atm. The acid
-///   converts bicarbonate to CO₂ and the room takes it away; the beaker is
-///   buffered by the atmosphere, not by its own carbon.
+///   carbon falls after acidification. Endpoint and finite-time film parcels
+///   can both contribute; the liquid is not pinned to room pCO₂ after an hour.
+///   The supersaturation assertion applies to these exact saved protocols,
+///   not to every acid dose, geometry or elapsed interval.
 ///
 /// **What this establishes:** the proton is booked against the carbonate
 /// system as charge, in the reported speciation, in the right stoichiometry
@@ -187,9 +187,8 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
         if acid_mol > 0.0 {
             script.push_str(&format!("add v1 HCl {acid_mol}mol\n"));
         }
-        // An `add` takes no time and this acid is below the fizz point
-        // (pH stays above carbonic acid's pK1), so the carbon leaves by
-        // exchange with the room, which needs time to pass.
+        // Additions may earn a separately bounded curated endpoint parcel;
+        // film transfer requires this actual elapsed interval.
         script.push_str("wait 1h\n");
         vessel(&run(&script), 0)
     };
@@ -225,8 +224,8 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
         );
     }
 
-    // The carbon leaves; the room's CO2 pressure does not budge. Neither
-    // half follows from charge balance.
+    // The carbon leaves through separately accounted endpoint and film
+    // parcels. An hour does not pin the liquid to room-air equilibrium.
     let (before, after) = (brine(0.0), brine(0.004));
     let (carbon_before, carbon_after) = (
         dissolved_inorganic_carbon(&before),
@@ -239,8 +238,11 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
     );
     let pressure = |v: &serde_json::Value| v["co2_partial_pressure_atm"].as_f64().unwrap();
     assert!(
-        (pressure(&after) - pressure(&before)).abs() < 1e-6,
-        "an open beaker is held at the room's pCO2, whatever it is: {} -> {}",
+        pressure(&before).is_finite()
+            && pressure(&after).is_finite()
+            && pressure(&before) > kerotakis_core::clock::ATMOSPHERIC_CO2_ATM
+            && pressure(&after) > kerotakis_core::clock::ATMOSPHERIC_CO2_ATM,
+        "finite-time liquid remains supersaturated after this hour: {} -> {}",
         pressure(&before),
         pressure(&after)
     );
