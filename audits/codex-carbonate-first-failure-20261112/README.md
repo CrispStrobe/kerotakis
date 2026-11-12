@@ -18,3 +18,7 @@ reaction and gas-boundary ownership, conservation and the wording in every
 supported language before revising expectations. Preserve the original
 forecasts and do not widen checks merely to make them pass. Exact successor
 source must pass the unweakened codex and release gates.
+
+The Linux native job in the same CI run, job 131525505897, independently
+reported the same three disagreements after its Rust tests. Its complete log
+has SHA-256 `2c61771f34d90b5ff94d3ad00ef8f64d2b65ffb3adf3e0a2760549132b7c6ef4`.
