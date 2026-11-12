@@ -22,3 +22,8 @@ A later complete local lint found eleven further implicit encodings in
 Those calls also use UTF-8 in the successor. The complete encoding lint then
 reported zero findings and all eight SUNDIALS source-cache tests passed. The redox coverage check also passed using a database checkout verified against
 the pinned PHREEQC submodule commit; the hosted preflight remains required.
+
+The subsequent GitHub preflight on `66d0d9704d5d443684acfefdadf0395f14c791c9`
+(run 43316391517, job 131525505503) independently reported those same eleven
+calls. Its original complete log has SHA-256
+`beb22ec703aea9d28eff65f0ff2f40e5d32b41b3332ff4e8f4f12689c21b7efa`.
