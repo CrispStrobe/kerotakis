@@ -1,0 +1,27 @@
+{
+  "source_head": "66d0d9704d5d443684acfefdadf0395f14c791c9",
+  "fleet_merge_source": "c6f74c6ed07cb1734e7343835b44f6e70d28c5fc",
+  "fleet_run": 43316391553,
+  "cli_artifact_id": 13988427289,
+  "browser_job": 131525505922,
+  "first_browser_log_sha256": "74a35bcfd055c4c4c9548cfc05f11e4a7c190841d43d27b60b184b0aea4103e0",
+  "binary_sha256": "04aefaa6bccf91bfd08584e9991c69c19dad88c29ae7d31ab44034c9a3b61b2a",
+  "lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "native_command": [
+    "kero",
+    "run",
+    "cabbage-rainbow.lab",
+    "--json"
+  ],
+  "native_exit": 0,
+  "native_seconds": 1.0801928043365479,
+  "native_stdout_uncompressed_sha256": "321f6c52520001a4c3545c29922f743ae044aee6668f78f1e654ed9ddc15b8b8",
+  "files_sha256": {
+    "cabbage-rainbow.lab": "f7bd8bc75b7f6ec73a0e2248c0a790a0988f94d5201b0886d2482709af5df73a",
+    "gui003-dom-five.actual.json": "013d321dec569d4611218e1e429a71efe9688be32c07117c72fa03df01aa7f5a",
+    "gui003-dom-five.original.json": "3bea27e85aea07014820ac5eb4299c55f308101270c9a45097966389fa6f50bc",
+    "independent-readback.json": "0e2b0697fabf2790223cc9bdd60267d18f5a02522f6e2e95082813901de8e014",
+    "native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native.stdout.jsonl.gz": "23edb4b5c44d310becafe88739784e3ad7899fc6530c5f556d531f7cab3f9b04"
+  }
+}

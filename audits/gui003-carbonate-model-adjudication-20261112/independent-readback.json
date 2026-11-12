@@ -1,0 +1,72 @@
+[
+  {
+    "vessel": 2,
+    "step": 6,
+    "temperature_k": 298.26799021060685,
+    "boiling_point_k": 373.16612771973405,
+    "volume_l": 0.10972535151793547,
+    "srgb": [
+      60,
+      0,
+      51
+    ],
+    "ph": 3.930885185134,
+    "ionic_strength": 0.000118713380077,
+    "co2_partial_pressure_atm": 0.9110014130916523,
+    "gas_export_mol": 0.01024900604375,
+    "known_element_charge_residual_mol_eq": {
+      "H": 0.0,
+      "O": 0.0,
+      "C": 3.2248509418408844e-15,
+      "Na": 0.0,
+      "q": 1.2902566588388585e-14
+    },
+    "unchanged_after_both_observations": true,
+    "pigment_mol": 6.690753378830455e-06,
+    "opaque_material": [
+      {
+        "amount": 0.1970000000000005,
+        "basis": "mass_fraction",
+        "material": "red_cabbage_juice",
+        "protein_denatured_fraction": 0.0,
+        "recipe_id": "household/red-cabbage-juice-surrogate",
+        "recipe_version": 1
+      }
+    ]
+  },
+  {
+    "vessel": 3,
+    "step": 12,
+    "temperature_k": 297.2839580750099,
+    "boiling_point_k": 373.3408452332709,
+    "volume_l": 0.11003036215817004,
+    "srgb": [
+      8,
+      0,
+      164
+    ],
+    "ph": 7.919497061408,
+    "ionic_strength": 0.2052725433988,
+    "co2_partial_pressure_atm": 0.11121609822305627,
+    "gas_export_mol": 0,
+    "known_element_charge_residual_mol_eq": {
+      "H": 0.0,
+      "O": 0.0,
+      "C": -1.734723475976807e-15,
+      "Na": -1.734723475976807e-15,
+      "q": -8.620870944192616e-15
+    },
+    "unchanged_after_both_observations": true,
+    "pigment_mol": 6.690753378830455e-06,
+    "opaque_material": [
+      {
+        "amount": 0.1970000000000005,
+        "basis": "mass_fraction",
+        "material": "red_cabbage_juice",
+        "protein_denatured_fraction": 0.0,
+        "recipe_id": "household/red-cabbage-juice-surrogate",
+        "recipe_version": 1
+      }
+    ]
+  }
+]

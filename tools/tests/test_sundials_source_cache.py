@@ -34,10 +34,10 @@ class SundialsSourceCacheTests(unittest.TestCase):
         tools.mkdir()
         self.script = tools / "fetch-sundials.sh"
         body, count = re.subn(r'^SHA256="[0-9a-f]{64}"$',
-                             f'SHA256="{self.digest}"', SCRIPT.read_text(),
+                             f'SHA256="{self.digest}"', SCRIPT.read_text(encoding="utf-8"),
                              flags=re.MULTILINE)
         self.assertEqual(count, 1, "exactly one authoritative pin is required")
-        self.script.write_text(body)
+        self.script.write_text(body, encoding="utf-8")
         binary = self.root / "bin"
         binary.mkdir()
         curl = binary / "curl"
@@ -51,7 +51,7 @@ while [ "$#" -gt 0 ]; do
 done
 test -n "$output"
 cp "$TRANSPORT_ARCHIVE" "$output"
-''')
+''', encoding="utf-8")
         curl.chmod(0o755)
         self.calls = self.root / "transport-calls"
         self.cache = self.root / "cache" / f"{self.digest}.tar.gz"
@@ -112,7 +112,7 @@ cp "$TRANSPORT_ARCHIVE" "$output"
     def test_cache_miss_downloads_and_publishes_verified_bytes(self):
         result = self.run_fetch()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(self.calls.read_text(), "called\n")
+        self.assertEqual(self.calls.read_text(encoding="utf-8"), "called\n")
         self.assertEqual(self.cache.read_bytes(), self.archive.read_bytes())
         self.assert_source()
         self.assertEqual(list(self.cache.parent.iterdir()), [self.cache])
@@ -122,7 +122,7 @@ cp "$TRANSPORT_ARCHIVE" "$output"
         result = self.run_fetch()
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("checksum", result.stderr)
-        self.assertEqual(self.calls.read_text(), "called\n")
+        self.assertEqual(self.calls.read_text(encoding="utf-8"), "called\n")
         self.assertFalse(self.cache.exists())
         self.assertFalse(self.dest.exists())
 
@@ -130,7 +130,7 @@ cp "$TRANSPORT_ARCHIVE" "$output"
         self.env["TRANSPORT_FAIL"] = "1"
         result = self.run_fetch()
         self.assertEqual(result.returncode, 22, result.stderr)
-        self.assertEqual(self.calls.read_text(), "called\n")
+        self.assertEqual(self.calls.read_text(encoding="utf-8"), "called\n")
         self.assertFalse(self.cache.exists())
         self.assertFalse(self.dest.exists())
 
@@ -141,7 +141,7 @@ cp "$TRANSPORT_ARCHIVE" "$output"
         self.assert_source()
         result = self.run_fetch()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(self.calls.read_text(), "called\n")
+        self.assertEqual(self.calls.read_text(encoding="utf-8"), "called\n")
         self.assertFalse(self.cache.exists())
 
 
