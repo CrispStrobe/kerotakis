@@ -116,6 +116,12 @@ H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilo
 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication \
 read from nvlpubs.nist.gov";
 
+const FERGUSSON_1936: &str = "Fergusson, Slotin & Style, Trans. Faraday Soc. 32 (1936) 956, \
+doi:10.1039/TF9363200956, aqueous chlorine extinction coefficients of their Fig. 2 as digitised \
+by the MPI-Mainz UV/VIS Spectral Atlas (Keller-Rudek et al., ESSD 5 (2013) 365, \
+doi:10.5194/essd-5-365-2013; cross section = epsilon x 3.8235e-21): 2.08e-19 at 313, 2.54e-19 at \
+334 (maximum), 1.05e-19 cm2 at 365 nm, i.e. epsilon 54, 66 and 27 L mol-1 cm-1 (read off a figure)";
+
 /// The cited table. Append rows; never edit a value without its source.
 pub const TABLE: &[CitedAbsorptivity] = &[
     CitedAbsorptivity {
@@ -307,20 +313,41 @@ pub const TABLE: &[CitedAbsorptivity] = &[
         confidence: Confidence::Read,
         source: DAVIS_GIBSON_1931,
     },
+    CitedAbsorptivity {
+        species: "Cl2",
+        nm: 313.0,
+        epsilon: 54.0,
+        temperature: None,
+        carriers: &[("Cl2", 1.0)],
+        confidence: Confidence::Quoted,
+        source: FERGUSSON_1936,
+    },
+    CitedAbsorptivity {
+        species: "Cl2",
+        nm: 334.0,
+        epsilon: 66.0,
+        temperature: None,
+        carriers: &[("Cl2", 1.0)],
+        confidence: Confidence::Quoted,
+        source: FERGUSSON_1936,
+    },
+    CitedAbsorptivity {
+        species: "Cl2",
+        nm: 365.0,
+        epsilon: 27.0,
+        temperature: None,
+        carriers: &[("Cl2", 1.0)],
+        confidence: Confidence::Quoted,
+        source: FERGUSSON_1936,
+    },
 ];
 
 /// Absorbers known to be present-and-coloured with NO sourced ε: their
 /// presence blocks every cited reading (reason in the coverage doc).
-pub const NO_DATA: &[(&str, &str)] = &[
-    (
-        "Cl2",
-        "Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used)",
-    ),
-    (
-        "FeCl+2",
-        "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure",
-    ),
-];
+pub const NO_DATA: &[(&str, &str)] = &[(
+    "FeCl+2",
+    "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure",
+)];
 
 /// Registry carriers whose dissolved split between cited species is a pH
 /// equilibrium: they count only through the native speciation, and block

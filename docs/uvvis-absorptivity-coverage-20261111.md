@@ -14,7 +14,7 @@ species without a row at λ, a coloured registry species without reviewed ε, a
 Br2/Br⁻ association, a temperature outside the measured range) refuses that
 wavelength with `not-modeled.uvvis-absorptivity-no-data` (EN/DE/FR).
 
-Counts: 21 rows, 15 covered species, 2 refused species, 4 lower-confidence (snippet) rows.
+Counts: 24 rows, 16 covered species, 1 refused species, 4 lower-confidence (snippet) rows.
 
 Confidence: `read` = number read in the cited document; `quoted` = read in a secondary naming the primary; `snippet` = only a quotation was read (lower confidence).
 
@@ -41,12 +41,14 @@ Confidence: `read` = number read in the cited document; `quoted` = read in a sec
 | Co+2 | 500 | 4.46 | — | read | Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov |
 | Co+2 | 510 | 4.75 | — | read | Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov |
 | Co+2 | 520 | 4.61 | — | read | Davis & Gibson, Filters for the reproduction of sunlight and daylight and the determination of color temperature, NBS Miscellaneous Publication 114 (1931), Table 6: absorbancy of 14.481 g/L CoSO4.(NH4)2SO4.6H2O (395.22 g/mol, 0.03664 M) with 10 cc/L H2SO4, 10.00 mm, 25 C: 0.1635 at 500, 0.1742 at 510, 0.1689 at 520 nm, so epsilon = A/c = 4.46, 4.75, 4.61 L mol-1 cm-1 for Co(H2O)6 2+; Beer's law stated to hold; public-domain NBS publication read from nvlpubs.nist.gov |
+| Cl2 | 313 | 54 | — | quoted | Fergusson, Slotin & Style, Trans. Faraday Soc. 32 (1936) 956, doi:10.1039/TF9363200956, aqueous chlorine extinction coefficients of their Fig. 2 as digitised by the MPI-Mainz UV/VIS Spectral Atlas (Keller-Rudek et al., ESSD 5 (2013) 365, doi:10.5194/essd-5-365-2013; cross section = epsilon x 3.8235e-21): 2.08e-19 at 313, 2.54e-19 at 334 (maximum), 1.05e-19 cm2 at 365 nm, i.e. epsilon 54, 66 and 27 L mol-1 cm-1 (read off a figure) |
+| Cl2 | 334 | 66 | — | quoted | Fergusson, Slotin & Style, Trans. Faraday Soc. 32 (1936) 956, doi:10.1039/TF9363200956, aqueous chlorine extinction coefficients of their Fig. 2 as digitised by the MPI-Mainz UV/VIS Spectral Atlas (Keller-Rudek et al., ESSD 5 (2013) 365, doi:10.5194/essd-5-365-2013; cross section = epsilon x 3.8235e-21): 2.08e-19 at 313, 2.54e-19 at 334 (maximum), 1.05e-19 cm2 at 365 nm, i.e. epsilon 54, 66 and 27 L mol-1 cm-1 (read off a figure) |
+| Cl2 | 365 | 27 | — | quoted | Fergusson, Slotin & Style, Trans. Faraday Soc. 32 (1936) 956, doi:10.1039/TF9363200956, aqueous chlorine extinction coefficients of their Fig. 2 as digitised by the MPI-Mainz UV/VIS Spectral Atlas (Keller-Rudek et al., ESSD 5 (2013) 365, doi:10.5194/essd-5-365-2013; cross section = epsilon x 3.8235e-21): 2.08e-19 at 313, 2.54e-19 at 334 (maximum), 1.05e-19 cm2 at 365 nm, i.e. epsilon 54, 66 and 27 L mol-1 cm-1 (read off a figure) |
 
 ## Refused (no sourced ε)
 
 | species | reason |
 |---|---|
-| Cl2 | Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used) |
 | FeCl+2 | 335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure |
 
 The starch–iodine complex is refused as before (no reliable ε exists; see

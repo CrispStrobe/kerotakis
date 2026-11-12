@@ -321,3 +321,19 @@ fn aqueous_cobalt_reads_the_nbs_filter_solution_absorptivity() {
         r.absorbance
     );
 }
+
+#[test]
+fn aqueous_chlorine_reads_fergussons_band_maximum() {
+    // Fergusson, Slotin & Style 1936: epsilon about 66 at 334 nm.
+    let mut v = water(100.0);
+    native(&mut v, &[("Cl2", 1e-3)]);
+    let kg = v.solution.as_ref().unwrap().solvent_kg.unwrap();
+    let litres = v.liquid_volume().0;
+    let r = uv::absorbance_at(&v, 334.0, 1.0);
+    assert!(r.blocked.is_empty(), "{:?}", r.blocked);
+    assert!(
+        close(r.absorbance, 66.0 * 1e-3 * kg / litres),
+        "{}",
+        r.absorbance
+    );
+}
