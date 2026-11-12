@@ -10,9 +10,8 @@ on:
 # groups, and pushes to main are never cancelled: main's per-commit signal is
 # the record of what actually shipped.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
 env:
   CARGO_TERM_COLOR: always
 

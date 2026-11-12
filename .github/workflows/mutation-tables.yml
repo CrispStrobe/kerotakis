@@ -33,15 +33,8 @@ on:
         default: "18000"
 
 concurrency:
-  group: mutation-tables-${{ github.ref }}
-  cancel-in-progress: false
-
-# The fallbacks stay after the temporary `push` trigger was removed, because a
-# dispatch through the API can omit an input and then `inputs.ids` is empty
-# rather than defaulted. These are the 23 conductivity survivors of the
-# 2026-09-16 const-table pass, and the three-file surface their ids were
-# catalogued over — the catalogue numbers sites in the order the files are
-# given, so the surface is part of the identity of an id.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
 env:
   MUTANT_IDS: >-
     ${{ inputs.ids ||
