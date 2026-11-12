@@ -1,0 +1,29 @@
+{
+  "candidate_checkout": {
+  "name": "candidate-checkout",
+  "argv": [
+    "git",
+    "checkout",
+    "--detach",
+    "b2598f4411c47969cd7250f2bd4eab9ada403006"
+  ],
+  "exit": 0,
+  "seconds": 0.4679239919999816,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "f773a122dbaf053b7bf3c5c9d532a9dd3f4a268153cb6deaa64ed501cb21bc8a"
+},
+  "workspace_tests": {
+  "name": "workspace-tests",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--workspace",
+    "--no-fail-fast"
+  ],
+  "exit": 101,
+  "seconds": 3085.535374004,
+  "stdout_sha256": "dc2759179fd29c35787a2e62a45177190934869c2233843126dee3453e68ddf4",
+  "stderr_sha256": "845f9987f8f031b77f96e78f0bb6eb43328c024030cd64febbd0229a3c714b18"
+}
+}

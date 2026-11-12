@@ -751,11 +751,43 @@ fn original_boundary_step(
     solver: &mut PhreeqcEquilibrator,
     op: Operator,
 ) -> Vec<Event> {
+    // Only the first water-only addition to an empty open vessel is an
+    // analytic solvent question. A sealed setup already contains trapped gas,
+    // and every solute/transfer step still requires a complete native answer.
+    let pure_water_setup = matches!(&op,
+        Operator::Add { vessel, species, .. }
+            if *vessel == VesselId(0) && species.0 == "water")
+        && bench.vessel(VesselId(0)).is_some_and(|vessel| {
+            matches!(vessel.headspace, Headspace::Open)
+                && vessel.contents.is_empty()
+                && vessel.unresolved_materials.is_empty()
+                && vessel.surfaces.is_empty()
+                && vessel.electrodes.is_empty()
+                && vessel.material_objects.is_empty()
+                && vessel.adsorbed.is_empty()
+                && vessel.exchanges.is_empty()
+                && vessel.solid_solutions.is_empty()
+                && vessel.pending_co2_transfer_mol == 0.0
+        });
     let events = bench
         .step_with(op, solver, &PermissiveScreen)
         .expect("original boundary protocol step");
     assert_no_solver_failure(&events, "original boundary protocol");
-    assert_current_aqueous(&bench.vessels[0], "original boundary protocol", true);
+    assert_current_aqueous(
+        &bench.vessels[0],
+        "original boundary protocol",
+        !pure_water_setup,
+    );
+    if pure_water_setup {
+        let state = &bench.vessels[0];
+        assert!(state
+            .contents
+            .iter()
+            .all(|portion| { portion.species.0 == "water" && portion.phase == Phase::Liquid }));
+        let info = state.solution.as_ref().expect("current pure-water answer");
+        assert_eq!(info.scope, vessel::SolutionScope::SolventOnly);
+        assert!(info.provenance.is_some(), "analytic solvent provenance");
+    }
     events
 }
 

@@ -48,3 +48,24 @@ producer lock/binary binding. Check original retained invariants and all new
 closure bounds. A new failure remains a failure; do not bless goldens, broaden
 tolerances or reuse the older candidate's acceptance. Full applicable source,
 platform and own-fleet requirements remain with the containing PR.
+
+## First successor execution: pure-water test precondition
+
+The actual `b2598f4411c47969cd7250f2bd4eab9ada403006` full-workspace
+producer exposed a test-authoring error before two successor protocols reached
+any bicarbonate or acid addition. `original_boundary_step` demanded `Complete`
+for their initial open pure-water setup, but the analytic water-autoionisation
+owner correctly reports `SolventOnly`. The sealed companion passes: its trapped
+gas makes the water step a different native question. Verbatim raw failures and
+original source/command/output hashes are preserved in
+`solvent-only-first-failure.txt` and `solvent-only-first-producer.json`.
+
+The corrected precondition applies only to an actual water-add operator targeting
+vessel0 while that vessel is open, empty across every represented inventory and
+has no pending CO2 carrier. The returned stock must remain exclusively liquid
+water and must explicitly report `SolventOnly` with provenance. Finite pH and ionic
+strength checks remain. Every subsequent solute or transfer step and the sealed
+setup still requires `Complete` and the current numerical particle census.
+All gas, element, H/O, charge, spectator and alkalinity assertions are unchanged.
+This correction has only formatting and diff validation; its own exact-source
+runtime acceptance remains pending.
