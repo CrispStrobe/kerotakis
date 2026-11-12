@@ -497,6 +497,7 @@
     let renderedFoam = 0;
     let renderedOverflow = 0;
     let doseOrdered = false;
+    let foamReadback: { volume_liters: number; overflow_liters: number }[] = [];
     let unsupportedKiWarning = false;
     let scenarioError: string | null = null;
     let worldReport: Record<string, boolean> = {};
@@ -516,12 +517,23 @@
           "add v2 Wasserstoffperoxid_3% 100mL",
           "add v2 Spülmittel 10mL",
         ].join("\n"));
-        // Exercise the actual shelf/drop path: the dispense itself advances a
-        // visible contact interval, so no hidden/manual wait follows it.
+        // Exercise the actual shelf/drop path and its short contact interval.
         await dispense("add v1 KI 0.25g");
         await dispense("add v2 KI 1g");
+        // The measured iodide/peroxide k0 is 0.0115 L/mol/s: household
+        // peroxide foams over minutes, not the dispense's ten-second cap.
+        // Give both vessels an additional explicit, notebook-visible 300s.
+        // The first dose has also seen the second dispense's contact interval;
+        // retain the overflow checks against the resulting scene and DOM.
+        if (!(await session.submit("wait 300s"))) {
+          throw new Error("foam observation interval was refused");
+        }
         await tick();
         const vessels = session.scene?.vessels ?? [];
+        foamReadback = vessels.map((vessel) => ({
+          volume_liters: vessel.foam?.volume_liters ?? 0,
+          overflow_liters: vessel.foam?.overflow_liters ?? 0,
+        }));
         foamVessels = vessels.filter(
           (vessel) => (vessel.foam?.volume_liters ?? 0) > 0,
         ).length;
@@ -560,6 +572,7 @@
         rendered_foam: renderedFoam,
         rendered_overflow: renderedOverflow,
         dose_ordered: doseOrdered,
+        foam_readback: foamReadback,
         unsupported_ki_warning: unsupportedKiWarning,
         scenario_error: scenarioError,
         gui003_dom: gui003Dom,
