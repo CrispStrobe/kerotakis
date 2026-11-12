@@ -7871,10 +7871,11 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     g
 }
 
-/// First acid dissociation constant of carbonic acid, pK1(T) = 3404.71/T
-/// - 14.8435 + 0.032786 T (6.352 at 25 °C): Harned & Davis, J. Am. Chem.
-/// Soc. 65 (1943) 2030-2037, doi:10.1021/ja01250a059. Below it, H2CO3*
-/// (dissolved CO2) is the dominant form of dissolved inorganic carbon.
+/// First acid dissociation constant of carbonic acid,
+/// pK1(T) = 3404.71/T − 14.8435 + 0.032786 T (6.352 at 25 °C): Harned &
+/// Davis, J. Am. Chem. Soc. 65 (1943) 2030-2037, doi:10.1021/ja01250a059.
+/// Below it, H2CO3* (dissolved CO2) is the dominant form of dissolved
+/// inorganic carbon.
 fn carbonic_acid_pk1(temperature_k: f64) -> f64 {
     3404.71 / temperature_k - 14.8435 + 0.032786 * temperature_k
 }
