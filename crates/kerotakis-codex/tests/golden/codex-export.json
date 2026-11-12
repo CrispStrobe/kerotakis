@@ -1428,7 +1428,7 @@
     {
       "id": "baking-soda-vents-carbon-dioxide",
       "progress": "intermediate",
-      "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)",
+      "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
         "open-system",
@@ -1483,68 +1483,68 @@
           "question_de": "Natron wird in Wasser eingerührt. Es wird keine Säure zugegeben. Was passiert?",
           "options": [
             "Nothing but dissolving; you need an acid to get any gas",
-            "It dissolves and slowly gives off carbon dioxide anyway, ending up around pH 9.7",
-            "It dissolves and the solution ends at pH 8.3, the textbook value for bicarbonate"
+            "It dissolves and slowly releases some carbon dioxide; after the scripted hour the solution is still mildly basic",
+            "An open lid instantly brings the whole solution into equilibrium with room air"
           ],
           "options_de": [
-            "Nichts außer Auflösen; du brauchst eine Säure, um überhaupt Gas zu bekommen",
-            "Es löst sich und gibt trotzdem langsam Kohlendioxid ab, am Ende bei etwa pH 9,7",
-            "Es löst sich, und die Lösung landet bei pH 8,3, dem Lehrbuchwert für Hydrogencarbonat"
+            "Nur Auflösen; ohne Säure kann überhaupt kein Gas entstehen",
+            "Es löst sich und gibt langsam etwas Kohlendioxid ab; nach der vorgesehenen Stunde ist die Lösung weiterhin schwach basisch",
+            "Ein offener Deckel bringt die gesamte Lösung sofort ins Gleichgewicht mit der Raumluft"
           ],
           "answer": 1,
-          "misconception": "Two ideas get corrected at once. First, gas evolution is not the exclusive privilege of acids — bicarbonate disproportionates on its own, and an open beaker keeps pulling the product away. Second, the familiar \"bicarbonate is pH 8.3\" is a *closed-system* number; a beaker on a bench is open, it vents until it matches the atmosphere's own CO₂ pressure, and it lands well above 8.3.",
-          "misconception_de": "Zwei Vorstellungen werden hier gleichzeitig korrigiert. Erstens ist Gasentwicklung nicht das ausschließliche Vorrecht von Säuren — Hydrogencarbonat disproportioniert von selbst, und ein offenes Becherglas zieht das Produkt ständig ab. Zweitens ist die vertraute Zahl \"Hydrogencarbonat liegt bei pH 8,3\" ein Wert für ein *geschlossenes* System; ein Becherglas im Labor ist offen, es entgast, bis es dem CO₂-Druck der Atmosphäre entspricht, und landet deutlich über 8,3.",
+          "misconception": "Acid is not required for carbon dioxide to leave a supersaturated bicarbonate solution. But an open lid does not make transfer instantaneous: carbonate speciation and transport across the liquid surface have separate owners. The one-hour script ends before atmospheric equilibrium in this model.",
+          "misconception_de": "Damit Kohlendioxid eine übersättigte Hydrogencarbonatlösung verlässt, braucht es keine zugesetzte Säure. Ein offenes Gefäß macht den Transport aber nicht augenblicklich: Carbonatspeziation und Transport durch die Flüssigkeitsoberfläche sind getrennte Vorgänge. Nach einer Stunde ist in diesem Modell noch kein Gleichgewicht mit der Raumluft erreicht.",
           "diagnosis": [
             {
               "option": 0,
               "reveals": "Gas evolution is an acid's signature move, so without an acid nothing can leave — fizzing filed as a reaction type rather than as any equilibrium with a volatile product and an open lid.",
               "reveals_de": "Gasentwicklung gilt als das Markenzeichen einer Säure, also kann ohne Säure nichts entweichen — Sprudeln wird als eigener Reaktionstyp verstanden, nicht als irgendein Gleichgewicht mit einem flüchtigen Produkt und einem offenen Gefäß.",
-              "next": "Leave the beaker on the balance and `wait`: the mass drifts down with no acid anywhere in the vessel. The acid in the fizz experiment buys speed and violence, not permission.",
-              "next_de": "Lass das Becherglas auf der Waage stehen und `wait`: Die Masse sinkt langsam, obwohl nirgends im Gefäß eine Säure ist. Die Säure im Sprudel-Experiment kauft Geschwindigkeit und Heftigkeit, nicht Erlaubnis.",
+              "next": "Inspect the gas event during `wait 1h`: some carbon leaves without added acid. The film-transfer coefficient is a bounded lake-derived analogy, not a calibrated beaker degassing rate.",
+              "next_de": "Prüfe das Gasereignis während `wait 1h`: Auch ohne Säurezugabe verlässt etwas Kohlenstoff das Gefäß. Der Filmtransportkoeffizient ist eine begrenzte Analogie aus Seenmessungen, keine kalibrierte Entgasungsrate für Bechergläser.",
               "source": null,
-              "next_fr": "Laisse le becher sur la balance et `wait` : la masse dérive vers le bas sans qu'aucun acide ne se trouve dans le récipient. L'acide de l'expérience effervescente achète de la vitesse et de la violence, pas une autorisation.",
+              "next_fr": "Examine l’événement gazeux pendant `wait 1h` : du carbone sort sans ajout d’acide. Le coefficient de transfert par film est une analogie bornée issue des lacs, pas une vitesse de dégazage calibrée pour un bécher.",
               "reveals_fr": "Le dégagement gazeux serait la signature d'un acide, donc sans acide rien ne pourrait s'échapper — le pétillement classé comme un type de réaction à part, plutôt que comme n'importe quel équilibre possédant un produit volatil et un couvercle ouvert."
             },
             {
               "option": 2,
-              "reveals": "A remembered constant outranks the actual setup: 8.3 is bicarbonate's number, so 8.3 is the answer, whatever the beaker is doing.",
-              "reveals_de": "Eine auswendig gelernte Konstante überstimmt den tatsächlichen Aufbau: 8,3 ist die Zahl des Hydrogencarbonats, also ist 8,3 die Antwort, egal was das Becherglas gerade tut.",
-              "next": "Ask what 8.3 assumes: a sealed system that keeps its CO₂. This beaker is open and vents until it matches the atmosphere, and the pH climbs as the gas leaves. The famous number is not wrong — it answers a different apparatus, and this codex keeps it precisely to be contradicted by an open one.",
-              "next_de": "Frag, was 8,3 voraussetzt: ein geschlossenes System, das sein CO₂ behält. Dieses Becherglas ist offen und entgast, bis es der Atmosphäre entspricht, und der pH-Wert steigt, während das Gas entweicht. Die berühmte Zahl ist nicht falsch — sie beantwortet einen anderen Aufbau, und dieser Kodex behält sie genau deshalb, um ihr mit einem offenen Gefäß zu widersprechen.",
+              "reveals": "An open boundary is mistaken for unlimited, instantaneous gas transport. Equilibrium within the liquid is confused with equilibration of the whole beaker with room air.",
+              "reveals_de": "Eine offene Grenze wird mit unbegrenztem, sofortigem Gastransport verwechselt. Gleichgewicht in der Flüssigkeit wird mit dem Gleichgewicht des ganzen Becherglases mit der Raumluft gleichgesetzt.",
+              "next": "Compare dissolved carbon before and after the hour. Most remains; the liquid is still supersaturated relative to room air. Elapsed time, surface geometry and the stated transfer model matter.",
+              "next_de": "Vergleiche den gelösten Kohlenstoff vor und nach der Stunde. Der größte Teil bleibt; die Flüssigkeit ist gegenüber der Raumluft noch übersättigt. Zeit, Oberflächengeometrie und das angegebene Transportmodell zählen.",
               "source": null,
-              "next_fr": "Demande-toi ce que suppose 8,3 : un système scellé qui conserve son CO₂. Ce becher est ouvert et dégaze jusqu'à s'équilibrer avec l'atmosphère, et le pH monte à mesure que le gaz s'échappe. Le chiffre célèbre n'est pas faux — il répond à un autre dispositif, et ce codex le conserve précisément pour qu'un dispositif ouvert le contredise.",
-              "reveals_fr": "Une constante mémorisée prime sur le dispositif réel : 8,3 est le chiffre de l'hydrogénocarbonate, donc 8,3 est la réponse, quoi que fasse le becher."
+              "next_fr": "Compare le carbone dissous avant et après l’heure. La majeure partie reste ; le liquide est encore sursaturé par rapport à l’air. Le temps, la géométrie de surface et le modèle de transport déclaré comptent.",
+              "reveals_fr": "Une frontière ouverte est confondue avec un transport gazeux illimité et instantané. L’équilibre dans le liquide est confondu avec celui du bécher entier avec l’air ambiant."
             }
           ],
-          "misconception_fr": "Deux idées sont corrigées à la fois. D'abord, le dégagement gazeux n'est pas le privilège exclusif des acides — l'hydrogénocarbonate se dismute de lui-même, et un becher ouvert continue d'évacuer le produit. Ensuite, le chiffre familier « l'hydrogénocarbonate est à pH 8,3 » est une valeur de *système fermé* ; un becher sur un banc est ouvert, il dégaze jusqu'à s'équilibrer avec la pression de CO₂ propre de l'atmosphère, et il atterrit bien au-dessus de 8,3.",
+          "misconception_fr": "Il ne faut pas d’acide ajouté pour que le dioxyde de carbone quitte une solution sursaturée d’hydrogénocarbonate. Mais une ouverture ne rend pas le transport instantané : la spéciation carbonatée et le transport à travers la surface sont deux processus distincts. Après une heure, ce modèle n’a pas encore atteint l’équilibre avec l’air.",
           "options_fr": [
-            "Rien d'autre qu'une dissolution ; il faut un acide pour obtenir le moindre gaz",
-            "Il se dissout et dégage quand même lentement du dioxyde de carbone, pour finir autour de pH 9,7",
-            "Il se dissout et la solution finit à pH 8,3, la valeur de manuel pour l'hydrogénocarbonate"
+            "Rien d’autre qu’une dissolution ; sans acide aucun gaz ne peut se former",
+            "Il se dissout et libère lentement un peu de dioxyde de carbone ; après l’heure prévue, la solution reste légèrement basique",
+            "Une ouverture met instantanément toute la solution à l’équilibre avec l’air ambiant"
           ],
           "question_fr": "Du bicarbonate de soude est mélangé à de l'eau. Aucun acide n'est ajouté. Que se passe-t-il ?"
         },
         "ph": {
-          "min": 9.5,
-          "max": 9.9
+          "min": 7.9,
+          "max": 8.2
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Baking soda in plain water, with no vinegar anywhere: leave it a while and it still fizzes, very gently. The bubbles escape into the room and never come back.",
-        "lv1_de": "Natron in reinem Wasser, ohne Essig weit und breit: Lass es eine Weile stehen, und es sprudelt trotzdem, ganz sanft. Die Bläschen entweichen in den Raum und kommen nie zurück.",
-        "lv1_fr": "Du bicarbonate de soude dans de l'eau pure, sans le moindre vinaigre à l'horizon : laisse-le reposer un moment, et il pétille quand même, très doucement. Les bulles s'échappent dans la pièce et ne reviennent jamais.",
-        "lv2": "0.1 mol of NaHCO₃ per litre gives a solution that is supersaturated against the air's own carbon dioxide. About 30% of the carbonate leaves as CO₂, the remainder shifts toward CO₃²⁻, and the pH settles near 9.7.",
-        "lv2_de": "0,1 mol NaHCO₃ pro Liter ergeben eine Lösung, die gegenüber dem Kohlendioxid der Luft übersättigt ist. Etwa 30 % des Carbonats entweichen als CO₂, der Rest verschiebt sich in Richtung CO₃²⁻, und der pH-Wert pendelt sich bei etwa 9,7 ein.",
-        "lv2_fr": "0,1 mol de NaHCO₃ par litre donne une solution sursaturée par rapport au dioxyde de carbone de l'air. Environ 30 % du carbonate s'échappe sous forme de CO₂, le reste se déplace vers CO₃²⁻, et le pH se stabilise autour de 9,7.",
-        "lv3": "This is the entry that most disagrees with a textbook, and the disagreement is the lesson. The classic pH 8.3 for NaHCO₃ assumes a sealed system. The engine equilibrates the vessel against atmospheric CO₂ at log p = −3.408, vents 0.030 mol, and computes 9.71. Neither number is wrong; they answer different questions, and only one of them describes a beaker on a bench.",
-        "lv3_de": "Dies ist der Eintrag, der am stärksten von einem Lehrbuch abweicht, und genau diese Abweichung ist die Lektion. Der klassische pH-Wert 8,3 für NaHCO₃ setzt ein geschlossenes System voraus. Die Engine gleicht das Gefäß gegen atmosphärisches CO₂ bei log p = −3,408 aus, entgast 0,030 mol und berechnet 9,71. Keine der beiden Zahlen ist falsch; sie beantworten unterschiedliche Fragen, und nur eine davon beschreibt ein Becherglas im Labor.",
-        "lv3_fr": "C'est l'entrée qui s'écarte le plus d'un manuel, et cet écart est la leçon. Le pH classique de 8,3 pour NaHCO₃ suppose un système scellé. Le moteur équilibre le récipient avec le CO₂ atmosphérique à log p = −3,408, dégaze 0,030 mol, et calcule 9,71. Aucun des deux chiffres n'est faux ; ils répondent à des questions différentes, et un seul d'entre eux décrit un becher posé sur un banc."
+        "lv1": "Baking soda dissolves in water. During the hour some carbon dioxide slowly leaves the open beaker even though no acid was added. An open lid gives gas a route out, not an instant journey.",
+        "lv1_de": "Natron löst sich in Wasser. Während der Stunde verlässt langsam etwas Kohlendioxid das offene Becherglas, obwohl keine Säure zugesetzt wurde. Ein offenes Gefäß bietet einen Weg hinaus, keine sofortige Reise.",
+        "lv1_fr": "Le bicarbonate se dissout dans l’eau. Pendant l’heure, un peu de dioxyde de carbone quitte lentement le bécher ouvert sans ajout d’acide. Une ouverture offre une sortie, pas un trajet instantané.",
+        "lv2": "The unchanged one-hour script ends near pH 8.04, with most carbon still dissolved. The modeled export is small; it does not empty the beaker to room-air equilibrium. This is a finite-time model result, not a measured degassing curve.",
+        "lv2_de": "Das unveränderte einstündige Skript endet bei etwa pH 8,04; der größte Teil des Kohlenstoffs bleibt gelöst. Der modellierte Export ist klein und leert das Gefäß nicht bis zum Gleichgewicht mit der Raumluft. Das ist ein zeitabhängiges Modellergebnis, keine gemessene Entgasungskurve.",
+        "lv2_fr": "Le script inchangé d’une heure finit vers pH 8,04, avec la majeure partie du carbone encore dissoute. L’export modélisé est faible ; il ne vide pas le bécher jusqu’à l’équilibre avec l’air. C’est un résultat de modèle à temps fini, pas une courbe de dégazage mesurée.",
+        "lv3": "Aqueous carbonate speciation is solved with WATEQ4F; the separate finite-time film owner exports a bounded parcel from actual neutral dissolved CO₂. The one-hour endpoint remains supersaturated relative to room air. The film coefficient is a low-wind lake analogy applied to beaker geometry, without empirical beaker calibration; a universal bicarbonate pH or atmospheric-equilibrium endpoint is not claimed.",
+        "lv3_de": "Die Carbonatspeziation wird mit WATEQ4F gelöst; ein eigener Filmtransport über endliche Zeit exportiert eine begrenzte Menge aus dem tatsächlich gelösten neutralen CO₂. Nach einer Stunde besteht noch Übersättigung gegenüber der Raumluft. Der Filmkoeffizient überträgt eine Analogie für Seen bei schwachem Wind auf die Bechergeometrie, ohne empirische Becherkalibrierung. Ein universeller Hydrogencarbonat-pH oder ein Endzustand im Luftgleichgewicht wird nicht behauptet.",
+        "lv3_fr": "La spéciation carbonatée est calculée avec WATEQ4F ; un transfert par film distinct, à temps fini, exporte une quantité bornée à partir du CO₂ neutre réellement dissous. Après une heure, le liquide reste sursaturé par rapport à l’air. Le coefficient transpose une analogie de lac par vent faible à la géométrie du bécher, sans calibration empirique du bécher. Aucun pH universel du bicarbonate ni état final à l’équilibre atmosphérique n’est revendiqué."
       },
       "provenance": {
         "source": "Carbonate system in an open vessel; atmospheric pCO₂ and carbonate constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2"
+        "computed_by": "PHREEQC via Kerotakis L2; separate bounded finite-time CO2 film-transfer owner"
       }
     },
     {
@@ -3690,8 +3690,8 @@
         ],
         "absent": [],
         "predict": {
-          "question": "Baking soda fizzes furiously when acid is poured on it. Pour concentrated lye onto the same baking soda solution instead. What happens?",
-          "question_de": "Natron sprudelt heftig, wenn Säure daraufgegossen wird. Gieße stattdessen konzentrierte Lauge auf dieselbe Natronlösung. Was passiert?",
+          "question": "Baking soda reacts with added acid and releases carbon dioxide. Add lye to the same bicarbonate solution instead. What happens?",
+          "question_de": "Natron reagiert mit zugesetzter Säure und setzt Kohlendioxid frei. Gib stattdessen Lauge zur gleichen Hydrogencarbonatlösung. Was passiert?",
           "options": [
             "It fizzes again — fizzing is what baking soda does",
             "Nothing at all — soda answers acids, and lye is not an acid",
@@ -3710,20 +3710,20 @@
               "option": 0,
               "reveals": "The fizz as the substance's signature move — bicarbonate 'contains' the gas the way a balloon does, and any provocation releases it.",
               "reveals_de": "Das Sprudeln als Markenzeichen des Stoffes — Hydrogencarbonat 'enthält' das Gas so, wie ein Luftballon es tut, und jede Provokation setzt es frei.",
-              "next": "Ask what the gas is made of: CO₂ only forms when the bicarbonate *receives* a proton. Lye offers none. Watch the event stream — the lye step evolves nothing — and the lv3 speciation shows the carbon still in the beaker, now sitting as carbonate.",
-              "next_de": "Frag, woraus das Gas besteht: CO₂ entsteht nur, wenn das Hydrogencarbonat ein Proton *erhält*. Lauge bietet keines an. Beobachte den Ereignisstrom — der Laugenschritt setzt nichts frei — und die lv3-Speziation zeigt den Kohlenstoff noch im Becherglas, jetzt als Carbonat.",
+              "next": "Lye accepts a proton from bicarbonate, shifting dissolved carbon toward carbonate. The lye step exports no gas in this script; inspect the retained carbon rather than treating fizz as a property of the powder.",
+              "next_de": "Lauge nimmt ein Proton vom Hydrogencarbonat auf und verschiebt den gelösten Kohlenstoff zum Carbonat. Der Laugenschritt exportiert in diesem Skript kein Gas; prüfe den erhaltenen Kohlenstoff, statt Sprudeln als Eigenschaft des Pulvers zu behandeln.",
               "source": null,
-              "next_fr": "Demande-toi de quoi est fait le gaz : le CO₂ ne se forme que lorsque le bicarbonate *reçoit* un proton. La lessive de soude n'en offre aucun. Observe le flux d'événements — l'étape avec la lessive ne dégage rien — et la spéciation lv3 montre le carbone toujours présent dans le becher, désormais sous forme de carbonate.",
+              "next_fr": "La soude accepte un proton de l’hydrogénocarbonate et déplace le carbone dissous vers le carbonate. Cette étape n’exporte aucun gaz dans ce script ; examine le carbone conservé au lieu de traiter le pétillement comme une propriété de la poudre.",
               "reveals_fr": "Le pétillement comme geste signature de la substance — le bicarbonate « contiendrait » le gaz comme un ballon, et toute provocation le libérerait."
             },
             {
               "option": 1,
               "reveals": "Acid and base as fixed identities: bicarbonate is 'a base', and one base has no business with another — so nothing can happen.",
               "reveals_de": "Säure und Base als feste Identitäten: Hydrogencarbonat ist 'eine Base', und eine Base hat mit einer anderen nichts zu schaffen — also kann nichts passieren.",
-              "next": "Something did happen; it was just silent. The lv3 speciation shows the bicarbonate gone and carbonate in its place: a proton left the HCO₃⁻ ion itself. One substance, two roles depending on the partner — the Arrhenius → Brønsted step in `models.toml` is this beaker written as theory.",
-              "next_de": "Es ist tatsächlich etwas passiert; es war nur still. Die lv3-Speziation zeigt, dass das Hydrogencarbonat verschwunden ist und Carbonat an seiner Stelle steht: Ein Proton hat das HCO₃⁻-Ion selbst verlassen. Ein Stoff, zwei Rollen je nach Partner — der Schritt von Arrhenius zu Brønsted in `models.toml` ist dieses Becherglas, als Theorie niedergeschrieben.",
+              "next": "The lye beaker retains its carbon, mostly as carbonate: bicarbonate has donated a proton. This is the Brønsted distinction between a substance and the role it plays with a particular partner.",
+              "next_de": "Das Laugengefäß behält seinen Kohlenstoff, überwiegend als Carbonat: Hydrogencarbonat hat ein Proton abgegeben. Das ist Brønsteds Unterschied zwischen einem Stoff und seiner Rolle gegenüber einem bestimmten Partner.",
               "source": null,
-              "next_fr": "Quelque chose s'est bien passé ; c'était juste silencieux. La spéciation lv3 montre le bicarbonate disparu et le carbonate à sa place : un proton a quitté l'ion HCO₃⁻ lui-même. Une substance, deux rôles selon le partenaire — le passage d'Arrhenius à Brønsted dans `models.toml` est ce becher écrit comme théorie.",
+              "next_fr": "Le bécher à la soude conserve son carbone, surtout comme carbonate : l’hydrogénocarbonate a donné un proton. C’est la distinction de Brønsted entre une substance et son rôle face à un partenaire donné.",
               "reveals_fr": "Acide et base vus comme des identités fixes : le bicarbonate serait « une base », et une base n'aurait rien à faire avec une autre — donc rien ne pourrait se passer."
             }
           ],
@@ -3733,11 +3733,11 @@
             "Absolument rien — le bicarbonate répond aux acides, et la lessive de soude n'en est pas un",
             "Pas de gaz cette fois : le bicarbonate cède son propre proton et devient du carbonate"
           ],
-          "question_fr": "Le bicarbonate de soude pétille furieusement quand de l'acide y est versé. Verse plutôt de la lessive de soude concentrée sur cette même solution de bicarbonate. Que se passe-t-il ?"
+          "question_fr": "Le bicarbonate réagit avec l’acide ajouté et libère du dioxyde de carbone. Ajoute plutôt de la soude à la même solution d’hydrogénocarbonate. Que se passe-t-il ?"
         },
         "ph": {
-          "min": 5.4,
-          "max": 5.8
+          "min": 4.4,
+          "max": 4.7
         },
         "temperature_c": null
       },
@@ -3745,17 +3745,17 @@
         "lv1": "Against sour stuff, baking soda fights back with bubbles. Against the slippery stuff it does something sneakier: it hands over a tiny piece of itself, without a single bubble. The same powder plays both sides, depending on who it meets.",
         "lv1_de": "Gegen Saures wehrt sich Natron mit Bläschen. Gegen das Seifige tut es etwas Heimtückischeres: Es gibt ein winziges Stück von sich selbst ab, ohne ein einziges Bläschen. Dasselbe Pulver spielt beide Seiten, je nachdem, wem es begegnet.",
         "lv1_fr": "Face à ce qui est acide, le bicarbonate riposte à coups de bulles. Face à ce qui est glissant, il fait quelque chose de plus sournois : il cède un tout petit morceau de lui-même, sans la moindre bulle. La même poudre joue sur les deux tableaux, selon qui elle rencontre.",
-        "lv2": "Amphiprotic behaviour: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (base role — the fizz), but HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (acid role — no gas). The acid beaker ends near pH 5.6 with all its carbon gone as gas; the lye beaker keeps its carbon as carbonate.",
-        "lv2_de": "Amphiprotisches Verhalten: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (Base-Rolle — das Sprudeln), aber HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (Säure-Rolle — kein Gas). Das Säure-Becherglas endet bei etwa pH 5,6, wobei aller Kohlenstoff als Gas entwichen ist; das Laugen-Becherglas behält seinen Kohlenstoff als Carbonat.",
-        "lv2_fr": "Comportement amphiprotique : HCO₃⁻ + H⁺ → H₂O + CO₂↑ (rôle de base — le pétillement), mais HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (rôle d'acide — pas de gaz). Le becher acide finit près de pH 5,6, tout son carbone étant parti sous forme de gaz ; le becher à la lessive de soude conserve son carbone sous forme de carbonate.",
-        "lv3": "The bookkeeping, honestly: an open 0.1 mol/kgw bicarbonate solution self-vents about 0.003 mol of CO₂ on dissolution (its own carbonate equilibrium against the atmosphere — `baking-soda-vents-carbon-dioxide`), so 0.003 mol of the lye finds no bicarbonate partner and the second beaker's final pH carries that excess hydroxide. The acid beaker's pH 5.6 is not leftover acid: it is a sodium chloride solution equilibrated with atmospheric CO₂ — the same chemistry that makes clean rain slightly acidic. The Brønsted point is in the speciation: the same ion appears as proton acceptor in one vessel and proton donor in the other, which no fixed acid/base label can say.",
-        "lv3_de": "Die Buchhaltung, ehrlich: Eine offene 0,1-mol/kgw-Hydrogencarbonat-Lösung entgast beim Lösen von selbst etwa 0,003 mol CO₂ (ihr eigenes Carbonatgleichgewicht gegenüber der Atmosphäre — `baking-soda-vents-carbon-dioxide`), sodass 0,003 mol der Lauge keinen Hydrogencarbonat-Partner finden und der finale pH-Wert des zweiten Becherglases diesen Hydroxidüberschuss trägt. Der pH-Wert 5,6 des Säure-Becherglases ist keine übrig gebliebene Säure: Es ist eine Natriumchlorid-Lösung im Gleichgewicht mit atmosphärischem CO₂ — dieselbe Chemie, die sauberen Regen leicht sauer macht. Der Brønsted-Punkt steckt in der Speziation: Dasselbe Ion tritt in einem Gefäß als Protonenakzeptor und im anderen als Protonendonor auf — etwas, das kein festes Säure/Base-Etikett sagen kann.",
-        "lv3_fr": "La comptabilité, honnêtement : une solution ouverte de bicarbonate à 0,1 mol/kgw dégaze d'elle-même environ 0,003 mol de CO₂ à la dissolution (son propre équilibre carbonaté vis-à-vis de l'atmosphère — `baking-soda-vents-carbon-dioxide`), si bien que 0,003 mol de la lessive de soude ne trouve aucun partenaire bicarbonate, et le pH final du second becher porte cet excès d'hydroxyde. Le pH 5,6 du becher acide n'est pas de l'acide restant : c'est une solution de chlorure de sodium équilibrée avec le CO₂ atmosphérique — la même chimie qui rend la pluie propre légèrement acide. Le point brønstedien se trouve dans la spéciation : le même ion apparaît comme accepteur de proton dans un récipient et comme donneur de proton dans l'autre, ce qu'aucune étiquette fixe acide/base ne peut dire."
+        "lv2": "HCO₃⁻ accepts a proton from acid, forming CO₂ and water; with OH⁻ it donates a proton and forms carbonate. In this script the acid beaker ends near pH 4.54 with some dissolved carbon still present; the lye beaker retains its carbon, mostly as carbonate, without a gas export.",
+        "lv2_de": "HCO₃⁻ nimmt von Säure ein Proton auf und bildet CO₂ und Wasser; gegenüber OH⁻ gibt es ein Proton ab und bildet Carbonat. Hier endet das Säuregefäß bei etwa pH 4,54 mit etwas gelöstem Kohlenstoff; das Laugengefäß behält seinen Kohlenstoff überwiegend als Carbonat, ohne Gasexport.",
+        "lv2_fr": "HCO₃⁻ accepte un proton d’un acide et forme CO₂ et eau ; face à OH⁻, il donne un proton et forme du carbonate. Ici, le bécher acide finit vers pH 4,54 avec du carbone encore dissous ; le bécher à la soude conserve son carbone, surtout comme carbonate, sans export gazeux.",
+        "lv3": "The acid case uses a bounded curated endpoint for newly formed dissolved CO₂. It does not remove all carbon or impose atmospheric equilibrium; acid-front nucleation and escape times are not modeled, and the gas parcel is not a calibrated instantaneous yield. The lye case begins with retained bicarbonate, not a stock already depleted by instantaneous self-venting. Its final carbonate/hydrogencarbonate equilibrium illustrates proton donation without a gas loss.",
+        "lv3_de": "Der Säurefall nutzt einen begrenzten kuratierten Endpunkt für neu gebildetes gelöstes CO₂. Er entfernt nicht den gesamten Kohlenstoff und erzwingt kein Luftgleichgewicht. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert; die Gasmenge ist keine kalibrierte augenblickliche Ausbeute. Der Laugenfall beginnt mit erhaltenem Hydrogencarbonat, nicht mit einem durch sofortige Selbstentgasung verminderten Vorrat. Sein abschließendes Carbonat/Hydrogencarbonat-Gleichgewicht zeigt Protonenabgabe ohne Gasverlust.",
+        "lv3_fr": "Le cas acide utilise un point final borné et curaté pour le CO₂ dissous nouvellement formé. Il ne retire pas tout le carbone et n’impose pas l’équilibre avec l’air. La nucléation au front acide et les temps d’échappement ne sont pas modélisés ; la quantité gazeuse n’est pas un rendement instantané calibré. Le cas à la soude commence avec de l’hydrogénocarbonate conservé, pas avec un stock diminué par un dégazage instantané. Son équilibre final carbonate/hydrogénocarbonate illustre un don de proton sans perte gazeuse."
       },
       "provenance": {
         "source": "Standard curriculum acid–base concepts (amphiprotic species, Brønsted–Lowry); carbonate equilibria from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria"
+        "computed_by": "PHREEQC via Kerotakis L2; zero-time carbonate boundary and bounded curated acid endpoint"
       }
     },
     {
@@ -3822,72 +3822,72 @@
         ],
         "absent": [],
         "predict": {
-          "question": "Stomach acid is roughly 0.1 mol/L hydrochloric acid — this beaker of it reads pH 1.1. In goes a gram of baking soda, about what a heartburn tablet carries. What does the meter say when the fizzing stops?",
-          "question_de": "Magensäure ist etwa 0,1-mol/L-Salzsäure — dieses Becherglas davon zeigt pH 1,1. Ein Gramm Natron kommt hinein, etwa das, was eine Sodbrennen-Tablette enthält. Was sagt das Messgerät, wenn das Sprudeln aufhört?",
+          "question": "This laboratory surrogate contains hydrochloric acid at about pH 1.1. A gram of baking soda is added. What does the meter say at the end of the scripted addition?",
+          "question_de": "Dieser Laborersatz enthält Salzsäure bei ungefähr pH 1,1. Ein Gramm Natron wird zugegeben. Was zeigt das Messgerät am Ende der skriptgesteuerten Zugabe?",
           "options": [
             "Still about 1 — a kitchen powder cannot touch a strong acid",
-            "About 9, with a burp of carbon dioxide on the way",
+            "About 8, with carbon dioxide released during the addition",
             "14 — soda is a base, and a base sends the scale to the top"
           ],
           "options_de": [
-            "Immer noch etwa 1 — ein Küchenpulver kann einer starken Säure nichts anhaben",
-            "Etwa 9, mit einem Rülpser Kohlendioxid unterwegs",
-            "14 — Natron ist eine Base, und eine Base treibt die Skala nach oben"
+            "Weiterhin etwa 1 — ein Küchenpulver kann einer starken Säure nichts anhaben",
+            "Etwa 8, wobei während der Zugabe Kohlendioxid freigesetzt wird",
+            "14 — Natron ist eine Base, und eine Base schickt die Skala nach oben"
           ],
           "answer": 1,
-          "misconception": "Both wrong answers confuse what a substance IS with how much of it there is. 'Strong' describes how completely an acid gives up its protons, not how many it has: 0.01 mol of protons meets 0.012 mol of proton-acceptors and simply runs out. And a base does not teleport the scale to 14 — the leftover bicarbonate is a weak, gentle base that settles near 9, which is precisely why tablets are carbonates and not lye.",
-          "misconception_de": "Beide falschen Antworten verwechseln, WAS ein Stoff ist, mit WIE VIEL davon vorhanden ist. 'Stark' beschreibt, wie vollständig eine Säure ihre Protonen abgibt, nicht wie viele sie hat: 0,01 mol Protonen trifft auf 0,012 mol Protonenakzeptoren und geht einfach aus. Und eine Base teleportiert die Skala nicht zu 14 — das übrig gebliebene Hydrogencarbonat ist eine schwache, milde Base, die sich bei etwa 9 einpendelt, genau deshalb sind Tabletten Carbonate und keine Lauge.",
+          "misconception": "Strength and amount answer different questions. Here bicarbonate has enough proton-accepting capacity to consume the supplied acid, while remaining carbonate species give a mildly basic solution. A weak base does not automatically send the pH to the top of the scale. This laboratory model is not a treatment recommendation.",
+          "misconception_de": "Stärke und Menge beantworten verschiedene Fragen. Hier reicht die protonenaufnehmende Kapazität des Hydrogencarbonats aus, um die zugeführte Säure zu verbrauchen; verbleibende Carbonatspezies ergeben eine schwach basische Lösung. Eine schwache Base schickt den pH nicht automatisch ans Skalenende. Dieses Labormodell ist keine Behandlungsempfehlung.",
           "diagnosis": [
             {
               "option": 0,
               "reveals": "'Strong acid' as invincible — strength read as power over any opponent, rather than as the completeness of its own dissociation.",
               "reveals_de": "'Starke Säure' als unbesiegbar — Stärke wird als Macht über jeden Gegner gelesen, statt als Vollständigkeit der eigenen Dissoziation.",
-              "next": "Count instead of ranking: 0.01 mol of protons against 0.012 mol of bicarbonate. Strength decided how the protons were offered (all at once, fully dissociated); the counting decides who runs out, and the acid does. The fizz is its protons leaving the beaker as gas.",
-              "next_de": "Zähle, statt zu bewerten: 0,01 mol Protonen gegen 0,012 mol Hydrogencarbonat. Die Stärke hat entschieden, wie die Protonen angeboten wurden (alle auf einmal, vollständig dissoziiert); das Zählen entscheidet, wer ausgeht, und das ist die Säure. Das Sprudeln sind ihre Protonen, die das Becherglas als Gas verlassen.",
+              "next": "Compare the supplied acid with the bicarbonate capacity. The carbon in the escaping CO₂ comes from bicarbonate; acid supplies protons, not a carbon dioxide inventory.",
+              "next_de": "Vergleiche die zugeführte Säure mit der Hydrogencarbonatkapazität. Der Kohlenstoff im entweichenden CO₂ stammt aus Hydrogencarbonat; die Säure liefert Protonen, keinen Kohlendioxidvorrat.",
               "source": null,
-              "next_fr": "Compte au lieu de classer : 0,01 mol de protons contre 0,012 mol de bicarbonate. La force a décidé comment les protons ont été offerts (tous à la fois, entièrement dissociés) ; le décompte décide qui s'épuise, et c'est l'acide. Le pétillement, ce sont ses protons qui quittent le becher sous forme de gaz.",
+              "next_fr": "Compare l’acide fourni à la capacité du bicarbonate. Le carbone du CO₂ qui s’échappe vient du bicarbonate ; l’acide fournit des protons, pas un stock de dioxyde de carbone.",
               "reveals_fr": "« Acide fort » vu comme invincible — la force lue comme une puissance sur n'importe quel adversaire, plutôt que comme la complétude de sa propre dissociation."
             },
             {
               "option": 2,
               "reveals": "Bases as scale-flippers: adding 'a base' sends pH to the top of the scale, with the base's own strength and amount playing no part.",
               "reveals_de": "Basen als Skalenkipper: Die Zugabe von 'einer Base' schickt den pH-Wert an die Spitze der Skala, wobei die eigene Stärke und Menge der Base keine Rolle spielt.",
-              "next": "Look at what is actually left over: excess bicarbonate, a weak proton-acceptor that settles the beaker near pH 9 — for the lye that really does reach the top of the scale, run `strong-base`. Your stomach lining is the reason the gentle landing is the design goal: an antacid that overshot to 14 would be a worse burn than the acid it cured.",
-              "next_de": "Schau dir an, was tatsächlich übrig bleibt: überschüssiges Hydrogencarbonat, ein schwacher Protonenakzeptor, der das Becherglas bei etwa pH 9 einpendeln lässt — für die Lauge, die wirklich an die Spitze der Skala kommt, führe `strong-base` aus. Deine Magenschleimhaut ist der Grund, warum die sanfte Landung das Entwurfsziel ist: ein Antazidum, das bis 14 überschösse, wäre eine schlimmere Verätzung als die Säure, die es heilen sollte.",
+              "next": "Inspect the excess dissolved bicarbonate and the pH near 8. A carbonate equilibrium sets this endpoint; the label base alone does not specify a pH.",
+              "next_de": "Prüfe das überschüssige gelöste Hydrogencarbonat und den pH nahe 8. Ein Carbonatgleichgewicht bestimmt diesen Endpunkt; die Bezeichnung Base allein legt keinen pH fest.",
               "source": null,
-              "next_fr": "Regarde ce qui reste réellement : du bicarbonate en excès, un accepteur de protons faible qui stabilise le becher vers pH 9 — pour la lessive de soude, qui atteint vraiment le sommet de l'échelle, fais tourner `strong-base`. La muqueuse de ton estomac est la raison pour laquelle un atterrissage en douceur est l'objectif de conception : un antiacide qui dépasserait jusqu'à 14 serait une brûlure pire que l'acide qu'il devait soigner.",
+              "next_fr": "Examine l’excès de bicarbonate dissous et le pH proche de 8. Un équilibre carbonaté fixe ce point final ; le mot base ne spécifie pas un pH à lui seul.",
               "reveals_fr": "Les bases vues comme des inverseurs d'échelle : ajouter « une base » enverrait le pH au sommet de l'échelle, sans que la force ni la quantité propres de la base n'y jouent le moindre rôle."
             }
           ],
-          "misconception_fr": "Les deux réponses fausses confondent CE QU'EST une substance avec la QUANTITÉ qu'il y en a. « Fort » décrit à quel point un acide cède complètement ses protons, pas combien il en possède : 0,01 mol de protons rencontre 0,012 mol d'accepteurs de protons et s'épuise tout simplement. Et une base ne téléporte pas l'échelle jusqu'à 14 — le bicarbonate restant est une base faible et douce qui se stabilise vers 9, précisément pourquoi les comprimés sont des carbonates et non de la lessive de soude.",
+          "misconception_fr": "La force et la quantité répondent à deux questions différentes. Ici, la capacité du bicarbonate à accepter des protons suffit à consommer l’acide fourni ; les espèces carbonatées restantes donnent une solution légèrement basique. Une base faible n’envoie pas automatiquement le pH au sommet de l’échelle. Ce modèle de laboratoire n’est pas une recommandation de traitement.",
           "options_fr": [
             "Toujours environ 1 — une poudre de cuisine ne peut rien contre un acide fort",
-            "Environ 9, avec un rot de dioxyde de carbone au passage",
-            "14 — le bicarbonate est une base, et une base envoie l'échelle au sommet"
+            "Environ 8, avec du dioxyde de carbone libéré pendant l’ajout",
+            "14 — le bicarbonate est une base et envoie l’échelle au sommet"
           ],
-          "question_fr": "L'acide gastrique est à peu près de l'acide chlorhydrique à 0,1 mol/L — ce becher-là affiche pH 1,1. On y verse un gramme de bicarbonate de soude, à peu près ce que contient un comprimé contre les brûlures d'estomac. Que dit l'appareil quand le pétillement s'arrête ?"
+          "question_fr": "Ce substitut de laboratoire contient de l’acide chlorhydrique vers pH 1,1. On ajoute un gramme de bicarbonate. Que dit l’appareil à la fin de l’ajout prévu par le script ?"
         },
         "ph": {
-          "min": 9.0,
-          "max": 9.4
+          "min": 7.9,
+          "max": 8.1
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Pretend stomach acid: sour enough to sting. In goes the white powder — it fizzes hard, and when the bubbles stop, the sting is gone. The burp is the acid itself, leaving as gas.",
-        "lv1_de": "Nachgestellte Magensäure: sauer genug, um zu beißen. Das weiße Pulver kommt hinein — es sprudelt heftig, und wenn die Bläschen aufhören, ist das Beißen vorbei. Das Aufstoßen ist die Säure selbst, die als Gas entweicht.",
-        "lv1_fr": "De l'acide gastrique simulé : assez acide pour piquer. On y verse la poudre blanche — elle pétille fort, et quand les bulles s'arrêtent, la piqûre a disparu. Le rot, c'est l'acide lui-même qui s'échappe sous forme de gaz.",
-        "lv2": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. One gram of NaHCO₃ is 0.0119 mol against 0.0100 mol of acid, so the acid is the limiting reagent: the pH climbs from 1.1 to about 9.2, the balance loses ~0.45 g of CO₂, and the ~0.002 mol of unspent bicarbonate is what holds the finish gentle.",
-        "lv2_de": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. Ein Gramm NaHCO₃ sind 0,0119 mol gegenüber 0,0100 mol Säure, sodass die Säure der begrenzende Reaktionspartner ist: Der pH-Wert steigt von 1,1 auf etwa 9,2, die Waage verliert ~0,45 g CO₂, und die ~0,002 mol unverbrauchtes Hydrogencarbonat sind es, die das Ende sanft halten.",
-        "lv2_fr": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. Un gramme de NaHCO₃ représente 0,0119 mol face à 0,0100 mol d'acide, si bien que l'acide est le réactif limitant : le pH grimpe de 1,1 à environ 9,2, la balance perd ~0,45 g de CO₂, et les ~0,002 mol de bicarbonate non consommé sont ce qui rend la fin douce.",
-        "lv3": "The tablet is dosed to outlast the acid it expects — `buffer-capacity-exceeded` run in reverse: there, the insult outlasted the reserve; here, the reserve outlasts the insult, by design and by arithmetic. Honesty about the model: a beaker is not a stomach — a stomach keeps secreting acid and regulating volume, so the real relief is a running battle rather than this one-shot titration; and the beaker's pH 9.2 endpoint is an open-vessel carbonate equilibrium, venting CO₂ until it matches the atmosphere. What the arithmetic does transfer to the pharmacy shelf: the dose works by moles, not by magic, which is why the packet specifies grams.",
-        "lv3_de": "Die Tablette ist so dosiert, dass sie die erwartete Säure überdauert — `buffer-capacity-exceeded` rückwärts abgespielt: Dort überdauerte der Angriff die Reserve; hier überdauert die Reserve den Angriff, nach Entwurf und nach Rechnung. Ehrlichkeit über das Modell: Ein Becherglas ist kein Magen — ein Magen scheidet weiterhin Säure aus und reguliert das Volumen, sodass die echte Linderung ein andauernder Kampf ist und keine einmalige Titration; und der Endpunkt des Becherglases bei pH 9,2 ist ein Carbonatgleichgewicht im offenen Gefäß, das CO₂ entgast, bis es der Atmosphäre entspricht. Was die Rechnung tatsächlich ins Apothekenregal überträgt: Die Dosis wirkt nach Molzahlen, nicht nach Magie, weshalb die Packung Gramm angibt.",
-        "lv3_fr": "Le comprimé est dosé pour survivre à l'acide qu'il anticipe — `buffer-capacity-exceeded` joué à l'envers : là-bas, l'attaque survivait à la réserve ; ici, la réserve survit à l'attaque, par conception et par calcul. Honnêteté sur le modèle : un becher n'est pas un estomac — un estomac continue de sécréter de l'acide et de réguler son volume, si bien que le soulagement réel est un combat continu plutôt que cette titration en un seul coup ; et le point final du becher à pH 9,2 est un équilibre carbonaté en récipient ouvert, dégazant du CO₂ jusqu'à s'équilibrer avec l'atmosphère. Ce que le calcul transmet bel et bien jusqu'au rayon de la pharmacie : la dose agit par moles, pas par magie, ce qui explique que la boîte indique des grammes."
+        "lv1": "The powder reacts with the supplied acid and releases carbon dioxide. The laboratory mixture becomes mildly basic. This beaker does not model a stomach or tell anyone how to treat symptoms.",
+        "lv1_de": "Das Pulver reagiert mit der zugeführten Säure und setzt Kohlendioxid frei. Die Labormischung wird schwach basisch. Dieses Becherglas modelliert keinen Magen und sagt niemandem, wie Beschwerden behandelt werden sollen.",
+        "lv1_fr": "La poudre réagit avec l’acide fourni et libère du dioxyde de carbone. Le mélange de laboratoire devient légèrement basique. Ce bécher ne modélise pas un estomac et n’indique à personne comment traiter des symptômes.",
+        "lv2": "HCO₃⁻ + H⁺ → H₂O + CO₂. One gram of NaHCO₃ supplies about 0.0119 mol against 0.0100 mol acid. The script ends near pH 8.00 with bicarbonate remaining. The gas parcel is a bounded curated endpoint, not a measured instantaneous yield or a prediction of when fizzing stops.",
+        "lv2_de": "HCO₃⁻ + H⁺ → H₂O + CO₂. Ein Gramm NaHCO₃ liefert etwa 0,0119 mol gegenüber 0,0100 mol Säure. Das Skript endet bei etwa pH 8,00 mit verbleibendem Hydrogencarbonat. Die Gasmenge ist ein begrenzter kuratierter Endpunkt, keine gemessene augenblickliche Ausbeute oder Vorhersage des Sprudelendes.",
+        "lv2_fr": "HCO₃⁻ + H⁺ → H₂O + CO₂. Un gramme de NaHCO₃ fournit environ 0,0119 mol face à 0,0100 mol d’acide. Le script finit vers pH 8,00 avec du bicarbonate restant. La quantité gazeuse est un point final borné et curaté, pas un rendement instantané mesuré ni une prédiction de la fin du pétillement.",
+        "lv3": "The mole budget explains why the supplied acid is consumed before the bicarbonate capacity is exhausted. The final state retains dissolved carbon and is not forced to room-air equilibrium. Acid-front nucleation and escape times are not modeled. This one-shot laboratory surrogate omits continuing acid secretion and changing stomach volume; it does not establish clinical efficacy, dosing or safety.",
+        "lv3_de": "Die Molbilanz erklärt, warum die zugeführte Säure vor Erschöpfung der Hydrogencarbonatkapazität verbraucht ist. Der Endzustand enthält gelösten Kohlenstoff und wird nicht ins Gleichgewicht mit der Raumluft gezwungen. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert. Dieser einmalige Laborersatz lässt fortlaufende Säuresekretion und Änderungen des Magenvolumens aus; er belegt weder klinische Wirksamkeit noch Dosierung oder Sicherheit.",
+        "lv3_fr": "Le bilan molaire explique pourquoi l’acide fourni est consommé avant l’épuisement de la capacité du bicarbonate. L’état final conserve du carbone dissous et n’est pas forcé à l’équilibre avec l’air. La nucléation au front acide et les temps d’échappement ne sont pas modélisés. Ce substitut de laboratoire en une seule étape omet la sécrétion continue d’acide et les variations du volume gastrique ; il n’établit ni efficacité clinique, ni posologie, ni sécurité."
       },
       "provenance": {
         "source": "Standard curriculum application of neutralisation (antacids); carbonate equilibria from PHREEQC wateq4f.dat (USGS); stomach-acid concentration ~0.1 mol/L is a standard physiology figure. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass bookkeeping by the Kerotakis bench"
+        "computed_by": "PHREEQC via Kerotakis L2; bounded curated acid/carbonate endpoint, with bench mass bookkeeping"
       }
     },
     {
