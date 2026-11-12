@@ -1424,7 +1424,11 @@ fn newly_guided_kids_rows_keep_their_evidence() {
             // 50.300 g of vinegar + 5 g of soda + 0.59 g of trapped air:
             // the sealed reading is what went in, at 18 °C as at 25, and
             // the open flask is lighter by exactly the gas that escaped.
-            &["v1 balance: 55.89 g", "v2 balance: 53.13 g"],
+            // Read straight after the addition (2026-11-11): CO2 above the
+            // 1 atm bubble threshold has left; what is still dissolved
+            // leaves later, so the open reading is 53.47 rather than the
+            // room-air endpoint 53.13.
+            &["v1 balance: 55.89 g", "v2 balance: 53.47 g"],
         ),
     ];
     for (name, evidence) in cases {
