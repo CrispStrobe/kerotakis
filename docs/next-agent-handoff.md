@@ -1,84 +1,36 @@
-# Fresh-agent handoff — 2026-11-11
+# Fresh-agent handoff — 2026-11-12
 
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
-## 0. State and open tasks after round 3 (2026-11-11)
+## 0. State and open tasks after round 4 (2026-11-12)
 
-State at handover: production = `731931f090e3bc41059d0aef98ae64ca0223138b` (health `revision` and `engine.source_head` both equal it). Qualification **402/468** unique originals (406 catalog entries, catalog `audits/working-experiments-20261111-reviewed-production-round3-29.json` on the audit branch). The goal of ≥ 401 is met; further qualifications continue the same way.
+State: production `731931f0` until round 4 deploys; qualification **402/468** (see [STATUS](STATUS.md)).
+Round 4 (`integrate/round4-20261111`) is merged to main after hosted CPU validation, deployed once,
+and the affected originals (KI-011, SP-011, EN-001, PO-009, TH-004, AB-035, GS-013, plus any whose
+output changed) re-run once, then strict and adversarial review and a new catalog version.
 
-What landed since 2026-11-10 (merged directly, each round validated once on a hosted CPU runner):
-- `d930a986`: Fe3+/I- redox across salt forms, transport inlet ledger, organic solid solubility and ion partition (`retained`), reviewed transition points (melting ranges), starch–amylase unit rate. Re-run of 13: +4 (SE-002, MO-012, AN-007, TH-003). Evidence: `audits/fixes-rerun-production-review-20261111/`.
-- `731931f0` (round 3 + seven lanes): amylase heat inactivation (Miłek 2021); iodine-clock two-term kinetics (Liebhafsky & Mohammad 1933); primary transition values (Zhang 2011 element boiling points); respeciation of held Fe/Mn/Cu/Cr oxidation-state splits; `inspect` iodine inventory incl. starch-bound I3-; acid peroxide/iodide partition; raw starch granules refused typed; paraffin latent heat across its melting range, PE/PP typed refusal, no false blend depression; transport debits the inlet unless `reservoir` is declared; free-I2-only solvent partition with I3- re-formation. Re-run of 7: +5 (EC-008, RX-004, AN-004, TH-004, PO-009). Evidence: `audits/round3-rerun-production-review-20261111/`.
-- Deployed although main CI's Full preflight failed three times on runner apt DNS (Azure and archive.ubuntu.com unresolvable); the other 28 jobs passed. `ci.yml` now retries apt and falls back to archive.ubuntu.com; confirm a fully green main CI.
+Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
+no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: primary, or "as quoted by"
+Wikipedia/NIST with the primary named; NIST SRD single facts only; the MPI-Mainz UV/VIS atlas is
+CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 
-**Open, in order** (each a narrow change from main, family-wide: coverage table, generic mechanism, typed EN/DE/FR refusal, tests):
-1. KI-011: thiosulfate acid decomposition leaves an unreacted SO2 pool beside I2 and H2O2; couple S(IV) + I2 and S(IV) + H2O2. H2O2/O2 amounts change during `wait` with no event.
-2. SP-011: I2 in a hexane vessel is tagged "aqueous" and `inspect` reports 0 oxidised iodine there; the hexane/water K_D = 85 cites an exam question (likely the CCl4 value) — find a primary value or refuse.
-3. PO-009: the thermometer reading after heating PE/PP has no inline qualifier (latent heat unsourced). TH-004: solid paraffin is drawn floating on its melt (it sinks); cooling reports freezing at 20 C, outside the declared 42-68 C range.
-4. EN-001: raw starch is refused typed, so the treated arm equals the control; needs a sourced granule digestion rate. TR-006: the verbatim script asks a 20 mL feed for 60 mL and is correctly refused.
-5. Open-vessel outward gas rate (AB-035/GS-013); HNO3 species; unverified rows (NH3 solution densities, hexadecane/tert-butanol latent heats); neutral iodide peroxide catalysis is an editorial value ~15x the measured one; cache the SUNDIALS tarball in CI.
-6. Re-run only originals whose blocker a merged lane removed, once per deployed sha, then strict + adversarial review and a new catalog version.
+1. **Volatile acid–base gases beyond CO2.** `derived::ATMOSPHERIC` offers an open beaker only CO2(g), and
+   the fizz rule (`acid_carbonate_effervesces`, bench.rs) only knows carbonic acid. Generalise both to
+   a table of volatile conjugate pairs with their own pKa and room-air level: SO2/HSO3- (sulfite + acid),
+   H2S/HS- (sulfide + acid), NH3/NH4+ (ammonium + base, fizz when pH > pKa). Acceptance: acid on Na2SO3
+   or Na2S releases the gas in the step; neutral solutions keep it until time passes.
+2. **Headspace gas colour from cross sections.** The registry has gas entries (Cl2, SO2, H2S) without a
+   spectrum, and no Br2 vapour or NO2. Build one mechanism mapping cited gas-phase cross sections
+   (atlas) to the 16-band colour of a headspace at its partial pressure and path; cover Cl2, Br2, NO2,
+   I2 vapour, O3; refuse typed where no cross section is cited.
+3. **Open-vessel seeping over `wait`.** The two-film lane was withdrawn (it removed fizz). Re-add a sourced
+   k_L seeping rate *under* the zero-time/fizz rule; carbonate, foam and codex tests must stay green.
+4. **Unsourced data.** FeCl2+ absorptivity (figure-only), starch–iodine blue value, maltose/maltotriose
+   split, PVC and unsintered PTFE latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2,
+   BaCl2, KCl, CaO, MgO, SiO2, Pb(NO3)2, AgNO3; NBS Circular 500 page images).
+5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
+   packs, metals in acid, displacement, AgCl/BaSO4/PbI2, limewater, vinegar + soda, chalk + acid,
+   permanganate colour, ethanol burning, boiling) and fix what is off, generically.
+6. TR-006's verbatim script asks a 20 mL feed for 60 mL and is correctly refused; leave it.
 
-## Previous handoff — 2026-10-27
-
-Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md) and [PR policy](PR-WORKFLOW.md). The previous six-lane loop has completed source integration and actual product acceptance. This maintained-summary refresh records that checkpoint and scopes the next cycle. Do not follow historical pending notes as an active execution queue. Read the ignored operating handoff for private inputs, resource thresholds and protected evidence/worktree inventories; do not publish those details.
-
-## 1. Accepted source and product; start the successor lanes
-
-[PR861](https://github.com/CrispStrobe/kerotakis/pull/861) integrates reviewed `b629f1d02447a5a73ab4352c794228565a8c1681` normally as runtime `a7640a0759f091a31ed40b4cc29c8e127d19b245`, shared tree `054c62a5a7381b4608d8e0b22c94cd2fc8037782`. [Full-source proof](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/audits/owned-diagnostic-full-source-and-merge-20261027/README.md) records 27 successful CI jobs plus expected publication skip, all33 fleet jobs/142 complete authored steps, and both native platforms'36 controls/500 curiosity requirements with zero unmet/runtime/drift failures. Protection remains intact; no bypass or force push is used.
-
-199 owned reason contracts and EN/DE/FR rendering are implemented. Optional boxed metadata preserves omitted-metadata JSON, generic LV1, opaque upstream fallback and raw technical details. Actual propagation/locale/wire guards and strict compilation pass. Severity, rollback, routing, physical bounds and the preserved33-file documentation delta are retained. Do not repeat the implementation.
-
-[The actual new deployment](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) passes all11 API protocols, security/admission/concurrency and all82 browser controls:37 baseline,7 targeted,18 locale,2 heat,18 optics. Native5427d0ee, actual producer lock568f0a32 and archive072274e0 are independently authenticated with frontend/runtime libraries and actual source. Both original64 saved-reader chains and two optical18 saved assessments use actual collected output and unchanged predicates. The private producer executes once; no older evidence is retagged. Producer Cargo.lock remains a captured untracked build output, not a source-committed lock. The current snapshot scan protects five retained deployment snapshots across all39 accessible projects, with zero active sandboxes/new orphans and no additional deletion.
-
-The source/runtime stays a764 when documentation-only commits integrate. Use a narrow branch from actual main for new work; never merge broad audit or validation-only branches. Review current prerequisites before choosing a successor lane below. CI acceleration is first in the ordered agenda, followed by bounded original triage, demonstrated generic model/ownership repairs, diagnostic source-gate coverage and snapshot lifecycle prevention. No goal of401 originals is claimed: qualification remains339/468.
-
-## 2. Preserve actual earlier product assessment and original qualifications
-
-The last verified c517 [15API/86browser assessment](../audits/c517-fifteen-eighty-six-complete-assessment-20261026/README.md) is API12pass/3unsupported and browser83pass/3unsupported, retaining the11/82 baseline. It is complete assessment, not a full15/86 scientific pass. Warm feed/wait passes; the three cold mixtures remain held. Calcium/silver's calculated ionic strength exceeds the audited fallback range. The other two have calculated ionic strength below1 but conservative input-load warnings; do not call those measured high-I failures. Preserve the first baseline loader failure and the extra-browser late revision failure; calcium/silver's14 replies were recovered without replay, then a reviewed successor ran only the remaining three protocols.
-
-[The working catalog](https://github.com/CrispStrobe/kerotakis/blob/8e75e480/audits/working-experiments-20261026-reviewed-pigment-one.json) has343 entries representing339/468 unique originals.129 remain;62 additional earned originals are needed for401. Entries span explicit sources/domains, not a uniform latest-production replay or empirical calibration. All668 supplied records already have baseline executions:557zero/111nonzero exits; original468 is465/3 and the separate curriculum200 is92/108. Those exit counts are not scientific scores.
-
-[LI004 qualifies](../audits/original-li004-current-source-qualified-20261026/README.md) in its unchanged curated pigment-identity-versus-dilution scope;44 actual readbacks close knownH/O/elements/charge within the original1e−10 bound. Different405/525nm observations are not a numerical absorbance-loss measurement or empirical product identification. EN002/EN008 show the intended aggregate conversion/control annotations but retain the milk physical charge/pH hold. Missing resolved glucose/galactose/peptides alone is not a rejection criterion for these forecasts. FE006 substrate/lactic-stock arithmetic agrees; milk pH/buffer authority remains held. It initializes40C and cools over8h, rather than holding40C. All four exact originals execute once on c517; do not repeat them without a demonstrated changed-source question or invent an unobserved enzyme clock-owner defect.
-
-## 3. Successor lane: remaining-original qualification
-
-**2026-10-27 update:** the [remaining-129 production triage](../audits/remaining129-production-triage-20261027/README.md) supersedes the first partitioning step. Its formal review already qualified 22 of the 30 ready cases (361/468; catalog `audits/working-experiments-20261027-reviewed-production-remaining.json` on the audit branch). Next repair the shared iodide/iodine/thiosulfate ownership lane and reaction/solution heat ownership (confirmed TH-007, TH-009, TH-015), and fix the AB-017 regression (NH3(g) missing from routed minteq.v4). Treat the model-assisted triage as a lead list: re-verify each claim against raw output before a source change.
-
-Prerequisites: [remaining-original scopes](remaining-original-followups-20261022.md), [scientific coverage](scientific-coverage-expansion-20261020.md), the exact original forecasts/first replies and current ledger. Partition only the129 remaining originals into disjoint8–12-case subsets. For each, record exact source ID, faithful Kero input, requested observable, first failure, model domain and next source question. Start from saved evidence and refresh current source before alleging an older TH015/SP003 or other defect persists.
-
-Correct command syntax, a stock alias or a missing step only when the source experiment supports it. Do not add solvent, alter quantities, impose a thermostat, loosen a bound or replace the forecast to fit the implementation. Rank generic source repairs by demonstrated original beneficiaries; freeze changed-source follow-ups separately. Acceptance requires the unchanged original criteria and independent physical checks with exact source/native/lock bindings. Append newly earned entries without changing predecessor objects. An unsupported result remains a coverage limit and earns no credit.
-
-## 4. Successor lane: model-warning triage and phase/dissolution ownership
-
-[Actual family saved readback](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/audits/owned-diagnostic-family-readback-20261027/README.md) verifies29 archives,702 distinct internal cases,3763 frames and991 declared checks, including702 execution checks. These are not the original468.490 model-limit events affect135 internal cases;34 hazard events remain visible. [Typed warning lanes](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/docs/source-family-warning-lanes-20261027.md) provide exact reason keys, source fixtures, sample IDs/input hashes, actions and acceptance. All17 observed nested message keys already have DE/FR catalog/placeholder coverage; the model warnings are not untranslated-string failures.
-
-For a bounded representative per distinct key, trace the actual producer branch, stock/solvent history, solver problem, offered/registered phase, saturation result and domain. Distinguish a real mapping/owner defect from a correct data/model boundary. Repair a demonstrated shared defect at source; add data only with provenance and an explicit domain. Preserve elements includingH/O, charge and heat, with positive/negative and nearby boundary controls. Do not offer every solid, invent counterions or oxidation states, classify unknown coordinates as zero, or hide warnings. Map to original129 beneficiaries only after checking their requested observable; warning-event counts are not failed-experiment counts.
-
-## 5. Successor lanes: cold mixtures, mixed solvents and milk matrix
-
-For [cold-mixture authority](cold-mixture-model-authority-20261026.md), separate route selection, activity-model validity, subfreezing/phase ownership and physical coordinate closure. Add independently specified dilute/temperature companions before changing original domains. Source any parameter/database extension compatibly; keep original quantities and bounds. Numerical convergence or a conservative input proxy cannot establish physical validity. Acceptance requires an audited domain plus actual native/product checks, otherwise an explicit measured hold.
-
-For mostly organic mixtures, use the typed warning samples and [UNIFAC scope](unifac-input-admission-20261019.md). Determine which requested properties remain supported without ionic speciation. An ionic mixed-solvent extension needs appropriate thermodynamic data and composition/temperature/ionic-strength controls; do not turn an organic mixture into aqueous input by adding water. Reference-complex messages separately lack parts of formation heat, rates, spectra and strong-acid thiocyanate chemistry; a reference-temperature context message is not itself a bug.
-
-For [milk-matrix closure](milk-matrix-physical-closure-20261026.md), establish sourced analytical composition, charge/proton/buffer and physical pH authority before predictive claims. Preserve opaque inventory and knownH/O/charge, separately observe enzyme and fermentation channels, and retain actual temperature histories. Do not manufacture acidity/counterions or reject allowed aggregate products merely because resolved molecules are absent. Use unchanged originals only after a demonstrated changed-source question and meaningful supported/unsupported companions. Missing authority remains an explicit limit.
-
-## 6. Successor lane: bounded CI acceleration
-
-Read [the measured acceleration scope](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/docs/ci-runner-acceleration-20261026.md) and [the source-derived142-step manifest](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/audits/ci-runner-timing-20261026/FLEET-RUN-STEP-SOURCE-MANIFEST.json). Preserve all29 logical families and every command inside all142 authored run steps, including49 multiline blocks. Physical job counts may change only while retaining those semantics, first failures, fail-fast within former groups, continuation across independent groups and always-uploaded evidence. Missing/skipped work must not pass. Prefer bounded source/authenticated-artifact reuse and physical shards over many tiny scheduled jobs.
-
-Before removing duplicate native preflight work, prove command equivalence under identical source, features, platform, toolchain, lock and assets. Retain unique feature coverage, the full local preflight default, unchanged native platform matrix and every protected context name. A composed gate must require its delegated obligations. Do not cancel valid current runs or reset an accepted head for optional bundling. Acceptance needs actual complete outcomes and queue/wall measurements; summed wall time is not CPU time, billing or a promised speedup.
-
-## 7. Successor lane: automatic diagnostic source coverage
-
-Read [the owned source-gate follow-up](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/docs/owned-diagnostic-source-gate-followup-20261026.md). Current199 contracts pass; the observed gaps concern future parser/inventory coverage. Share precise lexical handling of cfg-test items so a test-only enum variant cannot swallow the following production implementation. Derive finite helper-selected reason keys automatically and check every shipped locale/placeholder set. Require negative fixtures for omitted translations/helper keys, comments, strings and nested/test-only declarations. Preserve opaque upstream fallback, raw detail, old JSON and physical behavior; do not allege a current missing translation without evidence.
-
-For saved-evidence readers, derive field expectations from the pinned producer schema before interpreting missing fields as missing work. Authenticate identities through their actual owning records; never remove a physical or identity assertion to fit output. Create every report exclusively and write corrections under a new name. The current release audit documents five false-positive schema flags and the loss of the first ad hoc review body; all actual producer files and frozen reader evidence survive. A bounded reader-maintenance lane should add wrong-schema, missing-identity and existing-output negative fixtures, preserve original report bytes and actual invocation streams, and prove no product replay or scientific predicate change. This is a review-tooling follow-up, not an unaddressed runtime failure.
-
-## 8. Successor lane: deployment snapshot lifecycle
-
-The approved17-snapshot cleanup frees13.16GiB. [The current all39-project scan](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) finds five live snapshots bound to five retained READY deployments, zero active sandboxes and zero new orphans. All17 deletion tombstones remain unchanged. Bindings use actual workflow snapshot/deployment dataflow; decrypted environment values are not claimed. No further deletion is needed; protect current and rollback snapshots.
-
-Use [lifecycle scope](deployment-snapshot-lifecycle.md) for future work: authenticate pagination and retained-deployment/active-sandbox references, begin with dry-run reporting, and delete only demonstrably unreferenced snapshots within approved scope. Preserve first failures and raw inventories. Keep provider/account/host details private; do not introduce unrequested scheduled destruction.
-
-Earlier dated handoffs remain immutable in Git history; their pending statuses do not authorize duplicate work. Check fresh load, available memory and disk before large work or extra agents. Use authorized hosted bounded validation when local gates close, independently review delegated outputs, and preserve protected evidence/worktrees.
+Earlier handoffs (2026-10-27 successor lanes 1–8) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
