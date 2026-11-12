@@ -31,11 +31,11 @@ sha afterwards. Round 4:
   room air. Baking soda in water keeps its carbon until time passes (AB-035, GS-013). The two-film
   seeping lane was withdrawn: a 1 atm threshold alone stops acid on carbonate from fizzing.
 
-Round 5 (from the typical-experiment sweep): elemental metals priced on the aqueous enthalpy basis
-through cited ΔfH of their master ion (CODATA 1989; NBS Circular 500 for Fe²⁺, Ni²⁺, Ba²⁺), so Zn/Mg + acid
-and Fe + Cu²⁺ now charge their heat; `ignite` burns liquid ethanol, methanol, propanone and n-hexane in
-an open dish (curated rows from Circular 500 / NIST-quoted formation enthalpies) instead of boiling
-them off; headspace gas colour (Cl2, Br2, I2, NO2, O3) from the MPI-Mainz atlas.
+Round 5 (from the typical-experiment sweep): `ignite` burns liquid ethanol, methanol, propanone and
+n-hexane in an open dish (curated rows from Circular 500 / NIST-quoted formation enthalpies) instead
+of boiling them off; headspace gas colour (Cl2, Br2, I2, NO2, O3) from the MPI-Mainz atlas. Metal +
+acid and displacement heats were already charged by the displacement solver from formation
+enthalpies (a second route was tried and withdrawn: it double-counted).
 
 ## Open work (detail and acceptance in the [handoff](next-agent-handoff.md))
 

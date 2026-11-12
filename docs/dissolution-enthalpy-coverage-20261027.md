@@ -143,6 +143,10 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | combustion | `sucrose` | -dHc per mol fuel | 1 | 5640 kJ |
 | combustion | `dodecane` | -dHc per mol fuel | 1 | 8087 kJ |
 | combustion | `hexadecane` | -dHc per mol fuel | 1 | 10699 kJ |
+| combustion | `ethanol` | -dHc per mol fuel | 1 | 1366.91 kJ |
+| combustion | `methanol` | -dHc per mol fuel | 1 | 726.62 kJ |
+| combustion | `propanone` | -dHc per mol fuel | 1 | 1788.62 kJ |
+| combustion | `hexane` | -dHc per mol fuel | 1 | 4163.17 kJ |
 | gas-pack:h2-o2-skeletal-v1 | every reaction with formation enthalpies | per extent (sum of coefficient x dfH) | as written | derived |
 | gas-pack:co-h2-wet-v1 | every reaction with formation enthalpies | per extent (sum of coefficient x dfH) | as written | derived |
 | gas-pack:hydrocarbon-global-v1 | every reaction with formation enthalpies | per extent (sum of coefficient x dfH) | as written | derived |

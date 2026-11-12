@@ -2562,3 +2562,8 @@ first-order deactivation above T_opt, complete above 343.15 K), the typed
 `not-modeled.amylase-heat-inactivated` reason is reported, and no
 `ReactionOccurred` lifts the starch insolubility aside any more. Recorded as
 `qualitative / typed-observation`, the same shape as `bio-031`'s pH refusal.
+
+Refreshed 2026-11-12 (twelve rows), after `ignite` stopped boiling liquid fuels off the dish:
+`th-031`, `th-032`, `th-033`, `th-038`, `th-047`, `th-050`, `th-052` to `th-056` and `th-114`
+(`curated` -> `computed`). Each ignites ethanol, methanol, hexane or petrol; the fuel used to leave
+as vapour before any combustion solver saw it, and now burns (`Vessel::ignition`).
