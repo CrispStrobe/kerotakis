@@ -9,9 +9,11 @@ Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. Qualification is **402
 originals (406 entries; catalog `audits/working-experiments-20261111-reviewed-production-round3-29.json`
 on the audit branch). The goal of ≥ 401 is met; further qualifications continue the same way.
 
-## Round 4 (integration branch `integrate/round4-20261111`, merging to main 2026-11-12)
+## Rounds 4 and 5 (merged to main 2026-11-12 by auto-merge PR; app release v0.1.5)
 
-Validated on a hosted CPU runner, then merged once, deployed once, and the affected originals re-run once:
+Merged through one PR whose required CI is the gate; v0.1.5 is tagged from that merge for the App
+Store/TestFlight builds (internal, then external). The affected originals re-run once on the deployed
+sha afterwards. Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.
 - Iodine in hexane is labelled a non-aqueous solution and counted by `inspect`; hexane/water K_D = 26.0
@@ -28,6 +30,12 @@ Validated on a hosted CPU runner, then merged once, deployed once, and the affec
   (pH < pK1(T), Harned & Davis 1943) with CO2 above room air, the acid has made CO2 and the step fizzes to
   room air. Baking soda in water keeps its carbon until time passes (AB-035, GS-013). The two-film
   seeping lane was withdrawn: a 1 atm threshold alone stops acid on carbonate from fizzing.
+
+Round 5 (from the typical-experiment sweep): elemental metals priced on the aqueous enthalpy basis
+through cited ΔfH of their master ion (CODATA 1989; NBS Circular 500 for Fe²⁺, Ni²⁺, Ba²⁺), so Zn/Mg + acid
+and Fe + Cu²⁺ now charge their heat; `ignite` burns liquid ethanol, methanol, propanone and n-hexane in
+an open dish (curated rows from Circular 500 / NIST-quoted formation enthalpies) instead of boiling
+them off; headspace gas colour (Cl2, Br2, I2, NO2, O3) from the MPI-Mainz atlas.
 
 ## Open work (detail and acceptance in the [handoff](next-agent-handoff.md))
 
