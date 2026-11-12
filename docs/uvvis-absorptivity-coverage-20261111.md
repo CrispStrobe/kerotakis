@@ -14,7 +14,7 @@ species without a row at λ, a coloured registry species without reviewed ε, a
 Br2/Br⁻ association, a temperature outside the measured range) refuses that
 wavelength with `not-modeled.uvvis-absorptivity-no-data` (EN/DE/FR).
 
-Counts: 14 rows, 13 covered species, 4 refused species, 4 lower-confidence (snippet) rows.
+Counts: 18 rows, 14 covered species, 3 refused species, 4 lower-confidence (snippet) rows.
 
 Confidence: `read` = number read in the cited document; `quoted` = read in a secondary naming the primary; `snippet` = only a quotation was read (lower confidence).
 
@@ -34,12 +34,15 @@ Confidence: `read` = number read in the cited document; `quoted` = read in a sec
 | FeSCN+2 | 447 | 4700 | — | quoted | Frank & Oswalt, J. Am. Chem. Soc. 69 (1947) 1321, doi:10.1021/ja01198a026, as quoted by a university handout (4700 L mol-1 cm-1, acidic HClO4); an I = 0.5 M study gives 2841, so the value is condition dependent |
 | Cu(NH3)4+2 | 640 | 77 | — | snippet | Anal. Chim. Acta (2002), S0003267002001356 (snippet): epsilon(640) = 77 M-1 cm-1 for Cu(NH3)4 2+ |
 | Ni+2 | 395 | 5.2 | — | snippet | Metz group (UMass) paper (snippet): Ni(H2O)6 2+ 395 nm, epsilon about 5.2 M-1 cm-1 |
+| CrO4-2 | 370 | 4795 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
+| CrO4-2 | 375 | 4815 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
+| CrO4-2 | 400 | 1922 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
+| CrO4-2 | 450 | 160 | — | read | Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov |
 
 ## Refused (no sourced ε)
 
 | species | reason |
 |---|---|
-| CrO4-2 | 372 nm, about 4810-4830 only on non-primary web pages; no primary found |
 | Co+2 | Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced |
 | Cl2 | Cl2(aq) bands near 220 and 345 nm located; no numeric aqueous epsilon (gas-phase values must not be used) |
 | FeCl+2 | 335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure |

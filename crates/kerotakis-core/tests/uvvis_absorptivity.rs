@@ -289,3 +289,19 @@ fn permanganate_band_peak_and_cited_525_reading_agree() {
         );
     }
 }
+
+#[test]
+fn alkaline_chromate_reads_haupts_nbs_absorptivity() {
+    // Haupt 1952 (NBS RP2331) Table 1: 4815 L/mol/cm at 375 nm, 0.05 N KOH.
+    let mut v = water(100.0);
+    native(&mut v, &[("CrO4-2", 2e-4), ("K+", 4e-4)]);
+    let kg = v.solution.as_ref().unwrap().solvent_kg.unwrap();
+    let litres = v.liquid_volume().0;
+    let r = uv::absorbance_at(&v, 375.0, 1.0);
+    assert!(r.blocked.is_empty(), "{:?}", r.blocked);
+    assert!(
+        close(r.absorbance, 4815.0 * 2e-4 * kg / litres),
+        "{}",
+        r.absorbance
+    );
+}

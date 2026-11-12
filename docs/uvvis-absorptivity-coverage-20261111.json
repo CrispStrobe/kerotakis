@@ -2,9 +2,9 @@
   "generated_by": "tools/uvvis_absorptivity_coverage.py",
   "mechanism": "A(lambda) = l * sum eps(species, lambda, T) * c(species) over every species with a cited row within 1 nm; any present absorber without a cited row at that wavelength (or outside a row's temperature range) blocks the reading with not-modeled.uvvis-absorptivity-no-data (EN/DE/FR)",
   "counts": {
-    "rows": 14,
-    "covered_species": 13,
-    "refused_species": 4,
+    "rows": 18,
+    "covered_species": 14,
+    "refused_species": 3,
     "lower_confidence_rows": 4
   },
   "rows": [
@@ -170,13 +170,53 @@
       ],
       "confidence": "snippet",
       "source": "Metz group (UMass) paper (snippet): Ni(H2O)6 2+ 395 nm, epsilon about 5.2 M-1 cm-1"
+    },
+    {
+      "species": "CrO4-2",
+      "nm": 370.0,
+      "epsilon": 4795.0,
+      "temperature": null,
+      "carriers": [
+        "CrO4-2"
+      ],
+      "confidence": "read",
+      "source": "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov"
+    },
+    {
+      "species": "CrO4-2",
+      "nm": 375.0,
+      "epsilon": 4815.0,
+      "temperature": null,
+      "carriers": [
+        "CrO4-2"
+      ],
+      "confidence": "read",
+      "source": "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov"
+    },
+    {
+      "species": "CrO4-2",
+      "nm": 400.0,
+      "epsilon": 1922.0,
+      "temperature": null,
+      "carriers": [
+        "CrO4-2"
+      ],
+      "confidence": "read",
+      "source": "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov"
+    },
+    {
+      "species": "CrO4-2",
+      "nm": 450.0,
+      "epsilon": 160.0,
+      "temperature": null,
+      "carriers": [
+        "CrO4-2"
+      ],
+      "confidence": "read",
+      "source": "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, 1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read from nvlpubs.nist.gov"
     }
   ],
   "no_data": [
-    {
-      "species": "CrO4-2",
-      "reason": "372 nm, about 4810-4830 only on non-primary web pages; no primary found"
-    },
     {
       "species": "Co+2",
       "reason": "Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced"

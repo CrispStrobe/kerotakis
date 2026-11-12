@@ -104,6 +104,11 @@ epsilon(640) = 77 M-1 cm-1 for Cu(NH3)4 2+";
 const NI_AQUA: &str = "Metz group (UMass) paper (snippet): Ni(H2O)6 2+ 395 nm, epsilon about 5.2 \
 M-1 cm-1";
 
+const HAUPT_1952: &str = "Haupt, J. Res. NBS 48 (1952) 414, RP2331 (vol. 48 no. 6, nvlpubs V48.N06.A03), \
+Table 1 (molar absorbancy index aM = As/bc, 0.0400 g/L K2CrO4 in 0.05 N KOH, 25 C, c = 2.059e-4 M, \
+1 cm): 4795 at 370 nm, 4815 at 375 nm, 1922 at 400 nm, 160 at 450 nm; public-domain NBS paper read \
+from nvlpubs.nist.gov";
+
 /// The cited table. Append rows; never edit a value without its source.
 pub const TABLE: &[CitedAbsorptivity] = &[
     CitedAbsorptivity {
@@ -232,15 +237,47 @@ pub const TABLE: &[CitedAbsorptivity] = &[
         confidence: Confidence::Snippet,
         source: NI_AQUA,
     },
+    CitedAbsorptivity {
+        species: "CrO4-2",
+        nm: 370.0,
+        epsilon: 4795.0,
+        temperature: None,
+        carriers: &[("CrO4-2", 1.0)],
+        confidence: Confidence::Read,
+        source: HAUPT_1952,
+    },
+    CitedAbsorptivity {
+        species: "CrO4-2",
+        nm: 375.0,
+        epsilon: 4815.0,
+        temperature: None,
+        carriers: &[("CrO4-2", 1.0)],
+        confidence: Confidence::Read,
+        source: HAUPT_1952,
+    },
+    CitedAbsorptivity {
+        species: "CrO4-2",
+        nm: 400.0,
+        epsilon: 1922.0,
+        temperature: None,
+        carriers: &[("CrO4-2", 1.0)],
+        confidence: Confidence::Read,
+        source: HAUPT_1952,
+    },
+    CitedAbsorptivity {
+        species: "CrO4-2",
+        nm: 450.0,
+        epsilon: 160.0,
+        temperature: None,
+        carriers: &[("CrO4-2", 1.0)],
+        confidence: Confidence::Read,
+        source: HAUPT_1952,
+    },
 ];
 
 /// Absorbers known to be present-and-coloured with NO sourced ε: their
 /// presence blocks every cited reading (reason in the coverage doc).
 pub const NO_DATA: &[(&str, &str)] = &[
-    (
-        "CrO4-2",
-        "372 nm, about 4810-4830 only on non-primary web pages; no primary found",
-    ),
     (
         "Co+2",
         "Co(H2O)6 2+ band at 511 nm located (Talanta 1964); no numeric epsilon sourced",
@@ -262,6 +299,10 @@ const SPLIT_CARRIERS: &[(&str, &[&str])] = &[
     ("NaOCl", &["HOCl", "OCl-"]),
     ("KOCl", &["HOCl", "OCl-"]),
     ("Ca(OCl)2", &["HOCl", "OCl-"]),
+    // Chromate salts split into CrO4-2, HCrO4- and Cr2O7-2 by pH, so they
+    // count only through the native speciation (Haupt's rows are alkaline).
+    ("K2CrO4", &["CrO4-2", "HCrO4-", "Cr2O7-2"]),
+    ("Na2CrO4", &["CrO4-2", "HCrO4-", "Cr2O7-2"]),
 ];
 
 const BROMIDE_FORMS: &[&str] = &["Br-", "NaBr", "KBr"];
