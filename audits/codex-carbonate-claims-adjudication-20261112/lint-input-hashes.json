@@ -1,0 +1,16 @@
+{
+  "codex/ammonia-headspace.toml": "d975bc895c43996b0d0385cbd32b0e1a2ac2e1942275630175d7067948b24a2c",
+  "codex/aqueous.toml": "ede2ed8ecd23a073ee82a43f7f9d3d2da8ba28d9bd3ec6240395d44dc8fe368f",
+  "codex/audit-discoveries.toml": "1305b4d877417397f58c54328fe9f57e04979a8c88101cf89edf42202730e254",
+  "codex/audit-preserved.toml": "ac574e257371541c5b5b29a36112fc0f7418a3013867b0c15c7dd9e53c1841c8",
+  "codex/concepts.toml": "a561a89c6191d37627c2843a8e6dc1b731dc776e35ac716211c6e07c5e6238e2",
+  "codex/i18n/de.toml": "26699685df40ad01683d22babcc3fbf255d80ab029fa988151cc706c1628dc09",
+  "codex/i18n/fr.toml": "5abbefcc77ff4b02f45409139cad23ecd4cb7dcdb93d5581231ba5bf9e6d51e2",
+  "codex/inorganic.toml": "820518b94cde12c8c409f76475f9162ab6879ba74ca94a65ec3bfae00180fa11",
+  "codex/models.toml": "9732687a33b021c4f168734b9527401543992997651416e19ad489d10f68df05",
+  "codex/quantitative.toml": "b4568894992baf0b93cf7aea76a7ac6c088dd067076d0e84b20fb2bc3a0a6c1a",
+  "codex/rates.toml": "1a4e55010789275ed0cb5490d3061db838e54e2cd38011affa6bc24552356776",
+  "codex/redox.toml": "8fe2ae8187c2305e159ef48d5e04197d30e6a43802c0aa149761e2c621add524",
+  "codex/source-fleet-promotions.toml": "6a63c86ec655a8d74fb3d51961ec19fab3d83dad966e16aaf85353fadcf9efd3",
+  "codex/states.toml": "a3a2629d8baf1d153d8e9f949707d6ec7b37e5f8271808c45f818d41b0bcd864"
+}

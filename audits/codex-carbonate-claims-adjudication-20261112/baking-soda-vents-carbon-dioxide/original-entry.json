@@ -1,0 +1,87 @@
+{
+  "id": "baking-soda-vents-carbon-dioxide",
+  "progress": "intermediate",
+  "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)",
+  "concepts": [
+    "open-system",
+    "carbonate-speciation"
+  ],
+  "requires": [
+    "carbonate-equilibria",
+    "gas-evolution"
+  ],
+  "apparatus": [
+    "beaker",
+    "ph-meter"
+  ],
+  "calculations": [
+    "moles-from-mass"
+  ],
+  "models": [
+    "equilibrium"
+  ],
+  "curriculum": [
+    {
+      "system": "bayern-lehrplanplus",
+      "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+      "ages": {
+        "min": 15.0,
+        "max": 16.0
+      },
+      "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — acid-carbonate reactions producing CO2"
+    },
+    {
+      "system": "england-gcse-combined-science",
+      "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids",
+      "ages": {
+        "min": 14.0,
+        "max": 16.0
+      },
+      "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates are required content"
+    }
+  ],
+  "setup": {
+    "script": "add v1 water 1000mL\nadd v1 NaHCO3 8.4g\nwait 1h\n"
+  },
+  "expect": {
+    "events": [
+      "dissolved:NaHCO3",
+      "gas_evolved:CO2"
+    ],
+    "ph": {
+      "min": 9.5,
+      "max": 9.9
+    },
+    "predict": {
+      "question": "Baking soda is stirred into water. No acid is added. What happens?",
+      "options": [
+        "Nothing but dissolving; you need an acid to get any gas",
+        "It dissolves and slowly gives off carbon dioxide anyway, ending up around pH 9.7",
+        "It dissolves and the solution ends at pH 8.3, the textbook value for bicarbonate"
+      ],
+      "answer": 1,
+      "misconception": "Two ideas get corrected at once. First, gas evolution is not the exclusive privilege of acids — bicarbonate disproportionates on its own, and an open beaker keeps pulling the product away. Second, the familiar \"bicarbonate is pH 8.3\" is a *closed-system* number; a beaker on a bench is open, it vents until it matches the atmosphere's own CO₂ pressure, and it lands well above 8.3.",
+      "diagnosis": [
+        {
+          "option": 0,
+          "reveals": "Gas evolution is an acid's signature move, so without an acid nothing can leave — fizzing filed as a reaction type rather than as any equilibrium with a volatile product and an open lid.",
+          "next": "Leave the beaker on the balance and `wait`: the mass drifts down with no acid anywhere in the vessel. The acid in the fizz experiment buys speed and violence, not permission."
+        },
+        {
+          "option": 2,
+          "reveals": "A remembered constant outranks the actual setup: 8.3 is bicarbonate's number, so 8.3 is the answer, whatever the beaker is doing.",
+          "next": "Ask what 8.3 assumes: a sealed system that keeps its CO₂. This beaker is open and vents until it matches the atmosphere, and the pH climbs as the gas leaves. The famous number is not wrong — it answers a different apparatus, and this codex keeps it precisely to be contradicted by an open one."
+        }
+      ]
+    }
+  },
+  "registers": {
+    "lv1": "Baking soda in plain water, with no vinegar anywhere: leave it a while and it still fizzes, very gently. The bubbles escape into the room and never come back.",
+    "lv2": "0.1 mol of NaHCO₃ per litre gives a solution that is supersaturated against the air's own carbon dioxide. About 30% of the carbonate leaves as CO₂, the remainder shifts toward CO₃²⁻, and the pH settles near 9.7.",
+    "lv3": "This is the entry that most disagrees with a textbook, and the disagreement is the lesson. The classic pH 8.3 for NaHCO₃ assumes a sealed system. The engine equilibrates the vessel against atmospheric CO₂ at log p = −3.408, vents 0.030 mol, and computes 9.71. Neither number is wrong; they answer different questions, and only one of them describes a beaker on a bench."
+  },
+  "provenance": {
+    "source": "Carbonate system in an open vessel; atmospheric pCO₂ and carbonate constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
+    "computed_by": "PHREEQC via Kerotakis L2"
+  }
+}
