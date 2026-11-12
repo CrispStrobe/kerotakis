@@ -289,3 +289,51 @@ fn permanganate_band_peak_and_cited_525_reading_agree() {
         );
     }
 }
+
+#[test]
+fn alkaline_chromate_reads_haupts_nbs_absorptivity() {
+    // Haupt 1952 (NBS RP2331) Table 1: 4815 L/mol/cm at 375 nm, 0.05 N KOH.
+    let mut v = water(100.0);
+    native(&mut v, &[("CrO4-2", 2e-4), ("K+", 4e-4)]);
+    let kg = v.solution.as_ref().unwrap().solvent_kg.unwrap();
+    let litres = v.liquid_volume().0;
+    let r = uv::absorbance_at(&v, 375.0, 1.0);
+    assert!(r.blocked.is_empty(), "{:?}", r.blocked);
+    assert!(
+        close(r.absorbance, 4815.0 * 2e-4 * kg / litres),
+        "{}",
+        r.absorbance
+    );
+}
+
+#[test]
+fn aqueous_cobalt_reads_the_nbs_filter_solution_absorptivity() {
+    // Davis & Gibson 1931 (NBS MP114) Table 6: epsilon 4.75 at 510 nm.
+    let mut v = water(100.0);
+    native(&mut v, &[("Co+2", 0.05), ("SO4-2", 0.05)]);
+    let kg = v.solution.as_ref().unwrap().solvent_kg.unwrap();
+    let litres = v.liquid_volume().0;
+    let r = uv::absorbance_at(&v, 510.0, 1.0);
+    assert!(r.blocked.is_empty(), "{:?}", r.blocked);
+    assert!(
+        close(r.absorbance, 4.75 * 0.05 * kg / litres),
+        "{}",
+        r.absorbance
+    );
+}
+
+#[test]
+fn aqueous_chlorine_reads_fergussons_band_maximum() {
+    // Fergusson, Slotin & Style 1936: epsilon about 66 at 334 nm.
+    let mut v = water(100.0);
+    native(&mut v, &[("Cl2", 1e-3)]);
+    let kg = v.solution.as_ref().unwrap().solvent_kg.unwrap();
+    let litres = v.liquid_volume().0;
+    let r = uv::absorbance_at(&v, 334.0, 1.0);
+    assert!(r.blocked.is_empty(), "{:?}", r.blocked);
+    assert!(
+        close(r.absorbance, 66.0 * 1e-3 * kg / litres),
+        "{}",
+        r.absorbance
+    );
+}
