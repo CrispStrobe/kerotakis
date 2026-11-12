@@ -30,7 +30,7 @@ two template controls that later source-bound validation passed. Candidate `7bd8
 the complete 702-case own fleet and hosted workspace/frontend checks, then macOS CI exposed a
 [Clippy 1.100 failure](../audits/macos-clippy-1100-first-failure-20261112/README.md). Verify
 the successor's owner ordering and changed-source checks; retain original physical bounds and
-all required CI before delivery. Preserve the earlier source-specific evidence independently.
+all required CI before delivery. The [first browser foam failure](../audits/browser-foam-clock-first-failure-20261112/README.md) and the successor's explicit observation interval must also be checked in the real browser, including the retained overflow and dose assertions. Preserve the earlier source-specific evidence independently.
 The latest main concurrency policy must be pulled before pushing; do not edit its blocks.
 
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
