@@ -152,7 +152,17 @@ fn bench_refusal_is_typed_and_translated() {
             &PermissiveScreen,
         )
         .unwrap();
-    assert!(!events.iter().any(|e| matches!(e, Event::Measured { .. })));
+    // The 16-band peak reading stays refused (no registry band spectrum);
+    // since 2026-11-12 Cl2(aq) has cited single-wavelength rows (Fergusson
+    // 1936), which are the only readings allowed.
+    assert!(!events.iter().any(|e| matches!(
+        e,
+        Event::Measured { unit, .. } if !unit.ends_with("(cited molar absorptivity)")
+    )));
+    assert!(events.iter().any(|e| matches!(
+        e,
+        Event::Measured { unit, .. } if unit == "absorbance at 334 nm (cited molar absorptivity)"
+    )));
     let reason = events
         .iter()
         .find_map(|event| match event {

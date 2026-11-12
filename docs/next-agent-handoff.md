@@ -40,6 +40,20 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
    packs, metals in acid, displacement, AgCl/BaSO4/PbI2, limewater, vinegar + soda, chalk + acid,
    permanganate colour, ethanol burning, boiling) and fix what is off, generically.
-6. TR-006's verbatim script asks a 20 mL feed for 60 mL and is correctly refused; leave it.
+6. **Typical-experiment sweep, findings 2026-11-12** (15 classroom reactions through `kero run`, Kaggle cx):
+   neutralisation (+5.3 K, +6.6 K, pH 6.75), hot pack (+19.9 K), cold pack (-6.2 K), AgCl/BaSO4/PbI2,
+   limewater, chalk + acid, permanganate (A525 = 0.334) and Zn/Mg + HCl H2 yields are right. Gaps:
+   (a) metal + acid and metal displacement reaction heats are unpriced (Zn, Mg, Fe + Cu2+: about
+   +5 to +10 K missing) because a solid metal has no path into the PHREEQC master-species enthalpy
+   basis (`kerotakis-phreeqc/src/enthalpy.rs`); price M(s) via the cited ΔfH of M^z+(aq) (NBS
+   Circular 500, public domain) with H2 and electrons on the same basis. (b) `ignite` on a liquid
+   fuel in an open dish boils it off: `ignite` sets the vessel to ignition temperature and the phase
+   route (before CEA and the curated combustion table) vents the fuel vapour, so nothing burns; a
+   fuel at or above its autoignition row with air available must burn, not boil, and liquid fuels
+   need curated rows (ΔcH from Circular 500 formation enthalpies) for an open dish. (c) A 1 h `wait`
+   relaxes an open bicarbonate to room air at once (pH 9.7); that is lane 3's seeping rate.
+   (d) The zero-time material addition in aq-023 is not reproducible run to run beyond ~1e-4
+   (particle molality); find the source of the non-determinism.
+7. TR-006's verbatim script asks a 20 mL feed for 60 mL and is correctly refused; leave it.
 
 Earlier handoffs (2026-10-27 successor lanes 1–8) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
