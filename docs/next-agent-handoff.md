@@ -14,21 +14,24 @@ no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: p
 Wikipedia/NIST with the primary named; NIST SRD single facts only; the MPI-Mainz UV/VIS atlas is
 CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 
-1. **Volatile acid–base gases beyond CO2.** `derived::ATMOSPHERIC` offers an open beaker only CO2(g), and
-   the fizz rule (`acid_carbonate_effervesces`, bench.rs) only knows carbonic acid. Generalise both to
-   a table of volatile conjugate pairs with their own pKa and room-air level: SO2/HSO3- (sulfite + acid),
-   H2S/HS- (sulfide + acid), NH3/NH4+ (ammonium + base, fizz when pH > pKa). Acceptance: acid on Na2SO3
-   or Na2S releases the gas in the step; neutral solutions keep it until time passes.
-   Findings 2026-11-12: SO2(g) is defined in none of the routed databases (phreeqc, wateq4f, minteq.v4,
-   pitzer), so SO2 needs a sourced gas-phase slice (as `aqueous_gases.rs` does for HBr) or stays with
-   `sulfur_iv`/`volatility`; H2S(g) exists natively (pitzer: `H2Sg(g)`), but the registry has no Na2S
-   and keys the gas as `hydrogen_sulfide`, so gas events must map to that key; ammonia has its own
-   Henry-law pass (`volatility.rs`), deliberately silent over an open vessel. A generic fizz test can
-   read dominance of the molecular form from the native speciation instead of a per-gas pKa table.
-2. **Headspace gas colour from cross sections.** The registry has gas entries (Cl2, SO2, H2S) without a
-   spectrum, and no Br2 vapour or NO2. Build one mechanism mapping cited gas-phase cross sections
-   (atlas) to the 16-band colour of a headspace at its partial pressure and path; cover Cl2, Br2, NO2,
-   I2 vapour, O3; refuse typed where no cross section is cited.
+1. **Volatile acid–base gases beyond CO2.** Assessed 2026-11-12, not implemented, because each gas lacks a
+   prerequisite rather than a rule:
+   - H2S: no reduced sulfur ever reaches solution. `derived.rs` has no S(-2) group or residue rule, the
+     registry has no sulfide salt (no Na2S, FeS, ZnS) and `hydrogen_sulfide` has no dissolution path.
+     A naive "S without O is sulfide" rule would mis-book elemental sulfur and pyrite. Needed: a
+     reduced-sulfur family (explicit H2S/HS-/S2- and sulfide-salt groups, registry salts, H2S Henry
+     constant), then an `ATMOSPHERIC` H2S(g) entry offered only where `S(-2)` is present (never to
+     sulfate, `S(6)`), log p -12 (room air holds none at bench resolution; registry key
+     `hydrogen_sulfide`). Pitzer names the phase `H2Sg(g)`; the gas-coverage importer must cover it.
+   - SO2: SO2(g) is defined in none of the routed databases; needs a sourced gas-phase slice (as
+     `aqueous_gases.rs` does for HBr: Sander Henry constant with standard-state conversion).
+   - NH3: far too soluble to bubble, so no fizz rule applies; its open-vessel escape is lane 3's rate
+     (`volatility.rs` is deliberately silent over an open vessel).
+   The fizz test itself can then generalise from carbonic acid's pK1 to "the molecular gas is the
+   dominant dissolved form" read from the native speciation (H2S vs HS-), keeping CO2's behaviour.
+2. **Headspace gas colour: done 2026-11-12** (`gas_colour.rs`, `docs/gas-colour-coverage-20261112.md`):
+   Cl2, Br2, I2 vapour, NO2, O3 from the MPI-Mainz atlas (CC BY 4.0); SO2, H2S, NH3, CO2, O2 cited
+   colourless. Open: NO2 at 730-750 nm (outside the 16 bands), N2O4 and NO2 are not registry species.
 3. **Open-vessel seeping over `wait`.** The two-film lane was withdrawn (it removed fizz). Re-add a sourced
    k_L seeping rate *under* the zero-time/fizz rule; carbonate, foam and codex tests must stay green.
 4. **Unsourced data.** FeCl2+ absorptivity (figure-only), starch–iodine blue value, maltose/maltotriose

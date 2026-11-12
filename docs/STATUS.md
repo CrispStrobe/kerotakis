@@ -31,9 +31,9 @@ Validated on a hosted CPU runner, then merged once, deployed once, and the affec
 
 ## Open work (detail and acceptance in the [handoff](next-agent-handoff.md))
 
-1. Volatile acid–base gases beyond CO2: open-boundary release and the fizz rule for SO2 (sulfite + acid),
-   H2S (sulfide + acid) and NH3 (ammonium + base).
-2. Headspace gas colour from cited cross sections (MPI-Mainz atlas, CC BY 4.0): Cl2, Br2, NO2, I2 vapour.
+1. Volatile acid–base gases beyond CO2: H2S needs a reduced-sulfur family first, SO2 a sourced gas-phase
+   slice; NH3 needs no fizz rule (see the handoff).
+2. Headspace gas colour: done (Cl2, Br2, I2 vapour, NO2, O3 cited; `gas_colour.rs`).
 3. Open-vessel seeping as a rate over `wait` (sourced k_L), on top of the zero-time/fizz rule.
 4. Remaining unsourced data: FeCl2+ absorptivity, starch–iodine blue value, maltose/maltotriose split,
    PVC latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2, BaCl2, Pb(NO3)2, …).
