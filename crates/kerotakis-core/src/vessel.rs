@@ -1477,6 +1477,13 @@ pub struct Vessel {
     /// persisted; cleared after the solve.
     #[serde(skip)]
     pub zero_time_dose: bool,
+    /// Step-local: this step is `ignite`. A liquid fuel at or above its
+    /// autoignition temperature with oxygen to hand burns where it is
+    /// instead of boiling off the open dish before any combustion solver
+    /// sees it (the phase route runs before CEA and the curated fuels).
+    /// Never persisted; cleared after the step's solves.
+    #[serde(skip)]
+    pub ignition: bool,
     /// Free hydroxide the aqueous solver last MEASURED, in moles.
     ///
     /// Kept beside `solute_charge` and for the same reason — the heat
@@ -1717,6 +1724,7 @@ impl Vessel {
             aqueous_heat: AqueousHeatOwnership::WholeStep,
             heat_input: None,
             zero_time_dose: false,
+            ignition: false,
             free_hydroxide: 0.0,
             free_proton: 0.0,
             co2_partial_pressure_atm: None,

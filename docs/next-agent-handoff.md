@@ -43,6 +43,7 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 6. **Typical-experiment sweep, findings 2026-11-12** (15 classroom reactions through `kero run`, Kaggle cx):
    neutralisation (+5.3 K, +6.6 K, pH 6.75), hot pack (+19.9 K), cold pack (-6.2 K), AgCl/BaSO4/PbI2,
    limewater, chalk + acid, permanganate (A525 = 0.334) and Zn/Mg + HCl H2 yields are right. Gaps:
+   Round 5 (`fix/round5-heat-and-fire-20261112`) addresses (a) and (b); see its commit messages.
    (a) metal + acid and metal displacement reaction heats are unpriced (Zn, Mg, Fe + Cu2+: about
    +5 to +10 K missing) because a solid metal has no path into the PHREEQC master-species enthalpy
    basis (`kerotakis-phreeqc/src/enthalpy.rs`); price M(s) via the cited ΔfH of M^z+(aq) (NBS

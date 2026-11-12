@@ -955,3 +955,23 @@ fn sp011_reduced_receiver_is_empty() {
     assert_eq!(moles_of(&vessel(&steps, 2), "I2"), 0.0);
     assert!(moles_of(&vessel(&steps, 3), "I2") > 1e-5);
 }
+
+/// A spirit burner burns: `ignite` on liquid ethanol in an open dish
+/// consumes it through the curated fuel row (Circular 500 formation
+/// enthalpies) instead of boiling it off before any combustion solver
+/// sees it, and the same dish without a spark keeps its ethanol.
+#[test]
+fn ignited_ethanol_burns_rather_than_boiling_away() {
+    let steps = run("add v1 ethanol 1g\nignite v1\n");
+    let burned = steps
+        .iter()
+        .flat_map(|s| s["events"].as_array().cloned().unwrap_or_default())
+        .any(|e| e["event"] == "consumed" && e["species"] == "ethanol");
+    assert!(burned, "ethanol was not burned: {steps:?}");
+    let boiled_off = steps
+        .iter()
+        .flat_map(|s| s["events"].as_array().cloned().unwrap_or_default())
+        .any(|e| e["event"] == "gas_evolved" && e["species"] == "ethanol");
+    assert!(!boiled_off, "ignited ethanol must burn, not vent as vapour");
+    assert!(moles_of(&vessel(&steps, 0), "ethanol") < 1e-9);
+}

@@ -1067,6 +1067,7 @@ impl Bench {
             }
             vessel.step_start = None;
             vessel.heat_input = None;
+            vessel.ignition = false;
             vessel.refresh_pressure();
             // A dose of heat is offered in passes, and the solver above has
             // just had the first of them. What happens next depends on
@@ -3473,6 +3474,7 @@ impl Bench {
                     if from.0 < IGNITION_K {
                         v.temperature = Kelvin(IGNITION_K);
                     }
+                    v.ignition = true;
                     let flame = v
                         .contents
                         .iter()

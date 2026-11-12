@@ -109,6 +109,7 @@ fn status(key: &str, db: &str) -> String {
             }
             SolidRoute::RoutedMineral => "routed".to_string(),
             SolidRoute::Reference { source, phase } => format!("reference:{source}:{phase}"),
+            SolidRoute::ElementalMetal { ion, .. } => format!("elemental-metal:{ion}"),
         },
         Err(e) => format!("refused: {}", e.why),
     }

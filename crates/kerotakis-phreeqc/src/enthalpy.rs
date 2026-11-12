@@ -168,6 +168,61 @@ pub enum SolidRoute {
     RoutedMineral,
     /// A reviewed vendored phase that passed every convention check.
     Reference { source: &'static str, phase: String },
+    /// An elemental metal, through the cited enthalpy of formation of the
+    /// routed database's master ion ([`METAL_MASTER_IONS`]).
+    ElementalMetal {
+        ion: &'static str,
+        source: &'static str,
+    },
+}
+
+const CODATA_1989: &str = "CODATA Key Values for Thermodynamics (Cox, Wagman & Medvedev, \
+Hemisphere 1989), as quoted by the CODATA key-values page; standard enthalpy of formation of the \
+aqueous ion at 298.15 K";
+const CIRCULAR_500: &str = "NBS Circular 500 (Rossini et al. 1952), Series I, read from the page \
+images (public-domain U.S. Government work); no CODATA key value exists for this ion";
+
+/// Elemental metals and the standard enthalpy of formation of their
+/// aqueous ion, kJ/mol: (metal key, element, master ion, ΔfH°, source).
+///
+/// The aqueous basis puts every master species, H⁺ and the electron at
+/// zero, exactly as the conventional scale puts H⁺ and the electron, so the
+/// only offset between the two scales is per element. A metal is zero on
+/// the conventional scale and its master ion is zero on the basis, which
+/// makes `h(M(s)) = −ΔfH°(M^z+(aq))` on the basis. `Zn + 2 H⁺ → Zn²⁺ + H₂`
+/// then returns ΔfH°(Zn²⁺) = −153.39 kJ/mol as a state-function difference
+/// (H₂ is priced through its own gas phase). Applied only where the routed
+/// database's master species for the element is that ion.
+pub const METAL_MASTER_IONS: &[(&str, &str, &str, f64, &str)] = &[
+    ("Zn", "Zn", "Zn+2", -153.39, CODATA_1989),
+    ("Mg", "Mg", "Mg+2", -467.0, CODATA_1989),
+    ("Cu", "Cu", "Cu+2", 64.9, CODATA_1989),
+    ("Al", "Al", "Al+3", -538.4, CODATA_1989),
+    ("Pb", "Pb", "Pb+2", 0.92, CODATA_1989),
+    ("Ag", "Ag", "Ag+", 105.79, CODATA_1989),
+    ("Ca", "Ca", "Ca+2", -543.0, CODATA_1989),
+    ("Na", "Na", "Na+", -240.34, CODATA_1989),
+    ("K", "K", "K+", -252.14, CODATA_1989),
+    ("Li", "Li", "Li+", -278.47, CODATA_1989),
+    ("Sn", "Sn", "Sn+2", -8.9, CODATA_1989),
+    ("Fe", "Fe", "Fe+2", -87.86, CIRCULAR_500),
+    ("Ni", "Ni", "Ni+2", -64.02, CIRCULAR_500),
+    ("Ba", "Ba", "Ba+2", -538.36, CIRCULAR_500),
+];
+
+/// `h(M(s))` on the aqueous basis, when the routed database masters the
+/// element as the cited ion.
+fn elemental_metal(key: &str, db_tag: &str) -> Option<PricedSolid> {
+    let (_, element, ion, delta_hf, source) =
+        METAL_MASTER_IONS.iter().find(|(metal, ..)| *metal == key)?;
+    let idx = derived::index_for(db_tag);
+    (idx.masters.get(*element)?.species == *ion).then(|| PricedSolid {
+        route: SolidRoute::ElementalMetal {
+            ion: *ion,
+            source: *source,
+        },
+        enthalpy_kj: -*delta_hf,
+    })
 }
 
 /// A priced solid and the route that owns its price.
@@ -206,6 +261,9 @@ pub fn solid_route(key: &str, db_tag: &str) -> Result<PricedSolid, Unpriced> {
             route: SolidRoute::Curated,
             enthalpy_kj,
         });
+    }
+    if let Some(metal) = elemental_metal(key, db_tag) {
+        return Ok(metal);
     }
     if let Some(hydration) = dissolution_reference::hydration(key) {
         // h(oxide) + n h(water) + dH_hydration = k h(hydroxide).

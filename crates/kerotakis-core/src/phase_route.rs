@@ -423,6 +423,16 @@ pub(crate) fn refreeze_flame_melts(vessel: &mut Vessel, step: &[Event]) -> Vec<E
     events
 }
 
+/// Whether `ignite` lights this liquid rather than boiling it: the step is
+/// an ignition, the fuel has an autoignition row the vessel is at or above,
+/// and oxygen is to hand (room air over an open dish, or an O2 portion).
+fn burns_on_ignition(vessel: &Vessel, key: &str) -> bool {
+    vessel.ignition
+        && crate::combustion::gas_autoignition(key)
+            .is_some_and(|row| vessel.temperature.0 >= row.autoignition_k)
+        && crate::combustion::oxygen_fraction(vessel) > 0.0
+}
+
 fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
     vessel
         .contents
@@ -1201,6 +1211,10 @@ impl PhaseRouteEquilibrator {
                 let latent = vaporisation_enthalpy(&p.species.0)?;
                 (vessel.temperature.0 >= boiling).then(|| (p.species.clone(), boiling, latent))
             })
+            // A spark held to a liquid fuel: its vapour burns at the
+            // surface, so it is left for the combustion solvers rather than
+            // boiled off the dish (`Vessel::ignition`).
+            .filter(|(species, ..)| !burns_on_ignition(vessel, &species.0))
             .collect();
         for (species, point, latent) in boiling {
             let now = vessel.temperature.0;
