@@ -16,3 +16,11 @@ lessons independently adjudicated in [the codex carbonate review](../codex-carbo
 The checked-in golden now equals the first actual CI export. The snapshot test
 itself and its exact comparison are unchanged. A successor CI run is required;
 this evidence is not a scientific validation or a new experiment qualification.
+
+The macOS native job 131550351198 independently failed the same snapshot test.
+Its complete log SHA-256 is
+`55aa97affa16e80784e838173b37125655bfc08b4eff4b346efdd7f3001ee86c`.
+Artifact 13995386814 has ZIP SHA-256
+`d03ab90ea8da0a353c0b5e811b8becf89d00020f4586b0a6a99aa1703632fb2e`;
+its exported JSON SHA-256 is the same as the retained Linux actual export,
+`7845441d2193288071501e9746d82770ad1fc006790ac9811eb0cb512bea7bf9`.
