@@ -5,9 +5,18 @@ Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), 
 ## 0. State and open tasks after round 4 (2026-11-12)
 
 State: production `731931f0` until round 4 deploys; qualification **402/468** (see [STATUS](STATUS.md)).
-Round 4 (`integrate/round4-20261111`) is merged to main after hosted CPU validation, deployed once,
-and the affected originals (KI-011, SP-011, EN-001, PO-009, TH-004, AB-035, GS-013, plus any whose
-output changed) re-run once, then strict and adversarial review and a new catalog version.
+PR881 contains rounds 4 and 5 and remains draft pending source review and acceptance. First repair
+its actual translation, prose, instantaneous gas-transfer and scientific-oracle failures. Preserve
+unchanged forecasts and raw failures. Use bounded Kaggle CPU validation for heavy work while the
+Actions queue is congested; do not add `ci:full`, dispatch full workflows or create placeholder PRs.
+Fold related repairs into this PR, minimize pushes and cancel superseded queued runs. Branch
+protection remains intact. After exact-head acceptance, merge normally and deploy once. Then run
+only affected originals (KI-011, SP-011, EN-001, PO-009, TH-004, AB-035, GS-013, plus demonstrated
+changed observables) once on that release, independently review and append only earned entries.
+
+Read [the carbonate repair acceptance scope](carbonate-boundaries-20261112.md) first. Preserve
+its original failed contracts and actual producer identities; do not label its first partial
+hosted result as acceptance of the later endpoint implementation.
 
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
 no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: primary, or "as quoted by"
@@ -23,8 +32,14 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      constant), then an `ATMOSPHERIC` H2S(g) entry offered only where `S(-2)` is present (never to
      sulfate, `S(6)`), log p -12 (room air holds none at bench resolution; registry key
      `hydrogen_sulfide`). Pitzer names the phase `H2Sg(g)`; the gas-coverage importer must cover it.
-   - SO2: SO2(g) is defined in none of the routed databases; needs a sourced gas-phase slice (as
-     `aqueous_gases.rs` does for HBr: Sander Henry constant with standard-state conversion).
+   - SO2: SO2(g) is defined in none of the routed databases. The S(IV) extension also omits
+     neutral dissolved SO2 and its first dissociation; adding only a gas PHASE would leave that
+     ownership gap. Review Goldberg and Parker (1985), doi:10.6028/jres.090.024, NBS Table9,
+     for a coherent gas/neutral/bisulfite/sulfite slice, enthalpies and temperature domain. Verify
+     government-work licensing, bar-to-atm/molal standards, existing second-dissociation
+     compatibility and H/O/protonation reconstruction before import. Include acid/base, dose,
+     temperature, sealed/open and sulfate/thiosulfate negative controls. No data import is yet
+     accepted; numerical convergence alone earns no new original qualification.
    - NH3: far too soluble to bubble, so no fizz rule applies; its open-vessel escape is lane 3's rate
      (`volatility.rs` is deliberately silent over an open vessel).
    The fizz test itself can then generalise from carbonic acid's pK1 to "the molecular gas is the

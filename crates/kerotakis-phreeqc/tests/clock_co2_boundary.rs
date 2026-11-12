@@ -695,3 +695,49 @@ fn cached_and_fresh_native_adapters_spend_the_same_clock_carrier_once() {
     assert_eq!(repeated.pending_co2_transfer_mol, 0.0);
     assert_eq!(fresh.pending_co2_transfer_mol, 0.0);
 }
+
+#[test]
+fn open_bicarbonate_wait_exports_only_the_finite_clock_parcel_once() {
+    let mut bench = Bench::new();
+    let mut stack = production_stack();
+    for text in ["add v1 water 250mL", "add v1 NaHCO3 0.01mol"] {
+        let events = command(&mut bench, &mut stack, text);
+        assert_no_solver_failure(&events, text);
+    }
+    let initial = bench.vessels[0].clone();
+    let initial_neutral = initial.moles_of(&SpeciesId::new("CO2(aq)")).0;
+    assert!(initial_neutral > CO2_TRANSFER_FLOOR_MOL);
+    let events = command(&mut bench, &mut stack, "wait 1h");
+    assert_no_solver_failure(&events, "finite outward hour");
+    assert_boundary_closed(&initial, &bench.vessels[0], &events, "finite outward hour");
+    let crossings = co2_crossings(&events);
+    assert_eq!(crossings.len(), 1, "one applied clock parcel: {events:?}");
+    assert!(
+        !crossings[0].0,
+        "outward gas must not be announced as uptake"
+    );
+    assert!(
+        crossings[0].1 > 0.0 && crossings[0].1 < initial_neutral,
+        "finite transfer must retain some original neutral CO2: {crossings:?}"
+    );
+    assert_eq!(bench.vessels[0].pending_co2_transfer_mol, 0.0);
+    assert!(!bench.vessels[0].co2_film_boundary);
+    let settled = bench.vessels[0].clone();
+    let repeated = apply(
+        &mut bench,
+        &mut stack,
+        Operator::Wait { seconds: 0.0 },
+        "typed zero-time outward repeat",
+    );
+    assert_no_solver_failure(&repeated, "zero-time outward repeat");
+    assert!(
+        co2_crossings(&repeated).is_empty(),
+        "parcel replay: {repeated:?}"
+    );
+    assert_boundary_closed(
+        &settled,
+        &bench.vessels[0],
+        &repeated,
+        "zero-time outward repeat",
+    );
+}

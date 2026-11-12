@@ -848,6 +848,20 @@ impl Bench {
                 .titrate_loop(op, solver, screen)
                 .map(|events| (events, ApplyDisposition::Reequilibrate));
         }
+        let dose_before = if matches!(
+            &op,
+            Operator::Add { .. }
+                | Operator::AddSolution { .. }
+                | Operator::AddMaterial { .. }
+                | Operator::Dilute { .. }
+        ) {
+            op_touches(&op)
+                .into_iter()
+                .filter_map(|id| self.vessel(id).ok().map(|vessel| (id, vessel.clone())))
+                .collect::<Vec<_>>()
+        } else {
+            Vec::new()
+        };
         let temperature_before = match &op {
             Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
             _ => Kelvin::STANDARD,
@@ -996,12 +1010,30 @@ impl Bench {
         // recomputes it or the honesty pass reports the gap.
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
+            let carbonate_dose = dose_before
+                .iter()
+                .find(|(owner, _)| *owner == id)
+                .and_then(|(_, before)| crate::carbonate_endpoint::prepare(before, vessel));
             vessel.mark_liquid_contact();
             vessel.solution = None;
             // The step's own "before": the operator applied, no solver run.
             // A solver that prices heat over the step reads this rather
             // than its own call-start (see `Vessel::step_start`).
             vessel.step_start = Some(crate::vessel::StepStart::capture(vessel));
+            // Every operation without a positive duration has the same gas
+            // boundary: separation and native MIX cannot spend time diffusing
+            // CO2 to room air any more than an addition can. Set this before
+            // either solver entry point, including the native MIX shortcut.
+            let zero_time = !matches!(
+                &op,
+                Operator::Wait { seconds }
+                    | Operator::Stir { seconds, .. }
+                    | Operator::Electrolyse { seconds, .. }
+                    | Operator::Centrifuge { seconds, .. }
+                    if *seconds > 0.0
+            ) && matches!(vessel.headspace, Headspace::Open);
+            vessel.zero_time_dose = zero_time;
+            vessel.co2_film_boundary = matches!(vessel.headspace, Headspace::Open);
             // For MIX, try native solver mixing on the target vessel.
             if let Some((mix_into, ref snap_a, frac_a, ref snap_b, frac_b)) = mix_sources {
                 if id == mix_into {
@@ -1010,6 +1042,8 @@ impl Bench {
                             Ok(mut more) => {
                                 events.append(&mut more);
                                 vessel.refresh_pressure();
+                                vessel.zero_time_dose = false;
+                                vessel.co2_film_boundary = false;
                                 vessel.step_start = None;
                                 vessel.heat_input = None;
                                 continue;
@@ -1022,37 +1056,46 @@ impl Bench {
                 }
             }
             if solver.applies(vessel) {
-                // An addition (`add`, a solution, a household material, a
-                // dilution) or `wait 0s` takes no time, so an open beaker
-                // has no time to trade gas with the room by diffusion: the
-                // solve releases
-                // only gas above the bubble threshold (`zero_time_dose`).
-                // Baking soda stirred into water therefore keeps its carbon
-                // until time passes (AB-035/GS-013 seal it unchanged).
-                // Acid on carbonate is different: the reaction makes CO2
-                // at the acid's front, far above what a well-mixed model
-                // sees (0.02 mol/L mixes to ~0.6 atm and would never
-                // bubble). When the zero-time answer shows carbonic acid
-                // as the dominant dissolved carbon and CO2 above room air,
-                // the dose has protonated carbonate to CO2: that is fizz,
-                // and the step is re-solved with the room as the sink.
-                let zero_time = (matches!(
-                    &op,
-                    Operator::Add { .. }
-                        | Operator::AddSolution { .. }
-                        | Operator::AddMaterial { .. }
-                        | Operator::Dilute { .. }
-                ) || matches!(&op, Operator::Wait { seconds } if *seconds <= 0.0))
-                    && matches!(vessel.headspace, Headspace::Open);
-                let before = zero_time.then(|| vessel.clone());
                 vessel.zero_time_dose = zero_time;
                 let mut outcome = solver.equilibrate(vessel);
-                vessel.zero_time_dose = false;
-                if let Some(before) = before {
-                    if outcome.is_ok() && acid_carbonate_effervesces(vessel) {
-                        *vessel = before;
-                        vessel.zero_time_dose = false;
-                        outcome = solver.equilibrate(vessel);
+                if let (Some(dose), Ok(more)) = (carbonate_dose, &mut outcome) {
+                    if solver.trusted_aqueous_readback().is_some() {
+                        if let Some(amount) = dose.extent(vessel, more) {
+                            // Incremental ownership: retain the first solve's
+                            // public heat/events, then price only this parcel
+                            // and its re-equilibration from the closed state.
+                            // A failed candidate commits neither gas nor matter.
+                            let mut candidate = vessel.clone();
+                            candidate.step_start = Some(crate::vessel::StepStart::capture(vessel));
+                            candidate.heat_input = None;
+                            candidate.pending_co2_transfer_mol = -amount;
+                            candidate.zero_time_dose = true;
+                            candidate.co2_film_boundary = true;
+                            match solver.equilibrate(&mut candidate) {
+                                Ok(mut endpoint) if candidate.pending_co2_transfer_mol == 0.0
+                                    && !endpoint.iter().any(|e| matches!(e,
+                                        Event::SolverFailed { .. } | Event::NotYetModeled { .. })) => {
+                                    *vessel = candidate;
+                                    more.append(&mut endpoint);
+                                    more.push(crate::carbonate_endpoint::notice(id));
+                                }
+                                Ok(_) => more.push(Event::SolverFailed {
+                                    vessel: id,
+                                    solver: solver.name().to_string(),
+                                    reason: Some(Box::new(Phrase::bare(
+                                        "solver-reason.continuation.answer-incomplete",
+                                        "The trusted adapter did not supply a finite complete aqueous answer.",
+                                    ))),
+                                    detail: "carbonate endpoint did not commit its complete owned carbon parcel".into(),
+                                }),
+                                Err(error) => more.push(Event::SolverFailed {
+                                    vessel: id,
+                                    solver: solver.name().to_string(),
+                                    reason: error.owned_reason().cloned().map(Box::new),
+                                    detail: error.to_string(),
+                                }),
+                            }
+                        }
                     }
                 }
                 match outcome {
@@ -1065,6 +1108,7 @@ impl Bench {
                     }),
                 }
             }
+            vessel.zero_time_dose = false;
             vessel.step_start = None;
             vessel.heat_input = None;
             vessel.ignition = false;
@@ -1077,6 +1121,7 @@ impl Bench {
             if heat_start.is_some_and(|(heated, _, _)| heated == id) {
                 self.deliver_remaining_heat(id, solver, &mut events);
             }
+            self.vessel_mut(id)?.co2_film_boundary = false;
             crate::protein::record_heat_history(self.vessel_mut(id)?);
             self.vent_if_burst(id, &mut events);
         }
@@ -7885,26 +7930,8 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
 /// Davis, J. Am. Chem. Soc. 65 (1943) 2030-2037, doi:10.1021/ja01250a059.
 /// Below it, H2CO3* (dissolved CO2) is the dominant form of dissolved
 /// inorganic carbon.
-fn carbonic_acid_pk1(temperature_k: f64) -> f64 {
+pub(crate) fn carbonic_acid_pk1(temperature_k: f64) -> f64 {
     3404.71 / temperature_k - 14.8435 + 0.032786 * temperature_k
-}
-
-/// Whether a zero-time open solve shows an acid having converted carbonate
-/// into dissolved CO2, the condition under which acid on carbonate fizzes
-/// (see the `zero_time` comment in `Bench::step`).
-fn acid_carbonate_effervesces(vessel: &crate::vessel::Vessel) -> bool {
-    let Some(ph) = vessel.solution.as_ref().map(|solution| solution.ph) else {
-        return false;
-    };
-    let Some(p_co2) = vessel.co2_partial_pressure_atm else {
-        return false;
-    };
-    let temperature = vessel.temperature.0;
-    ph.is_finite()
-        && temperature.is_finite()
-        && temperature > 0.0
-        && ph < carbonic_acid_pk1(temperature)
-        && p_co2 > crate::clock::ATMOSPHERIC_CO2_ATM
 }
 
 #[cfg(test)]

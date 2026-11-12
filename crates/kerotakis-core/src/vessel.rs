@@ -1461,8 +1461,8 @@ pub struct Vessel {
     /// from persistence so a later operation cannot spend the same joules.
     #[serde(skip)]
     pub heat_input: Option<HeatInput>,
-    /// Step-local: this solve prices a dose delivered with NO elapsed time
-    /// (one titration increment). An open boundary then releases only gas
+    /// Step-local: this solve belongs to an operation with NO elapsed time
+    /// (including additions, separation and native mixing). An open boundary then releases only gas
     /// whose partial pressure exceeds the vessel's total pressure — the
     /// effervescence threshold at which bubbles can nucleate — and does not
     /// relax a supersaturated solution to the room's partial pressure.
@@ -1471,12 +1471,19 @@ pub struct Vessel {
     /// vented the CO2 that carbonate alkalinity was still holding at pH 9-10,
     /// each vented mole spending a proton, so a Warder titration read the
     /// phenolphthalein endpoint at total alkalinity minus residual carbon
-    /// rather than at OH- + CO3^2-. Since 2026-11-11 every `add` to an
-    /// open vessel is such a dose, unless it protonates carbonate to CO2
-    /// (fizz; see `acid_carbonate_effervesces` in bench.rs). Never
-    /// persisted; cleared after the solve.
+    /// rather than at OH- + CO3^2-. Instantaneous operations share this
+    /// boundary. Separately admitted acid/carbonate doses can transfer a
+    /// bounded newly formed CO2 parcel (`carbonate_endpoint`), never the
+    /// whole preexisting supersaturation. Never persisted; cleared after
+    /// the solve.
     #[serde(skip)]
     pub zero_time_dose: bool,
+    /// Step-local ownership of open-vessel CO2 film transfer. The clock
+    /// supplies a finite signed parcel; the aqueous pass may additionally
+    /// release bubbles above total pressure, but cannot relax that same
+    /// carbon to atmospheric equilibrium. Other gases retain their owners.
+    #[serde(skip)]
+    pub co2_film_boundary: bool,
     /// Step-local: this step is `ignite`. A liquid fuel at or above its
     /// autoignition temperature with oxygen to hand burns where it is
     /// instead of boiling off the open dish before any combustion solver
@@ -1724,6 +1731,7 @@ impl Vessel {
             aqueous_heat: AqueousHeatOwnership::WholeStep,
             heat_input: None,
             zero_time_dose: false,
+            co2_film_boundary: false,
             ignition: false,
             free_hydroxide: 0.0,
             free_proton: 0.0,

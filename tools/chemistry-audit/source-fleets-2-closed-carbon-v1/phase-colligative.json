@@ -1,0 +1,243 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "phase-colligative",
+  "cases": [
+    {
+      "id": "585-water-heating-1",
+      "question": "How does heat input move liquid-water temperature?",
+      "script": "add v1 water 250mL\nheat v1 100J\nmeasure v1 temp"
+    },
+    {
+      "id": "586-water-heating-2",
+      "question": "How does heat input move liquid-water temperature?",
+      "script": "add v1 water 250mL\nheat v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "587-water-heating-3",
+      "question": "How does heat input move liquid-water temperature?",
+      "script": "add v1 water 250mL\nheat v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "588-water-heating-4",
+      "question": "How does heat input move liquid-water temperature?",
+      "script": "add v1 water 250mL\nheat v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "589-water-cooling-1",
+      "question": "How does removed energy move liquid-water temperature?",
+      "script": "add v1 water 250mL\ncool v1 100J\nmeasure v1 temp"
+    },
+    {
+      "id": "590-water-cooling-2",
+      "question": "How does removed energy move liquid-water temperature?",
+      "script": "add v1 water 250mL\ncool v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "591-water-cooling-3",
+      "question": "How does removed energy move liquid-water temperature?",
+      "script": "add v1 water 250mL\ncool v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "592-water-cooling-4",
+      "question": "How does removed energy move liquid-water temperature?",
+      "script": "add v1 water 250mL\ncool v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "593-salt-freezing-1",
+      "question": "Does salt-feed path preserve the final cooled solution state?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.004mol\ncool v1 25kJ\nmeasure v1 temp"
+    },
+    {
+      "id": "594-salt-freezing-2",
+      "question": "Does salt-feed path preserve the final cooled solution state?",
+      "script": "add v1 NaCl 0.004mol\nadd v1 water 200mL\ncool v1 25kJ\nmeasure v1 temp"
+    },
+    {
+      "id": "595-salt-freezing-3",
+      "question": "Does salt-feed path preserve the final cooled solution state?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.001mol\nadd v1 NaCl 0.003mol\ncool v1 25kJ\nmeasure v1 temp"
+    },
+    {
+      "id": "596-salt-freezing-4",
+      "question": "Does salt-feed path preserve the final cooled solution state?",
+      "script": "add v1 water 100mL\nadd v1 NaCl 0.004mol\nadd v1 water 100mL\ncool v1 25kJ\nmeasure v1 temp"
+    },
+    {
+      "id": "597-heat-partition-1",
+      "question": "Does partitioning equal heat preserve final temperature?",
+      "script": "add v1 water 250mL\nheat v1 750J\nmeasure v1 temp"
+    },
+    {
+      "id": "598-heat-partition-2",
+      "question": "Does partitioning equal heat preserve final temperature?",
+      "script": "add v1 water 250mL\nheat v1 375J\nheat v1 375J\nmeasure v1 temp"
+    },
+    {
+      "id": "599-heat-partition-3",
+      "question": "Does partitioning equal heat preserve final temperature?",
+      "script": "add v1 water 250mL\nheat v1 125J\nheat v1 250J\nheat v1 375J\nmeasure v1 temp"
+    },
+    {
+      "id": "600-heat-partition-4",
+      "question": "Does partitioning equal heat preserve final temperature?",
+      "script": "add v1 water 250mL\nheat v1 50J\nheat v1 100J\nheat v1 200J\nheat v1 400J\nmeasure v1 temp"
+    },
+    {
+      "id": "601-cool-partition-1",
+      "question": "Does partitioning equal cooling preserve final temperature?",
+      "script": "add v1 water 250mL\ncool v1 600J\nmeasure v1 temp"
+    },
+    {
+      "id": "602-cool-partition-2",
+      "question": "Does partitioning equal cooling preserve final temperature?",
+      "script": "add v1 water 250mL\ncool v1 300J\ncool v1 300J\nmeasure v1 temp"
+    },
+    {
+      "id": "603-cool-partition-3",
+      "question": "Does partitioning equal cooling preserve final temperature?",
+      "script": "add v1 water 250mL\ncool v1 100J\ncool v1 200J\ncool v1 300J\nmeasure v1 temp"
+    },
+    {
+      "id": "604-cool-partition-4",
+      "question": "Does partitioning equal cooling preserve final temperature?",
+      "script": "add v1 water 250mL\ncool v1 50J\ncool v1 100J\ncool v1 150J\ncool v1 300J\nmeasure v1 temp"
+    },
+    {
+      "id": "605-thermal-scale-1",
+      "question": "Does proportional water and heat scaling preserve temperature?",
+      "script": "add v1 water 250mL\nheat v1 600J\nmeasure v1 temp"
+    },
+    {
+      "id": "606-thermal-scale-2",
+      "question": "Does proportional water and heat scaling preserve temperature?",
+      "script": "add v1 water 500mL\nheat v1 1200J\nmeasure v1 temp"
+    },
+    {
+      "id": "607-thermal-scale-3",
+      "question": "Does proportional water and heat scaling preserve temperature?",
+      "script": "add v1 water 750mL\nheat v1 1800J\nmeasure v1 temp"
+    },
+    {
+      "id": "608-thermal-scale-4",
+      "question": "Does proportional water and heat scaling preserve temperature?",
+      "script": "add v1 water 1000mL\nheat v1 2400J\nmeasure v1 temp"
+    }
+  ],
+  "relations": [
+    {
+      "id": "pcg-water-heating",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "585-water-heating-1",
+        "586-water-heating-2",
+        "587-water-heating-3",
+        "588-water-heating-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    },
+    {
+      "id": "pcg-water-cooling",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "589-water-cooling-1",
+        "590-water-cooling-2",
+        "591-water-cooling-3",
+        "592-water-cooling-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.01
+      }
+    },
+    {
+      "id": "pcg-salt-freezing-path",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "593-salt-freezing-1",
+        "594-salt-freezing-2",
+        "595-salt-freezing-3",
+        "596-salt-freezing-4"
+      ],
+      "parameters": {
+        "species": [
+          "water",
+          "Na+",
+          "Cl-",
+          "NaCl"
+        ],
+        "phases": [
+          "Liquid",
+          "Solid"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-06
+      }
+    },
+    {
+      "id": "pcg-heat-partition",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "597-heat-partition-1",
+        "598-heat-partition-2",
+        "599-heat-partition-3",
+        "600-heat-partition-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 1e-06
+      }
+    },
+    {
+      "id": "pcg-cool-partition",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "601-cool-partition-1",
+        "602-cool-partition-2",
+        "603-cool-partition-3",
+        "604-cool-partition-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 1e-06
+      }
+    },
+    {
+      "id": "pcg-thermal-scale",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "605-thermal-scale-1",
+        "606-thermal-scale-2",
+        "607-thermal-scale-3",
+        "608-thermal-scale-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 1e-06
+      }
+    }
+  ]
+}

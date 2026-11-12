@@ -160,6 +160,7 @@ struct AuxiliaryPoseWitness {
     co2_partial_pressure_atm: Option<f64>,
     pending_co2_transfer_mol: f64,
     zero_time_dose: bool,
+    co2_film_boundary: bool,
     elapsed_seconds: f64,
     excess_enthalpy_j: f64,
     step_start: Option<kerotakis_core::vessel::StepStart>,
@@ -189,6 +190,7 @@ impl AuxiliaryPoseWitness {
             co2_partial_pressure_atm: vessel.co2_partial_pressure_atm,
             pending_co2_transfer_mol: vessel.pending_co2_transfer_mol,
             zero_time_dose: vessel.zero_time_dose,
+            co2_film_boundary: vessel.co2_film_boundary,
             elapsed_seconds: vessel.elapsed_seconds,
             excess_enthalpy_j: vessel.excess_enthalpy_j,
             step_start: vessel.step_start.clone(),
@@ -3662,23 +3664,18 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 let _ = exchange; // the finite dose was added above
                 continue;
             }
-            // EXP-57 changed NOTHING here, and the reader is owed that
-            // plainly, because the direction of travel invites the
-            // opposite reading.
-            //
-            // This phase is offered holding ZERO moles. PHREEQC can
-            // precipitate into it and cannot dissolve from it, so for an
-            // open vessel it is a one-way valve: carbon above the room's
-            // partial pressure leaves within the step, and carbon below it
-            // does nothing at all. That outward half stays equilibrium,
-            // exactly as it was — see `GasExchangeClock::advance` for why
-            // making it a rate needs a decision about fizz that this
-            // change does not take.
-            //
-            // What EXP-57 adds is the INWARD half, and it does not come
-            // through this phase, because it cannot: uptake needs a source
-            // of moles and this has none. `GasExchangeClock` sizes it and
-            // the element-totals block above delivers it.
+            // The CO2 clock owns both directions of finite-time film
+            // transfer. Its signed parcel entered the analytical totals
+            // above; offering a room-air sink here would discharge it a
+            // second time. Bubbles remain a separate pressure boundary.
+            let phase_target = if *phase == "CO2(g)"
+                && vessel.co2_film_boundary
+                && matches!(vessel.headspace, Headspace::Open)
+            {
+                effervescence_log_partial_pressure(vessel)
+            } else {
+                target.unwrap_or(*target_si)
+            };
             let gas_formula = phase.trim_end_matches("(g)");
             let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
             let all_present = required
@@ -3706,7 +3703,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             // there is — so the beaker of hydroxide is answered without
             // touching this.
             if all_present && !listed {
-                phases.push((phase.to_string(), 0.0, target.unwrap_or(*target_si)));
+                phases.push((phase.to_string(), 0.0, phase_target));
                 external_gases.push(ExternalGas {
                     phase: phase.to_string(),
                     species: species.to_string(),

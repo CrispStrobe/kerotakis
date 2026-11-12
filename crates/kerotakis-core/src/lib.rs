@@ -26,6 +26,7 @@ pub mod buoyancy;
 pub mod butler_volmer;
 pub mod cabinet;
 pub mod cache_key;
+mod carbonate_endpoint;
 pub mod catalog;
 pub mod centrifuge;
 pub mod chart;

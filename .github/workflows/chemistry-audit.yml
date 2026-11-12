@@ -5,6 +5,8 @@ on:
     paths:
       - ".github/workflows/chemistry-audit.yml"
       - "tools/chemistry-audit/**"
+      - ".github/actions/sundials-source/**"
+      - "tools/fetch-sundials.sh"
       - "crates/kerotakis-*/**"
       - "data/**"
       - "Cargo.toml"
@@ -28,6 +30,8 @@ jobs:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        uses: ./.github/actions/sundials-source
       - run: cargo build --release -p kerotakis-cli
       - run: |
           sha256sum target/release/kero > binary-sha256.txt
@@ -230,6 +234,10 @@ jobs:
           python3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test
           python3 tools/chemistry-audit/generate_source_fleets_2a.py --check
           python3 tools/chemistry-audit/generate_source_fleets_2b.py --check
+          python3 tools/chemistry-audit/review_closed_carbon_contract.py --check
+          if [[ "${{ matrix.family }}" == "polyprotic-carbonate" ]]; then
+            python3 tools/chemistry-audit/test_carbonate_closed_equilibrium.py audits/carbonate-law-correction-20261112
+          fi
       - name: Record 24 process-isolated v2 experiments
         run: >-
           python3 tools/chemistry-audit/source_fleets_2.py
@@ -241,10 +249,13 @@ jobs:
           sha256sum \
             tools/chemistry-audit/source_fleets_2.py \
             tools/chemistry-audit/analyse_source_fleets_2.py \
+            tools/chemistry-audit/carbonate_closed_equilibrium.py \
+            tools/chemistry-audit/review_closed_carbon_contract.py \
+            tools/chemistry-audit/test_carbonate_closed_equilibrium.py \
             tools/chemistry-audit/generate_source_fleets_2a.py \
             tools/chemistry-audit/generate_source_fleets_2b.py \
             tools/chemistry-audit/SOURCE-FLEETS-2.md \
-            tools/chemistry-audit/source-fleets-2/${{ matrix.family }}.json \
+            tools/chemistry-audit/source-fleets-2-closed-carbon-v1/${{ matrix.family }}.json \
             > 'audit-evidence-v2/${{ matrix.family }}/preflight-sha256.txt'
       - name: Apply frozen v2 named relations
         run: >-

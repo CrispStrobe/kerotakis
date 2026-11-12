@@ -1713,6 +1713,7 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+carbonate-fast-endpoint = "Dieses Säure-Carbonat-Gaspaket ist ein begrenzter kuratierter Endpunkt aus neu gebildetem gelöstem CO2. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert; dies ist keine kalibrierte Vorhersage einer augenblicklichen Gasausbeute"
 redox-pair-unpriced = "{pairs}: Ein Oxidationsmittel und ein Reduktionsmittel sind hier zusammen, aber kein geprüfter schneller Reaktionsschreiber, keine kuratierte Reaktion und kein Geschwindigkeitsgesetz bepreist dieses Paar, daher bleibt es unreagiert. Das ist eine Lücke im Modell, kein Beleg dafür, dass nichts geschieht"
 redox-pair-outside-medium = "{pairs}: Der geprüfte Schreiber dieses Paares ist wässrig und gilt zwischen 0 und 60 °C; dieses Gefäß enthält kein flüssiges Wasser oder liegt außerhalb dieses Bereichs, daher bleibt das Paar unreagiert"
 sulfite-peroxide-outside-measured-acid = "Schwefel(IV) und Wasserstoffperoxid sind hier zusammen, aber das geprüfte Geschwindigkeitsgesetz dieser Oxidation wurde zwischen pH 0 und 4,5 gemessen, und hier ist (H+) {proton} mol/L; die Oxidation von {amount} mol Schwefel(IV) durch Peroxid wird daher nicht bepreist und bleibt unreagiert. Das ist eine Lücke im Modell, kein Beleg dafür, dass nichts geschieht"

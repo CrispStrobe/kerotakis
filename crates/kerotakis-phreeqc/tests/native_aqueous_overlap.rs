@@ -779,3 +779,96 @@ fn bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_dri
         assert_no_ionic_curated_replay(&events, "zero-time high-bicarbonate repeat");
     }
 }
+
+#[test]
+fn low_strong_acid_doses_release_only_the_new_carbon_parcel_and_do_not_replay() {
+    let mut yields = Vec::new();
+    for acid in [0.0005, 0.001, 0.002, 0.003] {
+        let mut bench = Bench::new();
+        let mut stack = production_stack();
+        apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            "add v1 water 250mL",
+            "low-dose setup",
+        );
+        apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            "add v1 NaHCO3 0.004mol",
+            "low-dose setup",
+        );
+        let events = apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            &format!("add v1 HCl {acid}mol"),
+            "low-dose carbonate endpoint",
+        );
+        let gas = gas_event_moles(&events, false);
+        assert!(gas > 1e-6 && gas <= acid + 1e-10,
+            "new acid cannot export an unbounded preexisting CO2 pool: acid={acid}, gas={gas}, {events:?}");
+        yields.push(gas);
+        let before_repeat = bench.vessels[0].clone();
+        let repeat = bench
+            .step_with(
+                Operator::Wait { seconds: 0.0 },
+                &mut stack,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        assert!(
+            !repeat
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })),
+            "{repeat:?}"
+        );
+        assert_eq!(
+            gas_event_moles(&repeat, false),
+            0.0,
+            "zero-time replay: {repeat:?}"
+        );
+        assert_gas_adjusted_ledger(
+            &before_repeat,
+            &bench.vessels[0],
+            &repeat,
+            None,
+            "zero-time endpoint repeat",
+        );
+        let salt = apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            "add v1 NaCl 0.0001mol",
+            "nonacid spectator dose",
+        );
+        assert_eq!(
+            gas_event_moles(&salt, false),
+            0.0,
+            "spectator replay: {salt:?}"
+        );
+    }
+    assert!(
+        yields.windows(2).all(|pair| pair[1] - pair[0] > 1e-5),
+        "{yields:?}"
+    );
+}
+
+#[test]
+fn competing_base_consumes_acid_before_a_fast_carbonate_gas_parcel() {
+    let mut bench = Bench::new();
+    let mut stack = production_stack();
+    for text in [
+        "add v1 water 250mL",
+        "add v1 NaHCO3 0.004mol",
+        "add v1 NaOH 0.01mol",
+    ] {
+        apply_with_ledger(&mut bench, &mut stack, text, "competing base setup");
+    }
+    let events = apply_with_ledger(
+        &mut bench,
+        &mut stack,
+        "add v1 HCl 0.0005mol",
+        "competing base acid",
+    );
+    assert_eq!(gas_event_moles(&events, false), 0.0, "{events:?}");
+    assert!(bench.vessels[0].solution.as_ref().unwrap().ph > 10.0);
+}

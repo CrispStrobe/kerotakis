@@ -1259,12 +1259,12 @@ pub const CO2_TRANSFER_FLOOR_MOL: f64 = crate::OBSERVABLE_MOLES;
 /// the room at all. A bottle of caustic soda going off in the air is one of
 /// the first things a bench teaches, and it could not happen here.
 ///
-/// This clock is the inward direction, and it is a rate because that is
-/// what it physically is — the same way the room was wrong about heat
-/// before the ambient clock: the destination was right and the journey was
-/// missing. Outward transport is unchanged and still instantaneous; see
-/// the note in `advance` for why that half needs a decision rather than a
-/// patch.
+/// Both directions use the same sourced still-surface film coefficient.
+/// The outward parcel is bounded by measured neutral dissolved CO2, with
+/// buffer replenishment resolved between intervals. This is a finite-step
+/// film model, not a calibrated acid-front nucleation or bubble-rise model.
+/// Bench-owned solves retain a total-pressure bubble boundary so the
+/// aqueous engine cannot also spend this carbon against room air.
 ///
 /// The flux across a still surface is
 ///
@@ -1357,37 +1357,34 @@ impl Clock for GasExchangeClock {
         };
         let k_h = crate::properties::henry_at_t(coeff, vessel.temperature.0).value;
         let driving = ATMOSPHERIC_CO2_ATM - p_solution;
-        // INWARD only, for now, and the asymmetry is deliberate rather
-        // than an oversight.
-        //
-        // Carbon leaving is already handled, and well: the aqueous adapter
-        // offers an open vessel a CO2(g) phase holding zero moles, so a
-        // supersaturated solution degasses to the atmospheric value within
-        // the step. That is the `dt -> infinity` answer for the outward
-        // direction too, and it is wrong in the same way — but replacing
-        // it needs a rule this clock cannot yet state, because the two
-        // ways carbon leaves a beaker are not one process:
-        //
-        //   * FIZZ. Vinegar on baking soda. Bubbles nucleate and rise, and
-        //     it is over in seconds. Thermodynamically a bubble needs the
-        //     dissolved gas above the ambient TOTAL pressure to hold
-        //     itself open — but a well-mixed model never sees the local
-        //     supersaturation at the grain where the acid lands, so a
-        //     1 atm threshold silently stops hydrochloric acid on
-        //     bicarbonate from fizzing at all. Measured while writing
-        //     this: 0.02 mol in a litre reaches 0.59 atm, and the beaker
-        //     went quiet.
-        //   * SEEPING. A bicarbonate solution standing on the bench,
-        //     drifting basic over days. That IS this film transfer, and
-        //     it is what the outward rate would be for.
-        //
-        // Deciding between them changes what the bench teaches about the
-        // most-performed reaction there is, so it is left to a reviewed
-        // change of its own rather than settled here as a side effect.
-        // Taking the inward direction alone is strictly additive: nothing
-        // that degasses today behaves differently, and the direction that
-        // could not happen AT ALL now can.
-        if driving <= 0.0 {
+        if !driving.is_finite() || driving == 0.0 {
+            return Ok(());
+        }
+        if driving < 0.0 {
+            // Only measured neutral dissolved CO2 is immediately available
+            // to the liquid film. Buffer replenishment is re-solved by the
+            // aqueous owner between intervals, not invented as extra gas.
+            // Sub-floor parcels remain parked, so reserve their matter too.
+            let available = vessel
+                .contents
+                .iter()
+                .filter(|p| p.species.0 == "CO2(aq)" && p.phase == Phase::Aqueous)
+                .map(|p| p.moles.0)
+                .sum::<f64>()
+                + vessel.pending_co2_transfer_mol.min(0.0);
+            let area = free_surface_area_m2(&vessel.label);
+            let tau_s = volume_l / (STILL_SURFACE_K_L_M_PER_S * area * 1000.0);
+            let excess = k_h * (-driving) * volume_l;
+            if available > 0.0
+                && excess > 0.0
+                && tau_s > 0.0
+                && available.is_finite()
+                && excess.is_finite()
+                && tau_s.is_finite()
+            {
+                let transfer = (excess * (-(-seconds / tau_s).exp_m1())).min(available);
+                vessel.pending_co2_transfer_mol -= transfer;
+            }
             return Ok(());
         }
 
@@ -1918,22 +1915,68 @@ mod tests {
         );
     }
 
-    /// Soda water is far above the room's partial pressure, and this clock
-    /// deliberately does NOT touch it. Outward transport still belongs to
-    /// the aqueous adapter, which degasses an open vessel to the
-    /// atmospheric value within the step; a second engine moving the same
-    /// carbon would move it twice. The boundary is asserted so that
-    /// whoever makes degassing a rate has to come here and say so.
+    /// A pressure hint alone is not matter available to leave a vessel.
     #[test]
-    fn a_supersaturated_vessel_is_left_to_the_aqueous_adapter() {
+    fn supersaturation_without_neutral_inventory_cannot_create_gas() {
         let mut v = open_beaker_of_water();
         v.co2_partial_pressure_atm = Some(1.0);
         let mut events = Vec::new();
         advance(&mut v, 86_400.0, ClockContext::default(), &mut events).expect("advances");
-        assert_eq!(
-            v.pending_co2_transfer_mol, 0.0,
-            "outgassing is not this clock's to move"
+        assert_eq!(v.pending_co2_transfer_mol, 0.0);
+    }
+
+    #[test]
+    fn outward_film_transfer_is_finite_and_reserves_parked_carbon() {
+        let mut original = open_beaker_of_water();
+        let neutral = 0.001;
+        original.deposit(SpeciesId::new("CO2(aq)"), Moles(neutral), Phase::Aqueous);
+        let henry = crate::properties::henry_at_t(
+            crate::properties::henry_lookup("CO2").unwrap(),
+            original.temperature.0,
+        )
+        .value;
+        original.co2_partial_pressure_atm = Some(neutral / (henry * original.liquid_volume().0));
+        let mut short = original.clone();
+        let mut long = original.clone();
+        let mut events = Vec::new();
+        GasExchangeClock
+            .advance(&mut short, 1.0, &ClockContext::default(), &mut events)
+            .unwrap();
+        GasExchangeClock
+            .advance(&mut long, 3600.0, &ClockContext::default(), &mut events)
+            .unwrap();
+        assert!(short.pending_co2_transfer_mol < 0.0);
+        assert!(long.pending_co2_transfer_mol < short.pending_co2_transfer_mol);
+        assert!(
+            -long.pending_co2_transfer_mol < neutral,
+            "a finite film interval must not discharge the entire inventory"
         );
+        assert!(
+            events.is_empty(),
+            "the aqueous owner announces the actual applied parcel"
+        );
+        // Even without a solver spending each parked parcel, repeated clock
+        // calls cannot reserve more neutral carbon than physically exists.
+        for _ in 0..20 {
+            GasExchangeClock
+                .advance(&mut long, 86_400.0, &ClockContext::default(), &mut events)
+                .unwrap();
+        }
+        assert!(-long.pending_co2_transfer_mol <= neutral);
+        assert!(-long.pending_co2_transfer_mol > neutral * 0.99);
+        let pending = long.pending_co2_transfer_mol;
+        GasExchangeClock
+            .advance(&mut long, 0.0, &ClockContext::default(), &mut events)
+            .unwrap();
+        assert_eq!(long.pending_co2_transfer_mol, pending);
+        let mut sealed = original;
+        sealed.headspace = crate::vessel::Headspace::Sealed {
+            volume: crate::Liters(0.1),
+        };
+        GasExchangeClock
+            .advance(&mut sealed, 3600.0, &ClockContext::default(), &mut events)
+            .unwrap();
+        assert_eq!(sealed.pending_co2_transfer_mol, 0.0);
     }
 
     /// A long enough wait arrives, and does not sail past and come back.

@@ -9,11 +9,15 @@ Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. Qualification is **402
 originals (406 entries; catalog `audits/working-experiments-20261111-reviewed-production-round3-29.json`
 on the audit branch). The goal of ≥ 401 is met; further qualifications continue the same way.
 
-## Rounds 4 and 5 (merged to main 2026-11-12 by auto-merge PR; app release v0.1.5)
+## Rounds 4 and 5 — PR881 pending acceptance
 
-Merged through one PR whose required CI is the gate; v0.1.5 is tagged from that merge for the App
-Store/TestFlight builds (internal, then external). The affected originals re-run once on the deployed
-sha afterwards. Round 4:
+[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is a draft while source review and
+acceptance remain incomplete. It has not merged or deployed; the production identity above remains
+current. Its first failing head is `bb168622`: six starch display names lack German translations,
+the bicarbonate demo lacks step prose, and carbonate/gas/selectivity fleet contracts fail. Repair
+work preserves those first failures and distinguishes physical source defects from invalid oracles.
+Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication
+and original qualifications are not yet earned. Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.
 - Iodine in hexane is labelled a non-aqueous solution and counted by `inspect`; hexane/water K_D = 26.0
@@ -25,11 +29,12 @@ sha afterwards. Round 4:
   NBS RP2331), Co(H2O)6^2+ (Davis & Gibson, NBS MP114), Cl2(aq) (Fergusson 1936 via the MPI-Mainz atlas,
   CC BY 4.0), HOCl/OCl-, Br2/Br3-, FeSCN2+, Cu(NH3)4^2+, Ni2+. Only FeCl2+ is still refused.
 - Iodide-catalysed peroxide decomposition uses the measured k0 = 0.0115 L/mol/s (15x slower than before).
-- **Zero-time additions and the fizz rule.** Any addition (or `wait 0s`) takes no time, so an open beaker
-  releases only gas above the bubble threshold; when the zero-time answer shows carbonic acid dominant
-  (pH < pK1(T), Harned & Davis 1943) with CO2 above room air, the acid has made CO2 and the step fizzes to
-  room air. Baking soda in water keeps its carbon until time passes (AB-035, GS-013). The two-film
-  seeping lane was withdrawn: a 1 atm threshold alone stops acid on carbonate from fizzing.
+- **Carbonate boundaries under repair.** Instantaneous operations now share the zero-time boundary;
+  signed finite-time CO2 film transfer has a separate owner. The old bulk-pH/atmospheric-sink fizz
+  fallback is replaced by a bounded curated parcel with an explicit EN/DE/FR modelling limit.
+  [Design, first failures and pending acceptance](carbonate-boundaries-20261112.md) distinguish
+  transport, new reaction gas and old stored supersaturation. The versioned independent NaHCO3
+  law preserves the original failed ordering and all original scripts.
 
 Round 5 (from the typical-experiment sweep): `ignite` burns liquid ethanol, methanol, propanone and
 n-hexane in an open dish (curated rows from Circular 500 / NIST-quoted formation enthalpies) instead
@@ -42,7 +47,8 @@ enthalpies (a second route was tried and withdrawn: it double-counted).
 1. Volatile acid–base gases beyond CO2: H2S needs a reduced-sulfur family first, SO2 a sourced gas-phase
    slice; NH3 needs no fizz rule (see the handoff).
 2. Headspace gas colour: done (Cl2, Br2, I2 vapour, NO2, O3 cited; `gas_colour.rs`).
-3. Open-vessel seeping as a rate over `wait` (sourced k_L), on top of the zero-time/fizz rule.
+3. Complete hosted acceptance of the new finite-time CO2 owner and bounded endpoint; broader
+   gas-transfer and nucleation domains remain scoped separately.
 4. Remaining unsourced data: FeCl2+ absorptivity, starch–iodine blue value, maltose/maltotriose split,
    PVC latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2, BaCl2, Pb(NO3)2, …).
 5. Typical-experiment sweep through the CLI (15 classroom reactions) and fixes for anything off.
