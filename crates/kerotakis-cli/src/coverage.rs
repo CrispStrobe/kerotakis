@@ -1144,8 +1144,8 @@ mod tests {
         let vessel = kerotakis_core::VesselId(0);
         let notice = endpoint_notice(vessel, "not-modeled.carbonate-fast-endpoint");
         let gas = co2_result(vessel, 0.001);
-        assert!(curated_event_routes(&[notice.clone()]).is_empty());
-        assert!(curated_event_routes(&[gas.clone()]).is_empty());
+        assert!(curated_event_routes(std::slice::from_ref(&notice)).is_empty());
+        assert!(curated_event_routes(std::slice::from_ref(&gas)).is_empty());
         assert!(curated_event_routes(&[
             notice.clone(),
             co2_result(kerotakis_core::VesselId(1), 0.001)
