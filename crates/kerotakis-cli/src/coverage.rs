@@ -543,6 +543,51 @@ fn unsupported_observation(events: &[Event]) -> Option<(Disposition, &'static st
     )
 }
 
+/// Contributions committed by the bench outside `SolverStack` still own
+/// their provenance. Inspect one operator step at a time so a later gas event
+/// cannot lend an earlier limitation a successful contribution.
+///
+/// The carbonate key has one production emitter: `carbonate_endpoint::run`
+/// emits it only after committing its conservative, positive CO2 parcel. Its
+/// model-boundary cause and same-vessel gas result corroborate that contract;
+/// arbitrary limitations and English descriptions never create routes here.
+/// This records curated provenance, not calibrated yield or scientific validity.
+fn curated_event_routes(events: &[Event]) -> Vec<SolverRoute> {
+    let mut owners = std::collections::BTreeSet::new();
+    for event in events {
+        if let Event::NotYetModeled {
+            vessel,
+            cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
+            reason: Some(reason),
+            ..
+        } = event
+        {
+            if reason.key == "not-modeled.carbonate-fast-endpoint"
+                && events.iter().any(|candidate| {
+                    matches!(candidate, Event::GasEvolved { vessel: owner, species, moles }
+                        if owner == vessel && species.0 == "CO2" && moles.0.is_finite() && moles.0 > 0.0)
+                })
+            {
+                owners.insert(*vessel);
+            }
+        }
+    }
+    owners
+        .into_iter()
+        .map(|vessel| SolverRoute {
+            solver: "carbonate-endpoint".into(),
+            kind: SolverRouteKind::Curated,
+            chemistry: true,
+            // The single commit notice identifies the contribution. Coalesced
+            // gas events may include other transfers: do not attribute their
+            // event counts or quantities to this endpoint.
+            outcome: SolverRouteOutcome::Succeeded { event_count: 1 },
+            vessel: Some(vessel),
+            reason: None,
+        })
+        .collect()
+}
+
 fn execute_prompt(
     prompt: &CuriosityPrompt,
     stack: &mut SolverStack,
@@ -601,6 +646,7 @@ fn execute_prompt(
         // A prompt describes the state reached by the whole script. Earlier
         // additions may honestly be uncovered until a later command supplies
         // the solvent/reactant that makes the final state routable.
+        routes.extend(curated_event_routes(&step_events));
         all_events.extend(step_events.iter().cloned());
         events = step_events;
         routes.extend(stack.last_routes.iter().cloned());
@@ -1058,6 +1104,138 @@ mod tests {
             .into_iter()
             .find(|prompt| prompt.id == id)
             .unwrap()
+    }
+
+    fn endpoint_notice(vessel: kerotakis_core::VesselId, key: &str) -> Event {
+        Event::not_modeled(
+            vessel,
+            kerotakis_core::ops::NotModelledCause::ModelBoundary,
+            kerotakis_core::phrase::Phrase::bare(key, "localized text is not a route identity"),
+        )
+    }
+
+    fn co2_result(vessel: kerotakis_core::VesselId, amount: f64) -> Event {
+        Event::GasEvolved {
+            vessel,
+            species: kerotakis_core::SpeciesId::new("CO2"),
+            moles: kerotakis_core::Moles(amount),
+        }
+    }
+
+    #[test]
+    fn committed_endpoint_identity_preserves_curated_provenance_beside_native_gas() {
+        let vessel = kerotakis_core::VesselId(0);
+        let notice = endpoint_notice(vessel, "not-modeled.carbonate-fast-endpoint");
+        let gas = co2_result(vessel, 0.001);
+        let routes = curated_event_routes(&[notice.clone(), gas.clone(), notice]);
+        assert_eq!(routes.len(), 1, "one contribution per vessel per step");
+        assert_eq!(routes[0].solver, "carbonate-endpoint");
+        assert_eq!(routes[0].kind, SolverRouteKind::Curated);
+        assert!(routes[0].chemistry);
+        assert_eq!(routes[0].vessel, Some(vessel));
+        assert_eq!(
+            routes[0].outcome,
+            SolverRouteOutcome::Succeeded { event_count: 1 }
+        );
+    }
+
+    #[test]
+    fn unpaired_other_step_other_vessel_and_spectator_limits_do_not_create_curated_routes() {
+        let vessel = kerotakis_core::VesselId(0);
+        let notice = endpoint_notice(vessel, "not-modeled.carbonate-fast-endpoint");
+        let gas = co2_result(vessel, 0.001);
+        assert!(curated_event_routes(&[notice.clone()]).is_empty());
+        assert!(curated_event_routes(&[gas.clone()]).is_empty());
+        assert!(curated_event_routes(&[
+            notice.clone(),
+            co2_result(kerotakis_core::VesselId(1), 0.001)
+        ])
+        .is_empty());
+        for amount in [0.0, -0.001, f64::NAN, f64::INFINITY] {
+            assert!(curated_event_routes(&[notice.clone(), co2_result(vessel, amount)]).is_empty());
+        }
+        for key in [
+            "not-modeled.organic-solid-no-solubility",
+            "not-modeled.no-dissolution-solver",
+            "unknown-boundary",
+        ] {
+            assert!(curated_event_routes(&[endpoint_notice(vessel, key), gas.clone()]).is_empty());
+        }
+        let mut oxygen = gas.clone();
+        if let Event::GasEvolved { species, .. } = &mut oxygen {
+            *species = kerotakis_core::SpeciesId::new("O2");
+        }
+        assert!(curated_event_routes(&[notice.clone(), oxygen]).is_empty());
+        let mut untyped = notice.clone();
+        if let Event::NotYetModeled { reason, .. } = &mut untyped {
+            *reason = None;
+        }
+        assert!(curated_event_routes(&[untyped, gas.clone()]).is_empty());
+        let mut wrong_cause = notice.clone();
+        if let Event::NotYetModeled { cause, .. } = &mut wrong_cause {
+            *cause = kerotakis_core::ops::NotModelledCause::NoReviewedDatum;
+        }
+        assert!(curated_event_routes(&[wrong_cause, gas.clone()]).is_empty());
+        let absorbed = Event::GasAbsorbed {
+            vessel,
+            species: kerotakis_core::SpeciesId::new("CO2"),
+            moles: kerotakis_core::Moles(0.001),
+        };
+        assert!(curated_event_routes(&[notice.clone(), absorbed]).is_empty());
+        // A transcript may contain both, but classification must inspect
+        // each step separately, exactly as execute_prompt does.
+        let steps = [vec![notice], vec![gas]];
+        assert!(steps
+            .iter()
+            .flat_map(|step| curated_event_routes(step))
+            .collect::<Vec<_>>()
+            .is_empty());
+    }
+
+    #[test]
+    fn original_mixed_carbonate_cases_keep_both_routes_and_original_curated_baseline() {
+        let baseline = load_baseline(Path::new(DEFAULT_BASELINE)).unwrap();
+        for id in ["aq-059", "aq-122", "bio-114"] {
+            let actual = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
+            let original = baseline
+                .observation
+                .iter()
+                .find(|row| row.id == id)
+                .unwrap();
+            assert_eq!(actual.observed, Disposition::Curated, "{id}");
+            assert_eq!(actual.reason_code, original.reason_code, "{id}");
+            assert!(
+                actual
+                    .routes
+                    .iter()
+                    .any(|route| route.kind == SolverRouteKind::Computed
+                        && matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })),
+                "{id}: native contribution retained"
+            );
+            assert!(
+                actual
+                    .routes
+                    .iter()
+                    .any(|route| route.solver == "carbonate-endpoint"
+                        && route.kind == SolverRouteKind::Curated),
+                "{id}: endpoint contribution retained"
+            );
+        }
+    }
+
+    #[test]
+    fn unrelated_spectator_limits_do_not_downgrade_independent_computed_answers() {
+        for id in ["aq-123", "mat-057"] {
+            let actual = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
+            assert_eq!(actual.observed, Disposition::Computed, "{id}");
+            assert!(
+                !actual
+                    .routes
+                    .iter()
+                    .any(|route| route.solver == "carbonate-endpoint"),
+                "{id}"
+            );
+        }
     }
 
     #[test]
