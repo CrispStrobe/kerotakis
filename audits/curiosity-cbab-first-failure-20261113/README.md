@@ -130,7 +130,7 @@ baseline. The retained stdout SHA-256 values are respectively
 The actual scripts and stderr are retained beside them; no scientific pass or
 new original qualification is inferred.
 
-For the three classification changes, inspect `classify` in
+For the three classification changes, inspect `execute_prompt` in
 `crates/kerotakis-cli/src/coverage.rs`: it prefers an explicitly successful
 curated route, then computed chemistry or a successful computed route; a
 `NotYetModeled` event alone does not always lower the result when another
