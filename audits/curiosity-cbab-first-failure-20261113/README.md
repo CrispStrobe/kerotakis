@@ -92,3 +92,8 @@ distinguishes vitreous silica, which has no sharp melting point, from the
 crystalline form. These sources do not prove a clay mixture's phase or supply
 an implementation-ready latent-heat model; verify the specific CEA species,
 mixture and transition ownership before changing the solver.
+The repository's reviewed transition table also records 1883 K for metastable
+quartz fusion and 2001 K for cristobalite fusion from NBS Circular 500; both
+exceed the failing 1773.2 K. This corroborates investigating a request for a
+liquid-phase record below its valid interval. It does not establish whether
+that temperature is the final physical state or an intermediate solver trial.
