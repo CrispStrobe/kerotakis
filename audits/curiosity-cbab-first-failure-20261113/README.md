@@ -79,3 +79,7 @@ and stdout SHA-256 is
 `a20bc4aee97eb3e889a02ab4df6e8728aae38fa7af95ab35fc20eb5ca98660a4`.
 The `mat-049` and `mat-092` corpus scripts are identical, so their two gate
 records are not two independent physical protocols.
+
+The macOS native job 131593300149 independently reported the same seven
+solver failures and seven baseline changes. Its complete original log SHA-256
+is `801128706868ace4053109c6c8a85b1107c549c813e4779ca31ac78c1539ed47`.
