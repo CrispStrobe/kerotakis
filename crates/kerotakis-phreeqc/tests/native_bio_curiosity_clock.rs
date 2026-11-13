@@ -56,7 +56,7 @@ fn immutable_spectators(vessel: &Vessel) -> Vec<(String, Phase, u64)> {
         .filter(|portion| {
             matches!(
                 portion.species.0.as_str(),
-                "pepsin" | "glucose" | "fructose" | "cellulose"
+                "pepsin" | "glucose" | "fructose" | "cellulose" | "chlorophyll"
             )
         })
         .map(|portion| {
@@ -72,11 +72,16 @@ fn immutable_spectators(vessel: &Vessel) -> Vec<(String, Phase, u64)> {
 }
 
 fn assert_clock_boundary(before: &Vessel, after: &Vessel, events: &[Event]) {
+    assert_co2_boundary(before, after, events, true);
+}
+
+fn assert_co2_boundary(before: &Vessel, after: &Vessel, events: &[Event], absorption: bool) {
     assert_eq!(before.unresolved_materials, after.unresolved_materials);
     assert_eq!(immutable_spectators(before), immutable_spectators(after));
     let mut expected = known_ledger(before);
     let actual = known_ledger(after);
     let mut absorbed_co2 = 0.0;
+    let mut evolved_co2 = 0.0;
     for event in events {
         let (species, moles, sign, owner) = match event {
             Event::GasAbsorbed {
@@ -96,6 +101,9 @@ fn assert_clock_boundary(before: &Vessel, after: &Vessel, events: &[Event]) {
         if sign > 0.0 && species.0 == "CO2" {
             absorbed_co2 += moles;
         }
+        if sign < 0.0 && species.0 == "CO2" {
+            evolved_co2 += moles;
+        }
         let formula = stoich::parse_formula(species::lookup(species).expect("gas formula").formula)
             .expect("parsed gas formula");
         for (element, count) in formula.counts {
@@ -103,10 +111,17 @@ fn assert_clock_boundary(before: &Vessel, after: &Vessel, events: &[Event]) {
         }
         expected.charge += sign * moles * formula.charge;
     }
-    assert!(
-        absorbed_co2 > 0.0,
-        "the actual open-room CO2 parcel must be owned once"
-    );
+    if absorption {
+        assert!(
+            absorbed_co2 > 0.0,
+            "the actual open-room CO2 parcel must be owned once"
+        );
+    } else {
+        assert!(
+            evolved_co2 > 0.0 && absorbed_co2 == 0.0,
+            "the exhausted finite dose must leave only a clock-owned outward CO2 parcel"
+        );
+    }
     let keys: BTreeSet<_> = expected
         .elements
         .keys()
@@ -237,6 +252,120 @@ fn clock_owner_refuses_unmapped_ion_acid_unknown_stock_and_finite_gas_dose_atomi
             serde_json::to_value(&vessel).unwrap(),
             before,
             "{species}: failed native route must retain complete stock and pending parcel"
+        );
+    }
+}
+
+// The four unchanged curiosity protocols plus a dark companion. These are
+// aqueous/stock controls only: no light response or oxygen yield is earned.
+#[test]
+fn leaf_and_pondweed_exhausted_co2_doses_have_a_single_conserved_clock_owner() {
+    for (material, light) in [
+        ("leaf", Some("irradiate v1 450nm 100W/m2")),
+        ("pondweed", Some("irradiate v1 450nm 100W/m2")),
+        ("pondweed", Some("irradiate v1 450nm 500W/m2")),
+        ("pondweed", Some("irradiate v1 550nm 100W/m2")),
+        ("pondweed", None),
+    ] {
+        let mut bench = Bench::new();
+        let mut solver = stack();
+        step(&mut bench, &mut solver, &format!("add v1 {material} 1g"));
+        step(&mut bench, &mut solver, "add v1 water 100mL");
+        let stock = immutable_spectators(bench.vessel(VesselId(0)).unwrap());
+        assert!(stock
+            .iter()
+            .any(|(key, phase, _)| key == "chlorophyll" && *phase == Phase::Solid));
+        let before_dose = bench.vessel(VesselId(0)).unwrap().clone();
+        let dose_events = step(&mut bench, &mut solver, "add v1 CO2 0.01mol");
+        let after_dose = bench.vessel(VesselId(0)).unwrap().clone();
+        assert_eq!(stock, immutable_spectators(&after_dose));
+        assert!(
+            !after_dose
+                .contents
+                .iter()
+                .any(|p| p.phase == Phase::Gas && p.species.0 == "CO2" && p.moles.0 > 0.0),
+            "only the already exhausted dose is admitted to the later clock projection"
+        );
+        let absorbed: f64 = dose_events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasAbsorbed { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+                _ => None,
+            })
+            .sum();
+        let evolved: f64 = dose_events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+                _ => None,
+            })
+            .sum();
+        assert!(absorbed > 0.0 && evolved > 0.0);
+        assert!(
+            (absorbed + evolved - 0.01).abs() < 1e-10,
+            "dose is partitioned once"
+        );
+        // Incoming 0.01 mol minus its vented remainder equals the reported
+        // absorbed stock, rather than two independent carbon additions.
+        assert_co2_boundary(
+            &before_dose,
+            &after_dose,
+            &dose_events
+                .iter()
+                .filter(|e| matches!(e, Event::GasAbsorbed { .. }))
+                .cloned()
+                .collect::<Vec<_>>(),
+            true,
+        );
+        if let Some(command) = light {
+            step(&mut bench, &mut solver, command);
+        }
+        let before = bench.vessel(VesselId(0)).unwrap().clone();
+        let events = step(&mut bench, &mut solver, "wait 1h");
+        let after = bench.vessel(VesselId(0)).unwrap();
+        assert_eq!(stock, immutable_spectators(after));
+        assert!(!events.iter().any(|e| matches!(e, Event::GasEvolved { species, .. } | Event::GasAbsorbed { species, .. } if species.0 == "O2")),
+            "the pigment must not manufacture photosynthetic oxygen");
+        assert_co2_boundary(&before, after, &events, false);
+        // A second clock step must own only its new parcel, never replay
+        // the earlier dose or the preceding hour's outward boundary.
+        let before_second = after.clone();
+        let second_events = step(&mut bench, &mut solver, "wait 1h");
+        assert_co2_boundary(
+            &before_second,
+            bench.vessel(VesselId(0)).unwrap(),
+            &second_events,
+            false,
+        );
+    }
+}
+
+#[test]
+fn plant_clock_still_refuses_remaining_gas_unrepresented_ions_and_unknown_stock_atomically() {
+    let mut bench = Bench::new();
+    let mut solver = stack();
+    for command in ["add v1 leaf 1g", "add v1 water 100mL", "add v1 CO2 0.01mol"] {
+        step(&mut bench, &mut solver, command);
+    }
+    let seed = bench.vessel(VesselId(0)).unwrap().clone();
+    for (key, phase) in [
+        ("CO2", Phase::Gas),
+        ("KIO3", Phase::Aqueous),
+        ("unknown_clock_stock", Phase::Solid),
+        ("chlorophyll", Phase::Aqueous),
+    ] {
+        let mut vessel = seed.clone();
+        vessel.deposit(SpeciesId::new(key), Moles(0.001), phase);
+        vessel.pending_co2_transfer_mol = -2.0 * CO2_TRANSFER_FLOOR_MOL;
+        let snapshot = serde_json::to_value(&vessel).unwrap();
+        let mut native = PhreeqcEquilibrator::new().expect("native adapter");
+        native
+            .equilibrate(&mut vessel)
+            .expect_err("unowned stock must not be projected");
+        assert_eq!(
+            serde_json::to_value(&vessel).unwrap(),
+            snapshot,
+            "{key}: refusal must preserve complete inventory and pending clock parcel"
         );
     }
 }
