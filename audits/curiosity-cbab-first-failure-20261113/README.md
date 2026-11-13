@@ -36,3 +36,10 @@ replay narrows the investigation but does not prove which inventory field
 prevents certification or justify removing the atomic-refusal guard. Preserve
 the raw replay, producer identity and the full initial failure when repairing
 and validating this lane.
+The saved diagnostic input SHA-256 is
+`d93de0ebe65fd235be5d34f793a7c28b8e15dca8bf014aad569acb144df574b8`;
+its complete stdout SHA-256 is
+`90bddb7dfdec0d63145c73982e98fb2fe5658623bff0c96ff739fa026901ab1a`.
+The CLI and its genuine producer lock were authenticated in the preceding
+source-bound fleet. This replay is an additional diagnostic, not a new
+qualification or validation of the whole successor.
