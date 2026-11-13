@@ -141,3 +141,16 @@ incorrectly downgrading an independently answered question, preserve both
 positive and negative controls, and retain the original baseline as evidence.
 Do not simply classify every warning as a failure or update three rows to
 silence the gate.
+
+A source-level lead for silica is `mapping()` / `cea_species()` in
+`crates/kerotakis-cea/src/thermal.rs`: the registry mapping chooses among
+condensed records by Gibbs energy at 298.15 K, while `interval_for` permits
+nearest-interval extrapolation. `charge` then uses that single mapping for a
+registry species, and `outside_ranged_record` rejects a chosen record below
+its range. The vendored `SiO2(L)` record starts at 1996 K. This path can select
+an inappropriate condensed record for a solid input; confirm the actual
+selected name and causal trace before changing it. A safe design must use the
+input phase and temperature, account for phase-specific reactant enthalpy and
+latent heat, and avoid silently extrapolating liquid data. Include other
+polymorphs, mixed solid/liquid portions, adjacent transition temperatures,
+heat/cool round trips and missing-data negative controls.
