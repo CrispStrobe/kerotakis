@@ -24,3 +24,15 @@ thermochemical values. Preserve raw outcomes and original baseline records.
 The previous browser, source-bound fleet, and full preflight passes do not
 cover this later curiosity gate. The PR and release remain pending a reviewed
 fix and exact-head acceptance.
+
+A bounded native replay of the unchanged `bio-086` script, using the
+previously authenticated fleet CLI binary SHA-256
+`04aefaa6bccf91bfd08584e9991c69c19dad88c29ae7d31ab44034c9a3b61b2a`,
+exited zero but emitted `solver_failed` during `wait 1h`. Its explicit
+0.01 mol CO2 addition first emitted 0.003420321395285 mol absorbed and
+0.006579678604715 mol evolved; a subsequent observation emitted a much smaller
+CO2 evolution event. The refusal appears during the later clock step. This
+replay narrows the investigation but does not prove which inventory field
+prevents certification or justify removing the atomic-refusal guard. Preserve
+the raw replay, producer identity and the full initial failure when repairing
+and validating this lane.
