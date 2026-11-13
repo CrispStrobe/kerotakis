@@ -43,3 +43,11 @@ its complete stdout SHA-256 is
 The CLI and its genuine producer lock were authenticated in the preceding
 source-bound fleet. This replay is an additional diagnostic, not a new
 qualification or validation of the whole successor.
+
+A separate bounded replay of the unchanged `mat-049` script with the same
+fleet binary exited zero but emitted the same `cea-thermal` solver failure on
+its heat step. The retained input SHA-256 is
+`5a09a64098b27e4ca2111a736331fb5c424377e6037f112c1d77a0995ea1741c`
+and stdout SHA-256 is
+`1907f185da3665a96ae9b48a12201e84597a14b3f1b4fb1732dc04a7eb9277a9`.
+A zero CLI process exit does not make a solver-failed experiment successful.
