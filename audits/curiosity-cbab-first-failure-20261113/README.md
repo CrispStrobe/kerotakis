@@ -97,3 +97,11 @@ quartz fusion and 2001 K for cristobalite fusion from NBS Circular 500; both
 exceed the failing 1773.2 K. This corroborates investigating a request for a
 liquid-phase record below its valid interval. It does not establish whether
 that temperature is the final physical state or an intermediate solver trial.
+
+The retained `bio-086` replay shows no free CO2 gas portion after the explicit
+dose: approximately 0.003407817 mol is in aqueous CO2 and 0.000012504 mol in
+bicarbonate. After the failed wait, the pending clock transfer is about
+−0.001867128 mol and the prior aqueous carbon inventory remains in place while
+the solution is invalidated. This narrows the question further, but the
+internal `ExternalGasKind` inputs and their ownership still need tracing;
+absence of a visible gas portion alone is not proof of a safe projection.
