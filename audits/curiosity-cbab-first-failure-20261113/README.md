@@ -71,3 +71,11 @@ supported solid phase should retain ownership, and which reviewed source covers
 any genuinely required transition. Check energy and mass closure and adjacent
 temperatures before adding data or changing route selection. Preserve the first
 failures and keep unsupported phases as explicit coverage limits.
+
+The retained `mat-054` replay independently reproduces the same CEA failure
+on heating silica glass; its input SHA-256 is
+`a2e208339930da023a02234d5603f1342f765604457581774e39de6d2ec575be`
+and stdout SHA-256 is
+`a20bc4aee97eb3e889a02ab4df6e8728aae38fa7af95ab35fc20eb5ca98660a4`.
+The `mat-049` and `mat-092` corpus scripts are identical, so their two gate
+records are not two independent physical protocols.

@@ -1,0 +1,3 @@
+add v1 silica_glass 2g
+heat v1 100kJ
+cool v1 100kJ
