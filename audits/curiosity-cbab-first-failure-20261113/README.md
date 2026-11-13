@@ -129,3 +129,15 @@ baseline. The retained stdout SHA-256 values are respectively
 `e7cb1b4fd178aff47d639c7baadea5cb685fb6542c90fc15a28dcb22685c06c9`.
 The actual scripts and stderr are retained beside them; no scientific pass or
 new original qualification is inferred.
+
+For the three classification changes, inspect `classify` in
+`crates/kerotakis-cli/src/coverage.rs`: it prefers an explicitly successful
+curated route, then computed chemistry or a successful computed route; a
+`NotYetModeled` event alone does not always lower the result when another
+result event is present. Determine whether the carbonate endpoint should be
+represented as a separately owned curated contribution or as a mixed
+computed/limited disposition. Keep unrelated spectator limitations from
+incorrectly downgrading an independently answered question, preserve both
+positive and negative controls, and retain the original baseline as evidence.
+Do not simply classify every warning as a failure or update three rows to
+silence the gate.
