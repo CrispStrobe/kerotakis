@@ -1505,6 +1505,7 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+cea-solid-feed-cp-continuation = "Le solide initial {species}, à {temperature} K, dépasse sa plage de données thermochimiques qui s’arrête à {high} K ; son modèle existant maintient la capacité calorifique à sa valeur limite pour porter l’énergie sensible dans le calcul. Cet état surchauffé est une approximation du modèle, non validée thermochimiquement hors de la plage tabulée."
 carbonate-fast-endpoint = "Cette quantité de gaz acide-carbonate est un état final pédagogique borné à partir du CO2 dissous nouvellement formé. La nucléation au front acide et les temps de dégagement ne sont pas modélisés ; ce résultat ne constitue pas une prévision étalonnée du rendement gazeux instantané"
 redox-pair-unpriced = "{pairs} : un oxydant et un réducteur sont ici ensemble, mais aucune écriture rapide vérifiée, aucune réaction répertoriée et aucune loi de vitesse ne chiffre ce couple ; il reste donc sans réaction. C'est une lacune du modèle, pas la preuve que rien ne se passe"
 redox-pair-outside-medium = "{pairs} : l'écriture vérifiée de ce couple est aqueuse, entre 0 et 60 °C, et ce récipient ne contient pas d'eau liquide ou sort de cet intervalle ; le couple reste donc sans réaction"

@@ -1713,6 +1713,7 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+cea-solid-feed-cp-continuation = "Der feste Ausgangsstoff {species} liegt bei {temperature} K über seinem thermochemischen Datenbereich bis {high} K; sein vorhandenes Modell mit am Randwert gehaltener Wärmekapazität führt die fühlbare Energie in die Berechnung. Dieser überhitzte Ausgangszustand ist modellbegrenzt und außerhalb des Tabellenbereichs nicht thermochemisch validiert."
 carbonate-fast-endpoint = "Dieses Säure-Carbonat-Gaspaket ist ein begrenzter kuratierter Endpunkt aus neu gebildetem gelöstem CO2. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert; dies ist keine kalibrierte Vorhersage einer augenblicklichen Gasausbeute"
 redox-pair-unpriced = "{pairs}: Ein Oxidationsmittel und ein Reduktionsmittel sind hier zusammen, aber kein geprüfter schneller Reaktionsschreiber, keine kuratierte Reaktion und kein Geschwindigkeitsgesetz bepreist dieses Paar, daher bleibt es unreagiert. Das ist eine Lücke im Modell, kein Beleg dafür, dass nichts geschieht"
 redox-pair-outside-medium = "{pairs}: Der geprüfte Schreiber dieses Paares ist wässrig und gilt zwischen 0 und 60 °C; dieses Gefäß enthält kein flüssiges Wasser oder liegt außerhalb dieses Bereichs, daher bleibt das Paar unreagiert"
