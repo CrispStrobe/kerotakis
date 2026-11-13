@@ -46,9 +46,10 @@ The same CI run also exposed a [browser foam overflow failure](../audits/browser
 
 The next local CEA candidate corrects phase-name parsing and formula identity, handles the zinc
 fusion boundary and reports a nonconverged energy balance instead of returning an unclosed state.
-Its hot-solid heat-capacity continuation reports its model limitation. Focused CEA, phase, clock
-and coverage tests and the complete curiosity check are running on hosted CPU; their results are
-pending. Review each remaining classification change against its actual routes and observations,
+Its hot-solid heat-capacity continuation reports its model limitation. Hosted focused CEA, phase,
+clock and coverage tests pass. The complete 499-prompt curiosity check still reports one thermal
+solver failure (`th-042`), one unmet polyethylene observation (`mat-032`) and 19 baseline changes.
+Review each remaining classification change against its actual routes and observations,
 including the polyethylene and silica cases, before updating any baseline. The candidate has not
 been pushed, merged or deployed.
 

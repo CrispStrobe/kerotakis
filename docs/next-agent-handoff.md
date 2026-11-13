@@ -35,12 +35,21 @@ The latest main concurrency policy must be pulled before pushing; do not edit it
 
 The local successor `5122af69e` changes CEA phase-name and formula parsing, zinc fusion-boundary
 handling, hot-solid heat-capacity continuation and the energy solver's failure behavior. Hosted
-focused CEA, paid-phase, clock and coverage tests and the complete curiosity check are in progress.
-Inspect their actual results and fix any failures. Then investigate each remaining classification
+focused CEA, paid-phase, clock and coverage tests pass. The complete curiosity check reports one
+solver failure (`th-042`, heated copper), one unmet polyethylene observation (`mat-032`) and 19
+baseline changes. Fix the solver failure and investigate each remaining classification
 change against its emitted routes and observations, especially polyethylene and silica; keep
 unsupported chemistry visible and do not update baselines merely to make the check pass. Run the
 affected workspace tests and the fleet on the repaired candidate, pull main, and deliver the coherent
 batch through PR881 before deploying and submitting the requested TestFlight builds.
+
+For `th-042`, reproduce `add v1 Cu 1g; add v1 O2 0.1mol; ignite v1; look v1` and resolve the
+enthalpy convergence failure without accepting an unclosed energy balance. For `mat-032`, restore
+an actual qualitative account of heating or burning polyethylene. For `mat-054`, the current
+readback heats silica only to the burner ceiling and then asks to cool beyond absolute zero; it
+reports a cooling limit and does not demonstrate glass crystallization. Assess the changed outcome
+accordingly. For mixed carbonate cases, preserve both computed and curated contributions and
+review how their combined disposition is represented rather than losing either route.
 
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
 no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: primary, or "as quoted by"
