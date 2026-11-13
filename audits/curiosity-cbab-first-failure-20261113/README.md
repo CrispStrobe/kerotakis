@@ -51,3 +51,23 @@ its heat step. The retained input SHA-256 is
 and stdout SHA-256 is
 `1907f185da3665a96ae9b48a12201e84597a14b3f1b4fb1732dc04a7eb9277a9`.
 A zero CLI process exit does not make a solver-failed experiment successful.
+
+For the finite-dose lane, start at `project_gas_aware_components` in
+`crates/kerotakis-phreeqc/src/aqueous.rs`: its certification path explicitly
+returns false for `ExternalGasKind::Dose`, while a clock parcel requires a
+certified projection. Trace the dose, any remaining gas, the clock parcel,
+and aqueous carbon through the first dose and later wait; distinguish a
+certifiable exhausted dose from gas still requiring its own owner. Add a
+positive source-bound biology control and negative unrepresented-ion, opaque
+stock, remaining-gas and no-double-count controls. Preserve the existing atomic
+rollback test and compare complete inventories, charge, and reported external
+gas events. These are acceptance requirements for a proposed implementation,
+not a claim that the guard can already be relaxed safely.
+
+For the silica lane, reproduce all three original firing scripts and trace the
+selected phase and temperature interval through the CEA data lookup. Establish
+whether the `SiO2(L)` request is physically appropriate at 1773.2 K, whether a
+supported solid phase should retain ownership, and which reviewed source covers
+any genuinely required transition. Check energy and mass closure and adjacent
+temperatures before adding data or changing route selection. Preserve the first
+failures and keep unsupported phases as explicit coverage limits.
