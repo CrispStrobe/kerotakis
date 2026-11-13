@@ -154,8 +154,12 @@ fn registry_row(name: &str) -> Result<&'static species::SpeciesData, SolveError>
     species::REGISTRY
         .iter()
         .find(|r| {
-            cea_name(r.key)
-                .is_some_and(|mapped| cea_identity_stem(mapped) == cea_identity_stem(name))
+            cea_species(r.key).is_some_and(|mapped| {
+                db().get(name).is_some_and(|product| {
+                    mapped.composition == product.composition
+                        && cea_identity_stem(&mapped.name) == cea_identity_stem(name)
+                })
+            })
         })
         .ok_or_else(|| {
             owned_thermal_error(
@@ -394,7 +398,12 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
 fn record_phase(record: &Species) -> Phase {
     if record.is_gas() {
         Phase::Gas
-    } else if record.name.ends_with("(L)") {
+    } else if record
+        .name
+        .split(',')
+        .next()
+        .is_some_and(|name| name.ends_with("(L)"))
+    {
         Phase::Liquid
     } else {
         Phase::Solid
@@ -456,13 +465,27 @@ fn feed_species(registry_key: &str, phase: Phase, temperature: f64) -> Option<&'
         .or(Some(anchor))
 }
 
-/// Reuse only the exact solid curve already charged by core heat(). Beyond
-/// its last tabulated point core explicitly holds Cp at that endpoint. This
+/// Reuse the solid heat-capacity model already charged by core heat():
+/// the exact tabulated curve with held endpoints, or its constant fallback. This
 /// is a model-limited superheated feed, not an extended NASA polynomial and
 /// not an already melted feed. HP must still pay for any phase transition.
 fn held_solid_feed(vessel: &Vessel, key: &str) -> Option<(&'static Species, f64, f64)> {
     let data = species::lookup_key(key)?;
-    let curve = kerotakis_core::states::heat_capacity_curve(data, Phase::Solid)?;
+    let Some(curve) = kerotakis_core::states::heat_capacity_curve(data, Phase::Solid) else {
+        // Without a curve, heat() already uses the registry's constant Cp.
+        // Carry that same sensible energy from a valid solid endpoint,
+        // visibly model-limited, rather than extrapolating NASA coefficients
+        // or silently throwing away the heat which the core charged.
+        let record = cea_species(key)?;
+        let (_, high) = record.t_range()?;
+        let t = vessel.temperature.0;
+        if record_phase(record) != Phase::Solid || !t.is_finite() || t <= high {
+            return None;
+        }
+        let h =
+            record.h(high)? + kerotakis_core::states::enthalpy_between(data, Phase::Solid, high, t);
+        return h.is_finite().then_some((record, h, high));
+    };
     if curve.phase != Phase::Solid {
         return None;
     }
@@ -539,7 +562,15 @@ fn outside_ranged_record(species: &Species, temperature: f64) -> bool {
 }
 
 fn cea_identity_stem(name: &str) -> &str {
-    name.split(['(', ',']).next().unwrap_or(name)
+    let name = name.split(',').next().unwrap_or(name);
+    // Strip the final phase suffix, preserving parentheses in a chemical
+    // formula: Cu(OH)2(cr) belongs to Cu(OH)2, never elemental Cu.
+    if name.ends_with(')') {
+        if let Some(index) = name.rfind('(') {
+            return &name[..index];
+        }
+    }
+    name
 }
 
 /// Element counts of a registry formula, ignoring charge and hydrate
@@ -779,17 +810,17 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     })
 }
 
-/// Bridge only an existing core-owned coexistence plateau, never an
-/// arbitrarily supercooled liquid or an unsupported fusion temperature.
+/// Bridge a liquid at the exact reviewed core fusion temperature, including
+/// a pure liquid aliquot poured from a paid plateau. The liquid portion is
+/// the owner's state; coexistence need not survive a phase-selective pour.
+/// The added latent term is charged into HP, never granted to products.
 fn paid_plateau_liquid(vessel: &Vessel, key: &str) -> Option<(&'static Species, f64)> {
     let melting = species::lookup_key(key)?.transitions?.melting_k?;
     if (vessel.temperature.0 - melting).abs() > 64.0 * f64::EPSILON * melting.abs()
-        || ![Phase::Solid, Phase::Liquid].into_iter().all(|phase| {
-            vessel
-                .contents
-                .iter()
-                .any(|p| p.species.0 == key && p.phase == phase && p.moles.0 > 0.0)
-        })
+        || !vessel
+            .contents
+            .iter()
+            .any(|p| p.species.0 == key && p.phase == Phase::Liquid && p.moles.0 > 0.0)
     {
         return None;
     }
@@ -840,7 +871,10 @@ fn chemical_inventory_unchanged(
                     && liquid.moles.0 > 0.0
             })
     });
-    if !has_plateau {
+    let has_paid_liquid = vessel.contents.iter().any(|portion| {
+        portion.phase == Phase::Liquid && paid_plateau_liquid(vessel, &portion.species.0).is_some()
+    });
+    if !has_plateau && !has_paid_liquid {
         return false;
     }
     let totals = |portions: &[Portion]| {
@@ -1038,6 +1072,38 @@ impl Equilibrator for ThermalEquilibrator {
             inlet_k: t,
         };
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
+        // A paid core plateau may require a phase fraction which a TP
+        // minimizer cannot determine from temperature alone. Check the
+        // chemical handoff before HP attempts to bisect that latent gap.
+        // Only an unchanged inventory AND unchanged actual atmosphere can
+        // return to core ownership; oxidation still proceeds through HP.
+        if adiabatic
+            && vessel.contents.iter().any(|portion| {
+                portion.phase == Phase::Liquid
+                    && paid_plateau_liquid(vessel, &portion.species.0).is_some()
+            })
+        {
+            if let Ok(probe) = equilibrate_tp(&charge.budget, &pool, t, 1.0) {
+                let mut condensed = Vec::new();
+                for (name, moles) in &probe.composition {
+                    let Some(record) = db().get(name) else {
+                        continue;
+                    };
+                    if record.is_gas() || *moles <= 1e-12 {
+                        continue;
+                    }
+                    condensed.push(Portion {
+                        species: SpeciesId::new(registry_row(name)?.key),
+                        moles: Moles(*moles),
+                        phase: record_phase(record),
+                    });
+                }
+                if chemical_inventory_unchanged(vessel, &condensed, &probe.composition, &charge.air)
+                {
+                    return Ok(Vec::new());
+                }
+            }
+        }
         let (eq, feed_tp_fallback) = if adiabatic {
             match crate::gibbs::equilibrate_hp_open(
                 &charge.budget,
@@ -1125,7 +1191,7 @@ impl Equilibrator for ThermalEquilibrator {
                 moles: Moles(*moles),
                 // CEA distinguishes condensed phases in the record identity;
                 // the room-temperature registry phase is not the solved phase.
-                phase: if s.name.ends_with("(L)") {
+                phase: if record_phase(s) == Phase::Liquid {
                     Phase::Liquid
                 } else {
                     Phase::Solid
@@ -1590,6 +1656,44 @@ mod phase_feed_tests {
     }
 
     #[test]
+    fn formula_parentheses_and_comma_qualified_liquids_keep_their_identity() {
+        assert_eq!(cea_identity_stem("Cu(OH)2(cr)"), "Cu(OH)2");
+        assert_eq!(cea_identity_stem("Cu(cr)"), "Cu");
+        assert_eq!(registry_row("Cu(cr)").unwrap().key, "Cu");
+        assert_eq!(registry_row("Cu(L)").unwrap().key, "Cu");
+        assert_eq!(registry_row("Cu(OH)2(cr)").unwrap().key, "Cu(OH)2");
+        let propylene = db().get_reactant("C3H6(L),propyle").unwrap();
+        assert_eq!(record_phase(propylene), Phase::Liquid);
+        assert_eq!(cea_name("PP"), None, "a repeat unit is not liquid monomer");
+        for product in db().species.values() {
+            if let Ok(row) = registry_row(&product.name) {
+                assert_eq!(
+                    cea_species(row.key).unwrap().composition,
+                    product.composition
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn constant_cp_hot_solid_feed_keeps_the_core_sensible_energy() {
+        let t = 1773.15;
+        let vessel = sample("I2", t, Phase::Solid, 0.1);
+        let charge = charge(&vessel).unwrap();
+        let (record, n, h) = charge.feeds[0];
+        let high = record.t_range().unwrap().1;
+        assert_eq!(
+            charge.solid_continuations,
+            vec![(SpeciesId::new("I2"), high)]
+        );
+        assert!(
+            (n * (h.unwrap() - record.h(high).unwrap()) - vessel.energy_between(high, t)).abs()
+                < 1e-9
+        );
+        assert!(enthalpy_within_record(record, t).is_none());
+    }
+
+    #[test]
     fn silica_feed_uses_supported_solid_polymorphs_and_actual_liquid_phase() {
         assert_eq!(cea_name("SiO2"), Some("SiO2(a-qz)"));
         for (t, phase, name) in [
@@ -1664,7 +1768,7 @@ mod phase_feed_tests {
     }
 
     #[test]
-    fn plateau_bridge_requires_coexistence_and_exact_reviewed_temperature() {
+    fn plateau_bridge_accepts_transferred_liquid_only_at_exact_reviewed_temperature() {
         let t = species::lookup_key("Zn")
             .unwrap()
             .transitions
@@ -1672,8 +1776,16 @@ mod phase_feed_tests {
             .melting_k
             .unwrap();
         let mut liquid = sample("Zn", t, Phase::Liquid, 0.1);
-        assert!(paid_plateau_liquid(&liquid, "Zn").is_none());
-        assert!(ThermalEquilibrator.equilibrate(&mut liquid).is_err());
+        let (solid, h) = paid_plateau_liquid(&liquid, "Zn").unwrap();
+        let latent = kerotakis_core::phase_route::fusion_enthalpy("Zn").unwrap();
+        assert_eq!(h, solid.h(t).unwrap() + latent);
+        liquid.thermal_mode = ThermalMode::Adiabatic;
+        let before = format!("{liquid:?}");
+        assert!(ThermalEquilibrator
+            .equilibrate(&mut liquid)
+            .unwrap()
+            .is_empty());
+        assert_eq!(format!("{liquid:?}"), before);
         liquid.deposit(SpeciesId::new("Zn"), Moles(0.1), Phase::Solid);
         assert!(paid_plateau_liquid(&liquid, "Zn").is_some());
         liquid.temperature.0 -= 0.001;
@@ -1724,8 +1836,9 @@ mod phase_feed_tests {
                 })
                 .sum::<f64>()
                 .min(0.0);
-            // HP bisects to a 0.5 K bracket. This 20 J bound is below the
-            // missing sensible energy and covers that finite resolution.
+            // Preserve the independent 20 J energy bound, well below the
+            // missing sensible term. HP must refine its temperature bracket
+            // until the actual open-air energy residual also converges.
             assert!(
                 (eq.enthalpy - air_change - target).abs() < 20.0,
                 "{key}: target={target}, solved={}, air credit={air_change}",

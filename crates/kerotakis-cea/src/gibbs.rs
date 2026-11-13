@@ -770,8 +770,16 @@ pub fn equilibrate_hp_open(
     // What the charge's own matter has to account for. The atmosphere's
     // sensible heat is subtracted back out wherever it would be a credit,
     // so the balance the search closes is the vessel's, not the room's.
-    if last.enthalpy - atmosphere_credit(atmosphere, &last) > enthalpy {
-        return Ok(last); // colder than the data supports; honest floor
+    let energy_tolerance = 1.0 + enthalpy.abs() * 1e-8;
+    let floor_residual = last.enthalpy - atmosphere_credit(atmosphere, &last) - enthalpy;
+    if floor_residual > 0.0 {
+        return if floor_residual <= energy_tolerance {
+            Ok(last)
+        } else {
+            // A data/convergence floor is not an energy-conserving HP
+            // solution when its enthalpy already exceeds the target.
+            Err(CeaError::NotConverged(0))
+        };
     }
     let mut failed_mids = 0u8;
     for _ in 0..60 {
@@ -808,11 +816,19 @@ pub fn equilibrate_hp_open(
                 }
             }
         }
-        if hi - lo < 0.5 {
-            break;
+        // A temperature bracket alone does not bound energy: near a
+        // decomposition front a sub-kelvin step can carry hundreds of J.
+        // Retain the temperature criterion and close the actual open-air
+        // enthalpy balance as well (one joule absolute, 1e-8 relative).
+        let residual = last.enthalpy - atmosphere_credit(atmosphere, &last) - enthalpy;
+        if hi - lo < 0.5 && residual.abs() <= energy_tolerance {
+            return Ok(last);
         }
     }
-    Ok(last)
+    // Phase changes can leave a jump in the TP enthalpy curve: shrinking
+    // the temperature bracket then cannot reach an intermediate target.
+    // Never return the last pure phase as a successful HP balance.
+    Err(CeaError::NotConverged(60))
 }
 
 /// Gauss-Jordan with partial pivoting on a flat row-major augmented matrix.
@@ -945,6 +961,60 @@ mod tests {
                 Some(s.h(t)? * mine)
             })
             .sum()
+    }
+
+    #[test]
+    fn hp_refuses_an_unresolved_phase_enthalpy_gap() {
+        // Deliberately synthetic, disjoint phase domains with a 10 kJ/mol
+        // latent jump at 1000 K. A TP solve can return either pure phase,
+        // but cannot choose the phase fraction required by this HP target.
+        let mut solid = crate::db().get("Zn(cr)").unwrap().clone();
+        let mut liquid = crate::db().get("Zn(L)").unwrap().clone();
+        solid.intervals = vec![crate::nasa9::Interval {
+            t_min: 250.0,
+            t_max: 1000.0,
+            coeffs: [0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        }];
+        liquid.intervals = vec![crate::nasa9::Interval {
+            t_min: 1000.0,
+            t_max: 6000.0,
+            coeffs: [0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 10000.0 / R, 10.0 / R],
+        }];
+        let nitrogen = crate::db().get("N2").unwrap();
+        let pool = [&solid, &liquid, nitrogen];
+        let b = budget(&[("Zn", 1.0), ("N", 2.0)]);
+        let low = equilibrate_tp(&b, &pool, 999.0, 1.0).unwrap();
+        let high = equilibrate_tp(&b, &pool, 1001.0, 1.0).unwrap();
+        assert_conserved(&low, &b, "synthetic solid");
+        assert_conserved(&high, &b, "synthetic liquid");
+        assert!(low.moles_of("Zn(cr)") > 0.99);
+        assert!(high.moles_of("Zn(L)") > 0.99);
+        assert!(high.enthalpy - low.enthalpy > 10000.0);
+        let target = solid.h(1000.0).unwrap() + nitrogen.h(1000.0).unwrap() + 5000.0;
+        assert!(matches!(
+            equilibrate_hp(&b, &pool, target, 1.0),
+            Err(CeaError::NotConverged(_))
+        ));
+        // Nearby continuous targets still close the original energy bound.
+        let target = low.enthalpy;
+        let solved = equilibrate_hp(&b, &pool, target, 1.0).unwrap();
+        assert!((solved.enthalpy - target).abs() <= 1.0 + target.abs() * 1e-8);
+    }
+
+    #[test]
+    fn hp_cannot_return_a_floor_or_ceiling_with_unpaid_energy() {
+        let nitrogen = crate::db().get("N2").unwrap();
+        let pool = [nitrogen];
+        let b = budget(&[("N", 2.0)]);
+        for target in [
+            nitrogen.h(250.0).unwrap() - 100.0,
+            nitrogen.h(6000.0).unwrap() + 100.0,
+        ] {
+            assert!(matches!(
+                equilibrate_hp(&b, &pool, target, 1.0),
+                Err(CeaError::NotConverged(_))
+            ));
+        }
     }
 
     #[test]
