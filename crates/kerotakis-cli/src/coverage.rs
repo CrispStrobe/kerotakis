@@ -568,7 +568,7 @@ fn curated_event_routes(events: &[Event]) -> Vec<SolverRoute> {
                         if owner == vessel && species.0 == "CO2" && moles.0.is_finite() && moles.0 > 0.0)
                 })
             {
-                owners.insert(*vessel);
+                owners.insert(vessel.0);
             }
         }
     }
@@ -582,7 +582,7 @@ fn curated_event_routes(events: &[Event]) -> Vec<SolverRoute> {
             // gas events may include other transfers: do not attribute their
             // event counts or quantities to this endpoint.
             outcome: SolverRouteOutcome::Succeeded { event_count: 1 },
-            vessel: Some(vessel),
+            vessel: Some(kerotakis_core::VesselId(vessel)),
             reason: None,
         })
         .collect()
