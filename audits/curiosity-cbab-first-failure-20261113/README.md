@@ -105,3 +105,14 @@ bicarbonate. After the failed wait, the pending clock transfer is about
 the solution is invalidated. This narrows the question further, but the
 internal `ExternalGasKind` inputs and their ownership still need tracing;
 absence of a visible gas portion alone is not proof of a safe projection.
+
+A further source inspection identifies another specific admission boundary:
+the saved `bio-086` vessel contains solid chlorophyll alongside cellulose,
+glucose and an opaque leaf portion. The current `clock_spectator` admission
+in `inventory.rs` names cellulose, sugars and pepsin, but not chlorophyll;
+`opaque_clock_component_owner` requires every non-native portion to have an
+admitted role. Trace this predicate and the actual problem inputs before
+attributing the failure to the gas-dose exclusion alone. A candidate must
+establish whether chlorophyll remains an immutable spectator over the clock
+step, including illuminated and reacting controls; do not add a name-only
+exception or infer a conserved formula without review.
