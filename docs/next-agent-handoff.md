@@ -33,6 +33,15 @@ the successor's owner ordering and changed-source checks; retain original physic
 all required CI before delivery. The [foam observation interval](../audits/browser-foam-clock-first-failure-20261112/README.md) passed in the `66d0d970` browser run; that run then exposed the [carbonate lesson snapshot difference](../audits/gui003-carbonate-model-adjudication-20261112/README.md), whose reviewed successor still requires a real-browser run. Both native jobs subsequently found three [obsolete carbonate codex claims](../audits/codex-carbonate-claims-adjudication-20261112/README.md); the source-bound readbacks, original forecasts and revised lesson validation are retained, and exact-successor CI is still required. The subsequent [curiosity gate failures](../audits/curiosity-cbab-first-failure-20261113/README.md) require explicit CO2-dose and silica-route investigation before baseline changes. The local clock repair passed its six focused native tests and coverage classification passed 16 unit tests. The CEA candidate still fails zinc pour/phase preservation and a hot-calcite energy check, and the full curiosity run reports five further high-temperature solver failures and classification drift. Fix the phase/energy ownership with the existing paid-phase and combustion controls intact; rerun the workspace and curiosity gate before pushing. Preserve the earlier source-specific evidence independently.
 The latest main concurrency policy must be pulled before pushing; do not edit its blocks.
 
+The local successor `5122af69e` changes CEA phase-name and formula parsing, zinc fusion-boundary
+handling, hot-solid heat-capacity continuation and the energy solver's failure behavior. Hosted
+focused CEA, paid-phase, clock and coverage tests and the complete curiosity check are in progress.
+Inspect their actual results and fix any failures. Then investigate each remaining classification
+change against its emitted routes and observations, especially polyethylene and silica; keep
+unsupported chemistry visible and do not update baselines merely to make the check pass. Run the
+affected workspace tests and the fleet on the repaired candidate, pull main, and deliver the coherent
+batch through PR881 before deploying and submitting the requested TestFlight builds.
+
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
 no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: primary, or "as quoted by"
 Wikipedia/NIST with the primary named; NIST SRD single facts only; the MPI-Mainz UV/VIS atlas is
