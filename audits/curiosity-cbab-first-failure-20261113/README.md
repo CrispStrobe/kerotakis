@@ -116,3 +116,16 @@ attributing the failure to the gas-dose exclusion alone. A candidate must
 establish whether chlorophyll remains an immutable spectator over the clock
 step, including illuminated and reacting controls; do not add a name-only
 exception or infer a conserved formula without review.
+
+Separate bounded replays of the unchanged `aq-059`, `aq-122` and `bio-114`
+scripts all emitted a gas event together with the explicit bounded-curated
+acid/carbonate endpoint limitation, and no solver-failed event. The coverage
+gate nevertheless describes their route as `computed`; that classification is
+not evidence of a calibrated gas yield. Review the classifier's meaning and
+whether it communicates mixed represented/curated outcomes before revising the
+baseline. The retained stdout SHA-256 values are respectively
+`360dfccacc78df2a06059c7cb59ba97bb23c231db3ca787d5e551a33a76eef7f`,
+`94896e2d8c5010d53a9fca845f83068c3b47699455d2557d93132d1d50105311`, and
+`e7cb1b4fd178aff47d639c7baadea5cb685fb6542c90fc15a28dcb22685c06c9`.
+The actual scripts and stderr are retained beside them; no scientific pass or
+new original qualification is inferred.
