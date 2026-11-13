@@ -83,3 +83,12 @@ records are not two independent physical protocols.
 The macOS native job 131593300149 independently reported the same seven
 solver failures and seven baseline changes. Its complete original log SHA-256
 is `801128706868ace4053109c6c8a85b1107c549c813e4779ca31ac78c1539ed47`.
+
+A preliminary source check strengthens the phase-selection question without
+settling this mixture's equilibrium: a [National Bureau of Standards report](https://nvlpubs.nist.gov/nistpubs/jres/17/jresv17n5p727_A1b.pdf)
+reports cristobalite melting at 1713 °C (1986.15 K), above the failing 1773.2 K.
+An [NBS thermal-conductivity volume](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nbsspecialpublication302.pdf)
+distinguishes vitreous silica, which has no sharp melting point, from the
+crystalline form. These sources do not prove a clay mixture's phase or supply
+an implementation-ready latent-heat model; verify the specific CEA species,
+mixture and transition ownership before changing the solver.
