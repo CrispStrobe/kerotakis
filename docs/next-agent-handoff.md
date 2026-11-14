@@ -1,5 +1,7 @@
 # Fresh-agent handoff — 2026-11-12
 
+**Redox candidate — 2026-11-14:** [The narrow electron/charge-budget repair](redox-electron-charge-budget-20261114.md) targets the actual historical EC009−1.0985317866e-6eq charge failure. A source-exact native test will continue the authenticated pre-titration state without repeating preparation; changed-source execution is pending and EC009 earns no new credit yet. [Reviewed coverage](https://github.com/CrispStrobe/kerotakis/blob/e77db1694/audits/working-experiments-20261114-reviewed-ki011.json) remains430/468 originals,434entries,38remaining. The1e-10 physical guard, pe bracket, unsupported chemistry and existing reaction/finite-stock admission remain intact. PR882/PR883 acceptance and EC004 chemistry/readout identities remain separate.
+
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
 ## 0. State and open tasks after round 4 (2026-11-12)

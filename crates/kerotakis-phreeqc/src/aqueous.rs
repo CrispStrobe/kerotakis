@@ -2156,7 +2156,12 @@ impl PhreeqcEquilibrator {
         // allowed to stop the moment it is met, because grinding the
         // bracket to 1e-6 pe after the residual is paid only re-prices an
         // answer already bought (OPT-7).
-        let residual_tol = 1e-9_f64.max(1e-4 * coupling.scale);
+        // An electron-equivalent error becomes a canonical charge error after
+        // H/O reconstruction. A relative 1e-4 allowance could spend roughly
+        // 1e-8 eq per burette increment and accumulate past the unchanged
+        // 1e-10 physical ledger guard. Meet a smaller absolute budget here;
+        // an unstruck equivalence still refuses rather than extending pe.
+        let residual_tol = 1e-12;
         // Warm start (OPT-7): across the temperature fixed point's
         // iterations the pe root barely moves, so a narrow window around
         // the last *bracketed* answer usually contains it. The narrow pass

@@ -1,5 +1,7 @@
 # Kerotakis current state — 2026-11-12
 
+**Redox candidate — 2026-11-14:** [The narrow electron/charge-budget repair](redox-electron-charge-budget-20261114.md) targets the actual historical EC009−1.0985317866e-6eq charge failure. A source-exact native test will continue the authenticated pre-titration state without repeating preparation; changed-source execution is pending and EC009 earns no new credit yet. [Reviewed coverage](https://github.com/CrispStrobe/kerotakis/blob/e77db1694/audits/working-experiments-20261114-reviewed-ki011.json) remains430/468 originals,434entries,38remaining. The1e-10 physical guard, pe bracket, unsupported chemistry and existing reaction/finite-stock admission remain intact. PR882/PR883 acceptance and EC004 chemistry/readout identities remain separate.
+
 Older checkpoints (2026-10-27/28 delivery, release acceptance, snapshot cleanup, earlier coverage
 counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
 
