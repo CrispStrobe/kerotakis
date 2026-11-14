@@ -1,0 +1,22 @@
+[
+  {
+    "mutation": "lost_carbon",
+    "qualified": false
+  },
+  {
+    "mutation": "wrong_ion_boundary",
+    "qualified": false
+  },
+  {
+    "mutation": "invented_basis_warning",
+    "qualified": false
+  },
+  {
+    "mutation": "wrong_control_ph",
+    "qualified": false
+  },
+  {
+    "mutation": "solver_failure",
+    "qualified": false
+  }
+]

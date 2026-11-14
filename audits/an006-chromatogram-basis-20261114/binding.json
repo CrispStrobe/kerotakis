@@ -1,0 +1,133 @@
+{
+  "source": "af15a251121cd36aa8d339d048d21488474dfac7",
+  "tree": "bd00f5b6b07bf12f7d61cbb5a9914c2a7a91cb7d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+  "producer_runner_sha256": "ae22d9bfdc984dbeeaa549438564599d26f54500924dadcb471f6cb43fb58a12",
+  "native_binary_sha256": "3dc464f165857efcf9aff9f868bed4d154c557dab87d22ac0b31561f0178268d",
+  "native_profile": "debug; shared native-test/CLI build artifacts",
+  "observations_sha256": "7be13e163558151ac6efcafd4df0e771132565086d06ce3d06bd49e79750e314",
+  "before_source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "criteria_before": 3,
+  "criteria_after": 4,
+  "criteria_total": 4,
+  "producer_commands": [
+    {
+      "name": "rustup-fetch",
+      "exit": 0,
+      "seconds": 0.2674100570000064
+    },
+    {
+      "name": "rustup-install",
+      "exit": 0,
+      "seconds": 10.905205394999996
+    },
+    {
+      "name": "compiler",
+      "exit": 0,
+      "seconds": 0.016311191999989205
+    },
+    {
+      "name": "clippy-component",
+      "exit": 0,
+      "seconds": 1.2703117439999687
+    },
+    {
+      "name": "init",
+      "exit": 0,
+      "seconds": 0.06597692599996208
+    },
+    {
+      "name": "remote",
+      "exit": 0,
+      "seconds": 0.008238331000029575
+    },
+    {
+      "name": "base-fetch",
+      "exit": 0,
+      "seconds": 3.075957829999993
+    },
+    {
+      "name": "base-checkout",
+      "exit": 0,
+      "seconds": 0.46613667499991607
+    },
+    {
+      "name": "prerequisite-3bd828a4e6a0",
+      "exit": 0,
+      "seconds": 2.5740623819999655
+    },
+    {
+      "name": "bundle-verify",
+      "exit": 0,
+      "seconds": 0.016168142000083208
+    },
+    {
+      "name": "bundle-fetch",
+      "exit": 0,
+      "seconds": 0.5161525209999809
+    },
+    {
+      "name": "candidate-checkout",
+      "exit": 0,
+      "seconds": 0.3678125060000639
+    },
+    {
+      "name": "submodules",
+      "exit": 0,
+      "seconds": 4.079650908000076
+    },
+    {
+      "name": "sundials",
+      "exit": 0,
+      "seconds": 4.129137043000014
+    },
+    {
+      "name": "clang",
+      "exit": 0,
+      "seconds": 61.169475844999965
+    },
+    {
+      "name": "fmt",
+      "exit": 0,
+      "seconds": 3.5279888950000213
+    },
+    {
+      "name": "core-chromatograph",
+      "exit": 0,
+      "seconds": 130.83423340000002
+    },
+    {
+      "name": "native-chromatograph",
+      "exit": 0,
+      "seconds": 125.59276035200003
+    },
+    {
+      "name": "debug-cli",
+      "exit": 0,
+      "seconds": 76.22983592100002
+    },
+    {
+      "name": "batch2-mo-011",
+      "exit": 0,
+      "seconds": 1.921625511000002
+    },
+    {
+      "name": "batch3-diverse-an-006",
+      "exit": 0,
+      "seconds": 1.8213305980000314
+    },
+    {
+      "name": "core-clippy",
+      "exit": 0,
+      "seconds": 87.03879832199993
+    },
+    {
+      "name": "curiosity-check-json",
+      "exit": 0,
+      "seconds": 76.87085350100006
+    }
+  ],
+  "physical_vessel_snapshots_exactly_equal_to_saved_before": true
+}

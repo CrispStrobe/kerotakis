@@ -1,0 +1,315 @@
+{
+  "id": "batch3-diverse:an-006",
+  "criteria": {
+    "question": true,
+    "inventory": true,
+    "coverage": false,
+    "controls": true
+  },
+  "met": 3,
+  "total": 4,
+  "inventory_all_checkpoints_closed": true,
+  "element_charge_bound_mol_eq": "1E-10",
+  "residuals": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "residual": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 0,
+      "vessel": 1,
+      "residual": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "residual": {
+        "C": "0",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 1,
+      "residual": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "4.69E-19",
+        "O": "2.66E-19",
+        "Na": "0",
+        "charge": "-6.3E-20"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "residual": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "residual": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "residual": {
+        "C": "0",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "4.69E-19",
+        "O": "2.66E-19",
+        "Na": "0",
+        "charge": "-6.3E-20"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "residual": {
+        "C": "3.6854E-19",
+        "H": "-1.51520983E-15",
+        "O": "-7.5617837E-16",
+        "Na": "0.000",
+        "charge": "-2.85309E-18"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "residual": {
+        "C": "3.6854E-19",
+        "H": "-1.51520983E-15",
+        "O": "-7.5617837E-16",
+        "Na": "0.000",
+        "charge": "-2.85309E-18"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "residual": {
+        "C": "3.6854E-19",
+        "H": "-1.51520983E-15",
+        "O": "-7.5617837E-16",
+        "Na": "0.000",
+        "charge": "-2.85309E-18"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 1,
+      "residual": {
+        "C": "3.6854E-19",
+        "H": "-1.51520983E-15",
+        "O": "-7.5617837E-16",
+        "Na": "0.000",
+        "charge": "-2.85309E-18"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 1,
+      "residual": {
+        "C": "3.6854E-19",
+        "H": "-1.51520983E-15",
+        "O": "-7.5617837E-16",
+        "Na": "0.000",
+        "charge": "-2.85309E-18"
+      }
+    },
+    {
+      "step": 14,
+      "vessel": 0,
+      "residual": {
+        "C": "2.66E-19",
+        "H": "-8.01267E-16",
+        "O": "-3.99734E-16",
+        "Na": "0",
+        "charge": "-1.799E-18"
+      }
+    },
+    {
+      "step": 14,
+      "vessel": 1,
+      "residual": {
+        "C": "3.6854E-19",
+        "H": "-1.51520983E-15",
+        "O": "-7.5617837E-16",
+        "Na": "0.000",
+        "charge": "-2.85309E-18"
+      }
+    }
+  ],
+  "unparameterised_warnings": [
+    "the column has no curated group decomposition for base_equivalents \u2014 a real column would separate these, so this is a gap in the model rather than a result"
+  ],
+  "observed": {
+    "acid_neutral_mol": "0.0009700883043139309",
+    "treated_neutral_mol": "1.7356697704078427E-7",
+    "acid_ionic_mol": "0.000029911695686069233",
+    "treated_ionic_mol": "0.0009998264330229594",
+    "ph": [
+      3.233926952636,
+      8.457495221015
+    ]
+  },
+  "solver_failures": 0
+}

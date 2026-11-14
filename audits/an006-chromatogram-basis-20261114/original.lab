@@ -1,0 +1,18 @@
+# D3-AN-006: Ionisation can change the method coverage of an organic acid
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 CH3COOH 0.001mol
+add v1 ethanol 0.001mol
+add v2 water 50mL
+add v2 CH3COOH 0.001mol
+add v2 ethanol 0.001mol
+add v2 NaOH 0.001mol
+measure v1 ph
+measure v2 ph
+chromatograph v1
+chromatograph v2
+particles v1
+particles v2
+inspect
