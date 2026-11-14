@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/mnt/volume1/kerotakis/audits/ki011-saved-source-sink-20261114/review.py", line 69, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/mnt/volume1/kerotakis/audits/ki011-saved-source-sink-20261114/review.py", line 57, in main
+    result=check(response,source['compositions']);mutations=[]
+  File "/mnt/volume1/kerotakis/audits/ki011-saved-source-sink-20261114/review.py", line 19, in check
+    assert not v.get('unresolved_materials',[]) and not v.get('material_objects',[]) and v.get('pending_co2_transfer_mol',0)==0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

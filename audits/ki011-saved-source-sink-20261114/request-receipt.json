@@ -1,0 +1,15 @@
+{
+  "case": {
+    "id": "batch2:ki-011",
+    "original_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+    "http_status": 200,
+    "response_body_sha256": "5243dfbbd7f4da7f8ddaf1d3deb0db476f475206c1537d17b83679adbb1917f5"
+  },
+  "deployed": {
+    "revision": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "source_head": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "binary_sha256": "6101bfbdcfc2c5f95cf771e44c549cf3ae390ee0a1cf37af06fbf9651b952544",
+    "cargo_lock_sha256": "c25e1ccd68ff9ef61dde11a62224117cf4f25ea61cce196d3e066ff5d4bb60bf"
+  },
+  "raw_wrapper_sha256": "9a1bc0f94c4eaf59c7e54af2b0983e2a821c841476f73a8004e4a2ea734f9021"
+}

@@ -1,0 +1,429 @@
+{
+  "id": "batch2:ki-011",
+  "batch": 2,
+  "design_code": "KI-011",
+  "group": "kinetics",
+  "rank": 98,
+  "title": "An iodine sink changes induction time without requiring a faster source reaction",
+  "title_de": "Eine Iodsenke ver\u00e4ndert die Induktionszeit ohne schnellere Bildungsreaktion",
+  "question": "Does twice the scavenger mean the source reaction runs half as fast?",
+  "educational_level": "University / advanced model interpretation",
+  "priority_tier": 3,
+  "experiment_kind": "controlled_experiment",
+  "tags": [
+    "kinetics",
+    "batch-2",
+    "unrun-candidate",
+    "coupled-model-coverage"
+  ],
+  "script": "# KI-011: An iodine sink changes induction time without requiring a faster source reaction\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 H2SO4 0.001mol\nadd v1 KI 0.002mol\nadd v1 H2O2 0.002mol\nadd v1 Na2S2O3 0.0001mol\nnew\nadd v2 water 100mL\nadd v2 H2SO4 0.001mol\nadd v2 KI 0.002mol\nadd v2 H2O2 0.002mol\nadd v2 Na2S2O3 0.0002mol\nwait 10s\nmeasure v1 uvvis\nmeasure v2 uvvis\ninspect\nwait 30s\nmeasure v1 uvvis\nmeasure v2 uvvis\ninspect\nwait 60s\ninspect\n",
+  "script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+  "script_body_sha256": "166dd831595ee38f3751de5986288b89295e8ab2e930e5e49dd9ab0eeb3086da",
+  "action_protocol_sha256": "8cae4eeb7d5245ba01d25e1119bd89f2d8f62be45fc00f5fa9fa02733e3a6f2c",
+  "expected_result": "A larger thiosulfate sink can delay iodine accumulation even if the underlying iodine-production kinetics are similar.",
+  "expected_processes": [
+    {
+      "equation": "H2O2 + 2 I- + 2 H+ -> I2 + 2 H2O",
+      "interpretation": "Educational equation or schematic relationship; not a claim that every species, pathway or coupling is implemented."
+    },
+    {
+      "equation": "I2 + 2 S2O3^2- -> 2 I- + S4O6^2-",
+      "interpretation": "Educational equation or schematic relationship; not a claim that every species, pathway or coupling is implemented."
+    }
+  ],
+  "acceptance_checks": [
+    {
+      "id": "KI-011-C1",
+      "criterion": "Distinguish gross iodine production from surviving iodine inventory.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-011-C2",
+      "criterion": "Compare sink exhaustion and precursor consumption, not colour onset alone.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "novelty": {
+    "basis": "A new experimental question or substantive controlled extension; not a novel scientific discovery or necessarily a new reaction family.",
+    "distinction": "Uses matched source conditions with different sink capacities to dissect the induction period.",
+    "previous_related_ids": [
+      "new120:kn-010"
+    ],
+    "previous_batch_full_file_comparison": true,
+    "comparison_methods": [
+      "exact_script",
+      "comment_whitespace_normalised_body",
+      "observation_stripped_vessel_canonicalised_action_protocol"
+    ],
+    "exhaustive_baseline_deduplication": false,
+    "original_147_note": "Original catalogue reviewed as source context through web excerpts; no complete local automated comparison or semantic-novelty certification."
+  },
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "high",
+    "runtime_verified": false
+  },
+  "limitations": [
+    "Acidic thiosulfate decomposition and KI speciation are competing routes; they can prevent a simple twofold-delay interpretation."
+  ],
+  "safety_context": "Simulation-only script. Not a wet-lab procedure, school risk assessment or permission to perform the chemistry.",
+  "evidence": {
+    "source_ids": [
+      "grammar",
+      "registry",
+      "baseline",
+      "previous-batch",
+      "kinetics"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/B2-KI-011.lab",
+    "script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c"
+  },
+  "importance_rationale": "University-level coupled chemistry, calibration or model-state interpretation.",
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 4,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "H2SO4",
+      "name": "Sulfuric acid",
+      "formula": "H2SO4",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 5,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "KI",
+      "name": "Potassium iodide",
+      "formula": "KI",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 6,
+      "amount": 0.002,
+      "unit": "mol",
+      "amount_literal": "0.002mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "H2O2",
+      "name": "Hydrogen peroxide",
+      "formula": "H2O2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 0.002,
+      "unit": "mol",
+      "amount_literal": "0.002mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "Na2S2O3",
+      "name": "Sodium thiosulfate",
+      "formula": "Na2S2O3",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 8,
+      "amount": 0.0001,
+      "unit": "mol",
+      "amount_literal": "0.0001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 10,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "H2SO4",
+      "name": "Sulfuric acid",
+      "formula": "H2SO4",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 11,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "KI",
+      "name": "Potassium iodide",
+      "formula": "KI",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 12,
+      "amount": 0.002,
+      "unit": "mol",
+      "amount_literal": "0.002mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "H2O2",
+      "name": "Hydrogen peroxide",
+      "formula": "H2O2",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 13,
+      "amount": 0.002,
+      "unit": "mol",
+      "amount_literal": "0.002mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "Na2S2O3",
+      "name": "Sodium thiosulfate",
+      "formula": "Na2S2O3",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 14,
+      "amount": 0.0002,
+      "unit": "mol",
+      "amount_literal": "0.0002mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    }
+  ],
+  "observation_plan": [
+    {
+      "step": 14,
+      "script_line": 16,
+      "command": "measure v1 uvvis",
+      "type": "uvvis"
+    },
+    {
+      "step": 15,
+      "script_line": 17,
+      "command": "measure v2 uvvis",
+      "type": "uvvis"
+    },
+    {
+      "step": 16,
+      "script_line": 18,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 18,
+      "script_line": 20,
+      "command": "measure v1 uvvis",
+      "type": "uvvis"
+    },
+    {
+      "step": 19,
+      "script_line": 21,
+      "command": "measure v2 uvvis",
+      "type": "uvvis"
+    },
+    {
+      "step": 20,
+      "script_line": 22,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 22,
+      "script_line": 24,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    }
+  ],
+  "operations": [
+    {
+      "step": 1,
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "step": 2,
+      "script_line": 4,
+      "verb": "add",
+      "command": "add v1 water 100mL"
+    },
+    {
+      "step": 3,
+      "script_line": 5,
+      "verb": "add",
+      "command": "add v1 H2SO4 0.001mol"
+    },
+    {
+      "step": 4,
+      "script_line": 6,
+      "verb": "add",
+      "command": "add v1 KI 0.002mol"
+    },
+    {
+      "step": 5,
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v1 H2O2 0.002mol"
+    },
+    {
+      "step": 6,
+      "script_line": 8,
+      "verb": "add",
+      "command": "add v1 Na2S2O3 0.0001mol"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "verb": "add",
+      "command": "add v2 water 100mL"
+    },
+    {
+      "step": 9,
+      "script_line": 11,
+      "verb": "add",
+      "command": "add v2 H2SO4 0.001mol"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "verb": "add",
+      "command": "add v2 KI 0.002mol"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "verb": "add",
+      "command": "add v2 H2O2 0.002mol"
+    },
+    {
+      "step": 12,
+      "script_line": 14,
+      "verb": "add",
+      "command": "add v2 Na2S2O3 0.0002mol"
+    },
+    {
+      "step": 13,
+      "script_line": 15,
+      "verb": "wait",
+      "command": "wait 10s"
+    },
+    {
+      "step": 14,
+      "script_line": 16,
+      "verb": "measure",
+      "command": "measure v1 uvvis"
+    },
+    {
+      "step": 15,
+      "script_line": 17,
+      "verb": "measure",
+      "command": "measure v2 uvvis"
+    },
+    {
+      "step": 16,
+      "script_line": 18,
+      "verb": "inspect",
+      "command": "inspect"
+    },
+    {
+      "step": 17,
+      "script_line": 19,
+      "verb": "wait",
+      "command": "wait 30s"
+    },
+    {
+      "step": 18,
+      "script_line": 20,
+      "verb": "measure",
+      "command": "measure v1 uvvis"
+    },
+    {
+      "step": 19,
+      "script_line": 21,
+      "verb": "measure",
+      "command": "measure v2 uvvis"
+    },
+    {
+      "step": 20,
+      "script_line": 22,
+      "verb": "inspect",
+      "command": "inspect"
+    },
+    {
+      "step": 21,
+      "script_line": 23,
+      "verb": "wait",
+      "command": "wait 60s"
+    },
+    {
+      "step": 22,
+      "script_line": 24,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "initial_conditions": {
+    "initial_vessel": "v1",
+    "new_command_creates_next_vessel": true,
+    "fresh_process_required": true,
+    "temperature_when_not_explicit": "Engine default; measure rather than presume an exact starting temperature.",
+    "environment_note": "Open-bench boundary unless changed by commands. Sealing can include pre-existing headspace gas; explicit gas additions are not always the total gas budget.",
+    "global_wait_note": "wait advances the bench, not only the most recently used vessel; compare arms with their complete time histories."
+  },
+  "static_validation": {
+    "status": "pass",
+    "errors": [],
+    "command_count": 22,
+    "vessel_count": 2,
+    "reagent_keys": [
+      "H2O2",
+      "H2SO4",
+      "KI",
+      "Na2S2O3",
+      "water"
+    ],
+    "commands": {
+      "register": 1,
+      "add": 10,
+      "new": 1,
+      "wait": 3,
+      "measure": 4,
+      "inspect": 3
+    }
+  }
+}

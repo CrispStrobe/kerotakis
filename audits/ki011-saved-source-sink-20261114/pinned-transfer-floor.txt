@@ -1,0 +1,23 @@
+/// Below this, a transfer is not worth POSING A SOLVE for.
+///
+/// It is [`crate::OBSERVABLE_MOLES`] and not some smaller number of its
+/// own, because spending this parcel is not quiet: the aqueous tail
+/// announces every one as a `GasAbsorbed`, and the carbon it delivers is
+/// booked as bicarbonate, which the reaction-family screen can then see.
+/// A first cut set the floor a thousand times lower and a jar of
+/// vinaigrette left to stand printed
+/// `HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑` at a sixth of a micromole —
+/// a school equation, in front of a child, for carbon that is not really
+/// bicarbonate and in an amount the bench says outright it cannot see
+/// (`bio-017`). An engine that will not report a nanomole of chlorine as a
+/// gas cloud must not narrate one as a reaction either.
+///
+/// It is a floor on SPENDING and deliberately not on earning. The clock
+/// always books what crossed the surface; the aqueous tail declines to
+/// apply it until there is enough to be worth applying, and it stays
+/// parked on the vessel until then. Dropping it instead would have made a
+/// `wait` of one second transfer nothing at all — and a thousand of them
+/// still nothing, while a single `wait 1000s` moved the lot. A bench is
+/// entitled to type the same interval either way.
+pub const CO2_TRANSFER_FLOOR_MOL: f64 = crate::OBSERVABLE_MOLES;
+

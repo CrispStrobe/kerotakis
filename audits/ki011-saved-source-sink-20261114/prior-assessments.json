@@ -1,0 +1,37 @@
+{
+  "first_round": [
+    {
+      "id": "batch2:ki-011",
+      "qualified": false,
+      "criteria": [
+        {
+          "id": "forecast",
+          "text": "Larger thiosulfate sink delays iodine accumulation",
+          "verdict": "UNSUPPORTED",
+          "evidence": "no I2 accumulates in either arm through t=100 s (I2 absent); S2O3 remaining 2.43e-5 vs 9.05e-5, so no delay can be observed"
+        },
+        {
+          "id": "KI-011-C1",
+          "text": "Gross vs surviving iodine",
+          "verdict": "PASS",
+          "evidence": "gross I2 from S4O6 formed 2.27e-5 vs 2.22e-5; surviving I2 0 both"
+        },
+        {
+          "id": "KI-011-C2",
+          "text": "Compare sink exhaustion and precursor consumption",
+          "verdict": "UNSUPPORTED",
+          "evidence": "neither sink exhausted; uvvis NYM (sulfur absorbance unmodelled)"
+        }
+      ],
+      "closure": {
+        "elements": "S 0.0026, I 0.004, Na 6e-4, K 0.004 constant; rel err 0",
+        "charge": "<=5e-18 mol",
+        "energy": "peroxide-decomposition heat events reported, not assessed"
+      },
+      "observed_result": "Over 100 s neither arm accumulated iodine; tetrathionate 2.27e-5 vs 2.22e-5 mol, thiosulfate left 2.4e-5 vs 9.0e-5 mol, acid decomposition gave S/SO2 3.0e-5 vs 6.5e-5 mol.",
+      "limitations": "Sampling window ends before sink exhaustion; absorbance unavailable.",
+      "doubts": "Most H2O2 loss is catalytic decomposition to O2 (5e-4 mol)."
+    }
+  ],
+  "second_review": []
+}

@@ -1,0 +1,24 @@
+# KI-011: An iodine sink changes induction time without requiring a faster source reaction
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2SO4 0.001mol
+add v1 KI 0.002mol
+add v1 H2O2 0.002mol
+add v1 Na2S2O3 0.0001mol
+new
+add v2 water 100mL
+add v2 H2SO4 0.001mol
+add v2 KI 0.002mol
+add v2 H2O2 0.002mol
+add v2 Na2S2O3 0.0002mol
+wait 10s
+measure v1 uvvis
+measure v2 uvvis
+inspect
+wait 30s
+measure v1 uvvis
+measure v2 uvvis
+inspect
+wait 60s
+inspect

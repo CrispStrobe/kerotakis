@@ -1,0 +1,45 @@
+        pass: AqueousPass,
+    },
+}
+
+#[derive(Debug, PartialEq, Eq)]
+enum PrimaryProgress {
+    Moving,
+    ReadyForAuxiliary,
+}
+
+fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result<(), SolveError> {
+    let pending = vessel.pending_co2_transfer_mol;
+    if !pending.is_finite() {
+        return Err(canonical_closure_error(
+            AqueousReason::ClockParcelNonfinite,
+            "nonfinite pending clock CO2 parcel",
+        ));
+    }
+    let spendable = pending.abs() > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL;
+    let applied = problem.map_or(0.0, |problem| problem.clock_co2_applied_mol);
+    if !applied.is_finite()
+        || (spendable && (problem.is_none() || applied != pending))
+        || (!spendable && applied != 0.0)
+    {
+        return Err(canonical_closure_error(
+            AqueousReason::ClockBoundaryInvalid,
+            "pending clock CO2 parcel is unsupported or exceeds available carbon",
+        ));
+    }
+    if applied != 0.0
+        && problem.is_some_and(|problem| {
+            problem
+                .totals
+                .iter()
+                .filter(|(element, _)| element == "C" || element.starts_with("C("))
+                .count()
+                != 1
+                || !problem.totals.iter().any(|(element, _)| element == "C")
+        })
+    {
+        return Err(canonical_closure_error(
+            AqueousReason::ClockCarbonAmbiguous,
+            "clock CO2 cannot be assigned to an ambiguous carbon component",
+        ));
+    }

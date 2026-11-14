@@ -1,0 +1,8 @@
+{
+  "preserved_first_reader_sha256": "6ff5d33e42aa17fc37656347b4b8112cfc94f79a12b2a348eadc7e86a82ecb51",
+  "first_failure": "Assumed all pending CO2 handoffs must be zero; actual source parks unspent clock transfer outside canonical contents.",
+  "correction": "Track actual finite nonnegative handoff separately with wait-only monotonic changes; do not count it as realized carbon uptake or change known-stock element/charge checks. Inspect is non-mutating and does not advance producer step; sequence indexes remain unique reader positions.",
+  "unchanged_tolerance": 1e-10,
+  "original_criteria_unchanged": true,
+  "first_result_preserved": true
+}

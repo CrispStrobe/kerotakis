@@ -1,0 +1,21 @@
+{
+  "original_criteria_unchanged": [
+    {
+      "id": "KI-011-C1",
+      "criterion": "Distinguish gross iodine production from surviving iodine inventory.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-011-C2",
+      "criterion": "Compare sink exhaustion and precursor consumption, not colour onset alone.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "forecast": "A larger thiosulfate sink can delay iodine accumulation even if the underlying iodine-production kinetics are similar.",
+  "scope": "Inspect gross source vs surviving iodine, distinct sink loss routes, remaining sink and peroxide precursor at matched times. No observed induction time; both sinks unexhausted at100s, forecast unconfirmed. No empirical kinetic/optical calibration.",
+  "physical_source": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+  "actual_binary_sha256": "6101bfbdcfc2c5f95cf771e44c549cf3ae390ee0a1cf37af06fbf9651b952544",
+  "prior_fixed": 429
+}

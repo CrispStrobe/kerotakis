@@ -1,0 +1,1124 @@
+{
+  "criteria": {
+    "KI-011-C1": true,
+    "KI-011-C2": true
+  },
+  "samples": [
+    [
+      {
+        "vessel": 0,
+        "time_s": 10.0,
+        "gross_iodine_mol": 3.1293992404641934e-06,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 8.926688811065935e-05,
+        "sink_initial_mol": 0.0001,
+        "acid_sink_loss_mol": 4.4743134084122755e-06,
+        "iodine_sink_loss_mol": 6.258798480928387e-06,
+        "remaining_peroxide_mol": 0.0018634238347828406,
+        "peroxide_to_oxygen_mol": 0.0001334467659766952,
+        "peroxide_to_clock_mol": 3.1293992404641934e-06
+      },
+      {
+        "vessel": 1,
+        "time_s": 10.0,
+        "gross_iodine_mol": 3.10551435025304e-06,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 0.0001849074810778024,
+        "sink_initial_mol": 0.0002,
+        "acid_sink_loss_mol": 8.881490221691523e-06,
+        "iodine_sink_loss_mol": 6.21102870050608e-06,
+        "remaining_peroxide_mol": 0.001863445562891552,
+        "peroxide_to_oxygen_mol": 0.00013344892275819514,
+        "peroxide_to_clock_mol": 3.10551435025304e-06
+      }
+    ],
+    [
+      {
+        "vessel": 0,
+        "time_s": 40.0,
+        "gross_iodine_mol": 1.1178985083264768e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 6.184137995737628e-05,
+        "sink_initial_mol": 0.0001,
+        "acid_sink_loss_mol": 1.5800649876094194e-05,
+        "iodine_sink_loss_mol": 2.2357970166529537e-05,
+        "remaining_peroxide_mol": 0.0015073243130114108,
+        "peroxide_to_oxygen_mol": 0.00048149670190532443,
+        "peroxide_to_clock_mol": 1.1178985083264768e-05
+      },
+      {
+        "vessel": 1,
+        "time_s": 40.0,
+        "gross_iodine_mol": 1.1027843282959397e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 0.00014595501850656344,
+        "sink_initial_mol": 0.0002,
+        "acid_sink_loss_mol": 3.1989294927517766e-05,
+        "iodine_sink_loss_mol": 2.2055686565918793e-05,
+        "remaining_peroxide_mol": 0.0015074398516967927,
+        "peroxide_to_oxygen_mol": 0.00048153230502024795,
+        "peroxide_to_clock_mol": 1.1027843282959397e-05
+      }
+    ],
+    [
+      {
+        "vessel": 0,
+        "time_s": 100.0,
+        "gross_iodine_mol": 2.271730405963025e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 2.4309160132109816e-05,
+        "sink_initial_mol": 0.0001,
+        "acid_sink_loss_mol": 3.0256231748629692e-05,
+        "iodine_sink_loss_mol": 4.54346081192605e-05,
+        "remaining_peroxide_mol": 0.0009847851059817123,
+        "peroxide_to_oxygen_mol": 0.0009924975899586576,
+        "peroxide_to_clock_mol": 2.271730405963025e-05
+      },
+      {
+        "vessel": 1,
+        "time_s": 100.0,
+        "gross_iodine_mol": 2.2201536943863574e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 9.046668920036994e-05,
+        "sink_initial_mol": 0.0002,
+        "acid_sink_loss_mol": 6.51302369119029e-05,
+        "iodine_sink_loss_mol": 4.440307388772715e-05,
+        "remaining_peroxide_mol": 0.0009850882835661945,
+        "peroxide_to_oxygen_mol": 0.000992710179489942,
+        "peroxide_to_clock_mol": 2.2201536943863574e-05
+      }
+    ]
+  ],
+  "known_element_charge_checks": 147,
+  "max_abs_residual": 3.552713678800501e-15,
+  "ledger": [
+    {
+      "step": 0,
+      "element": "S",
+      "residual": 0
+    },
+    {
+      "step": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 0,
+      "element": "I",
+      "residual": 0
+    },
+    {
+      "step": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 0,
+      "element": "K",
+      "residual": 0
+    },
+    {
+      "step": 0,
+      "element": "Na",
+      "residual": 0
+    },
+    {
+      "step": 1,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "I",
+      "residual": 0
+    },
+    {
+      "step": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "K",
+      "residual": 0
+    },
+    {
+      "step": 1,
+      "element": "Na",
+      "residual": 0
+    },
+    {
+      "step": 2,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "Na",
+      "residual": 0
+    },
+    {
+      "step": 3,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "H",
+      "residual": -1.7763568394002505e-15
+    },
+    {
+      "step": 3,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "Na",
+      "residual": 0
+    },
+    {
+      "step": 4,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "H",
+      "residual": -1.7763568394002505e-15
+    },
+    {
+      "step": 4,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "H",
+      "residual": -1.7763568394002505e-15
+    },
+    {
+      "step": 5,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 7,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 8,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 9,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 10,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 10,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 10,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 10,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 10,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 10,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 10,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 11,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 11,
+      "element": "Q",
+      "residual": -8.239936510889834e-18
+    },
+    {
+      "step": 11,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 11,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 11,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 11,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 11,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 12,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 12,
+      "element": "Q",
+      "residual": -8.239936510889834e-18
+    },
+    {
+      "step": 12,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 12,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 12,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 12,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 12,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 13,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 13,
+      "element": "Q",
+      "residual": -8.239936510889834e-18
+    },
+    {
+      "step": 13,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 13,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 13,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 13,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 13,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 14,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 14,
+      "element": "Q",
+      "residual": -8.239936510889834e-18
+    },
+    {
+      "step": 14,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 14,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 14,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 14,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 14,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 15,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 15,
+      "element": "Q",
+      "residual": -9.540979117872439e-18
+    },
+    {
+      "step": 15,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 15,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 15,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 15,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 15,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 16,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 16,
+      "element": "Q",
+      "residual": -9.540979117872439e-18
+    },
+    {
+      "step": 16,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 16,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 16,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 16,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 16,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 17,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 17,
+      "element": "Q",
+      "residual": -9.540979117872439e-18
+    },
+    {
+      "step": 17,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 17,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 17,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 17,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 17,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 18,
+      "element": "S",
+      "residual": 0.0
+    },
+    {
+      "step": 18,
+      "element": "Q",
+      "residual": -9.540979117872439e-18
+    },
+    {
+      "step": 18,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 18,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 18,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 18,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 18,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 19,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 19,
+      "element": "Q",
+      "residual": -8.673617379884035e-18
+    },
+    {
+      "step": 19,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 19,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 19,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 19,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 19,
+      "element": "Na",
+      "residual": 0.0
+    },
+    {
+      "step": 20,
+      "element": "S",
+      "residual": -4.336808689942018e-19
+    },
+    {
+      "step": 20,
+      "element": "Q",
+      "residual": -8.673617379884035e-18
+    },
+    {
+      "step": 20,
+      "element": "I",
+      "residual": 0.0
+    },
+    {
+      "step": 20,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 20,
+      "element": "H",
+      "residual": -3.552713678800501e-15
+    },
+    {
+      "step": 20,
+      "element": "K",
+      "residual": 0.0
+    },
+    {
+      "step": 20,
+      "element": "Na",
+      "residual": 0.0
+    }
+  ],
+  "induction_time_observed": false,
+  "sink_exhaustion_observed": false,
+  "original_delay_forecast_confirmed": false,
+  "unsupported_absorbance_observations": 4,
+  "non_consuming_observation": true,
+  "pending_handoff_checks": [
+    {
+      "sequence": 0,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 0.0,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 2.9347574923469274e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 2.934757460511585e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 2.9347574923469274e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 2.934757460511585e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 2.9347574923469274e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 2.934757460511585e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 2.9347574923469274e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 2.934757460511585e-09,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 1.1700224485554524e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 1.1700222680101041e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 16,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 1.1700224485554524e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 16,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 1.1700222680101041e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 17,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 1.1700224485554524e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 17,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 1.1700222680101041e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 18,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 1.1700224485554524e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 18,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 1.1700222680101041e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 19,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 2.9117260384357037e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 19,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 2.91172367539558e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 20,
+      "vessel": 0,
+      "unspent_co2_handoff_mol": 2.9117260384357037e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    },
+    {
+      "sequence": 20,
+      "vessel": 1,
+      "unspent_co2_handoff_mol": 2.91172367539558e-08,
+      "carbon_spent_in_contents_mol": 0.0
+    }
+  ],
+  "final_unspent_co2_handoff_mol": [
+    2.9117260384357037e-08,
+    2.91172367539558e-08
+  ],
+  "carbon_uptake_qualified": false,
+  "engine": {
+    "source_head": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "binary_sha256": "6101bfbdcfc2c5f95cf771e44c549cf3ae390ee0a1cf37af06fbf9651b952544",
+    "cargo_lock_sha256": "c25e1ccd68ff9ef61dde11a62224117cf4f25ea61cce196d3e066ff5d4bb60bf"
+  },
+  "source_tree": "108961f6824cef5a3adb61a923a0279e7c4e3c90",
+  "response_sha256": "5243dfbbd7f4da7f8ddaf1d3deb0db476f475206c1537d17b83679adbb1917f5",
+  "reader_mutations": [
+    {
+      "case": "lost_iodine",
+      "rejected": true
+    },
+    {
+      "case": "lost_sink",
+      "rejected": true
+    },
+    {
+      "case": "lost_tetrathionate",
+      "rejected": true
+    },
+    {
+      "case": "lost_SO2",
+      "rejected": true
+    },
+    {
+      "case": "lost_water",
+      "rejected": true
+    },
+    {
+      "case": "invent_I2",
+      "rejected": true
+    },
+    {
+      "case": "wrong_gross_event",
+      "rejected": true
+    },
+    {
+      "case": "solver_failure",
+      "rejected": true
+    },
+    {
+      "case": "lost_peroxide",
+      "rejected": true
+    },
+    {
+      "case": "invent_exhaustion",
+      "rejected": true
+    },
+    {
+      "case": "negative_pending_owner",
+      "rejected": true
+    },
+    {
+      "case": "unspent_above_source_floor",
+      "rejected": true
+    }
+  ],
+  "new_job": false,
+  "new_chemical_replay": false
+}

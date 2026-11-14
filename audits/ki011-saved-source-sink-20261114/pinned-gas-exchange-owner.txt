@@ -1,0 +1,158 @@
+/// This clock computes the amount and parks it in
+/// [`Vessel::pending_co2_transfer_mol`]; the aqueous tail spends it. It
+/// deliberately emits no gas event of its own — the solver that applies
+/// the carbon announces it, and KID-11 is explicit that one parcel
+/// described by two engines is how an observable comes to be counted
+/// twice.
+pub struct GasExchangeClock;
+
+impl Clock for GasExchangeClock {
+    fn name(&self) -> &'static str {
+        "gas-exchange"
+    }
+
+    fn advance(
+        &self,
+        vessel: &mut Vessel,
+        seconds: f64,
+        _ctx: &ClockContext,
+        _events: &mut Vec<Event>,
+    ) -> Result<(), IntegrationError> {
+        if seconds <= 0.0 {
+            return Ok(());
+        }
+        // Only a vessel open to the room exchanges with the room. A sealed
+        // or swept headspace is a boundary the aqueous adapter already
+        // owns, and a second engine moving the same CO₂ would double it.
+        if !matches!(vessel.headspace, crate::vessel::Headspace::Open) {
+            return Ok(());
+        }
+        // Nothing has characterised this solution, so there is no measured
+        // pressure to drive anything. A vessel nobody has solved is not
+        // yet carbonating: the first solve measures it, and the next wait
+        // moves it.
+        let Some(p_solution) = vessel.co2_partial_pressure_atm else {
+            return Ok(());
+        };
+        let volume_l = vessel.liquid_volume().0;
+        if volume_l <= 0.0 {
+            return Ok(());
+        }
+        let Some(coeff) = crate::properties::henry_lookup("CO2") else {
+            return Ok(());
+        };
+        let k_h = crate::properties::henry_at_t(coeff, vessel.temperature.0).value;
+        let driving = ATMOSPHERIC_CO2_ATM - p_solution;
+        // INWARD only, for now, and the asymmetry is deliberate rather
+        // than an oversight.
+        //
+        // Carbon leaving is already handled, and well: the aqueous adapter
+        // offers an open vessel a CO2(g) phase holding zero moles, so a
+        // supersaturated solution degasses to the atmospheric value within
+        // the step. That is the `dt -> infinity` answer for the outward
+        // direction too, and it is wrong in the same way — but replacing
+        // it needs a rule this clock cannot yet state, because the two
+        // ways carbon leaves a beaker are not one process:
+        //
+        //   * FIZZ. Vinegar on baking soda. Bubbles nucleate and rise, and
+        //     it is over in seconds. Thermodynamically a bubble needs the
+        //     dissolved gas above the ambient TOTAL pressure to hold
+        //     itself open — but a well-mixed model never sees the local
+        //     supersaturation at the grain where the acid lands, so a
+        //     1 atm threshold silently stops hydrochloric acid on
+        //     bicarbonate from fizzing at all. Measured while writing
+        //     this: 0.02 mol in a litre reaches 0.59 atm, and the beaker
+        //     went quiet.
+        //   * SEEPING. A bicarbonate solution standing on the bench,
+        //     drifting basic over days. That IS this film transfer, and
+        //     it is what the outward rate would be for.
+        //
+        // Deciding between them changes what the bench teaches about the
+        // most-performed reaction there is, so it is left to a reviewed
+        // change of its own rather than settled here as a side effect.
+        // Taking the inward direction alone is strictly additive: nothing
+        // that degasses today behaves differently, and the direction that
+        // could not happen AT ALL now can.
+        if driving <= 0.0 {
+            return Ok(());
+        }
+
+        // `k_L*A` is m³/s and the concentration is mol/L, so the litre has
+        // to be spelled out: a cubic metre is a thousand of them. It is
+        // the one unit on this bench that is not SI, and the one that
+        // quietly loses a factor of a thousand.
+        const LITRES_PER_M3: f64 = 1000.0;
+        let area = free_surface_area_m2(&vessel.label);
+
+        // What is left to cross before the difference is gone — and it is
+        // NOT Henry's law alone, which is the whole difficulty.
+        //
+        // Henry says what a litre of water holds as DISSOLVED GAS, and for
+        // plain water that is the answer. It is not the answer for
+        // anything that CONSUMES the gas: 0.02 mol of sodium hydroxide in
+        // 200 mL takes up seven and a half THOUSAND times the Henry
+        // capacity, because every CO₂ that arrives becomes bicarbonate and
+        // stops exerting a pressure. Stopping at the Henry figure would
+        // have admitted one 7500th of the right amount per wait, and the
+        // beaker of hydroxide this clock exists to un-break would have sat
+        // in the room looking inert — a capacity computed from something
+        // that merely correlates with it, holding only while nothing
+        // reacts.
+        //
+        // So the chemical sink is counted too: the free hydroxide the
+        // aqueous solver measured, a CO₂ apiece. It is carried on the
+        // vessel for exactly this class of reason. Both terms are bounds
+        // rather than predictions — the solver re-measures the pressure
+        // next step and the rate picks up from there.
+        let henry_capacity = k_h * driving * volume_l;
+        let base_sink = vessel.free_hydroxide.max(0.0);
+
+        // The two capacities are spent in DIFFERENT SHAPES, and taking
+        // them both as one clamped straight line is what a first cut got
+        // wrong. `AmbientClock` meets the same problem and subdivides;
+        // here the integral is elementary, so it is written down exactly
+        // instead.
+        //
+        //   * The chemical sink is spent LINEARLY. While free hydroxide
+        //     remains it eats the arriving CO₂, the solution's own partial
+        //     pressure does not rise, and the driving force therefore does
+        //     not fall. Full rate until the base is gone.
+        //   * The Henry capacity is spent EXPONENTIALLY. Once nothing is
+        //     consuming it, every CO₂ that dissolves raises `p_solution`
+        //     and closes the gap that drives the next one:
+        //     `dn/dt = (n_eq - n)/tau` with `tau = V / (k_L * A)`.
+        //
+        // Straight-lining the second half over a whole `wait` is a real
+        // error and always in the same direction — too fast. 100 mL of
+        // water over one hour is 80 % of the way to equilibrium as a
+        // straight line and 55 % as the exponential, and it is the sort of
+        // discrepancy that then gets clamped and looks like arrival.
+        let tau_s = volume_l / (STILL_SURFACE_K_L_M_PER_S * area * LITRES_PER_M3);
+        let max_rate_mol_per_s = STILL_SURFACE_K_L_M_PER_S * area * k_h * driving * LITRES_PER_M3;
+        if tau_s <= 0.0
+            || max_rate_mol_per_s <= 0.0
+            || !tau_s.is_finite()
+            || !max_rate_mol_per_s.is_finite()
+        {
+            return Ok(());
+        }
+        // How long the base holds the driving force wide open.
+        let base_seconds = base_sink / max_rate_mol_per_s;
+        let transfer = if seconds <= base_seconds {
+            max_rate_mol_per_s * seconds
+        } else {
+            base_sink + henry_capacity * (1.0 - (-(seconds - base_seconds) / tau_s).exp())
+        };
+        // `henry_capacity / max_rate == tau_s` identically, so the two
+        // branches meet with the same slope at `base_seconds` and the
+        // whole curve is continuous; and `1 - exp(-x) < 1` for every
+        // finite x, so no wait however long can overshoot the room.
+        //
+        // Booked whatever its size — see [`CO2_TRANSFER_FLOOR_MOL`] for
+        // why the smallness test belongs to whoever SPENDS this and not
+        // to whoever earns it.
+        vessel.pending_co2_transfer_mol += transfer;
+        Ok(())
+    }
+}
+

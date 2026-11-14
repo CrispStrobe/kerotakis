@@ -1,0 +1,102 @@
+            note: "calibrated near room temperature for dilute aqueous peroxide; stabilisers are not represented and Arrhenius extrapolation is not independently validated",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rates are indicative; nominal spherical particle area and a bounded external-mixing correction do not resolve pore area, adsorption, or diffusion",
+        },
+        source_ids: &["kerotakis:kinetics:peroxide-decomposition"],
+        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst, including iodide Ea = 56 ± 3 kJ/mol from Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Relative catalyst dose, nominal spherical particle area, catalase saturation, and a bounded external-mixing correction are explicit; pore-scale transport and product-specific yeast activity remain outside this teaching model",
+    },
+    // ── EXP-43: iodine-clock reactions ──────────────────────────────────
+    KineticReaction {
+        id: "iodide-peroxide-clock",
+        // RE-KEYED ONTO THE ION, 2026-10-27, for the reason the thiosulfate
+        // and bisulfite rows were: KI now speciates (iodine is a halide
+        // residue booked as wateq4f/minteq.v4's master species `I-`), so a
+        // solved beaker holds `K+` and `I-` and a law written on `KI` would
+        // match only in a dry vessel. The acidic net reaction is the one the
+        // rate law's first order in H+ already describes:
+        // H2O2 + 2 I- + 2 H+ -> I2 + 2 H2O (H 4=4, O 2=2, I 2=2, charge 0=0;
+        // 2 e- from iodide to peroxide oxygen). The old `2 KOH` product was
+        // the same balance written with the potassium as a carrier; the
+        // spectator K+ now simply stays. The protons are consumed from the
+        // represented strong-acid inventory exactly as `thiosulfate-acid`
+        // consumes them, so the extent is bounded by the acid present.
+        equation: "H₂O₂ + 2 I⁻ + 2 H⁺ → I₂ + 2 H₂O",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "I-",
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: PROTON,
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "I2",
+                coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "water",
+                coefficient: 2.0,
+                phase: Phase::Liquid,
+            },
+        ],
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "H2O2",
+                    phase: Some(Phase::Liquid),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: "I-",
+                    phase: Some(Phase::Aqueous),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: PROTON,
+                    phase: None,
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // Calibrated so 0.05 M KI + 0.05 M H2O2 at pH 1.7 and 25 °C
+                // produces visible I2 (0.001 M) in about thirty seconds.
+                pre_exponential: 4.0e9,
+                temperature_exponent: 0.0,
+                activation_energy: 56_000.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for aqueous school-practical conditions with acid in excess",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rate is calibrated to visible I₂ appearance; the acid dependence is read from pH",
+        },
+        source_ids: &["kerotakis:kinetics:iodide-peroxide-clock"],
+        provenance: "Orders (1,1,1) in [H₂O₂], [I⁻], [H⁺] are the standard kinetics result (Liebhafsky & Mohammad 1933; Atkins' Physical Chemistry). Ea ≈ 56 kJ/mol (physical chemistry texts, commonly 50–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable clock time rather than measured",
+    },
+    KineticReaction {
+        id: "iodate-bisulfite-clock",
+        // RE-KEYED ONTO THE ION THE VESSEL ACTUALLY HOLDS, and this is the
+        // half of the sulfite borrow that would have gone silent.
+        // `NaHSO3` named the BOTTLE in both the stoichiometry and the rate

@@ -1,0 +1,113 @@
+{
+  "criteria": {
+    "KI-011-C1": true,
+    "KI-011-C2": true
+  },
+  "samples": [
+    [
+      {
+        "vessel": 0,
+        "time_s": 10.0,
+        "gross_iodine_mol": 3.1293992404641934e-06,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 8.926688811065935e-05,
+        "sink_initial_mol": 0.0001,
+        "acid_sink_loss_mol": 4.4743134084122755e-06,
+        "iodine_sink_loss_mol": 6.258798480928387e-06,
+        "remaining_peroxide_mol": 0.0018634238347828406,
+        "peroxide_to_oxygen_mol": 0.0001334467659766952,
+        "peroxide_to_clock_mol": 3.1293992404641934e-06
+      },
+      {
+        "vessel": 1,
+        "time_s": 10.0,
+        "gross_iodine_mol": 3.10551435025304e-06,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 0.0001849074810778024,
+        "sink_initial_mol": 0.0002,
+        "acid_sink_loss_mol": 8.881490221691523e-06,
+        "iodine_sink_loss_mol": 6.21102870050608e-06,
+        "remaining_peroxide_mol": 0.001863445562891552,
+        "peroxide_to_oxygen_mol": 0.00013344892275819514,
+        "peroxide_to_clock_mol": 3.10551435025304e-06
+      }
+    ],
+    [
+      {
+        "vessel": 0,
+        "time_s": 40.0,
+        "gross_iodine_mol": 1.1178985083264768e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 6.184137995737628e-05,
+        "sink_initial_mol": 0.0001,
+        "acid_sink_loss_mol": 1.5800649876094194e-05,
+        "iodine_sink_loss_mol": 2.2357970166529537e-05,
+        "remaining_peroxide_mol": 0.0015073243130114108,
+        "peroxide_to_oxygen_mol": 0.00048149670190532443,
+        "peroxide_to_clock_mol": 1.1178985083264768e-05
+      },
+      {
+        "vessel": 1,
+        "time_s": 40.0,
+        "gross_iodine_mol": 1.1027843282959397e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 0.00014595501850656344,
+        "sink_initial_mol": 0.0002,
+        "acid_sink_loss_mol": 3.1989294927517766e-05,
+        "iodine_sink_loss_mol": 2.2055686565918793e-05,
+        "remaining_peroxide_mol": 0.0015074398516967927,
+        "peroxide_to_oxygen_mol": 0.00048153230502024795,
+        "peroxide_to_clock_mol": 1.1027843282959397e-05
+      }
+    ],
+    [
+      {
+        "vessel": 0,
+        "time_s": 100.0,
+        "gross_iodine_mol": 2.271730405963025e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 2.4309160132109816e-05,
+        "sink_initial_mol": 0.0001,
+        "acid_sink_loss_mol": 3.0256231748629692e-05,
+        "iodine_sink_loss_mol": 4.54346081192605e-05,
+        "remaining_peroxide_mol": 0.0009847851059817123,
+        "peroxide_to_oxygen_mol": 0.0009924975899586576,
+        "peroxide_to_clock_mol": 2.271730405963025e-05
+      },
+      {
+        "vessel": 1,
+        "time_s": 100.0,
+        "gross_iodine_mol": 2.2201536943863574e-05,
+        "surviving_iodine_mol": 0,
+        "remaining_sink_mol": 9.046668920036994e-05,
+        "sink_initial_mol": 0.0002,
+        "acid_sink_loss_mol": 6.51302369119029e-05,
+        "iodine_sink_loss_mol": 4.440307388772715e-05,
+        "remaining_peroxide_mol": 0.0009850882835661945,
+        "peroxide_to_oxygen_mol": 0.000992710179489942,
+        "peroxide_to_clock_mol": 2.2201536943863574e-05
+      }
+    ]
+  ],
+  "known_element_charge_checks": 147,
+  "max_abs_residual": 3.552713678800501e-15,
+  "induction_time_observed": false,
+  "sink_exhaustion_observed": false,
+  "original_delay_forecast_confirmed": false,
+  "unsupported_absorbance_observations": 4,
+  "non_consuming_observation": true,
+  "final_unspent_co2_handoff_mol": [
+    2.9117260384357037e-08,
+    2.91172367539558e-08
+  ],
+  "carbon_uptake_qualified": false,
+  "engine": {
+    "source_head": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "binary_sha256": "6101bfbdcfc2c5f95cf771e44c549cf3ae390ee0a1cf37af06fbf9651b952544",
+    "cargo_lock_sha256": "c25e1ccd68ff9ef61dde11a62224117cf4f25ea61cce196d3e066ff5d4bb60bf"
+  },
+  "source_tree": "108961f6824cef5a3adb61a923a0279e7c4e3c90",
+  "response_sha256": "5243dfbbd7f4da7f8ddaf1d3deb0db476f475206c1537d17b83679adbb1917f5",
+  "new_job": false,
+  "new_chemical_replay": false
+}
