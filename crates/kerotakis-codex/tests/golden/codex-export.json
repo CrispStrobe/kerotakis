@@ -6154,8 +6154,8 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": 2700.0,
-          "max": 3050.0
+          "min": 2566.0,
+          "max": 2569.0
         }
       },
       "registers": {
@@ -6165,9 +6165,9 @@
         "lv2": "0.0987 mol of Mg (2.40 g ÷ 24.305 g/mol) gives 0.0987 mol of MgO by the 2:2 ratio in the equation, which is 3.98 g (× 40.304 g/mol). The bench reports exactly 0.0987 mol of MgO and a balance reading of 3.98 g. The equation is not decoration — it is the conversion factor.",
         "lv2_de": "0,0987 mol Mg (2,40 g ÷ 24,305 g/mol) ergeben nach dem Verhältnis 2:2 in der Gleichung 0,0987 mol MgO, das sind 3,98 g (× 40,304 g/mol). Das Labor meldet exakt 0,0987 mol MgO und einen Waagenwert von 3,98 g. Die Reaktionsgleichung ist keine Dekoration — sie ist der Umrechnungsfaktor.",
         "lv2_fr": "0,0987 mol de Mg (2,40 g ÷ 24,305 g/mol) donne 0,0987 mol de MgO selon le rapport 2:2 de l'équation, soit 3,98 g (× 40,304 g/mol). Le banc rapporte exactement 0,0987 mol de MgO et une lecture de balance de 3,98 g. L'équation n'est pas une décoration — c'est le facteur de conversion.",
-        "lv3": "The 1:1 mole ratio survives because the Gibbs minimiser conserves the magnesium element budget exactly; oxygen is drawn from the atmospheric reservoir rather than the vessel's inventory, which is what makes the mass ratio 40.304/24.305 = 1.658 appear on the balance. At the 3042 K the solve settles to, gaseous Mg and MgO are thermodynamically accessible; they do not appear in the products because the condensed oxide dominates at 1 bar.",
-        "lv3_de": "Das Molverhältnis 1:1 bleibt erhalten, weil der Gibbs-Minimierer das Elementbudget des Magnesiums exakt einhält; Sauerstoff wird aus dem atmosphärischen Reservoir gezogen statt aus dem Inventar des Gefäßes, wodurch das Massenverhältnis 40,304/24,305 = 1,658 auf der Waage erscheint. Bei den 3042 K, auf die sich die Lösung einpendelt, sind gasförmiges Mg und MgO thermodynamisch zugänglich; sie erscheinen nicht in den Produkten, weil das kondensierte Oxid bei 1 bar dominiert.",
-        "lv3_fr": "Le rapport molaire 1:1 survit parce que le minimiseur de Gibbs conserve exactement le budget élémentaire du magnésium ; l'oxygène est puisé dans le réservoir atmosphérique plutôt que dans l'inventaire du récipient, ce qui fait apparaître sur la balance le rapport massique 40,304/24,305 = 1,658. Aux 3042 K auxquels la résolution se stabilise, le Mg et le MgO gazeux sont thermodynamiquement accessibles ; ils n'apparaissent pas dans les produits parce que l'oxyde condensé domine à 1 bar."
+        "lv3": "The oxygen comes from the atmospheric reservoir, so the open crucible gains mass while the magnesium atom count stays fixed. This restricted condensed-product model predicts about 2840 K (2567 °C): the spark first melts the ribbon, then the phase-specific Mg(L) feed and admitted air enter the enthalpy balance. Magnesium and MgO vapour are excluded from this product pool; their absence is a model boundary, not a calculated negligible abundance. This is a model prediction, not a measured flame temperature.",
+        "lv3_de": "Der Sauerstoff stammt aus dem atmosphärischen Reservoir; deshalb gewinnt der offene Tiegel Masse, während die Zahl der Magnesiumatome gleich bleibt. Dieses auf kondensierte Produkte beschränkte Modell berechnet etwa 2840 K (2567 °C): Der Funke schmilzt zuerst das Band, dann gehen der phasenspezifische Mg(L)-Eduktzustand und die zugelassene Luft in die Enthalpiebilanz ein. Magnesium- und MgO-Dampf sind aus diesem Produktpool ausgeschlossen; ihre Abwesenheit ist eine Modellgrenze, keine berechnete vernachlässigbare Häufigkeit. Dies ist eine Modellvorhersage, keine gemessene Flammentemperatur.",
+        "lv3_fr": "L’oxygène provient du réservoir atmosphérique : le creuset ouvert gagne donc de la masse tandis que le nombre d’atomes de magnésium reste constant. Ce modèle limité aux produits condensés prédit environ 2840 K (2567 °C) : l’étincelle fait d’abord fondre le ruban, puis le réactif Mg(L), avec sa phase explicite, et l’air admis entrent dans le bilan enthalpique. Les vapeurs de magnésium et de MgO sont exclues de cet ensemble de produits ; leur absence est une limite du modèle, pas une abondance négligeable calculée. Il s’agit d’une prédiction du modèle, pas d’une température de flamme mesurée."
       },
       "provenance": {
         "source": "Standard curriculum combustion stoichiometry; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -7873,8 +7873,8 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": 2700.0,
-          "max": 3050.0
+          "min": 2566.0,
+          "max": 2569.0
         }
       },
       "registers": {
@@ -7884,9 +7884,9 @@
         "lv2": "0.0494 mol of Mg (1.20 g ÷ 24.305) becomes 0.0494 mol of MgO, which is 1.99 g. The gain of 0.79 g is 0.0247 mol of O₂ at 31.998 g/mol, taken from the atmosphere. Mass is conserved across the whole system; the crucible is not the whole system, and the missing accounting is the air.",
         "lv2_de": "0,0494 mol Mg (1,20 g ÷ 24,305) werden zu 0,0494 mol MgO, das sind 1,99 g. Der Zuwachs von 0,79 g entspricht 0,0247 mol O₂ bei 31,998 g/mol, aus der Atmosphäre entnommen. Masse bleibt über das gesamte System erhalten; der Tiegel ist nicht das gesamte System, und die fehlende Buchung ist die Luft.",
         "lv2_fr": "0,0494 mol de Mg (1,20 g ÷ 24,305) devient 0,0494 mol de MgO, soit 1,99 g. Le gain de 0,79 g correspond à 0,0247 mol de O₂ à 31,998 g/mol, prélevé dans l'atmosphère. La masse est conservée sur l'ensemble du système ; le creuset n'est pas le système entier, et la comptabilité manquante, c'est l'air.",
-        "lv3": "The oxygen is drawn from a reservoir rather than the vessel inventory, which is why the vessel's mass rises — a deliberate modelling choice matching an open crucible. The adiabatic solve settles at 3042 K with the condensed oxide dominant; at that temperature MgO(g) and atomic Mg are thermodynamically present in the NASA data but negligible at 1 bar, so essentially all of the metal is recovered as weighable solid.",
-        "lv3_de": "Der Sauerstoff wird aus einem Reservoir gezogen statt aus dem Inventar des Gefäßes, weshalb die Masse des Gefäßes steigt — eine bewusste Modellierungsentscheidung, die einem offenen Tiegel entspricht. Die adiabatische Lösung pendelt sich bei 3042 K mit dominierendem kondensiertem Oxid ein; bei dieser Temperatur sind MgO(g) und atomares Mg in den NASA-Daten thermodynamisch vorhanden, aber bei 1 bar vernachlässigbar, sodass im Wesentlichen das gesamte Metall als wägbarer Feststoff zurückgewonnen wird.",
-        "lv3_fr": "L'oxygène est puisé dans un réservoir plutôt que dans l'inventaire du récipient, ce qui explique la hausse de masse du récipient — un choix de modélisation délibéré correspondant à un creuset ouvert. La résolution adiabatique se stabilise à 3042 K avec l'oxyde condensé dominant ; à cette température, MgO(g) et le Mg atomique sont thermodynamiquement présents dans les données NASA mais négligeables à 1 bar, si bien que la quasi-totalité du métal est récupérée sous forme de solide pesable."
+        "lv3": "The oxygen comes from the atmospheric reservoir, so the open crucible gains mass while the magnesium atom count stays fixed. This restricted condensed-product model predicts about 2840 K (2567 °C): the spark first melts the ribbon, then the phase-specific Mg(L) feed and admitted air enter the enthalpy balance. Magnesium and MgO vapour are excluded from this product pool; their absence is a model boundary, not a calculated negligible abundance. This is a model prediction, not a measured flame temperature.",
+        "lv3_de": "Der Sauerstoff stammt aus dem atmosphärischen Reservoir; deshalb gewinnt der offene Tiegel Masse, während die Zahl der Magnesiumatome gleich bleibt. Dieses auf kondensierte Produkte beschränkte Modell berechnet etwa 2840 K (2567 °C): Der Funke schmilzt zuerst das Band, dann gehen der phasenspezifische Mg(L)-Eduktzustand und die zugelassene Luft in die Enthalpiebilanz ein. Magnesium- und MgO-Dampf sind aus diesem Produktpool ausgeschlossen; ihre Abwesenheit ist eine Modellgrenze, keine berechnete vernachlässigbare Häufigkeit. Dies ist eine Modellvorhersage, keine gemessene Flammentemperatur.",
+        "lv3_fr": "L’oxygène provient du réservoir atmosphérique : le creuset ouvert gagne donc de la masse tandis que le nombre d’atomes de magnésium reste constant. Ce modèle limité aux produits condensés prédit environ 2840 K (2567 °C) : l’étincelle fait d’abord fondre le ruban, puis le réactif Mg(L), avec sa phase explicite, et l’air admis entrent dans le bilan enthalpique. Les vapeurs de magnésium et de MgO sont exclues de cet ensemble de produits ; leur absence est une limite du modèle, pas une abondance négligeable calculée. Il s’agit d’une prédiction du modèle, pas d’une température de flamme mesurée."
       },
       "provenance": {
         "source": "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -8020,9 +8020,9 @@
         "lv2": "0.0999 mol of C (1.20 g ÷ 12.011) becomes 0.0999 mol of CO₂ — 4.40 g of gas, all of it gone from the crucible, which reads 0.00 g. The system gained 3.20 g of oxygen and the vessel lost 1.20 g of carbon; the two experiments differ in the phase of the product and in nothing else.",
         "lv2_de": "0,0999 mol C (1,20 g ÷ 12,011) werden zu 0,0999 mol CO₂ — 4,40 g Gas, vollständig aus dem Tiegel verschwunden, der 0,00 g zeigt. Das System nahm 3,20 g Sauerstoff auf, und das Gefäß verlor 1,20 g Kohlenstoff; die beiden Experimente unterscheiden sich in der Phase des Produkts und in nichts sonst.",
         "lv2_fr": "0,0999 mol de C (1,20 g ÷ 12,011) devient 0,0999 mol de CO₂ — 4,40 g de gaz, entièrement disparus du creuset, qui affiche 0,00 g. Le système a gagné 3,20 g d'oxygène, et le récipient a perdu 1,20 g de carbone ; les deux expériences diffèrent par la phase du produit et par rien d'autre.",
-        "lv3": "The adiabatic flame settles at 2216 °C against magnesium's 2769 °C, and the gap is not about which reaction is 'stronger' — carbon's ΔH per mole of O₂ is comparable — but about where the energy goes: the product here is a gas that carries it away in translational and vibrational modes, while magnesia is a condensed phase with far less to absorb. Flame temperature is an enthalpy balance, not a ranking of fuels.",
-        "lv3_de": "Die adiabatische Flamme pendelt sich bei 2216 °C ein, gegenüber 2769 °C bei Magnesium, und der Unterschied liegt nicht daran, welche Reaktion 'stärker' ist — Kohlenstoffs ΔH pro Mol O₂ ist vergleichbar —, sondern daran, wohin die Energie geht: Das Produkt hier ist ein Gas, das sie in Translations- und Schwingungsmoden mit sich forträgt, während Magnesiumoxid eine kondensierte Phase mit weit weniger Aufnahmefähigkeit ist. Flammtemperatur ist eine Enthalpiebilanz, keine Rangliste von Brennstoffen.",
-        "lv3_fr": "La flamme adiabatique se stabilise à 2216 °C contre 2769 °C pour le magnésium, et l'écart ne tient pas à quelle réaction serait « plus forte » — le ΔH du carbone par mole de O₂ est comparable — mais à où va l'énergie : le produit ici est un gaz qui l'emporte dans ses modes de translation et de vibration, tandis que la magnésie est une phase condensée avec bien moins de capacité d'absorption. La température de flamme est un bilan enthalpique, pas un classement de combustibles."
+        "lv3": "The computed charcoal flame is about 2216 °C, compared with about 2567 °C for this magnesium protocol. Flame temperature depends on the reactant enthalpy, the product phases and the admitted air. The charcoal product leaves as gas; the magnesium model retains condensed oxide. These temperatures describe the stated model and control volume, not a ranking of fuel strength.",
+        "lv3_de": "Die berechnete Holzkohleflamme erreicht etwa 2216 °C, verglichen mit etwa 2567 °C für dieses Magnesiumprotokoll. Die Flammentemperatur hängt von Eduktenthalpie, Produktphasen und zugelassener Luft ab. Das Holzkohleprodukt entweicht als Gas; das Magnesiummodell behält kondensiertes Oxid. Diese Temperaturen gelten für das angegebene Modell und Kontrollvolumen, nicht als Rangliste der Brennstoffstärke.",
+        "lv3_fr": "La flamme calculée du charbon atteint environ 2216 °C, contre environ 2567 °C pour ce protocole au magnésium. La température de flamme dépend de l’enthalpie des réactifs, des phases des produits et de l’air admis. Le produit du charbon s’échappe sous forme de gaz ; le modèle du magnésium conserve l’oxyde condensé. Ces températures décrivent le modèle et le volume de contrôle indiqués, pas un classement de la force des combustibles."
       },
       "provenance": {
         "source": "Standard curriculum combustion; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -8034,8 +8034,8 @@
       "id": "flame-temperature-is-a-balance-not-a-property",
       "progress": "advanced",
       "equation": null,
-      "summary": "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C",
-      "summary_de": "2 Mg + O₂ → 2 MgO von 228 °C → 2177 °C; dieselbe Reaktion von 927 °C → 2769 °C",
+      "summary": "2 Mg + O₂ → 2 MgO: a warmer starting state gives a hotter computed flame",
+      "summary_de": "2 Mg + O₂ → 2 MgO: Ein wärmerer Ausgangszustand ergibt eine heißere berechnete Flamme",
       "concepts": [
         "adiabatic-flame-temperature",
         "enthalpy-balance"
@@ -8096,12 +8096,12 @@
           "question_de": "Zwei identische 1,2-g-Magnesiumbänder brennen in identischer Luft. Das eine ist kaum warm, wenn es sich entzündet (228 °C); das andere glüht bereits (927 °C). Erreichen die beiden Flammen dieselbe Temperatur?",
           "options": [
             "Yes — the flame temperature is a property of magnesium",
-            "No: 2177 °C and 2769 °C. The heat you put in first is still in the products",
+            "No: the warmer starting state gives a hotter flame. The initial enthalpy remains in the balance",
             "No — the hotter one burns faster and so ends up cooler"
           ],
           "options_de": [
             "Ja — die Flammentemperatur ist eine Eigenschaft von Magnesium",
-            "Nein: 2177 °C und 2769 °C. Die zuerst hineingesteckte Wärme steckt noch in den Produkten",
+            "Nein: Der wärmere Ausgangszustand ergibt eine heißere Flamme. Die Anfangsenthalpie bleibt in der Bilanz",
             "Nein — das heißere brennt schneller und landet deshalb kühler"
           ],
           "answer": 1,
@@ -8112,10 +8112,10 @@
               "option": 0,
               "reveals": "Flame temperature as a substance constant, filed beside the melting point: one fuel, one number, whatever state it started in.",
               "reveals_de": "Flammtemperatur als Stoffkonstante, eingeordnet neben dem Schmelzpunkt: ein Brennstoff, eine Zahl, unabhängig davon, in welchem Zustand er startete.",
-              "next": "Change only the starting enthalpy and read the answer: 700 degrees more preheat, roughly 600 degrees more flame. A constant cannot respond to how you began; a balance must — and furnaces preheat their air because engineers bill by that balance.",
-              "next_de": "Ändere nur die Startenthalpie und lies die Antwort ab: 700 Grad mehr Vorwärmung, rund 600 Grad mehr Flamme. Eine Konstante kann nicht darauf reagieren, wie du begonnen hast; eine Bilanz muss es — und Öfen erwärmen ihre Luft vor, weil Ingenieure nach dieser Bilanz rechnen.",
+              "next": "Compare the two calculated temperatures. A constant cannot respond to the starting state; an enthalpy balance must. The spark also melts the hotter ribbon before the thermal solve, so its phase and the heat spent melting it belong in that balance.",
+              "next_de": "Vergleiche die beiden berechneten Temperaturen. Eine Konstante kann nicht auf den Ausgangszustand reagieren; eine Enthalpiebilanz muss es. Der Funke schmilzt das heißere Band vor der thermischen Berechnung, also gehören seine Phase und die Schmelzwärme in diese Bilanz.",
               "source": null,
-              "next_fr": "Change seulement l'enthalpie de départ et lis la réponse : 700 degrés de préchauffage en plus, environ 600 degrés de flamme en plus. Une constante ne peut pas répondre à la façon dont tu as commencé ; un bilan le doit — et les fours préchauffent leur air parce que les ingénieurs facturent selon ce bilan.",
+              "next_fr": "Compare les deux températures calculées. Une constante ne peut pas répondre à l’état initial ; un bilan enthalpique le doit. L’étincelle fait aussi fondre le ruban le plus chaud avant le calcul thermique : sa phase et la chaleur dépensée pour le fondre appartiennent donc à ce bilan.",
               "reveals_fr": "La température de flamme vue comme une constante propre à la substance, classée à côté du point de fusion : un combustible, un chiffre, quel que soit l'état dans lequel il a commencé."
             },
             {
@@ -8132,7 +8132,7 @@
           "misconception_fr": "La « température de flamme adiabatique du magnésium » est mémorisée comme une constante, comme un point de fusion. Ce n'est pas une propriété du combustible ; c'est la réponse à un bilan enthalpique, et l'enthalpie des réactifs est l'une des données d'entrée. Préchauffe les réactifs, et tu obtiens une flamme plus chaude — c'est exactement pourquoi les fours industriels préchauffent leur air.",
           "options_fr": [
             "Oui — la température de flamme est une propriété du magnésium",
-            "Non : 2177 °C et 2769 °C. La chaleur que tu as fournie en premier est toujours dans les produits",
+            "Non : l’état initial plus chaud donne une flamme plus chaude. L’enthalpie initiale reste dans le bilan",
             "Non — la plus chaude brûle plus vite et finit donc plus froide"
           ],
           "question_fr": "Deux rubans de magnésium identiques de 1,2 g brûlent dans un air identique. L'un est à peine tiède quand il s'enflamme (228 °C) ; l'autre rougeoie déjà (927 °C). Les deux flammes atteignent-elles la même température ?"
@@ -8144,22 +8144,22 @@
         }
       },
       "registers": {
-        "lv1": "Two identical ribbons, both burned, both blindingly bright — and one flame is six hundred degrees hotter than the other. The only difference was how warm the metal was when it caught. Heat you put in beforehand does not disappear when the fire starts; it is still there, added on top.",
-        "lv1_de": "Zwei identische Bänder, beide verbrannt, beide blendend hell — und die eine Flamme ist sechshundert Grad heißer als die andere. Der einzige Unterschied war, wie warm das Metall war, als es sich entzündete. Wärme, die du vorher hineingegeben hast, verschwindet nicht, wenn das Feuer beginnt; sie ist immer noch da, obendrauf addiert.",
-        "lv1_fr": "Deux rubans identiques, tous deux brûlés, tous deux d'un éclat aveuglant — et une flamme est de six cents degrés plus chaude que l'autre. La seule différence était la chaleur du métal au moment où il s'est enflammé. La chaleur que tu as fournie à l'avance ne disparaît pas quand le feu commence ; elle est toujours là, ajoutée par-dessus.",
-        "lv2": "Adiabatic means no heat leaves, so the products' enthalpy equals the reactants'. Starting at 228 °C the solve lands at 2176.97 °C; starting at 926.9 °C — the ignition temperature the bench uses — it lands at 2768.67 °C. Same ΔH of reaction, −601 kJ/mol; different starting enthalpy, different answer.",
-        "lv2_de": "Adiabatisch bedeutet, dass keine Wärme entweicht, sodass die Enthalpie der Produkte der der Edukte entspricht. Beginnt man bei 228 °C, landet die Lösung bei 2176,97 °C; beginnt man bei 926,9 °C — der Zündtemperatur, die das Labor verwendet — landet sie bei 2768,67 °C. Dieselbe Reaktionsenthalpie ΔH, −601 kJ/mol; andere Startenthalpie, andere Antwort.",
-        "lv2_fr": "Adiabatique signifie qu'aucune chaleur ne s'échappe, si bien que l'enthalpie des produits égale celle des réactifs. En partant de 228 °C, la résolution atterrit à 2176,97 °C ; en partant de 926,9 °C — la température d'inflammation qu'utilise le banc —, elle atterrit à 2768,67 °C. Même ΔH de réaction, −601 kJ/mol ; enthalpie de départ différente, réponse différente.",
-        "lv3": "The solver bisects on temperature until the products' enthalpy matches the reactants', evaluating both from the NASA-9 polynomials rather than assuming a constant heat capacity — which matters, because Cp rises substantially over two thousand kelvin. The vessel's share of the atmosphere is in the balance too, and it is the dominant heat sink: a gram of magnesium heats the air around it far more than it heats the speck of oxide it leaves.",
-        "lv3_de": "Der Löser halbiert das Intervall über der Temperatur, bis die Enthalpie der Produkte der der Edukte entspricht, wobei beide anhand der NASA-9-Polynome ausgewertet werden statt eine konstante Wärmekapazität anzunehmen — was wichtig ist, denn Cp steigt über zweitausend Kelvin hinweg erheblich an. Der Luftanteil des Gefäßes steckt ebenfalls in der Bilanz, und er ist die dominierende Wärmesenke: Ein Gramm Magnesium erwärmt die Luft um sich herum weit mehr, als es das winzige Oxidkorn erwärmt, das es hinterlässt.",
-        "lv3_fr": "Le solveur procède par bissection sur la température jusqu'à ce que l'enthalpie des produits corresponde à celle des réactifs, en évaluant les deux à partir des polynômes NASA-9 plutôt qu'en supposant une capacité thermique constante — ce qui compte, car Cp augmente sensiblement sur deux mille kelvins. La part atmosphérique du récipient entre aussi dans le bilan, et elle est le puits de chaleur dominant : un gramme de magnésium réchauffe bien davantage l'air qui l'entoure que le grain d'oxyde minuscule qu'il laisse derrière lui."
+        "lv1": "Both ribbons burn and leave white oxide, but the warmer starting state gives the hotter flame. Heat supplied beforehand remains part of the balance, including the heat spent melting the ribbon.",
+        "lv1_de": "Beide Bänder brennen und hinterlassen weißes Oxid, doch der wärmere Ausgangszustand ergibt die heißere Flamme. Vorher zugeführte Wärme bleibt Teil der Bilanz, einschließlich der Wärme zum Schmelzen des Bandes.",
+        "lv1_fr": "Les deux rubans brûlent et laissent un oxyde blanc, mais l’état initial le plus chaud donne la flamme la plus chaude. La chaleur fournie auparavant reste dans le bilan, y compris celle dépensée pour faire fondre le ruban.",
+        "lv2": "The cooler ribbon reacts above the bench’s 500 K kinetic gate. The spark sets the other ribbon to 1200 K; melting then leaves liquid magnesium near 943 K before the thermal solve. With phase-specific feed enthalpy and the admitted air, the hotter protocol predicts about 2840 K (2567 °C). The 1200 K spark is a modelling input, not a measured magnesium ignition temperature.",
+        "lv2_de": "Das kühlere Band reagiert oberhalb der kinetischen Modellschwelle von 500 K. Der Funke setzt das andere Band auf 1200 K; das Schmelzen hinterlässt dann flüssiges Magnesium bei etwa 943 K vor der thermischen Berechnung. Mit phasenspezifischer Eduktenthalpie und zugelassener Luft berechnet das heißere Protokoll etwa 2840 K (2567 °C). Die 1200 K des Funkens sind eine Modellannahme, keine gemessene Zündtemperatur von Magnesium.",
+        "lv2_fr": "Le ruban plus froid réagit au-dessus du seuil cinétique de 500 K du modèle. L’étincelle porte l’autre ruban à 1200 K ; la fusion laisse ensuite du magnésium liquide vers 943 K avant le calcul thermique. Avec l’enthalpie du réactif dans sa phase et l’air admis, le protocole plus chaud prédit environ 2840 K (2567 °C). Les 1200 K de l’étincelle sont une hypothèse du modèle, pas une température d’inflammation mesurée du magnésium.",
+        "lv3": "The solver matches product and reactant enthalpy using the phase-specific NASA-9 records. For the sparked ribbon, the core phase route first spends heat on fusion; the thermal route then uses liquid magnesium and air at the settled temperature. Its product pool retains condensed magnesium oxide and excludes magnesium and MgO vapour. The result is specific to these phase, atmosphere and ignition assumptions, not a calibrated physical flame temperature.",
+        "lv3_de": "Der Löser gleicht Produkt- und Eduktenthalpie mit phasenspezifischen NASA-9-Daten ab. Beim gezündeten Band bezahlt die Phasenroute zuerst die Schmelzwärme; die thermische Route verwendet danach flüssiges Magnesium und Luft bei der erreichten Temperatur. Ihr Produktpool behält kondensiertes Magnesiumoxid und schließt Magnesium- und MgO-Dampf aus. Das Ergebnis gilt für diese Phasen-, Atmosphären- und Zündannahmen und ist keine kalibrierte physikalische Flammentemperatur.",
+        "lv3_fr": "Le solveur égalise les enthalpies des produits et des réactifs à partir des données NASA-9 propres à chaque phase. Pour le ruban allumé, le traitement des phases dépense d’abord de la chaleur pour la fusion ; le calcul thermique utilise ensuite du magnésium liquide et de l’air à la température obtenue. Son ensemble de produits conserve l’oxyde de magnésium condensé et exclut les vapeurs de magnésium et de MgO. Le résultat dépend de ces hypothèses de phase, d’atmosphère et d’allumage ; ce n’est pas une température de flamme physique étalonnée."
       },
       "provenance": {
         "source": "Standard adiabatic-flame-temperature treatment (Gordon & McBride, NASA RP-1311); thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": "NASA CEA data: Apache-2.0",
         "computed_by": "Kerotakis L2g Gibbs minimiser"
       },
-      "summary_fr": "2 Mg + O₂ → 2 MgO de 228 °C → 2177 °C ; la même réaction de 927 °C → 2769 °C"
+      "summary_fr": "2 Mg + O₂ → 2 MgO : un état initial plus chaud donne une flamme calculée plus chaude"
     },
     {
       "id": "why-the-shelf-is-not-on-fire",
