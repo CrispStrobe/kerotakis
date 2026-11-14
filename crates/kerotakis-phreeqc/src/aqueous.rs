@@ -112,6 +112,37 @@ enum SecondaryDisposition {
     Declined(SecondaryDecline),
 }
 
+/// Authority created only after finite-dose inventory certification. The
+/// secondary query reads the solved dissolved totals, never the original
+/// pre-uptake totals. Bind that authority to this exact dose, clock and vessel.
+#[derive(Clone, Copy)]
+struct CertifiedFiniteCo2Uptake {
+    vessel: kerotakis_core::VesselId,
+    initial_moles_bits: u64,
+    clock_applied_bits: u64,
+}
+
+impl CertifiedFiniteCo2Uptake {
+    fn matches(self, vessel: &Vessel, problem: &Problem) -> bool {
+        let doses: Vec<_> = problem
+            .external_gases
+            .iter()
+            .filter(|gas| gas.kind == ExternalGasKind::Dose)
+            .collect();
+        vessel.id == self.vessel
+            && !vessel.owns_headspace_gas()
+            && !vessel
+                .contents
+                .iter()
+                .any(|p| p.phase == Phase::Gas && p.species.0 == "CO2")
+            && problem.clock_co2_applied_mol.to_bits() == self.clock_applied_bits
+            && doses.len() == 1
+            && doses[0].phase == "CO2(g)"
+            && doses[0].species == "CO2"
+            && doses[0].initial_moles.to_bits() == self.initial_moles_bits
+    }
+}
+
 struct SecondaryResult {
     provenance: Option<kerotakis_core::vessel::SolventActivityProvenance>,
     disposition: SecondaryDisposition,
@@ -6453,6 +6484,7 @@ mod canonical_physical_closure_tests {
             "wateq4f",
             &value,
             SecondaryFirstHint::Auto,
+            None,
         ) else {
             panic!("controlled supported carbon question must be prepared");
         };
@@ -8207,6 +8239,7 @@ impl PhreeqcEquilibrator {
             applied_mol: problem.clock_co2_applied_mol,
         };
         crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs, clock)?;
+        let mut certified_finite_uptake = None;
         if gas_components_certified {
             if reservoir_requested {
                 crate::inventory::certify_reservoir_opaque_inventory(
@@ -8223,6 +8256,20 @@ impl PhreeqcEquilibrator {
                     &reservoirs,
                     clock,
                 )?;
+                // Both component projection and full physical/immutable-stock
+                // certification succeeded. Only now may the solvent query use
+                // this dose's actual post-uptake dissolved readback.
+                let initial: f64 = before_inventory
+                    .contents
+                    .iter()
+                    .filter(|p| p.phase == Phase::Gas && p.species.0 == "CO2")
+                    .map(|p| p.moles.0)
+                    .sum();
+                certified_finite_uptake = Some(CertifiedFiniteCo2Uptake {
+                    vessel: vessel.id,
+                    initial_moles_bits: initial.to_bits(),
+                    clock_applied_bits: problem.clock_co2_applied_mol.to_bits(),
+                });
             } else {
                 crate::inventory::certify_gas_aware_inventory(
                     &before_inventory,
@@ -8304,7 +8351,14 @@ impl PhreeqcEquilibrator {
             && reservoir_requested
             && hint == FirstPoseHint::default()
         {
-            match Self::prepare_secondary(vessel, &problem, db_tag, &value, hint.secondary) {
+            match Self::prepare_secondary(
+                vessel,
+                &problem,
+                db_tag,
+                &value,
+                hint.secondary,
+                certified_finite_uptake,
+            ) {
                 PreparedSecondary::Resolved(result) => (*result, None),
                 PreparedSecondary::Question(question) => (
                     SecondaryResult {
@@ -8322,6 +8376,7 @@ impl PhreeqcEquilibrator {
                     db_tag,
                     &value,
                     hint.secondary,
+                    certified_finite_uptake,
                 ),
                 None,
             )
@@ -9010,8 +9065,9 @@ impl PhreeqcEquilibrator {
         db_tag: &str,
         value: &dyn Fn(&str) -> Option<f64>,
         hint: SecondaryFirstHint,
+        finite_uptake: Option<CertifiedFiniteCo2Uptake>,
     ) -> SecondaryResult {
-        match Self::prepare_secondary(vessel, problem, db_tag, value, hint) {
+        match Self::prepare_secondary(vessel, problem, db_tag, value, hint, finite_uptake) {
             PreparedSecondary::Resolved(result) => *result,
             PreparedSecondary::Question(question) => {
                 if question.validate_input().is_err() {
@@ -9030,6 +9086,7 @@ impl PhreeqcEquilibrator {
         db_tag: &str,
         value: &dyn Fn(&str) -> Option<f64>,
         hint: SecondaryFirstHint,
+        finite_uptake: Option<CertifiedFiniteCo2Uptake>,
     ) -> PreparedSecondary {
         const SECOND: &str = "pitzer";
         // `KERO_TRACE_SOLVENT_ACTIVITY=1` says which of the gates below
@@ -9080,14 +9137,16 @@ impl PhreeqcEquilibrator {
         // all — `GasExchangeClock` sizes that and `partition` has already
         // put it in the element totals this lean problem is posed from.
         //
-        // A DOSE is different and is still declined. A finite dose is
-        // carried in `phases` with its moles, not in `totals`, so stripping
-        // the phase list would silently delete matter that may have gone
-        // into solution.
+        // An unowned DOSE remains unsupported: stripping its phase could
+        // delete matter. A certified finite CO2 uptake is different: its
+        // physical source, vent and clock already closed above, and the lean
+        // question below is rebuilt from actual solved dissolved totals.
+        // This admits no other dose and changes no selector-reentry guard.
         if problem
             .external_gases
             .iter()
             .any(|gas| !matches!(gas.kind, ExternalGasKind::Reservoir))
+            && !finite_uptake.is_some_and(|witness| witness.matches(vessel, problem))
         {
             return decline(
                 SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
@@ -11484,6 +11543,36 @@ mod gas_component_projection_tests {
             solid_solutions: vec![],
             elements: vec!["Na".into(), "Acetate".into(), "C".into()],
         }
+    }
+
+    #[test]
+    fn secondary_finite_dose_witness_is_bound_to_source_and_consumed_gas() {
+        let mut after = Vessel::new(VesselId(0), "certified uptake fixture");
+        let mut problem = open_problem();
+        problem.clock_co2_applied_mol = -0.001;
+        problem.external_gases[0].kind = ExternalGasKind::Dose;
+        problem.external_gases[0].initial_moles = 0.002;
+        let witness = CertifiedFiniteCo2Uptake {
+            vessel: after.id,
+            initial_moles_bits: 0.002_f64.to_bits(),
+            clock_applied_bits: (-0.001_f64).to_bits(),
+        };
+        assert!(witness.matches(&after, &problem));
+        for change in 0..4 {
+            let mut wrong = problem.clone();
+            match change {
+                0 => wrong.external_gases[0].initial_moles *= 2.0,
+                1 => wrong.clock_co2_applied_mol = 0.001,
+                2 => wrong.external_gases[0].species = "NH3".into(),
+                _ => wrong.external_gases.push(wrong.external_gases[0].clone()),
+            }
+            assert!(!witness.matches(&after, &wrong));
+        }
+        after.deposit(SpeciesId::new("CO2"), Moles(0.002), Phase::Gas);
+        assert!(!witness.matches(&after, &problem));
+        after.contents.clear();
+        after.id = VesselId(1);
+        assert!(!witness.matches(&after, &problem));
     }
 
     fn readback(carbon: f64) -> Vec<(String, f64)> {
@@ -14316,6 +14405,7 @@ mod numerical_water_activity_tests {
             "wateq4f",
             &no_readback,
             SecondaryFirstHint::Auto,
+            None,
         );
         assert_eq!(floor.disposition, SecondaryDisposition::BelowInputFloor);
         assert_eq!(solver.engine_calls(), 0);
@@ -14342,6 +14432,7 @@ mod numerical_water_activity_tests {
             "wateq4f",
             &no_readback,
             SecondaryFirstHint::Auto,
+            None,
         );
         assert_eq!(
             unsupported_interface.disposition,
@@ -14361,6 +14452,7 @@ mod numerical_water_activity_tests {
             "wateq4f",
             &no_readback,
             SecondaryFirstHint::Auto,
+            None,
         );
         assert_eq!(
             unsupported_dose.disposition,
