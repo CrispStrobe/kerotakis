@@ -46,9 +46,8 @@ All668 supplied records already have baseline executions:557zero/111nonzero exit
 
 ## Next work
 
-1. Implement the bounded CI acceleration lane after proving complete command/feature/platform equivalence. Preserve all logical checks, protected contexts and failure evidence.
-2. Triage the remaining 129 originals in disjoint groups of 8–12, rank demonstrated shared source defects by their beneficiaries and qualify each unchanged original independently.
-3. Repair supported mapping/ownership/data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
-4. Strengthen diagnostic source-parser/helper-key inventory coverage and scoped snapshot lifecycle prevention.
+1. Assess the remaining 66 originals against their original criteria, prioritize shared source defects by the cases they affect, and qualify each original only when its observed results support it.
+2. Repair supported mapping, ownership and data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
+3. Improve CI efficiency and diagnostic coverage while preserving logical checks and protected contexts.
 
 The [fresh-agent handoff](next-agent-handoff.md) supplies entry conditions, concrete actions, source paths and acceptance for each lane. Do not repeat accepted source/product checks or unchanged originals without a demonstrated changed-source question. Preserve forecasts, first failures, the immutable working ledger and each producer's true bindings. Private resource/process/account details belong only in the ignored operating handoff.
