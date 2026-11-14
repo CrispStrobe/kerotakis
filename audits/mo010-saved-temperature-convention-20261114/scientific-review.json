@@ -1,0 +1,207 @@
+{
+  "met": 2,
+  "total": 2,
+  "criteria": {
+    "MO-010-C1": true,
+    "MO-010-C2": true
+  },
+  "solver_failures": 0,
+  "known_element_charge_checks": [
+    {
+      "step": 0,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "Cl": "0",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 1,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 2,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 3,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 4,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 5,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 6,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 7,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 8,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 9,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 10,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 11,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 12,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 13,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 14,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 15,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.0000",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    }
+  ],
+  "retained_each_salt_ion_mol": ".005",
+  "retained_water_g": "99.7",
+  "reported_liquid_volume_l": ".1",
+  "thermometer_c": [
+    19.953468544756674,
+    43.935361815712895,
+    19.953468544734278
+  ],
+  "conductivity_reconstruction": [
+    {
+      "temperature_c": 19.953468544756674,
+      "observed_us_cm": 5678.763936808268,
+      "reconstructed_us_cm": 5678.763936808268,
+      "ionic_strength_mol_kg": 0.05015054995663,
+      "absolute_residual_us_cm": 0.0
+    },
+    {
+      "temperature_c": 43.935361815712895,
+      "observed_us_cm": 5678.82842953843,
+      "reconstructed_us_cm": 5678.82842953843,
+      "ionic_strength_mol_kg": 0.05015068298637,
+      "absolute_residual_us_cm": 0.0
+    },
+    {
+      "temperature_c": 19.953468544734278,
+      "observed_us_cm": 5678.763936808268,
+      "reconstructed_us_cm": 5678.763936808268,
+      "ionic_strength_mol_kg": 0.05015054995663,
+      "absolute_residual_us_cm": 0.0
+    }
+  ],
+  "temperature_convention": "Fixed 25 C limiting ionic mobilities and fixed concentration correction applied to temperature-dependent solved species/I. No mobility-temperature law or empirical automatic temperature compensation. Molality approximates molarity in the stated dilute domain.",
+  "interpretation": "Tiny signal variation reflects solved speciation/I, not validated in-situ ion mobility; real temperature dependence is a coverage limitation, not a negative chemical finding.",
+  "preserved_limit_keys": [
+    "not-modeled.volume-meter-on-an-open-vessel"
+  ]
+}

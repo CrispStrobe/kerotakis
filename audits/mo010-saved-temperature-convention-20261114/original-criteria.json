@@ -1,0 +1,14 @@
+[
+  {
+    "id": "MO-010-C1",
+    "criterion": "Verify constant retained salt totals and inspect any water loss or volume change.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  },
+  {
+    "id": "MO-010-C2",
+    "criterion": "Identify whether the instrument reports temperature-compensated or in-situ conductivity before interpreting the sign and magnitude.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  }
+]

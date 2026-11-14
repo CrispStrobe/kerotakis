@@ -1,0 +1,34 @@
+[
+  {
+    "mutation": "lost-salt",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-water",
+    "rejected": true
+  },
+  {
+    "mutation": "changed-liquid-volume",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-mobility-increase",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-thermometer",
+    "rejected": true
+  },
+  {
+    "mutation": "hidden-volume-refusal",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-gas-crossing",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]

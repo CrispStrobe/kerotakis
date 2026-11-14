@@ -1,0 +1,19 @@
+# MO-010: Conductivity can change with temperature at fixed salt inventory
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL @ 20C
+add v1 NaCl 0.005mol
+measure v1 thermometer
+measure v1 conductivity
+measure v1 volume
+inspect v1
+heat v1 10kJ
+measure v1 thermometer
+measure v1 conductivity
+measure v1 volume
+inspect v1
+cool v1 10kJ
+measure v1 thermometer
+measure v1 conductivity
+measure v1 volume
+inspect
