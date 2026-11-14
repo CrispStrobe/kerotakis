@@ -119,11 +119,14 @@ pub fn route_row(solid: &str, db_tag: &str) -> RouteRow {
             return row("refused", defined,
                 "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation".to_string());
         }
+        // This existing admission predicate matches formulas and can also
+        // cover repeat-unit records such as PE. Report the ownership rule,
+        // never infer that every excluded material is a condensed gas.
         if kerotakis_core::phase_route::is_condensed_gas(solid) {
             return row(
                 "refused",
                 defined,
-                "the condensed gas belongs to physical phase routing, not aqueous crystallisation"
+                "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
                     .to_string(),
             );
         }
