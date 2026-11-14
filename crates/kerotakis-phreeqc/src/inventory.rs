@@ -92,7 +92,7 @@ pub(crate) fn clock_spectator(portion: &Portion) -> bool {
     }
     let expected = match key {
         "sucrose" => "C12H22O11",
-        "ethanol" => "C2H6O",
+        "ethanol" => "C2H5OH",
         "cellulose" => "C6H10O5",
         "chlorophyll" => "C55H72MgN4O5",
         _ => "C6H12O6",
@@ -1392,6 +1392,13 @@ mod gas_aware_certificate_tests {
                 enzyme_hydrolysis: None,
                 protein_denatured_fraction: 0.0,
             });
+        for portion in &before.contents {
+            assert!(
+                clock_spectator(portion),
+                "registry spectator {}",
+                portion.species.0
+            );
+        }
         assert!(valid_clock_immutable_spectators(&before));
         certify_opaque_clock_stock(&before, &before).unwrap();
         let mut changed_yeast = before.clone();

@@ -8215,24 +8215,22 @@ impl PhreeqcEquilibrator {
                     &events,
                     &reservoirs,
                 )?;
+            } else if finite_clock_co2_dose(&before_inventory, &problem, owner) {
+                crate::inventory::certify_finite_clock_co2_inventory(
+                    &before_inventory,
+                    vessel,
+                    &events,
+                    &reservoirs,
+                    clock,
+                )?;
             } else {
-                if finite_clock_co2_dose(&before_inventory, &problem, owner) {
-                    crate::inventory::certify_finite_clock_co2_inventory(
-                        &before_inventory,
-                        vessel,
-                        &events,
-                        &reservoirs,
-                        clock,
-                    )?;
-                } else {
-                    crate::inventory::certify_gas_aware_inventory(
-                        &before_inventory,
-                        vessel,
-                        &events,
-                        &reservoirs,
-                        clock,
-                    )?;
-                }
+                crate::inventory::certify_gas_aware_inventory(
+                    &before_inventory,
+                    vessel,
+                    &events,
+                    &reservoirs,
+                    clock,
+                )?;
             }
         }
         vessel.refresh_pressure();
