@@ -42,7 +42,8 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | `CaO` | CaO | minteq.v4:`Lime` |
 | `Cu` | Cu | minteq.v4:`Cumetal`, wateq4f:`CuMetal` |
 | `Cu(OH)2` | Cu(OH)2 | minteq.v4:`Cu(OH)2`, wateq4f:`Cu(OH)2` |
-| `Cu2O` | `CuO` | CuO | minteq.v4:`Tenorite`, wateq4f:`Tenorite` |
+| `Cu2O` | Cu2O | minteq.v4:`Cuprite`, wateq4f:`Cuprite` |
+| `CuO` | CuO | minteq.v4:`Tenorite`, wateq4f:`Tenorite` |
 | `CuSO4` | CuSO4 | minteq.v4:`CuSO4`, wateq4f:`CuSO4` |
 | `Fe(OH)2` | Fe(OH)2 | minteq.v4:`Fe(OH)2` |
 | `Fe(OH)3` | Fe(OH)3 | minteq.v4:`Ferrihydrite`, wateq4f:`Fe(OH)3(a)` |
