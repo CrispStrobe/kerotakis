@@ -146,6 +146,9 @@ records eighteen reviewed baseline changes: mixed carbonate provenance, actual t
 owners, silica's remaining model limitation and partial polyethylene melting observations.
 Scripts and required grades are unchanged. Coverage JSON now preserves actual model-limit
 events beside route lists; the PE reason explicitly leaves combustion unsupported.
+The subsequent exact `3f2e44928` readback adds separately documented PP partial-observation
+and mixed copper-route corrections; zero solver/unmet counts on that producer do not
+replace exact-successor control/fleet acceptance.
 Exact-successor hosted acceptance remains required.
 
 ## Correction 2026-09-07 — lactate had been speciated all along

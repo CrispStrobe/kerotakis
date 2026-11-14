@@ -1380,6 +1380,85 @@ mod tests {
     }
 
     #[test]
+    fn polypropylene_phase_observation_cannot_claim_combustion_products() {
+        use kerotakis_core::{SpeciesId, VesselId};
+        let prompt = original_prompt("th-062");
+        let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(
+            result.reason_code,
+            "partial-phase-observation-combustion-unmodeled"
+        );
+        let serialized = serde_json::to_value(&result).unwrap();
+        assert!(serialized["limitations"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|limit| limit["reason"]["key"] == "not-modeled.combustion-no-solver"));
+        assert!(result.routes.iter().any(|route| route.solver == "phase-routes"
+            && route.kind == SolverRouteKind::Curated && !route.chemistry
+            && matches!(route.outcome, SolverRouteOutcome::Succeeded { event_count } if event_count > 0)));
+
+        let mut bench = Bench::new();
+        let mut stack = crate::build_stack();
+        let mut transcript = Vec::new();
+        for line in &prompt.script {
+            transcript.extend(
+                bench
+                    .step_with(
+                        parse_op_typed(line).unwrap().unwrap(),
+                        &mut stack,
+                        &PermissiveScreen,
+                    )
+                    .unwrap(),
+            );
+        }
+        let vessel = bench.vessel(VesselId(0)).unwrap();
+        let pp = SpeciesId::new("PP");
+        let expected = 2.0
+            / kerotakis_core::species::lookup_key("PP")
+                .unwrap()
+                .molar_mass;
+        assert!((vessel.moles_of(&pp).0 - expected).abs() < 1e-12);
+        assert_eq!(vessel.moles_of(&SpeciesId::new("CO2")).0, 0.0);
+        assert_eq!(vessel.moles_of(&SpeciesId::new("water")).0, 0.0);
+        assert!(observed_phase_change(&transcript));
+        assert!(
+            !transcript.iter().any(|event| matches!(event,
+                Event::GasEvolved { species, .. } if matches!(species.0.as_str(), "CO2" | "water")
+            )),
+            "no combustion products may have formed and escaped: {transcript:?}"
+        );
+        assert!(!transcript.iter().any(|event| matches!(event,
+            Event::ThermalEquilibrium { reaction_energy_j: Some(energy), .. } if *energy > 0.0
+        )));
+        // The transient melt belongs to the ignition-zone exposure. The
+        // unsupported spark is withdrawn: it earns no persistent melt or burn.
+        assert!((vessel.temperature.0 - 298.15).abs() < 1e-9);
+        assert!(vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == pp)
+            .all(|p| p.phase == kerotakis_core::species::Phase::Solid));
+    }
+
+    #[test]
+    fn heated_copper_retains_curated_phases_and_computed_oxidation() {
+        let result = execute_prompt(&original_prompt("th-066"), &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Curated);
+        assert_eq!(result.reason_code, "curated-route");
+        for (solver, kind, chemistry) in [
+            ("phase-routes", SolverRouteKind::Curated, false),
+            ("cea-thermal", SolverRouteKind::Computed, true),
+        ] {
+            assert!(result.routes.iter().any(|route| route.solver == solver
+                && route.kind == kind && route.chemistry == chemistry
+                && matches!(route.outcome, SolverRouteOutcome::Succeeded { event_count } if event_count > 0)),
+                "the conservative summary must retain both actual contributions: {result:?}");
+        }
+    }
+
+    #[test]
     fn an_unrelated_solvent_transition_cannot_answer_unsupported_heating() {
         use kerotakis_core::species::Phase;
         use kerotakis_core::{Kelvin, Moles, SpeciesId, VesselId};

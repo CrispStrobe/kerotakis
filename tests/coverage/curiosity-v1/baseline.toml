@@ -2625,8 +2625,8 @@ reason_code = "partial-phase-observation-combustion-unmodeled"
 [[observation]]
 id = "th-062"
 owning_task = "BRD-023"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "qualitative"
+reason_code = "partial-phase-observation-combustion-unmodeled"
 
 [[observation]]
 id = "th-063"
@@ -2649,8 +2649,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-066"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-067"

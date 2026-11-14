@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 38, outside_method 110, parameterised 7, parameterised_ph 4, unclassified 37.
+Counts: missing_absorptivity 39, outside_method 110, parameterised 7, parameterised_ph 4, unclassified 37.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -27,6 +27,7 @@ Counts: missing_absorptivity 38, outside_method 110, parameterised 7, parameteri
 | missing_absorptivity | Cl2 | yellow-green, toxic |
 | missing_absorptivity | Cu | reddish-brown |
 | missing_absorptivity | Cu(OH)2 | pale blue |
+| missing_absorptivity | Cu2O | red |
 | missing_absorptivity | CuO | black |
 | missing_absorptivity | Fe | grey |
 | missing_absorptivity | Fe(OH)2 | pale green |
