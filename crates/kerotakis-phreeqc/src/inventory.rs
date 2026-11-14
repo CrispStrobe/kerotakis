@@ -522,6 +522,7 @@ pub(crate) fn complete_basis(
 ) -> Result<(), SolveError> {
     let before_ledger = ConservedLedger::from_vessel(before);
     let mut target = before_ledger.elements;
+    let mut target_charge = before_ledger.charge;
     // What the gas that left or arrived took with it, both as element
     // totals and as its own acid/base coordinate.
     let mut gas_excess = 0.0;
@@ -541,6 +542,7 @@ pub(crate) fn complete_basis(
             let h = formula.counts.get("H").copied().unwrap_or(0.0);
             let o = formula.counts.get("O").copied().unwrap_or(0.0);
             gas_excess += moles * (h - 2.0 * o);
+            target_charge += moles * formula.charge;
             for (element, count) in formula.counts {
                 *target.entry(element).or_default() += moles * count;
             }
@@ -636,6 +638,29 @@ pub(crate) fn complete_basis(
             });
         }
     }
+    // H/O closure does not prove charge closure: a loose electron-balance
+    // solve can leave a wrong ferrous/ferric split with identical atoms.
+    // Do not repair that by fabricating protons or changing water. The
+    // proposal must pass the same absolute charge bound as other owners.
+    let charge = ConservedLedger::from_vessel(after).charge;
+    if !target_charge.is_finite() || !charge.is_finite() {
+        return Err(inventory_error(
+            InventoryReason::ChargeLedgerNonfinite,
+            "the completed analytical basis has a nonfinite charge ledger",
+        ));
+    }
+    if (charge - target_charge).abs() > 1e-10 {
+        return Err(inventory_error(
+            InventoryReason::ChargeLedgerMismatch {
+                before: target_charge,
+                after: charge,
+            },
+            format!(
+                "completed analytical basis changed charge {target_charge:.15e} -> {charge:.15e} eq"
+            ),
+        ));
+    }
+
     Ok(())
 }
 
@@ -1274,5 +1299,87 @@ mod gas_aware_certificate_tests {
             },
         )
         .is_err());
+    }
+}
+
+#[cfg(test)]
+mod redox_basis_charge_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    fn pair(ferrous_error: f64) -> (Vessel, Vessel) {
+        let mut before = Vessel::new(VesselId(0), "redox charge");
+        for (key, amount, phase) in [
+            ("water", 5.5, Phase::Liquid),
+            ("H2SO4", 0.005, Phase::Aqueous),
+            ("FeSO4", 0.001, Phase::Aqueous),
+            ("KMnO4", 0.0001, Phase::Aqueous),
+        ] {
+            before.deposit(SpeciesId::new(key), Moles(amount), phase);
+        }
+        let mut after = Vessel::new(VesselId(0), "redox charge");
+        for (key, amount) in [
+            ("Fe+2", 0.0005 + ferrous_error),
+            ("Fe+3", 0.0005 - ferrous_error),
+            ("Mn+2", 0.0001),
+            ("K+", 0.0001),
+            ("SO4-2", 0.006),
+        ] {
+            after.deposit(SpeciesId::new(key), Moles(amount), Phase::Aqueous);
+        }
+        (before, after)
+    }
+
+    #[test]
+    fn electron_closed_split_retains_atom_and_charge_closure() {
+        let (before, mut after) = pair(0.0);
+        complete_basis(
+            &before,
+            &mut after,
+            &[],
+            &[],
+            ClockCo2Boundary::none(before.id),
+        )
+        .unwrap();
+        let a = ConservedLedger::from_vessel(&before);
+        let b = ConservedLedger::from_vessel(&after);
+        assert!((a.charge - b.charge).abs() < 1e-12);
+        for (element, expected) in a.elements {
+            assert!((b.elements[&element] - expected).abs() < 1e-12);
+        }
+    }
+
+    #[test]
+    fn atom_closed_oxidation_state_errors_do_not_become_protons_or_water() {
+        for error in [-1e-6, -1e-8, 1e-8, 1e-6] {
+            let (before, mut after) = pair(error);
+            let result = complete_basis(
+                &before,
+                &mut after,
+                &[],
+                &[],
+                ClockCo2Boundary::none(before.id),
+            );
+            assert!(result.is_err(), "wrong split {error} was committed");
+        }
+    }
+
+    #[test]
+    fn small_rounding_within_the_existing_charge_guard_is_not_a_new_rejection() {
+        let (before, mut after) = pair(1e-12);
+        complete_basis(
+            &before,
+            &mut after,
+            &[],
+            &[],
+            ClockCo2Boundary::none(before.id),
+        )
+        .unwrap();
+        assert!(
+            (ConservedLedger::from_vessel(&before).charge
+                - ConservedLedger::from_vessel(&after).charge)
+                .abs()
+                < 1e-10
+        );
     }
 }
