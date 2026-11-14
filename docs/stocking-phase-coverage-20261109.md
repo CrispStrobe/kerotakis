@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 20, melting_point_without_latent_heat 42, no_melting_point 58, not_condensed 76.
+Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 58, not_condensed 76.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -23,6 +23,7 @@ Counts: derived 20, melting_point_without_latent_heat 42, no_melting_point 58, n
 | derived | Al | solid | 933.473 | 2743 | yes | solid | solid | solid |
 | derived | CH3COOH | liquid | 289.77 | 391.4 | yes | solid | liquid | liquid |
 | derived | Cu | solid | 1357.77 | 2868 | yes | solid | solid | solid |
+| derived | Cu2O | solid | 1516.7 | — | yes | solid | solid | solid |
 | derived | Fe | solid | 1811 | 3273 | yes | solid | solid | solid |
 | derived | KCl | solid | 1044 | — | yes | solid | solid | solid |
 | derived | Mg | solid | 922 | 1383 | yes | solid | solid | solid |

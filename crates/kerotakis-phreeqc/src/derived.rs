@@ -634,12 +634,9 @@ pub struct CrosswalkRow {
     /// `(database tag, phase name)`, in [`DB_TAGS`] order then name order.
     pub phases: Vec<(&'static str, String)>,
     /// Whether this solid may be posed as an equilibrium phase at all.
-    /// `false` for the two classes [`Derived::build`] deliberately keeps
-    /// out of the candidate list — elemental metals, which belong to
-    /// `displacement` because it accounts for the electrons, and condensed
-    /// gases, whose stability is a temperature and not a solubility
-    /// product. They are still database phases, and a count that dropped
-    /// them would be answering a different question quietly.
+    /// Matches the actual candidate inventory, including electron/oxidation
+    /// state admission. A database phase name alone does not establish that
+    /// the aqueous route can book its composition without a redox step.
     pub posable: bool,
     /// Whether the registry holds a reviewed `aqueous-solubility-g-per-100-ml`
     /// for this solid — which is exactly what decides whether the routing
@@ -672,8 +669,9 @@ pub fn mineral_crosswalk() -> Vec<CrosswalkRow> {
     }
     rows.into_iter()
         .map(|(species, phases)| CrosswalkRow {
-            posable: !kerotakis_core::displacement::is_elemental_metal(species)
-                && !kerotakis_core::phase_route::is_condensed_gas(species),
+            posable: candidate_phases()
+                .iter()
+                .any(|phase| phase.species == species),
             reviewed_solubility: species::lookup_key(species)
                 .and_then(|d| d.aqueous_solubility_g_per_100_ml)
                 .is_some(),
@@ -1704,6 +1702,34 @@ mod tests {
             "dry ice must not carry a mineral role: {:?}",
             role("dry_ice")
         );
+    }
+
+    #[test]
+    fn cuprite_is_named_without_inventing_aqueous_copper_i_coverage() {
+        assert_eq!(
+            registry_solid_for(&parse_formula("Cu2O").unwrap(), 0.0),
+            Some("Cu2O")
+        );
+        assert!(
+            role("Cu2O").is_none(),
+            "Cu(I) oxide must not book as Cu(II)"
+        );
+        assert!(!candidate_phases().iter().any(|p| p.species == "Cu2O"));
+        let rows = mineral_crosswalk();
+        let cuprite = rows.iter().find(|r| r.species == "Cu2O").unwrap();
+        assert!(cuprite.phases.iter().any(|(_, name)| name == "Cuprite"));
+        assert!(!cuprite.posable);
+        assert!(!cuprite.reviewed_solubility);
+        // A positive companion prevents a blanket copper-oxide exclusion.
+        assert!(rows.iter().find(|r| r.species == "CuO").unwrap().posable);
+        for row in rows {
+            assert_eq!(
+                row.posable,
+                candidate_phases().iter().any(|p| p.species == row.species),
+                "crosswalk must describe actual aqueous admission for {}",
+                row.species
+            );
+        }
     }
 
     #[test]

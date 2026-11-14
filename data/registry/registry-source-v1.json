@@ -1694,6 +1694,15 @@
       "retrieved": null
     },
     {
+      "id": "kerotakis/cu2o-reviewed-properties-v1",
+      "citation": "Copper(I) oxide (cuprite), Cu2O. Identity verified 2026-11-14 through PubChem PUG REST CID 10313194: InChIKey KRFJLUBVMFXRPN-UHFFFAOYSA-N, bis(copper(1+));oxygen(2-). Molar mass 143.0914 g/mol and heat-capacity polynomials are from the existing Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records, both citing King,1973 p60. The scalar Cp 62.714338179454096 J/(mol.K) is evaluated at the solid record lower endpoint 300 K and held down to room temperature by the existing core boundary model; it is not a measured 298.15 K value. Density 6.14 g/mL is the approximate conventional conversion of the reported specific gravity 6.14, not a temperature-resolved density measurement. Specific gravity and red appearance: J. Michael Howard, Mineral Species of Arkansas: A Digest, Arkansas Geological Commission Bulletin 23 (1987, revised 2007), printed p. 36, Cuprite entry, https://geology.arkansas.gov/docs/pdf/publication/bulletins/bulletin-23.pdf, opened 2026-11-14. This authored property record transcribes individual factual values and no source table, text or artwork. No solubility, dissolution enthalpy, aqueous Cu(I) chemistry, boiling temperature, or measured fusion heat is claimed. The aqueous oxide-valence guard must retain this Cu(I) oxide rather than booking it as Cu(II).",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "data/registry/registry-source-v1.json",
+      "revision": "Cu2O reviewed properties v1",
+      "retrieved": "2026-11-14"
+    },
+    {
       "id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals.",
       "licence": "CC0-1.0",
@@ -2538,6 +2547,15 @@
       "origin": "https://doi.org/10.1007/s10973-006-8182-1",
       "revision": "J. Therm. Anal. Calorim. 90 (2007) 903",
       "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/transition-points/Cu2O",
+      "citation": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition.",
+      "licence": "Apache-2.0",
+      "lane": "runtime",
+      "origin": "vendor/nasa-cea/thermo.inp",
+      "revision": "NASA CEA Cu2O(cr), Cu2O(L); King,1973 p60",
+      "retrieved": "2026-11-14"
     },
     {
       "id": "kerotakis/dissolution-enthalpies-v1",
@@ -5741,6 +5759,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Cu2O",
+      "canonical_key": "KRFJLUBVMFXRPN-UHFFFAOYSA-N",
+      "name": "copper(I) oxide",
+      "identifiers": {
+        "inchikey": "KRFJLUBVMFXRPN-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -26232,6 +26266,98 @@
       },
       "evidence": {
         "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Cu2O",
+      "species_id": "Cu2O",
+      "formula": "Cu2O",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -50150,6 +50276,133 @@
           "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
+    },
+    {
+      "id": "molar-mass/Cu2O",
+      "species_id": "Cu2O",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 143.0914,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Cu2O",
+      "species_id": "Cu2O",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 62.714338179454096,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Cu2O",
+      "species_id": "Cu2O",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 6.14,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/Cu2O",
+      "species_id": "Cu2O",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1516.7,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Cu2O",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -52066,6 +52319,88 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CO (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Cu2O/solid",
+      "species_id": "Cu2O",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 600.0,
+          "coefficients": [
+            694309.394,
+            -11072.06812,
+            70.0760082,
+            -0.1693010736,
+            0.0002296941394,
+            -1.193708373e-7,
+            0.0
+          ],
+          "reference": "Cu2O(cr): Crystal. King,1973 p60."
+        },
+        {
+          "t_min_k": 600.0,
+          "t_max_k": 1516.7,
+          "coefficients": [
+            4899293.25,
+            -32267.6771,
+            92.4291324,
+            -0.1133053506,
+            8.88645846e-5,
+            -3.91177959e-8,
+            8.17075314e-12
+          ],
+          "reference": "Cu2O(cr): Crystal. King,1973 p60."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1516.7 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu2O(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Cu2O/liquid",
+      "species_id": "Cu2O",
+      "phase": "liquid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 1516.7,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            11.99819496,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Cu2O(L): Liquid. King,1973 p60."
+        }
+      ],
+      "boundary": "Tabulated for 1516.7 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu2O(L) (1 temperature interval), unchanged in value and in order"
         }
       }
     }
@@ -60217,6 +60552,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/PbI2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Cu2O",
+      "species_id": "Cu2O",
+      "phase": "solid",
+      "appearance": "red",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -70380,6 +70731,39 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Cu2O",
+      "subject": {
+        "kind": "species",
+        "id": "Cu2O"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     }

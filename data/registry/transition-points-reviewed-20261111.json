@@ -998,6 +998,16 @@
       "revision": "J. Therm. Anal. Calorim. 90 (2007) 903",
       "retrieved": "2026-11-11",
       "notes_decomposition_k": "slow onset; the conversion is fast only above about 100 C"
+    },
+    {
+      "species": "Cu2O",
+      "source_id": "literature/transition-points/Cu2O",
+      "melting_k": 1516.7,
+      "citation": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition.",
+      "licence": "Apache-2.0",
+      "origin": "vendor/nasa-cea/thermo.inp",
+      "revision": "NASA CEA Cu2O(cr), Cu2O(L); King,1973 p60",
+      "retrieved": "2026-11-14"
     }
   ],
   "dropped": [

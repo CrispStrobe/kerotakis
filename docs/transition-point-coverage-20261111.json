@@ -1,11 +1,11 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 135,
+    "boiling.no_data": 136,
     "boiling.reported": 61,
     "melting.no_data": 97,
     "melting.range": 5,
-    "melting.reported": 94
+    "melting.reported": 95
   },
   "originals": [
     {
@@ -105,6 +105,10 @@
     "Cu": {
       "source_id": "literature/transition-points/Cu",
       "citation": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2868 K (2595 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
+    },
+    "Cu2O": {
+      "source_id": "literature/transition-points/Cu2O",
+      "citation": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition."
     },
     "CuSO4": {
       "source_id": "literature/transition-points/CuSO4",
@@ -945,6 +949,19 @@
       "standard_phase": "aqueous",
       "melting": {
         "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cu2O",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1516.7,
+        "source": "literature/transition-points/Cu2O"
       },
       "boiling": {
         "basis": "no_data"

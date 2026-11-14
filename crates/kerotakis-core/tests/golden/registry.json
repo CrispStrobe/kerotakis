@@ -6538,5 +6538,91 @@
       "melting_k": 685.0,
       "source": "melting 685 K, boiling 1145 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 27-2 Lead, printed p. 654; read from the page image, archive.org circularofbureau500ross (leaf n661) Printed entry: PbI2 Fusion 685 K (412 C); Vaporization 760 mmHg 1145 K (872 C)."
     }
+  },
+  {
+    "appearance": "red",
+    "colour": null,
+    "density": 6.14,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "Cu2O",
+    "heat_capacity": 62.714338179454096,
+    "heat_capacity_polys": [
+      {
+        "boundary": "Tabulated for 300 to 1516.7 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+        "intervals": [
+          {
+            "coefficients": [
+              694309.394,
+              -11072.06812,
+              70.0760082,
+              -0.1693010736,
+              0.0002296941394,
+              -1.193708373e-7,
+              0.0
+            ],
+            "form": "nasa9",
+            "reference": "Cu2O(cr): Crystal. King,1973 p60.",
+            "t_max": 600.0,
+            "t_min": 300.0
+          },
+          {
+            "coefficients": [
+              4899293.25,
+              -32267.6771,
+              92.4291324,
+              -0.1133053506,
+              8.88645846e-5,
+              -3.91177959e-8,
+              8.17075314e-12
+            ],
+            "form": "nasa9",
+            "reference": "Cu2O(cr): Crystal. King,1973 p60.",
+            "t_max": 1516.7,
+            "t_min": 600.0
+          }
+        ],
+        "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu2O(cr) (2 temperature intervals), unchanged in value and in order",
+        "phase": "solid",
+        "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+      },
+      {
+        "boundary": "Tabulated for 1516.7 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+        "intervals": [
+          {
+            "coefficients": [
+              0.0,
+              0.0,
+              11.99819496,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "form": "nasa9",
+            "reference": "Cu2O(L): Liquid. King,1973 p60.",
+            "t_max": 6000.0,
+            "t_min": 1516.7
+          }
+        ],
+        "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu2O(L) (1 temperature interval), unchanged in value and in order",
+        "phase": "liquid",
+        "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+      }
+    ],
+    "inchikey": "KRFJLUBVMFXRPN-UHFFFAOYSA-N",
+    "key": "Cu2O",
+    "magnetic": false,
+    "molar_mass": 143.0914,
+    "name": "copper(I) oxide",
+    "provenance": "Copper(I) oxide (cuprite), Cu2O. Identity verified 2026-11-14 through PubChem PUG REST CID 10313194: InChIKey KRFJLUBVMFXRPN-UHFFFAOYSA-N, bis(copper(1+));oxygen(2-). Molar mass 143.0914 g/mol and heat-capacity polynomials are from the existing Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records, both citing King,1973 p60. The scalar Cp 62.714338179454096 J/(mol.K) is evaluated at the solid record lower endpoint 300 K and held down to room temperature by the existing core boundary model; it is not a measured 298.15 K value. Density 6.14 g/mL is the approximate conventional conversion of the reported specific gravity 6.14, not a temperature-resolved density measurement. Specific gravity and red appearance: J. Michael Howard, Mineral Species of Arkansas: A Digest, Arkansas Geological Commission Bulletin 23 (1987, revised 2007), printed p. 36, Cuprite entry, https://geology.arkansas.gov/docs/pdf/publication/bulletins/bulletin-23.pdf, opened 2026-11-14. This authored property record transcribes individual factual values and no source table, text or artwork. No solubility, dissolution enthalpy, aqueous Cu(I) chemistry, boiling temperature, or measured fusion heat is claimed. The aqueous oxide-valence guard must retain this Cu(I) oxide rather than booking it as Cu(II).",
+    "spectrum_bands": null,
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1516.7,
+      "source": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition."
+    }
   }
 ]

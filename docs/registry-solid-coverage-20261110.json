@@ -6,9 +6,9 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 137,
+    "bookable-unclaimed": 136,
     "declined": 15,
-    "registry-solid": 44,
+    "registry-solid": 45,
     "unbookable": 385
   },
   "registry_solids_matched": [
@@ -26,6 +26,7 @@
     "CaO",
     "Cu",
     "Cu(OH)2",
+    "Cu2O",
     "CuO",
     "CuSO4",
     "Fe(OH)2",
@@ -294,6 +295,22 @@
         {
           "database": "wateq4f",
           "phase": "Cu(OH)2"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu2O",
+      "registry_species": "Cu2O",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cuprite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Cuprite"
         }
       ],
       "class": "registry-solid"
@@ -1394,22 +1411,6 @@
         {
           "database": "wateq4f",
           "phase": "Cu2(OH)3NO3"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "Cu2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Cuprite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Cuprite"
         }
       ],
       "class": "bookable-unclaimed"

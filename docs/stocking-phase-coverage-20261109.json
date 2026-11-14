@@ -6,7 +6,7 @@
     40.0
   ],
   "counts": {
-    "derived": 20,
+    "derived": 21,
     "melting_point_without_latent_heat": 42,
     "no_melting_point": 58,
     "not_condensed": 76
@@ -56,6 +56,19 @@
       "standard_phase": "solid",
       "melting_k": 1357.77,
       "boiling_k": 2868.0,
+      "fusion_owner": true,
+      "basis": "derived",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Cu2O",
+      "standard_phase": "solid",
+      "melting_k": 1516.7,
+      "boiling_k": null,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {

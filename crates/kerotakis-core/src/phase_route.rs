@@ -595,6 +595,11 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// tranche, not to this table.
 pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
+        species: "Cu2O",
+        kj_per_mol: 64.236_585_444_921,
+        provenance: "Copper(I) oxide fusion enthalpy derived as H(Cu2O(L),1516.7 K)-H(Cu2O(cr),1516.7 K) from the unchanged vendored NASA CEA thermo.inp coefficients (both records cite King,1973 p60), using R=8.31446261815324 J/(mol.K). The result is 64236.585444921 J/mol; it is a difference of this model's absolute enthalpies, not an independent measurement. The Gibbs difference at the shared endpoint is below 0.001 J/mol. Apache-2.0 NASA source; no extrapolation or temperature-independent latent heat outside the core transition model is claimed.",
+    },
+    LatentHeat {
         species: "ethanol",
         // 4.93 kJ/mol.
         kj_per_mol: 4.93,

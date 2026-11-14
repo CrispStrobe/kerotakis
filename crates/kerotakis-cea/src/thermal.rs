@@ -1676,6 +1676,114 @@ mod phase_feed_tests {
     }
 
     #[test]
+    fn cuprite_has_named_phases_and_a_consistent_fusion_ledger() {
+        assert_eq!(cea_name("Cu2O"), Some("Cu2O(cr)"));
+        let solid = db().get("Cu2O(cr)").unwrap();
+        let liquid = db().get("Cu2O(L)").unwrap();
+        assert_eq!(registry_row(&solid.name).unwrap().key, "Cu2O");
+        assert_eq!(registry_row(&liquid.name).unwrap().key, "Cu2O");
+        let melting = species::lookup_key("Cu2O")
+            .unwrap()
+            .transitions
+            .unwrap()
+            .melting_k
+            .unwrap();
+        assert_eq!(melting, 1516.7);
+        assert!((liquid.g(melting).unwrap() - solid.g(melting).unwrap()).abs() < 0.001);
+        let latent = kerotakis_core::phase_route::fusion_enthalpy("Cu2O").unwrap();
+        assert!((liquid.h(melting).unwrap() - solid.h(melting).unwrap() - latent).abs() < 1e-6);
+        let data = species::lookup_key("Cu2O").unwrap();
+        // The independently published JANAF room-temperature Cp is about
+        // 62.5 J/mol/K; core uses the NASA300 K endpoint, visibly bounded.
+        assert!(
+            (kerotakis_core::states::heat_capacity_at(data, Phase::Solid, 300.0) - 62.7).abs()
+                < 0.2
+        );
+        assert!(outside_ranged_record(solid, 1516.71));
+        assert!(outside_ranged_record(liquid, 1516.69));
+    }
+
+    #[test]
+    fn copper_oxidation_closes_energy_below_the_cupric_oxide_data_edge() {
+        // Frozen th-042 failure: 1 g Cu and 0.1 mol O2 at the ignition
+        // zone. Without registry Cu2O, HP jumps at CuO's 1400 K data edge
+        // from ~6288 to ~8800 J around its ~6912 J target. Naming the
+        // actual lower oxide must solve in-range, never relax that ledger.
+        let copper = 1.0 / 63.546;
+        let mut vessel = sample("Cu", 1200.0, Phase::Solid, copper);
+        vessel.deposit(SpeciesId::new("O2"), Moles(0.1), Phase::Gas);
+        vessel.thermal_mode = ThermalMode::Adiabatic;
+        let charge = charge(&vessel).unwrap();
+        let target = charge
+            .feeds
+            .iter()
+            .map(|(_, n, h)| n * h.unwrap())
+            .sum::<f64>()
+            + air_enthalpy(&charge, 1200.0);
+        let pool = pool_for(&charge.budget.keys().cloned().collect::<Vec<_>>());
+        assert!(pool.iter().any(|s| s.name == "Cu2O(cr)"));
+        assert!(pool.iter().any(|s| s.name == "Cu2O(L)"));
+        let atmosphere = OpenAtmosphere {
+            admitted: charge.air.clone(),
+            inlet_k: 1200.0,
+        };
+        let eq = crate::gibbs::equilibrate_hp_open(
+            &charge.budget,
+            &pool,
+            target,
+            1.0,
+            Some(&atmosphere),
+        )
+        .expect("the in-range lower oxide must close the original HP target");
+        assert!((1300.0..1400.0).contains(&eq.temperature), "{eq:?}");
+        assert!(eq.moles_of("Cu2O(cr)") > 0.99 * copper / 2.0, "{eq:?}");
+        let air_credit = charge
+            .air
+            .iter()
+            .map(|(name, n)| {
+                let gas = db().get(name).unwrap();
+                n.min(eq.moles_of(name)) * (gas.h(eq.temperature).unwrap() - gas.h(1200.0).unwrap())
+            })
+            .sum::<f64>()
+            .min(0.0);
+        assert!((eq.enthalpy - air_credit - target).abs() <= 1.0 + target.abs() * 1e-8);
+        for (element, expected) in &charge.budget {
+            let actual = eq
+                .composition
+                .iter()
+                .map(|(name, n)| {
+                    db().get(name)
+                        .unwrap()
+                        .composition
+                        .get(element)
+                        .copied()
+                        .unwrap_or(0.0)
+                        * n
+                })
+                .sum::<f64>();
+            assert!(
+                (actual - expected).abs() < 1e-10,
+                "{element}: {actual} vs {expected}"
+            );
+        }
+        let events = ThermalEquilibrator.equilibrate(&mut vessel).unwrap();
+        assert!(events
+            .iter()
+            .any(|event| matches!(event, Event::ThermalEquilibrium { .. })));
+        let retained_copper = vessel
+            .contents
+            .iter()
+            .map(|p| {
+                let data = species::lookup(&p.species).expect("named product");
+                let formula = kerotakis_core::stoich::parse_formula(data.formula).unwrap();
+                p.moles.0 * formula.counts.get("Cu").copied().unwrap_or(0.0)
+            })
+            .sum::<f64>();
+        assert!((retained_copper - copper).abs() < 1e-10);
+        assert!(vessel.moles_of(&SpeciesId::new("Cu2O")).0 > 0.99 * copper / 2.0);
+    }
+
+    #[test]
     fn constant_cp_hot_solid_feed_keeps_the_core_sensible_energy() {
         let t = 1773.15;
         let vessel = sample("I2", t, Phase::Solid, 0.1);

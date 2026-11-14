@@ -5898,6 +5898,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         "epsomite" => EPSOMITE_SOURCE.to_string(),
         "chalcanthite" => CHALCANTHITE_SOURCE.to_string(),
         "SiO2" => SILICA_SOURCE.to_string(),
+        "Cu2O" => "kerotakis/cu2o-reviewed-properties-v1".to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
@@ -5911,13 +5912,14 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         || curated_iron_iii_oxide
         || curated_epsomite
         || curated_chalcanthite
-        || curated_silica;
+        || curated_silica
+        || species.key == "Cu2O";
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
         licence: match species.key {
             "isopropanol" => "LicenseRef-US-Public-Domain",
-            "sucrose" => "AGPL-3.0-or-later",
+            "sucrose" | "Cu2O" => "AGPL-3.0-or-later",
             "Fe2O3" => "LicenseRef-US-Public-Domain",
             "epsomite" => "LicenseRef-US-Public-Domain",
             "chalcanthite" => "LicenseRef-US-Public-Domain",
@@ -5937,6 +5939,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "epsomite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "chalcanthite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "SiO2" => "https://pubchem.ncbi.nlm.nih.gov/compound/24261".to_string(),
+            "Cu2O" => "data/registry/registry-source-v1.json".to_string(),
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
         revision: match species.key {
@@ -5946,10 +5949,13 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "epsomite" => Some("USGS WATEQ4F Epsomite, PubChem CID 24843".to_string()),
             "chalcanthite" => Some("USGS WATEQ4F Chalcanthite".to_string()),
             "SiO2" => Some("PubChem CID 24261".to_string()),
+            "Cu2O" => Some("Cu2O reviewed properties v1".to_string()),
             _ => None,
         },
         retrieved: runtime_source.then(|| {
-            if curated_chalcanthite {
+            if species.key == "Cu2O" {
+                "2026-11-14".to_string()
+            } else if curated_chalcanthite {
                 "2026-08-29".to_string()
             } else {
                 "2026-08-27".to_string()
