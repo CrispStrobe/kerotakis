@@ -1,0 +1,140 @@
+#!/usr/bin/env python3
+"""Non-aqueous solution coverage (SP-011, 2026-11-11).
+
+The engine has one "dissolved" phase tag (`Phase::Aqueous`) for a solute in
+any liquid. Extraction deposits solutes into a water-free receiver (hexane)
+with that tag, so snapshots said "aqueous" for I2 in hexane and the iodine
+inventory behind `inspect` filed it as an "other" pool (oxidised iodine 0).
+
+One generic mechanism, `vessel::nonaqueous_solvent`, names the hosting liquid
+of any vessel with no liquid water. This tool checks every consumer below is
+wired to it and lists the organic solvents that can receive extracted solutes
+(`PARTITION_COEFFICIENTS` rows plus the hexane UNIFAC path), each of which is
+covered by the same mechanism with no per-solvent code. It also records the
+provenance status of every empirical partition row.
+
+Writes docs/nonaqueous-solution-coverage-20261111.{md,json}; `--check` fails
+when stale or when a consumer is no longer wired.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+CORE = ROOT / "crates/kerotakis-core/src"
+MD = ROOT / "docs/nonaqueous-solution-coverage-20261111.md"
+JS = ROOT / "docs/nonaqueous-solution-coverage-20261111.json"
+
+CONSUMERS = [
+    ("vessel snapshot contents (JSON)", "vessel.rs", 'serialize_with = "serialize_contents"'),
+    ("vessel snapshot label", "vessel.rs", 'pub const NONAQUEOUS_SOLUTION: &str = "nonaqueous_solution";'),
+    ("snapshot read-back alias", "species.rs", '#[serde(alias = "nonaqueous_solution")]'),
+    ("inspect iodine inventory pool", "iodine_chemistry.rs", "crate::vessel::nonaqueous_solvent(&vessel.contents)"),
+    ("inspect oxidised iodine sum", "iodine_chemistry.rs", "+ complex + nonaqueous_i2,"),
+]
+
+SEARCH = [
+    "Wanted: primary measured K = [I2]hydrocarbon/[I2]water near 25 C (hexane, heptane or other alkane).",
+    "Found (primary, read): K1 = 80 for I2 between cyclohexane and 1.00 F H2SO4 at 25 C, "
+    "Van de Steeg, Univ. New Mexico report/dissertation for the US AEC (1968), doi:10.2172/4770773, "
+    "OSTI PDF p. 71 (K1 = [I2]nonaq/[I2]aq defined p. 70). Not hexane, not pure water; not adopted.",
+    "Not found as primary: any hexane/water or heptane/water I2 distribution coefficient. Secondary "
+    "teaching pages give water/CCl4 = 0.0116-0.0117 (i.e. CCl4/water about 86), consistent with K = 85 "
+    "being the classic CCl4 value, but Jakowkin (1895) itself was not reached.",
+    "Searched: WebSearch phrasings 'partition coefficient iodine hexane water 25 C', 'distribution of "
+    "iodine between carbon tetrachloride and water Jakowkin', iodine heptane water distribution, "
+    "'distribution of iodine between' water and hexane/cyclohexane/heptane in J. Phys. Chem./J. Chem. Soc./JACS; "
+    "Crossref query 'distribution iodine water cyclohexane coefficient'; OSTI full text; UNT digital library "
+    "(connection refused). Rejected as non-primary: Edexcel exam (85), A-level illustrative K = 30 "
+    "(hexane), student lab reports, povidone-iodine patents (iodophor, not I2).",
+    "Not yet searched: Hildebrand & Jenks JACS 42 (1920) 2180 full text, Katzin & Gebert, IUPAC-NIST "
+    "Solubility Data Series, Europe PMC, archive.org scans of Z. phys. Chem. 1895.",
+]
+
+
+def build():
+    errors = []
+    consumers = []
+    for name, f, marker in CONSUMERS:
+        ok = marker in (CORE / f).read_text(encoding="utf-8")
+        if not ok:
+            errors.append(f"{name}: marker missing in {f}")
+        consumers.append({"consumer": name, "file": f"crates/kerotakis-core/src/{f}", "wired": ok})
+    app = (CORE / "apparatus.rs").read_text(encoding="utf-8")
+    i = app.index("pub const PARTITION_COEFFICIENTS")
+    blk = app[i:app.index("}];", i)]
+    rows = []
+    for part in blk.split("PartitionCoefficient {")[1:]:
+        g = lambda k: (re.search(rf'\b{k}: "((?:[^"\\]|\\.)*)"', part) or re.search(rf"\b{k}: ([^,\n]+),", part)).group(1)
+        src = g("source")
+        rows.append({
+            "solute": g("solute"),
+            "receiver_solvent": g("organic_solvent"),
+            "k": g("k_organic_over_aqueous"),
+            "primary_measurement": "NOT a primary measurement" not in src,
+            "source": src,
+        })
+    solvents = sorted({r["receiver_solvent"] for r in rows} | {"hexane"})
+    return {
+        "snapshot_label": "nonaqueous_solution",
+        "iodine_pool": "nonaqueous_i2_mol",
+        "mechanism": "vessel::nonaqueous_solvent: most abundant liquid portion of a vessel with no liquid water",
+        "consumers": consumers,
+        "receiver_solvents": [{"solvent": s, "covered_by": "generic nonaqueous_solvent"} for s in solvents],
+        "partition_rows": rows,
+        "i2_hydrocarbon_k_search": SEARCH,
+    }, errors
+
+
+def render(d) -> str:
+    out = [
+        "# Non-aqueous solution coverage (2026-11-11, SP-011)",
+        "",
+        "Generated by `tools/nonaqueous_solution_coverage.py`; `--check` holds it.",
+        "",
+        f"Mechanism: `{d['mechanism']}`. A dissolved portion in such a vessel is written",
+        f"as phase `{d['snapshot_label']}` with a `solvent` field (JSON snapshots only;",
+        "binary formats keep the enum) and I2 there is the iodine pool",
+        f"`{d['iodine_pool']}`, counted in `oxidised_iodine_mol`.",
+        "",
+        "| consumer | file | wired |",
+        "|---|---|---|",
+    ]
+    out += [f"| {c['consumer']} | `{c['file']}` | {'yes' if c['wired'] else 'NO'} |" for c in d["consumers"]]
+    out += ["", "Receiver solvents (all via the one generic mechanism): "
+            + ", ".join(r["solvent"] for r in d["receiver_solvents"]) + ".", "",
+            "| solute | receiver | K | primary measurement | source |", "|---|---|---|---|---|"]
+    out += [f"| {r['solute']} | {r['receiver_solvent']} | {r['k']} | {'yes' if r['primary_measurement'] else 'NO'} | {r['source']} |"
+            for r in d["partition_rows"]]
+    out += ["", "## I2 hydrocarbon/water K search (2026-11-11)", ""] + [f"- {s}" for s in d["i2_hydrocarbon_k_search"]] + [""]
+    return "\n".join(out)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true")
+    a = ap.parse_args()
+    data, errors = build()
+    md, js = render(data), json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+    if errors:
+        print("\n".join(errors), file=sys.stderr)
+        return 1
+    if a.check:
+        stale = [p.name for p, t in ((MD, md), (JS, js)) if not p.exists() or p.read_text(encoding="utf-8") != t]
+        if stale:
+            print("stale: " + ", ".join(stale) + " (run tools/nonaqueous_solution_coverage.py)", file=sys.stderr)
+            return 1
+        print("non-aqueous solution coverage: up to date")
+        return 0
+    MD.write_text(md, encoding="utf-8")
+    JS.write_text(js, encoding="utf-8")
+    print(f"wrote {MD.name}, {JS.name}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

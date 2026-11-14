@@ -1,0 +1,597 @@
+{
+  "source": "32f3aed52ff1b8b4cedad4dbbadd7465a1a85877",
+  "binary_sha256": "3f8c72967b42557e33205b13c706a5c45e2971e847585ae39b58a21f9e9284f4",
+  "protocol_sha256": "c32e5b8b457efadf80bae9282817585401beb60bdaf47fb33877ca7d204811f8",
+  "actual_serial_processes": 8,
+  "exact_values_and_known_opaque_inventory_equal": true,
+  "ranges": {
+    "temperature": 0.0,
+    "excess_enthalpy_j": 0.0,
+    "ph": 0.0,
+    "ionic_strength": 0.0,
+    "solvent_kg": 0.0,
+    "particle_molality": 0.0,
+    "aux_water_activity": 0.0,
+    "aux_ionic_strength": 0.0,
+    "aux_particle_molality": 0.0
+  },
+  "records": [
+    {
+      "process": 1,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 2,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 3,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 4,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 5,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 6,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 7,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    },
+    {
+      "process": 8,
+      "stdout_sha256": "994483d69f2fb888714bdce8ee03faea2f53d7ccb646206e5eaff0d4aafd0678",
+      "values": {
+        "temperature": 300.7963309400608,
+        "excess_enthalpy_j": 0.0,
+        "ph": 10.93444603928,
+        "ionic_strength": 0.2753722272926,
+        "solvent_kg": 0.09969381787819,
+        "particle_molality": 0.5035756431533,
+        "aux_water_activity": 0.9915681515703431,
+        "aux_ionic_strength": 0.3235685678947,
+        "aux_particle_molality": 0.5281771070355
+      },
+      "contents": [
+        {
+          "moles": 7.793092911701938e-07,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.019999999999994314,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.028305091142399413,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.979388881118434e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.0003431592618690458,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0038101596392341045,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 0.009999220690706,
+          "phase": "solid",
+          "species": "CaCO3"
+        },
+        {
+          "moles": 5.533933826154804,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0003431712206390658,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "unresolved_materials": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ]
+    }
+  ],
+  "scope": "same-source/same-binary release process reproducibility only; no proof of auxiliary zero-time fixed point or old cx root cause"
+}

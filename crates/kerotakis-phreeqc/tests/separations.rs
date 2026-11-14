@@ -294,3 +294,120 @@ fn brine_boiled_almost_dry_still_answers() {
         solution.ionic_strength
     );
 }
+
+/// A separation does not include a wait. Buffered dissolved CO2 may be above
+/// room-air equilibrium while remaining below the bubble threshold; filtering
+/// or mixing that solution must not silently discharge it to the atmosphere.
+#[test]
+fn instantaneous_transfers_preserve_buffered_carbon_without_gas_export() {
+    for acid_prepared in [false, true] {
+        for mix in [false, true] {
+            let mut bench = Bench::new();
+            let mut solver = stack();
+            for _ in 0..2 {
+                bench.step(Operator::NewVessel { kind: None }).unwrap();
+            }
+            let source = VesselId(0);
+            add(&mut bench, &mut solver, source, "water", 13.88);
+            add(&mut bench, &mut solver, source, "NaHCO3", 0.004);
+            add(&mut bench, &mut solver, VesselId(1), "water", 1.0);
+            let carbon = |bench: &Bench| -> f64 {
+                bench
+                    .vessels
+                    .iter()
+                    .map(|v| {
+                        kerotakis_core::ledger::ConservedLedger::from_vessel(v)
+                            .elements
+                            .get("C")
+                            .copied()
+                            .unwrap_or(0.0)
+                    })
+                    .sum()
+            };
+            let initial = carbon(&bench);
+            assert!(
+                initial > 0.0039,
+                "the sample must retain bicarbonate carbon"
+            );
+            assert!((initial - 0.004).abs() < 1e-8);
+            let preparation_events = if acid_prepared {
+                step(
+                    &mut bench,
+                    &mut solver,
+                    Operator::Add {
+                        vessel: source,
+                        species: SpeciesId::new("HCl"),
+                        moles: Moles(0.0005),
+                        at: None,
+                    },
+                )
+            } else {
+                Vec::new()
+            };
+            assert!(
+                !preparation_events
+                    .iter()
+                    .any(|event| matches!(event, Event::SolverFailed { .. })),
+                "acid preparation failed: {preparation_events:?}"
+            );
+            let exported: f64 = preparation_events
+                .iter()
+                .filter_map(|event| match event {
+                    Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+                    Event::GasAbsorbed { species, moles, .. } if species.0 == "CO2" => {
+                        Some(-moles.0)
+                    }
+                    _ => None,
+                })
+                .sum();
+            let before = carbon(&bench);
+            assert!((before + exported - initial).abs() < 1e-8,
+            "preparation carbon closure: initial={initial}, retained={before}, exported={exported}");
+            if acid_prepared {
+                // One HCl proton can turn at most one bicarbonate carbon into CO2.
+                // This is a reagent budget, independent of the predicted endpoint.
+                assert!((0.0..=0.0005 + 1e-8).contains(&exported));
+                assert!(before >= 0.004 - 0.0005 - 1e-8);
+            } else {
+                assert!(before > 0.0039, "the sample must retain bicarbonate carbon");
+            }
+            let op = if mix {
+                Operator::Mix {
+                    a: source,
+                    b: VesselId(1),
+                    into: VesselId(2),
+                    fraction_a: 1.0,
+                    fraction_b: 1.0,
+                }
+            } else {
+                Operator::Filter {
+                    from: source,
+                    to: VesselId(2),
+                }
+            };
+            let events = step(&mut bench, &mut solver, op);
+            assert!(
+                !events
+                    .iter()
+                    .any(|event| matches!(event, Event::SolverFailed { .. })),
+                "mix={mix}: {events:?}"
+            );
+            assert!(
+                !events.iter().any(|event| matches!(event,
+                    Event::GasEvolved { species, moles, .. } | Event::GasAbsorbed { species, moles, .. }
+                        if species.0 == "CO2" && moles.0 > 1e-10
+                )),
+                "mix={mix}: instantaneous transfer exported carbon: {events:?}"
+            );
+            assert!(
+                (carbon(&bench) - before).abs() < 1e-8,
+                "mix={mix}: carbon before={before}, after={}",
+                carbon(&bench)
+            );
+            assert!(
+                bench.vessels.iter().all(|v| !v.zero_time_dose),
+                "the temporary boundary must be cleared on both solver paths"
+            );
+        }
+    }
+}

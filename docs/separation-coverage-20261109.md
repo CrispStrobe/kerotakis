@@ -11,7 +11,7 @@ Counts: extract 9, distil 4, liquid owners admitted 6.
 | species | extract (hexane/water) | K | liquid owner admitted | distil |
 |---|---|---|---|---|
 | CH3COOH | unifac-group-model | - | yes | - |
-| I2 | empirical | 85.0 | no | - |
+| I2 | empirical | 26.0 | no | - |
 | ethanol | unifac-group-model | - | yes | binary-unifac-still |
 | ethyl_acetate | unifac-group-model | - | no | - |
 | isopropanol | unifac-group-model | - | yes | uscg-chris-ideal-still |

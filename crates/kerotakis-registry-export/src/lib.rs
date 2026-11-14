@@ -650,8 +650,12 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     // Runtime SpeciesData carries the scalar but cannot retain its per-field
     // uncertainty, conditions or source. Preserve explicitly reviewed heat
     // records instead of exporting those claims as generic legacy data.
-    const REVIEWED_THERMO_SOURCES: &[&str] =
-        &["literature/berg-vanderzee-anhydrous-carbonate-dissolution"];
+    const REVIEWED_THERMO_SOURCES: &[&str] = &[
+        "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        // 2026-11-11: 28 % aqueous ammonia at 20 C, International Critical
+        // Tables vol. 3 p. 59 (replaces the unsourced legacy 0.91 g/mL).
+        "literature/ict-vol3-aqueous-ammonia-density",
+    ];
     for record in reviewed
         .phase_thermodynamics
         .iter()
@@ -1915,6 +1919,120 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             lot_assumptions: vec![
                 "botanical source, moisture, lipids and protein traces are omitted".to_string(),
             ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/potato-starch".to_string(),
+            version: 1,
+            canonical_key: "potato_starch".to_string(),
+            name: "potato starch".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Kartoffelstärke".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("dry isolated potato-starch teaching surrogate".to_string()),
+            lot_assumptions: vec!["moisture, lipids and protein traces are omitted; the plant source is named and selects its measured digestibility row".to_string()],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/pea-starch".to_string(),
+            version: 1,
+            canonical_key: "pea_starch".to_string(),
+            name: "pea starch".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Erbsenstärke".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("dry isolated pea-starch teaching surrogate".to_string()),
+            lot_assumptions: vec!["moisture, lipids and protein traces are omitted; the plant source is named and selects its measured digestibility row".to_string()],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/wheat-starch".to_string(),
+            version: 1,
+            canonical_key: "wheat_starch".to_string(),
+            name: "wheat starch".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Weizenstärke".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("dry isolated wheat-starch teaching surrogate".to_string()),
+            lot_assumptions: vec!["moisture, lipids and protein traces are omitted; the plant source is named and selects its measured digestibility row".to_string()],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/rice-starch".to_string(),
+            version: 1,
+            canonical_key: "rice_starch".to_string(),
+            name: "rice starch".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Reisstärke".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("dry isolated rice-starch teaching surrogate".to_string()),
+            lot_assumptions: vec!["moisture, lipids and protein traces are omitted; the plant source is named and selects its measured digestibility row".to_string()],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/green-banana-starch".to_string(),
+            version: 1,
+            canonical_key: "green_banana_starch".to_string(),
+            name: "green banana starch".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Stärke aus grünen Bananen".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("dry starch isolated from unripe banana flesh, teaching surrogate".to_string()),
+            lot_assumptions: vec!["moisture, lipids and protein traces are omitted; the plant source is named and selects its measured digestibility row".to_string()],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/sweet-potato-starch".to_string(),
+            version: 1,
+            canonical_key: "sweet_potato_starch".to_string(),
+            name: "sweet potato starch".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Süßkartoffelstärke".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("dry isolated sweet-potato-starch teaching surrogate".to_string()),
+            lot_assumptions: vec!["moisture, lipids and protein traces are omitted; the plant source is named and selects its measured digestibility row".to_string()],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,
             expansion_policy: MaterialExpansionPolicy::Fixed,
@@ -5780,6 +5898,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         "epsomite" => EPSOMITE_SOURCE.to_string(),
         "chalcanthite" => CHALCANTHITE_SOURCE.to_string(),
         "SiO2" => SILICA_SOURCE.to_string(),
+        "Cu2O" => "kerotakis/cu2o-reviewed-properties-v1".to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
@@ -5793,13 +5912,14 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         || curated_iron_iii_oxide
         || curated_epsomite
         || curated_chalcanthite
-        || curated_silica;
+        || curated_silica
+        || species.key == "Cu2O";
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
         licence: match species.key {
             "isopropanol" => "LicenseRef-US-Public-Domain",
-            "sucrose" => "AGPL-3.0-or-later",
+            "sucrose" | "Cu2O" => "AGPL-3.0-or-later",
             "Fe2O3" => "LicenseRef-US-Public-Domain",
             "epsomite" => "LicenseRef-US-Public-Domain",
             "chalcanthite" => "LicenseRef-US-Public-Domain",
@@ -5819,6 +5939,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "epsomite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "chalcanthite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "SiO2" => "https://pubchem.ncbi.nlm.nih.gov/compound/24261".to_string(),
+            "Cu2O" => "data/registry/registry-source-v1.json".to_string(),
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
         revision: match species.key {
@@ -5828,10 +5949,13 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "epsomite" => Some("USGS WATEQ4F Epsomite, PubChem CID 24843".to_string()),
             "chalcanthite" => Some("USGS WATEQ4F Chalcanthite".to_string()),
             "SiO2" => Some("PubChem CID 24261".to_string()),
+            "Cu2O" => Some("Cu2O reviewed properties v1".to_string()),
             _ => None,
         },
         retrieved: runtime_source.then(|| {
-            if curated_chalcanthite {
+            if species.key == "Cu2O" {
+                "2026-11-14".to_string()
+            } else if curated_chalcanthite {
                 "2026-08-29".to_string()
             } else {
                 "2026-08-27".to_string()

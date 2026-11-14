@@ -129,6 +129,8 @@ step "separation coverage"; python3 tools/separation_coverage.py --check
 step "flame emission coverage"; python3 tools/flame_emission_coverage.py --check
 step "redox respeciation coverage"; python3 tools/redox_respeciation_coverage.py --check
 step "melting-range latent heat coverage"; python3 tools/melting_range_latent_heat_coverage.py --check
+step "thermometer latent-heat qualifier coverage"; python3 tools/thermometer_latent_qualifier_coverage.py --check
+step "solid-vs-melt density coverage"; python3 tools/phase_density_coverage.py --check
 step "free-solute partition coverage"; python3 tools/free_solute_partition_coverage.py --check
 step "starch amylase coverage"; python3 tools/starch_amylase_coverage.py --check
 step "transport ledger coverage"; python3 tools/transport_ledger_coverage.py --check
@@ -140,8 +142,11 @@ step "transition-point coverage"; python3 tools/transition_point_coverage.py --c
 step "organic partition coverage"; python3 tools/organic_partition_coverage.py --check
 step "registry-solid coverage"; python3 tools/registry_solid_coverage.py --check
 step "iodine chemistry coverage"; python3 tools/iodine_chemistry_coverage.py --check
+step "uvvis absorptivity coverage"; python3 tools/uvvis_absorptivity_coverage.py --check
 step "iodide redox route coverage"; python3 tools/iodide_redox_coverage.py --check
 step "iodine inventory coverage"; python3 tools/iodine_inventory_coverage.py --check
+step "sulfur(IV) coupling coverage"; python3 tools/sulfur_iv_coupling_coverage.py --check
+step "non-aqueous solution coverage"; python3 tools/nonaqueous_solution_coverage.py --check
 step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
 step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check

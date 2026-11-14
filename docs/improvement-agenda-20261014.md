@@ -1,6 +1,33 @@
-# Ordered improvement agenda — current checkpoint 2026-11-09
+# Ordered improvement agenda — current checkpoint 2026-11-12
 
-**Now (2026-11-09):** qualification **379/468** (22 more for 401); production = `4bdc5da9`. (1) The five rejected re-run gaps MO-004, AN-001, AN-002, TH-003, TR-006 as family-wide lanes; (2) open-vessel outward gas rate; (3) HNO3 species; (4) unverified density/latent-heat rows; (5) cache the SUNDIALS tarball in CI; (6) earlier lanes 1–13 from [the systematic-lanes index](systematic-lanes-20261027.md). Exact scope: [handoff section 0](next-agent-handoff.md).
+Qualification is **410/468** unique originals (414 entries); 58 originals remain. Production
+remains `731931f0`. PR881 is ready with auto-merge enabled and queued checks; it has not merged or deployed. Its first failures and current repairs
+are described in [status](STATUS.md), [carbonate acceptance](carbonate-boundaries-20261112.md)
+and [fresh-agent scopes](next-agent-handoff.md).
+
+1. Complete PR881 source acceptance: translations/prose, instantaneous transfer conservation,
+   bounded new-carbon gas ownership, versioned independent bicarbonate law, negative controls and
+   genuine producer bindings. Preserve frozen original forecasts and failed evidence. Use Kaggle
+   for heavy work; avoid `ci:full`, full workflow dispatch and placeholder PRs. Reuse applicable
+   results, minimize pushes, fold related repairs together and cancel superseded queued runs.
+2. Enable normal exact-reviewed-head auto-merge after applicable acceptance, then one bound
+   production deployment. Verify current API/browser contracts and run only demonstrated affected
+   originals once on that release; append only independently earned qualifications.
+3. Close demonstrated determinism/event/ledger defects. First obtain eight identical-script,
+   same-binary aq-023 process repetitions; distinguish old cured primary addition-order drift
+   from potential stale auxiliary diagnostics. Do not widen the existing physical tolerances.
+4. Complete finite-time gas transfer acceptance and build sourced volatile-gas foundations.
+   H2S needs explicit reduced-sulfur ownership; SO2 also needs neutral S(IV)/first-dissociation
+   authority, not just a PHASE row. Verify data licensing, standard states, model domains,
+   H/O/charge/heat, positive and negative controls before claiming expanded coverage.
+5. Deliver measured CI setup reuse and reconcile maintained summaries. The current candidate
+   caches only the checksum-pinned SUNDIALS archive, with real corrupt-cache negative tests;
+   all source/platform/fleet commands and protected contexts remain required. Measure actual
+   cache-hit/wall results before claiming speedups. Keep public paths in repository docs and
+   private operating details only in the ignored handoff.
+
+The older checkpoint below preserves historical scopes; its counts and pending statuses are not
+the current execution queue.
 
 ## Checkpoint 2026-10-27
 

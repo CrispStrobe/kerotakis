@@ -469,8 +469,14 @@ impl SolverStack {
             let mut unidentifiable_external = false;
             if overlap {
                 let mut owners = Vec::new();
-                for later in index + 1..range.end {
-                    let solver = self.solvers[later].as_mut();
+                for (later, solver) in self
+                    .solvers
+                    .iter_mut()
+                    .enumerate()
+                    .take(range.end)
+                    .skip(index + 1)
+                {
+                    let solver = solver.as_mut();
                     if solver.trusted_aqueous_readback().is_some()
                         && solver.applies(vessel)
                         && solver.chemistry_applies(vessel)

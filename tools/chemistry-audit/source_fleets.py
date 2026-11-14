@@ -17,6 +17,7 @@ ASSERTIONS = {
     "final-scalar-equal", "final-scalar-order", "event-scalar-equal",
     "event-scalar-order", "event-present", "event-boundary-present",
     "event-components-total-order",
+    "carbonate-closed-equilibrium-v1",
 }
 RELATION_KINDS = {"conservation", "independent-law", "metamorphic", "boundary"}
 

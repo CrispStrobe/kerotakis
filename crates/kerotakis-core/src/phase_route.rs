@@ -423,6 +423,16 @@ pub(crate) fn refreeze_flame_melts(vessel: &mut Vessel, step: &[Event]) -> Vec<E
     events
 }
 
+/// Whether `ignite` lights this liquid rather than boiling it: the step is
+/// an ignition, the fuel has an autoignition row the vessel is at or above,
+/// and oxygen is to hand (room air over an open dish, or an O2 portion).
+fn burns_on_ignition(vessel: &Vessel, key: &str) -> bool {
+    vessel.ignition
+        && crate::combustion::gas_autoignition(key)
+            .is_some_and(|row| vessel.temperature.0 >= row.autoignition_k)
+        && crate::combustion::oxygen_fraction(vessel) > 0.0
+}
+
 fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
     vessel
         .contents
@@ -585,6 +595,11 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// tranche, not to this table.
 pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
+        species: "Cu2O",
+        kj_per_mol: 64.236_585_444_921,
+        provenance: "Copper(I) oxide fusion enthalpy derived as H(Cu2O(L),1516.7 K)-H(Cu2O(cr),1516.7 K) from the unchanged vendored NASA CEA thermo.inp coefficients (both records cite King,1973 p60), using R=8.31446261815324 J/(mol.K). The result is 64236.585444921 J/mol; it is a difference of this model's absolute enthalpies, not an independent measurement. The Gibbs difference at the shared endpoint is below 0.001 J/mol. Apache-2.0 NASA source; no extrapolation or temperature-independent latent heat outside the core transition model is claimed.",
+    },
+    LatentHeat {
         species: "ethanol",
         // 4.93 kJ/mol.
         kj_per_mol: 4.93,
@@ -636,7 +651,7 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
         species: "hexadecane",
         // 53.36 kJ/mol.
         kj_per_mol: 53.36,
-        provenance: "n-Hexadecane enthalpy of fusion 53.36 kJ/mol at its 291.3 K melting point. H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, 'Low-temperature thermal data for the nine normal paraffin hydrocarbons from octane to hexadecane', J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a005: about 12.75 kcal/mol at the triple point. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO: the publication is the primary adiabatic calorimetry and its DOI resolves, but the figure was transcribed from the reviewer's reading of that work rather than checked against a scan of the table, so it is PENDING REVIEW in the same lane as propan-2-ol's boil. The CRC Handbook of Chemistry and Physics, 'Enthalpy of Fusion' table, carries the same order of value and is the commercial fallback. This row exists so a bottle of cetane stocked below 18 degrees Celsius can be a solid that a warming step pays to melt (stocking-phase lane, 2026-11-09); without it the registry's melting point was a number the bench could read but never act on",
+        provenance: "n-Hexadecane enthalpy of fusion 53.36 kJ/mol at its 291.3 K melting point. H. L. Finke, M. E. Gross, G. Waddington and H. M. Huffman, 'Low-temperature thermal data for the nine normal paraffin hydrocarbons from octane to hexadecane', J. Am. Chem. Soc. 76 (1954) 333-341, doi:10.1021/ja01631a005: about 12.75 kcal/mol at the triple point. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO: the publication is the primary adiabatic calorimetry and its DOI resolves, but the figure was transcribed from the reviewer's reading of that work rather than checked against a scan of the table, so it is PENDING REVIEW in the same lane as propan-2-ol's boil. CORROBORATED 2026-11-11 (polymer/wax latent-heat lane): the NIST Chemistry WebBook (SRD 69) enthalpy-of-fusion single fact for n-hexadecane lists 53.359 kJ/mol at 291.34 K from this same Finke et al. (1954) paper, i.e. 235.6 J/g at M = 226.44 g/mol, which this row's 53.36 kJ/mol matches; the WebBook figure was quoted by the round-3 data-gap sourcing note, the paper's own table remains unread. The CRC Handbook of Chemistry and Physics, 'Enthalpy of Fusion' table, carries the same order of value and is the commercial fallback. This row exists so a bottle of cetane stocked below 18 degrees Celsius can be a solid that a warming step pays to melt (stocking-phase lane, 2026-11-09); without it the registry's melting point was a number the bench could read but never act on",
     },
     LatentHeat {
         species: "tert_butanol",
@@ -1201,6 +1216,10 @@ impl PhaseRouteEquilibrator {
                 let latent = vaporisation_enthalpy(&p.species.0)?;
                 (vessel.temperature.0 >= boiling).then(|| (p.species.clone(), boiling, latent))
             })
+            // A spark held to a liquid fuel: its vapour burns at the
+            // surface, so it is left for the combustion solvers rather than
+            // boiled off the dish (`Vessel::ignition`).
+            .filter(|(species, ..)| !burns_on_ignition(vessel, &species.0))
             .collect();
         for (species, point, latent) in boiling {
             let now = vessel.temperature.0;

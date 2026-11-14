@@ -104,3 +104,76 @@ fn known_members_classify_as_their_databases_define_them() {
         assert_eq!(row("KNO3", tag).class, "refused", "{tag}");
     }
 }
+
+#[test]
+fn defined_but_unadmitted_cuprite_is_not_reported_as_missing_data() {
+    use kerotakis_phreeqc::derived;
+    for tag in ["wateq4f", "minteq.v4"] {
+        let refused = crystallisation_route::route_row("Cu2O", tag);
+        assert_eq!(refused.class, "refused");
+        assert_eq!(refused.phase.as_deref(), Some("Cuprite"));
+        assert!(
+            refused.reason.contains("component/oxidation-state"),
+            "{}",
+            refused.reason
+        );
+        assert!(!refused.reason.contains("defines no phase"));
+        assert!(derived::routed_phase_for_solid("Cu2O", tag).is_none());
+    }
+    assert!(derived::role("Cu2O").is_none());
+    assert!(!derived::candidate_phases()
+        .iter()
+        .any(|phase| phase.species == "Cu2O"));
+    // Cu(II) oxide passes aqueous composition admission, but its separate
+    // activity-domain refusal is retained. Admission is not domain validation.
+    assert_eq!(
+        derived::routed_phase_for_solid("CuO", "wateq4f"),
+        Some("Tenorite")
+    );
+    let tenorite = crystallisation_route::route_row("CuO", "wateq4f");
+    assert_eq!(tenorite.class, "refused");
+    assert_eq!(tenorite.phase.as_deref(), Some("Tenorite"));
+    assert!(tenorite.reason.contains("ionic strength"));
+    assert!(!tenorite.reason.contains("component/oxidation-state"));
+    // A genuinely accepted companion keeps the positive route in scope.
+    assert_eq!(
+        crystallisation_route::route_row("BaSO4", "wateq4f").class,
+        "crystallises-with-priced-heat"
+    );
+    // A real absence retains the original, narrower explanation.
+    let missing = crystallisation_route::route_row("KNO3", "wateq4f");
+    assert_eq!(missing.class, "refused");
+    assert_eq!(missing.phase, None);
+    assert_eq!(
+        missing.reason,
+        "the routed database defines no phase for this solid"
+    );
+}
+
+#[test]
+fn separately_owned_metals_and_physical_forms_do_not_acquire_aqueous_admission() {
+    use kerotakis_phreeqc::derived;
+    for metal in ["Cu", "Ag", "Zn"] {
+        let refused = crystallisation_route::route_row(metal, "wateq4f");
+        assert_eq!(refused.class, "refused");
+        assert!(
+            refused.phase.is_some(),
+            "the database's real metal phase remains visible"
+        );
+        assert!(refused.reason.contains("electron-balanced displacement"));
+        assert!(derived::routed_phase_for_solid(metal, "wateq4f").is_none());
+    }
+    for physical_form in ["dry_ice", "PE"] {
+        let refused = crystallisation_route::route_row(physical_form, "wateq4f");
+        assert_eq!(refused.class, "refused");
+        assert!(refused.reason.contains("physical phase-owner rule"));
+        assert!(
+            !refused.reason.contains("condensed gas"),
+            "a formula-based exclusion must not turn a polymer repeat unit into a gas identity"
+        );
+        assert!(derived::routed_phase_for_solid(physical_form, "wateq4f").is_none());
+        assert!(!derived::candidate_phases()
+            .iter()
+            .any(|phase| phase.species == physical_form));
+    }
+}

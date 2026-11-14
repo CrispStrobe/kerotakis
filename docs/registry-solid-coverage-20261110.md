@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 137, declined 15, registry-solid 44, unbookable 385.
+Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 
 ## Matched registry solids
 
@@ -42,6 +42,7 @@ Counts: bookable-unclaimed 137, declined 15, registry-solid 44, unbookable 385.
 | `CaO` | CaO | minteq.v4:`Lime` |
 | `Cu` | Cu | minteq.v4:`Cumetal`, wateq4f:`CuMetal` |
 | `Cu(OH)2` | Cu(OH)2 | minteq.v4:`Cu(OH)2`, wateq4f:`Cu(OH)2` |
+| `Cu2O` | Cu2O | minteq.v4:`Cuprite`, wateq4f:`Cuprite` |
 | `CuO` | CuO | minteq.v4:`Tenorite`, wateq4f:`Tenorite` |
 | `CuSO4` | CuSO4 | minteq.v4:`CuSO4`, wateq4f:`CuSO4` |
 | `Fe(OH)2` | Fe(OH)2 | minteq.v4:`Fe(OH)2` |
@@ -114,7 +115,6 @@ Counts: bookable-unclaimed 137, declined 15, registry-solid 44, unbookable 385.
 | Cu0.9Cu0.2S | minteq.v4:`BlaubleiI`, wateq4f:`BlaubleiI` |
 | Cu2(OH)3Br | minteq.v4:`Cu2(OH)3Br` |
 | Cu2(OH)3NO3 | minteq.v4:`Cu2(OH)3NO3`, wateq4f:`Cu2(OH)3NO3` |
-| Cu2O | minteq.v4:`Cuprite`, wateq4f:`Cuprite` |
 | Cu2S | minteq.v4:`Chalcocite`, wateq4f:`Chalcocite` |
 | Cu2SO4 | minteq.v4:`Cu2SO4`, wateq4f:`Cu2SO4` |
 | Cu3(OH)2(CO3)2 | minteq.v4:`Azurite`, wateq4f:`Azurite` |

@@ -167,3 +167,24 @@ fn silver_nitrate_alone_deposits_none_of_the_new_silver_solids() {
         );
     }
 }
+
+#[test]
+fn cuprite_inventory_is_not_silently_oxidized_into_aqueous_copper_ii() {
+    let (bench, events) = run(&[WATER, ("Cu2O", 0.01)]);
+    assert!(
+        (solid_in_vessel(&bench, "Cu2O") - 0.01).abs() < 1e-12,
+        "{events:?}"
+    );
+    assert!(bench.vessels[0].moles_of(&SpeciesId::new("Cu+2")).0 < 1e-12);
+    assert!(bench.vessels[0].moles_of(&SpeciesId::new("CuO")).0 < 1e-12);
+}
+
+#[test]
+fn copper_ii_sulfate_without_a_reductant_does_not_precipitate_cuprite() {
+    let (bench, events) = run(&[WATER, ("CuSO4", 0.01)]);
+    assert!(precipitated(&events, "Cu2O") < 1e-12, "{events:?}");
+    assert!(solid_in_vessel(&bench, "Cu2O") < 1e-12);
+    assert!(!kerotakis_phreeqc::derived::candidate_phases()
+        .iter()
+        .any(|p| p.species == "Cu2O"));
+}

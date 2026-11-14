@@ -302,9 +302,10 @@
     "spectrum_bands": null,
     "standard_phase": "liquid",
     "transitions": {
+      "boiling_k": 423.35,
       "boundary": "the boiling point is the pure liquid's; concentrated hydrogen peroxide decomposes well before reaching it, and that decomposition is not modelled by this row",
       "melting_k": 271.2,
-      "source": "Melting point 271.2 K (-2.0 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 2-1, printed page 539. Boiling point: the table gives vaporization only at 2.1 mm Hg and 298.16 K (H2O2 decomposes on heating), no normal boiling point, and none is claimed."
+      "source": "Melting point 271.2 K (-2.0 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 2-1, printed page 539. Normal boiling point 423.35 K (150.2 degrees Celsius, 100.00 wt% H2O2 at 760 mm Hg): W. C. Schumb et al. (MIT), 'Hydrogen Peroxide', Part 2, ch. 5 'Physical Properties', Office of Naval Research report (1953), DTIC AD0022243 (archive.org scan), a report prepared for the United States Government and approved for public release; the boiling-point table value is derived from the vapour-pressure equation of G. Scatchard, G. M. Kavanagh and L. B. Ticknor, 'Vapor-Liquid Equilibrium. VIII. Hydrogen Peroxide-Water Mixtures', J. Am. Chem. Soc. 74 (1952) 3715-3720, doi:10.1021/ja01135a001. It is an EXTRAPOLATED value: concentrated H2O2 decomposes well before it boils. NBS Circular 500 Table 2-1 gives vaporization only at 2.1 mm Hg and 298.16 K."
     }
   },
   {
@@ -530,7 +531,12 @@
     "name": "sulfur dioxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g), density at STP: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 263.14,
+      "melting_k": 197.68,
+      "source": "melting 197.68 K, boiling 263.14 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-1 Sulfur, printed p. 552; read from the page image, archive.org circularofbureau500ross (leaf n559) Printed entry: SO2 Fusion 197.68 K (-75.48 C) at 1.256 mmHg; Vaporization 760 mmHg 263.14 K (-10.02 C)."
+    }
   },
   {
     "appearance": "white",
@@ -595,7 +601,12 @@
     "name": "slaked lime (calcium hydroxide)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, enthalpy of solution: standard reference values. Solubility and speciation computed by PHREEQC (Portlandite in wateq4f.dat/minteq.v4.dat)",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "temperature at which the equilibrium water pressure over Ca(OH)2/CaO reaches one atmosphere",
+      "decomposition_k": 785.15,
+      "source": "decomposition 785.15 K (confidence M): P. E. Halstead and A. E. Moore, 'The thermal dissociation of calcium hydroxide', J. Chem. Soc. (1957) 3873, doi:10.1039/JR9570003873 (DOI metadata checked via Crossref), value as quoted by Wikipedia 'Calcium hydroxide' (https://en.wikipedia.org/w/index.php?title=Calcium_hydroxide&action=raw, read 2026-11-11): the water dissociation pressure reaches 101 kPa at 512 C. The paper itself was not read."
+    }
   },
   {
     "appearance": "pale blue",
@@ -805,7 +816,11 @@
     "name": "sulfuric acid",
     "provenance": "M from IUPAC/CIAAW atomic weights on the same basis as the other sulfates here (S 32.065, O 15.9994); modelled as concentrated aqueous acid, as HCl is. Dilution heat NOT curated, and for this acid that is a real omission rather than a rounding one: diluting concentrated sulfuric acid releases roughly 95 kJ/mol, which is the whole reason for 'add acid to water'. The bench will not warm the beaker, so it cannot teach that lesson yet",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "melting_k": 283.51,
+      "source": "melting 283.51 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-2 Sulfur, printed p. 553; read from the page image, archive.org circularofbureau500ross (leaf n560). No normal boiling point tabulated; 337 C (azeotrope, decomposes) retained from CRC 95th ed. p. 4-85 as quoted by Wikipedia 'Sulfuric acid'. Printed entry: H2SO4 Fusion c->liq 283.51 K (10.35 C). No normal boiling point is tabulated (the acid decomposes/forms an azeotrope); the handbook 337 C value has no primary and is not claimed."
+    }
   },
   {
     "appearance": "white",
@@ -903,7 +918,7 @@
   {
     "appearance": "colourless, sharp smell",
     "colour": null,
-    "density": 0.91,
+    "density": 0.898,
     "dissolution_enthalpy_kj": null,
     "dissolves_without_speciation": false,
     "flame_colour": null,
@@ -1057,7 +1072,12 @@
     "name": "chlorine gas",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 239.1,
+      "melting_k": 172.16,
+      "source": "melting 172.16 K, boiling 239.1 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 10-1 Chlorine, printed p. 549; read from the page image, archive.org circularofbureau500ross (leaf n556) Printed entry: Cl2 Fusion c->liq 172.16 K; Vaporization liq->g 760 mmHg 239.10 K."
+    }
   },
   {
     "appearance": "colourless, vinegar smell",
@@ -1143,7 +1163,12 @@
     "name": "baking soda (sodium bicarbonate)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "slow onset; the conversion is fast only above about 100 C",
+      "decomposition_k": 323.15,
+      "source": "decomposition onset 323.15 K (confidence L-M; cited primary as quoted by Wikipedia, marked as such): G. C. Pasquali, R. Bettini and F. Giordano, 'Thermal behaviour of diclofenac, diclofenac sodium and sodium bicarbonate compositions', J. Therm. Anal. Calorim. 90 (2007) 903-907, doi:10.1007/s10973-006-8182-1 (DOI metadata checked via Crossref), value as quoted by Wikipedia 'Sodium bicarbonate' (https://en.wikipedia.org/w/index.php?title=Sodium_bicarbonate&action=raw, read 2026-11-11): decomposes to sodium carbonate starting at 50 C (slow onset; fast above about 100 C). The paper itself was not read."
+    }
   },
   {
     "appearance": "white",
@@ -1296,7 +1321,11 @@
     "name": "carbon dioxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "source": "sublimation 194.68 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Printed entry: CO2 Sublimation c->g 760 mmHg 194.68 K (-78.48 C); Fusion 217.0 K (-56.2 C, at the triple point, above 1 atm).",
+      "sublimation_k": 194.68
+    }
   },
   {
     "appearance": null,
@@ -1557,7 +1586,12 @@
     "name": "gypsum (calcium sulfate dihydrate)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "water is all gone by 180 C at 1 C/min (soluble anhydrite); most of it leaves near 110 C, and slower or faster heating moves both",
+      "dehydration_k": 453.15,
+      "source": "dehydration to anhydrous CaSO4 (soluble anhydrite) at 453.15 K (confidence M, heating-rate dependent; this field means all crystal water driven off, as for epsomite): 'Geochemical Transformations of Gypsum Under Multiple Environmental Settings', ACS Earth Space Chem. (2025), doi:10.1021/acsearthspacechem.4c00137 (open access, PMC11931525, full text read 2026-11-11), TGA at 1 C/min under N2: 'the largest amount of water was released at 110 C'; 'gypsum transformed to soluble anhydrite at 180 C' (the paper cites a literature range of about 100-130 C for structural water loss)."
+    }
   },
   {
     "appearance": null,
@@ -2257,7 +2291,11 @@
     "name": "carbon (charcoal)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s, graphite), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "source": "sublimation 4620 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Charcoal/graphite oxidise in air far below this. Printed entry: C Sublimation c,graphite -> equilibrium gas, 760 mmHg, 4620 K (4347 C). Charcoal and graphite oxidise in air far below this.",
+      "sublimation_k": 4620.0
+    }
   },
   {
     "appearance": "colourless",
@@ -2331,7 +2369,12 @@
     "name": "oxygen",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 90.19,
+      "melting_k": 54.4,
+      "source": "melting 54.4 K, boiling 90.19 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 1-1 Oxygen, printed p. 538; read from the page image, archive.org circularofbureau500ross (leaf n545) (read from coordinate-reconstructed OCR rows of the page) Printed entry: O2 Fusion 54.40 K (-218.76 C); Vaporization 760 mmHg 90.19 K (-182.97 C)."
+    }
   },
   {
     "appearance": "colourless",
@@ -2405,7 +2448,12 @@
     "name": "nitrogen",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 77.34,
+      "melting_k": 63.15,
+      "source": "melting 63.15 K, boiling 77.34 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 18-1 Nitrogen, printed p. 561; read from the page image, archive.org circularofbureau500ross (leaf n568) Printed entry: N2 Fusion c,I->liq 63.15 K (94 mmHg); Vaporization 760 mmHg 77.34 K."
+    }
   },
   {
     "appearance": "white when dry",
@@ -2697,22 +2745,22 @@
     "magnetic": false,
     "molar_mass": 118.934,
     "name": "permanganate ion",
-    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of MnO4- (ε ≈ 2400 L/mol/cm at 525 nm) — visible at 1e-5 M, which is why it is the classic titration indicator",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of MnO4- (ε = 3340 L/mol/cm at 525 nm: McBeath, Wilkinson & Graham, Chemosphere 251 (2020) 126626, doi:10.1016/j.chemosphere.2020.126626, as quoted by Heliyon 2023, PMC9958420; band shape kept, curve scaled from the earlier 2400 teaching value) — visible at 1e-5 M, which is why it is the classic titration indicator",
     "spectrum_bands": [
-      0.000621,
-      0.085457,
-      4.96805,
-      102.162632,
-      707.86632,
-      1827.543368,
-      2400.0,
-      2221.552939,
-      1413.578982,
-      488.459382,
-      68.566424,
-      3.225492,
-      0.046863,
-      0.000205,
+      0.000864,
+      0.118928,
+      6.91387,
+      142.17633,
+      985.113962,
+      2543.331187,
+      3340.0,
+      3091.661173,
+      1967.23075,
+      679.77264,
+      95.421607,
+      4.48881,
+      0.065218,
+      0.000285,
       0.0,
       0.0
     ],
@@ -2900,7 +2948,12 @@
     "name": "hydrogen",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 20.39,
+      "melting_k": 13.96,
+      "source": "melting 13.96 K, boiling 20.39 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 2-1 Hydrogen, printed p. 539; read from the page image, archive.org circularofbureau500ross (leaf n546) (read from OCR rows; Table 2a-1 for 1H2 gives the same) Printed entry: H2 Fusion 13.96 K (-259.20 C, 54.0 mmHg); Vaporization 760 mmHg 20.39 K (-252.77 C)."
+    }
   },
   {
     "appearance": "dull grey",
@@ -3402,7 +3455,11 @@
     "name": "potassium iodate",
     "provenance": "CRC Handbook, 97th ed.; Merck Index 15th ed.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 833.0,
+      "source": "melting 833 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 93-3 Potassium, printed p. 805; read from the page image, archive.org circularofbureau500ross (leaf n812) Listed as fusion; decomposes with O2 loss near this temperature. Printed entry: KIO3 Fusion c->liq 833 K (560 C). Listed as fusion; the salt loses oxygen near this temperature."
+    }
   },
   {
     "appearance": "white powder",
@@ -3442,7 +3499,11 @@
     "name": "sodium bisulfate",
     "provenance": "CRC Handbook, 97th ed.; Merck Index 15th ed.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 455.0,
+      "source": "melting 455 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 92-3 Sodium, printed p. 798; read from the page image, archive.org circularofbureau500ross (leaf n805) Supersedes the 315 C Wikipedia value. Printed entry: NaHSO4 Fusion c->liq 455 K (182 C). Supersedes the 315 C (588 K) handbook value."
+    }
   },
   {
     "appearance": "translucent white plastic",
@@ -4051,7 +4112,12 @@
     "name": "hydrogen bromide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g) NIST-JANAF; density at STP, CRC Handbook 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 206.43,
+      "melting_k": 186.28,
+      "source": "melting 186.28 K, boiling 206.43 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 11-1 Bromine, printed p. 550; read from the page image, archive.org circularofbureau500ross (leaf n557) Printed entry: HBr Fusion 186.28 K (-86.82 C); Vaporization 760 mmHg 206.43 K (-66.73 C)."
+    }
   },
   {
     "appearance": "white",
@@ -4121,7 +4187,12 @@
     "name": "ethene",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g) NIST-JANAF; density at STP, CRC Handbook 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 169.45,
+      "melting_k": 103.97,
+      "source": "melting 103.97 K, boiling 169.45 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-15 Carbon, printed p. 599; read from the page image, archive.org circularofbureau500ross (leaf n606) Printed entry: C2H4 ethene Fusion 103.97 K (0.9 mmHg); Vaporization 760 mmHg 169.45 K (-103.71 C)."
+    }
   },
   {
     "appearance": "colourless",
@@ -4141,7 +4212,12 @@
     "name": "2-methylpropene",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g) NIST-JANAF; density at STP, CRC Handbook 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 266.7,
+      "melting_k": 132.45,
+      "source": "melting 132.45 K, boiling 266.7 K (confidence M, named primary as quoted by NIST): Tfus: Kistiakowsky, Ruhoff et al. (1935); Tboil: NIST average of 25 of 28 values; NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C115117&Mask=4, read 2026-11-11. Values read: Tfus 132.45 K; Tboil 266.7 +/- 0.7 K. Primary papers not re-read."
+    }
   },
   {
     "appearance": "colourless",
@@ -4187,7 +4263,12 @@
     "name": "2-bromo-2-methylpropane",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) estimated from group-contribution (Joback); density at 20 °C, CRC Handbook 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 346.4,
+      "melting_k": 256.95,
+      "source": "melting 256.95 K, boiling 346.4 K (confidence M, named primary as quoted by NIST): Tfus: Timmermans (1952); Tboil: Majer and Svoboda (1985); as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C507197&Mask=4, read 2026-11-11. Values read: Tfus 256.95 K; Tboil 346.4 K. Primary papers not re-read."
+    }
   },
   {
     "appearance": "colourless",
@@ -4433,7 +4514,11 @@
     "name": "silicon dioxide (quartz)",
     "provenance": "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1883.0,
+      "source": "melting 1883 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 24-1 Silicon, printed p. 629; read from the page image, archive.org circularofbureau500ross (leaf n636) Quartz I -> tridymite at 1140 K first under equilibrium; value is metastable quartz fusion. Cristobalite fusion 2001 K. Printed entry: SiO2 Fusion quartz,c,I->liq 1883 K (1610 C); Fusion cristobalite,I->liq 2001 K (1728 C); no boiling tabulated. Quartz fusion (metastable; quartz converts to tridymite at 1140 K first under equilibrium); cristobalite fuses at 2001 K."
+    }
   },
   {
     "appearance": "white",
@@ -4650,7 +4735,11 @@
     "name": "barium hydroxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 101.6 J/(mol.K) and density 4.495 g/mL for the anhydrous solid at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Soluble barium is acutely toxic and the solution is strongly alkaline; this is a virtual-lab reagent and never a household supply. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 681.0,
+      "source": "melting 681 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 89-1 Barium, printed p. 787; read from the page image, archive.org circularofbureau500ross (leaf n794) Printed entry: Ba(OH)2 Fusion c->liq 681 K (408 C)."
+    }
   },
   {
     "appearance": "colourless",
@@ -4722,7 +4811,11 @@
     "name": "oxalic acid",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 91.0 J/(mol.K) for the anhydrous acid: CRC Handbook of Chemistry and Physics, 97th ed.; density 1.90 g/mL (anhydrous, 17 C): GESTIS Substance Database, IFA; aqueous solubility 11.8 g/100 mL at 25 C: Apelblat and Manzurola, J. Chem. Thermodyn. 19 (1987) 317-320. No PHREEQC database this lab ships speciates oxalate, so the acid dissolves without speciation: its pKa1 1.25 and pKa2 4.28 are NOT modelled and it contributes nothing to pH or ionic strength. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 464.45,
+      "source": "melting 464.45 K (confidence M, named primary as quoted by NIST): Tfus: Wilhoit and Shiao (1964), J. Chem. Eng. Data 9, 595, as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C144627&Mask=4, read 2026-11-11. Anhydrous acid; decomposes/sublimes near melting (WP). Cross-check: NBS Circular 500 (Rossini, Wagman, Evans, Levine, Jaffe, 1952), Series II 'Heat, temperature, and entropy of transition, fusion, and vaporization', Table 23-15 Carbon, printed p. 599; read from the page image, archive.org circularofbureau500ross (leaf n606) lists only sublimation at 373 K under 0.35 mmHg (not 1 atm). Values read: Tfus 464.45 K (unc 1.5 K). Primary papers not re-read."
+    }
   },
   {
     "appearance": "deep blue crystals",
@@ -4773,7 +4866,11 @@
     "name": "D-glucose (dextrose)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density 1.544 g/mL at 25 C and aqueous solubility 90.9 g/100 mL water at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Solid molar heat capacity 236.6 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement. The substance modelled is D-glucose in its pyranose ring form, and the physical properties above are D-glucose's. The curated SMILES and official-library InChIKey carry the D configuration while deliberately leaving the anomeric centre unspecified, so identity distinguishes D- from L-glucose without pretending to choose the alpha or beta anomer. The key is not asserted; it is what the official IUPAC library computes. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 423.0,
+      "source": "melting 423 K (confidence M, named primary as quoted by NIST): Tfus (alpha-D, hot stage): Kofler and Sitte (1950), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C50997&Mask=4, read 2026-11-11; Parks and Thomas (1934) 414 K. WP: alpha 146 C, beta 150 C. Caramelises/decomposes; no boiling. Values read: Tfus 423 K (unc 3 K). Primary papers not re-read."
+    }
   },
   {
     "appearance": "white crystalline powder",
@@ -4815,7 +4912,11 @@
     "name": "malic acid",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density 1.601 g/mL at 25 C and aqueous solubility 55.8 g/100 mL water at 20 C: CRC Handbook of Chemistry and Physics, 97th ed. Solid molar heat capacity 156.0 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement. Stereochemistry is deliberately not carried: fruit malic acid is the L-(-) enantiomer and food-grade malic acid is the DL racemate, and this record asserts neither. ACIDITY IS NOT MODELLED: no shipped PHREEQC database defines a malate species, so this acid enters solution as a finite neutral solute and its two carboxylic protons are absent from any computed pH. The engine says so out loud rather than reporting a silently neutral solution. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 400.75,
+      "source": "melting 400.75 K (confidence M, named primary as quoted by NIST): Tfus (DL-malic): Wilhoit and Shiao (1964), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C6915157&Mask=4, read 2026-11-11. WP: 130 C. Values read: Tfus 400.75 K. Primary papers not re-read."
+    }
   },
   {
     "appearance": "colourless, syrupy",
@@ -4835,7 +4936,11 @@
     "name": "lactic acid",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights. Density 1.209 g/mL at 20 C for the neat syrupy acid: CRC Handbook of Chemistry and Physics, 97th ed. Molar heat capacity 118.3 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement, and Kopp's rule is a solid-state additivity applied here to a liquid, which is a second approximation stated rather than hidden. NO INCHIKEY IS ASSERTED: writing one means choosing a stereochemistry, and fermentation lactic acid is a mixture of the L-(+) and D-(-) forms in proportions that depend on which organism made it, so this record claims neither. Aqueous solubility is not entered because the acid is miscible with water in all proportions and a finite g/100 mL would be a false ceiling. ACIDITY USED TO BE UNMODELLED, and the sentence that said so is struck through here rather than deleted. STRUCK, NO LONGER TRUE: `none of the three databases this lab loads defines a lactate species - wateq4f, minteq.v4 and pitzer were searched by name, and the only vendored file that carries Lactate is llnl-organics, which is not among them - so this acid enters solution as a finite neutral solute and its carboxylic proton is absent from any computed pH. The engine says so out loud rather than reporting a silently neutral solution`. The search behind it was correct and its conclusion expired on 2026-09-06: llnl-organics was never loaded, but in #448 one constant was BORROWED from it. ACIDITY IS MODELLED TODAY. databases::minteq_v4() is minteq.v4.dat plus LACTATE_EXTENSION, which adds the master species and the protonation `H+ + Lactate- = H(Lactate)  log_k 3.8629` - pKa 3.86, this acid's measured value - before the file's trailing END, where PHREEQC will actually read it. A solved vessel therefore splits this acid against `lactate` at that pKa and the carboxylic proton is in the pH; this acid is no longer on derived::UNSPECIATED_ACIDS and the unspeciated-acid note no longer fires for it. NO ENTHALPY IS BORROWED WITH THE LOG K, deliberately: llnl-organics' -delta_h +164.070 kcal/mol for that reaction is LLNL's formation-from-basis convention, not a dissociation enthalpy, and carrying it across would have handed the heat balance a number three orders of magnitude wrong, so a step that moves lactate declines its heat by name instead. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "melting_k": 290.0,
+      "source": "melting 290 K (confidence M, named primary as quoted by NIST): Ttriple: Wilhoit, Chao et al. (1985), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C50215&Mask=4, read 2026-11-11 (DL). Normal boiling not defined (WP: 122 C at 15 mmHg; dehydrates/oligomerises). Values read: Ttriple 290 K (unc 0.2 K). Primary papers not re-read."
+    }
   },
   {
     "appearance": "white crystalline powder",
@@ -4855,7 +4960,11 @@
     "name": "citric acid",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density 1.665 g/mL at 25 C (anhydrous) and aqueous solubility 59.2 g/100 mL water at 20 C: CRC Handbook of Chemistry and Physics, 97th ed. Solid molar heat capacity 219.8 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement. ACIDITY IS MODELLED: minteq.v4 is the only shipped database that defines a Citrate master species, and it carries all three protonation constants, so a citric-acid solution computes its own pH from the database rather than being told one. The quoted solubility is provenance only: the speciated route and the finite neutral-solute route are mutually exclusive in this engine, so this dissolution is not amount-limited. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 427.15,
+      "source": "melting 427.15 K (confidence M, named primary as quoted by NIST): Tfus: Wilhoit and Shiao (1964), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C77929&Mask=4, read 2026-11-11. The 175 C decomposition value has no primary (chemister.ru via Wikipedia) and is not claimed. Values read: Tfus 427.15 K. Primary papers not re-read."
+    }
   },
   {
     "appearance": null,
@@ -4989,7 +5098,11 @@
     "name": "sodium tetraborate (borax)",
     "provenance": "Anhydrous sodium tetraborate as the formula unit. Household borax is the decahydrate; the ten waters are not carried here, so a dose given in grams of this species is grams of the anhydrous salt rather than of the box. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and the Kopp's-rule heat capacity are explicit teaching approximations. Borate speciation IS modelled - the sentence that used to stand here said `no shipped database is asked for it`, which was true about this lab's wiring and shipped as a claim about the databases. wateq4f.dat line 16 and minteq.v4.dat line 17 both define the element as `B  H3BO3`, both carry `H3BO3 = H2BO3- + H+` (log_k -9.24 and -9.236) and minteq adds the polyborates, the Na/Mg/Ca/Sr/Ba/Ag borate pairs and Hfo sorption; pitzer spells the same element `B  B(OH)3`. What this SALT does not do is hand its dissolved part to the engine, and the reason is the two solubilities above it: an aqueous role is phase-blind, so it would enter the crystals on the bottom of the beaker into solution together with the part that dissolved, and no dataset this lab routes spells a sodium borate solid that could bound it instead (minteq.v4 and wateq4f have Pb, Zn, Cd and Co metaborates between them and nothing more). The curated bound is therefore the only bound there is, this dissolves without contributing to pH or ionic strength, and the bench says so",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1015.0,
+      "source": "melting 1015 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 92-7 Sodium, printed p. 802; read from the page image, archive.org circularofbureau500ross (leaf n809) (Na2O.2B2O3 = Na2B4O7). Boiling 1575 C remains CRC-via-Wikipedia (L). Printed entry: Na2O.2B2O3 Fusion c,I->liq 1015 K (742 C). Tabulated as Na2O.2B2O3. The handbook 1575 C boiling point has no primary and is not claimed."
+    }
   },
   {
     "appearance": "off-white",
@@ -5039,7 +5152,12 @@
     "name": "atacamite (green copper corrosion)",
     "provenance": "Atacamite Cu2Cl(OH)3, the green corrosion product of copper in the presence of chloride, added so the aqueous engine has something to precipitate where minteq.v4 already computes the solution to be supersaturated against it. Molar mass 213.566 g/mol from IUPAC/CIAAW 2021 atomic weights; density 3.76 g/mL and the green appearance are standard mineralogical values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No thermodynamic constant is asserted here: the phase is defined by the shipped database and matched to this species by composition",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 473.15,
+      "source": "decomposition 473.15 K (confidence H): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, vol. 1 (National Research Council / McGraw-Hill, 1926), a 1926 publication now in the public domain in the United States (no doi); read from the page image, archive.org international-critical-tables_1926_1: table of inorganic compounds and minerals, p. 122, index 944 (leaf n143). Printed entry: 3CuO.CuCl2.3H2O, Atacamite, M.P. 'd. 200' (decomposes at 200 C; paratacamite, index 945, likewise)."
+    }
   },
   {
     "appearance": "green",
@@ -5064,7 +5182,12 @@
     "name": "brochantite (green copper patina)",
     "provenance": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 693.15,
+      "source": "decomposition (end of dehydroxylation) 693.15 K (confidence M, stepwise and rate dependent): 'Surface Chemistry Aspects of Ion Exchange in Basic Copper Salts', Molecules 30 (2025) 21, doi:10.3390/molecules30010021 (open access, PMC11721559, full text read 2026-11-11), TGA at 1 K/min under N2: 'Brochantite lost 12.33% of its mass between 50 and 420 C and 17.39% of its mass between 520 and 670 C' (SO3 loss)."
+    }
   },
   {
     "appearance": "green",
@@ -5139,7 +5262,11 @@
     "name": "ammonium nitrate",
     "provenance": "ammonium nitrate: the cold-pack salt: dissolving it is strongly endothermic, which is the whole of an instant cold pack. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and appearance are standard reference values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. The enthalpy of dissolution, +25.7 kJ/mol, is the number the cold pack is for: one of the most strongly endothermic dissolutions a kitchen can produce, and the reason the pack goes cold rather than merely failing to warm.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 442.8,
+      "source": "melting 442.8 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 18-4 Nitrogen, printed p. 564; read from the page image, archive.org circularofbureau500ross (leaf n571) No decomposition temperature tabulated (the unsourced ~210 C Wikipedia value is dropped). Printed entry: NH4NO3 Fusion c,I->liq 760 mmHg 442.8 K (169.6 C). No decomposition temperature is tabulated and none is claimed."
+    }
   },
   {
     "appearance": "grey-black",
@@ -5170,7 +5297,11 @@
     "name": "graphite",
     "provenance": "graphite: the layered allotrope of carbon — soft, opaque, and the one in a pencil. Separate from the registry's charcoal carbon and from diamond because the point of comparing them is that one element gives three different solids. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and appearance are standard reference values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "source": "sublimation 4620 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Charcoal/graphite oxidise in air far below this. Printed entry: C Sublimation c,graphite -> equilibrium gas, 760 mmHg, 4620 K (4347 C). Charcoal and graphite oxidise in air far below this.",
+      "sublimation_k": 4620.0
+    }
   },
   {
     "appearance": "colourless",
@@ -5255,7 +5386,12 @@
     "name": "methane",
     "provenance": "methane, the simplest alkane and the main component of natural gas. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 35.7 J/(mol.K) at 298 K: standard reference values. The NASA CEA record this species matches by composition is what makes it burn; density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number. Odour is not modelled: the smell of a gas leak is the added odorant, not the methane.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 111.67,
+      "melting_k": 90.68,
+      "source": "melting 90.68 K, boiling 111.67 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Printed entry: CH4 Fusion 90.68 K (87.7 mmHg); Vaporization 760 mmHg 111.67 K (-161.49 C)."
+    }
   },
   {
     "appearance": "colourless",
@@ -5314,7 +5450,12 @@
     "name": "propane",
     "provenance": "propane, the bottled-gas alkane. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 73.6 J/(mol.K) at 298 K: standard reference values. It is entered as the gas because that is the phase it burns in; the liquid under pressure inside the bottle is a state this bench does not hold, so nothing here describes a cylinder. density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 231.1,
+      "melting_k": 85.46,
+      "source": "melting 85.46 K, boiling 231.1 K (confidence M, named primary as quoted by NIST): Tfus: Klipping and Schmidt (1965); Tboil: NIST average of 17 of 21 values; NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C74986&Mask=4, read 2026-11-11. Values read: Tfus 85.46 K; Tboil 231.1 +/- 0.2 K AVG. Primary papers not re-read."
+    }
   },
   {
     "appearance": "colourless",
@@ -5373,7 +5514,12 @@
     "name": "butane",
     "provenance": "butane, the lighter-fuel alkane, as n-butane. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 98.5 J/(mol.K) at 298 K for n-butane: standard reference values. Isobutane has the same formula and is a different substance with its own boiling point; this record is the straight chain and does not distinguish the two, so a composition match may reach either isomer's thermochemistry. density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 273.0,
+      "melting_k": 134.6,
+      "source": "melting 134.6 K, boiling 273 K (confidence M, named primary as quoted by NIST): NIST averages (Ttriple of 6 values; Tboil of 33 values), NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C106978&Mask=4, read 2026-11-11. Values read: Ttriple 134.6 +/- 0.7 K; Tboil 273 +/- 1 K. Primary papers not re-read."
+    }
   },
   {
     "appearance": "colourless",
@@ -5440,7 +5586,12 @@
     "name": "hydrogen sulfide",
     "provenance": "hydrogen sulfide, the gas that tarnishes silver and that a rotten egg smells of. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 34.2 J/(mol.K) at 298 K: standard reference values. It is recorded as colourless because it is; the smell is the property that matters most about it in a room and this bench has no odour entry for it, so nothing in a run will warn a reader by nose. No sulfide solution chemistry is installed either: there is no S(-2) species on the shelf, so this gas dissolves into nothing and forms no metal sulfide. density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number.",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 212.82,
+      "melting_k": 187.63,
+      "source": "melting 187.63 K, boiling 212.82 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-2 Sulfur, printed p. 553; read from the page image, archive.org circularofbureau500ross (leaf n560) Printed entry: H2S Fusion c,I->liq 187.63 K; Vaporization 760 mmHg 212.82 K."
+    }
   },
   {
     "appearance": "green",
@@ -5510,7 +5661,11 @@
     "name": "uranium",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) and density are the standard reference room-temperature values for alpha-uranium. This entry exists so the bench can answer whether a block of uranium warms itself through its own decay (curiosity corpus th-122), and it is a metal on a ledger rather than a metal on a shelf: no acquisition, handling, storage or disposal claim is made or implied by its presence here. The block is modelled as pure U-238; natural uranium's specific activity is about twice this, because U-234 at roughly 54 ppm sits in secular equilibrium with U-238 and contributes almost as many decays again, and the 0.72% U-235 adds a little more. The L0 safety screen has no radiological class, so uranium is filed there by its chemistry alone - it is an active metal and displaces hydrogen from acid - which is wrong about the world in the same way the lead row already says it is, and is written down rather than hidden",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1405.0,
+      "source": "melting 1405 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 81-1 Uranium, printed p. 765; read from the page image, archive.org circularofbureau500ross (leaf n772) No boiling point tabulated; not in Zhang et al. 2011 data-page row; unsourced 4404 K dropped. Printed entry: U Fusion c,I->liq 1405 K (1132 C). No boiling point is tabulated and none is claimed."
+    }
   },
   {
     "appearance": "colourless",
@@ -5584,7 +5739,12 @@
     "name": "carbon monoxide",
     "provenance": "carbon monoxide, the product a flame makes when it runs short of air. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 29.1 J/(mol.K) at 298 K: standard reference values. It is here because two engines already named it and neither could weigh it: the gas mechanism packs deposit CO by name, and NASA CEA's equilibrium product pool is exactly the set this registry can name - so a rich flame had no carbon monoxide to make and dissociation above about 2000 K had nowhere to go. Adding the word is therefore a physics change and not only a vocabulary one, and the flames in this repository move because of it. density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number. What is NOT claimed here is the hazard a person meets: carbon monoxide is odourless and binds haemoglobin some two hundred times more tightly than oxygen does, and this bench has no odour entry for it, no inhalation model, and no safety group for a sparingly soluble acutely toxic gas",
     "spectrum_bands": null,
-    "standard_phase": "gas"
+    "standard_phase": "gas",
+    "transitions": {
+      "boiling_k": 81.66,
+      "melting_k": 68.1,
+      "source": "melting 68.1 K, boiling 81.66 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Printed entry: CO Fusion c,I->liq 68.10 K (115.3 mmHg); Vaporization 760 mmHg 81.66 K."
+    }
   },
   {
     "appearance": "colourless",
@@ -5985,7 +6145,11 @@
     "name": "beta-tricalcium phosphate",
     "provenance": "beta-tricalcium phosphate, Ca3(PO4)2, the mineral whitlockite's synthetic analogue and the phase minteq.v4.dat spells `Ca3(PO4)2(beta)`. It is here because it is the second of the three calcium phosphates a beaker of milk used to be told it was supersaturated against and could do nothing about. IDENTITY VERIFIED against PubChem CID 24456 on 2026-09-07 (PUG REST property record): title 'Tricalcium Phosphate', molecular formula Ca3O8P2, molecular weight 310.18, InChIKey QORWJWZARLRLPR-UHFFFAOYSA-H, IUPAC name tricalcium diphosphate. WHAT THAT IDENTIFIER DOES NOT SAY, stated rather than glossed over: an InChIKey describes connectivity, protonation and charge, and not a crystal structure - so this key is shared by the alpha and beta polymorphs of tricalcium phosphate and by the amorphous form, and PubChem's record is the generic substance. The `(beta)` in this row's name is a claim about structure that the identifier cannot carry; what makes it the beta form here is the log K, which comes from minteq.v4.dat's own beta entry (Ca3(PO4)2 = 3 Ca+2 + 2 PO4-3, log_k -28.92, delta_h 54 kJ) and from nothing else. Molar mass 310.18 g/mol is PubChem's figure for CID 24456; the same arithmetic from IUPAC/CIAAW 2021 atomic weights gives 3 x 40.078 + 2 x 30.973762 + 8 x 15.999 = 310.174, and the difference is the last digit of the oxygen weight rather than a disagreement about the substance. DENSITY 3.07 g/mL RIDES A PENDING-REVIEW PROVENANCE LANE: it is the commonly tabulated room-temperature crystal density of the beta polymorph, no positively identified copy of a reference was opened for it, and it is flagged for reviewer confirmation - exactly as the phase-transition and resistivity tranches are. The alpha polymorph is the less dense one at about 2.86 g/mL and is deliberately not this row. HEAT CAPACITY 256.8 J/(mol.K) IS AN ESTIMATE: Kopp's rule over the standard atomic contributions, 3 x 26.0 (Ca) + 2 x 22.6 (P) + 8 x 16.7 (O) = 256.8, written out so it can be checked. It is about 13 % above the value commonly tabulated for beta-tricalcium phosphate near room temperature, which is the accuracy Kopp's rule is worth and is why the method is named rather than the number asserted. THE 1073.15 K KINETIC FLOOR IS EDITORIAL JUDGEMENT (Kerotakis) in the same lane as tenorite's 340 K, and it is the least equivocal of this registry's three such floors: beta-tricalcium phosphate is not a precipitate at all. It is made by calcining or sintering a calcium phosphate above roughly 800 degC, it converts to the alpha form above about 1125 degC, and no aqueous solution at bench temperature produces it however supersaturated it is - what such a solution gives is brushite, octacalcium phosphate or an amorphous precursor. Offering it as an equilibrium phase at 25 degC would have put a furnace product in a glass of milk. The floor is a stand-in for that rate, not a transition temperature. WHAT IS NOT CLAIMED: no enthalpy of dissolution (the database's delta_h is for the dissolution reaction as the database writes it, which is a different claim from a heat of solution in a beaker), no melting point, and no single-figure aqueous solubility.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 2003.0,
+      "source": "melting 2003 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 87-2 Calcium, printed p. 779; read from the page image, archive.org circularofbureau500ross (leaf n786) (3CaO.P2O5 = Ca3(PO4)2). Printed entry: 3CaO.P2O5 Transition c,II->c,I 1373 K (1100 C); Fusion c,I->liq 2003 K (1730 C). Tabulated as 3CaO.P2O5."
+    }
   },
   {
     "appearance": "white",
@@ -6170,7 +6334,12 @@
     "name": "silver bromide",
     "provenance": "silver bromide, AgBr: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Bromyrite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 66199 on 2026-11-10 (PUG REST property record): InChIKey ADZWSOLPGZMUMY-UHFFFAOYSA-M. Molar mass 187.772 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 107.8682 + 1 x 79.904 = 187.772). DENSITY 6.473 g/mL: the infobox of the English Wikipedia article `Silver bromide` (revision current on 2026-11-10), which attributes it to the CRC Handbook; PubChem CID 66199 carries no experimental density, so this value RIDES THE PENDING-REVIEW LANE and is flagged for reviewer confirmation. APPEARANCE `pale yellow`: PubChem CID 66199 Physical Description (Haz-Map, quoting the Merck Index): `Yellowish odorless solid; Darkened by light`; the reflective sRGB #F2E6B0 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 52.0 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ag) + 1 x 26.0 (Br) = 52.0, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1806.0,
+      "melting_k": 703.0,
+      "source": "melting 703 K, boiling 1806 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 35-1 Silver, printed p. 677; read from the page image, archive.org circularofbureau500ross (leaf n684) Printed entry: AgBr Transition 532 K; Fusion 703 K (430 C); Vaporization 760 mmHg 1806 K (1533 C)."
+    }
   },
   {
     "appearance": "pale yellow",
@@ -6195,7 +6364,12 @@
     "name": "silver iodide",
     "provenance": "silver iodide, AgI: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Iodyrite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24563 on 2026-11-10 (PUG REST property record): InChIKey MSFPLIAKTHOCQP-UHFFFAOYSA-M. Molar mass 234.773 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 107.8682 + 1 x 126.90447 = 234.773). DENSITY 5.67 g/mL: PubChem CID 24563 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 5.67. APPEARANCE `pale yellow`: PubChem CID 24563 Color/Form (HSDB): `Light yellow, powder; crystals are hexagonal or cubic`; the reflective sRGB #F0E08C is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 52.0 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ag) + 1 x 26.0 (I) = 52.0, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1777.0,
+      "melting_k": 831.0,
+      "source": "melting 831 K, boiling 1777 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 35-1 Silver, printed p. 677; read from the page image, archive.org circularofbureau500ross (leaf n684) Printed entry: AgI Transition 420 K; Fusion 831 K (558 C); Vaporization 760 mmHg 1777 K (1504 C)."
+    }
   },
   {
     "appearance": "pale yellow",
@@ -6245,7 +6419,11 @@
     "name": "silver phosphate",
     "provenance": "silver phosphate, Ag3PO4: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it under its formula, `Ag3PO4`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 159913 on 2026-11-10 (PUG REST property record): InChIKey FJOLTQXXWSRAIX-UHFFFAOYSA-K. Molar mass 418.574 g/mol from IUPAC/CIAAW 2021 standard atomic weights (3 x 107.8682 + 1 x 30.973762 + 4 x 15.999 = 418.574). DENSITY 6.37 g/mL: the infobox of the English Wikipedia article `Silver phosphate` (6.370 g/cm3, revision current on 2026-11-10); PubChem CID 159913 carries no experimental density, so this value RIDES THE PENDING-REVIEW LANE and is flagged for reviewer confirmation. APPEARANCE `yellow`: PubChem CID 159913 Physical Description (Haz-Map, quoting the Merck Index): `Yellow odorless solid; Darkened by light`; the reflective sRGB #E8D060 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 167.4 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 3 x 26.0 (Ag) + 1 x 22.6 (P) + 4 x 16.7 (O) = 167.4, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1122.0,
+      "source": "melting 1122 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 35-3 Silver, printed p. 679; read from the page image, archive.org circularofbureau500ross (leaf n686) Printed entry: Ag3PO4 Fusion c->liq 1122 K (849 C)."
+    }
   },
   {
     "appearance": "white",
@@ -6295,7 +6473,12 @@
     "name": "lead(II) carbonate",
     "provenance": "lead(II) carbonate, PbCO3: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Cerussite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 11727 on 2026-11-10 (PUG REST property record): InChIKey MFEVGQHCNVXMER-UHFFFAOYSA-L. Molar mass 267.208 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 1 x 12.011 + 3 x 15.999 = 267.208). DENSITY 6.582 g/mL: PubChem CID 11727 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 6.582 g/cu cm. APPEARANCE `white`: PubChem CID 11727 Color/Form (HSDB): `Colorless, rhombic crystals`; a precipitated powder of colourless crystals scatters white, which is the word the bench uses; the reflective sRGB #F8F8F6 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 83.6 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 1 x 7.5 (C) + 3 x 16.7 (O) = 83.6, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition onset read by the melting-point apparatus only; this bench does not run the decomposition reaction itself",
+      "decomposition_k": 588.15,
+      "source": "decomposition 588.15 K (confidence H): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, vol. 1 (National Research Council / McGraw-Hill, 1926), a 1926 publication now in the public domain in the United States (no doi); read from the page image, archive.org international-critical-tables_1926_1: table of inorganic compounds and minerals, p. 116, index 617 (leaf n137). Printed entry: PbCO3, Cerussite, M.P. 'd. 315'. Corroborated by a DSC of cerussite: 'Synthesis of Lead(II) Carbonate-Containing Nanoparticles Using Ultrasonication or Microwave Irradiation', ACS Omega (2024), doi:10.1021/acsomega.4c08839 (PMC11635499, full text read 2026-11-11): 'a principal endotherm at 315 C and a shoulder at 340 C'."
+    }
   },
   {
     "appearance": "white",
@@ -6320,7 +6503,11 @@
     "name": "lead(II) sulfate",
     "provenance": "lead(II) sulfate, PbSO4: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it as `Anglesite`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24008 on 2026-11-10 (PUG REST property record): InChIKey KEQXNNJHMWSZHK-UHFFFAOYSA-L. Molar mass 303.256 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 1 x 32.06 + 4 x 15.999 = 303.256). DENSITY 6.2 g/mL: PubChem CID 24008 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 6.2 g/cu cm. APPEARANCE `white`: PubChem CID 24008 Color/Form (HSDB): `White, heavy crystal powder`; the reflective sRGB #F8F8F6 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 115.4 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 1 x 22.6 (S) + 4 x 16.7 (O) = 115.4, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1360.0,
+      "source": "melting 1360 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 27-2 Lead, printed p. 654; read from the page image, archive.org circularofbureau500ross (leaf n661) Printed entry: PbSO4 Transition c,II->c,I 1139 K (866 C); Fusion c,I->liq 1360 K (1087 C)."
+    }
   },
   {
     "appearance": "yellow",
@@ -6345,6 +6532,97 @@
     "name": "lead(II) iodide",
     "provenance": "lead(II) iodide, PbI2: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it under its formula, `PbI2`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24931 on 2026-11-10 (PUG REST property record): InChIKey RQQRAHKHDFPBMC-UHFFFAOYSA-L. Molar mass 461.009 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 2 x 126.90447 = 461.009). DENSITY 6.16 g/mL: PubChem CID 24931 Experimental Properties > Density, attributed there to the Hazardous Substances Data Bank (HSDB): 6.16 g/cu cm. APPEARANCE `yellow`: PubChem CID 24931 Color/Form (HSDB): `Yellow hexagonal crystals`, `Bright yellow powder`; the reflective sRGB #F5D000 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 78.0 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 2 x 26.0 (I) = 78.0, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1145.0,
+      "melting_k": 685.0,
+      "source": "melting 685 K, boiling 1145 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 27-2 Lead, printed p. 654; read from the page image, archive.org circularofbureau500ross (leaf n661) Printed entry: PbI2 Fusion 685 K (412 C); Vaporization 760 mmHg 1145 K (872 C)."
+    }
+  },
+  {
+    "appearance": "red",
+    "colour": null,
+    "density": 6.14,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "Cu2O",
+    "heat_capacity": 62.714338179454096,
+    "heat_capacity_polys": [
+      {
+        "boundary": "Tabulated for 300 to 1516.7 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+        "intervals": [
+          {
+            "coefficients": [
+              694309.394,
+              -11072.06812,
+              70.0760082,
+              -0.1693010736,
+              0.0002296941394,
+              -1.193708373e-7,
+              0.0
+            ],
+            "form": "nasa9",
+            "reference": "Cu2O(cr): Crystal. King,1973 p60.",
+            "t_max": 600.0,
+            "t_min": 300.0
+          },
+          {
+            "coefficients": [
+              4899293.25,
+              -32267.6771,
+              92.4291324,
+              -0.1133053506,
+              0.0000888645846,
+              -3.91177959e-8,
+              8.17075314e-12
+            ],
+            "form": "nasa9",
+            "reference": "Cu2O(cr): Crystal. King,1973 p60.",
+            "t_max": 1516.7,
+            "t_min": 600.0
+          }
+        ],
+        "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu2O(cr) (2 temperature intervals), unchanged in value and in order",
+        "phase": "solid",
+        "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+      },
+      {
+        "boundary": "Tabulated for 1516.7 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+        "intervals": [
+          {
+            "coefficients": [
+              0.0,
+              0.0,
+              11.99819496,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "form": "nasa9",
+            "reference": "Cu2O(L): Liquid. King,1973 p60.",
+            "t_max": 6000.0,
+            "t_min": 1516.7
+          }
+        ],
+        "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu2O(L) (1 temperature interval), unchanged in value and in order",
+        "phase": "liquid",
+        "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+      }
+    ],
+    "inchikey": "KRFJLUBVMFXRPN-UHFFFAOYSA-N",
+    "key": "Cu2O",
+    "magnetic": false,
+    "molar_mass": 143.0914,
+    "name": "copper(I) oxide",
+    "provenance": "Copper(I) oxide (cuprite), Cu2O. Identity verified 2026-11-14 through PubChem PUG REST CID 10313194: InChIKey KRFJLUBVMFXRPN-UHFFFAOYSA-N, bis(copper(1+));oxygen(2-). Molar mass 143.0914 g/mol and heat-capacity polynomials are from the existing Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records, both citing King,1973 p60. The scalar Cp 62.714338179454096 J/(mol.K) is evaluated at the solid record lower endpoint 300 K and held down to room temperature by the existing core boundary model; it is not a measured 298.15 K value. Density 6.14 g/mL is the approximate conventional conversion of the reported specific gravity 6.14, not a temperature-resolved density measurement. Specific gravity and red appearance: J. Michael Howard, Mineral Species of Arkansas: A Digest, Arkansas Geological Commission Bulletin 23 (1987, revised 2007), printed p. 36, Cuprite entry, https://geology.arkansas.gov/docs/pdf/publication/bulletins/bulletin-23.pdf, opened 2026-11-14. This authored property record transcribes individual factual values and no source table, text or artwork. No solubility, dissolution enthalpy, aqueous Cu(I) chemistry, boiling temperature, or measured fusion heat is claimed. The aqueous oxide-valence guard must retain this Cu(I) oxide rather than booking it as Cu(II).",
+    "spectrum_bands": null,
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1516.7,
+      "source": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition."
+    }
   }
 ]

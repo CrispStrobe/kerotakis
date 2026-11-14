@@ -1,0 +1,7 @@
+# macOS native CI first failure — 2026-11-12
+
+The [macOS native job](https://github.com/CrispStrobe/kerotakis/actions/runs/43306467715/job/131491254341) failed on candidate `7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd` under Rust Clippy 1.100.0: `needless_range_loop` rejects indexing the solver vector from a range loop. The previous source-bound hosted validation used Rust 1.99.1 and passed. This is a compiler/lint compatibility failure; it does not establish a chemistry failure. The full original job log remains retained, with its SHA256 in `binding.json`. The successor must preserve owner indices, solver order and all controls, and pass changed-source validation without suppressing the lint.
+
+The source-bound Rust 1.100 focused core check then found a second `needless_range_loop` in `transport_feed_ledger.rs`; its [first compiler excerpt](transport-ledger-excerpt.txt) and [producer binding](transport-ledger-producer.json) are retained. The successor iterates the same required two-cell slice and retains every assertion. It needs its own changed-source validation.
+
+A subsequent workspace-wide Rust 1.100 `--keep-going` check found four more `needless_range_loop` diagnostics in three transport tests. Their [first excerpts](transport-workspace-excerpts.txt) and [producer binding](transport-workspace-producer.json) are preserved. The successor iterates the same bounded slices and retains the original indexing checks and assertions; changed-source validation is required.

@@ -1,0 +1,11 @@
+error[E0599]: no method named `is_some_and` found for enum `Result<T, E>` in the current scope
+   --> crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:760:38
+    |
+760 |         && bench.vessel(VesselId(0)).is_some_and(|vessel| {
+    |            --------------------------^^^^^^^^^^^
+    |
+help: there is a method `is_ok_and` with a similar name
+    |
+760 -         && bench.vessel(VesselId(0)).is_some_and(|vessel| {
+760 +         && bench.vessel(VesselId(0)).is_ok_and(|vessel| {
+    |

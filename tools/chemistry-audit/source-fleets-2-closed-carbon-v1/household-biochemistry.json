@@ -1,0 +1,241 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "household-biochemistry",
+  "cases": [
+    {
+      "id": "681-sugar-control-1",
+      "question": "Does a neutral household sugar remain a conductivity control?",
+      "script": "add v1 water 250mL\nadd v1 glucose 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "682-sugar-control-2",
+      "question": "Does a neutral household sugar remain a conductivity control?",
+      "script": "add v1 water 250mL\nadd v1 glucose 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "683-sugar-control-3",
+      "question": "Does a neutral household sugar remain a conductivity control?",
+      "script": "add v1 water 250mL\nadd v1 sucrose 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "684-sugar-control-4",
+      "question": "Does a neutral household sugar remain a conductivity control?",
+      "script": "add v1 water 250mL\nadd v1 sucrose 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "685-vinegar-dilution-50",
+      "question": "How does dilution move the measured pH of a fixed vinegar amount?",
+      "script": "add v1 water 50mL\nadd v1 white_vinegar_5_percent 10mL\nmeasure v1 ph"
+    },
+    {
+      "id": "686-vinegar-dilution-100",
+      "question": "How does dilution move the measured pH of a fixed vinegar amount?",
+      "script": "add v1 water 100mL\nadd v1 white_vinegar_5_percent 10mL\nmeasure v1 ph"
+    },
+    {
+      "id": "687-vinegar-dilution-200",
+      "question": "How does dilution move the measured pH of a fixed vinegar amount?",
+      "script": "add v1 water 200mL\nadd v1 white_vinegar_5_percent 10mL\nmeasure v1 ph"
+    },
+    {
+      "id": "688-vinegar-dilution-400",
+      "question": "How does dilution move the measured pH of a fixed vinegar amount?",
+      "script": "add v1 water 400mL\nadd v1 white_vinegar_5_percent 10mL\nmeasure v1 ph"
+    },
+    {
+      "id": "689-baking-soda-dose-1",
+      "question": "How does baking-soda dose shift a fixed vinegar mixture?",
+      "script": "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 1g\nmeasure v1 ph\ninspect v1"
+    },
+    {
+      "id": "690-baking-soda-dose-2",
+      "question": "How does baking-soda dose shift a fixed vinegar mixture?",
+      "script": "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 2g\nmeasure v1 ph\ninspect v1"
+    },
+    {
+      "id": "691-baking-soda-dose-3",
+      "question": "How does baking-soda dose shift a fixed vinegar mixture?",
+      "script": "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 3g\nmeasure v1 ph\ninspect v1"
+    },
+    {
+      "id": "692-baking-soda-dose-4",
+      "question": "How does baking-soda dose shift a fixed vinegar mixture?",
+      "script": "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 4g\nmeasure v1 ph\ninspect v1"
+    },
+    {
+      "id": "693-starch-then-iodine",
+      "question": "Does feed order change the elemental ledger of a starch-iodine test?",
+      "script": "add v1 water 200mL\nadd v1 starch 0.0004mol\nadd v1 lugol_solution_1_percent 1mL\ninspect v1"
+    },
+    {
+      "id": "694-iodine-then-starch",
+      "question": "Does reversing both feeds change the same test ledger?",
+      "script": "add v1 water 200mL\nadd v1 lugol_solution_1_percent 1mL\nadd v1 starch 0.0004mol\ninspect v1"
+    },
+    {
+      "id": "695-split-starch",
+      "question": "Does splitting starch delivery change the same test ledger?",
+      "script": "add v1 water 200mL\nadd v1 starch 0.0001mol\nadd v1 lugol_solution_1_percent 1mL\nadd v1 starch 0.0003mol\ninspect v1"
+    },
+    {
+      "id": "696-split-iodine",
+      "question": "Does splitting iodine delivery change the same test ledger?",
+      "script": "add v1 water 200mL\nadd v1 lugol_solution_1_percent 0.4mL\nadd v1 starch 0.0004mol\nadd v1 lugol_solution_1_percent 0.6mL\ninspect v1"
+    },
+    {
+      "id": "697-milk-then-acid",
+      "question": "Does feed order change the full ledger of acidified milk?",
+      "script": "add v1 milk 100mL\nadd v1 white_vinegar_5_percent 5mL\ninspect v1"
+    },
+    {
+      "id": "698-acid-then-milk",
+      "question": "Does reversing the feeds change the same acidified-milk ledger?",
+      "script": "add v1 white_vinegar_5_percent 5mL\nadd v1 milk 100mL\ninspect v1"
+    },
+    {
+      "id": "699-split-acid-milk",
+      "question": "Does splitting vinegar delivery change the same ledger?",
+      "script": "add v1 milk 100mL\nadd v1 white_vinegar_5_percent 2mL\nadd v1 white_vinegar_5_percent 3mL\ninspect v1"
+    },
+    {
+      "id": "700-split-milk-acid",
+      "question": "Does splitting milk delivery change the same ledger?",
+      "script": "add v1 milk 50mL\nadd v1 white_vinegar_5_percent 5mL\nadd v1 milk 50mL\ninspect v1"
+    },
+    {
+      "id": "701-lemon-dilution-25",
+      "question": "How does water dilution change lemon-juice acidity?",
+      "script": "add v1 water 25mL\nadd v1 lemon_juice 5mL\nmeasure v1 ph"
+    },
+    {
+      "id": "702-lemon-dilution-50",
+      "question": "How does water dilution change lemon-juice acidity?",
+      "script": "add v1 water 50mL\nadd v1 lemon_juice 5mL\nmeasure v1 ph"
+    },
+    {
+      "id": "703-lemon-dilution-100",
+      "question": "How does water dilution change lemon-juice acidity?",
+      "script": "add v1 water 100mL\nadd v1 lemon_juice 5mL\nmeasure v1 ph"
+    },
+    {
+      "id": "704-lemon-dilution-200",
+      "question": "How does water dilution change lemon-juice acidity?",
+      "script": "add v1 water 200mL\nadd v1 lemon_juice 5mL\nmeasure v1 ph"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v2b-household-biochemistry-sugar-conductivity",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "681-sugar-control-1",
+        "682-sugar-control-2",
+        "683-sugar-control-3",
+        "684-sugar-control-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 1e-06,
+        "rtol": 1e-05
+      }
+    },
+    {
+      "id": "v2b-household-biochemistry-vinegar-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "685-vinegar-dilution-50",
+        "686-vinegar-dilution-100",
+        "687-vinegar-dilution-200",
+        "688-vinegar-dilution-400"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.02
+      }
+    },
+    {
+      "id": "v2b-household-biochemistry-soda-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "689-baking-soda-dose-1",
+        "690-baking-soda-dose-2",
+        "691-baking-soda-dose-3",
+        "692-baking-soda-dose-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    },
+    {
+      "id": "v2b-household-biochemistry-starch-routes",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "693-starch-then-iodine",
+        "694-iodine-then-starch",
+        "695-split-starch",
+        "696-split-iodine"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "I",
+          "H",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v2b-household-biochemistry-milk-acid-routes",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "697-milk-then-acid",
+        "698-acid-then-milk",
+        "699-split-acid-milk",
+        "700-split-milk-acid"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v2b-household-biochemistry-lemon-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "701-lemon-dilution-25",
+        "702-lemon-dilution-50",
+        "703-lemon-dilution-100",
+        "704-lemon-dilution-200"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    }
+  ]
+}

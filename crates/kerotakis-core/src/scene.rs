@@ -165,6 +165,10 @@ pub struct SceneVessel {
     /// an open vessel's gas belongs to the room, not to it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub headspace_moles: Option<f64>,
+    /// Colour of that headspace from cited gas-phase cross sections
+    /// ([`crate::gas_colour`]); absent for an open vessel or colourless gas.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub headspace_colour: Option<crate::gas_colour::HeadspaceColour>,
     /// The temperature this vessel's liquid would boil at, K — its own
     /// pressure and its own dissolved particles already in it.
     ///
@@ -1643,6 +1647,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         headspace: v.headspace,
         headspace_volume_l: v.headspace_volume().map(|litres| litres.0),
         headspace_moles: v.headspace_volume().map(|_| v.gas_moles().0),
+        headspace_colour: crate::gas_colour::headspace_colour(v),
         boiling_point_k: boiling,
         melting_point_k: melting,
         temperature_k: v.temperature.0,

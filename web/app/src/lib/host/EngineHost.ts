@@ -91,6 +91,17 @@ export interface SceneVessel {
   headspace_volume_l?: number;
   headspace_moles?: number;
   /**
+   * Colour of that headspace from cited gas-phase cross sections (Cl2, Br2,
+   * I2 vapour, NO2, O3). Absent for an open vessel or only colourless gas;
+   * `srgb` is withheld when a present gas has no cited spectrum (`uncited`).
+   */
+  headspace_colour?: {
+    srgb?: [number, number, number];
+    path_cm: number;
+    gases: string[];
+    uncited?: string[];
+  };
+  /**
    * GUI-099. The plateau this vessel's liquid is actually held at, K — its
    * own pressure and its own dissolved particles already in it, so a vessel
    * SITTING at 350 K under a partial vacuum reads as boiling. Additive: an

@@ -1,0 +1,14 @@
+---- acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator stdout ----
+
+thread 'acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator' (15366) panicked at crates/kerotakis-cli/tests/perturbation.rs:241:5:
+an open beaker is held at the room's pCO2, whatever it is: 0.0033519360473825473 -> 0.003970308795760738
+
+---- baking_soda_alone_degasses_slowly_not_dramatically stdout ----
+
+thread 'baking_soda_alone_degasses_slowly_not_dramatically' (19224) panicked at crates/kerotakis-phreeqc/tests/carbonate.rs:99:5:
+open-vessel equilibrium releases a modest fraction (~23%), got 0.00005271281969613647 mol
+
+---- closed_bicarbonate_keeps_carbon_and_differs_from_an_open_beaker stdout ----
+
+thread 'closed_bicarbonate_keeps_carbon_and_differs_from_an_open_beaker' (19441) panicked at crates/kerotakis-phreeqc/tests/headspace.rs:167:5:
+retaining CO2 should keep bicarbonate less alkaline: sealed=8.268516354777, open=8.1159592205

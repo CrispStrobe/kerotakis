@@ -18,30 +18,30 @@
         "facts": []
       },
       {
-        "boiling-k": "373.15",
-        "temperature-k": "298.12",
+        "boiling-k": "373.17",
+        "temperature-k": "298.27",
         "vessel-id": "1",
         "label": "beaker v2: The liquid is deep purple and clear.",
         "liquids": [
           {
             "species": "solution",
-            "srgb": "35,0,93",
-            "volume-l": "0.109726"
+            "srgb": "60,0,51",
+            "volume-l": "0.109725"
           }
         ],
         "solids": [],
         "facts": []
       },
       {
-        "boiling-k": "373.28",
-        "temperature-k": "296.85",
+        "boiling-k": "373.34",
+        "temperature-k": "297.28",
         "vessel-id": "2",
         "label": "beaker v3: The liquid is blue and clear.",
         "liquids": [
           {
             "species": "solution",
-            "srgb": "0,0,168",
-            "volume-l": "0.110147"
+            "srgb": "8,0,164",
+            "volume-l": "0.110030"
           }
         ],
         "solids": [],

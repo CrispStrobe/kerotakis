@@ -11,11 +11,11 @@ yields less iodine to hexane than iodide-free water.
 
 | solute | pair | K_D | class | aqueous-only complex | complex source |
 |---|---|---|---|---|---|
-| I2 | hexane/water | 85.0 | free-solute | I3- (with I-, K = 698.0) | I2 + I- <=> I3-, K = 698 L/mol at 25 °C: Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374; only free I2 partitions, I3- stays in water |
+| I2 | hexane/water | 26.0 | free-solute | I3- (with I-, K = 698.0) | I2 + I- <=> I3-, K = 698 L/mol at 25 °C: Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374; only free I2 partitions, I3- stays in water |
 
 K_D sources (unchanged by this lane):
 
-- I2 hexane/water: K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model
+- I2 hexane/water: K = 26.0 (molar, [I2]hexane/[I2]water, 25 °C), DERIVED as the ratio of saturation concentrations, which equals the partition coefficient up to the negligible mutual solubility of hexane and water: I2 mole fraction 0.00456 in n-hexane (molar volume 131.6 cm3/mol) -> 0.0347 M, Hildebrand & Scott, The Solubility of Nonelectrolytes, 3rd ed. (1950), p. 274, Table 1 'Iodine Solutions, 25°C' (as read from archive.org solubilityofnone0000joel); aqueous solubility 0.3393 g/L (1.334e-3 M) at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741. The same ratio for CCl4 gives 88.5 against Jakowkin's measured 89.6 (Z. physik. Chem. 18 (1895) 585, as tabulated by Hildebrand & Scott p. 208), which checks the method; the earlier K = 85 cited an exam question and was the CCl4 value. Neither source gives a temperature model
 
 Typed refusals (EN in code, DE/FR in crates/kerotakis-core/i18n): `not-modeled.aqueous-complex-temperature`, `not-modeled.aqueous-complex-with-solid`.
 
@@ -24,4 +24,8 @@ teaching exam question, not a primary measurement; a patent bench measurement
 (US 6,398,961) and lab handouts report about 35 for hexane, and 85 is the
 classic CCl4/water value. No primary hexane or CCl4 number could be read
 openly (Davies & Gwynne-type JACS papers, doi:10.1021/ja01562a008, are
-paywalled), so no K_D row was added or changed here.
+paywalled), so no K_D row was added or changed here. The 2026-11-11
+non-aqueous-solution lane searched again (see
+docs/nonaqueous-solution-coverage-20261111.md); the only primary alkane
+value found is K = 80 for cyclohexane / 1.00 F H2SO4 (Van de Steeg 1968,
+doi:10.2172/4770773), which is neither hexane nor pure water.

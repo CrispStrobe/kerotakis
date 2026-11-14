@@ -132,6 +132,24 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+Refreshed 2026-11-11 (three rows), after the polymer latent-heat and
+transition-point lanes: `mat-024` (`missing` -> `curated`) and `th-061`,
+`th-062` (`computed` -> `curated`). The polyethylene melting and the
+reviewed transition points now answer these prompts from curated, cited
+rows (ΔHf = Xc·ΔHf(100 %)) rather than from no data or a generic route.
+
+
+## Classification review 2026-11-14
+
+The [individual adjudication](../../../docs/curiosity-classification-adjudication-20261114.md)
+records eighteen reviewed baseline changes: mixed carbonate provenance, actual thermal
+owners, silica's remaining model limitation and partial polyethylene melting observations.
+Scripts and required grades are unchanged. Coverage JSON now preserves actual model-limit
+events beside route lists; the PE reason explicitly leaves combustion unsupported.
+The subsequent exact `3f2e44928` readback adds separately documented PP partial-observation
+and mixed copper-route corrections; zero solver/unmet counts on that producer do not
+replace exact-successor control/fleet acceptance.
+Exact-successor hosted acceptance remains required.
 
 ## Correction 2026-09-07 — lactate had been speciated all along
 
@@ -2556,3 +2574,8 @@ first-order deactivation above T_opt, complete above 343.15 K), the typed
 `not-modeled.amylase-heat-inactivated` reason is reported, and no
 `ReactionOccurred` lifts the starch insolubility aside any more. Recorded as
 `qualitative / typed-observation`, the same shape as `bio-031`'s pH refusal.
+
+Refreshed 2026-11-12 (twelve rows), after `ignite` stopped boiling liquid fuels off the dish:
+`th-031`, `th-032`, `th-033`, `th-038`, `th-047`, `th-050`, `th-052` to `th-056` and `th-114`
+(`curated` -> `computed`). Each ignites ethanol, methanol, hexane or petrol; the fuel used to leave
+as vapour before any combustion solver saw it, and now burns (`Vessel::ignition`).

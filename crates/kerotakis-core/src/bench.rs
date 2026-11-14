@@ -848,6 +848,20 @@ impl Bench {
                 .titrate_loop(op, solver, screen)
                 .map(|events| (events, ApplyDisposition::Reequilibrate));
         }
+        let dose_before = if matches!(
+            &op,
+            Operator::Add { .. }
+                | Operator::AddSolution { .. }
+                | Operator::AddMaterial { .. }
+                | Operator::Dilute { .. }
+        ) {
+            op_touches(&op)
+                .into_iter()
+                .filter_map(|id| self.vessel(id).ok().map(|vessel| (id, vessel.clone())))
+                .collect::<Vec<_>>()
+        } else {
+            Vec::new()
+        };
         let temperature_before = match &op {
             Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
             _ => Kelvin::STANDARD,
@@ -994,14 +1008,33 @@ impl Bench {
         // touch at most two). A touched vessel's previous solution
         // characterisation is stale by definition; the solver stack either
         // recomputes it or the honesty pass reports the gap.
+        let mut committed_carbonate_endpoint = false;
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
+            let carbonate_dose = dose_before
+                .iter()
+                .find(|(owner, _)| *owner == id)
+                .and_then(|(_, before)| crate::carbonate_endpoint::prepare(before, vessel));
             vessel.mark_liquid_contact();
             vessel.solution = None;
             // The step's own "before": the operator applied, no solver run.
             // A solver that prices heat over the step reads this rather
             // than its own call-start (see `Vessel::step_start`).
             vessel.step_start = Some(crate::vessel::StepStart::capture(vessel));
+            // Every operation without a positive duration has the same gas
+            // boundary: separation and native MIX cannot spend time diffusing
+            // CO2 to room air any more than an addition can. Set this before
+            // either solver entry point, including the native MIX shortcut.
+            let zero_time = !matches!(
+                &op,
+                Operator::Wait { seconds }
+                    | Operator::Stir { seconds, .. }
+                    | Operator::Electrolyse { seconds, .. }
+                    | Operator::Centrifuge { seconds, .. }
+                    if *seconds > 0.0
+            ) && matches!(vessel.headspace, Headspace::Open);
+            vessel.zero_time_dose = zero_time;
+            vessel.co2_film_boundary = matches!(vessel.headspace, Headspace::Open);
             // For MIX, try native solver mixing on the target vessel.
             if let Some((mix_into, ref snap_a, frac_a, ref snap_b, frac_b)) = mix_sources {
                 if id == mix_into {
@@ -1010,6 +1043,8 @@ impl Bench {
                             Ok(mut more) => {
                                 events.append(&mut more);
                                 vessel.refresh_pressure();
+                                vessel.zero_time_dose = false;
+                                vessel.co2_film_boundary = false;
                                 vessel.step_start = None;
                                 vessel.heat_input = None;
                                 continue;
@@ -1022,7 +1057,26 @@ impl Bench {
                 }
             }
             if solver.applies(vessel) {
-                match solver.equilibrate(vessel) {
+                vessel.zero_time_dose = zero_time;
+                let mut outcome = solver.equilibrate(vessel);
+                if let (Some(dose), Ok(more)) = (carbonate_dose, &mut outcome) {
+                    if let Some(aqueous) = solver.trusted_aqueous_readback() {
+                        match crate::carbonate_endpoint::run(vessel, dose, aqueous, more) {
+                            Ok(Some(mut endpoint)) => {
+                                more.append(&mut endpoint);
+                                committed_carbonate_endpoint = true;
+                            }
+                            Ok(None) => {}
+                            Err(error) => more.push(Event::SolverFailed {
+                                vessel: id,
+                                solver: solver.name().to_string(),
+                                reason: error.owned_reason().cloned().map(Box::new),
+                                detail: error.to_string(),
+                            }),
+                        }
+                    }
+                }
+                match outcome {
                     Ok(mut more) => events.append(&mut more),
                     Err(e) => events.push(Event::SolverFailed {
                         reason: e.owned_reason().cloned().map(Box::new),
@@ -1032,8 +1086,10 @@ impl Bench {
                     }),
                 }
             }
+            vessel.zero_time_dose = false;
             vessel.step_start = None;
             vessel.heat_input = None;
+            vessel.ignition = false;
             vessel.refresh_pressure();
             // A dose of heat is offered in passes, and the solver above has
             // just had the first of them. What happens next depends on
@@ -1043,8 +1099,13 @@ impl Bench {
             if heat_start.is_some_and(|(heated, _, _)| heated == id) {
                 self.deliver_remaining_heat(id, solver, &mut events);
             }
+            self.vessel_mut(id)?.co2_film_boundary = false;
             crate::protein::record_heat_history(self.vessel_mut(id)?);
             self.vent_if_burst(id, &mut events);
+        }
+
+        if committed_carbonate_endpoint {
+            coalesce_external_gas_crossings(&mut events);
         }
 
         // A dose offered in passes is one act of heating, not eight. Fold
@@ -3440,6 +3501,7 @@ impl Bench {
                     if from.0 < IGNITION_K {
                         v.temperature = Kelvin(IGNITION_K);
                     }
+                    v.ignition = true;
                     let flame = v
                         .contents
                         .iter()
@@ -4554,14 +4616,22 @@ impl Bench {
             Operator::Measure { vessel, instrument } => {
                 let v = self.vessel(*vessel)?;
                 match instrument {
-                    Instrument::Thermometer => events.push(Event::Measured {
-                        vessel: *vessel,
-                        instrument: *instrument,
-                        value: v.temperature.to_celsius(),
-                        unit: "°C".to_string(),
-                        note: None,
-                        note_reason: None,
-                    }),
+                    Instrument::Thermometer => {
+                        // A solid above where it melts with no latent heat
+                        // paid: the reading is sensible heat only and says
+                        // so on itself (po-009).
+                        let qualifier = crate::melting_range::thermometer_qualifier(v);
+                        events.push(Event::Measured {
+                            vessel: *vessel,
+                            instrument: *instrument,
+                            value: v.temperature.to_celsius(),
+                            unit: "°C".to_string(),
+                            note: qualifier
+                                .as_ref()
+                                .map(|reason| reason.render(crate::Locale::EN)),
+                            note_reason: qualifier,
+                        })
+                    }
                     Instrument::Balance => events.push(Event::Measured {
                         vessel: *vessel,
                         instrument: *instrument,
@@ -5023,6 +5093,54 @@ impl Bench {
                                                 vec![("species".to_string(), Slot::terms("species", gaps))],
                                             ),
                                         ));
+                        }
+                        // Cited single-wavelength readings (lane F,
+                        // 2026-11-11): one per analytical wavelength of a
+                        // present species with a cited ε, Beer–Lambert
+                        // summed over every cited species there; refused
+                        // with a typed reason when anything present could
+                        // absorb at that wavelength without a cited ε.
+                        if spec.applies(v) {
+                            for cited in crate::uvvis_absorptivity::readings(v, spec.path_cm) {
+                                let nm = format!("{:.0}", cited.nm);
+                                if cited.blocked.is_empty() {
+                                    let terms: Vec<String> = cited
+                                        .contributions
+                                        .iter()
+                                        .map(|(s, e, c)| format!("{s} (ε {e:.1} L/mol/cm, {c:.4e} mol/L)"))
+                                        .collect();
+                                    let note = Phrase::new(
+                                        "measured.cited-absorptivity",
+                                        "Beer–Lambert sum at {wavelength} nm through {path} cm over {contributions}, each with a cited molar absorptivity",
+                                        vec![
+                                            ("wavelength".to_string(), Slot::number(nm.clone())),
+                                            ("path".to_string(), Slot::number(format!("{}", spec.path_cm))),
+                                            ("contributions".to_string(), Slot::texts(terms)),
+                                        ],
+                                    );
+                                    events.push(Event::Measured {
+                                        vessel: *vessel,
+                                        instrument: *instrument,
+                                        value: cited.absorbance,
+                                        unit: format!("absorbance at {nm} nm (cited molar absorptivity)"),
+                                        note: Some(note.render(crate::Locale::EN)),
+                                        note_reason: Some(note),
+                                    });
+                                } else {
+                                    events.push(Event::not_modeled(
+                                        *vessel,
+                                        crate::ops::NotModelledCause::NoReviewedDatum,
+                                        Phrase::new(
+                                            "not-modeled.uvvis-absorptivity-no-data",
+                                            "absorbance at {wavelength} nm is unavailable: no cited molar absorptivity at this wavelength and condition for {species}",
+                                            vec![
+                                                ("wavelength".to_string(), Slot::number(nm)),
+                                                ("species".to_string(), Slot::texts(cited.blocked)),
+                                            ],
+                                        ),
+                                    ));
+                                }
+                            }
                         }
                     }
                     Instrument::Calorimeter => {
@@ -7281,6 +7399,63 @@ fn curated_reaction_extent(
     None
 }
 
+/// Publish successive internal parcels as one signed external crossing per
+/// vessel and species. Call only after their owners have validated and
+/// committed every parcel: this changes the public account, never inventory,
+/// receipts, retained headspace gas or the energy ledger.
+fn coalesce_external_gas_crossings(events: &mut Vec<Event>) {
+    let mut out = Vec::with_capacity(events.len());
+    let mut crossings: Vec<(VesselId, SpeciesId, f64, usize)> = Vec::new();
+    for event in std::mem::take(events) {
+        let crossing = match &event {
+            Event::GasEvolved {
+                vessel,
+                species,
+                moles,
+            } => Some((*vessel, species.clone(), moles.0)),
+            Event::GasAbsorbed {
+                vessel,
+                species,
+                moles,
+            } => Some((*vessel, species.clone(), -moles.0)),
+            _ => None,
+        };
+        if let Some((vessel, species, signed)) = crossing {
+            if let Some((_, _, total, _)) = crossings
+                .iter_mut()
+                .find(|(owner, gas, _, _)| *owner == vessel && *gas == species)
+            {
+                *total += signed;
+                continue;
+            }
+            crossings.push((vessel, species, signed, out.len()));
+        }
+        out.push(event);
+    }
+    for (vessel, species, total, index) in crossings {
+        out[index] = if total < 0.0 {
+            Event::GasAbsorbed {
+                vessel,
+                species,
+                moles: Moles(-total),
+            }
+        } else {
+            Event::GasEvolved {
+                vessel,
+                species,
+                moles: Moles(total),
+            }
+        };
+    }
+    // No observability cutoff: every genuine nonzero signed flux survives.
+    out.retain(|event| {
+        !matches!(event,
+        Event::GasEvolved { moles, .. } | Event::GasAbsorbed { moles, .. }
+            if moles.0 == 0.0)
+    });
+    *events = out;
+}
+
 /// The quantity a repeated event carries, and what makes two of them the
 /// same claim about the same thing.
 fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
@@ -7789,9 +7964,89 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     g
 }
 
+/// First acid dissociation constant of carbonic acid,
+/// pK1(T) = 3404.71/T − 14.8435 + 0.032786 T (6.352 at 25 °C): Harned &
+/// Davis, J. Am. Chem. Soc. 65 (1943) 2030-2037, doi:10.1021/ja01250a059.
+/// Below it, H2CO3* (dissolved CO2) is the dominant form of dissolved
+/// inorganic carbon.
+pub(crate) fn carbonic_acid_pk1(temperature_k: f64) -> f64 {
+    3404.71 / temperature_k - 14.8435 + 0.032786 * temperature_k
+}
+
 #[cfg(test)]
 mod react_diagnostic_tests {
     use super::*;
+
+    #[test]
+    fn external_gas_parcels_preserve_signed_flux_and_boundary_ownership() {
+        for (outward, inward) in [
+            (3.0, 1.0),
+            (1.0, 3.0),
+            (1e-14, 0.0),
+            (0.0, 1e-14),
+            (1.0, 1.0),
+        ] {
+            let retained = Event::GasContained {
+                vessel: VesselId(0),
+                species: SpeciesId::new("CO2"),
+                moles: Moles(4.0),
+            };
+            let other_vessel = Event::GasEvolved {
+                vessel: VesselId(1),
+                species: SpeciesId::new("CO2"),
+                moles: Moles(5.0),
+            };
+            let other_gas = Event::GasEvolved {
+                vessel: VesselId(0),
+                species: SpeciesId::new("O2"),
+                moles: Moles(6.0),
+            };
+            let mut events = vec![
+                Event::GasEvolved {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(outward / 2.0),
+                },
+                retained.clone(),
+                other_vessel.clone(),
+                other_gas.clone(),
+                Event::GasAbsorbed {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(inward),
+                },
+                Event::GasEvolved {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(outward / 2.0),
+                },
+            ];
+            coalesce_external_gas_crossings(&mut events);
+            let mut expected = vec![retained, other_vessel, other_gas];
+            let net = outward - inward;
+            if net != 0.0 {
+                expected.insert(
+                    0,
+                    if net < 0.0 {
+                        Event::GasAbsorbed {
+                            vessel: VesselId(0),
+                            species: SpeciesId::new("CO2"),
+                            moles: Moles(-net),
+                        }
+                    } else {
+                        Event::GasEvolved {
+                            vessel: VesselId(0),
+                            species: SpeciesId::new("CO2"),
+                            moles: Moles(net),
+                        }
+                    },
+                );
+            }
+            assert_eq!(events, expected);
+            coalesce_external_gas_crossings(&mut events);
+            assert_eq!(events, expected, "publication must be idempotent");
+        }
+    }
 
     #[test]
     fn react_diagnostic_refusal_and_nonfinite_are_single_model_boundaries() {

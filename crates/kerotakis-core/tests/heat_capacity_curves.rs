@@ -50,8 +50,12 @@ fn every_curve_agrees_with_the_constant_it_stands_beside() {
     // sources meeting rather than one source repeating itself.
     let mut worst = (0.0f64, "");
     for (species, curve) in curves() {
-        if species.key == "water" && curve.phase != Phase::Liquid {
-            // Ice and steam have their own constants; checked below.
+        if curve.phase != species.standard_phase {
+            // The registry scalar belongs to the STOCKED phase. Comparing
+            // molten Cu2O's Cp to the crystal's room-temperature scalar is
+            // a different phase, not an independent consistency check.
+            // Water's ice/steam constants are checked separately below;
+            // other phase curves are checked against their vendored records.
             continue;
         }
         let from_curve = curve.cp(298.15).expect("a curve has a range");

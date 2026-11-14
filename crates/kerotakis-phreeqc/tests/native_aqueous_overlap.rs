@@ -11,6 +11,8 @@ use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use std::collections::BTreeSet;
 
+const CALCITE_CURATED_ROW: &str = "CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑";
+const MOLECULAR_CURATED_ROW: &str = "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑";
 const IONIC_CURATED_ROW: &str = "HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑";
 
 fn production_stack() -> SolverStack {
@@ -78,9 +80,10 @@ fn assert_no_ionic_curated_replay(events: &[Event], context: &str) {
     assert!(
         !events.iter().any(|event| matches!(
             event,
-            Event::ReactionOccurred { equation, .. } if equation == IONIC_CURATED_ROW
+            Event::ReactionOccurred { equation, .. } if equation == IONIC_CURATED_ROW || equation == MOLECULAR_CURATED_ROW
+                    || equation == CALCITE_CURATED_ROW
         )),
-        "{context}: the tagged ionic curated row fired despite the selected aqueous owner"
+        "{context}: a carbonate curated row fired despite the selected aqueous owner"
     );
 }
 
@@ -297,6 +300,55 @@ fn fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_mo
             gas_event_moles(&later_fizz, false) > 1e-4,
             "{label}: later fresh acid did not evolve actual CO2"
         );
+    }
+}
+
+#[test]
+fn calcite_acid_doses_use_the_native_bounded_endpoint_in_both_orders() {
+    for acid in ["HCl", "CH3COOH"] {
+        for acid_first in [false, true] {
+            let label = format!("calcite + {acid}, acid first: {acid_first}");
+            let mut bench = Bench::new();
+            let mut stack = production_stack();
+            apply_with_ledger(&mut bench, &mut stack, "add v1 water 1L", &label);
+            let acid_command = format!("add v1 {acid} 0.03mol");
+            let (first, second) = if acid_first {
+                (acid_command.as_str(), "add v1 CaCO3 0.01mol")
+            } else {
+                ("add v1 CaCO3 0.01mol", acid_command.as_str())
+            };
+            apply_with_ledger(&mut bench, &mut stack, first, &label);
+            let events = apply_with_ledger(&mut bench, &mut stack, second, &label);
+            let gas = gas_event_moles(&events, false);
+            assert!(gas > 0.008, "{label}: only {gas} mol CO2 escaped");
+            assert!(
+                gas <= 0.01,
+                "{label}: escaped more than the supplied carbonate: {gas}"
+            );
+            let state = bench.vessel(VesselId(0)).unwrap();
+            assert!(
+                state
+                    .contents
+                    .iter()
+                    .filter(|p| p.species.0 == "CaCO3" && p.phase == Phase::Solid)
+                    .map(|p| p.moles.0)
+                    .sum::<f64>()
+                    < 1e-6,
+                "{label}: residual chalk"
+            );
+            let repeated = bench
+                .step_with(
+                    Operator::Wait { seconds: 0.0 },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("zero-time repeat");
+            assert_eq!(
+                gas_event_moles(&repeated, false),
+                0.0,
+                "{label}: replayed gas"
+            );
+        }
     }
 }
 
@@ -574,6 +626,68 @@ fn native_reentry_preserves_each_zero_time_stock_and_publishes_net_gas_once() {
     }
 }
 
+#[test]
+fn repeated_native_acid_doses_publish_each_open_crossing_without_venting_closed_stock() {
+    for sealed in [false, true] {
+        let mut bench = Bench::new();
+        let mut stack = production_stack();
+        apply_with_ledger(&mut bench, &mut stack, "add v1 water 100mL", "setup");
+        if sealed {
+            let events = run(&mut bench, &mut stack, "seal v1 500mL");
+            assert!(!events
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })));
+        }
+        apply_with_ledger(&mut bench, &mut stack, "add v1 NaHCO3 0.02mol", "setup");
+        for repeat in 0..2 {
+            let before = bench.vessel(VesselId(0)).unwrap().clone();
+            let events = apply_with_ledger(
+                &mut bench,
+                &mut stack,
+                "add v1 CH3COOH 0.005mol",
+                "repeated acid dose",
+            );
+            let after = bench.vessel(VesselId(0)).unwrap();
+            // Acetic acid adds carbon too; subtract its independently known
+            // 2 C per molecule before comparing the signed CO2 crossing.
+            let mut supplied = before.clone();
+            supplied.deposit(SpeciesId::new("CH3COOH"), Moles(0.005), Phase::Liquid);
+            assert_net_co2_event_once(&supplied, after, &events, "repeated acid dose");
+            if sealed {
+                assert_eq!(gas_event_moles(&events, false), 0.0, "sealed dose {repeat}");
+                assert!(
+                    gas_event_moles(&events, true) > 1e-4,
+                    "sealed dose {repeat}: {events:?}"
+                );
+            } else {
+                assert!(
+                    gas_event_moles(&events, false) > 1e-4,
+                    "open dose {repeat}: {events:?}"
+                );
+                assert_eq!(gas_event_moles(&events, true), 0.0);
+            }
+            let stable = after.clone();
+            let events = bench
+                .step_with(
+                    Operator::Wait { seconds: 0.0 },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("zero-time repeat after dose");
+            assert!(
+                !events
+                    .iter()
+                    .any(|event| matches!(event, Event::SolverFailed { .. })),
+                "zero-time repeat after dose: {events:?}"
+            );
+            let after = bench.vessel(VesselId(0)).unwrap();
+            assert_gas_adjusted_ledger(&stable, after, &events, None, "after repeated acid dose");
+            assert_native_physical_state_stable(&stable, after, "after repeated acid dose");
+            assert_net_co2_event_once(&stable, after, &events, "after repeated acid dose");
+        }
+    }
+}
+
 fn native_overlap_seed() -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "native cache parity");
     vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
@@ -680,6 +794,15 @@ fn bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_dri
         "route replay published multiple provisional CO2 crossings: {dose:?}"
     );
     assert_no_ionic_curated_replay(&dose, "high-bicarbonate route replay");
+    // An `add` takes no time, so the bicarbonate keeps its carbon (and its
+    // concentrated potential load) until the room takes CO2 over an hour.
+    bench
+        .step_with(
+            Operator::Wait { seconds: 3600.0 },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("open-beaker degassing");
 
     let settled = bench
         .vessel(VesselId(0))
@@ -768,5 +891,119 @@ fn bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_dri
             &format!("zero-time high-bicarbonate repeat {repeat}"),
         );
         assert_no_ionic_curated_replay(&events, "zero-time high-bicarbonate repeat");
+    }
+}
+
+#[test]
+fn low_strong_acid_doses_release_only_the_new_carbon_parcel_and_do_not_replay() {
+    let mut yields = Vec::new();
+    for acid in [0.0005, 0.001, 0.002, 0.003] {
+        let mut bench = Bench::new();
+        let mut stack = production_stack();
+        apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            "add v1 water 250mL",
+            "low-dose setup",
+        );
+        apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            "add v1 NaHCO3 0.004mol",
+            "low-dose setup",
+        );
+        let events = apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            &format!("add v1 HCl {acid}mol"),
+            "low-dose carbonate endpoint",
+        );
+        let gas = gas_event_moles(&events, false);
+        assert!(gas > 1e-6 && gas <= acid + 1e-10,
+            "new acid cannot export an unbounded preexisting CO2 pool: acid={acid}, gas={gas}, {events:?}");
+        yields.push(gas);
+        let before_repeat = bench.vessels[0].clone();
+        let repeat = bench
+            .step_with(
+                Operator::Wait { seconds: 0.0 },
+                &mut stack,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        assert!(
+            !repeat
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })),
+            "{repeat:?}"
+        );
+        assert_eq!(
+            gas_event_moles(&repeat, false),
+            0.0,
+            "zero-time replay: {repeat:?}"
+        );
+        assert_gas_adjusted_ledger(
+            &before_repeat,
+            &bench.vessels[0],
+            &repeat,
+            None,
+            "zero-time endpoint repeat",
+        );
+        let salt = apply_with_ledger(
+            &mut bench,
+            &mut stack,
+            "add v1 NaCl 0.0001mol",
+            "nonacid spectator dose",
+        );
+        assert_eq!(
+            gas_event_moles(&salt, false),
+            0.0,
+            "spectator replay: {salt:?}"
+        );
+    }
+    assert!(
+        yields.windows(2).all(|pair| pair[1] - pair[0] > 1e-5),
+        "{yields:?}"
+    );
+}
+
+#[test]
+fn competing_base_consumes_acid_before_a_fast_carbonate_gas_parcel() {
+    let mut bench = Bench::new();
+    let mut stack = production_stack();
+    for text in [
+        "add v1 water 250mL",
+        "add v1 NaHCO3 0.004mol",
+        "add v1 NaOH 0.01mol",
+    ] {
+        apply_with_ledger(&mut bench, &mut stack, text, "competing base setup");
+    }
+    let events = apply_with_ledger(
+        &mut bench,
+        &mut stack,
+        "add v1 HCl 0.0005mol",
+        "competing base acid",
+    );
+    assert_eq!(gas_event_moles(&events, false), 0.0, "{events:?}");
+    assert!(bench.vessels[0].solution.as_ref().unwrap().ph > 10.0);
+}
+
+#[test]
+fn low_strong_acid_endpoint_is_bounded_in_both_reagent_orders() {
+    // This compares qualitative admission and conservative reagent budgets.
+    // The curated partition does not claim order-independent empirical yield.
+    for (first, second) in [
+        ("add v1 NaHCO3 0.004mol", "add v1 HCl 0.0005mol"),
+        ("add v1 HCl 0.0005mol", "add v1 NaHCO3 0.004mol"),
+    ] {
+        let mut bench = Bench::new();
+        let mut stack = production_stack();
+        apply_with_ledger(&mut bench, &mut stack, "add v1 water 250mL", "order setup");
+        apply_with_ledger(&mut bench, &mut stack, first, "first reagent");
+        let events = apply_with_ledger(&mut bench, &mut stack, second, "second reagent");
+        let gas = gas_event_moles(&events, false);
+        assert!(
+            gas > 1e-6 && gas <= 0.0005 + 1e-10,
+            "first={first}, second={second}, gas={gas}, events={events:?}"
+        );
     }
 }

@@ -117,6 +117,7 @@ fn every_legacy_field_is_present_and_unchanged() {
                         | "epsomite"
                         | "chalcanthite"
                         | "SiO2"
+                        | "Cu2O"
                         | "H+"
                         | "CO2(aq)"
                         | "CO3-2"
@@ -361,6 +362,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "epsomite" => "us-federal/usgs-epsomite".to_string(),
         "chalcanthite" => "us-federal/usgs-chalcanthite".to_string(),
         "SiO2" => "us-federal/pubchem-silica".to_string(),
+        "Cu2O" => "kerotakis/cu2o-reviewed-properties-v1".to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let source = document
@@ -400,6 +402,14 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             source.origin.as_deref(),
             Some("vendor/iphreeqc/database/wateq4f.dat")
         );
+    } else if species.key == "Cu2O" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "AGPL-3.0-or-later");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("data/registry/registry-source-v1.json")
+        );
+        assert_eq!(source.retrieved.as_deref(), Some("2026-11-14"));
     } else if species.key == "SiO2" {
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
@@ -504,16 +514,33 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         phase,
         &source_id,
     );
-    assert_property(
-        document,
-        species,
-        PhaseProperty::MassDensity,
-        species.density,
-        "g/mL",
-        Dimension::MassDensity,
-        phase,
-        &source_id,
-    );
+    if species.key == "NH3" {
+        // 2026-11-11: the 28 % aqueous ammonia density is a reviewed row
+        // (International Critical Tables vol. 3), not the legacy import.
+        let record = document
+            .phase_thermodynamics
+            .iter()
+            .find(|record| {
+                record.species_id == "NH3" && record.property == PhaseProperty::MassDensity
+            })
+            .expect("NH3 density");
+        assert_eq!(record.quantity.value, species.density);
+        assert_eq!(
+            record.quantity.source_id,
+            "literature/ict-vol3-aqueous-ammonia-density"
+        );
+    } else {
+        assert_property(
+            document,
+            species,
+            PhaseProperty::MassDensity,
+            species.density,
+            "g/mL",
+            Dimension::MassDensity,
+            phase,
+            &source_id,
+        );
+    }
     // EXP-33's pattern, applied to a second claim. An enthalpy of dissolution
     // does not come from the same place a molar mass does — for three of the
     // seventeen the species citation did not mention it at all — so it rides
@@ -1058,9 +1085,9 @@ fn assert_imported_evidence(source_id: &str, method: &Method, expected_source: &
 /// `RESISTIVITY_KEYS` is: a test that derives its expectation from the code
 /// under test agrees with that code however wrong it is.
 const CURVE_KEYS: &[&str] = &[
-    "Ag", "Al", "C", "CO", "CO2", "Ca(OH)2", "CaCO3", "CaO", "Cl2", "Cu", "CuO", "Fe", "Fe(OH)2",
-    "Fe(OH)3", "Fe2O3", "H2", "KCl", "Mg", "Mg(OH)2", "MgO", "N2", "Na2CO3", "Na2SO4", "NaCl",
-    "NaOH", "O2", "Pb", "S", "SO2", "SiO2", "Zn", "butane", "methane", "propane", "water",
+    "Ag", "Al", "C", "CO", "CO2", "Ca(OH)2", "CaCO3", "CaO", "Cl2", "Cu", "Cu2O", "CuO", "Fe",
+    "Fe(OH)2", "Fe(OH)3", "Fe2O3", "H2", "KCl", "Mg", "Mg(OH)2", "MgO", "N2", "Na2CO3", "Na2SO4",
+    "NaCl", "NaOH", "O2", "Pb", "S", "SO2", "SiO2", "Zn", "butane", "methane", "propane", "water",
 ];
 
 #[test]
@@ -1172,7 +1199,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 196, "one molar mass per species");
+    assert_eq!(masses.len(), 197, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

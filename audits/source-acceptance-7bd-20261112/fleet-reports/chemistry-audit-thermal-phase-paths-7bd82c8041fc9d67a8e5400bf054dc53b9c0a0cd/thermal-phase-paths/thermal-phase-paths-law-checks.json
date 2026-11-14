@@ -1,0 +1,273 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "387-water-heat-single-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "388-water-heat-split-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "389-water-heat-single-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "390-water-heat-split-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "391-water-heat-single-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "392-water-heat-split-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "393-water-heat-single-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "394-water-heat-split-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "395-thermal-mix-forward-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "396-thermal-mix-reverse-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "397-thermal-mix-forward-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "398-thermal-mix-reverse-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "399-thermal-mix-forward-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "400-thermal-mix-reverse-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "401-thermal-mix-forward-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "402-thermal-mix-reverse-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "403-thermal-roundtrip-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "404-thermal-blank-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "405-thermal-roundtrip-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "406-thermal-blank-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "407-thermal-roundtrip-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "408-thermal-blank-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "409-thermal-roundtrip-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "410-thermal-blank-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "thermal-phase-paths:r387-01-heat-partition-1",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        299.229089894219,
+        299.22908989422524
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-02-heat-partition-2",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        299.20511049741765,
+        299.20511049741503
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-03-heat-partition-3",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        299.1891242240355,
+        299.1891242240325
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-04-heat-partition-4",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        299.1777054529821,
+        299.1777054529822
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-05-mix-order-1",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.52302285966925,
+        298.52302285966925
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-06-mix-order-2",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.50970069337654,
+        298.50970069337654
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-07-mix-order-3",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.4988007348968,
+        298.4988007348968
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-08-mix-order-4",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.48971743323773,
+        298.48971743323773
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-09-energy-roundtrip-1",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.15000000000043,
+        298.15
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-10-energy-roundtrip-2",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.14999999999907,
+        298.15
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-11-energy-roundtrip-3",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.14999999999895,
+        298.15
+      ]
+    },
+    {
+      "check": "thermal-phase-paths:r387-12-energy-roundtrip-4",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.1499999999993,
+        298.15
+      ]
+    }
+  ],
+  "passed": 36,
+  "unmet": 0
+}

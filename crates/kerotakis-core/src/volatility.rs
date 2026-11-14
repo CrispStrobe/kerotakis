@@ -523,8 +523,8 @@ mod tests {
         assert_eq!(parts.len(), 1);
         let p = &parts[0];
         // 0.5 L / (0.082057 × 298.15) = 0.02044 mol/atm of headspace. The
-        // liquid is the ammonia itself — 0.17 g at 0.91 g/mL is 0.187 mL,
-        // × 57 mol/(L·atm) = 0.0107 mol/atm when all of it is still there,
+        // liquid is the ammonia itself — 0.17 g at 0.898 g/mL is 0.190 mL,
+        // × 57 mol/(L·atm) = 0.0108 mol/atm when all of it is still there,
         // and less as it leaves — so the fixed point sits far above the
         // 65.7% the closed form gives at the starting volume.
         let frac = p.gas_at_equilibrium / p.total;
@@ -533,7 +533,7 @@ mod tests {
         // that share leaves behind.
         let r = crate::volatility::R_LITRE_ATM * v.temperature.0;
         let c = 0.5 / r;
-        let v_liq_left = (p.total - p.gas_at_equilibrium) * 17.031 / 0.91 / 1000.0;
+        let v_liq_left = (p.total - p.gas_at_equilibrium) * 17.031 / 0.898 / 1000.0;
         let closed = p.total * c / (p.henry_mol_per_l_atm * v_liq_left + c);
         assert!(
             (closed - p.gas_at_equilibrium).abs() < 1e-9,

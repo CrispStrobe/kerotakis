@@ -38,6 +38,9 @@ fn unmodelled(events: &[Event]) -> Vec<&Event> {
         .collect()
 }
 
+/// Species key with its NBS Circular 500 melting, boiling and sublimation K.
+type CircularRow = (&'static str, Option<f64>, Option<f64>, Option<f64>);
+
 #[test]
 fn no_transition_value_cites_the_withdrawn_tranche() {
     for data in species::registry() {
@@ -144,15 +147,25 @@ fn heated_past_its_range_a_wax_pays_its_sourced_latent_heat_instead_of_a_warning
 }
 
 #[test]
-fn a_blend_at_194_c_warns_for_both_polymers() {
+fn a_blend_at_194_c_pays_both_polymers_instead_of_warning() {
     // po-009's transcript: 0.5 g PE + 0.5 g PP heated to 193.9 °C, above
-    // both sourced upper ends (141.45 and 187.55 °C).
+    // both sourced upper ends (141.45 and 187.55 °C). Both rows now carry
+    // a sourced grade latent heat, so the melt is paid: no warning, the
+    // vessel cools by the heat the melting took, and liquid appears.
     let mut v = vessel_with(
         &[("PE", 0.0178, Phase::Solid), ("PP", 0.0119, Phase::Solid)],
         467.04,
     );
     let events = settle(&mut v);
-    assert_eq!(unmodelled(&events).len(), 2, "{events:?}");
+    assert!(unmodelled(&events).is_empty(), "{events:?}");
+    assert!(v.temperature.0 < 467.04, "the melt cooled it");
+    assert!(
+        v.contents
+            .iter()
+            .any(|p| p.species.0 == "PE" && p.phase == Phase::Liquid),
+        "{:?}",
+        v.contents
+    );
 }
 
 #[test]
@@ -175,8 +188,10 @@ fn a_liquid_is_never_warned_about() {
 
 #[test]
 fn the_warning_is_rendered_in_german_and_french() {
-    let row = melting_range::range("PE").expect("PE range");
-    let mut v = vessel_with(&[("PE", 0.02, Phase::Solid)], row.upper_k + 30.0);
+    // A sharp-melting solid with no sourced enthalpy of fusion (AgNO3,
+    // 483 K): every range row now pays, so the sharp-point refusal is the
+    // one left to render.
+    let mut v = vessel_with(&[("AgNO3", 0.01, Phase::Solid)], 500.0);
     let events = settle(&mut v);
     let Some(Event::NotYetModeled {
         reason: Some(reason),
@@ -188,14 +203,14 @@ fn the_warning_is_rendered_in_german_and_french() {
     let en = reason.render(Locale::EN);
     let de = reason.render(Locale::parse("de"));
     let fr = reason.render(Locale::parse("fr"));
-    assert_eq!(
-        reason.key,
-        "not-modeled.melting-range-latent-heat-unsourced"
+    assert_eq!(reason.key, "not-modeled.melting-not-modelled");
+    assert!(en.contains("melting is not modelled"), "{en}");
+    assert!(
+        en.contains("210"),
+        "the sourced melting point is quoted: {en}"
     );
-    assert!(en.contains("enthalpy of fusion is not sourced"), "{en}");
-    assert!(en.contains("141"), "the sourced upper end is quoted: {en}");
-    assert!(de.contains("Schmelzbereich"), "{de}");
-    assert!(fr.contains("plage de fusion"), "{fr}");
+    assert!(de.contains("Schmelzpunkt"), "{de}");
+    assert!(fr.contains("point de fusion"), "{fr}");
 }
 
 // ── Restored 2026-11-11 (transition-data-restore lane) ─────────────────
@@ -271,7 +286,7 @@ fn unsourced_decompositions_and_boils_stay_absent() {
         .and_then(|d| d.transitions)
         .and_then(|t| t.decomposition_k);
     assert!(dec.is_none(), "{key} decomposition must stay no_data");
-    for key in ["H2O2", "NaOH", "CaCl2", "BaCl2"] {
+    for key in ["NaOH", "CaCl2", "BaCl2"] {
         assert!(
             transitions(key).boiling_k.is_none(),
             "{key} boiling must stay no_data"
@@ -397,4 +412,164 @@ fn sourced_decompositions_and_dehydrations_carry_their_thermal_analysis_values()
     let (k, outcome) = transitions("KMnO4").melting_reading().expect("a reading");
     assert_eq!(k, 523.15);
     assert_eq!(outcome, species::TransitionOutcome::Decomposes);
+}
+
+// ── Round 3 transition points (2026-11-11) ──
+//
+// NBS Circular 500 (1952) Series II rows read from the page image (public
+// domain), single NIST WebBook-quoted primaries, International Critical
+// Tables vol. 1 (1926) and open thermal-analysis papers. Handbook-only
+// infobox values (CRC, Patnaik, GESTIS, NIOSH) are NOT taken.
+
+#[test]
+fn round3_circular_500_rows_carry_their_printed_values() {
+    // (species, melting K, boiling K, sublimation K)
+    let rows: [CircularRow; 27] = [
+        ("SO2", Some(197.68), Some(263.14), None),
+        ("Cl2", Some(172.16), Some(239.1), None),
+        ("CO2", None, None, Some(194.68)),
+        ("O2", Some(54.4), Some(90.19), None),
+        ("N2", Some(63.15), Some(77.34), None),
+        ("H2", Some(13.96), Some(20.39), None),
+        ("CO", Some(68.1), Some(81.66), None),
+        ("methane", Some(90.68), Some(111.67), None),
+        ("ethene", Some(103.97), Some(169.45), None),
+        ("hydrogen_sulfide", Some(187.63), Some(212.82), None),
+        ("HBr", Some(186.28), Some(206.43), None),
+        ("uranium", Some(1405.0), None, None),
+        ("C", None, None, Some(4620.0)),
+        ("graphite", None, None, Some(4620.0)),
+        ("H2SO4", Some(283.51), None, None),
+        ("KIO3", Some(833.0), None, None),
+        ("NaHSO4", Some(455.0), None, None),
+        ("SiO2", Some(1883.0), None, None),
+        ("Ba(OH)2", Some(681.0), None, None),
+        ("Na2B4O7", Some(1015.0), None, None),
+        ("NH4NO3", Some(442.8), None, None),
+        ("Ca3(PO4)2", Some(2003.0), None, None),
+        ("AgBr", Some(703.0), Some(1806.0), None),
+        ("AgI", Some(831.0), Some(1777.0), None),
+        ("Ag3PO4", Some(1122.0), None, None),
+        ("PbSO4", Some(1360.0), None, None),
+        ("PbI2", Some(685.0), Some(1145.0), None),
+    ];
+    for (key, melting, boiling, sublimation) in rows {
+        let t = transitions(key);
+        assert_eq!(t.melting_k, melting, "{key} melting");
+        assert_eq!(t.boiling_k, boiling, "{key} boiling");
+        assert_eq!(t.sublimation_k, sublimation, "{key} sublimation");
+        assert!(
+            t.source.contains("Circular 500") && t.source.contains("public domain"),
+            "{key} must name the public-domain table: {}",
+            t.source
+        );
+    }
+}
+
+#[test]
+fn sodium_hydrogen_sulfate_melts_at_455_k_not_the_handbook_588_k() {
+    let t = transitions("NaHSO4");
+    assert_eq!(t.melting_k, Some(455.0));
+    assert!(t.source.contains("Table 92-3"), "{}", t.source);
+}
+
+#[test]
+fn round3_webbook_rows_name_their_primary_and_the_webbook_page() {
+    let rows: [(&str, Option<f64>, Option<f64>); 9] = [
+        ("propane", Some(85.46), Some(231.1)),
+        ("butane", Some(134.6), Some(273.0)),
+        ("isobutylene", Some(132.45), Some(266.7)),
+        ("tert_butyl_bromide", Some(256.95), Some(346.4)),
+        ("lactic_acid", Some(290.0), None),
+        ("H2C2O4", Some(464.45), None),
+        ("malic_acid", Some(400.75), None),
+        ("citric_acid", Some(427.15), None),
+        ("glucose", Some(423.0), None),
+    ];
+    for (key, melting, boiling) in rows {
+        let t = transitions(key);
+        assert_eq!(t.melting_k, melting, "{key} melting");
+        assert_eq!(t.boiling_k, boiling, "{key} boiling");
+        assert!(t.source.contains("webbook.nist.gov"), "{key}: {}", t.source);
+    }
+    // Negative: citric acid's 175 C decomposition rests only on a
+    // handbook quoted by Wikipedia and is not claimed.
+    assert!(transitions("citric_acid").decomposition_k.is_none());
+}
+
+#[test]
+fn hydrogen_peroxide_boils_at_the_extrapolated_schumb_value_with_its_caveat() {
+    let t = transitions("H2O2");
+    assert_eq!(t.melting_k, Some(271.2));
+    assert_eq!(t.boiling_k, Some(423.35));
+    assert!(t.source.contains("doi:10.1021/ja01135a001"), "{}", t.source);
+    assert!(t.source.contains("EXTRAPOLATED"), "{}", t.source);
+    assert!(
+        t.boundary.is_some_and(|b| b.contains("decomposes")),
+        "the decomposition caveat must travel with the value"
+    );
+}
+
+#[test]
+fn round3_decompositions_and_dehydrations_are_sourced() {
+    let dec: [(&str, f64, &str); 5] = [
+        ("atacamite", 473.15, "International Critical Tables"),
+        ("PbCO3", 588.15, "International Critical Tables"),
+        ("brochantite", 693.15, "doi:10.3390/molecules30010021"),
+        ("Ca(OH)2", 785.15, "doi:10.1039/JR9570003873"),
+        ("NaHCO3", 323.15, "doi:10.1007/s10973-006-8182-1"),
+    ];
+    for (key, k, cite) in dec {
+        let t = transitions(key);
+        assert_eq!(t.decomposition_k, Some(k), "{key}");
+        assert!(
+            t.melting_k.is_none(),
+            "{key} decomposes, it has no melting point"
+        );
+        assert!(t.source.contains(cite), "{key}: {}", t.source);
+    }
+    // The cited-primary-via-Wikipedia row says so.
+    assert!(transitions("NaHCO3")
+        .source
+        .contains("as quoted by Wikipedia"));
+    let g = transitions("gypsum");
+    assert_eq!(g.dehydration_k, Some(453.15));
+    assert!(g.source.contains("doi:10.1021/acsearthspacechem.4c00137"));
+}
+
+#[test]
+fn pure_substance_points_are_not_attached_to_solution_keys() {
+    // Negative: Circular 500 gives pure NH3/HCl/HI/H3PO4 values, but the
+    // registry keys are solutions; a pure gas's sub-ambient boiling point
+    // on a solution would be wrong, so none is attached.
+    for key in ["NH3", "HCl", "HI", "H3PO4", "Na2S2O3", "BaCO3"] {
+        let t = species::lookup(&SpeciesId::new(key)).and_then(|d| d.transitions);
+        assert!(t.is_none(), "{key} must stay no_data");
+    }
+}
+
+#[test]
+fn handbook_only_infobox_values_stay_no_data() {
+    // Negative: CRC / Patnaik / GESTIS / NIOSH values quoted by Wikipedia
+    // with no primary measurement are not taken.
+    for key in [
+        "Fe2O3",
+        "MnO2",
+        "methyl_orange",
+        "phenolphthalein",
+        "chlorophyll",
+        "cellulose",
+        "ascorbic_acid",
+        "Ag2CO3",
+        "NH2Cl",
+    ] {
+        let t = species::lookup(&SpeciesId::new(key)).and_then(|d| d.transitions);
+        assert!(t.is_none(), "{key} must stay no_data");
+    }
+}
+
+#[test]
+fn ammonia_solution_density_is_the_ict_28_percent_value_at_20_c() {
+    let d = species::lookup(&SpeciesId::new("NH3")).expect("NH3");
+    assert_eq!(d.density, 0.898);
 }

@@ -1,0 +1,245 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "materials-transport",
+  "cases": [
+    {
+      "id": "705-salt-transfer-0.2",
+      "question": "How does transferred fraction divide a salt solution while conserving its elements?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.006mol\nnew\ndecant v1 v2 0.2\ninspect"
+    },
+    {
+      "id": "706-salt-transfer-0.4",
+      "question": "How does transferred fraction divide a salt solution while conserving its elements?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.006mol\nnew\ndecant v1 v2 0.4\ninspect"
+    },
+    {
+      "id": "707-salt-transfer-0.6",
+      "question": "How does transferred fraction divide a salt solution while conserving its elements?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.006mol\nnew\ndecant v1 v2 0.6\ninspect"
+    },
+    {
+      "id": "708-salt-transfer-0.8",
+      "question": "How does transferred fraction divide a salt solution while conserving its elements?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.006mol\nnew\ndecant v1 v2 0.8\ninspect"
+    },
+    {
+      "id": "709-sugar-transfer-0.25",
+      "question": "How does transferred fraction divide sugar water without creating ions?",
+      "script": "add v1 water 300mL\nadd v1 glucose 0.004mol\nnew\ndecant v1 v2 0.25\ninspect"
+    },
+    {
+      "id": "710-sugar-transfer-0.5",
+      "question": "How does transferred fraction divide sugar water without creating ions?",
+      "script": "add v1 water 300mL\nadd v1 glucose 0.004mol\nnew\ndecant v1 v2 0.5\ninspect"
+    },
+    {
+      "id": "711-sugar-transfer-0.75",
+      "question": "How does transferred fraction divide sugar water without creating ions?",
+      "script": "add v1 water 300mL\nadd v1 glucose 0.004mol\nnew\ndecant v1 v2 0.75\ninspect"
+    },
+    {
+      "id": "712-sugar-transfer-1",
+      "question": "How does transferred fraction divide sugar water without creating ions?",
+      "script": "add v1 water 300mL\nadd v1 glucose 0.004mol\nnew\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "713-mix-portions-1",
+      "question": "Does mixing selected portions conserve the complete salt-water system?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nnew\nadd v2 water 200mL\nnew\nmix v1 0.5 v2 0.5 into v3\ninspect"
+    },
+    {
+      "id": "714-mix-portions-2",
+      "question": "Does mixing selected portions conserve the complete salt-water system?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nnew\nadd v2 water 200mL\nnew\nmix v1 0.25 v2 0.75 into v3\ninspect"
+    },
+    {
+      "id": "715-mix-portions-3",
+      "question": "Does mixing selected portions conserve the complete salt-water system?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nnew\nadd v2 water 200mL\nnew\nmix v1 0.75 v2 0.25 into v3\ninspect"
+    },
+    {
+      "id": "716-mix-portions-4",
+      "question": "Does mixing selected portions conserve the complete salt-water system?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nnew\nadd v2 water 200mL\nnew\nmix v1 1 v2 1 into v3\ninspect"
+    },
+    {
+      "id": "717-silica-transfer-0.2",
+      "question": "Does decanting leave settled silica while moving the liquid fraction?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.003mol\nnew\ndecant v1 v2 0.2\ninspect"
+    },
+    {
+      "id": "718-silica-transfer-0.4",
+      "question": "Does decanting leave settled silica while moving the liquid fraction?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.003mol\nnew\ndecant v1 v2 0.4\ninspect"
+    },
+    {
+      "id": "719-silica-transfer-0.6",
+      "question": "Does decanting leave settled silica while moving the liquid fraction?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.003mol\nnew\ndecant v1 v2 0.6\ninspect"
+    },
+    {
+      "id": "720-silica-transfer-0.8",
+      "question": "Does decanting leave settled silica while moving the liquid fraction?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.003mol\nnew\ndecant v1 v2 0.8\ninspect"
+    },
+    {
+      "id": "721-staged-transfer-1",
+      "question": "Do staged transfers conserve potassium chloride across both vessels?",
+      "script": "add v1 water 300mL\nadd v1 KCl 0.006mol\nnew\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "722-staged-transfer-2",
+      "question": "Do staged transfers conserve potassium chloride across both vessels?",
+      "script": "add v1 water 300mL\nadd v1 KCl 0.006mol\nnew\ndecant v1 v2 0.5\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "723-staged-transfer-3",
+      "question": "Do staged transfers conserve potassium chloride across both vessels?",
+      "script": "add v1 water 300mL\nadd v1 KCl 0.006mol\nnew\ndecant v1 v2 0.25\ndecant v1 v2 0.5\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "724-staged-transfer-4",
+      "question": "Do staged transfers conserve potassium chloride across both vessels?",
+      "script": "add v1 water 300mL\nadd v1 KCl 0.006mol\nnew\ndecant v1 v2 0.1\ndecant v1 v2 0.2\ndecant v1 v2 0.3\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "725-thermal-transfer-0.2",
+      "question": "How does portion size carry heat with transferred water?",
+      "script": "add v1 water 300mL @ 60C\nnew\ndecant v1 v2 0.2\nmeasure v2 thermometer"
+    },
+    {
+      "id": "726-thermal-transfer-0.4",
+      "question": "How does portion size carry heat with transferred water?",
+      "script": "add v1 water 300mL @ 60C\nnew\ndecant v1 v2 0.4\nmeasure v2 thermometer"
+    },
+    {
+      "id": "727-thermal-transfer-0.6",
+      "question": "How does portion size carry heat with transferred water?",
+      "script": "add v1 water 300mL @ 60C\nnew\ndecant v1 v2 0.6\nmeasure v2 thermometer"
+    },
+    {
+      "id": "728-thermal-transfer-0.8",
+      "question": "How does portion size carry heat with transferred water?",
+      "script": "add v1 water 300mL @ 60C\nnew\ndecant v1 v2 0.8\nmeasure v2 thermometer"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v2b-materials-transport-salt-transfer",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "705-salt-transfer-0.2",
+        "706-salt-transfer-0.4",
+        "707-salt-transfer-0.6",
+        "708-salt-transfer-0.8"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O",
+          "Na",
+          "Cl"
+        ],
+        "before_op": "decant"
+      }
+    },
+    {
+      "id": "v2b-materials-transport-sugar-transfer",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "709-sugar-transfer-0.25",
+        "710-sugar-transfer-0.5",
+        "711-sugar-transfer-0.75",
+        "712-sugar-transfer-1"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "decant"
+      }
+    },
+    {
+      "id": "v2b-materials-transport-mix-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "713-mix-portions-1",
+        "714-mix-portions-2",
+        "715-mix-portions-3",
+        "716-mix-portions-4"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O",
+          "Na",
+          "Cl"
+        ],
+        "before_op": "mix"
+      }
+    },
+    {
+      "id": "v2b-materials-transport-silica-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "717-silica-transfer-0.2",
+        "718-silica-transfer-0.4",
+        "719-silica-transfer-0.6",
+        "720-silica-transfer-0.8"
+      ],
+      "parameters": {
+        "elements": [
+          "Si",
+          "H",
+          "O"
+        ],
+        "before_op": "decant"
+      }
+    },
+    {
+      "id": "v2b-materials-transport-staged-ledger",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "721-staged-transfer-1",
+        "722-staged-transfer-2",
+        "723-staged-transfer-3",
+        "724-staged-transfer-4"
+      ],
+      "parameters": {
+        "elements": [
+          "K",
+          "Cl",
+          "H",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v2b-materials-transport-thermal-intensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "725-thermal-transfer-0.2",
+        "726-thermal-transfer-0.4",
+        "727-thermal-transfer-0.6",
+        "728-thermal-transfer-0.8"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0
+      }
+    }
+  ]
+}

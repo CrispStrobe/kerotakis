@@ -20,7 +20,26 @@ def attrs(item: dict, *names: str) -> dict:
     return {name: source.get(name) for name in names}
 
 
+def read_collection(path: str) -> list[dict] | None:
+    """Read every page, keeping unavailable data distinct from an empty set.
+
+    Do not print error details: a tester endpoint may echo private data.
+    Discard partial results if a later page fails rather than report a false
+    membership or tester count.
+    """
+    rows = []
+    while path:
+        status, doc = client.call("GET", path)
+        if status != 200 or not isinstance(doc.get("data"), list):
+            print(f"    unavailable: GET {path} -> HTTP {status}")
+            return None
+        rows.extend(doc["data"])
+        path = doc.get("links", {}).get("next")
+    return rows
+
+
 def main() -> int:
+    complete = True
     app = client.expect("GET", f"/v1/apps/{APP}")["data"]
     print("app", APP, attrs(app, "name", "bundleId", "primaryLocale", "contentRightsDeclaration"))
 
@@ -57,6 +76,24 @@ def main() -> int:
         status, release = client.call("GET", f"/v1/builds/{build['id']}/preReleaseVersion")
         platform = (release.get("data") or {}).get("attributes", {}).get("platform") if status == 200 else None
         print(" ", build["id"], platform, attrs(build, "version", "uploadedDate", "processingState", "usesNonExemptEncryption"))
+        if status == 200 and release.get("data"):
+            print("    preReleaseVersion", release["data"]["id"],
+                  attrs(release["data"], "version", "platform"))
+        else:
+            print(f"    preReleaseVersion unavailable: HTTP {status}")
+            complete = False
+        submissions = read_collection(
+            f"/v1/betaAppReviewSubmissions?filter[build]={build['id']}&limit=200"
+        )
+        if submissions is None:
+            print("    beta review: unavailable")
+            complete = False
+        elif not submissions:
+            print("    beta review: no submission returned")
+        else:
+            for submission in submissions:
+                print("    beta review", submission["id"],
+                      attrs(submission, "betaReviewState", "submittedDate"))
 
     print("\napp info")
     for info in client.paged(f"/v1/apps/{APP}/appInfos?limit=50"):
@@ -69,7 +106,21 @@ def main() -> int:
     print("\nbeta groups")
     for group in client.paged(f"/v1/apps/{APP}/betaGroups?limit=50"):
         print(" ", group["id"], attrs(group, "name", "isInternalGroup", "publicLinkEnabled", "publicLink"))
-    return 0
+        # Linkage endpoints return IDs only; do not request tester profiles.
+        assigned = read_collection(
+            f"/v1/betaGroups/{group['id']}/relationships/builds?limit=200"
+        )
+        testers = read_collection(
+            f"/v1/betaGroups/{group['id']}/relationships/betaTesters?limit=200"
+        )
+        print("    build ids", sorted({row["id"] for row in assigned})
+              if assigned is not None else "unavailable")
+        print("    tester count", len({row["id"] for row in testers})
+              if testers is not None else "unavailable")
+        complete = complete and assigned is not None and testers is not None
+    if not complete:
+        print("\nAudit incomplete: unavailable readbacks do not establish absence or approval.")
+    return 0 if complete else 1
 
 
 if __name__ == "__main__":

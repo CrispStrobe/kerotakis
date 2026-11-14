@@ -58,6 +58,12 @@ impl CurrentAqueousAnswer {
     fn is_current(&self, vessel: &Vessel) -> bool {
         self.answer == format!("{vessel:?}")
     }
+
+    /// Bind both the actual new question and its returned state. An old
+    /// complete solution or a receipt for another pose cannot certify it.
+    pub(crate) fn certifies(&self, input: &Vessel, output: &Vessel) -> bool {
+        self.question == question_key(input) && self.is_current(output)
+    }
 }
 
 /// A trusted concrete adapter must actually answer the supplied current input,

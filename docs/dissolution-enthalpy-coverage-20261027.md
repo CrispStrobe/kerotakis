@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 48/101, minteq.v4 50/101, pitzer 23/101.
+Priced after this change: wateq4f 49/102, minteq.v4 51/102, pitzer 23/102.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -49,6 +49,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `CaO` | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 |
 | `Cu` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
+| `Cu2O` | reference:wateq4f:Cuprite | reference:minteq.v4:Cuprite | refused: a reaction species is not defined on the routed database |
 | `CuO` | hydration:wateq4f:Cu(OH)2 | hydration:wateq4f:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `CuSO4` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Fe` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
@@ -143,6 +144,10 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | combustion | `sucrose` | -dHc per mol fuel | 1 | 5640 kJ |
 | combustion | `dodecane` | -dHc per mol fuel | 1 | 8087 kJ |
 | combustion | `hexadecane` | -dHc per mol fuel | 1 | 10699 kJ |
+| combustion | `ethanol` | -dHc per mol fuel | 1 | 1366.91 kJ |
+| combustion | `methanol` | -dHc per mol fuel | 1 | 726.62 kJ |
+| combustion | `propanone` | -dHc per mol fuel | 1 | 1788.62 kJ |
+| combustion | `hexane` | -dHc per mol fuel | 1 | 4163.17 kJ |
 | gas-pack:h2-o2-skeletal-v1 | every reaction with formation enthalpies | per extent (sum of coefficient x dfH) | as written | derived |
 | gas-pack:co-h2-wet-v1 | every reaction with formation enthalpies | per extent (sum of coefficient x dfH) | as written | derived |
 | gas-pack:hydrocarbon-global-v1 | every reaction with formation enthalpies | per extent (sum of coefficient x dfH) | as written | derived |

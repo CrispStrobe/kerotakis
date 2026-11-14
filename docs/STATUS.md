@@ -1,64 +1,110 @@
-# Kerotakis current state — 2026-10-28
+# Kerotakis current state — 2026-11-12
 
-**Current delivery — 2026-10-28:** [PR #873](https://github.com/CrispStrobe/kerotakis/pull/873) merged normally as `abf4e9a34eb16e51f605a2009e542b62002a30ea` (49 successful checks, 1 expected skip; main CI on the merge commit also passed). It integrates the systematic chemistry lanes indexed in [systematic-lanes-20261027.md](systematic-lanes-20261027.md): gas phases across routes, dissolution/crystallisation heat ownership, a whole-step heat ledger, halogen redox, chromophore refusal, metal–ligand routing, generated input aliases, strong reserve/media, model-domain refusals, plus optional (feature-gated, not shipped by default) CoolProp and FeOs crates.
+Older checkpoints (2026-10-27/28 delivery, release acceptance, snapshot cleanup, earlier coverage
+counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
 
-The production deployment of `abf4e9a3` was dispatched once (Vercel workflow run 40701854764) and had **not yet been confirmed live** at this checkpoint: `/api/health` still reported `a7640a07`. The post-merge run of the **107 remaining originals** against `abf4e9a3` has **not executed yet**. Qualification therefore stays at **365 catalog entries / 361 unique originals out of 468**; 40 more earned originals are needed for 401. See [the handoff, section 0](next-agent-handoff.md) for the exact open steps.
+## Production and qualification
 
-## Previous checkpoint — 2026-10-27
+Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-fo002.json)
+has **414 entries and 414 distinct catalog IDs**, representing **410 unique originals out of the fixed
+468**; **58 remain**. Four entries are from the separate supplied-reactions corpus and are outside
+that denominator. These are reviewed historical qualifications, not a uniform replay on the latest
+release. The goal is now to qualify the remaining originals without treating unsupported chemistry
+or a successful process exit as a scientific pass.
 
-**Current delivery — 2026-10-27:** The diagnostic release is merged and deployed. [Actual release acceptance](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) verifies all 11 API protocols, security/admission/concurrency controls and all 82 browser checks on runtime `a7640a07`. Full source/platform and own-fleet acceptance are complete. The six ordered implementation/review lanes have reached their final maintained-summary update; the source and product checks do not need repeating.
+## Rounds 4 and 5 — PR881 pending acceptance
 
-199 product-owned diagnostic contracts have EN/DE/FR rendering, with raw technical details, opaque upstream fallback and old omitted-metadata JSON preserved. This release adds no original chemistry qualification: the catalog remains **343 entries / 339 unique originals out of 468**. There are 129 remaining, and 62 more earned qualifications are needed to exceed 400. Unsupported chemistry remains an explicit coverage limit.
+[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is ready with auto-merge enabled. The previous head failed preflight on two stale Cu₂O coverage tables and native codex lint on two stale magnesium temperature claims; the successor regenerates the tables and corrects the claims using an independently checked phase-aware enthalpy balance. Hosted thermal, codex lint and coverage checks pass; the updated export snapshot is being retested. It has not merged or deployed; the production identity above remains current. Its first failing head is `bb168622`: six starch display names lack German translations,
+the bicarbonate demo lacks step prose, and carbonate/gas/selectivity fleet contracts fail. Repair
+work preserves those first failures and distinguishes physical source defects from invalid oracles.
+Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication remains pending.
 
-Read [the ordered successor agenda](improvement-agenda-20261014.md), [fresh-agent scopes](next-agent-handoff.md) and [PR policy](PR-WORKFLOW.md). Detailed dated scopes and frozen evidence retain their original source identities; superseded pending notes must not trigger duplicate work.
+[Authenticated focused source results](../audits/carbonate-focused-source-20261112/README.md)
+show72 internal cases/92 declared checks passing on `32f3aed5`, plus core/Clippy/type checks and
+eight identical-process aq-023 readbacks. Two native controls and two translator-template checks
+failed on that producer; later source-bound runs passed their corrections. This adds no original
+qualification.
 
-## Accepted source
+The subsequent hosted workspace run on `583a681d` exposed additional carbonate ownership,
+locale inventory and Clippy failures. Candidate `e862b601` addresses the reported calcite and
+molecular-reagent ownership gaps and the two inventory/lint issues. Original heat and chalk
+assertions remain in place. Three atmospheric-equilibrium contracts were independently reviewed
+against the finite-time gas model, with their originals and first failures preserved. No release
+acceptance is claimed for this candidate.
 
-Accepted runtime source is `a7640a0759f091a31ed40b4cc29c8e127d19b245` from reviewed `b629f1d02447a5a73ab4352c794228565a8c1681`, common tree `054c62a5a7381b4608d8e0b22c94cd2fc8037782`. [The complete actual gates and normal merge](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/audits/owned-diagnostic-full-source-and-merge-20261027/README.md) are accepted. This includes the preserved33-file documentation delta and current implementation/evidence scopes. New-release product acceptance is separately earned below.
+The `e862b601` workspace run subsequently passed the original chalk, pouring-order heat,
+gas-event and transfer controls and Clippy. Its remaining failures and three independently
+audited readbacks are preserved in [the native carbonate contract correction](../audits/carbonate-native-contract-correction-20261112/README.md).
+Concentrated mineral and gas yields remain model-domain holds. The successor controls and the
+full fleet were subsequently executed on the candidate described below.
 
-Previous physical-source foundation: PR859 merges normally as `c51758fa09a8ce0089bc93bb64338a587834a405`, reviewed candidate `0d4dee67b47fcdbd1e80c539a1fd710de31b6e23`, common tree `638dbf446e9ac6007e97ad3f7c13ce300da40b9e`. [Source acceptance](../audits/pending-auxiliary-full-source-and-merge-20261026/README.md):27CI successes plus expected publication skip;33fleet jobs/142steps/29laws. Both native platforms pass36 selected controls, the unchanged12-call cost bound, stronger native zero-time auxiliary checks and500-curiosity requirements with zero unmet/runtime/drift failures. Real browser semantic-DOM and downstream checks pass.
+Candidate `7bd82c80` passed its [hosted workspace, frontend and 702-case own-fleet checks](../audits/source-acceptance-7bd-20261112/README.md).
+Its [macOS CI first failure](../audits/macos-clippy-1100-first-failure-20261112/README.md)
+is a Clippy 1.100 iterator lint in solver-owner discovery; the successor must validate the
+same solver order and ownership on the newer toolchain before this PR can be accepted.
+The same CI run also exposed a [browser foam overflow failure](../audits/browser-foam-clock-first-failure-20261112/README.md). The successor advances an explicit observation interval appropriate to the revised iodide rate while retaining the browser assertions. The repaired overflow checks passed in Chromium on `66d0d970`; the same job then identified a [carbonate lesson snapshot change](../audits/gui003-carbonate-model-adjudication-20261112/README.md). The original snapshot, browser readback and independent native evidence are preserved; a real-browser run on the reviewed successor is still required. The earlier preflight also found [implicit Python text encodings](../audits/python-encoding-first-failure-20261112/README.md); the successor fixes them and still requires the complete preflight. Both native jobs also found three [outdated carbonate codex claims](../audits/codex-carbonate-claims-adjudication-20261112/README.md). The original forecasts and source-bound readbacks are preserved; the revised English, German and French lessons pass a bounded whole-codex check. The following CI run found the corresponding [codex export snapshot drift](../audits/codex-export-a4-first-failure-20261112/README.md); its reviewed update retains the original and first actual exports. Exact-successor CI remains required. The next Linux native run exposed [curiosity coverage failures](../audits/curiosity-cbab-first-failure-20261113/README.md) affecting finite CO2 doses and high-temperature silica, plus three classification changes; the original baseline and refusal controls remain in force pending source-level review. A local successor passed the six focused CO2 clock tests and 16 coverage unit tests. Its CEA phase repair restored the original magnesium and chalk tests but still fails a zinc pour/phase control, a hot-calcite energy check, and five curiosity scenarios involving iodine, propylene, and copper hydroxide. The full curiosity run also reports classification changes. These results are not release acceptance; fix and rerun before integration.
 
-The source closes cache serialization/live-engine startup, shared liquidus/fusion and physical canonical reentry, clockCO2 H/O/charge ownership, sourced carbonate heat/export and the pending-solvent native-call regression. Preserve first failures and exact source-specific evidence; no repeat of accepted source work is needed.
+The next local CEA candidate corrects phase-name parsing and formula identity, handles the zinc
+fusion boundary and reports a nonconverged energy balance instead of returning an unclosed state.
+Its hot-solid heat-capacity continuation reports its model limitation. Hosted focused CEA, phase,
+clock and coverage tests pass. The complete 499-prompt curiosity check still reports one thermal
+solver failure (`th-042`), one unmet polyethylene observation (`mat-032`) and 19 baseline changes.
+Review each remaining classification change against its actual routes and observations,
+including the polyethylene and silica cases, before updating any baseline. The candidate has not
+been pushed, merged or deployed.
 
-## Current deployed release
+The copper follow-up adds sourced cuprous oxide to the thermal product pool. Hosted CEA,
+phase, core and aqueous controls pass, including the original copper charge with conserved
+elements and a closed energy balance; the full curiosity run has no solver failures on that
+candidate. Its registry-export check found a coefficient formatting difference, since corrected
+locally. The revised coverage report retains actual modelling limitations and identifies the
+polyethylene melt as partial evidence with combustion unsupported. A combined workspace and
+curiosity run is in progress; it predates the exporter formatting correction. PR881 is still draft
+and no successor has been pushed or released.
 
-[Production run 40429831287](https://github.com/CrispStrobe/kerotakis/actions/runs/40429831287) succeeds on actual normal merge `a7640a0759f091a31ed40b4cc29c8e127d19b245`, tree `054c62a5a7381b4608d8e0b22c94cd2fc8037782`. [Independent artifact/API/browser review](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) authenticates native SHA256 `5427d0ee8092d4b21f2d4e33f1adbbee69a6fc2b253a1aaf40c54e6e868ab866`, genuine producer lock `568f0a32a69e7d7e8eca2b5e565bd1771dca6d5203d632f7a93403f5e7237216` and archive `072274e0a45ec4fac527279c5138e4baecf0d7289e5b9acf2652e23d452122ad`, including actual frontend/runtime-library bytes. Producer dependency resolution is not claimed to be source-committed or identical across independent builds.
+The hosted follow-up on the corrected candidate passes chalk and phase controls, registry and
+aqueous coverage, exporter, locale, safety, curiosity-unit, corpus perturbation and frontend
+checks. The earlier 702-case chemistry fleet passed on the copper runtime. Chalk's independent
+per-pass accounting closes within 1% using the actual CO2 exit temperatures; the previous test
+priced the exhaust at the later final temperature. The crystallisation report now distinguishes
+a database phase from one excluded by aqueous admission. Complete PR checks and delivery remain
+pending; no new production release or original qualification is claimed.
 
-All eleven unchanged API protocols and applicable security checks pass, including concurrency responses `[200, 429]`. All 82 browser controls pass in the mandatory 37/7/18/2/18 groups. The private CPU producer runs once, and unchanged saved predicates are independently assessed against its actual collected output. Source, native, lock, archive, frontend, worker, harness and input identities are bound. No older result is relabeled as the new release and no new original qualification is inferred.
+Round 4:
+- S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
+  HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.
+- Iodine in hexane is labelled a non-aqueous solution and counted by `inspect`; hexane/water K_D = 26.0
+  from Hildebrand & Scott saturation data (the exam value 85 is gone); SP-011.
+- Polymer and wax latent heat ΔHf = Xc·ΔHf(100 %) (Wunderlich via TA TN048); PO-009, TH-004.
+- Englyst RDS/SDS/RS starch digestion across seven starch sources and states; EN-001.
+- 27 NBS Circular 500 and 9 WebBook-quoted transition points; NaHSO4, H2O2 and NH3-solution density corrected.
+- UV-vis cited molar absorptivities: I2, I3-, MnO4- (3340), MnO4^2-, Cr2O7^2-/HCrO4-, CrO4^2- (Haupt 1952,
+  NBS RP2331), Co(H2O)6^2+ (Davis & Gibson, NBS MP114), Cl2(aq) (Fergusson 1936 via the MPI-Mainz atlas,
+  CC BY 4.0), HOCl/OCl-, Br2/Br3-, FeSCN2+, Cu(NH3)4^2+, Ni2+. Only FeCl2+ is still refused.
+- Iodide-catalysed peroxide decomposition uses the measured k0 = 0.0115 L/mol/s (15x slower than before).
+- **Carbonate boundaries under repair.** Instantaneous operations now share the zero-time boundary;
+  signed finite-time CO2 film transfer has a separate owner. The old bulk-pH/atmospheric-sink fizz
+  fallback is replaced by a bounded curated parcel with an explicit EN/DE/FR modelling limit.
+  [Design, first failures and pending acceptance](carbonate-boundaries-20261112.md) distinguish
+  transport, new reaction gas and old stored supersaturation. The versioned independent NaHCO3
+  law preserves the original failed ordering and all original scripts.
 
-## Earlier deployed assessment and retained model holds
+Round 5 (from the typical-experiment sweep): `ignite` burns liquid ethanol, methanol, propanone and
+n-hexane in an open dish (curated rows from Circular 500 / NIST-quoted formation enthalpies) instead
+of boiling them off; headspace gas colour (Cl2, Br2, I2, NO2, O3) from the MPI-Mainz atlas. Metal +
+acid and displacement heats were already charged by the displacement solver from formation
+enthalpies. A second route was withdrawn after double counting: zinc in copper sulfate warmed
+51.8 K instead of about 25 K, and the metal-acid lesson lost its 25.0 to 36.2 °C reading.
 
-[Production attempt2](https://github.com/CrispStrobe/kerotakis/actions/runs/40284030952/attempts/2) succeeds on c517 after the approved snapshot cleanup. Actual nativeSHA256 is `daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3`, actual producer lock `209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447`, archive `f62b597da6af8f3bd8f1c600b42794350c7df9a0bef0fd059ffb1fc148dc3c77`. The lock is a genuine producer artifact, not source-committed dependency resolution.
+## Open work (detail and acceptance in the [handoff](next-agent-handoff.md))
 
-The [11API/82browser baseline passes](../audits/c517-deployed-baseline-and-model-holds-20261026/README.md). [All15API/86browser controls are assessed](../audits/c517-fifteen-eighty-six-complete-assessment-20261026/README.md): **API12pass/3unsupported holds; browser83pass/3unsupported holds**. Warm feed/wait passes on both interfaces; the same three cold mixtures remain held. This is complete assessment, not a full15/86 scientific pass. [Cold-model scopes](cold-mixture-model-authority-20261026.md) distinguish calcium/silver's actual high ionic strength from conservative input-load warnings in the other two cases.
-
-Both browser harness failures remain preserved. The first baseline loader fails before UI checks. The first additional-browser producer completes calcium/silver, then fails a late short/full revision check;14 actual replies are recovered and assessed without replay. A separately reviewed source/asset-bound build-revision guard executes only the remaining three protocols and passes capture. No synthetic single-producer report or full-commit substitution is used.
-
-## Vercel snapshot cleanup
-
-[The approved cleanup](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) deletes 17 verified unused snapshots and frees 13.16 GiB. [A fresh scan after the current release](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) covers all 39 accessible projects and all their sandbox inventories: five live snapshots belong to five retained READY deployments, no active sandboxes or new orphans exist, and the 17 deletion tombstones remain unchanged. No additional deletion is needed. Bindings use authenticated deployment workflow logs and snapshot-to-environment argument flow; decrypted environment-value readback is not claimed. Protect all current and rollback snapshots. [Lifecycle prevention](deployment-snapshot-lifecycle.md) is a successor lane.
-
-## Original experiment coverage
-
-**2026-11-11:** **402/468 unique originals** (406 entries, catalog `audits/working-experiments-20261111-reviewed-production-round3-29.json` on the audit branch); the goal of 401 is met. Two rounds since 11-10: fixes deployed as `d930a986` re-ran 13 rejected originals once (+4: SE-002, MO-012, AN-007, TH-003); round 3 plus seven rejection-fix lanes deployed as `731931f0` re-ran the 7 affected originals once (+5: EC-008, RX-004, AN-004, TH-004, PO-009), each under strict per-criterion and adversarial review. `731931f0` was deployed although main CI's Full preflight job failed three times on runner apt DNS (all 28 other jobs green; preflight lints passed on a hosted CPU run). Older figures below are historical. Current open work: [handoff section 0](next-agent-handoff.md).
-
-**2026-11-10:** **393/468 unique originals** (397 entries, catalog `audits/working-experiments-20261110-reviewed-production-gaps27.json` on the audit branch); 8 more needed for 401. Six gap lanes (flame by cation, transport desorption, transition points, organic partition, registry solids, iodine chemistry) deployed as `cbc741fe`; the 27 originals they targeted re-ran once (+14) under strict per-criterion and adversarial review. Older figures below are historical. Current open work: [handoff section 0](next-agent-handoff.md).
-
-**2026-11-09:** **379/468 unique originals** (383 entries, catalog `audits/working-experiments-20261109-reviewed-production-rerun12.json` on the audit branch); 22 more needed for 401. The 107 remaining originals ran once on production `abf4e9a3` (+11), and the 12 whose blockers #877 targeted re-ran once on `4bdc5da9` (+7), each under strict per-criterion and adversarial review. Older figures below are historical. Current open work: [handoff section 0](next-agent-handoff.md).
-
-The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/8e75e480/audits/working-experiments-20261026-reviewed-pigment-one.json) has343 entries representing **339/468 unique originals**.129 remain;62 more earned originals are needed for401. Every previous342 object is preserved. These qualifications span explicitly bound sources and domains; they are not a uniform replay on latest production or empirical calibration.
-
-[Original LI004 independently qualifies](../audits/original-li004-current-source-qualified-20261026/README.md) within its forecast's curated pigment-identity-versus-dilution scope. All44 available vessel readbacks close known elements includingH/O and charge to8.88e−16mol/eq under the unchanged1e−10 bound. Actual UVvis wavelengths differ; no numerical cross-wavelength absorbance-loss claim or empirical oxidised-product identification is earned.
-
-EN002/EN008 show the intended separate enzyme annotations and controls but retain the milk physical charge/pH hold; the originals accept aggregate annotations, so missing resolved molecules alone is not a rejection. FE006's substrate/lactic-stock arithmetic agrees, but the casein-buffer and charge limitations block its physical pH comparison. Inputs initialize40C and cool during8h; they are not held at40C. [Milk-matrix lanes](milk-matrix-physical-closure-20261026.md) state the actual missing authority, observability and acceptance. All four unchanged protocols execute once; do not repeat them without a demonstrated changed-source question.
-
-All668 supplied records already have baseline executions:557zero/111nonzero exits; fixed468 is465/3 and separate curriculum200 is92/108. Exit status is not scientific acceptance. Preserve original forecasts, scripts, first failures and source/native/lock bindings.
-
-## Next work
-
-1. Implement the bounded CI acceleration lane after proving complete command/feature/platform equivalence. Preserve all logical checks, protected contexts and failure evidence.
-2. **Done 2026-10-27:** the [remaining-129 production triage](../audits/remaining129-production-triage-20261027/README.md) ran all 129 unchanged originals once on production `a7640a07` (126 completed, 3 refused) and classified each blocker. Formal review qualified 22 of its 30 ready cases (catalog now **365 entries / 361/468**, 40 more needed for 401). Next: the shared iodide/thiosulfate (~19) and reaction-heat ownership (~19) source lanes, the AB-017 NH3(g)/minteq.v4 regression and the confirmed TH-007/TH-009/TH-015 heat-sign defects. A new EOS/kinetics engine is not the next lever: only 3 cases named FeOs or teqp/CoolProp.
-3. Repair supported mapping/ownership/data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
-4. Strengthen diagnostic source-parser/helper-key inventory coverage and scoped snapshot lifecycle prevention.
-
-The [fresh-agent handoff](next-agent-handoff.md) supplies entry conditions, concrete actions, source paths and acceptance for each lane. Do not repeat accepted source/product checks or unchanged originals without a demonstrated changed-source question. Preserve forecasts, first failures, the immutable working ledger and each producer's true bindings. Private resource/process/account details belong only in the ignored operating handoff.
+1. Volatile acid–base gases beyond CO2: H2S needs a reduced-sulfur family first, SO2 a sourced gas-phase
+   slice; NH3 needs no fizz rule (see the handoff).
+2. Headspace gas colour: done (Cl2, Br2, I2 vapour, NO2, O3 cited; `gas_colour.rs`).
+3. Complete hosted acceptance of the new finite-time CO2 owner and bounded endpoint; broader
+   gas-transfer and nucleation domains remain scoped separately.
+4. Remaining unsourced data: FeCl2+ absorptivity, starch–iodine blue value, maltose/maltotriose split,
+   PVC latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2, BaCl2, Pb(NO3)2, …).
+5. Typical-experiment sweep through the CLI (15 classroom reactions) and fixes for anything off.
+6. Re-run only originals whose blocker a merged lane removed, once per deployed sha; strict and
+   adversarial review; new catalog version. TR-006 stays correctly refused.

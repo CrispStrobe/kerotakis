@@ -2327,7 +2327,7 @@
     ]
   },
   "elephant-toothpaste-catalyst-dose": {
-    "event_count": 20,
+    "event_count": 19,
     "events_sample": [
       "v1: +101.000 g 3% hydrogen peroxide (2 known ingredient(s))",
       "v1: +10.300 g dish soap (1 known ingredient(s))",
@@ -2338,24 +2338,23 @@
       "v2: +10.300 g dish soap (1 known ingredient(s))",
       "v2: +6.02 mmol potassium iodide",
       "v2: 6.02 mmol potassium iodide dissolved",
-      "v1: 0.002076 mol O2 produced (2.076e-4 mol/s)",
-      "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
-      "v1: peroxide-decomposition released 407.81 J",
-      "v1: 25.0 °C → 25.9 °C",
-      "v1: 2.08 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v2: 0.007743 mol O2 produced (7.743e-4 mol/s)",
-      "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L",
-      "v2: peroxide-decomposition released 1520.70 J",
-      "v2: 25.0 °C → 28.4 °C",
-      "v2: 7.74 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v2: 28.4 °C → 28.3 °C"
+      "v1: 0.000141 mol O2 produced (1.410e-5 mol/s)",
+      "v1: foam 0.003 L, 0.1 cm high, overflow 0.000 L",
+      "v1: peroxide-decomposition released 27.69 J",
+      "v1: 25.0 °C → 25.1 °C",
+      "v1: 141 µmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v2: 0.000561 mol O2 produced (5.613e-5 mol/s)",
+      "v2: foam 0.013 L, 0.5 cm high, overflow 0.000 L",
+      "v2: peroxide-decomposition released 110.24 J",
+      "v2: 25.0 °C → 25.2 °C",
+      "v2: 561 µmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑"
     ],
     "lesson": "elephant-toothpaste-catalyst-dose.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.08493856,
+            "moles": 0.08880945,
             "phase": "Liquid",
             "species": "H2O2"
           },
@@ -2365,24 +2364,24 @@
             "species": "KI"
           },
           {
-            "moles": 0.00207644,
+            "moles": 0.000141,
             "phase": "Gas",
             "species": "O2"
           },
           {
-            "moles": 5.8997954,
+            "moles": 5.89592451,
             "phase": "Liquid",
             "species": "water"
           }
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 299.0483
+        "temperature_k": 298.211
       },
       {
         "contents": [
           {
-            "moles": 0.07360572,
+            "moles": 0.08796881,
             "phase": "Liquid",
             "species": "H2O2"
           },
@@ -2392,19 +2391,19 @@
             "species": "KI"
           },
           {
-            "moles": 0.00774286,
+            "moles": 0.00056132,
             "phase": "Gas",
             "species": "O2"
           },
           {
-            "moles": 5.91112824,
+            "moles": 5.89676516,
             "phase": "Liquid",
             "species": "water"
           }
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 301.4976
+        "temperature_k": 298.3927
       }
     ]
   },
@@ -5083,7 +5082,7 @@
     ]
   },
   "luminol-temperature": {
-    "event_count": 28,
+    "event_count": 29,
     "events_sample": [
       "v1: +20.000 g prepared luminol glow solution (0 known ingredient(s))",
       "v1: +5.000 g 3% hydrogen peroxide (2 known ingredient(s))",
@@ -5100,11 +5099,11 @@
       "v2: relative blue-light intensity 4.00; estimated half-life 10.7s at 333.1 K",
       "v1: The liquid is colourless and clear.",
       "v2: The liquid is colourless and clear.",
+      "v1: 0.32 pmol reacted in 30 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
       "v1: water froze at 0.0 °C",
       "v1: -70.9 °C → 0.0 °C",
       "v2: 0.000719 mol O2 produced (2.398e-5 mol/s)",
-      "v2: peroxide-decomposition released 141.30 J",
-      "v2: 121.4 °C → 128.1 °C"
+      "v2: peroxide-decomposition released 141.30 J"
     ],
     "lesson": "luminol-temperature.lab",
     "vessels": [
@@ -6535,14 +6534,14 @@
       "v1: 48.3 µmol iodine dissolved",
       "v1: not yet modelled — iodine dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: new vessel",
-      "v1 -> v2: 0.5000 mol hexane, divided across 4 ideal extraction stage(s) — iodine: 100.0% extracted (99.4% in one equal-total-solvent stage), K=85.000"
+      "v1 -> v2: 0.5000 mol hexane, divided across 4 ideal extraction stage(s) — iodine: 100.0% extracted (97.9% in one equal-total-solvent stage), K=26.000"
     ],
     "lesson": "repeated-liquid-extraction.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.0,
+            "moles": 2.1e-7,
             "phase": "Aqueous",
             "species": "I2"
           },
@@ -6559,7 +6558,7 @@
       {
         "contents": [
           {
-            "moles": 0.001,
+            "moles": 0.00099979,
             "phase": "Aqueous",
             "species": "I2"
           },

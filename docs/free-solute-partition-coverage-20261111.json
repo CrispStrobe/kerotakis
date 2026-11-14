@@ -3,11 +3,11 @@
     {
       "solute": "I2",
       "pair": "hexane/water",
-      "k_d": "85.0",
+      "k_d": "26.0",
       "class": "free-solute",
       "complex": "I3- (with I-, K = 698.0)",
       "complex_source": "I2 + I- <=> I3-, K = 698 L/mol at 25 °C: Palmer, Ramette & Mesmer, J. Solution Chem. 13 (1984) 673, doi:10.1007/BF00650374; only free I2 partitions, I3- stays in water",
-      "k_d_source": "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model"
+      "k_d_source": "K = 26.0 (molar, [I2]hexane/[I2]water, 25 °C), DERIVED as the ratio of saturation concentrations, which equals the partition coefficient up to the negligible mutual solubility of hexane and water: I2 mole fraction 0.00456 in n-hexane (molar volume 131.6 cm3/mol) -> 0.0347 M, Hildebrand & Scott, The Solubility of Nonelectrolytes, 3rd ed. (1950), p. 274, Table 1 'Iodine Solutions, 25°C' (as read from archive.org solubilityofnone0000joel); aqueous solubility 0.3393 g/L (1.334e-3 M) at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741. The same ratio for CCl4 gives 88.5 against Jakowkin's measured 89.6 (Z. physik. Chem. 18 (1895) 585, as tabulated by Hildebrand & Scott p. 208), which checks the method; the earlier K = 85 cited an exam question and was the CCl4 value. Neither source gives a temperature model"
     }
   ],
   "refusal_keys": [

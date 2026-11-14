@@ -23,7 +23,7 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 38,
+    "missing_absorptivity": 39,
     "outside_method": 110,
     "parameterised": 7,
     "parameterised_ph": 4,
@@ -73,6 +73,11 @@
     {
       "species": "Cu(OH)2",
       "appearance": "pale blue",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cu2O",
+      "appearance": "red",
       "class": "missing_absorptivity"
     },
     {
