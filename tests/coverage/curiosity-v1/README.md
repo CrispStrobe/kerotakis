@@ -139,6 +139,15 @@ reviewed transition points now answer these prompts from curated, cited
 rows (ΔHf = Xc·ΔHf(100 %)) rather than from no data or a generic route.
 
 
+## Classification review 2026-11-14
+
+The [individual adjudication](../../../docs/curiosity-classification-adjudication-20261114.md)
+records eighteen reviewed baseline changes: mixed carbonate provenance, actual thermal
+owners, silica's remaining model limitation and partial polyethylene melting observations.
+Scripts and required grades are unchanged. Coverage JSON now preserves actual model-limit
+events beside route lists; the PE reason explicitly leaves combustion unsupported.
+Exact-successor hosted acceptance remains required.
+
 ## Correction 2026-09-07 — lactate had been speciated all along
 
 **No row moves. No number moves. Nothing in the corpus changes.** This

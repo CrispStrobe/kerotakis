@@ -203,8 +203,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-034"
 owning_task = "EXP-3"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-035"
@@ -359,8 +359,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "aq-060"
 owning_task = "EXP-2"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-061"
@@ -773,8 +773,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "bio-004"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-005"
@@ -1247,14 +1247,14 @@ reason_code = "whole-organism-out-of-scope"
 [[observation]]
 id = "bio-083"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-084"
 owning_task = "CAP-1"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-085"
@@ -1523,8 +1523,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-004"
 owning_task = "EXP-10"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-005"
@@ -1577,8 +1577,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "mat-013"
 owning_task = "BRD-014"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-014"
@@ -1692,7 +1692,7 @@ reason_code = "timescale-outside-simulation"
 id = "mat-032"
 owning_task = "BRD-023"
 outcome = "qualitative"
-reason_code = "typed-observation"
+reason_code = "partial-phase-observation-combustion-unmodeled"
 
 [[observation]]
 id = "mat-033"
@@ -1793,8 +1793,8 @@ reason_code = "unsupported-fracture-mechanics"
 [[observation]]
 id = "mat-049"
 owning_task = "BRD-060"
-outcome = "solver_failure"
-reason_code = "solver-failed-cea-thermal"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-050"
@@ -1811,8 +1811,8 @@ reason_code = "unsupported-hardness-test"
 [[observation]]
 id = "mat-052"
 owning_task = "EXP-1"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-053"
@@ -1823,8 +1823,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-054"
 owning_task = "BRD-060"
-outcome = "solver_failure"
-reason_code = "solver-failed-cea-thermal"
+outcome = "missing"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-055"
@@ -1959,8 +1959,8 @@ reason_code = "non-chemical-question"
 [[observation]]
 id = "mat-076"
 owning_task = "EXP-1"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-077"
@@ -2055,8 +2055,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-092"
 owning_task = "BRD-060"
-outcome = "solver_failure"
-reason_code = "solver-failed-cea-thermal"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-093"
@@ -2247,8 +2247,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-124"
 owning_task = "CAP-1"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-125"
@@ -2619,8 +2619,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-061"
 owning_task = "BRD-023"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "qualitative"
+reason_code = "partial-phase-observation-combustion-unmodeled"
 
 [[observation]]
 id = "th-062"
@@ -2649,8 +2649,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-066"
 owning_task = "BRD-041"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-067"
@@ -2847,14 +2847,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-099"
 owning_task = "CAP-25"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-100"
 owning_task = "CAP-25"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-101"

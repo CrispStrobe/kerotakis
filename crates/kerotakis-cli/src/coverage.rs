@@ -99,6 +99,9 @@ struct PromptResult {
     observed: Disposition,
     reason_code: String,
     routes: Vec<SolverRoute>,
+    /// Actual model-limit events, retained beside observations and routes.
+    /// A qualitative phase observation must not hide an unsupported burn.
+    limitations: Vec<Event>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -602,25 +605,37 @@ fn observed_phase_change(events: &[Event]) -> bool {
     })
 }
 
-/// A single-substance heating question may be answered qualitatively by
-/// its own phase change, even when combustion is unsupported afterwards.
-/// A solvent changing phase beside another reagent is no such answer.
+/// A changed substance may supply a partial physical observation beside
+/// an explicit combustion refusal. Only oxygen/nitrogen may accompany it:
+/// an unrelated solvent changing phase cannot answer the chemical question.
 fn single_substance_phase_observation(prompt: &CuriosityPrompt, events: &[Event]) -> bool {
-    if prompt.action != ActionFamily::HeatAndCool {
+    if !matches!(
+        prompt.action,
+        ActionFamily::HeatAndCool | ActionFamily::BurnAndOxidise
+    ) {
         return false;
     }
+    let air = |species: &kerotakis_core::SpeciesId| matches!(species.0.as_str(), "O2" | "N2");
     let Some((owner, added)) = events.iter().find_map(|event| match event {
         Event::Added {
             vessel, species, ..
-        } => Some((vessel, species)),
+        } if !air(species) => Some((vessel, species)),
         _ => None,
     }) else {
         return false;
     };
+    if !events.iter().any(|event| {
+        matches!(event,
+            Event::NotYetModeled { vessel, reason: Some(reason), .. }
+                if vessel == owner && reason.key == "not-modeled.combustion-no-solver"
+        )
+    }) {
+        return false;
+    }
     if events.iter().any(|event| match event {
         Event::Added {
             vessel, species, ..
-        } => vessel != owner || species != added,
+        } => vessel != owner || (species != added && !air(species)),
         Event::MaterialAdded { .. } | Event::SolutionAdded { .. } => true,
         _ => false,
     }) {
@@ -643,6 +658,7 @@ fn execute_prompt(
             Disposition::Boundary,
             prompt.boundary.as_deref().unwrap_or("declared-boundary"),
             Vec::new(),
+            &[],
         ));
     }
 
@@ -666,6 +682,7 @@ fn execute_prompt(
                     Disposition::Missing,
                     parse_reason(error.kind),
                     routes,
+                    &all_events,
                 ));
             }
         };
@@ -713,7 +730,13 @@ fn execute_prompt(
         .iter()
         .any(|event| matches!(event, Event::SafetyVeto { .. }))
     {
-        return Ok(result(prompt, Disposition::Boundary, "safety-veto", routes));
+        return Ok(result(
+            prompt,
+            Disposition::Boundary,
+            "safety-veto",
+            routes,
+            &all_events,
+        ));
     }
     let physical_observation = single_substance_phase_observation(prompt, &all_events);
     if events
@@ -804,6 +827,7 @@ fn execute_prompt(
             Disposition::Missing,
             "not-yet-modeled",
             routes,
+            &all_events,
         ));
     }
     let succeeded = |kind| {
@@ -828,11 +852,21 @@ fn execute_prompt(
     let computed_inert = all_events
         .iter()
         .any(|event| matches!(event, Event::Inert { computed: true, .. }));
-    let physical_observation = physical_observation
-        && !computed_chemistry
-        && !succeeded(SolverRouteKind::Computed)
-        && !succeeded(SolverRouteKind::Curated);
-    let typed_observation = physical_observation || all_events.iter().any(|event| {
+    let curated_chemistry = routes.iter().any(|route| {
+        route.kind == SolverRouteKind::Curated && route.chemistry
+            && matches!(route.outcome, SolverRouteOutcome::Succeeded { event_count } if event_count > 0)
+    });
+    let physical_observation = physical_observation && !computed_chemistry && !curated_chemistry;
+    if physical_observation {
+        return Ok(result(
+            prompt,
+            Disposition::Qualitative,
+            "partial-phase-observation-combustion-unmodeled",
+            routes,
+            &all_events,
+        ));
+    }
+    let typed_observation = all_events.iter().any(|event| {
         matches!(
             event,
             Event::Smelled { .. }
@@ -994,6 +1028,7 @@ fn execute_prompt(
             Disposition::Qualitative,
             "typed-observation",
             routes,
+            &all_events,
         ));
     }
     if prompt.action == ActionFamily::HandleAndInspect
@@ -1009,6 +1044,7 @@ fn execute_prompt(
             Disposition::Qualitative,
             "typed-observation",
             routes,
+            &all_events,
         ));
     }
 
@@ -1029,7 +1065,7 @@ fn execute_prompt(
     } else {
         (Disposition::Missing, "no-applicable-model")
     };
-    Ok(result(prompt, observed, reason, routes))
+    Ok(result(prompt, observed, reason, routes, &all_events))
 }
 
 /// Where a disposition sits on the scale a requirement is measured against.
@@ -1104,6 +1140,7 @@ fn result(
     observed: Disposition,
     reason_code: &str,
     routes: Vec<SolverRoute>,
+    events: &[Event],
 ) -> PromptResult {
     PromptResult {
         id: prompt.id.clone(),
@@ -1112,6 +1149,11 @@ fn result(
         observed,
         reason_code: reason_code.to_string(),
         routes,
+        limitations: events
+            .iter()
+            .filter(|event| matches!(event, Event::NotYetModeled { .. }))
+            .cloned()
+            .collect(),
     }
 }
 
@@ -1248,9 +1290,12 @@ mod tests {
     }
 
     #[test]
-    fn original_mixed_carbonate_cases_keep_both_routes_and_original_curated_baseline() {
+    fn mixed_carbonate_cases_keep_both_routes_and_reviewed_curated_baseline() {
         let baseline = load_baseline(Path::new(DEFAULT_BASELINE)).unwrap();
-        for id in ["aq-059", "aq-122", "bio-114"] {
+        for id in [
+            "aq-059", "aq-122", "bio-114", "aq-034", "aq-060", "bio-004", "bio-083", "bio-084",
+            "mat-052", "mat-076", "mat-124", "th-099", "th-100",
+        ] {
             let actual = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
             let original = baseline
                 .observation
@@ -1283,7 +1328,28 @@ mod tests {
         let prompt = original_prompt("mat-032");
         let actual = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
         assert_eq!(actual.observed, Disposition::Qualitative);
-        assert_eq!(actual.reason_code, "typed-observation");
+        assert_eq!(
+            actual.reason_code,
+            "partial-phase-observation-combustion-unmodeled"
+        );
+        let serialized = serde_json::to_value(&actual).unwrap();
+        assert!(serialized["limitations"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|limit| limit["reason"]["key"] == "not-modeled.combustion-no-solver"));
+        let hotter = execute_prompt(&original_prompt("th-061"), &mut crate::build_stack()).unwrap();
+        assert_eq!(hotter.observed, Disposition::Qualitative);
+        assert_eq!(hotter.reason_code, actual.reason_code);
+        let mut melting_only = prompt.clone();
+        melting_only.script.pop();
+        let ordinary = execute_prompt(&melting_only, &mut crate::build_stack()).unwrap();
+        assert_eq!(
+            ordinary.observed,
+            Disposition::Curated,
+            "without the unsupported burn, the paid phase route keeps its quantitative grade"
+        );
+        assert_eq!(ordinary.reason_code, "curated-route");
 
         let mut bench = Bench::new();
         let mut stack = crate::build_stack();
@@ -1318,6 +1384,14 @@ mod tests {
         use kerotakis_core::species::Phase;
         use kerotakis_core::{Kelvin, Moles, SpeciesId, VesselId};
         let prompt = original_prompt("mat-032");
+        let limit = Event::not_modeled(
+            VesselId(0),
+            kerotakis_core::ops::NotModelledCause::NoSolver,
+            kerotakis_core::phrase::Phrase::bare(
+                "not-modeled.combustion-no-solver",
+                "combustion remains unsupported",
+            ),
+        );
         let polymer = Event::Added {
             vessel: VesselId(0),
             species: SpeciesId::new("PE"),
@@ -1342,17 +1416,25 @@ mod tests {
         };
         assert!(!single_substance_phase_observation(
             &prompt,
-            &[polymer.clone(), transition.clone()]
+            &[polymer.clone(), transition.clone(), limit.clone()]
         ));
         assert!(!single_substance_phase_observation(
             &prompt,
-            &[polymer, water.clone(), transition.clone()]
+            &[polymer, water.clone(), transition.clone(), limit.clone()]
+        ));
+        let mut other_vessel_limit = limit.clone();
+        if let Event::NotYetModeled { vessel, .. } = &mut other_vessel_limit {
+            *vessel = VesselId(1);
+        }
+        assert!(!single_substance_phase_observation(
+            &prompt,
+            &[water.clone(), transition.clone(), other_vessel_limit]
         ));
         let mut unrelated_action = prompt;
         unrelated_action.action = ActionFamily::FoodAndLife;
         assert!(!single_substance_phase_observation(
             &unrelated_action,
-            &[water, transition]
+            &[water, transition, limit]
         ));
     }
 
@@ -1584,6 +1666,7 @@ mod tests {
                 },
                 reason_code: observation.reason_code.clone(),
                 routes: Vec::new(),
+                limitations: Vec::new(),
             })
             .collect();
         CuriosityReport {
