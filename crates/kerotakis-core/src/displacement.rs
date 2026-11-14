@@ -1181,6 +1181,93 @@ pub fn electrode(vessel: &Vessel) -> Option<Electrode> {
     })
 }
 
+/// A bounded open-circuit readout beside a native AgCl equilibrium.
+///
+/// Keep the observable-amount rule in `electrode`: it prevents a displacement
+/// bracket's numerical trace from pinning pe or admitting electrolysis. A
+/// retained silver-chloride phase is a different case: it can leave a small
+/// but resolved free silver activity beside a macroscopic silver electrode.
+/// Read that native activity without moving matter or changing the chemical
+/// electrode owner. No molality fallback, new Ag/AgCl standard potential,
+/// liquid-junction correction or passivation/kinetic prediction is introduced.
+fn open_circuit_electrode(vessel: &Vessel) -> Option<Electrode> {
+    if let Some(electrode) = electrode(vessel) {
+        return Some(electrode);
+    }
+    let solution = vessel.solution.as_ref()?;
+    if solution.scope != crate::vessel::SolutionScope::Complete
+        || !vessel.temperature.0.is_finite()
+        || vessel.temperature.0 <= 0.0
+        || vessel.pending_co2_transfer_mol != 0.0
+        || !solution.ionic_strength.is_finite()
+        || solution.ionic_strength < 0.0
+        || !vessel.unresolved_materials.is_empty()
+        || !vessel.material_objects.is_empty()
+        || !vessel.surfaces.is_empty()
+        || !vessel.exchanges.is_empty()
+        || !vessel.electrodes.is_empty()
+        || !vessel.adsorbed.is_empty()
+        || !vessel.solid_solutions.is_empty()
+        || vessel.contents.iter().any(|portion| {
+            !portion.moles.0.is_finite()
+                || portion.moles.0 < 0.0
+                || species::lookup(&portion.species).is_none()
+        })
+    {
+        return None;
+    }
+    let owned_amount = |species, phase, minimum| {
+        let amount = moles_in(vessel, species, phase);
+        amount.is_finite() && amount > minimum
+    };
+    if !owned_amount("Ag+", Phase::Aqueous, 0.0)
+        || !owned_amount("Cl-", Phase::Aqueous, 0.0)
+        || !owned_amount("Ag", Phase::Solid, crate::OBSERVABLE_MOLES)
+        || !owned_amount("AgCl", Phase::Solid, crate::OBSERVABLE_MOLES)
+        || SERIES.iter().any(|couple| {
+            couple.reduced_phase == Phase::Solid
+                && couple.reduced != "Ag"
+                && moles_in(vessel, couple.reduced, Phase::Solid) > crate::OBSERVABLE_MOLES
+        })
+    {
+        return None;
+    }
+    // Both free-ion activities must be supplied by the solved aqueous state.
+    // Merely putting the two solids into a vessel does not establish them.
+    let (activity, resolved) = activity_of(vessel, "Ag+")?;
+    let (chloride_activity, chloride_resolved) = activity_of(vessel, "Cl-")?;
+    if !resolved
+        || !chloride_resolved
+        || !activity.is_finite()
+        || activity <= 0.0
+        || !chloride_activity.is_finite()
+        || chloride_activity <= 0.0
+    {
+        return None;
+    }
+    let water = solution.solvent_kg?;
+    if !water.is_finite() || water <= 0.0 || (water - kgw(vessel)).abs() > 1e-10 {
+        return None;
+    }
+    for ion in ["Ag+", "Cl-"] {
+        let free = solution.species.iter().find(|entry| entry.name == ion)?;
+        if !free.molality.is_finite()
+            || free.molality <= 0.0
+            || free.molality * water > moles_in(vessel, ion, Phase::Aqueous) + 1e-10
+        {
+            return None;
+        }
+    }
+    let couple = couple_of_metal("Ag")?;
+    let volts =
+        couple.e0_volts + nernst_slope(vessel.temperature) / couple.electrons * activity.log10();
+    volts.is_finite().then_some(Electrode {
+        couple,
+        activity,
+        volts,
+    })
+}
+
 /// What a current does to the SOLUTION when there is no metal half-cell.
 ///
 /// The existing electrolyser models one thing: a metal standing in a
@@ -1629,8 +1716,8 @@ impl Cell {
 /// Wire two vessels as a cell. The more negative electrode is the anode —
 /// that is not a choice, it is what the potentials say.
 pub fn cell(a: &Vessel, b: &Vessel) -> Result<Cell, String> {
-    let ea = electrode(a).ok_or_else(|| why_no_electrode(a))?;
-    let eb = electrode(b).ok_or_else(|| why_no_electrode(b))?;
+    let ea = open_circuit_electrode(a).ok_or_else(|| why_no_electrode(a))?;
+    let eb = open_circuit_electrode(b).ok_or_else(|| why_no_electrode(b))?;
     if ea.couple.reduced == eb.couple.reduced {
         // A concentration cell. Real, small, and not nothing: two copper
         // electrodes in copper sulfate of different strengths give a few
