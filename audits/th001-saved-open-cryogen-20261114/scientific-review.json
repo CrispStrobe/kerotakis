@@ -1,0 +1,348 @@
+{
+  "met": 3,
+  "total": 3,
+  "criteria": {
+    "question": true,
+    "inventory": true,
+    "coverage": true
+  },
+  "solver_failures": 0,
+  "known_element_charge_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0",
+        "O": "0",
+        "C": "0",
+        "N": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 0,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0",
+        "O": "0",
+        "C": "0",
+        "N": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0",
+        "O": "0",
+        "C": "0",
+        "N": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    },
+    {
+      "step": 12,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-20",
+        "C": "0E-20",
+        "N": "0",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 12,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0E-19",
+        "charge": "0E-19"
+      }
+    }
+  ],
+  "phase_changes": [
+    {
+      "at": 194.686,
+      "event": "state_changed",
+      "from": "solid",
+      "kind": "sublimation",
+      "moles": 0.0022722624917630484,
+      "shifted_by": 0.0,
+      "species": "dry_ice",
+      "to": "gas",
+      "vessel": 0
+    },
+    {
+      "at": 77.34,
+      "event": "state_changed",
+      "from": "liquid",
+      "kind": "boiling",
+      "moles": 0.003569643749553795,
+      "shifted_by": 0.0,
+      "species": "liquid_nitrogen",
+      "to": "gas",
+      "vessel": 1
+    }
+  ],
+  "explicit_vent_mol": {
+    "0": {
+      "species": "CO2",
+      "moles": "0.0022722624917630484"
+    },
+    "1": {
+      "species": "N2",
+      "moles": "0.003569643749553795"
+    }
+  },
+  "thermometer_c": {
+    "0": "24.540430143916865",
+    "1": "24.840472082524002"
+  },
+  "reported_ph_before_after_wait": {
+    "0": [
+      "7.005003068057578",
+      "7.003833388698753"
+    ],
+    "1": [
+      "7.000019390544955",
+      "6.99961450222844"
+    ]
+  },
+  "retained_co2_and_nitrogen_mol": "0; the complete input doses leave through explicit open-boundary events",
+  "scope": "Original equal-mass cooling/phase/vent comparison with explicit solvent-only pH coverage. No retained-CO2 acidification, bubble-to-liquid mass-transfer kinetics, universal cooling efficiency or cryogen handling prediction is qualified."
+}

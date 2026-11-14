@@ -1,0 +1,20 @@
+[
+  {
+    "id": "question",
+    "criterion": "Can cooling by CO2 and cooling by nitrogen be separated from any dissolved-gas chemistry?",
+    "review_instruction": "Any CO2 retained in water can participate in carbonate acid-base chemistry; nitrogen does not provide the same acid source. Equal cryogen masses do not imply equal cooling or equal dissolved-gas amounts.",
+    "result": null
+  },
+  {
+    "id": "inventory",
+    "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+    "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+    "result": null
+  },
+  {
+    "id": "coverage",
+    "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+    "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+    "result": null
+  }
+]

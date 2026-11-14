@@ -1,0 +1,33 @@
+{
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+  "output_sha256": "58706a9653c66cd8c364f8ee2a06fbfe322ae6c8f4f315a4070851fda4070e56",
+  "native_binary_sha256": null,
+  "native_identity_limit": "No executable checksum was recorded by this historical producer; no later hash or source is substituted.",
+  "target_exit": 0,
+  "producer_build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "producer_build_exit": 0,
+  "producer_runner_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+  "manifest_hashes": {
+    "batch3-diverse-th-001.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch3-diverse-th-001.lab": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+    "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+    "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e",
+    "batch3-diverse-th-001.json": "bcd20d3b0421e496a400f21b255be69ee1f5f23d91174a8264297612c693bad0",
+    "batch3-diverse-th-001.stdout": "58706a9653c66cd8c364f8ee2a06fbfe322ae6c8f4f315a4070851fda4070e56"
+  },
+  "source_registry_sha256": "8741b6f338bf68ca8c4acfa8eac6a121daa35b512ccb9f05d2508e3df34baa44",
+  "composition_extract": "source-properties.json extracts only used input/gas/solvent compositions and molar masses verbatim from the historical source registry."
+}

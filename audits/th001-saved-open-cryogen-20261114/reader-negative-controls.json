@@ -1,0 +1,38 @@
+[
+  {
+    "mutation": "missing-carbon-vent",
+    "rejected": true
+  },
+  {
+    "mutation": "missing-nitrogen-vent",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-gas-identity",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-phase-dose",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-retained-carbon",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-water",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-acidic-ph",
+    "rejected": true
+  },
+  {
+    "mutation": "hidden-cryogen-warning",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]
