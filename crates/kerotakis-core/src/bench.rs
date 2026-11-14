@@ -4610,7 +4610,6 @@ impl Bench {
                         crate::kinetics::KineticContext::default(),
                         &mut events,
                     )?;
-                    advance_prepared_objects(vessel, seconds, &mut events);
                 }
             }
             Operator::Measure { vessel, instrument } => {
@@ -5236,6 +5235,13 @@ impl Bench {
                                 if !dissolved || p.moles.0 <= 0.0 {
                                     continue;
                                 }
+                                // This H/O/charge coordinate closes physical
+                                // inventory; it is not an injectable molecule.
+                                // Keep real ions outside the method and real
+                                // unparameterised neutrals in their own report.
+                                if p.species.0 == species::BASE_EQUIVALENTS {
+                                    continue;
+                                }
                                 // KID-9: a group decomposition where one is
                                 // honest, a reviewed coefficient where it
                                 // would not be. A food dye is a large
@@ -5668,7 +5674,11 @@ impl Bench {
                     },
                 }
             }
-            Operator::Cell { a, b } => {
+            Operator::Cell { a, b }
+            | Operator::Voltmeter {
+                positive: a,
+                negative: b,
+            } => {
                 if a == b {
                     return Err(BenchError::SelfTransfer);
                 }
@@ -5680,6 +5690,17 @@ impl Bench {
                         } else {
                             (*b, *a)
                         };
+                        if matches!(op, Operator::Voltmeter { .. }) {
+                            events.push(Event::VoltmeterRead {
+                                positive: *a,
+                                negative: *b,
+                                volts: if cell.anode_is_first {
+                                    -cell.volts
+                                } else {
+                                    cell.volts
+                                },
+                            });
+                        }
                         events.push(Event::CellVoltage {
                             anode,
                             cathode,
@@ -5690,12 +5711,36 @@ impl Bench {
                         });
                     }
                     Err(why) => {
-                        if let Some(cell) = crate::displacement::acid_zinc_copper_cell(va, vb) {
+                        // A valid equal-potential pair has a signed zero reading.
+                        // Keep the legacy cell refusal and every electrode guard.
+                        let equal_electrodes = matches!(op, Operator::Voltmeter { .. })
+                            && matches!((crate::displacement::electrode(va), crate::displacement::electrode(vb)),
+                                (Some(ea), Some(eb)) if (ea.volts - eb.volts).abs() < 1e-12);
+                        if equal_electrodes {
+                            events.push(Event::VoltmeterRead {
+                                positive: *a,
+                                negative: *b,
+                                volts: 0.0,
+                            });
+                        } else if let Some(cell) =
+                            crate::displacement::acid_zinc_copper_cell(va, vb)
+                        {
                             let (anode, cathode) = if cell.anode_is_first {
                                 (*a, *b)
                             } else {
                                 (*b, *a)
                             };
+                            if matches!(op, Operator::Voltmeter { .. }) {
+                                events.push(Event::VoltmeterRead {
+                                    positive: *a,
+                                    negative: *b,
+                                    volts: if cell.anode_is_first {
+                                        -cell.volts
+                                    } else {
+                                        cell.volts
+                                    },
+                                });
+                            }
                             events.push(Event::AcidMetalCellVoltage {
                                 anode,
                                 cathode,
@@ -7640,7 +7685,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
             }
             touched
         }
-        Operator::Measure { .. } | Operator::Cell { .. } => vec![],
+        Operator::Measure { .. } | Operator::Cell { .. } | Operator::Voltmeter { .. } => vec![],
         Operator::Wait { .. } => vec![],
     }
 }

@@ -4387,6 +4387,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             };
             format!("{line}{efficiency}")
         }
+        Event::VoltmeterRead { positive, negative, volts } => locale.fill(
+            "event.voltmeter-read.lv1",
+            "Voltmeter: positive lead {positive}, negative lead {negative}; E(positive) − E(negative) = {volts} V open-circuit. Ideal salt bridge; no liquid-junction potential. No current is drawn.",
+            &[("positive", &positive.to_string()), ("negative", &negative.to_string()), ("volts", &locale.number(format!("{volts:+.4}")))],
+        ),
         Event::CellVoltage {
             anode,
             cathode,

@@ -2,9 +2,17 @@
 
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
+## Original-experiment follow-ups (2026-11-14)
+
+The residual-solid notice successor has focused hosted tests and an unchanged PO-008 replay; integrate after the current PR without claiming polymer dissolution is modelled. Review and run applicable broader validation. [Original holds](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/pr881-original-holds-20261114/README.md) scopes KNO₃ crystallisation, signed cell-lead readings, prepared-material rendering, brine density, gypsum, and iodine-clock follow-ups. Fix each model or interface at its source and rerun unchanged originals; preserve the centrifuge-balance and finite-feed guards.
+
+[FE-003 now qualifies](https://github.com/CrispStrobe/kerotakis/blob/7e7686834/audits/fe003-finite-dose-clock-20261114/README.md) on `0bf5205db` with its original protocol and criteria. Native dose/clock and refusal controls pass; all six independent known-element/charge ledgers close below 1.2e-15 mol/eq and opaque yeast/catalyst doses stay exact. The same executable passes all 500 curiosity prompts with zero unmet requirements, failures or baseline drift. Preserve all first failures and the saved-reader omitted-Complete wire correction. Do not replay accepted FE-003 without a changed-source scientific question. Complete coherent-source lint/platform/full-fleet acceptance before normal integration, while moving to the next feasible remaining original/shared defect. The catalog is 414/468 with 54 remaining.
+
+[AN-006 now meets 4/4 original criteria](https://github.com/CrispStrobe/kerotakis/blob/370c26b5a/audits/an006-chromatogram-basis-20261114/README.md), improved from 3/4 by excluding only the analytical base coordinate from chemical sampling. All physical snapshots are unchanged; real ion and unknown-neutral refusals remain. Targeted core/native, core Clippy and 500-prompt checks pass on `af15a2511`. MO-011 remains a separate historical `4bd93add` 2/2 qualification; do not relabel it or double-count the changed-source confirmation. The catalog now has 418 entries / 414 fixed originals, 54 remaining. Preserve the frozen source evidence while the coherent successor completes actual CI/full-fleet acceptance.
+
 ## 0. State and open tasks after round 4 (2026-11-12)
 
-State: production `731931f0` until round 4 deploys; qualification **410/468**, with 58 originals remaining (see [STATUS](STATUS.md)).
+State: production `731931f0` until round 4 deploys; qualification **414/468**, with 54 originals remaining (see [STATUS](STATUS.md)).
 PR881 contains rounds 4 and 5, is ready with auto-merge enabled, and awaits required queued checks. Diagnose and repair any failures on the actual head; preserve unchanged forecasts and raw failures. Use bounded Kaggle CPU validation for heavy work while the
 Actions queue is congested; do not add `ci:full`, dispatch full workflows or create placeholder PRs.
 Keep independently developed successor fixes separate while checks run, minimize pushes, and preserve branch protection. The owner handles merges; deploy after integration. Then run

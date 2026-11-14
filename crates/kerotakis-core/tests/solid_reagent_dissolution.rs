@@ -9,6 +9,7 @@
 //! draws on an undissolved organic solid in water is labelled solid-phase.
 //! `docs/organic-solid-dissolution-coverage-20261111.json` is the table.
 
+use kerotakis_core::ops::NotModelledCause;
 use kerotakis_core::*;
 
 const TABLE: &str = include_str!("../../../docs/organic-solid-dissolution-coverage-20261111.json");
@@ -205,5 +206,127 @@ fn the_coverage_table_names_every_registry_organic_solid() {
             "{}",
             data.key
         );
+    }
+}
+
+/// A registry speciation flag is not a phase transfer. Inspect the real
+/// mixing route before comparing the live and preview honesty paths.
+#[test]
+fn pva_without_solubility_stays_solid_and_both_paths_report_the_missing_datum() {
+    let data = species::lookup_key("PVA").unwrap();
+    assert!(data.dissolves_without_speciation);
+    assert!(data.aqueous_solubility_at(Kelvin::STANDARD.0).is_none());
+    let mut vessel = Vessel::new(VesselId(0), "PVA in water");
+    vessel.deposit(SpeciesId::new("water"), Moles(2.2137), Phase::Liquid);
+    vessel.deposit(SpeciesId::new("PVA"), Moles(0.01), Phase::Solid);
+    let mixing = MixingEquilibrator.equilibrate(&mut vessel).unwrap();
+    assert!(!mixing.iter().any(|event| matches!(event,
+        Event::Dissolved { species, .. } if species.0 == "PVA")));
+    assert_eq!(inventory(&vessel, "PVA", Phase::Solid), 0.01);
+    assert_eq!(inventory(&vessel, "PVA", Phase::Aqueous), 0.0);
+
+    let original = vessel.contents.clone();
+    let (delta, preview) = HonestyEquilibrator.equilibrate_delta(&vessel).unwrap();
+    assert!(delta.mole_changes.is_empty());
+    assert!(delta.thermal.is_none());
+    let live = HonestyEquilibrator.equilibrate(&mut vessel).unwrap();
+    assert_eq!(vessel.contents, original);
+    for events in [&preview, &live] {
+        let reason = events
+            .iter()
+            .find_map(|event| match event {
+                Event::NotYetModeled {
+                    cause: NotModelledCause::NoReviewedDatum,
+                    reason: Some(reason),
+                    ..
+                } if reason.key == "not-modeled.organic-solid-no-solubility" => Some(reason),
+                _ => None,
+            })
+            .unwrap_or_else(|| panic!("missing datum notice: {events:?}"));
+        for (locale, expected) in [
+            ("en", "stays an undissolved solid"),
+            ("de", "bleibt ein ungelöster Feststoff"),
+            ("fr", "reste un solide non dissous"),
+        ] {
+            assert!(reason.render(Locale::parse(locale)).contains(expected));
+        }
+        assert!(!reason_keys(events).contains(&"not-modeled.dissolves-unspeciated".to_string()));
+    }
+    // The notice is standing, rather than repeated on every live pass.
+    assert!(reason_keys(&HonestyEquilibrator.equilibrate(&mut vessel).unwrap()).is_empty());
+    assert!(reason_keys(&HonestyEquilibrator.equilibrate_delta(&vessel).unwrap().1).is_empty());
+}
+
+fn inventory(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == key && portion.phase == phase)
+        .map(|portion| portion.moles.0)
+        .sum()
+}
+
+#[test]
+fn reviewed_solubility_does_not_turn_a_residual_solid_notice_into_a_dissolution_claim() {
+    for mixed in [false, true] {
+        let mut vessel = Vessel::new(VesselId(0), "excess sucrose in water");
+        vessel.deposit(SpeciesId::new("water"), Moles(2.2137), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("sucrose"), Moles(1.0), Phase::Solid);
+        if mixed {
+            let events = MixingEquilibrator.equilibrate(&mut vessel).unwrap();
+            assert!(events.iter().any(|event| matches!(event,
+                Event::Dissolved { species, moles, .. } if species.0 == "sucrose" && moles.0 > 0.0)));
+            assert!(inventory(&vessel, "sucrose", Phase::Aqueous) > 0.0);
+        } else {
+            assert_eq!(inventory(&vessel, "sucrose", Phase::Aqueous), 0.0);
+        }
+        assert!(inventory(&vessel, "sucrose", Phase::Solid) > 0.0);
+        assert!(
+            (inventory(&vessel, "sucrose", Phase::Solid)
+                + inventory(&vessel, "sucrose", Phase::Aqueous)
+                - 1.0)
+                .abs()
+                < 1e-12
+        );
+        let original = vessel.contents.clone();
+        let preview = HonestyEquilibrator.equilibrate_delta(&vessel).unwrap().1;
+        let live = HonestyEquilibrator.equilibrate(&mut vessel).unwrap();
+        assert_eq!(vessel.contents, original);
+        for events in [&preview, &live] {
+            let reason = events
+                .iter()
+                .find_map(|event| match event {
+                    Event::NotYetModeled {
+                        cause: NotModelledCause::NotSpeciated,
+                        reason: Some(reason),
+                        ..
+                    } if reason.key == "not-modeled.residual-solid-unspeciated" => Some(reason),
+                    _ => None,
+                })
+                .unwrap_or_else(|| panic!("residual solid notice: {events:?}"));
+            for (locale, expected) in [
+                ("en", "remains solid here"),
+                ("de", "bleibt hier fest"),
+                ("fr", "reste solide ici"),
+            ] {
+                assert!(reason.render(Locale::parse(locale)).contains(expected));
+            }
+        }
+    }
+}
+
+#[test]
+fn dissolved_sucrose_and_dry_pva_do_not_get_residual_solid_notices() {
+    let mut dissolved = Vessel::new(VesselId(0), "dilute sucrose");
+    dissolved.deposit(SpeciesId::new("water"), Moles(2.2137), Phase::Liquid);
+    dissolved.deposit(SpeciesId::new("sucrose"), Moles(0.001), Phase::Solid);
+    MixingEquilibrator.equilibrate(&mut dissolved).unwrap();
+    assert_eq!(inventory(&dissolved, "sucrose", Phase::Solid), 0.0);
+    assert_eq!(inventory(&dissolved, "sucrose", Phase::Aqueous), 0.001);
+    let mut dry = Vessel::new(VesselId(1), "dry PVA");
+    dry.deposit(SpeciesId::new("PVA"), Moles(0.01), Phase::Solid);
+    for vessel in [&mut dissolved, &mut dry] {
+        assert!(reason_keys(&HonestyEquilibrator.equilibrate_delta(vessel).unwrap().1).is_empty());
+        assert!(reason_keys(&HonestyEquilibrator.equilibrate(vessel).unwrap()).is_empty());
     }
 }

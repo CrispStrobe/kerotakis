@@ -1767,3 +1767,8 @@ describe("GUI-116 — a longer-lived phenomenon stays on screen longer", () => {
     for (let i = 1; i < lives.length; i += 1) expect(lives[i]!).toBeGreaterThan(lives[i - 1]!);
   });
 });
+
+
+it("associates ordered voltmeter readouts with the positive lead", () => {
+  expect(vesselOf({ event: "voltmeter_read", positive: 4, negative: 2, volts: -0.05 })).toBe(4);
+});
