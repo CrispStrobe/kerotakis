@@ -1,6 +1,6 @@
 # Kerotakis current state —2026-10-27
 
-**Coverage update — 2026-11-14:** The [current working catalog](https://github.com/CrispStrobe/kerotakis/blob/c6b851f71/audits/working-experiments-20261111-reviewed-production-round3-29.json) contains **406 entries with 406 distinct catalog IDs**. Mapping those entries to the fixed 468-experiment corpus gives **402 unique originals covered and 66 remaining**. Four catalog entries belong to the separate supplied-reactions corpus and are outside that denominator. The older counts below describe the 2026-10-27 checkpoint, not current coverage. These are reviewed historical qualifications, not a claim that all were replayed on the latest release.
+**Coverage update — 2026-11-14:** The [current working catalog](../audits/working-experiments-20261114-pr881-reviewed-sp011.json) contains **407 entries with 407 distinct catalog IDs**. Mapping those entries to the fixed 468-experiment corpus gives **403 unique originals covered and 65 remaining**. Four catalog entries belong to the separate supplied-reactions corpus and are outside that denominator. The latest addition is the unchanged [SP-011 iodine extraction comparison](../audits/sp011-current-replay-20261114/README.md), assessed on the PR881 candidate. The older counts below describe the 2026-10-27 checkpoint, not current coverage. These are reviewed historical qualifications, not a claim that all were replayed on the latest release.
 
 **Current delivery — 2026-10-27:** The diagnostic release is merged and deployed. [Actual release acceptance](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) verifies all 11 API protocols, security/admission/concurrency controls and all 82 browser checks on runtime `a7640a07`. Full source/platform and own-fleet acceptance are complete. The six ordered implementation/review lanes have reached their final maintained-summary update; the source and product checks do not need repeating.
 
@@ -46,7 +46,7 @@ All668 supplied records already have baseline executions:557zero/111nonzero exit
 
 ## Next work
 
-1. Assess the remaining 66 originals against their original criteria, prioritize shared source defects by the cases they affect, and qualify each original only when its observed results support it.
+1. Assess the remaining 65 originals against their original criteria, prioritize shared source defects by the cases they affect, and qualify each original only when its observed results support it.
 2. Repair supported mapping, ownership and data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
 3. Improve CI efficiency and diagnostic coverage while preserving logical checks and protected contexts.
 
