@@ -1,0 +1,40 @@
+{
+  "first_round": [
+    {
+      "id": "batch2:ki-005",
+      "qualified": false,
+      "criteria": [
+        {
+          "id": "forecast",
+          "text": "Equal fractional peroxide depletion after split",
+          "verdict": "UNSUPPORTED",
+          "evidence": "all H2O2 decomposed in first 5 s (O2 0.0005 mol from 0.001 H2O2); post-split H2O2 7.5e-12 / 2.5e-12 mol unchanged over 20 s: no measurable post-split kinetics"
+        },
+        {
+          "id": "KI-005-C1",
+          "text": "Proportional enzyme/substrate transfer",
+          "verdict": "PASS",
+          "evidence": "catalase 3.125e-12/1.042e-12, water 4.151/1.384 (3:1)"
+        },
+        {
+          "id": "KI-005-C2",
+          "text": "Fractional loss from post-split amounts",
+          "verdict": "UNSUPPORTED",
+          "evidence": "substrate exhausted before split; residual 1e-11 mol does not react at all (zero loss both)"
+        }
+      ],
+      "closure": {
+        "elements": {
+          "H": 0.0,
+          "O": 0.0
+        },
+        "charge": "0",
+        "energy": "98.2 J for 5e-4 mol O2 (196.4 kJ/mol) ; dT 0.235 K ~ 98.2/(100 g*4.18) OK"
+      },
+      "observed_result": "Catalase decomposed all 1 mmol H2O2 within 5 s before the split; nothing left to compare.",
+      "limitations": "Design exhausts substrate before split; residual peroxide frozen.",
+      "doubts": "residual H2O2 1e-11 not reacting during 20 s wait looks like a kinetic cutoff"
+    }
+  ],
+  "second_review": []
+}

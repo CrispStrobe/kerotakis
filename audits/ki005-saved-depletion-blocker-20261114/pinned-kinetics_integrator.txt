@@ -1,0 +1,74 @@
+13: use super::{
+14:     apply_coupled_extents, phase_moles, reaction_volume_litres, KineticContext, KineticReaction,
+15:     Moles, Phase, RateExpression, ReactionNetwork, Vessel, DEPLETED, PROTON,
+16: };
+17: 
+18: const DEPLETION_EVENT: f64 = DEPLETED * 10.0;
+19: const MAX_EVENT_RESTARTS: usize = 128;
+168:     fn direction_available<X>(
+169:         &self,
+170:         reaction: &KineticReaction<'a>,
+171:         extents: &X,
+172:         forward: bool,
+173:     ) -> bool
+174:     where
+175:         X: Index<usize, Output = f64>,
+176:     {
+177:         reaction.stoichiometry.iter().all(|term| {
+178:             let consumed = if forward {
+179:                 term.coefficient < 0.0
+180:             } else {
+181:                 term.coefficient > 0.0
+182:             };
+183:             !consumed
+184:                 || self.intermediates.contains(&(term.species, term.phase))
+185:                 || self.amount(extents, term.species, term.phase) > DEPLETION_EVENT
+186:         })
+187:     }
+188: 
+317:     fn rhs<X, Y>(&self, extents: &X, output: &mut Y)
+318:     where
+319:         X: Index<usize, Output = f64>,
+320:         Y: IndexMut<usize, Output = f64>,
+321:     {
+322:         for (index, reaction) in self.reactions.iter().enumerate() {
+323:             if !reaction.in_validity_domain(self.vessel) {
+324:                 output[index] = 0.0;
+325:                 continue;
+326:             }
+327:             let forward = if self.direction_available(reaction, extents, true) {
+328:                 self.expression_rate(reaction, reaction.forward, extents, false)
+329:             } else {
+330:                 0.0
+331:             };
+332:             let reverse = reaction
+333:                 .reverse
+334:                 .filter(|_| self.direction_available(reaction, extents, false))
+335:                 .map(|expression| self.expression_rate(reaction, expression, extents, true))
+336:                 .unwrap_or(0.0);
+337:             output[index] =
+338:                 (forward - reverse) * reaction_volume_litres(self.vessel, reaction.locality);
+339:         }
+340:     }
+430: 
+431: fn consumed_keys<'a>(
+432:     vessel: &Vessel,
+433:     reactions: &'a [KineticReaction<'a>],
+434:     intermediates: &BTreeSet<(&'a str, Phase)>,
+435: ) -> Vec<(&'a str, Phase)> {
+436:     let mut keys = Vec::new();
+437:     for reaction in reactions {
+438:         for term in reaction.stoichiometry {
+439:             let can_be_consumed =
+440:                 term.coefficient < 0.0 || (term.coefficient > 0.0 && reaction.reverse.is_some());
+441:             if can_be_consumed
+442:                 && !intermediates.contains(&(term.species, term.phase))
+443:                 && phase_moles(vessel, term.species, term.phase) > DEPLETION_EVENT
+444:                 && !keys.contains(&(term.species, term.phase))
+445:             {
+446:                 keys.push((term.species, term.phase));
+447:             }
+448:         }
+449:     }
+450:     keys
+451: }

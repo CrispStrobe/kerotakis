@@ -1,0 +1,42 @@
+{
+  "source": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+  "tree": "108961f6824cef5a3adb61a923a0279e7c4e3c90",
+  "files": {
+    "crates/kerotakis-core/src/kinetics.rs": {
+      "full_sha256": "62d1f29f7d06fe90dbc5f6e67b18ce917c670ffcecb67a899956cd24ad805e18",
+      "excerpt": "pinned-kinetics.txt",
+      "line_ranges": [
+        [
+          630,
+          740
+        ],
+        [
+          2031,
+          2048
+        ]
+      ]
+    },
+    "crates/kerotakis-core/src/kinetics_integrator.rs": {
+      "full_sha256": "d913bd054f3910d7a1396632fe1d3f28b156af85d3519f753bb6cdb58cc06fe4",
+      "excerpt": "pinned-kinetics_integrator.txt",
+      "line_ranges": [
+        [
+          13,
+          19
+        ],
+        [
+          168,
+          188
+        ],
+        [
+          317,
+          340
+        ],
+        [
+          430,
+          451
+        ]
+      ]
+    }
+  }
+}

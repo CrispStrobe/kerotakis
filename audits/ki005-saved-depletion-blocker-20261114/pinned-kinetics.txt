@@ -1,0 +1,129 @@
+630:     KineticReaction {
+631:         id: "peroxide-decomposition",
+632:         equation: "2 H₂O₂ → 2 H₂O + O₂↑",
+633:         stoichiometry: &[
+634:             StoichiometricTerm {
+635:                 species: "H2O2",
+636:                 coefficient: -2.0,
+637:                 phase: Phase::Liquid,
+638:             },
+639:             StoichiometricTerm {
+640:                 species: "water",
+641:                 coefficient: 2.0,
+642:                 phase: Phase::Liquid,
+643:             },
+644:             StoichiometricTerm {
+645:                 species: "O2",
+646:                 coefficient: 1.0,
+647:                 phase: Phase::Gas,
+648:             },
+649:         ],
+650:         // The water is not optional. Leaving it out of the products
+651:         // destroyed 36 g/mol of matter per extent while the equation string
+652:         // right above claimed otherwise.
+653:         locality: Locality::Bulk(Phase::Aqueous),
+654:         forward: RateExpression {
+655:             orders: &[OrderTerm {
+656:                 species: "H2O2",
+657:                 phase: Some(Phase::Liquid),
+658:                 order: 1.0,
+659:             }],
+660:             arrhenius: RateLaw {
+661:                 // Calibrated so undisturbed peroxide has a half-life near a
+662:                 // day, which is the point of the practical: without a catalyst
+663:                 // *nothing happens while you watch*. An earlier value gave
+664:                 // 299 s, so the bottle emptied itself in an afternoon and the
+665:                 // catalyst looked like a convenience rather than the whole
+666:                 // reason the reaction is usable. Real bottled peroxide is
+667:                 // stabilised and keeps far longer; a day is chosen to read as
+668:                 // clearly-nothing on a lesson timescale without pretending to
+669:                 // model stabilisers.
+670:                 pre_exponential: 5.6e7,
+671:                 temperature_exponent: 0.0,
+672:                 activation_energy: 75_000.0,
+673:             },
+674:         },
+675:         reverse: None,
+676:         equilibrium: None,
+677:         pressure_dependence: None,
+678:         catalysts: &[
+679:             Catalyst {
+680:                 species: "MnO2",
+681:                 activation_energy: 58_000.0,
+682:                 activity: CatalystActivity::Surface {
+683:                     default_diameter_um: 100.0,
+684:                     reference_area_m2: 0.001,
+685:                     max_mixing_gain: 1.0,
+686:                     mixing_half_speed_m_s: 0.10,
+687:                 },
+688:                 provenance: "Manganese dioxide on hydrogen peroxide, Ea ≈ 58 kJ/mol (standard physical chemistry texts); area follows spherical-particle geometry, while the finite external mixing correction is an explicit Kerotakis teaching correlation. Do et al., Chemosphere 2009 report 6.063 m²/g BET area and pseudo-first-order peroxide loss on pyrolusite",
+689:             },
+690:             Catalyst {
+691:                 species: "catalase",
+692:                 activation_energy: 23_000.0,
+693:                 activity: CatalystActivity::Enzyme {
+694:                     substrate: "H2O2",
+695:                     michaelis_molar: 1.34,
+696:                     reference_molar: 4.0e-11,
+697:                     thermal_activity_midpoint_k: 318.15,
+698:                     thermal_activity_width_k: 2.0,
+699:                 },
+700:                 provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies explicitly editorial, bounded hydration and high-temperature activity envelopes rather than claiming universal yeast activity or irreversible denaturation history",
+701:             },
+702:             // Bottle and ion siblings, the `MnO4-`/`KMnO4` pattern. KI now
+703:             // speciates (2026-10-27), so a solved vessel holds `K+` and
+704:             // `I-` and only the ion row can match there; the bottle row
+705:             // still covers the step before a solve and core-only stacks.
+706:             // At most one is present in any vessel; parameters identical.
+707:             Catalyst {
+708:                 species: "KI",
+709:                 activation_energy: 56_000.0,
+710:                 activity: CatalystActivity::Homogeneous {
+711:                     order: 1.0,
+712:                     reference_molar: 0.05,
+713:                 },
+714:                 provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). The 0.05 M reference preserves the curated demonstration time scale; changing KI concentration follows the measured first-order ratio. KI remains catalyst inventory rather than being consumed by the net equation",
+715:             },
+716:             Catalyst {
+717:                 species: "I-",
+718:                 activation_energy: 56_000.0,
+719:                 activity: CatalystActivity::Homogeneous {
+720:                     order: 1.0,
+721:                     reference_molar: 0.05,
+722:                 },
+723:                 provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). The 0.05 M reference preserves the curated demonstration time scale; changing KI concentration follows the measured first-order ratio. KI remains catalyst inventory rather than being consumed by the net equation",
+724:             },
+725:         ],
+726:         sites: &[],
+727:         electrons: 0.0,
+728:         validity: Validity {
+729:             temperature_k: None,
+730:             pressure_pa: None,
+731:             note: "calibrated near room temperature for dilute aqueous peroxide; stabilisers are not represented and Arrhenius extrapolation is not independently validated",
+732:         },
+733:         uncertainty: Uncertainty {
+734:             relative: None,
+735:             note: "absolute rates are indicative; nominal spherical particle area and a bounded external-mixing correction do not resolve pore area, adsorption, or diffusion",
+736:         },
+737:         source_ids: &["kerotakis:kinetics:peroxide-decomposition"],
+738:         provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst, including iodide Ea = 56 ± 3 kJ/mol from Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Relative catalyst dose, nominal spherical particle area, catalase saturation, and a bounded external-mixing correction are explicit; pore-scale transport and product-specific yeast activity remain outside this teaching model",
+739:     },
+740:     // ── EXP-43: iodine-clock reactions ──────────────────────────────────
+2031: /// Below this amount a reactant counts as gone.
+2032: ///
+2033: /// Not cosmetic: the step limiter sizes `dt` as a fraction of what remains,
+2034: /// and for a fast reaction the rate falls in proportion, so `dt` stops
+2035: /// shrinking and the clock stops advancing. A catalysed decomposition that
+2036: /// finishes in microseconds would then grind out millions of substeps
+2037: /// trying to reach the two-second mark. A reaction with nothing left to
+2038: /// consume is over.
+2039: ///
+2040: /// It must also sit *above* the threshold at which `Vessel::withdraw`
+2041: /// discards a spent portion (1e-15 mol), and that is not a detail. The
+2042: /// midpoint evaluation works on a copy of the vessel; once a half-step
+2043: /// pushed the copy's last reactant under that threshold the portion
+2044: /// disappeared there, the midpoint rate came back as zero, and the full
+2045: /// step then applied nothing at all — the integrator froze, burning two
+2046: /// million substeps to advance the clock by seven milliseconds. A
+2047: /// picomole is far below anything observable and clears the floor.
+2048: pub(super) const DEPLETED: f64 = 1e-12;

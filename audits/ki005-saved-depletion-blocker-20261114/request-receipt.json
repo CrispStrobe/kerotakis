@@ -1,0 +1,19 @@
+{
+  "case": {
+    "id": "batch2:ki-005",
+    "original_sha256": "ea151e5084526ddb42d9822ad88952b1f5d76e29c080acc363fde1cdca6dc85a",
+    "http_status": 200,
+    "response_body_sha256": "2aa3edc46ba7d83c8fd306127a8bbc2d2d78491d91a4dd68896bb90ff3f0919e"
+  },
+  "deployed": {
+    "revision": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "source_head": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "binary_sha256": "6101bfbdcfc2c5f95cf771e44c549cf3ae390ee0a1cf37af06fbf9651b952544",
+    "cargo_lock_sha256": "c25e1ccd68ff9ef61dde11a62224117cf4f25ea61cce196d3e066ff5d4bb60bf"
+  },
+  "wrapper_sha256": "d0c5005e009ef34fa6a3a6d5e2364056cecb29667cefb3c4dd8b88db860e7b7a",
+  "manifest_path": "audits/remaining107-production-review-20261109/production-run-manifest.json",
+  "manifest_sha256": "b2af9dc2688528845ae54f8594f0765e7046ab7800130010a11020846534722b",
+  "original_corpus_path": "audits/new-experiments-201-20261016/originals/new-experiments-batch2-20261016.json",
+  "original_corpus_sha256": "247da5c494b3923d590eeda42ccd1002b23fc35d7c36eabf3fcd2697615a9ab5"
+}

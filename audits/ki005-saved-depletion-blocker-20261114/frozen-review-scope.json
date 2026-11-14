@@ -1,0 +1,26 @@
+{
+  "original_id": "batch2:ki-005",
+  "original_criteria": [
+    {
+      "id": "KI-005-C1",
+      "criterion": "Verify proportional enzyme and substrate transfer before comparing rates.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-005-C2",
+      "criterion": "Compare fractional loss from each post-split starting amount, not equal absolute gas amounts.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "forecast": "If enzyme and substrate transfer proportionally, both portions retain the same concentrations and should show similar fractional peroxide depletion, while absolute consumption scales with volume.",
+  "limitation": [
+    "The enzyme is an effective surrogate and must remain dissolved; unresolved phase transfer makes the comparison inconclusive."
+  ],
+  "scope": "Evaluate proportional dissolved enzyme/substrate transfer and actual fractional loss. A zero/zero post-depletion comparison cannot demonstrate fractional reaction-rate scaling. No altered dose, wait, floor or new runtime.",
+  "previous_catalog": "audits/working-experiments-20261114-reviewed-ki011.json",
+  "previous_catalog_sha256": "09bb906bc3b1371a0e17159fe83e863f3a25485cd2fe57eea156797d11d372a1",
+  "prior_fixed": 430,
+  "qualification_not_assumed": true
+}
