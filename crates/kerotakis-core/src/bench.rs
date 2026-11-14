@@ -5235,6 +5235,13 @@ impl Bench {
                                 if !dissolved || p.moles.0 <= 0.0 {
                                     continue;
                                 }
+                                // This H/O/charge coordinate closes physical
+                                // inventory; it is not an injectable molecule.
+                                // Keep real ions outside the method and real
+                                // unparameterised neutrals in their own report.
+                                if p.species.0 == species::BASE_EQUIVALENTS {
+                                    continue;
+                                }
                                 // KID-9: a group decomposition where one is
                                 // honest, a reviewed coefficient where it
                                 // would not be. A food dye is a large
