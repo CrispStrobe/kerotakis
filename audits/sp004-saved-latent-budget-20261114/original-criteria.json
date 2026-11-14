@@ -1,0 +1,226 @@
+{
+  "id": "new120:sp-004",
+  "group": "separation",
+  "title": "An energy-budgeted distillation is not a chosen mass fraction",
+  "title_de": "Energiebudgetierte Destillation statt vorgegebener Fraktion",
+  "educational_level": "University foundation",
+  "priority_tier": 3,
+  "experiment_kind": "controlled-comparison",
+  "tags": [],
+  "script": "# SP-004: An energy-budgeted distillation is not a chosen mass fraction\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100g @ 70C\nadd v1 ethanol 10g @ 70C\nnew\nadd v2 water 100g @ 70C\nadd v2 ethanol 10g @ 70C\nnew\nnew\ndistil v1 v3 10kJ\ndistil v2 v4 20kJ\ninspect\n",
+  "script_sha256": "809c68b9f83af589f1043251289dc1153124d43e4ab01c1c5a8200b4474267fa",
+  "expected_result": "The larger specified energy budget should generally collect more material, but composition and phase enthalpies prevent treating energy as a fixed mass fraction.",
+  "expected_processes": [],
+  "acceptance_checks": [
+    {
+      "id": "SP-004-C1",
+      "criterion": "Compare collected amount and remaining feed in the two energy-limited cases.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "SP-004-C2",
+      "criterion": "Read the runtime energy-boundary explanation; do not assume all supplied joules go solely into latent heat.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "novelty": {
+    "basis": "New design or substantive controlled extension relative to the supplied catalogue; not a claim of a novel discovery.",
+    "distinction": "Exercises the documented energy form of distil with an energy-to-recovery question.",
+    "exhaustive_baseline_deduplication": false
+  },
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "high",
+    "runtime_verified": false
+  },
+  "limitations": [
+    "Inspect all source and receiver inventories. Transfer commands are idealised operations, not a prediction of real apparatus recovery or analytical uncertainty."
+  ],
+  "safety_context": "Simulation-only script. Not a wet-lab procedure or permission to perform the chemistry in a classroom.",
+  "evidence": {
+    "source_ids": [
+      "grammar",
+      "registry",
+      "readme"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/SP-004.lab",
+    "script_sha256": "809c68b9f83af589f1043251289dc1153124d43e4ab01c1c5a8200b4474267fa"
+  },
+  "script_body_sha256": "cf242dc33200919c7f982a0e9972c3840a717080e212e2e4da49aeb1b83cc6d3",
+  "rank": 120,
+  "importance_rationale": "Advanced interpretation or university-level model/analysis extension.",
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 4,
+      "amount": 100.0,
+      "unit": "g",
+      "amount_literal": "100g",
+      "input_temperature": {
+        "value": 70.0,
+        "unit": "C"
+      },
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "ethanol",
+      "name": "Ethanol",
+      "formula": "C2H6O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 5,
+      "amount": 10.0,
+      "unit": "g",
+      "amount_literal": "10g",
+      "input_temperature": {
+        "value": 70.0,
+        "unit": "C"
+      },
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 100.0,
+      "unit": "g",
+      "amount_literal": "100g",
+      "input_temperature": {
+        "value": 70.0,
+        "unit": "C"
+      },
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "ethanol",
+      "name": "Ethanol",
+      "formula": "C2H6O",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 8,
+      "amount": 10.0,
+      "unit": "g",
+      "amount_literal": "10g",
+      "input_temperature": {
+        "value": 70.0,
+        "unit": "C"
+      },
+      "role": "chemical_input"
+    }
+  ],
+  "observation_plan": [
+    {
+      "step": 11,
+      "script_line": 13,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    }
+  ],
+  "operations": [
+    {
+      "step": 1,
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "step": 2,
+      "script_line": 4,
+      "verb": "add",
+      "command": "add v1 water 100g @ 70C"
+    },
+    {
+      "step": 3,
+      "script_line": 5,
+      "verb": "add",
+      "command": "add v1 ethanol 10g @ 70C"
+    },
+    {
+      "step": 4,
+      "script_line": 6,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "step": 5,
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v2 water 100g @ 70C"
+    },
+    {
+      "step": 6,
+      "script_line": 8,
+      "verb": "add",
+      "command": "add v2 ethanol 10g @ 70C"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "step": 9,
+      "script_line": 11,
+      "verb": "distil",
+      "command": "distil v1 v3 10kJ"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "verb": "distil",
+      "command": "distil v2 v4 20kJ"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "initial_conditions": {
+    "initial_vessel": "v1",
+    "new_command_creates_next_vessel": true,
+    "fresh_process_required": true,
+    "temperature_when_not_explicit": "Engine default; read the first observation.",
+    "environment_note": "Open-bench boundary unless changed by commands; released gases may leave the retained inventory."
+  },
+  "static_validation": {
+    "status": "pass",
+    "errors": [],
+    "command_count": 11,
+    "vessel_count": 4,
+    "reagent_keys": [
+      "ethanol",
+      "water"
+    ],
+    "commands": {
+      "register": 1,
+      "add": 4,
+      "new": 3,
+      "distil": 2,
+      "inspect": 1
+    }
+  }
+}

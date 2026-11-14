@@ -1,0 +1,52 @@
+[
+  {
+    "mutation": "receiver_water_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "source_ethanol_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "duplicate_components",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "wrong_legacy_mirror",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "wrong_energy",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "invented_full_heat_model",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "receiver_at_boil_temperature",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "missing_state_scene",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "solver_failure",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "changed_energy_disclosure",
+    "rejected": true,
+    "exit": 1
+  }
+]

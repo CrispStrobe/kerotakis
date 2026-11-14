@@ -1,0 +1,8 @@
+{
+  "error": "KeyError: scene",
+  "cause": "First reader assumed every reply includes a scene; the final inspect reply contains the full bench but no repeated scene.",
+  "first_reader_sha256": "1839074324226b620686b894a149a237307bd9c9430497ab47881970823ab579",
+  "first_empty_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "correction": "Only an inspect reply may omit scene. Every physical bench still closes all C/H/O/charge budgets; all state-changing scenes are required. No numeric or identity bound changes.",
+  "engine_rerun": false
+}

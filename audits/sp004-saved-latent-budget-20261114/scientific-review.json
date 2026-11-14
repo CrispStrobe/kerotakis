@@ -1,0 +1,464 @@
+{
+  "met": 2,
+  "total": 2,
+  "criteria": {
+    "SP-004-C1": true,
+    "SP-004-C2": true
+  },
+  "solver_failures": 0,
+  "known_atom_charge_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 2,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 2,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 3,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "-4E-17",
+        "H": "3.2E-16",
+        "O": "1.5E-16",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 2,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 3,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0",
+        "O": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "-4E-17",
+        "H": "3.2E-16",
+        "O": "1.5E-16",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 2,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 3,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "C": "-4E-17",
+        "H": "3.2E-16",
+        "O": "1.5E-16",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 2,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 3,
+      "residual_mol_eq": {
+        "C": "0E-17",
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      }
+    }
+  ],
+  "known_mass_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "known_mass_g": "99.999999999999988095",
+      "scene_mass_residual_g": "-1.1905E-14"
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "known_mass_g": "0",
+      "scene_mass_residual_g": "0.0"
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "known_mass_g": "99.999999999999988095",
+      "scene_mass_residual_g": "-1.1905E-14"
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 5,
+      "vessel": 2,
+      "known_mass_g": "0",
+      "scene_mass_residual_g": "0.0"
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 6,
+      "vessel": 2,
+      "known_mass_g": "0",
+      "scene_mass_residual_g": "0.0"
+    },
+    {
+      "step": 6,
+      "vessel": 3,
+      "known_mass_g": "0",
+      "scene_mass_residual_g": "0.0"
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "known_mass_g": "103.55864888981069425882",
+      "scene_mass_residual_g": "-5.74118E-15"
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "known_mass_g": "109.99999999999998747784",
+      "scene_mass_residual_g": "-1.252216E-14"
+    },
+    {
+      "step": 7,
+      "vessel": 2,
+      "known_mass_g": "6.44135111018929536019",
+      "scene_mass_residual_g": "3.6019E-16"
+    },
+    {
+      "step": 7,
+      "vessel": 3,
+      "known_mass_g": "0",
+      "scene_mass_residual_g": "0.0"
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "known_mass_g": "103.55864888981069425882",
+      "scene_mass_residual_g": "-5.74118E-15"
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "known_mass_g": "97.54100675522405213393",
+      "scene_mass_residual_g": "-7.86607E-15"
+    },
+    {
+      "step": 8,
+      "vessel": 2,
+      "known_mass_g": "6.44135111018929536019",
+      "scene_mass_residual_g": "3.6019E-16"
+    },
+    {
+      "step": 8,
+      "vessel": 3,
+      "known_mass_g": "12.45899324477593534391",
+      "scene_mass_residual_g": "-6.5609E-16"
+    }
+  ],
+  "transfers": [
+    {
+      "from": 0,
+      "to": 2,
+      "declared_latent_budget_kj": 10.0,
+      "collected_mol": {
+        "water": "0.18011979558124017",
+        "ethanol": "0.06938490075307156"
+      },
+      "collected_mass_g": "6.44135111018929536019",
+      "reference_latent_sum_kj": "9.99999999999998237649",
+      "latent_arithmetic_residual_kj": "-1.762351E-14",
+      "vessel_temperature_k": 343.15,
+      "reported_boil_start_k": 364.17578162817006,
+      "reported_boil_end_k": 365.9464578893188,
+      "source_derived_runtime_explanation": "v1 \u2192 v3: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 364.18 K \u2192 365.95 K; latent heat 10.00 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger"
+    },
+    {
+      "from": 1,
+      "to": 3,
+      "declared_latent_budget_kj": 20.0,
+      "collected_mol": {
+        "water": "0.374116138261396",
+        "ethanol": "0.12414619405667339"
+      },
+      "collected_mass_g": "12.45899324477593534391",
+      "reference_latent_sum_kj": "20.0000000000000365582",
+      "latent_arithmetic_residual_kj": "3.65582E-14",
+      "vessel_temperature_k": 343.15,
+      "reported_boil_start_k": 364.17578162817006,
+      "reported_boil_end_k": 367.8386772945545,
+      "source_derived_runtime_explanation": "v2 \u2192 v4: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 364.18 K \u2192 367.84 K; latent heat 20.00 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger"
+    }
+  ],
+  "remaining_feed_mass_g": {
+    "0": "103.55864888981069425882",
+    "1": "97.54100675522405213393"
+  },
+  "collected_mass_ratio_20_to_10": "1.934220481331562809531347942",
+  "runtime_explanation_key": "event.distilled.lv3",
+  "runtime_template": "{from} \u2192 {to}: Rayleigh batch cut, {stages} ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot {at} K \u2192 {ended} K; latent heat {energy_kj} kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger{azeotrope}",
+  "explanation_evidence": "Exact selected source LV3 template plus actual saved empty-model Distilled event slots. Displayed explanations are explicitly source-derived decoding; historical JSON has no captured rendered prose and no new CLI observation is claimed.",
+  "scope": "Original budget-dependent transfer/feed comparison and declared runtime energy-boundary interpretation only. The command budget is withdrawn-condensate reference latent energy; burner/reflux/sensible heat is external and not computed in vessel ledgers. Boil-event temperatures are not vessel thermometer observations. No apparatus total-energy closure, empirical VLE/recovery or calorimetry is qualified. Physical components counted once, not duplicated by legacy event mirrors. Historical executable checksum remains absent."
+}

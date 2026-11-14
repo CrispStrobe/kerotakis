@@ -1,0 +1,13 @@
+# SP-004: An energy-budgeted distillation is not a chosen mass fraction
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g @ 70C
+add v1 ethanol 10g @ 70C
+new
+add v2 water 100g @ 70C
+add v2 ethanol 10g @ 70C
+new
+new
+distil v1 v3 10kJ
+distil v2 v4 20kJ
+inspect

@@ -1,0 +1,16 @@
+{
+  "catalog-preservation.json": "ca8eca22b05c2388871d5004c2a4776be28b4961f812e772187689040adf551c",
+  "reader-negative-controls.json": "76d3aee729f6215031ed04ca33fe0684a5db31b3440074fc5e5656b0521dc867",
+  "check_reader_negatives.py": "29e800d20132ce7d49105e0511ab89517626759b0581ecd93a3de5b65b4786a9",
+  "original-criteria.json": "6dfcd24790ae1fbeea26d3d93c030a18fab73b8e1b83c0602d9f255e74616597",
+  "new120-sp-004.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source-excerpts.json": "30d1f9b3192641ecc932c758583fcb8027e80fb7b444625bdf1821fc98d0e321",
+  "README.md": "e24d0fac536c395f691f405d6d137f32342c14c18f14c8d5a1ab0e0f2ba18a48",
+  "binding.json": "a8511ac74291f829a75ab529d3808838ab07b84c08c099609391b52dd8e58d08",
+  "first-reader-failure.json": "f78bf85ad3a33e82718b75dba856ad1af852da9d7699a2b3f97968564aef0fe2",
+  "source-properties.json": "922bbe37c83a720dfe387f3ca500148fa046f3721660bedc1b1be7c8e138a538",
+  "scientific-review.json": "8a4d6041b7376538bfa23abe15ec662acd23a87ad561265c3fa8e66b197682dd",
+  "review_original.py": "d4ca4b6a951e34647ad2f521ed30e8cbeca9f2d23c397fb25242d5ec27591869",
+  "new120-sp-004.stdout": "77fff5724507682b9fdffd38f5639f0a7566e0ff9a842d4fe8cd86f1ce1714e5",
+  "original.lab": "809c68b9f83af589f1043251289dc1153124d43e4ab01c1c5a8200b4474267fa"
+}

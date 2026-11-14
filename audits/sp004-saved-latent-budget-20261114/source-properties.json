@@ -1,0 +1,25 @@
+[
+  {
+    "species_id": "water",
+    "formula": "H2O",
+    "atoms": {
+      "H": 2,
+      "O": 1
+    },
+    "charge": 0,
+    "molar_mass": 18.015,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values"
+  },
+  {
+    "species_id": "ethanol",
+    "formula": "C2H5OH",
+    "atoms": {
+      "C": 2,
+      "H": 1,
+      "O": 1
+    },
+    "charge": 0,
+    "molar_mass": 46.069,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values"
+  }
+]
