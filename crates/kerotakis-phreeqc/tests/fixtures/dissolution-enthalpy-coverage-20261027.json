@@ -99,6 +99,11 @@
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "reference:wateq4f:Cu(OH)2"
   },
+  "Cu2O": {
+    "minteq.v4": "reference:minteq.v4:Cuprite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Cuprite"
+  },
   "CuO": {
     "minteq.v4": "hydration:wateq4f:Cu(OH)2",
     "pitzer": "refused: a reaction species is not defined on the routed database",

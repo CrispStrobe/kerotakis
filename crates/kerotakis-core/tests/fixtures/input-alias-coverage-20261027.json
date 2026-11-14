@@ -821,6 +821,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Kupfer(I)-oxid",
+      "canonical": "Cu2O",
+      "source": "name:de"
+    },
+    {
       "alias": "Kupfer(II)-Ion",
       "canonical": "Cu+2",
       "source": "name:de"
@@ -1986,6 +1991,11 @@
       "source": "name:en"
     },
     {
+      "alias": "copper(I) oxide",
+      "canonical": "Cu2O",
+      "source": "name:en"
+    },
+    {
       "alias": "copper(II) hydroxide",
       "canonical": "Cu(OH)2",
       "source": "name:en"
@@ -2979,6 +2989,11 @@
       "alias": "oxidised indigo carmine (colourless)",
       "canonical": "indigo_carmine_ox",
       "source": "name:en"
+    },
+    {
+      "alias": "oxyde de cuivre(I)",
+      "canonical": "Cu2O",
+      "source": "name:fr"
     },
     {
       "alias": "oxyde de cuivre(II)",
