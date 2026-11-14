@@ -177,3 +177,78 @@ fn actual_milk_fermentation_keeps_lactate_speciation_and_missing_casein_warning(
         "missing casein coverage must remain explicit: {events:?}"
     );
 }
+
+// These are already-earned parcels, not new mass-transfer rate claims. The
+// finite gas is in the source ledger; only the signed clock crosses it.
+fn yeast_dose_seed(clock: f64) -> Vessel {
+    let mut vessel = Vessel::new(VesselId(0), "finite yeast gas and clock");
+    for (key, amount, phase) in [
+        ("water", 5.0, Phase::Liquid),
+        ("CO2(aq)", 0.001, Phase::Aqueous),
+        ("CO2", 0.002, Phase::Gas),
+        ("sucrose", 0.003, Phase::Aqueous),
+        ("ethanol", 0.001, Phase::Aqueous),
+        ("catalase", 1.25e-12, Phase::Aqueous),
+    ] {
+        vessel.deposit(SpeciesId::new(key), Moles(amount), phase);
+    }
+    vessel
+        .unresolved_materials
+        .push(vessel::UnresolvedMaterialPortion {
+            material: "dry_yeast".into(),
+            recipe_id: "household/dry-yeast-catalase-surrogate".into(),
+            recipe_version: 1,
+            basis: material::MaterialBasis::MassFraction,
+            amount: 0.2999997,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+    vessel.pending_co2_transfer_mol = clock;
+    vessel.step_start = Some(vessel::StepStart::capture(&vessel));
+    vessel
+}
+
+#[test]
+fn finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat() {
+    for clock in [-0.0001, 0.0001] {
+        let before = yeast_dose_seed(clock);
+        let mut after = before.clone();
+        let mut solver = PhreeqcEquilibrator::new().expect("native engine");
+        let events = solver.equilibrate(&mut after).expect("dose plus clock");
+        assert_known_boundary(&before, &after, &events);
+        assert_eq!(after.pending_co2_transfer_mol, 0.0);
+        assert_eq!(
+            after.solution.as_ref().expect("current solution").scope,
+            vessel::SolutionScope::Complete
+        );
+        for key in ["sucrose", "ethanol", "catalase"] {
+            assert_eq!(
+                before.moles_of(&SpeciesId::new(key)),
+                after.moles_of(&SpeciesId::new(key))
+            );
+        }
+        let before_repeat = after.clone();
+        after.step_start = Some(vessel::StepStart::capture(&after));
+        let repeat = solver.equilibrate(&mut after).expect("zero-time repeat");
+        assert_known_boundary(&before_repeat, &after, &repeat);
+        assert_eq!(after.pending_co2_transfer_mol, 0.0);
+    }
+}
+
+#[test]
+fn finite_yeast_gas_cannot_admit_unknown_stock_or_clock_overdraw() {
+    for unknown_stock in [false, true] {
+        let mut vessel = yeast_dose_seed(if unknown_stock { -0.0001 } else { -0.01 });
+        if unknown_stock {
+            vessel.unresolved_materials[0].recipe_version = u32::MAX;
+        }
+        let before = serde_json::to_value(&vessel).expect("before");
+        let mut solver = PhreeqcEquilibrator::new().expect("native engine");
+        assert!(solver.equilibrate(&mut vessel).is_err());
+        assert_eq!(
+            serde_json::to_value(&vessel).expect("after"),
+            before,
+            "refusal must preserve the full source and its pending obligation"
+        );
+    }
+}

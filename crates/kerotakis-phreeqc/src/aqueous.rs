@@ -1788,9 +1788,24 @@ impl PhreeqcEquilibrator {
                 .iter()
                 .map(String::as_str)
                 .collect::<Vec<_>>();
+            let finite_co2_dose = partition(&owner_start).is_some_and(|problem| {
+                finite_clock_co2_dose(&owner_start, &problem, ComponentCertificate::Uncertified)
+            });
             let mut all_events = first.events.clone();
             let mut own_gas_out = BTreeMap::<SpeciesId, f64>::new();
-            signed_external_gas(&trial, &first.events, &mut own_gas_out)?;
+            // The dose is already in owner_start. Its first-pose uptake is
+            // internal, whereas subsequent reservoir crossings are external.
+            let first_external: Vec<_> = first
+                .events
+                .iter()
+                .filter(|event| {
+                    !(finite_co2_dose
+                        && matches!(event,
+                    Event::GasAbsorbed { species, .. } if species.0 == "CO2"))
+                })
+                .cloned()
+                .collect();
+            signed_external_gas(&trial, &first_external, &mut own_gas_out)?;
             if component_owner == ComponentCertificate::ReservoirWithOpaque {
                 crate::inventory::certify_reservoir_opaque_inventory(
                     &owner_start,
@@ -1799,7 +1814,11 @@ impl PhreeqcEquilibrator {
                     &reservoir_refs,
                 )?;
             } else {
-                crate::inventory::certify_gas_aware_inventory(
+                (if finite_co2_dose {
+                    crate::inventory::certify_finite_clock_co2_external_inventory
+                } else {
+                    crate::inventory::certify_gas_aware_inventory
+                })(
                     &owner_start,
                     &trial,
                     &net_gas_events(&trial, &own_gas_out),
@@ -1932,7 +1951,11 @@ impl PhreeqcEquilibrator {
                         &reservoir_refs,
                     )?;
                 } else {
-                    crate::inventory::certify_gas_aware_inventory(
+                    (if finite_co2_dose {
+                        crate::inventory::certify_finite_clock_co2_external_inventory
+                    } else {
+                        crate::inventory::certify_gas_aware_inventory
+                    })(
                         &owner_start,
                         &trial,
                         &net_gas_events(&trial, &own_gas_out),
@@ -8193,13 +8216,23 @@ impl PhreeqcEquilibrator {
                     &reservoirs,
                 )?;
             } else {
-                crate::inventory::certify_gas_aware_inventory(
-                    &before_inventory,
-                    vessel,
-                    &events,
-                    &reservoirs,
-                    clock,
-                )?;
+                if finite_clock_co2_dose(&before_inventory, &problem, owner) {
+                    crate::inventory::certify_finite_clock_co2_inventory(
+                        &before_inventory,
+                        vessel,
+                        &events,
+                        &reservoirs,
+                        clock,
+                    )?;
+                } else {
+                    crate::inventory::certify_gas_aware_inventory(
+                        &before_inventory,
+                        vessel,
+                        &events,
+                        &reservoirs,
+                        clock,
+                    )?;
+                }
             }
         }
         vessel.refresh_pressure();
@@ -8358,6 +8391,11 @@ impl PhreeqcEquilibrator {
             // Gas this solver gave off, added to whatever the solvers
             // above it already booked into the snapshot.
             for e in &events {
+                if finite_clock_co2_dose(&before_inventory, &problem, owner)
+                    && matches!(e, Event::GasAbsorbed { species, .. } if species.0 == "CO2")
+                {
+                    continue; // Internal uptake is already in the source enthalpy.
+                }
                 let (species, signed) = match e {
                     Event::GasEvolved { species, moles, .. } => (species, moles.0),
                     Event::GasAbsorbed { species, moles, .. } => (species, -moles.0),
@@ -11100,6 +11138,44 @@ fn complete_reservoir_diagnostics(vessel: &Vessel) -> bool {
             .is_some_and(|pressure| pressure.is_finite() && pressure >= 0.0)
 }
 
+/// A finite CO2 parcel and a signed clock parcel have separate owners. The
+/// finite parcel is already present in the physical source ledger; the clock
+/// parcel is included only in the analytical aqueous totals.
+fn finite_clock_co2_dose(vessel: &Vessel, problem: &Problem, owner: ComponentCertificate) -> bool {
+    let doses: Vec<_> = problem
+        .external_gases
+        .iter()
+        .filter(|gas| gas.kind == ExternalGasKind::Dose)
+        .collect();
+    if doses.len() != 1
+        || (problem.clock_co2_applied_mol == 0.0 && owner != ComponentCertificate::ClockWithOpaque)
+        || vessel.owns_headspace_gas()
+        || !problem.gases.is_empty()
+        || !vessel.unresolved_materials.iter().all(|stock| {
+            kerotakis_core::material::lookup_versioned(&stock.recipe_id, stock.recipe_version)
+                .is_some()
+        })
+    {
+        return false;
+    }
+    let dose = doses[0];
+    let initial: f64 = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
+        .map(|portion| portion.moles.0)
+        .sum();
+    dose.phase == "CO2(g)"
+        && dose.species == "CO2"
+        && dose.initial_moles.is_finite()
+        && dose.initial_moles > 0.0
+        && initial.to_bits() == dose.initial_moles.to_bits()
+        && problem
+            .external_gases
+            .iter()
+            .all(|gas| gas.species != "CO2" || gas.kind == ExternalGasKind::Dose)
+}
+
 fn opaque_clock_component_owner(
     vessel: &Vessel,
     problem: &Problem,
@@ -11120,10 +11196,12 @@ fn opaque_clock_component_owner(
                 return true;
             }
             if portion.phase == Phase::Gas {
-                return problem
-                    .gases
-                    .iter()
-                    .any(|(_, species, _)| species == &portion.species.0)
+                return (portion.species.0 == "CO2"
+                    && finite_clock_co2_dose(vessel, problem, owner))
+                    || problem
+                        .gases
+                        .iter()
+                        .any(|(_, species, _)| species == &portion.species.0)
                     || (vessel.owns_headspace_gas()
                         && matches!(portion.species.0.as_str(), "N2" | "O2"));
             }
@@ -11136,7 +11214,7 @@ fn opaque_clock_component_owner(
 
 /// Project only numerical native readback residue onto exact, independently
 /// owned analytical components. This narrow class has no typed interface or
-/// finite external dose; a gas may cross an admitted reservoir or redistribute
+/// unowned finite external dose; a gas may cross an admitted reservoir or redistribute
 /// into a finite headspace. Candidate minerals use their derived component
 /// vector. Ambiguous valence bases retain their existing route disposition.
 fn project_gas_aware_components(
@@ -11169,10 +11247,11 @@ fn project_gas_aware_components(
         || !vessel.material_objects.is_empty()
         || !vessel.adsorbed.is_empty()
         || !vessel.electrodes.is_empty()
-        || problem
+        || (problem
             .external_gases
             .iter()
             .any(|gas| gas.kind == ExternalGasKind::Dose)
+            && !finite_clock_co2_dose(vessel, problem, owner))
     {
         return Ok(false);
     }
@@ -11748,7 +11827,7 @@ mod gas_component_projection_tests {
     }
 
     #[test]
-    fn plant_clock_projection_owns_only_aqueous_carbon_not_pigment_or_prior_dose() {
+    fn plant_clock_projection_separates_aqueous_carbon_pigment_and_finite_dose() {
         let mut vessel = Vessel::new(VesselId(0), "aqueous carbon beside plant stock");
         vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
         vessel.deposit(SpeciesId::new("CO2(aq)"), Moles(0.003), Phase::Aqueous);
@@ -11795,9 +11874,31 @@ mod gas_component_projection_tests {
             .external_gases
             .iter()
             .any(|gas| gas.kind == ExternalGasKind::Dose));
-        let mut unchanged = vec![("C".into(), 0.002)];
-        assert!(!project(&vessel, &remaining_dose, &mut unchanged, &[], &[], false).unwrap());
-        assert_eq!(unchanged, vec![("C".into(), 0.002)]);
+        let phases: Vec<_> = remaining_dose
+            .phases
+            .iter()
+            .map(|(phase, _, _)| (phase.clone(), 0.0))
+            .collect();
+        let mut absorbed = vec![("C".into(), 0.003 + 1e-11)];
+        assert!(project(&vessel, &remaining_dose, &mut absorbed, &phases, &[], false).unwrap());
+        assert_eq!(absorbed, vec![("C".into(), 0.003)]);
+        // A dose cannot erase the signed clock export or be counted twice.
+        let mut double_count = vec![("C".into(), 0.004)];
+        assert!(project(
+            &vessel,
+            &remaining_dose,
+            &mut double_count,
+            &phases,
+            &[],
+            false
+        )
+        .is_err());
+        vessel.unresolved_materials[0].recipe_version = u32::MAX;
+        assert!(!finite_clock_co2_dose(
+            &vessel,
+            &remaining_dose,
+            ComponentCertificate::Uncertified
+        ));
     }
 
     #[test]
