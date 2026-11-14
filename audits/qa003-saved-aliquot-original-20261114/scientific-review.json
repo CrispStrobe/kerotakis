@@ -1,0 +1,208 @@
+{
+  "met": 2,
+  "total": 2,
+  "criteria": {
+    "QA-003-C1": true,
+    "QA-003-C2": true
+  },
+  "solver_failures": 0,
+  "pre_titration_liquid_volume_l": {
+    "0": "0.15",
+    "1": "0.05"
+  },
+  "liquid_volume_observation_source": "Actual liquid volumes on saved vessel lines at the two original measure commands; the headspace volume meter explicitly refuses open vessels. No headspace reading is substituted.",
+  "endpoint_dose_ratio": "3.000000009536732652974572491",
+  "endpoint_base_mol": {
+    "0": "0.0015000005626678432",
+    "1": "0.0005000001859664917"
+  },
+  "volume_normalised_base_mol_per_l": {
+    "0": "0.01000000375111895466666666667",
+    "1": "0.010000003719329834"
+  },
+  "normalised_difference_mol_per_l": "3.178912066666666667E-11",
+  "dosing_resolution_mol_per_l": "0.0002666666666666666666666666667",
+  "carrier_water_mol_per_l": "55.34276991396058839855675826",
+  "known_element_charge_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "Cl": "0",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "Cl": "0.0000",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0",
+        "O": "0",
+        "Na": "0",
+        "Cl": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.000E-15",
+        "O": "-5.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.00E-16",
+        "O": "-1.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.000E-15",
+        "O": "-5.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.00E-16",
+        "O": "-1.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.000E-15",
+        "O": "-5.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.00E-16",
+        "O": "-1.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.3633251809213E-13",
+        "O": "-6.8164519202314E-14",
+        "Na": "7.90E-18",
+        "Cl": "-6.0E-19",
+        "charge": "5.02031250000E-18"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.00E-16",
+        "O": "-1.00E-16",
+        "Na": "0.00",
+        "Cl": "0.000000",
+        "charge": "0E-18"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.3633251809213E-13",
+        "O": "-6.8164519202314E-14",
+        "Na": "7.90E-18",
+        "Cl": "-6.0E-19",
+        "charge": "5.02031250000E-18"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.721177578344E-15",
+        "O": "-1.360589179787E-15",
+        "Na": "7.0E-19",
+        "Cl": "0.000000",
+        "charge": "7.0078123000E-19"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.3633251809213E-13",
+        "O": "-6.8164519202314E-14",
+        "Na": "7.90E-18",
+        "Cl": "-6.0E-19",
+        "charge": "5.02031250000E-18"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.721177578344E-15",
+        "O": "-1.360589179787E-15",
+        "Na": "7.0E-19",
+        "Cl": "0.000000",
+        "charge": "7.0078123000E-19"
+      }
+    }
+  ],
+  "preserved_limit_keys": [
+    "not-modeled.volume-meter-on-an-open-vessel"
+  ],
+  "scope": "Original model aliquot/stock and burette-resolution comparison using reported pre-titration liquid volumes, including titrant carrier water; no calibrated liquid-volume instrument or empirical titration precision claim."
+}

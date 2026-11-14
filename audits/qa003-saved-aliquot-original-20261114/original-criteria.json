@@ -1,0 +1,14 @@
+[
+  {
+    "id": "QA-003-C1",
+    "criterion": "Endpoint base demands are approximately 3:1.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  },
+  {
+    "id": "QA-003-C2",
+    "criterion": "Base demand divided by each measured pre-titration volume agrees within dosing resolution.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  }
+]

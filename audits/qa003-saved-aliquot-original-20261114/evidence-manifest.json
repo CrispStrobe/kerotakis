@@ -1,0 +1,14 @@
+{
+  "files_sha256": {
+    "reader-negative-controls.json": "381f2c21902084fd67958f17c011ad66e746a6c201d5beaa5e3bd1ce3f4af316",
+    "original-criteria.json": "44cdd032a93dde3f632eaa4d4b3d98430eabf9f586793a06d7ab5c54d430ff5e",
+    "batch2-qa-003.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch2-qa-003.stdout": "5f115e7ff2d2875564e5323569b8c49c6daab17b9352f0e9a68b186c446f8374",
+    "README.md": "3cb616f3ef6bba123dea1243f86fc42e8f1ceae0845d095f654edbfefa86d144",
+    "binding.json": "065f5270dde2c712f2b1650eee93f13a501d7d90cdf17f36af3214dbe87ecae7",
+    "source-properties.json": "2e52fc497a56c0f8fbb898d461c13dd4966c090d6616d728da884ca14cc1ea1a",
+    "scientific-review.json": "4651ad9df58f7d966c9615b6a3f6bdb9e01db347bf93ec461d939e9ee511e1d1",
+    "review_original.py": "d69de3a2f0a5396475bc15f46e57ff894cc15f2f0dabae05b5d71f072b36bba6",
+    "original.lab": "06ff160b761f71e03495726cc45fe9bc0fa02e2fc7d560228059686386719448"
+  }
+}

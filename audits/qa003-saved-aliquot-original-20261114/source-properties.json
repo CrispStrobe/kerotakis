@@ -1,0 +1,658 @@
+{
+  "compositions": [
+    {
+      "id": "composition/water",
+      "species_id": "water",
+      "formula": "H2O",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/water",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/water",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/water",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/water",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Na+",
+      "species_id": "Na+",
+      "formula": "Na+",
+      "elements": [
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na+",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na+",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Na+",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Cl-",
+      "species_id": "Cl-",
+      "formula": "Cl-",
+      "elements": [
+        {
+          "element": "Cl",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cl-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cl-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Cl-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/HCl",
+      "species_id": "HCl",
+      "formula": "HCl",
+      "elements": [
+        {
+          "element": "Cl",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HCl",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HCl",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HCl",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/HCl",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/NaOH",
+      "species_id": "NaOH",
+      "formula": "NaOH",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaOH",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/NaOH",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/OH-",
+      "species_id": "OH-",
+      "formula": "OH-",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/OH-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/OH-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/H+",
+      "species_id": "H+",
+      "formula": "H+",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    }
+  ],
+  "water_properties": [
+    {
+      "id": "molar-mass/water",
+      "species_id": "water",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 18.015,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "interval",
+          "lower": 18.01471,
+          "upper": 18.01599
+        },
+        "source_id": "legacy/water",
+        "method": {
+          "kind": "derived",
+          "detail": "sum of the IUPAC/CIAAW 2021 standard atomic weights over the formula unit. The interval is CIAAW's own - the isotopic variation of normal terrestrial materials, which is a spread across real samples rather than an error in anybody's measurement - propagated through the same sum by interval arithmetic and not in quadrature, and widened by one electron mass per unit of charge because this registry stores the formula sum rather than the ion mass. NOTHING HERE IS MEASURED AND NOTHING MEASURED IS CLAIMED: the atomic weights are measured, by CIAAW's cited evaluations and not by this project, and the sum is arithmetic. The validator requires the value to lie inside the interval, so this record is checked by the claim it carries"
+        }
+      }
+    },
+    {
+      "id": "density/water",
+      "species_id": "water",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.997,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/water",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    }
+  ]
+}

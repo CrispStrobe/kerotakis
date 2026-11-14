@@ -1,0 +1,34 @@
+[
+  {
+    "mutation": "lost-chloride",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-carrier-water",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-aliquot-stock",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-pre-volume",
+    "rejected": true
+  },
+  {
+    "mutation": "changed-endpoint-dose",
+    "rejected": true
+  },
+  {
+    "mutation": "endpoint-not-reached",
+    "rejected": true
+  },
+  {
+    "mutation": "hidden-headspace-refusal",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]
