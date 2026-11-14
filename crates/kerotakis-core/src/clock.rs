@@ -1090,10 +1090,10 @@ fn settle_phases(vessel: &mut Vessel, events: &mut Vec<Event>) {
 /// so that the phase ledger can be paid, K.
 ///
 /// It is a carrier, not a claim: the vessel is put back where the physics
-/// says within the same sub-step. The number has to clear the largest
-/// `ΔH / Cp` any latent heat on this bench asks for, because that is the
-/// excursion which lets the LAST of a substance change phase in one
-/// sub-step instead of an ever-smaller fraction of it for ever:
+/// says within the same sub-step. Its integrated sensible-energy capacity
+/// must clear the latent heat a transition asks for, so the LAST of a
+/// substance can change phase instead of leaving an ever-smaller tail.
+/// With constant Cp this reduces to the familiar `ΔH / Cp` estimate:
 ///
 /// The `Cp` is the one `Vessel::heat_capacity` will actually spend, which
 /// since the heat-source ceiling landed is the CONDENSED PHASE's rather
@@ -1114,8 +1114,10 @@ fn settle_phases(vessel: &mut Vessel, events: &mut Vec<Event>) {
 /// The two at the top arrived with the tranche that made the phase route
 /// general over the registry (PLAN P3s), and they moved the maximum by
 /// eighteen kelvin out of a thousand. `phase_routes.rs` now walks both
-/// tables against this constant rather than leaving the margin to be
-/// re-derived by hand, so a row added later cannot quietly exceed it.
+/// tables against the integrated phase Cp(T) over this unchanged carrier
+/// bound, so a row added later cannot quietly exceed it. Cu2O illustrates
+/// why the integral matters: its hot solid Cp is much larger than its
+/// room-temperature scalar, so scalar ΔH/Cp overstates the excursion.
 ///
 /// 1000 K clears all of them with room to spare. The excursion only
 /// approaches it when the vessel's contents have almost no heat capacity
@@ -1555,7 +1557,7 @@ impl Clock for AmbientClock {
                 // `h·A·(T_room − T)·dt` is joules. What the capacity sets
                 // is the TEMPERATURE that carries those joules, and the
                 // temperature is how `phase_route`'s ledger is paid:
-                // its budget is `heat_capacity × (T − threshold)`. So the
+                // its budget integrates phase Cp(T) from the threshold. So the
                 // excursion is deliberately not clamped at the room's own
                 // temperature. Clamping it there was a bug with a tell —
                 // the last tenth of a gram of dry ice went geometrically

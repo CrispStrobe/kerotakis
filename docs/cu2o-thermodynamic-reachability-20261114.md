@@ -74,3 +74,38 @@ confirm it. The older reachable-subset file was left untouched until a real
 current-source generator can replace its stale 75-species inventory. All
 previous registry golden objects remain unchanged; the additive Cu2O object
 must pass the actual Rust projection and byte-for-byte export checks.
+
+## Subsequent energy-control findings
+
+The complete hosted source `3f2e4492828cd8ddd17f62dd34f342750081468c`
+exposed two controls requiring corrections to their physical oracles. Their
+first failures remain preserved; neither warrants changing runtime heat or
+loosening a conservation tolerance.
+
+The phase-table check used latent heat divided by the room-temperature Cp
+scalar, reporting a 1024 K Cu2O excursion. The actual phase ledger integrates
+Cp(T), and the hot crystal's heat capacity is substantially larger. The check
+now retains its 1000 K bound and compares the integrated carrier energy with
+each transition's latent heat. An actual AmbientClock control also requires a
+molten Cu2O sample to freeze completely and reach room temperature without a
+stranded liquid tail.
+
+The unchanged chalk control was replayed with a transparent per-call observer.
+Its original test SHA-256 is
+`3bc495105ca0ed8ce2e9a28bd865713b7db930ff564b51404a21a1966f1aeb99`;
+the diagnostic stderr SHA-256 is
+`9b7bff3c73fc10b7138781becd6c2d665f0b185038743c282523a73a01e5faf7`.
+Three heat parcels delivered 28715.123861 J. Carbon dioxide evolved as
+0.0615046140 mol at 1006.700134 K and 0.0384953859 mol at 1003.271484 K,
+before the remaining lime was reheated to 1773.15 K. Independently integrating
+the sourced Cp coefficients gives 3369.200901 J of outgoing gas sensible
+heat, rather than 7783.045019 J from pricing all gas at the final crucible
+temperature. Lime warming plus actual gas heat plus the NASA reference
+reaction enthalpy closes to 0.364024 J. The original independent 178.8 kJ/mol
+reaction oracle differs by 63.465369 J, or 0.22% of the total.
+
+The chalk test now observes each actual parcel before coalescing and integrates
+its Cp independently of the production absolute-enthalpy evaluator. Parcel
+moles must match the accepted transcript. The original 1% bound is retained;
+the obsolete final-temperature estimate is an explicit negative control.
+These changed controls still require their own hosted execution.
