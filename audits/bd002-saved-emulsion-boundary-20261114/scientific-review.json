@@ -1,0 +1,306 @@
+{
+  "met": 4,
+  "total": 4,
+  "criteria": {
+    "question": true,
+    "inventory": true,
+    "coverage": true,
+    "controls": true
+  },
+  "solver_failures": 0,
+  "physical_pool_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "known_water_H_residual_mol": "0",
+      "known_water_O_residual_mol": "0",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0.000"
+    },
+    {
+      "step": 0,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0",
+      "known_water_O_residual_mol": "0",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0.000"
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0E-19"
+    },
+    {
+      "step": 1,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0",
+      "known_water_O_residual_mol": "0",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0.000"
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0E-19"
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0",
+      "known_water_O_residual_mol": "0",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0.000"
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "-4.6420E-15"
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0",
+      "known_water_O_residual_mol": "0",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0.000"
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0",
+      "known_water_O_residual_mol": "0",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0.000"
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0E-19"
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0",
+      "total_mass_residual_g": "0E-19"
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    },
+    {
+      "step": 10,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 10,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    },
+    {
+      "step": 11,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 11,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    },
+    {
+      "step": 12,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 12,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    },
+    {
+      "step": 13,
+      "vessel": 0,
+      "known_water_H_residual_mol": "-5.10E-16",
+      "known_water_O_residual_mol": "-2.55E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "-4.64200000E-15"
+    },
+    {
+      "step": 13,
+      "vessel": 1,
+      "known_water_H_residual_mol": "0E-16",
+      "known_water_O_residual_mol": "0E-16",
+      "known_charge_residual_eq": "0",
+      "opaque_enzyme_residual_mol": "0E-22",
+      "total_mass_residual_g": "0E-23"
+    }
+  ],
+  "expected_total_mass_g": {
+    "0": "51.19999999999999964260000",
+    "1": "50.89999999999999964260000"
+  },
+  "equal_conversion_history": [
+    {
+      "seconds": 30.0,
+      "converted_fraction": 0.01102175664503724,
+      "increment_g": 0.01102175664503724
+    },
+    {
+      "seconds": 1800.0,
+      "converted_fraction": 0.4913828569000964,
+      "increment_g": 0.4803611002550592
+    }
+  ],
+  "conversion_subset_g": {
+    "0": "0.49138285690009644",
+    "1": "0.49138285690009644"
+  },
+  "emulsion_events": [
+    {
+      "dispersed_volume_l": 0.0005999999999999998,
+      "event": "emulsion_changed",
+      "from_dispersed_fraction": 0.0,
+      "half_life_seconds": 300.0,
+      "material": "vegetable oil",
+      "to_dispersed_fraction": 0.5519999999999998,
+      "vessel": 0
+    },
+    {
+      "dispersed_volume_l": 9.375000000000001e-06,
+      "event": "emulsion_changed",
+      "from_dispersed_fraction": 0.5519999999999998,
+      "half_life_seconds": 300.0,
+      "material": "vegetable oil",
+      "to_dispersed_fraction": 0.008625,
+      "vessel": 0
+    }
+  ],
+  "scope": "Original independent teaching-role comparison only. Oil/soap remain conserved opaque material pools; conversion is state metadata, not extra product mass. No molecular hydrolysis stoichiometry, droplet-area rate law, detergent compatibility or real-lipase kinetic calibration is qualified."
+}

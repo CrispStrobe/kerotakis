@@ -1,0 +1,35 @@
+{
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+  "output_sha256": "ac98e3d2a8e54b0dad19acda6c9c22a3c8c03b08664c82161ceb34d10b96e245",
+  "native_binary_sha256": null,
+  "native_identity_limit": "No executable checksum was recorded by this historical producer; no later hash or source is substituted.",
+  "target_exit": 0,
+  "producer_build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "producer_build_exit": 0,
+  "producer_runner_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+  "manifest_hashes": {
+    "batch3-diverse-bd-002.json": "74cec28462e85cf804ef57b590e78711c38ca2fdafd4ac376635f723f8d6a858",
+    "batch3-diverse-bd-002.stdout": "ac98e3d2a8e54b0dad19acda6c9c22a3c8c03b08664c82161ceb34d10b96e245",
+    "batch3-diverse-bd-002.lab": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+    "batch3-diverse-bd-002.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+    "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+    "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e"
+  },
+  "source_registry_sha256": "8741b6f338bf68ca8c4acfa8eac6a121daa35b512ccb9f05d2508e3df34baa44",
+  "composition_extract": "source-properties.json extracts water composition/molar mass and both material recipes verbatim from the historical source registry; the enzyme dose conversion is read from pinned source-enzyme.rs and conserved as an opaque surrogate, with no molecular carbon formula.",
+  "source_enzyme_sha256": "95661ba277e06e2e0e980cd843d38a580b56291a00cf98c7e5464fdfa5b2f2d5",
+  "source_enzyme_path": "crates/kerotakis-core/src/enzyme.rs"
+}

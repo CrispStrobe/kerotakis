@@ -1,0 +1,26 @@
+[
+  {
+    "id": "question",
+    "criterion": "Does the implementation couple increased oil-water interface to enzyme activity, or merely keep a separate emulsion state?",
+    "review_instruction": "Review emulsion and hydrolysis outputs independently. The aggregate substrate-dose model does not establish a droplet-area rate law; equal hydrolysis despite different dispersion must not be reported as a general real-lipase result.",
+    "result": null
+  },
+  {
+    "id": "inventory",
+    "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+    "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+    "result": null
+  },
+  {
+    "id": "coverage",
+    "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+    "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+    "result": null
+  },
+  {
+    "id": "controls",
+    "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+    "review_instruction": "v2: no emulsifier",
+    "result": null
+  }
+]

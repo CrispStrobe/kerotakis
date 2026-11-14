@@ -1,0 +1,284 @@
+{
+  "water_composition": {
+    "id": "composition/water",
+    "species_id": "water",
+    "formula": "H2O",
+    "elements": [
+      {
+        "element": "H",
+        "count": {
+          "value": 2.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/water",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "O",
+        "count": {
+          "value": 1.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/water",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      }
+    ],
+    "net_charge": {
+      "value": 0.0,
+      "unit": {
+        "symbol": "1",
+        "dimension": "dimensionless"
+      },
+      "conditions": {
+        "temperature": null,
+        "pressure": null,
+        "ph": null,
+        "ionic_strength": null,
+        "medium": null,
+        "phase": null,
+        "notes": null
+      },
+      "uncertainty": {
+        "kind": "exact"
+      },
+      "source_id": "legacy/water",
+      "method": {
+        "kind": "derived",
+        "detail": "parsed from the verbatim legacy declaration"
+      }
+    },
+    "evidence": {
+      "source_id": "legacy/water",
+      "method": {
+        "kind": "imported",
+        "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+      }
+    }
+  },
+  "molar_masses": {
+    "water": 18.015
+  },
+  "material_recipes": [
+    {
+      "id": "household/dish-soap-surrogate",
+      "version": 1,
+      "canonical_key": "dish_soap",
+      "name": "dish soap",
+      "aliases": {
+        "de": [
+          "Sp\u00fclmittel"
+        ],
+        "en": [
+          "soap",
+          "washing-up_liquid"
+        ],
+        "fr": [
+          "liquide vaisselle"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.8,
+            "upper": 0.8
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.2,
+        "upper": 0.2
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "foam_stabilizer",
+          "trapping_efficiency": 0.85,
+          "gas_volume_fraction": 0.9,
+          "half_life_seconds": 180.0,
+          "saturation_amount": 0.4
+        },
+        {
+          "kind": "surface_tension_reducer",
+          "saturation_amount": 0.1,
+          "max_cleared_fraction": 0.9
+        },
+        {
+          "kind": "aqueous_emulsifier",
+          "saturation_amount": 0.1,
+          "max_dispersed_fraction": 0.92,
+          "half_life_seconds": 300.0
+        }
+      ],
+      "preparation": "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved",
+      "lot_assumptions": [
+        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction",
+        "emulsification parameters are a bounded stirred classroom observable, not a universal detergent specification"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/vegetable-oil-surrogate",
+      "version": 1,
+      "canonical_key": "vegetable_oil",
+      "name": "vegetable oil",
+      "aliases": {
+        "de": [
+          "Pflanzen\u00f6l",
+          "Speise\u00f6l"
+        ],
+        "en": [
+          "oil",
+          "cooking oil",
+          "plant oil"
+        ],
+        "fr": [
+          "huile v\u00e9g\u00e9tale"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.92,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_immiscible_liquid",
+          "srgb": [
+            238,
+            218,
+            112
+          ],
+          "colour_word": "pale yellow"
+        }
+      ],
+      "preparation": "generic room-temperature vegetable-oil teaching surrogate",
+      "lot_assumptions": [
+        "the oil remains a conserved unresolved triglyceride mixture; crop, refining, age, additives and brand are not guessed",
+        "0.92 g/mL is an explicit representative geometry parameter, not a product specification",
+        "the bounded role supports an upper oil layer on water; emulsions, oxidation, hydrolysis and combustion remain unmodelled"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    }
+  ]
+}

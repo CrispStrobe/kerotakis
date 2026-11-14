@@ -1,0 +1,38 @@
+[
+  {
+    "mutation": "lost-oil",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-soap",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-enzyme",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-water",
+    "rejected": true
+  },
+  {
+    "mutation": "unequal-conversion",
+    "rejected": true
+  },
+  {
+    "mutation": "double-counted-conversion",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-control-emulsion",
+    "rejected": true
+  },
+  {
+    "mutation": "incorrect-mass-display",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]
