@@ -1,5 +1,7 @@
 # Fresh-agent handoff — 2026-11-12
 
+**2026-11-14 current coverage:** [The catalog](https://github.com/CrispStrobe/kerotakis/blob/15b63aacc/audits/working-experiments-20261114-reviewed-mo003.json) contains 428 entries representing **424/468 originals, 44 remaining**. [MO003 evidence](https://github.com/CrispStrobe/kerotakis/blob/15b63aacc/audits/mo003-finite-carbonate-owner-20261114/README.md) earns both unchanged original criteria at source `4aca6ecd1`, with all 427 predecessor objects preserved. Its 93 output hashes, 43 matched focused tests, full physical ledgers and 500-prompt check verify the source-specific qualification. The selector filter matched zero tests: correctly matched selector/floor controls and full applicable source/platform/fleet acceptance remain delivery gates. PR882 is the separate reviewed prerequisite; its active head and acceptance must be preserved. Earlier coverage figures below describe historical checkpoints.
+
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
 ## Original-experiment follow-ups (2026-11-14)
