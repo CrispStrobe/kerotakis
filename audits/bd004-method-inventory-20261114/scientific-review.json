@@ -1,0 +1,116 @@
+{
+  "original_criteria_passed": [
+    "question",
+    "inventory",
+    "coverage"
+  ],
+  "solver_failures": 0,
+  "known_element_charge_checks": [
+    {
+      "step": 0,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "Cl": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 1,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "Cl": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 2,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0.000",
+        "Cl": "0.000",
+        "charge": "0.000"
+      }
+    },
+    {
+      "step": 3,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "4.142E-16",
+        "O": "2.071E-16",
+        "Na": "0.000",
+        "Cl": "0.000",
+        "charge": "0.000"
+      }
+    },
+    {
+      "step": 4,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "4.142E-16",
+        "O": "2.071E-16",
+        "Na": "0.000",
+        "Cl": "0.000",
+        "charge": "0.000"
+      }
+    },
+    {
+      "step": 5,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "4.142E-16",
+        "O": "2.071E-16",
+        "Na": "0.000",
+        "Cl": "0.000",
+        "charge": "0.000"
+      }
+    },
+    {
+      "step": 6,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "4.142E-16",
+        "O": "2.071E-16",
+        "Na": "0.000",
+        "Cl": "0.000",
+        "charge": "0.000"
+      }
+    },
+    {
+      "step": 8,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "4.142E-16",
+        "O": "2.071E-16",
+        "Na": "0.000",
+        "Cl": "0.000",
+        "charge": "0.000"
+      }
+    }
+  ],
+  "retained_opaque_albumin_g": "0.188",
+  "retained_ethanol_sodium_chloride_mol": {
+    "ethanol": "0.001",
+    "Na+": "0.001",
+    "Cl-": "0.001"
+  },
+  "peak_species": [
+    "ethanol"
+  ],
+  "outside_method": [
+    "Cl-",
+    "Na+"
+  ],
+  "balance_g": 40.184512000000005,
+  "independent_retained_mass_g": "40.1845120000000030845",
+  "conductivity_uS_cm": 2926.439635445035,
+  "registry_sha256": "88f5df1a8404bd505e2f6989b6b74147b04189fe754ab2a7bb42baf666e4d31a",
+  "scope": "Original instrument-completeness comparison only: the neutral peak does not identify salt or unresolved protein; no protein formula, complete analysis or empirical retention calibration is asserted."
+}

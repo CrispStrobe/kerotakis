@@ -1,0 +1,8 @@
+{
+  "source": "0bf5205db5d5dcd22273aca76602c0f2c7b40fec",
+  "binary_sha256": "7855dfdf568f802c8624acf5ff5d79e08f7182cc6a48d769ace01eacda73a216",
+  "script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+  "utc": "2026-11-14T13:29:10.682016+00:00",
+  "attempt": 1,
+  "reason": "Changed unresolved-mass owner corrects prior 0.188 g protein omission; test unchanged instrument/stock criterion with authenticated artifact, no build"
+}

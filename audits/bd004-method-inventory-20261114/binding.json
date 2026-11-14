@@ -1,0 +1,12 @@
+{
+  "source": "0bf5205db5d5dcd22273aca76602c0f2c7b40fec",
+  "tree": "e237b53b0209c92963a56aeef6c6306014eee079",
+  "native_binary_sha256": "7855dfdf568f802c8624acf5ff5d79e08f7182cc6a48d769ace01eacda73a216",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+  "observations_sha256": "40b1e791ac9555ad127f7dc0b1e0b8004b74e860354c4cad5de7db50c28d492e",
+  "execution": "One bounded isolated Linux CPU process using the preserved authenticated debug native artifact; no build",
+  "before_source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "before_observations_sha256": "79a036b2699f689ff0e806ae7a105fb2d7e25bb14327b69e20cc4778dd055664",
+  "qualification": "Original instrument-completeness comparison only; no protein identification or complete analytical coverage claim"
+}

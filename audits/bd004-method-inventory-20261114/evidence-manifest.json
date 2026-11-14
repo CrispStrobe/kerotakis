@@ -1,0 +1,15 @@
+{
+  "files_sha256": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reader-negative-controls.json": "04ed77bb9172d04f8540006b7b173ae2257eeeaa6c3e49befce0b62ed082cfce",
+    "observations.jsonl": "40b1e791ac9555ad127f7dc0b1e0b8004b74e860354c4cad5de7db50c28d492e",
+    "COMPLETED.json": "679ac01ad3eb066463970e0ebbea25da2be8920748223ac510d7676eed51d612",
+    "before-observations.jsonl": "79a036b2699f689ff0e806ae7a105fb2d7e25bb14327b69e20cc4778dd055664",
+    "README.md": "5d227b24f963de65f2eb4b3c7b8b709be6c83cdbee2ddb972e82b98d7abccf38",
+    "binding.json": "4412751c7821f4bad9b46094f7330b3634a75e06a41c676f2f2960dead5cc1b1",
+    "scientific-review.json": "eee66f2e8201a02ca538bb5f6d909585ed7630f876bed5834381ab88c4cc70fc",
+    "ISSUED.json": "5ef3a8d4574ce2cfc48e9eb576b6d5e644e4b75f29f6d1a6d02a861f623558fb",
+    "review_original.py": "b2e7a452339d4d5a697464c10c04900e25adbbf2603b717558cb487b4e5d8abf",
+    "original.lab": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173"
+  }
+}

@@ -1,0 +1,11 @@
+# BD-004: a missing peak does not mean a missing ingredient
+
+The unchanged original qualifies in its expressly limited **instrument-completeness comparison** on source `0bf5205db5d5dcd22273aca76602c0f2c7b40fec`, using the authenticated saved debug native artifact. The script, forecast, three criteria and original limitations remain unchanged. This is not a qualification of protein chemistry or a complete analytical method.
+
+The actual chromatogram contains one ethanol peak (model retention time 68.2511689 s) and explicitly lists Na+ and Cl- outside the method. Independent stock readback retains 0.001 mol each of ethanol, Na+ and Cl-, plus 0.188 g unresolved protein. Conductivity is 2926.439635 µS/cm. Therefore the neutral peak list cannot certify absence of salt or protein, exactly the original question; no protein peak or protein molecular formula is invented.
+
+The earlier `4bd93add` output reported 39.996512 g while retaining the same unresolved protein. The corrected balance is 40.184512 g and includes the missing 0.188 g. An independent registry-weighted stock calculation gives 40.184512000000003 g. All eight available physical checkpoints close known C/H/O/Na/Cl/charge within 4.2e-16 mol/eq under the unchanged 1e-10 bound. Recipe water is 0.012 g and unresolved protein is 0.188 g, separately accounting for the 0.2 g material dose. Every observation operation preserves both known contents and unresolved stock.
+
+The original forecast explicitly allows omissions to remain outside the peak mechanism whether or not each is labelled. The comparison is supported by independent inventories and the ion warning; it does not interpret the absent protein peak as a chemically negative result. Quantitative protein analysis and empirical retention calibration remain outside this scope. No unsupported prediction earns credit.
+
+The saved reader passes and independently rejects lost sodium, lost opaque stock, an incomplete outside-method list, an invented protein peak, the old omitted-mass balance and an injected solver failure. Raw before/after observations, one-execution receipt, exact source/native/lock/input bindings and the reader are preserved. No original protocol is adapted and no engine replay is used for reader controls.

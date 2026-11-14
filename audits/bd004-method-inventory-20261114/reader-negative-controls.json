@@ -1,0 +1,26 @@
+[
+  {
+    "mutation": "salt_loss",
+    "rejected": true
+  },
+  {
+    "mutation": "opaque_loss",
+    "rejected": true
+  },
+  {
+    "mutation": "outside_method",
+    "rejected": true
+  },
+  {
+    "mutation": "invented_protein_peak",
+    "rejected": true
+  },
+  {
+    "mutation": "omitted_mass",
+    "rejected": true
+  },
+  {
+    "mutation": "solver_failure",
+    "rejected": true
+  }
+]

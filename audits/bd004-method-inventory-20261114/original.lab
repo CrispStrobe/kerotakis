@@ -1,0 +1,12 @@
+# D3-BD-004: A missing chromatographic peak does not prove a missing ingredient
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 40mL
+add v1 ethanol 0.001mol
+add v1 NaCl 0.001mol
+add v1 albumin 0.2g
+chromatograph v1
+measure v1 conductivity
+measure v1 balance
+particles v1
+inspect
