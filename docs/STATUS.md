@@ -4,7 +4,7 @@
 
 **Current delivery — 2026-10-27:** The diagnostic release is merged and deployed. [Actual release acceptance](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) verifies all 11 API protocols, security/admission/concurrency controls and all 82 browser checks on runtime `a7640a07`. Full source/platform and own-fleet acceptance are complete. The six ordered implementation/review lanes have reached their final maintained-summary update; the source and product checks do not need repeating.
 
-199 product-owned diagnostic contracts have EN/DE/FR rendering, with raw technical details, opaque upstream fallback and old omitted-metadata JSON preserved. This release adds no original chemistry qualification: the catalog remains **343 entries / 339 unique originals out of 468**. There are 129 remaining, and 62 more earned qualifications are needed to exceed 400. Unsupported chemistry remains an explicit coverage limit.
+199 product-owned diagnostic contracts have EN/DE/FR rendering, with raw technical details, opaque upstream fallback and old omitted-metadata JSON preserved. At that release the catalog had 343 entries and 339 unique originals; the current count is stated above. Unsupported chemistry remains an explicit coverage limit.
 
 Read [the ordered successor agenda](improvement-agenda-20261014.md), [fresh-agent scopes](next-agent-handoff.md) and [PR policy](PR-WORKFLOW.md). Detailed dated scopes and frozen evidence retain their original source identities; superseded pending notes must not trigger duplicate work.
 
@@ -36,7 +36,7 @@ Both browser harness failures remain preserved. The first baseline loader fails 
 
 ## Original experiment coverage
 
-The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/8e75e480/audits/working-experiments-20261026-reviewed-pigment-one.json) has343 entries representing **339/468 unique originals**.129 remain;62 more earned originals are needed for401. Every previous342 object is preserved. These qualifications span explicitly bound sources and domains; they are not a uniform replay on latest production or empirical calibration.
+The [2026-10-26 catalog](https://github.com/CrispStrobe/kerotakis/blob/8e75e480/audits/working-experiments-20261026-reviewed-pigment-one.json) held 343 entries representing 339 unique originals at that checkpoint. Its successor and current coverage are stated above. Qualifications span their documented sources and domains; they are not a uniform replay on latest production or empirical calibration.
 
 [Original LI004 independently qualifies](../audits/original-li004-current-source-qualified-20261026/README.md) within its forecast's curated pigment-identity-versus-dilution scope. All44 available vessel readbacks close known elements includingH/O and charge to8.88e−16mol/eq under the unchanged1e−10 bound. Actual UVvis wavelengths differ; no numerical cross-wavelength absorbance-loss claim or empirical oxidised-product identification is earned.
 
