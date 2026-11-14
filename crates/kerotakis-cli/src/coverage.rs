@@ -588,6 +588,51 @@ fn curated_event_routes(events: &[Event]) -> Vec<SolverRoute> {
         .collect()
 }
 
+/// A paid, quantified physical change remains an observation when a later
+/// operator honestly refuses unrelated chemistry. Heating and melting PE
+/// does not establish its combustion products; neither does the combustion
+/// limit erase the observed melt. Zero, unknown and nonfinite amounts carry
+/// no such evidence.
+fn observed_phase_change(events: &[Event]) -> bool {
+    events.iter().any(|event| {
+        matches!(event,
+            Event::StateChanged { from, to, moles: Some(moles), .. }
+                if from != to && moles.0.is_finite() && moles.0 > 0.0
+        )
+    })
+}
+
+/// A single-substance heating question may be answered qualitatively by
+/// its own phase change, even when combustion is unsupported afterwards.
+/// A solvent changing phase beside another reagent is no such answer.
+fn single_substance_phase_observation(prompt: &CuriosityPrompt, events: &[Event]) -> bool {
+    if prompt.action != ActionFamily::HeatAndCool {
+        return false;
+    }
+    let Some((owner, added)) = events.iter().find_map(|event| match event {
+        Event::Added {
+            vessel, species, ..
+        } => Some((vessel, species)),
+        _ => None,
+    }) else {
+        return false;
+    };
+    if events.iter().any(|event| match event {
+        Event::Added {
+            vessel, species, ..
+        } => vessel != owner || species != added,
+        Event::MaterialAdded { .. } | Event::SolutionAdded { .. } => true,
+        _ => false,
+    }) {
+        return false;
+    }
+    events.iter().any(|event| {
+        matches!(event,
+            Event::StateChanged { vessel, species, .. } if vessel == owner && species == added
+        ) && observed_phase_change(std::slice::from_ref(event))
+    })
+}
+
 fn execute_prompt(
     prompt: &CuriosityPrompt,
     stack: &mut SolverStack,
@@ -670,9 +715,11 @@ fn execute_prompt(
     {
         return Ok(result(prompt, Disposition::Boundary, "safety-veto", routes));
     }
+    let physical_observation = single_substance_phase_observation(prompt, &all_events);
     if events
         .iter()
         .any(|event| matches!(event, Event::NotYetModeled { .. }))
+        && !physical_observation
         && !all_events.iter().any(|event| {
             matches!(
                 event,
@@ -781,7 +828,11 @@ fn execute_prompt(
     let computed_inert = all_events
         .iter()
         .any(|event| matches!(event, Event::Inert { computed: true, .. }));
-    let typed_observation = all_events.iter().any(|event| {
+    let physical_observation = physical_observation
+        && !computed_chemistry
+        && !succeeded(SolverRouteKind::Computed)
+        && !succeeded(SolverRouteKind::Curated);
+    let typed_observation = physical_observation || all_events.iter().any(|event| {
         matches!(
             event,
             Event::Smelled { .. }
@@ -961,6 +1012,10 @@ fn execute_prompt(
         ));
     }
 
+    // This is a conservative provenance summary, not an exclusive owner:
+    // a mixed answer is still partly curated. Keep every computed route
+    // above (including zero-event chemistry) beside the endpoint route in
+    // the serialized result; never relabel the whole answer as calculated.
     let (observed, reason) = if succeeded(SolverRouteKind::Curated) {
         (Disposition::Curated, "curated-route")
     } else if computed_chemistry || succeeded(SolverRouteKind::Computed) {
@@ -1221,6 +1276,116 @@ mod tests {
                 "{id}: endpoint contribution retained"
             );
         }
+    }
+
+    #[test]
+    fn paid_polymer_melting_survives_an_honest_combustion_limit() {
+        let prompt = original_prompt("mat-032");
+        let actual = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
+        assert_eq!(actual.observed, Disposition::Qualitative);
+        assert_eq!(actual.reason_code, "typed-observation");
+
+        let mut bench = Bench::new();
+        let mut stack = crate::build_stack();
+        let mut transcript = Vec::new();
+        for line in &prompt.script {
+            transcript.extend(
+                bench
+                    .step_with(
+                        parse_op_typed(line).unwrap().unwrap(),
+                        &mut stack,
+                        &PermissiveScreen,
+                    )
+                    .unwrap(),
+            );
+        }
+        assert!(observed_phase_change(&transcript), "{transcript:?}");
+        assert!(
+            transcript.iter().any(|event| matches!(event,
+                Event::NotYetModeled { reason: Some(reason), .. }
+                    if reason.key == "not-modeled.combustion-no-solver"
+            )),
+            "melting cannot earn a combustion claim: {transcript:?}"
+        );
+        assert!(!transcript.iter().any(|event| matches!(event,
+            Event::ThermalEquilibrium { reaction_energy_j: Some(energy), .. }
+                if *energy > 0.0
+        )));
+    }
+
+    #[test]
+    fn an_unrelated_solvent_transition_cannot_answer_unsupported_heating() {
+        use kerotakis_core::species::Phase;
+        use kerotakis_core::{Kelvin, Moles, SpeciesId, VesselId};
+        let prompt = original_prompt("mat-032");
+        let polymer = Event::Added {
+            vessel: VesselId(0),
+            species: SpeciesId::new("PE"),
+            moles: Moles(0.1),
+            total_after: Some(Moles(0.1)),
+        };
+        let water = Event::Added {
+            vessel: VesselId(0),
+            species: SpeciesId::new("water"),
+            moles: Moles(1.0),
+            total_after: Some(Moles(1.0)),
+        };
+        let transition = Event::StateChanged {
+            vessel: VesselId(0),
+            species: SpeciesId::new("water"),
+            from: Phase::Solid,
+            to: Phase::Liquid,
+            at: Kelvin(273.15),
+            shifted_by: 0.0,
+            kind: None,
+            moles: Some(Moles(1.0)),
+        };
+        assert!(!single_substance_phase_observation(
+            &prompt,
+            &[polymer.clone(), transition.clone()]
+        ));
+        assert!(!single_substance_phase_observation(
+            &prompt,
+            &[polymer, water.clone(), transition.clone()]
+        ));
+        let mut unrelated_action = prompt;
+        unrelated_action.action = ActionFamily::FoodAndLife;
+        assert!(!single_substance_phase_observation(
+            &unrelated_action,
+            &[water, transition]
+        ));
+    }
+
+    #[test]
+    fn phase_observation_requires_a_positive_finite_committed_amount() {
+        use kerotakis_core::species::Phase;
+        use kerotakis_core::{Kelvin, Moles, SpeciesId, VesselId};
+        let mut event = Event::StateChanged {
+            vessel: VesselId(0),
+            species: SpeciesId::new("PE"),
+            from: Phase::Solid,
+            to: Phase::Liquid,
+            at: Kelvin(414.6),
+            shifted_by: 0.0,
+            kind: None,
+            moles: None,
+        };
+        for amount in [
+            None,
+            Some(0.0),
+            Some(-1.0),
+            Some(f64::NAN),
+            Some(f64::INFINITY),
+        ] {
+            if let Event::StateChanged { moles, .. } = &mut event {
+                *moles = amount.map(Moles);
+            }
+            assert!(!observed_phase_change(std::slice::from_ref(&event)));
+        }
+        if let Event::StateChanged { moles, .. } = &mut event {
+            *moles = Some(Moles(0.01));
+        }
+        assert!(observed_phase_change(&[event]));
     }
 
     #[test]
