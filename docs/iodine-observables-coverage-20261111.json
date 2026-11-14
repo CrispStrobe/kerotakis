@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 40,
-    "neutral-refused": 147,
+    "neutral-refused": 148,
     "partitions": 9
   },
   "cases": [
@@ -353,6 +353,11 @@
     },
     {
       "species": "Cu(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Cu2O",
       "class": "neutral-refused",
       "basis": null
     },

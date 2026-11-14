@@ -24,11 +24,10 @@ The mass candidate passed 71 focused controls but retained three original solver
 
 ## Rounds 4 and 5 — PR881 pending acceptance
 
-[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is ready with auto-merge enabled; required checks are queued. It has not merged or deployed; the production identity above remains current. Its first failing head is `bb168622`: six starch display names lack German translations,
+[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is ready with auto-merge enabled. The previous head failed preflight on two stale Cu₂O coverage tables and native codex lint on two stale magnesium temperature claims; the successor regenerates the tables and corrects the claims using an independently checked phase-aware enthalpy balance. Hosted thermal, codex lint and coverage checks pass; the updated export snapshot also passes on `00784e5fe`. Required checks remain queued. It has not merged or deployed; the production identity above remains current. Its first failing head is `bb168622`: six starch display names lack German translations,
 the bicarbonate demo lacks step prose, and carbonate/gas/selectivity fleet contracts fail. Repair
 work preserves those first failures and distinguishes physical source defects from invalid oracles.
-Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication
-and original qualifications are not yet earned.
+Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication remains pending.
 
 [Authenticated focused source results](../audits/carbonate-focused-source-20261112/README.md)
 show72 internal cases/92 declared checks passing on `32f3aed5`, plus core/Clippy/type checks and
