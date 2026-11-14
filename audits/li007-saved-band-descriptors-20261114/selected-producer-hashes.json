@@ -1,0 +1,8 @@
+{
+  "batch3-diverse-li-007.stdout": "3ceb02fbfbabfb7467b658c2e6b4f0178b2fbd4983edd5de3844a5681e8c89a9",
+  "batch3-diverse-li-007.lab": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+  "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+  "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e",
+  "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+  "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd"
+}

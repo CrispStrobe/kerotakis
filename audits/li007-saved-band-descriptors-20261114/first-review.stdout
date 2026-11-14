@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "question": true,
+    "inventory": true,
+    "coverage": true,
+    "controls": true
+  },
+  "band_descriptors": [
+    {
+      "wavelength_nm": 305,
+      "band": "UV-B",
+      "transmitted_fraction": 0.03333333333333333,
+      "scope": "declared teaching descriptor; empirical provenance pending"
+    },
+    {
+      "wavelength_nm": 365,
+      "band": "UV-A",
+      "transmitted_fraction": 0.1,
+      "scope": "declared teaching descriptor; empirical provenance pending"
+    }
+  ],
+  "visible_transmitted_fraction": null,
+  "water_control_transmitted_fraction": null,
+  "absence_is_not_full_transmission": true,
+  "known_element_charge_checks": 183,
+  "max_abs_known_residual": 0.0,
+  "mass_ownership_checks": 61,
+  "max_abs_mass_residual_g": 0.0,
+  "per_sample_unresolved_g": 0.4,
+  "whole_bench_unchanged_across_irradiation_and_observation": true,
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "historical_native_binary_sha256": null,
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "output_sha256": "3ceb02fbfbabfb7467b658c2e6b4f0178b2fbd4983edd5de3844a5681e8c89a9",
+  "chemical_replay": false,
+  "empirical_optical_calibration": false,
+  "unresolved_elemental_composition": null
+}

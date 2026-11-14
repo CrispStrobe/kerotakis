@@ -1,0 +1,19 @@
+# D3-LI-007: A sunscreen model has spectral bands, not one universal shield factor
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+add v1 sunscreen 1g
+add v2 sunscreen 1g
+add v3 sunscreen 1g
+add v4 water 1g
+irradiate v1 305nm 1W/m2
+irradiate v2 365nm 1W/m2
+irradiate v3 550nm 1W/m2
+irradiate v4 305nm 1W/m2
+look v1
+look v2
+look v3
+look v4
+inspect

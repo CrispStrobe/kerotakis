@@ -1,0 +1,1549 @@
+{
+  "criteria": {
+    "question": true,
+    "inventory": true,
+    "coverage": true,
+    "controls": true
+  },
+  "band_descriptors": [
+    {
+      "wavelength_nm": 305,
+      "band": "UV-B",
+      "transmitted_fraction": 0.03333333333333333,
+      "scope": "declared teaching descriptor; empirical provenance pending"
+    },
+    {
+      "wavelength_nm": 365,
+      "band": "UV-A",
+      "transmitted_fraction": 0.1,
+      "scope": "declared teaching descriptor; empirical provenance pending"
+    }
+  ],
+  "visible_transmitted_fraction": null,
+  "water_control_transmitted_fraction": null,
+  "absence_is_not_full_transmission": true,
+  "known_element_charge_checks": 183,
+  "max_abs_known_residual": 0.0,
+  "mass_ownership_checks": 61,
+  "max_abs_mass_residual_g": 0.0,
+  "per_sample_unresolved_g": 0.4,
+  "whole_bench_unchanged_across_irradiation_and_observation": true,
+  "ledger": [
+    {
+      "sequence": 0,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 0,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 0,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 0,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 0,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 0,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 1,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 2,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 3,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 4,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 5,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 6,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 7,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 8,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 9,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 10,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 11,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 12,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 13,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 14,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "sequence": 15,
+      "vessel": 3,
+      "element": "Q",
+      "residual": 0.0
+    }
+  ],
+  "mass_ledger": [
+    {
+      "sequence": 0,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 0,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 1,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 1,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 1,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 2,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 2,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 2,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 2,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 3,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 3,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 3,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 3,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 4,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 4,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 4,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 4,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 5,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 5,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 5,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 5,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 6,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 6,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 6,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 6,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 7,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 7,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 7,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 7,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 8,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 8,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 8,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 8,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 9,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 9,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 9,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 9,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 10,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 10,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 10,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 10,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 11,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 11,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 11,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 11,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 12,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 12,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 12,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 12,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 13,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 13,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 13,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 13,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 14,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 14,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 14,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 14,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    },
+    {
+      "sequence": 15,
+      "vessel": 0,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 15,
+      "vessel": 1,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 15,
+      "vessel": 2,
+      "residual_g": 0.0,
+      "unresolved_g": 0.4
+    },
+    {
+      "sequence": 15,
+      "vessel": 3,
+      "residual_g": 0.0,
+      "unresolved_g": 0
+    }
+  ],
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "historical_native_binary_sha256": null,
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "output_sha256": "3ceb02fbfbabfb7467b658c2e6b4f0178b2fbd4983edd5de3844a5681e8c89a9",
+  "reader_mutations": [
+    {
+      "case": "wrong_UVB",
+      "rejected": true
+    },
+    {
+      "case": "wrong_UVA",
+      "rejected": true
+    },
+    {
+      "case": "invent_visible_reading",
+      "rejected": true
+    },
+    {
+      "case": "invent_blank_reading",
+      "rejected": true
+    },
+    {
+      "case": "lost_unresolved",
+      "rejected": true
+    },
+    {
+      "case": "lost_water",
+      "rejected": true
+    },
+    {
+      "case": "wrong_film",
+      "rejected": true
+    },
+    {
+      "case": "hide_pending_provenance",
+      "rejected": true
+    },
+    {
+      "case": "invent_photolysis",
+      "rejected": true
+    },
+    {
+      "case": "solver_failure",
+      "rejected": true
+    }
+  ],
+  "chemical_replay": false,
+  "empirical_optical_calibration": false,
+  "unresolved_elemental_composition": null
+}

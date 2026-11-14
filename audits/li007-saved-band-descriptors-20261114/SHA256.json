@@ -1,0 +1,19 @@
+{
+  "README.md": "03be75e3171d7ef19bf742190688e102670a2c25502713157f8d746e3992fba6",
+  "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+  "batch3-diverse-li-007.lab": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+  "batch3-diverse-li-007.stdout": "3ceb02fbfbabfb7467b658c2e6b4f0178b2fbd4983edd5de3844a5681e8c89a9",
+  "catalog-preservation.json": "db5dd4d848f89b46650da2d9913b255d13304f6671cedb95fd4ea0f4d5bc69f5",
+  "first-review.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "first-review.stdout": "5fbef58814489efa336f99a01fb52de3a976955f58bdd24855cc8b6317e4490a",
+  "frozen-review-scope.json": "239f70521141a2fbd4c11101bdc62c06367937ccca69f437563bf22f7b7a2b86",
+  "original.json": "1b57146a9f30a3bff6926ee4763487fdcefaabff0389cff28bc00bd58ebb27f7",
+  "pinned-irradiate.txt": "479c7d401e9277d02d353efe1a80f120fb269bdd35470a6bf2144b96e552c8f9",
+  "pinned-source-contract.json": "4063ec34810fcd96b37a7a15b7e86571d3614635103e3465672cbecd4d7e7f02",
+  "pinned-uv.rs": "b80c3dffaad12f6f21ead073f8ad8c4dcd8a78507769b441c78bc490f83702dd",
+  "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+  "review-result.json": "5ce4fe4b544d164be37f3cc0b00165c4e6832ff4921ae2f6c0bcda6cd048baa0",
+  "review.py": "77ac3b41b4a16b62257f356fc6eadfa6e5a58839f17661a1a9c7b05176ada749",
+  "selected-producer-hashes.json": "27004d3a14f438798d7c15215f16de8ada7f2dae36c1476ee6d7f93a5e2a78fc",
+  "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e"
+}

@@ -1,0 +1,277 @@
+{
+  "code": "D3-LI-007",
+  "title": "A sunscreen model has spectral bands, not one universal shield factor",
+  "title_de": "Ein Sonnenschutzmodell besitzt Spektralb\u00e4nder statt eines universellen Schutzfaktors",
+  "question": "Does the same declared formulation attenuate UVA, UVB and visible input according to different model bands?",
+  "script": "# D3-LI-007: A sunscreen model has spectral bands, not one universal shield factor\n# Simulation candidate; no runtime observations are claimed.\nregister lv3\nnew\nnew\nnew\nadd v1 sunscreen 1g\nadd v2 sunscreen 1g\nadd v3 sunscreen 1g\nadd v4 water 1g\nirradiate v1 305nm 1W/m2\nirradiate v2 365nm 1W/m2\nirradiate v3 550nm 1W/m2\nirradiate v4 305nm 1W/m2\nlook v1\nlook v2\nlook v3\nlook v4\ninspect\n",
+  "expected_result": "Review band-specific incident and transmitted-state information rather than assigning the UVB protection factor to every wavelength. The water-only vessel is a formulation-omission control.",
+  "limitations": [
+    "This is a standard-film teaching model: it does not predict applied thickness, skin exposure, safety, photostability, or the protection of any real commercial product."
+  ],
+  "priority_tier": 2,
+  "experiment_kind": "controlled_comparison",
+  "expected_processes": [],
+  "controls": [
+    "v4: no sunscreen formulation"
+  ],
+  "expected_products_or_states": [
+    "qualified UVA/UVB attenuation descriptors"
+  ],
+  "id": "batch3-diverse:li-007",
+  "group": "light-and-colour",
+  "rank": 58,
+  "educational_level": "Sekundarstufe II / optional school enrichment",
+  "importance_rationale": "Broadens upper-secondary chemistry into a distinct material, process or method.",
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "script_sha256": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+  "script_body_sha256": "487ffd902d7a5003088e6f414b1a1d392cd35c8c5c17992e3034457778908116",
+  "action_protocol_sha256": "d92a1e103e8b653ed5d862711775bbf807a02c6122722321083df928e8c61972",
+  "quantity_independent_protocol_sha256": "82cfb68781672fd6ff7513c3c3f7c4961774f25d5dd4a3fab38a02ab8a65548c",
+  "novelty": {
+    "basis": "New experimental question and/or chemical/material system relative to the earlier generated batches; substantive controls and conceptual extensions are allowed.",
+    "distinction": "Adds wavelength-resolved material attenuation, distinct from titration and absorbance-concentration calibration.",
+    "semantic_uniqueness_certified": false,
+    "comparison_against_previous_221": "See novelty_comparison.json for reproducible exact, normalized and action-protocol checks.",
+    "original_147_exhaustively_compared": false
+  },
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "medium",
+    "runtime_verified": false,
+    "official_parser_verified": false,
+    "coverage_claim": "Inputs and command forms have source references; complete feature composition remains unrun."
+  },
+  "equation_validation": {
+    "automated_atom_and_charge_balance_checked": false,
+    "note": "Equations are educational relationships; schematic families and unresolved materials are labelled, not claimed as exact molecular mechanisms."
+  },
+  "acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does the same declared formulation attenuate UVA, UVB and visible input according to different model bands?",
+      "review_instruction": "Review band-specific incident and transmitted-state information rather than assigning the UVB protection factor to every wavelength. The water-only vessel is a formulation-omission control.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v4: no sunscreen formulation",
+      "result": null
+    }
+  ],
+  "evidence": {
+    "source_ids": [
+      "upstream_catalogue",
+      "parser",
+      "registry",
+      "chemiluminescence",
+      "uv",
+      "pigment",
+      "starch_iodine",
+      "curated"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/D3-LI-007.lab",
+    "script_sha256": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac"
+  },
+  "safety_context": "Virtual chemistry only. These quantities are simulator inputs, not a wet-lab procedure, risk assessment, food-safety claim or permission for unsupervised handling.",
+  "initial_conditions": {
+    "execution": "Fresh Kero process for this script; initial vessel v1 is assumed; new creates subsequent vessels.",
+    "temperature": "Use explicit @ temperatures where supplied; otherwise inherit engine defaults and verify reported values.",
+    "time": "wait advances all live vessels; it is not a per-vessel clock.",
+    "gas_boundary": "Open/default unless explicitly changed; seal does not mean evacuated or oxygen-free.",
+    "transport_boundary": null
+  },
+  "reagents": [
+    {
+      "registry_key": "sunscreen",
+      "name": "standard-film sunscreen teaching formulation",
+      "identity_kind": "material_recipe",
+      "formula": null,
+      "repeat_unit_formula": null,
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 1.0,
+      "unit": "g",
+      "amount_literal": "1g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "sunscreen",
+      "name": "standard-film sunscreen teaching formulation",
+      "identity_kind": "material_recipe",
+      "formula": null,
+      "repeat_unit_formula": null,
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 8,
+      "amount": 1.0,
+      "unit": "g",
+      "amount_literal": "1g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "sunscreen",
+      "name": "standard-film sunscreen teaching formulation",
+      "identity_kind": "material_recipe",
+      "formula": null,
+      "repeat_unit_formula": null,
+      "vessel": "v3",
+      "introduced_by": "add",
+      "script_line": 9,
+      "amount": 1.0,
+      "unit": "g",
+      "amount_literal": "1g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "water",
+      "name": "water",
+      "identity_kind": "species",
+      "formula": "H2O",
+      "repeat_unit_formula": null,
+      "vessel": "v4",
+      "introduced_by": "add",
+      "script_line": 10,
+      "amount": 1.0,
+      "unit": "g",
+      "amount_literal": "1g",
+      "input_temperature": null,
+      "role": "solvent"
+    }
+  ],
+  "operations": [
+    {
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "script_line": 4,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "script_line": 5,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "script_line": 6,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v1 sunscreen 1g"
+    },
+    {
+      "script_line": 8,
+      "verb": "add",
+      "command": "add v2 sunscreen 1g"
+    },
+    {
+      "script_line": 9,
+      "verb": "add",
+      "command": "add v3 sunscreen 1g"
+    },
+    {
+      "script_line": 10,
+      "verb": "add",
+      "command": "add v4 water 1g"
+    },
+    {
+      "script_line": 11,
+      "verb": "irradiate",
+      "command": "irradiate v1 305nm 1W/m2"
+    },
+    {
+      "script_line": 12,
+      "verb": "irradiate",
+      "command": "irradiate v2 365nm 1W/m2"
+    },
+    {
+      "script_line": 13,
+      "verb": "irradiate",
+      "command": "irradiate v3 550nm 1W/m2"
+    },
+    {
+      "script_line": 14,
+      "verb": "irradiate",
+      "command": "irradiate v4 305nm 1W/m2"
+    },
+    {
+      "script_line": 15,
+      "verb": "look",
+      "command": "look v1"
+    },
+    {
+      "script_line": 16,
+      "verb": "look",
+      "command": "look v2"
+    },
+    {
+      "script_line": 17,
+      "verb": "look",
+      "command": "look v3"
+    },
+    {
+      "script_line": 18,
+      "verb": "look",
+      "command": "look v4"
+    },
+    {
+      "script_line": 19,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "observation_plan": [
+    {
+      "script_line": 15,
+      "verb": "look",
+      "command": "look v1"
+    },
+    {
+      "script_line": 16,
+      "verb": "look",
+      "command": "look v2"
+    },
+    {
+      "script_line": 17,
+      "verb": "look",
+      "command": "look v3"
+    },
+    {
+      "script_line": 18,
+      "verb": "look",
+      "command": "look v4"
+    },
+    {
+      "script_line": 19,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ]
+}
