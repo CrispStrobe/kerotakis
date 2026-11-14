@@ -21,7 +21,7 @@
       "registered": true,
       "extract_hexane": {
         "basis": "empirical",
-        "k": 85.0,
+        "k": 26.0,
         "reference_temperature_k": 298.15,
         "tolerance_k": 0.5
       },

@@ -1,0 +1,327 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "crystallisation-boundaries",
+  "cases": [
+    {
+      "id": "609-nacl-evaporation-1",
+      "question": "How does water removal move a sodium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.04mol\nevaporate v1 0.1\ninspect v1"
+    },
+    {
+      "id": "610-nacl-evaporation-2",
+      "question": "How does water removal move a sodium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.04mol\nevaporate v1 0.25\ninspect v1"
+    },
+    {
+      "id": "611-nacl-evaporation-3",
+      "question": "How does water removal move a sodium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.04mol\nevaporate v1 0.5\ninspect v1"
+    },
+    {
+      "id": "612-nacl-evaporation-4",
+      "question": "How does water removal move a sodium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.04mol\nevaporate v1 0.75\ninspect v1"
+    },
+    {
+      "id": "613-kcl-evaporation-1",
+      "question": "How does water removal move a potassium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.04mol\nevaporate v1 0.1\ninspect v1"
+    },
+    {
+      "id": "614-kcl-evaporation-2",
+      "question": "How does water removal move a potassium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.04mol\nevaporate v1 0.25\ninspect v1"
+    },
+    {
+      "id": "615-kcl-evaporation-3",
+      "question": "How does water removal move a potassium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.04mol\nevaporate v1 0.5\ninspect v1"
+    },
+    {
+      "id": "616-kcl-evaporation-4",
+      "question": "How does water removal move a potassium chloride solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.04mol\nevaporate v1 0.75\ninspect v1"
+    },
+    {
+      "id": "617-nitrate-evaporation-1",
+      "question": "How does water removal move a nitrate solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaNO3 0.04mol\nevaporate v1 0.1\ninspect v1"
+    },
+    {
+      "id": "618-nitrate-evaporation-2",
+      "question": "How does water removal move a nitrate solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaNO3 0.04mol\nevaporate v1 0.25\ninspect v1"
+    },
+    {
+      "id": "619-nitrate-evaporation-3",
+      "question": "How does water removal move a nitrate solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaNO3 0.04mol\nevaporate v1 0.5\ninspect v1"
+    },
+    {
+      "id": "620-nitrate-evaporation-4",
+      "question": "How does water removal move a nitrate solution toward crystals?",
+      "script": "add v1 water 400mL\nadd v1 NaNO3 0.04mol\nevaporate v1 0.75\ninspect v1"
+    },
+    {
+      "id": "621-nacl-loading-1",
+      "question": "How does evaporation fraction change a concentrated sodium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.025mol\nevaporate v1 0.15\ninspect v1"
+    },
+    {
+      "id": "622-nacl-loading-2",
+      "question": "How does evaporation fraction change a concentrated sodium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.025mol\nevaporate v1 0.3\ninspect v1"
+    },
+    {
+      "id": "623-nacl-loading-3",
+      "question": "How does evaporation fraction change a concentrated sodium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.025mol\nevaporate v1 0.5\ninspect v1"
+    },
+    {
+      "id": "624-nacl-loading-4",
+      "question": "How does evaporation fraction change a concentrated sodium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.025mol\nevaporate v1 0.7\ninspect v1"
+    },
+    {
+      "id": "625-kcl-loading-1",
+      "question": "How does evaporation fraction change a concentrated potassium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 KCl 0.025mol\nevaporate v1 0.15\ninspect v1"
+    },
+    {
+      "id": "626-kcl-loading-2",
+      "question": "How does evaporation fraction change a concentrated potassium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 KCl 0.025mol\nevaporate v1 0.3\ninspect v1"
+    },
+    {
+      "id": "627-kcl-loading-3",
+      "question": "How does evaporation fraction change a concentrated potassium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 KCl 0.025mol\nevaporate v1 0.5\ninspect v1"
+    },
+    {
+      "id": "628-kcl-loading-4",
+      "question": "How does evaporation fraction change a concentrated potassium chloride solution?",
+      "script": "add v1 water 250mL\nadd v1 KCl 0.025mol\nevaporate v1 0.7\ninspect v1"
+    },
+    {
+      "id": "629-evaporation-partition-1",
+      "question": "Can different evaporation sequences remove the same net water fraction?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.03mol\nevaporate v1 0.4\ninspect v1"
+    },
+    {
+      "id": "630-evaporation-partition-2",
+      "question": "Can different evaporation sequences remove the same net water fraction?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.03mol\nevaporate v1 0.2\nevaporate v1 0.25\ninspect v1"
+    },
+    {
+      "id": "631-evaporation-partition-3",
+      "question": "Can different evaporation sequences remove the same net water fraction?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.03mol\nevaporate v1 0.1\nevaporate v1 0.333333\ninspect v1"
+    },
+    {
+      "id": "632-evaporation-partition-4",
+      "question": "Can different evaporation sequences remove the same net water fraction?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.03mol\nevaporate v1 0.05\nevaporate v1 0.1\nevaporate v1 0.2\nevaporate v1 0.122807\ninspect v1"
+    }
+  ],
+  "relations": [
+    {
+      "id": "cb-nacl-evaporation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "609-nacl-evaporation-1",
+        "610-nacl-evaporation-2",
+        "611-nacl-evaporation-3",
+        "612-nacl-evaporation-4"
+      ],
+      "parameters": {
+        "event": "evaporated"
+      }
+    },
+    {
+      "id": "cb-nacl-evaporation-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "609-nacl-evaporation-1",
+        "610-nacl-evaporation-2",
+        "611-nacl-evaporation-3",
+        "612-nacl-evaporation-4"
+      ],
+      "parameters": {
+        "event": "evaporated",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "cb-kcl-evaporation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "613-kcl-evaporation-1",
+        "614-kcl-evaporation-2",
+        "615-kcl-evaporation-3",
+        "616-kcl-evaporation-4"
+      ],
+      "parameters": {
+        "event": "evaporated"
+      }
+    },
+    {
+      "id": "cb-kcl-evaporation-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "613-kcl-evaporation-1",
+        "614-kcl-evaporation-2",
+        "615-kcl-evaporation-3",
+        "616-kcl-evaporation-4"
+      ],
+      "parameters": {
+        "event": "evaporated",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "cb-nitrate-evaporation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "617-nitrate-evaporation-1",
+        "618-nitrate-evaporation-2",
+        "619-nitrate-evaporation-3",
+        "620-nitrate-evaporation-4"
+      ],
+      "parameters": {
+        "event": "evaporated"
+      }
+    },
+    {
+      "id": "cb-nitrate-evaporation-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "617-nitrate-evaporation-1",
+        "618-nitrate-evaporation-2",
+        "619-nitrate-evaporation-3",
+        "620-nitrate-evaporation-4"
+      ],
+      "parameters": {
+        "event": "evaporated",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "cb-nacl-loading",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "621-nacl-loading-1",
+        "622-nacl-loading-2",
+        "623-nacl-loading-3",
+        "624-nacl-loading-4"
+      ],
+      "parameters": {
+        "event": "evaporated"
+      }
+    },
+    {
+      "id": "cb-nacl-loading-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "621-nacl-loading-1",
+        "622-nacl-loading-2",
+        "623-nacl-loading-3",
+        "624-nacl-loading-4"
+      ],
+      "parameters": {
+        "event": "evaporated",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "cb-kcl-loading",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "625-kcl-loading-1",
+        "626-kcl-loading-2",
+        "627-kcl-loading-3",
+        "628-kcl-loading-4"
+      ],
+      "parameters": {
+        "event": "evaporated"
+      }
+    },
+    {
+      "id": "cb-kcl-loading-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "625-kcl-loading-1",
+        "626-kcl-loading-2",
+        "627-kcl-loading-3",
+        "628-kcl-loading-4"
+      ],
+      "parameters": {
+        "event": "evaporated",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "cb-evaporation-partition",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "629-evaporation-partition-1",
+        "630-evaporation-partition-2",
+        "631-evaporation-partition-3",
+        "632-evaporation-partition-4"
+      ],
+      "parameters": {
+        "event": "evaporated"
+      }
+    },
+    {
+      "id": "cb-evaporation-partition-inventory",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "629-evaporation-partition-1",
+        "630-evaporation-partition-2",
+        "631-evaporation-partition-3",
+        "632-evaporation-partition-4"
+      ],
+      "parameters": {
+        "species": [
+          "water",
+          "Na+",
+          "Cl-",
+          "NaCl"
+        ],
+        "phases": [
+          "Liquid",
+          "Solid"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-06
+      }
+    }
+  ]
+}

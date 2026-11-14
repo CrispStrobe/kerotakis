@@ -1,0 +1,8 @@
+{
+  "source": "7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd",
+  "job": 131491254341,
+  "run": 43306467715,
+  "full_job_log_sha256": "2509933ad8c304b2a4c60bcf27b6bb62bbd6e5b613b393b28bbaae0e2e8c008b",
+  "compiler": "Clippy 1.100.0",
+  "failure": "needless_range_loop"
+}

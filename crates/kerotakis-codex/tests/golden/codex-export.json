@@ -1428,7 +1428,7 @@
     {
       "id": "baking-soda-vents-carbon-dioxide",
       "progress": "intermediate",
-      "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)",
+      "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
         "open-system",
@@ -1470,7 +1470,7 @@
         "equilibrium"
       ],
       "setup": {
-        "script": "add v1 water 1000mL\nadd v1 NaHCO3 8.4g\n"
+        "script": "add v1 water 1000mL\nadd v1 NaHCO3 8.4g\nwait 1h\n"
       },
       "expect": {
         "events": [
@@ -1483,68 +1483,68 @@
           "question_de": "Natron wird in Wasser eingerührt. Es wird keine Säure zugegeben. Was passiert?",
           "options": [
             "Nothing but dissolving; you need an acid to get any gas",
-            "It dissolves and slowly gives off carbon dioxide anyway, ending up around pH 9.7",
-            "It dissolves and the solution ends at pH 8.3, the textbook value for bicarbonate"
+            "It dissolves and slowly releases some carbon dioxide; after the scripted hour the solution is still mildly basic",
+            "An open lid instantly brings the whole solution into equilibrium with room air"
           ],
           "options_de": [
-            "Nichts außer Auflösen; du brauchst eine Säure, um überhaupt Gas zu bekommen",
-            "Es löst sich und gibt trotzdem langsam Kohlendioxid ab, am Ende bei etwa pH 9,7",
-            "Es löst sich, und die Lösung landet bei pH 8,3, dem Lehrbuchwert für Hydrogencarbonat"
+            "Nur Auflösen; ohne Säure kann überhaupt kein Gas entstehen",
+            "Es löst sich und gibt langsam etwas Kohlendioxid ab; nach der vorgesehenen Stunde ist die Lösung weiterhin schwach basisch",
+            "Ein offener Deckel bringt die gesamte Lösung sofort ins Gleichgewicht mit der Raumluft"
           ],
           "answer": 1,
-          "misconception": "Two ideas get corrected at once. First, gas evolution is not the exclusive privilege of acids — bicarbonate disproportionates on its own, and an open beaker keeps pulling the product away. Second, the familiar \"bicarbonate is pH 8.3\" is a *closed-system* number; a beaker on a bench is open, it vents until it matches the atmosphere's own CO₂ pressure, and it lands well above 8.3.",
-          "misconception_de": "Zwei Vorstellungen werden hier gleichzeitig korrigiert. Erstens ist Gasentwicklung nicht das ausschließliche Vorrecht von Säuren — Hydrogencarbonat disproportioniert von selbst, und ein offenes Becherglas zieht das Produkt ständig ab. Zweitens ist die vertraute Zahl \"Hydrogencarbonat liegt bei pH 8,3\" ein Wert für ein *geschlossenes* System; ein Becherglas im Labor ist offen, es entgast, bis es dem CO₂-Druck der Atmosphäre entspricht, und landet deutlich über 8,3.",
+          "misconception": "Acid is not required for carbon dioxide to leave a supersaturated bicarbonate solution. But an open lid does not make transfer instantaneous: carbonate speciation and transport across the liquid surface have separate owners. The one-hour script ends before atmospheric equilibrium in this model.",
+          "misconception_de": "Damit Kohlendioxid eine übersättigte Hydrogencarbonatlösung verlässt, braucht es keine zugesetzte Säure. Ein offenes Gefäß macht den Transport aber nicht augenblicklich: Carbonatspeziation und Transport durch die Flüssigkeitsoberfläche sind getrennte Vorgänge. Nach einer Stunde ist in diesem Modell noch kein Gleichgewicht mit der Raumluft erreicht.",
           "diagnosis": [
             {
               "option": 0,
               "reveals": "Gas evolution is an acid's signature move, so without an acid nothing can leave — fizzing filed as a reaction type rather than as any equilibrium with a volatile product and an open lid.",
               "reveals_de": "Gasentwicklung gilt als das Markenzeichen einer Säure, also kann ohne Säure nichts entweichen — Sprudeln wird als eigener Reaktionstyp verstanden, nicht als irgendein Gleichgewicht mit einem flüchtigen Produkt und einem offenen Gefäß.",
-              "next": "Leave the beaker on the balance and `wait`: the mass drifts down with no acid anywhere in the vessel. The acid in the fizz experiment buys speed and violence, not permission.",
-              "next_de": "Lass das Becherglas auf der Waage stehen und `wait`: Die Masse sinkt langsam, obwohl nirgends im Gefäß eine Säure ist. Die Säure im Sprudel-Experiment kauft Geschwindigkeit und Heftigkeit, nicht Erlaubnis.",
+              "next": "Inspect the gas event during `wait 1h`: some carbon leaves without added acid. The film-transfer coefficient is a bounded lake-derived analogy, not a calibrated beaker degassing rate.",
+              "next_de": "Prüfe das Gasereignis während `wait 1h`: Auch ohne Säurezugabe verlässt etwas Kohlenstoff das Gefäß. Der Filmtransportkoeffizient ist eine begrenzte Analogie aus Seenmessungen, keine kalibrierte Entgasungsrate für Bechergläser.",
               "source": null,
-              "next_fr": "Laisse le becher sur la balance et `wait` : la masse dérive vers le bas sans qu'aucun acide ne se trouve dans le récipient. L'acide de l'expérience effervescente achète de la vitesse et de la violence, pas une autorisation.",
+              "next_fr": "Examine l’événement gazeux pendant `wait 1h` : du carbone sort sans ajout d’acide. Le coefficient de transfert par film est une analogie bornée issue des lacs, pas une vitesse de dégazage calibrée pour un bécher.",
               "reveals_fr": "Le dégagement gazeux serait la signature d'un acide, donc sans acide rien ne pourrait s'échapper — le pétillement classé comme un type de réaction à part, plutôt que comme n'importe quel équilibre possédant un produit volatil et un couvercle ouvert."
             },
             {
               "option": 2,
-              "reveals": "A remembered constant outranks the actual setup: 8.3 is bicarbonate's number, so 8.3 is the answer, whatever the beaker is doing.",
-              "reveals_de": "Eine auswendig gelernte Konstante überstimmt den tatsächlichen Aufbau: 8,3 ist die Zahl des Hydrogencarbonats, also ist 8,3 die Antwort, egal was das Becherglas gerade tut.",
-              "next": "Ask what 8.3 assumes: a sealed system that keeps its CO₂. This beaker is open and vents until it matches the atmosphere, and the pH climbs as the gas leaves. The famous number is not wrong — it answers a different apparatus, and this codex keeps it precisely to be contradicted by an open one.",
-              "next_de": "Frag, was 8,3 voraussetzt: ein geschlossenes System, das sein CO₂ behält. Dieses Becherglas ist offen und entgast, bis es der Atmosphäre entspricht, und der pH-Wert steigt, während das Gas entweicht. Die berühmte Zahl ist nicht falsch — sie beantwortet einen anderen Aufbau, und dieser Kodex behält sie genau deshalb, um ihr mit einem offenen Gefäß zu widersprechen.",
+              "reveals": "An open boundary is mistaken for unlimited, instantaneous gas transport. Equilibrium within the liquid is confused with equilibration of the whole beaker with room air.",
+              "reveals_de": "Eine offene Grenze wird mit unbegrenztem, sofortigem Gastransport verwechselt. Gleichgewicht in der Flüssigkeit wird mit dem Gleichgewicht des ganzen Becherglases mit der Raumluft gleichgesetzt.",
+              "next": "Compare dissolved carbon before and after the hour. Most remains; the liquid is still supersaturated relative to room air. Elapsed time, surface geometry and the stated transfer model matter.",
+              "next_de": "Vergleiche den gelösten Kohlenstoff vor und nach der Stunde. Der größte Teil bleibt; die Flüssigkeit ist gegenüber der Raumluft noch übersättigt. Zeit, Oberflächengeometrie und das angegebene Transportmodell zählen.",
               "source": null,
-              "next_fr": "Demande-toi ce que suppose 8,3 : un système scellé qui conserve son CO₂. Ce becher est ouvert et dégaze jusqu'à s'équilibrer avec l'atmosphère, et le pH monte à mesure que le gaz s'échappe. Le chiffre célèbre n'est pas faux — il répond à un autre dispositif, et ce codex le conserve précisément pour qu'un dispositif ouvert le contredise.",
-              "reveals_fr": "Une constante mémorisée prime sur le dispositif réel : 8,3 est le chiffre de l'hydrogénocarbonate, donc 8,3 est la réponse, quoi que fasse le becher."
+              "next_fr": "Compare le carbone dissous avant et après l’heure. La majeure partie reste ; le liquide est encore sursaturé par rapport à l’air. Le temps, la géométrie de surface et le modèle de transport déclaré comptent.",
+              "reveals_fr": "Une frontière ouverte est confondue avec un transport gazeux illimité et instantané. L’équilibre dans le liquide est confondu avec celui du bécher entier avec l’air ambiant."
             }
           ],
-          "misconception_fr": "Deux idées sont corrigées à la fois. D'abord, le dégagement gazeux n'est pas le privilège exclusif des acides — l'hydrogénocarbonate se dismute de lui-même, et un becher ouvert continue d'évacuer le produit. Ensuite, le chiffre familier « l'hydrogénocarbonate est à pH 8,3 » est une valeur de *système fermé* ; un becher sur un banc est ouvert, il dégaze jusqu'à s'équilibrer avec la pression de CO₂ propre de l'atmosphère, et il atterrit bien au-dessus de 8,3.",
+          "misconception_fr": "Il ne faut pas d’acide ajouté pour que le dioxyde de carbone quitte une solution sursaturée d’hydrogénocarbonate. Mais une ouverture ne rend pas le transport instantané : la spéciation carbonatée et le transport à travers la surface sont deux processus distincts. Après une heure, ce modèle n’a pas encore atteint l’équilibre avec l’air.",
           "options_fr": [
-            "Rien d'autre qu'une dissolution ; il faut un acide pour obtenir le moindre gaz",
-            "Il se dissout et dégage quand même lentement du dioxyde de carbone, pour finir autour de pH 9,7",
-            "Il se dissout et la solution finit à pH 8,3, la valeur de manuel pour l'hydrogénocarbonate"
+            "Rien d’autre qu’une dissolution ; sans acide aucun gaz ne peut se former",
+            "Il se dissout et libère lentement un peu de dioxyde de carbone ; après l’heure prévue, la solution reste légèrement basique",
+            "Une ouverture met instantanément toute la solution à l’équilibre avec l’air ambiant"
           ],
           "question_fr": "Du bicarbonate de soude est mélangé à de l'eau. Aucun acide n'est ajouté. Que se passe-t-il ?"
         },
         "ph": {
-          "min": 9.5,
-          "max": 9.9
+          "min": 7.9,
+          "max": 8.2
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Baking soda in plain water, with no vinegar anywhere: leave it a while and it still fizzes, very gently. The bubbles escape into the room and never come back.",
-        "lv1_de": "Natron in reinem Wasser, ohne Essig weit und breit: Lass es eine Weile stehen, und es sprudelt trotzdem, ganz sanft. Die Bläschen entweichen in den Raum und kommen nie zurück.",
-        "lv1_fr": "Du bicarbonate de soude dans de l'eau pure, sans le moindre vinaigre à l'horizon : laisse-le reposer un moment, et il pétille quand même, très doucement. Les bulles s'échappent dans la pièce et ne reviennent jamais.",
-        "lv2": "0.1 mol of NaHCO₃ per litre gives a solution that is supersaturated against the air's own carbon dioxide. About 30% of the carbonate leaves as CO₂, the remainder shifts toward CO₃²⁻, and the pH settles near 9.7.",
-        "lv2_de": "0,1 mol NaHCO₃ pro Liter ergeben eine Lösung, die gegenüber dem Kohlendioxid der Luft übersättigt ist. Etwa 30 % des Carbonats entweichen als CO₂, der Rest verschiebt sich in Richtung CO₃²⁻, und der pH-Wert pendelt sich bei etwa 9,7 ein.",
-        "lv2_fr": "0,1 mol de NaHCO₃ par litre donne une solution sursaturée par rapport au dioxyde de carbone de l'air. Environ 30 % du carbonate s'échappe sous forme de CO₂, le reste se déplace vers CO₃²⁻, et le pH se stabilise autour de 9,7.",
-        "lv3": "This is the entry that most disagrees with a textbook, and the disagreement is the lesson. The classic pH 8.3 for NaHCO₃ assumes a sealed system. The engine equilibrates the vessel against atmospheric CO₂ at log p = −3.408, vents 0.030 mol, and computes 9.71. Neither number is wrong; they answer different questions, and only one of them describes a beaker on a bench.",
-        "lv3_de": "Dies ist der Eintrag, der am stärksten von einem Lehrbuch abweicht, und genau diese Abweichung ist die Lektion. Der klassische pH-Wert 8,3 für NaHCO₃ setzt ein geschlossenes System voraus. Die Engine gleicht das Gefäß gegen atmosphärisches CO₂ bei log p = −3,408 aus, entgast 0,030 mol und berechnet 9,71. Keine der beiden Zahlen ist falsch; sie beantworten unterschiedliche Fragen, und nur eine davon beschreibt ein Becherglas im Labor.",
-        "lv3_fr": "C'est l'entrée qui s'écarte le plus d'un manuel, et cet écart est la leçon. Le pH classique de 8,3 pour NaHCO₃ suppose un système scellé. Le moteur équilibre le récipient avec le CO₂ atmosphérique à log p = −3,408, dégaze 0,030 mol, et calcule 9,71. Aucun des deux chiffres n'est faux ; ils répondent à des questions différentes, et un seul d'entre eux décrit un becher posé sur un banc."
+        "lv1": "Baking soda dissolves in water. During the hour some carbon dioxide slowly leaves the open beaker even though no acid was added. An open lid gives gas a route out, not an instant journey.",
+        "lv1_de": "Natron löst sich in Wasser. Während der Stunde verlässt langsam etwas Kohlendioxid das offene Becherglas, obwohl keine Säure zugesetzt wurde. Ein offenes Gefäß bietet einen Weg hinaus, keine sofortige Reise.",
+        "lv1_fr": "Le bicarbonate se dissout dans l’eau. Pendant l’heure, un peu de dioxyde de carbone quitte lentement le bécher ouvert sans ajout d’acide. Une ouverture offre une sortie, pas un trajet instantané.",
+        "lv2": "The unchanged one-hour script ends near pH 8.04, with most carbon still dissolved. The modeled export is small; it does not empty the beaker to room-air equilibrium. This is a finite-time model result, not a measured degassing curve.",
+        "lv2_de": "Das unveränderte einstündige Skript endet bei etwa pH 8,04; der größte Teil des Kohlenstoffs bleibt gelöst. Der modellierte Export ist klein und leert das Gefäß nicht bis zum Gleichgewicht mit der Raumluft. Das ist ein zeitabhängiges Modellergebnis, keine gemessene Entgasungskurve.",
+        "lv2_fr": "Le script inchangé d’une heure finit vers pH 8,04, avec la majeure partie du carbone encore dissoute. L’export modélisé est faible ; il ne vide pas le bécher jusqu’à l’équilibre avec l’air. C’est un résultat de modèle à temps fini, pas une courbe de dégazage mesurée.",
+        "lv3": "Aqueous carbonate speciation is solved with WATEQ4F; the separate finite-time film owner exports a bounded parcel from actual neutral dissolved CO₂. The one-hour endpoint remains supersaturated relative to room air. The film coefficient is a low-wind lake analogy applied to beaker geometry, without empirical beaker calibration; a universal bicarbonate pH or atmospheric-equilibrium endpoint is not claimed.",
+        "lv3_de": "Die Carbonatspeziation wird mit WATEQ4F gelöst; ein eigener Filmtransport über endliche Zeit exportiert eine begrenzte Menge aus dem tatsächlich gelösten neutralen CO₂. Nach einer Stunde besteht noch Übersättigung gegenüber der Raumluft. Der Filmkoeffizient überträgt eine Analogie für Seen bei schwachem Wind auf die Bechergeometrie, ohne empirische Becherkalibrierung. Ein universeller Hydrogencarbonat-pH oder ein Endzustand im Luftgleichgewicht wird nicht behauptet.",
+        "lv3_fr": "La spéciation carbonatée est calculée avec WATEQ4F ; un transfert par film distinct, à temps fini, exporte une quantité bornée à partir du CO₂ neutre réellement dissous. Après une heure, le liquide reste sursaturé par rapport à l’air. Le coefficient transpose une analogie de lac par vent faible à la géométrie du bécher, sans calibration empirique du bécher. Aucun pH universel du bicarbonate ni état final à l’équilibre atmosphérique n’est revendiqué."
       },
       "provenance": {
         "source": "Carbonate system in an open vessel; atmospheric pCO₂ and carbonate constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2"
+        "computed_by": "PHREEQC via Kerotakis L2; separate bounded finite-time CO2 film-transfer owner"
       }
     },
     {
@@ -3193,7 +3193,7 @@
     {
       "id": "permanganate-is-visible-when-almost-absent",
       "progress": "intermediate",
-      "equation": "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 2400 L mol⁻¹ cm⁻¹ at 525 nm)",
+      "equation": "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 3340 L mol⁻¹ cm⁻¹ at 525 nm)",
       "summary": null,
       "concepts": [
         "colour-intensity"
@@ -3248,8 +3248,8 @@
             "Ein schwaches Violett, nur wenn du durch die ganze Länge des Becherglases schaust"
           ],
           "answer": 1,
-          "misconception": "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 2400 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not.",
-          "misconception_de": "Menge und Sichtbarkeit werden hier vermengt, sodass 'eine winzige Masse' 'eine schwache Farbe' bedeuten soll. Sichtbarkeit wird durch den molaren Extinktionskoeffizienten bestimmt, und der von Permanganat ist gewaltig — etwa 2400 L mol⁻¹ cm⁻¹. Bei 10⁻⁴ mol/L ist die Lösung unverkennbar violett. Kupfersulfat bei derselben Konzentration wäre unsichtbar. Dieselbe Logik erklärt, warum ein Tropfen Lebensmittelfarbe ein ganzes Badewasser färbt und ein Löffel Zucker nicht.",
+          "misconception": "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 3340 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not.",
+          "misconception_de": "Menge und Sichtbarkeit werden hier vermengt, sodass 'eine winzige Masse' 'eine schwache Farbe' bedeuten soll. Sichtbarkeit wird durch den molaren Extinktionskoeffizienten bestimmt, und der von Permanganat ist gewaltig — etwa 3340 L mol⁻¹ cm⁻¹. Bei 10⁻⁴ mol/L ist die Lösung unverkennbar violett. Kupfersulfat bei derselben Konzentration wäre unsichtbar. Dieselbe Logik erklärt, warum ein Tropfen Lebensmittelfarbe ein ganzes Badewasser färbt und ein Löffel Zucker nicht.",
           "diagnosis": [
             {
               "option": 0,
@@ -3265,14 +3265,14 @@
               "option": 2,
               "reveals": "Colour conceded, but scaled to the speck: a tiny amount can only do tiny things, so the tint must need the beaker's full depth to accumulate.",
               "reveals_de": "Farbe wird zugestanden, aber im Maßstab des Krümelchens: Eine winzige Menge kann nur Winziges bewirken, also muss sich der Farbton erst über die gesamte Tiefe des Becherglases aufbauen.",
-              "next": "The entry's own comparison is the discriminator: copper sulfate at the *same concentration* shows nothing through any depth, while permanganate is unmistakable in a centimetre. If amount set visibility they would match; ε ≈ 2400 against a few is what actually separates them.",
-              "next_de": "Der eigene Vergleich dieses Eintrags ist das entscheidende Kriterium: Kupfersulfat bei *derselben Konzentration* zeigt bei keiner Tiefe etwas, während Permanganat schon in einem Zentimeter unverkennbar ist. Würde die Menge die Sichtbarkeit bestimmen, wären sie gleich; ε ≈ 2400 gegenüber wenigen ist das, was sie tatsächlich unterscheidet.",
+              "next": "The entry's own comparison is the discriminator: copper sulfate at the *same concentration* shows nothing through any depth, while permanganate is unmistakable in a centimetre. If amount set visibility they would match; ε ≈ 3340 against a few is what actually separates them.",
+              "next_de": "Der eigene Vergleich dieses Eintrags ist das entscheidende Kriterium: Kupfersulfat bei *derselben Konzentration* zeigt bei keiner Tiefe etwas, während Permanganat schon in einem Zentimeter unverkennbar ist. Würde die Menge die Sichtbarkeit bestimmen, wären sie gleich; ε ≈ 3340 gegenüber wenigen ist das, was sie tatsächlich unterscheidet.",
               "source": null,
-              "next_fr": "La comparaison propre à cette entrée est le juge de paix : le sulfate de cuivre, à la *même concentration*, ne montre rien sur quelque profondeur que ce soit, tandis que le permanganate est incontestable sur un centimètre. Si la quantité déterminait la visibilité, ils se vaudraient ; ε ≈ 2400 contre quelques unités, voilà ce qui les distingue réellement.",
+              "next_fr": "La comparaison propre à cette entrée est le juge de paix : le sulfate de cuivre, à la *même concentration*, ne montre rien sur quelque profondeur que ce soit, tandis que le permanganate est incontestable sur un centimètre. Si la quantité déterminait la visibilité, ils se vaudraient ; ε ≈ 3340 contre quelques unités, voilà ce qui les distingue réellement.",
               "reveals_fr": "Couleur concédée, mais à l'échelle du grain : une quantité minuscule ne peut faire que des choses minuscules, donc la teinte devrait avoir besoin de toute la profondeur du becher pour s'accumuler."
             }
           ],
-          "misconception_fr": "Quantité et visibilité sont confondues, si bien qu'« une masse infime » est censée signifier « une couleur pâle ». La visibilité dépend du coefficient d'absorption molaire, et celui du permanganate est énorme — environ 2400 L mol⁻¹ cm⁻¹. À 10⁻⁴ mol/L, la solution est franchement violette. Le sulfate de cuivre à la même concentration serait invisible. Le même raisonnement explique pourquoi une goutte de colorant alimentaire teinte tout un bain et une cuillère de sucre non.",
+          "misconception_fr": "Quantité et visibilité sont confondues, si bien qu'« une masse infime » est censée signifier « une couleur pâle ». La visibilité dépend du coefficient d'absorption molaire, et celui du permanganate est énorme — environ 3340 L mol⁻¹ cm⁻¹. À 10⁻⁴ mol/L, la solution est franchement violette. Le sulfate de cuivre à la même concentration serait invisible. Le même raisonnement explique pourquoi une goutte de colorant alimentaire teinte tout un bain et une cuillère de sucre non.",
           "options_fr": [
             "De l'eau limpide ; seize milligrammes dans un litre, c'est bien trop peu pour se voir",
             "Une eau nettement, indiscutablement violette",
@@ -3290,9 +3290,9 @@
         "lv1": "A speck of purple powder, less than a grain of rice, turns a whole litre of water purple. Some colours are astonishingly strong.",
         "lv1_de": "Ein Krümelchen violettes Pulver, kleiner als ein Reiskorn, färbt einen ganzen Liter Wasser violett. Manche Farben sind erstaunlich stark.",
         "lv1_fr": "Un grain de poudre violette, plus petit qu'un grain de riz, colore tout un litre d'eau en violet. Certaines couleurs sont étonnamment puissantes.",
-        "lv2": "0.016 g is 1.0 × 10⁻⁴ mol. In 1 L that is 10⁻⁴ mol/L, and with a molar absorptivity near 2400 the absorbance through a normal beaker is around 0.2 — plainly visible. The solution stays neutral at pH 7.00: neither K⁺ nor MnO₄⁻ reacts with water.",
-        "lv2_de": "0,016 g sind 1,0 × 10⁻⁴ mol. In 1 L sind das 10⁻⁴ mol/L, und bei einem molaren Extinktionskoeffizienten nahe 2400 liegt die Extinktion durch ein normales Becherglas bei etwa 0,2 — deutlich sichtbar. Die Lösung bleibt bei pH 7,00 neutral: Weder K⁺ noch MnO₄⁻ reagiert mit Wasser.",
-        "lv2_fr": "0,016 g représente 1,0 × 10⁻⁴ mol. Dans 1 L, cela fait 10⁻⁴ mol/L, et avec un coefficient d'absorption molaire proche de 2400, l'absorbance à travers un becher normal avoisine 0,2 — nettement visible. La solution reste neutre à pH 7,00 : ni K⁺ ni MnO₄⁻ ne réagit avec l'eau.",
+        "lv2": "0.016 g is 1.0 × 10⁻⁴ mol. In 1 L that is 10⁻⁴ mol/L, and with a molar absorptivity near 3340 the absorbance through a 1 cm path is around 0.3 — plainly visible. The solution stays neutral at pH 7.00: neither K⁺ nor MnO₄⁻ reacts with water.",
+        "lv2_de": "0,016 g sind 1,0 × 10⁻⁴ mol. In 1 L sind das 10⁻⁴ mol/L, und bei einem molaren Extinktionskoeffizienten nahe 3340 liegt die Extinktion über 1 cm Weglänge bei etwa 0,3 — deutlich sichtbar. Die Lösung bleibt bei pH 7,00 neutral: Weder K⁺ noch MnO₄⁻ reagiert mit Wasser.",
+        "lv2_fr": "0,016 g représente 1,0 × 10⁻⁴ mol. Dans 1 L, cela fait 10⁻⁴ mol/L, et avec un coefficient d'absorption molaire proche de 3340, l'absorbance sur un trajet de 1 cm avoisine 0,3 — nettement visible. La solution reste neutre à pH 7,00 : ni K⁺ ni MnO₄⁻ ne réagit avec l'eau.",
         "lv3": "Two different kinds of claim sit in one beaker, and the lab keeps them apart. The pH 7.00 and the speciation are computed. The colour is curated — the registry carries permanganate's sRGB and a tinting strength of 12 000, because a real d–d and charge-transfer spectrum is not something a thermodynamic database or a cheap calculation can give honestly. The provenance says which is which.",
         "lv3_de": "Zwei verschiedene Arten von Behauptung stecken in einem Becherglas, und das Labor hält sie auseinander. Der pH-Wert 7,00 und die Speziation sind berechnet. Die Farbe ist kuratiert — die Registry führt das sRGB von Permanganat und eine Färbestärke von 12.000, weil ein echtes d-d- und Ladungstransfer-Spektrum nichts ist, was eine thermodynamische Datenbank oder eine billige Rechnung ehrlich liefern kann. Die Provenienz sagt, was von beidem was ist.",
         "lv3_fr": "Deux types d'affirmation différents cohabitent dans un même becher, et le laboratoire les distingue. Le pH 7,00 et la spéciation sont calculés. La couleur est mise en scène — le registre porte le sRGB du permanganate et une force colorante de 12 000, parce qu'un véritable spectre d–d et de transfert de charge n'est pas quelque chose qu'une base de données thermodynamique ou un calcul sommaire peut fournir honnêtement. La provenance indique qui est quoi."
@@ -3690,8 +3690,8 @@
         ],
         "absent": [],
         "predict": {
-          "question": "Baking soda fizzes furiously when acid is poured on it. Pour concentrated lye onto the same baking soda solution instead. What happens?",
-          "question_de": "Natron sprudelt heftig, wenn Säure daraufgegossen wird. Gieße stattdessen konzentrierte Lauge auf dieselbe Natronlösung. Was passiert?",
+          "question": "Baking soda reacts with added acid and releases carbon dioxide. Add lye to the same bicarbonate solution instead. What happens?",
+          "question_de": "Natron reagiert mit zugesetzter Säure und setzt Kohlendioxid frei. Gib stattdessen Lauge zur gleichen Hydrogencarbonatlösung. Was passiert?",
           "options": [
             "It fizzes again — fizzing is what baking soda does",
             "Nothing at all — soda answers acids, and lye is not an acid",
@@ -3710,20 +3710,20 @@
               "option": 0,
               "reveals": "The fizz as the substance's signature move — bicarbonate 'contains' the gas the way a balloon does, and any provocation releases it.",
               "reveals_de": "Das Sprudeln als Markenzeichen des Stoffes — Hydrogencarbonat 'enthält' das Gas so, wie ein Luftballon es tut, und jede Provokation setzt es frei.",
-              "next": "Ask what the gas is made of: CO₂ only forms when the bicarbonate *receives* a proton. Lye offers none. Watch the event stream — the lye step evolves nothing — and the lv3 speciation shows the carbon still in the beaker, now sitting as carbonate.",
-              "next_de": "Frag, woraus das Gas besteht: CO₂ entsteht nur, wenn das Hydrogencarbonat ein Proton *erhält*. Lauge bietet keines an. Beobachte den Ereignisstrom — der Laugenschritt setzt nichts frei — und die lv3-Speziation zeigt den Kohlenstoff noch im Becherglas, jetzt als Carbonat.",
+              "next": "Lye accepts a proton from bicarbonate, shifting dissolved carbon toward carbonate. The lye step exports no gas in this script; inspect the retained carbon rather than treating fizz as a property of the powder.",
+              "next_de": "Lauge nimmt ein Proton vom Hydrogencarbonat auf und verschiebt den gelösten Kohlenstoff zum Carbonat. Der Laugenschritt exportiert in diesem Skript kein Gas; prüfe den erhaltenen Kohlenstoff, statt Sprudeln als Eigenschaft des Pulvers zu behandeln.",
               "source": null,
-              "next_fr": "Demande-toi de quoi est fait le gaz : le CO₂ ne se forme que lorsque le bicarbonate *reçoit* un proton. La lessive de soude n'en offre aucun. Observe le flux d'événements — l'étape avec la lessive ne dégage rien — et la spéciation lv3 montre le carbone toujours présent dans le becher, désormais sous forme de carbonate.",
+              "next_fr": "La soude accepte un proton de l’hydrogénocarbonate et déplace le carbone dissous vers le carbonate. Cette étape n’exporte aucun gaz dans ce script ; examine le carbone conservé au lieu de traiter le pétillement comme une propriété de la poudre.",
               "reveals_fr": "Le pétillement comme geste signature de la substance — le bicarbonate « contiendrait » le gaz comme un ballon, et toute provocation le libérerait."
             },
             {
               "option": 1,
               "reveals": "Acid and base as fixed identities: bicarbonate is 'a base', and one base has no business with another — so nothing can happen.",
               "reveals_de": "Säure und Base als feste Identitäten: Hydrogencarbonat ist 'eine Base', und eine Base hat mit einer anderen nichts zu schaffen — also kann nichts passieren.",
-              "next": "Something did happen; it was just silent. The lv3 speciation shows the bicarbonate gone and carbonate in its place: a proton left the HCO₃⁻ ion itself. One substance, two roles depending on the partner — the Arrhenius → Brønsted step in `models.toml` is this beaker written as theory.",
-              "next_de": "Es ist tatsächlich etwas passiert; es war nur still. Die lv3-Speziation zeigt, dass das Hydrogencarbonat verschwunden ist und Carbonat an seiner Stelle steht: Ein Proton hat das HCO₃⁻-Ion selbst verlassen. Ein Stoff, zwei Rollen je nach Partner — der Schritt von Arrhenius zu Brønsted in `models.toml` ist dieses Becherglas, als Theorie niedergeschrieben.",
+              "next": "The lye beaker retains its carbon, mostly as carbonate: bicarbonate has donated a proton. This is the Brønsted distinction between a substance and the role it plays with a particular partner.",
+              "next_de": "Das Laugengefäß behält seinen Kohlenstoff, überwiegend als Carbonat: Hydrogencarbonat hat ein Proton abgegeben. Das ist Brønsteds Unterschied zwischen einem Stoff und seiner Rolle gegenüber einem bestimmten Partner.",
               "source": null,
-              "next_fr": "Quelque chose s'est bien passé ; c'était juste silencieux. La spéciation lv3 montre le bicarbonate disparu et le carbonate à sa place : un proton a quitté l'ion HCO₃⁻ lui-même. Une substance, deux rôles selon le partenaire — le passage d'Arrhenius à Brønsted dans `models.toml` est ce becher écrit comme théorie.",
+              "next_fr": "Le bécher à la soude conserve son carbone, surtout comme carbonate : l’hydrogénocarbonate a donné un proton. C’est la distinction de Brønsted entre une substance et son rôle face à un partenaire donné.",
               "reveals_fr": "Acide et base vus comme des identités fixes : le bicarbonate serait « une base », et une base n'aurait rien à faire avec une autre — donc rien ne pourrait se passer."
             }
           ],
@@ -3733,11 +3733,11 @@
             "Absolument rien — le bicarbonate répond aux acides, et la lessive de soude n'en est pas un",
             "Pas de gaz cette fois : le bicarbonate cède son propre proton et devient du carbonate"
           ],
-          "question_fr": "Le bicarbonate de soude pétille furieusement quand de l'acide y est versé. Verse plutôt de la lessive de soude concentrée sur cette même solution de bicarbonate. Que se passe-t-il ?"
+          "question_fr": "Le bicarbonate réagit avec l’acide ajouté et libère du dioxyde de carbone. Ajoute plutôt de la soude à la même solution d’hydrogénocarbonate. Que se passe-t-il ?"
         },
         "ph": {
-          "min": 5.4,
-          "max": 5.8
+          "min": 4.4,
+          "max": 4.7
         },
         "temperature_c": null
       },
@@ -3745,17 +3745,17 @@
         "lv1": "Against sour stuff, baking soda fights back with bubbles. Against the slippery stuff it does something sneakier: it hands over a tiny piece of itself, without a single bubble. The same powder plays both sides, depending on who it meets.",
         "lv1_de": "Gegen Saures wehrt sich Natron mit Bläschen. Gegen das Seifige tut es etwas Heimtückischeres: Es gibt ein winziges Stück von sich selbst ab, ohne ein einziges Bläschen. Dasselbe Pulver spielt beide Seiten, je nachdem, wem es begegnet.",
         "lv1_fr": "Face à ce qui est acide, le bicarbonate riposte à coups de bulles. Face à ce qui est glissant, il fait quelque chose de plus sournois : il cède un tout petit morceau de lui-même, sans la moindre bulle. La même poudre joue sur les deux tableaux, selon qui elle rencontre.",
-        "lv2": "Amphiprotic behaviour: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (base role — the fizz), but HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (acid role — no gas). The acid beaker ends near pH 5.6 with all its carbon gone as gas; the lye beaker keeps its carbon as carbonate.",
-        "lv2_de": "Amphiprotisches Verhalten: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (Base-Rolle — das Sprudeln), aber HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (Säure-Rolle — kein Gas). Das Säure-Becherglas endet bei etwa pH 5,6, wobei aller Kohlenstoff als Gas entwichen ist; das Laugen-Becherglas behält seinen Kohlenstoff als Carbonat.",
-        "lv2_fr": "Comportement amphiprotique : HCO₃⁻ + H⁺ → H₂O + CO₂↑ (rôle de base — le pétillement), mais HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (rôle d'acide — pas de gaz). Le becher acide finit près de pH 5,6, tout son carbone étant parti sous forme de gaz ; le becher à la lessive de soude conserve son carbone sous forme de carbonate.",
-        "lv3": "The bookkeeping, honestly: an open 0.1 mol/kgw bicarbonate solution self-vents about 0.003 mol of CO₂ on dissolution (its own carbonate equilibrium against the atmosphere — `baking-soda-vents-carbon-dioxide`), so 0.003 mol of the lye finds no bicarbonate partner and the second beaker's final pH carries that excess hydroxide. The acid beaker's pH 5.6 is not leftover acid: it is a sodium chloride solution equilibrated with atmospheric CO₂ — the same chemistry that makes clean rain slightly acidic. The Brønsted point is in the speciation: the same ion appears as proton acceptor in one vessel and proton donor in the other, which no fixed acid/base label can say.",
-        "lv3_de": "Die Buchhaltung, ehrlich: Eine offene 0,1-mol/kgw-Hydrogencarbonat-Lösung entgast beim Lösen von selbst etwa 0,003 mol CO₂ (ihr eigenes Carbonatgleichgewicht gegenüber der Atmosphäre — `baking-soda-vents-carbon-dioxide`), sodass 0,003 mol der Lauge keinen Hydrogencarbonat-Partner finden und der finale pH-Wert des zweiten Becherglases diesen Hydroxidüberschuss trägt. Der pH-Wert 5,6 des Säure-Becherglases ist keine übrig gebliebene Säure: Es ist eine Natriumchlorid-Lösung im Gleichgewicht mit atmosphärischem CO₂ — dieselbe Chemie, die sauberen Regen leicht sauer macht. Der Brønsted-Punkt steckt in der Speziation: Dasselbe Ion tritt in einem Gefäß als Protonenakzeptor und im anderen als Protonendonor auf — etwas, das kein festes Säure/Base-Etikett sagen kann.",
-        "lv3_fr": "La comptabilité, honnêtement : une solution ouverte de bicarbonate à 0,1 mol/kgw dégaze d'elle-même environ 0,003 mol de CO₂ à la dissolution (son propre équilibre carbonaté vis-à-vis de l'atmosphère — `baking-soda-vents-carbon-dioxide`), si bien que 0,003 mol de la lessive de soude ne trouve aucun partenaire bicarbonate, et le pH final du second becher porte cet excès d'hydroxyde. Le pH 5,6 du becher acide n'est pas de l'acide restant : c'est une solution de chlorure de sodium équilibrée avec le CO₂ atmosphérique — la même chimie qui rend la pluie propre légèrement acide. Le point brønstedien se trouve dans la spéciation : le même ion apparaît comme accepteur de proton dans un récipient et comme donneur de proton dans l'autre, ce qu'aucune étiquette fixe acide/base ne peut dire."
+        "lv2": "HCO₃⁻ accepts a proton from acid, forming CO₂ and water; with OH⁻ it donates a proton and forms carbonate. In this script the acid beaker ends near pH 4.54 with some dissolved carbon still present; the lye beaker retains its carbon, mostly as carbonate, without a gas export.",
+        "lv2_de": "HCO₃⁻ nimmt von Säure ein Proton auf und bildet CO₂ und Wasser; gegenüber OH⁻ gibt es ein Proton ab und bildet Carbonat. Hier endet das Säuregefäß bei etwa pH 4,54 mit etwas gelöstem Kohlenstoff; das Laugengefäß behält seinen Kohlenstoff überwiegend als Carbonat, ohne Gasexport.",
+        "lv2_fr": "HCO₃⁻ accepte un proton d’un acide et forme CO₂ et eau ; face à OH⁻, il donne un proton et forme du carbonate. Ici, le bécher acide finit vers pH 4,54 avec du carbone encore dissous ; le bécher à la soude conserve son carbone, surtout comme carbonate, sans export gazeux.",
+        "lv3": "The acid case uses a bounded curated endpoint for newly formed dissolved CO₂. It does not remove all carbon or impose atmospheric equilibrium; acid-front nucleation and escape times are not modeled, and the gas parcel is not a calibrated instantaneous yield. The lye case begins with retained bicarbonate, not a stock already depleted by instantaneous self-venting. Its final carbonate/hydrogencarbonate equilibrium illustrates proton donation without a gas loss.",
+        "lv3_de": "Der Säurefall nutzt einen begrenzten kuratierten Endpunkt für neu gebildetes gelöstes CO₂. Er entfernt nicht den gesamten Kohlenstoff und erzwingt kein Luftgleichgewicht. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert; die Gasmenge ist keine kalibrierte augenblickliche Ausbeute. Der Laugenfall beginnt mit erhaltenem Hydrogencarbonat, nicht mit einem durch sofortige Selbstentgasung verminderten Vorrat. Sein abschließendes Carbonat/Hydrogencarbonat-Gleichgewicht zeigt Protonenabgabe ohne Gasverlust.",
+        "lv3_fr": "Le cas acide utilise un point final borné et curaté pour le CO₂ dissous nouvellement formé. Il ne retire pas tout le carbone et n’impose pas l’équilibre avec l’air. La nucléation au front acide et les temps d’échappement ne sont pas modélisés ; la quantité gazeuse n’est pas un rendement instantané calibré. Le cas à la soude commence avec de l’hydrogénocarbonate conservé, pas avec un stock diminué par un dégazage instantané. Son équilibre final carbonate/hydrogénocarbonate illustre un don de proton sans perte gazeuse."
       },
       "provenance": {
         "source": "Standard curriculum acid–base concepts (amphiprotic species, Brønsted–Lowry); carbonate equilibria from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria"
+        "computed_by": "PHREEQC via Kerotakis L2; zero-time carbonate boundary and bounded curated acid endpoint"
       }
     },
     {
@@ -3822,72 +3822,72 @@
         ],
         "absent": [],
         "predict": {
-          "question": "Stomach acid is roughly 0.1 mol/L hydrochloric acid — this beaker of it reads pH 1.1. In goes a gram of baking soda, about what a heartburn tablet carries. What does the meter say when the fizzing stops?",
-          "question_de": "Magensäure ist etwa 0,1-mol/L-Salzsäure — dieses Becherglas davon zeigt pH 1,1. Ein Gramm Natron kommt hinein, etwa das, was eine Sodbrennen-Tablette enthält. Was sagt das Messgerät, wenn das Sprudeln aufhört?",
+          "question": "This laboratory surrogate contains hydrochloric acid at about pH 1.1. A gram of baking soda is added. What does the meter say at the end of the scripted addition?",
+          "question_de": "Dieser Laborersatz enthält Salzsäure bei ungefähr pH 1,1. Ein Gramm Natron wird zugegeben. Was zeigt das Messgerät am Ende der skriptgesteuerten Zugabe?",
           "options": [
             "Still about 1 — a kitchen powder cannot touch a strong acid",
-            "About 9, with a burp of carbon dioxide on the way",
+            "About 8, with carbon dioxide released during the addition",
             "14 — soda is a base, and a base sends the scale to the top"
           ],
           "options_de": [
-            "Immer noch etwa 1 — ein Küchenpulver kann einer starken Säure nichts anhaben",
-            "Etwa 9, mit einem Rülpser Kohlendioxid unterwegs",
-            "14 — Natron ist eine Base, und eine Base treibt die Skala nach oben"
+            "Weiterhin etwa 1 — ein Küchenpulver kann einer starken Säure nichts anhaben",
+            "Etwa 8, wobei während der Zugabe Kohlendioxid freigesetzt wird",
+            "14 — Natron ist eine Base, und eine Base schickt die Skala nach oben"
           ],
           "answer": 1,
-          "misconception": "Both wrong answers confuse what a substance IS with how much of it there is. 'Strong' describes how completely an acid gives up its protons, not how many it has: 0.01 mol of protons meets 0.012 mol of proton-acceptors and simply runs out. And a base does not teleport the scale to 14 — the leftover bicarbonate is a weak, gentle base that settles near 9, which is precisely why tablets are carbonates and not lye.",
-          "misconception_de": "Beide falschen Antworten verwechseln, WAS ein Stoff ist, mit WIE VIEL davon vorhanden ist. 'Stark' beschreibt, wie vollständig eine Säure ihre Protonen abgibt, nicht wie viele sie hat: 0,01 mol Protonen trifft auf 0,012 mol Protonenakzeptoren und geht einfach aus. Und eine Base teleportiert die Skala nicht zu 14 — das übrig gebliebene Hydrogencarbonat ist eine schwache, milde Base, die sich bei etwa 9 einpendelt, genau deshalb sind Tabletten Carbonate und keine Lauge.",
+          "misconception": "Strength and amount answer different questions. Here bicarbonate has enough proton-accepting capacity to consume the supplied acid, while remaining carbonate species give a mildly basic solution. A weak base does not automatically send the pH to the top of the scale. This laboratory model is not a treatment recommendation.",
+          "misconception_de": "Stärke und Menge beantworten verschiedene Fragen. Hier reicht die protonenaufnehmende Kapazität des Hydrogencarbonats aus, um die zugeführte Säure zu verbrauchen; verbleibende Carbonatspezies ergeben eine schwach basische Lösung. Eine schwache Base schickt den pH nicht automatisch ans Skalenende. Dieses Labormodell ist keine Behandlungsempfehlung.",
           "diagnosis": [
             {
               "option": 0,
               "reveals": "'Strong acid' as invincible — strength read as power over any opponent, rather than as the completeness of its own dissociation.",
               "reveals_de": "'Starke Säure' als unbesiegbar — Stärke wird als Macht über jeden Gegner gelesen, statt als Vollständigkeit der eigenen Dissoziation.",
-              "next": "Count instead of ranking: 0.01 mol of protons against 0.012 mol of bicarbonate. Strength decided how the protons were offered (all at once, fully dissociated); the counting decides who runs out, and the acid does. The fizz is its protons leaving the beaker as gas.",
-              "next_de": "Zähle, statt zu bewerten: 0,01 mol Protonen gegen 0,012 mol Hydrogencarbonat. Die Stärke hat entschieden, wie die Protonen angeboten wurden (alle auf einmal, vollständig dissoziiert); das Zählen entscheidet, wer ausgeht, und das ist die Säure. Das Sprudeln sind ihre Protonen, die das Becherglas als Gas verlassen.",
+              "next": "Compare the supplied acid with the bicarbonate capacity. The carbon in the escaping CO₂ comes from bicarbonate; acid supplies protons, not a carbon dioxide inventory.",
+              "next_de": "Vergleiche die zugeführte Säure mit der Hydrogencarbonatkapazität. Der Kohlenstoff im entweichenden CO₂ stammt aus Hydrogencarbonat; die Säure liefert Protonen, keinen Kohlendioxidvorrat.",
               "source": null,
-              "next_fr": "Compte au lieu de classer : 0,01 mol de protons contre 0,012 mol de bicarbonate. La force a décidé comment les protons ont été offerts (tous à la fois, entièrement dissociés) ; le décompte décide qui s'épuise, et c'est l'acide. Le pétillement, ce sont ses protons qui quittent le becher sous forme de gaz.",
+              "next_fr": "Compare l’acide fourni à la capacité du bicarbonate. Le carbone du CO₂ qui s’échappe vient du bicarbonate ; l’acide fournit des protons, pas un stock de dioxyde de carbone.",
               "reveals_fr": "« Acide fort » vu comme invincible — la force lue comme une puissance sur n'importe quel adversaire, plutôt que comme la complétude de sa propre dissociation."
             },
             {
               "option": 2,
               "reveals": "Bases as scale-flippers: adding 'a base' sends pH to the top of the scale, with the base's own strength and amount playing no part.",
               "reveals_de": "Basen als Skalenkipper: Die Zugabe von 'einer Base' schickt den pH-Wert an die Spitze der Skala, wobei die eigene Stärke und Menge der Base keine Rolle spielt.",
-              "next": "Look at what is actually left over: excess bicarbonate, a weak proton-acceptor that settles the beaker near pH 9 — for the lye that really does reach the top of the scale, run `strong-base`. Your stomach lining is the reason the gentle landing is the design goal: an antacid that overshot to 14 would be a worse burn than the acid it cured.",
-              "next_de": "Schau dir an, was tatsächlich übrig bleibt: überschüssiges Hydrogencarbonat, ein schwacher Protonenakzeptor, der das Becherglas bei etwa pH 9 einpendeln lässt — für die Lauge, die wirklich an die Spitze der Skala kommt, führe `strong-base` aus. Deine Magenschleimhaut ist der Grund, warum die sanfte Landung das Entwurfsziel ist: ein Antazidum, das bis 14 überschösse, wäre eine schlimmere Verätzung als die Säure, die es heilen sollte.",
+              "next": "Inspect the excess dissolved bicarbonate and the pH near 8. A carbonate equilibrium sets this endpoint; the label base alone does not specify a pH.",
+              "next_de": "Prüfe das überschüssige gelöste Hydrogencarbonat und den pH nahe 8. Ein Carbonatgleichgewicht bestimmt diesen Endpunkt; die Bezeichnung Base allein legt keinen pH fest.",
               "source": null,
-              "next_fr": "Regarde ce qui reste réellement : du bicarbonate en excès, un accepteur de protons faible qui stabilise le becher vers pH 9 — pour la lessive de soude, qui atteint vraiment le sommet de l'échelle, fais tourner `strong-base`. La muqueuse de ton estomac est la raison pour laquelle un atterrissage en douceur est l'objectif de conception : un antiacide qui dépasserait jusqu'à 14 serait une brûlure pire que l'acide qu'il devait soigner.",
+              "next_fr": "Examine l’excès de bicarbonate dissous et le pH proche de 8. Un équilibre carbonaté fixe ce point final ; le mot base ne spécifie pas un pH à lui seul.",
               "reveals_fr": "Les bases vues comme des inverseurs d'échelle : ajouter « une base » enverrait le pH au sommet de l'échelle, sans que la force ni la quantité propres de la base n'y jouent le moindre rôle."
             }
           ],
-          "misconception_fr": "Les deux réponses fausses confondent CE QU'EST une substance avec la QUANTITÉ qu'il y en a. « Fort » décrit à quel point un acide cède complètement ses protons, pas combien il en possède : 0,01 mol de protons rencontre 0,012 mol d'accepteurs de protons et s'épuise tout simplement. Et une base ne téléporte pas l'échelle jusqu'à 14 — le bicarbonate restant est une base faible et douce qui se stabilise vers 9, précisément pourquoi les comprimés sont des carbonates et non de la lessive de soude.",
+          "misconception_fr": "La force et la quantité répondent à deux questions différentes. Ici, la capacité du bicarbonate à accepter des protons suffit à consommer l’acide fourni ; les espèces carbonatées restantes donnent une solution légèrement basique. Une base faible n’envoie pas automatiquement le pH au sommet de l’échelle. Ce modèle de laboratoire n’est pas une recommandation de traitement.",
           "options_fr": [
             "Toujours environ 1 — une poudre de cuisine ne peut rien contre un acide fort",
-            "Environ 9, avec un rot de dioxyde de carbone au passage",
-            "14 — le bicarbonate est une base, et une base envoie l'échelle au sommet"
+            "Environ 8, avec du dioxyde de carbone libéré pendant l’ajout",
+            "14 — le bicarbonate est une base et envoie l’échelle au sommet"
           ],
-          "question_fr": "L'acide gastrique est à peu près de l'acide chlorhydrique à 0,1 mol/L — ce becher-là affiche pH 1,1. On y verse un gramme de bicarbonate de soude, à peu près ce que contient un comprimé contre les brûlures d'estomac. Que dit l'appareil quand le pétillement s'arrête ?"
+          "question_fr": "Ce substitut de laboratoire contient de l’acide chlorhydrique vers pH 1,1. On ajoute un gramme de bicarbonate. Que dit l’appareil à la fin de l’ajout prévu par le script ?"
         },
         "ph": {
-          "min": 9.0,
-          "max": 9.4
+          "min": 7.9,
+          "max": 8.1
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Pretend stomach acid: sour enough to sting. In goes the white powder — it fizzes hard, and when the bubbles stop, the sting is gone. The burp is the acid itself, leaving as gas.",
-        "lv1_de": "Nachgestellte Magensäure: sauer genug, um zu beißen. Das weiße Pulver kommt hinein — es sprudelt heftig, und wenn die Bläschen aufhören, ist das Beißen vorbei. Das Aufstoßen ist die Säure selbst, die als Gas entweicht.",
-        "lv1_fr": "De l'acide gastrique simulé : assez acide pour piquer. On y verse la poudre blanche — elle pétille fort, et quand les bulles s'arrêtent, la piqûre a disparu. Le rot, c'est l'acide lui-même qui s'échappe sous forme de gaz.",
-        "lv2": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. One gram of NaHCO₃ is 0.0119 mol against 0.0100 mol of acid, so the acid is the limiting reagent: the pH climbs from 1.1 to about 9.2, the balance loses ~0.45 g of CO₂, and the ~0.002 mol of unspent bicarbonate is what holds the finish gentle.",
-        "lv2_de": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. Ein Gramm NaHCO₃ sind 0,0119 mol gegenüber 0,0100 mol Säure, sodass die Säure der begrenzende Reaktionspartner ist: Der pH-Wert steigt von 1,1 auf etwa 9,2, die Waage verliert ~0,45 g CO₂, und die ~0,002 mol unverbrauchtes Hydrogencarbonat sind es, die das Ende sanft halten.",
-        "lv2_fr": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. Un gramme de NaHCO₃ représente 0,0119 mol face à 0,0100 mol d'acide, si bien que l'acide est le réactif limitant : le pH grimpe de 1,1 à environ 9,2, la balance perd ~0,45 g de CO₂, et les ~0,002 mol de bicarbonate non consommé sont ce qui rend la fin douce.",
-        "lv3": "The tablet is dosed to outlast the acid it expects — `buffer-capacity-exceeded` run in reverse: there, the insult outlasted the reserve; here, the reserve outlasts the insult, by design and by arithmetic. Honesty about the model: a beaker is not a stomach — a stomach keeps secreting acid and regulating volume, so the real relief is a running battle rather than this one-shot titration; and the beaker's pH 9.2 endpoint is an open-vessel carbonate equilibrium, venting CO₂ until it matches the atmosphere. What the arithmetic does transfer to the pharmacy shelf: the dose works by moles, not by magic, which is why the packet specifies grams.",
-        "lv3_de": "Die Tablette ist so dosiert, dass sie die erwartete Säure überdauert — `buffer-capacity-exceeded` rückwärts abgespielt: Dort überdauerte der Angriff die Reserve; hier überdauert die Reserve den Angriff, nach Entwurf und nach Rechnung. Ehrlichkeit über das Modell: Ein Becherglas ist kein Magen — ein Magen scheidet weiterhin Säure aus und reguliert das Volumen, sodass die echte Linderung ein andauernder Kampf ist und keine einmalige Titration; und der Endpunkt des Becherglases bei pH 9,2 ist ein Carbonatgleichgewicht im offenen Gefäß, das CO₂ entgast, bis es der Atmosphäre entspricht. Was die Rechnung tatsächlich ins Apothekenregal überträgt: Die Dosis wirkt nach Molzahlen, nicht nach Magie, weshalb die Packung Gramm angibt.",
-        "lv3_fr": "Le comprimé est dosé pour survivre à l'acide qu'il anticipe — `buffer-capacity-exceeded` joué à l'envers : là-bas, l'attaque survivait à la réserve ; ici, la réserve survit à l'attaque, par conception et par calcul. Honnêteté sur le modèle : un becher n'est pas un estomac — un estomac continue de sécréter de l'acide et de réguler son volume, si bien que le soulagement réel est un combat continu plutôt que cette titration en un seul coup ; et le point final du becher à pH 9,2 est un équilibre carbonaté en récipient ouvert, dégazant du CO₂ jusqu'à s'équilibrer avec l'atmosphère. Ce que le calcul transmet bel et bien jusqu'au rayon de la pharmacie : la dose agit par moles, pas par magie, ce qui explique que la boîte indique des grammes."
+        "lv1": "The powder reacts with the supplied acid and releases carbon dioxide. The laboratory mixture becomes mildly basic. This beaker does not model a stomach or tell anyone how to treat symptoms.",
+        "lv1_de": "Das Pulver reagiert mit der zugeführten Säure und setzt Kohlendioxid frei. Die Labormischung wird schwach basisch. Dieses Becherglas modelliert keinen Magen und sagt niemandem, wie Beschwerden behandelt werden sollen.",
+        "lv1_fr": "La poudre réagit avec l’acide fourni et libère du dioxyde de carbone. Le mélange de laboratoire devient légèrement basique. Ce bécher ne modélise pas un estomac et n’indique à personne comment traiter des symptômes.",
+        "lv2": "HCO₃⁻ + H⁺ → H₂O + CO₂. One gram of NaHCO₃ supplies about 0.0119 mol against 0.0100 mol acid. The script ends near pH 8.00 with bicarbonate remaining. The gas parcel is a bounded curated endpoint, not a measured instantaneous yield or a prediction of when fizzing stops.",
+        "lv2_de": "HCO₃⁻ + H⁺ → H₂O + CO₂. Ein Gramm NaHCO₃ liefert etwa 0,0119 mol gegenüber 0,0100 mol Säure. Das Skript endet bei etwa pH 8,00 mit verbleibendem Hydrogencarbonat. Die Gasmenge ist ein begrenzter kuratierter Endpunkt, keine gemessene augenblickliche Ausbeute oder Vorhersage des Sprudelendes.",
+        "lv2_fr": "HCO₃⁻ + H⁺ → H₂O + CO₂. Un gramme de NaHCO₃ fournit environ 0,0119 mol face à 0,0100 mol d’acide. Le script finit vers pH 8,00 avec du bicarbonate restant. La quantité gazeuse est un point final borné et curaté, pas un rendement instantané mesuré ni une prédiction de la fin du pétillement.",
+        "lv3": "The mole budget explains why the supplied acid is consumed before the bicarbonate capacity is exhausted. The final state retains dissolved carbon and is not forced to room-air equilibrium. Acid-front nucleation and escape times are not modeled. This one-shot laboratory surrogate omits continuing acid secretion and changing stomach volume; it does not establish clinical efficacy, dosing or safety.",
+        "lv3_de": "Die Molbilanz erklärt, warum die zugeführte Säure vor Erschöpfung der Hydrogencarbonatkapazität verbraucht ist. Der Endzustand enthält gelösten Kohlenstoff und wird nicht ins Gleichgewicht mit der Raumluft gezwungen. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert. Dieser einmalige Laborersatz lässt fortlaufende Säuresekretion und Änderungen des Magenvolumens aus; er belegt weder klinische Wirksamkeit noch Dosierung oder Sicherheit.",
+        "lv3_fr": "Le bilan molaire explique pourquoi l’acide fourni est consommé avant l’épuisement de la capacité du bicarbonate. L’état final conserve du carbone dissous et n’est pas forcé à l’équilibre avec l’air. La nucléation au front acide et les temps d’échappement ne sont pas modélisés. Ce substitut de laboratoire en une seule étape omet la sécrétion continue d’acide et les variations du volume gastrique ; il n’établit ni efficacité clinique, ni posologie, ni sécurité."
       },
       "provenance": {
         "source": "Standard curriculum application of neutralisation (antacids); carbonate equilibria from PHREEQC wateq4f.dat (USGS); stomach-acid concentration ~0.1 mol/L is a standard physiology figure. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass bookkeeping by the Kerotakis bench"
+        "computed_by": "PHREEQC via Kerotakis L2; bounded curated acid/carbonate endpoint, with bench mass bookkeeping"
       }
     },
     {
@@ -6154,8 +6154,8 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": 2700.0,
-          "max": 3050.0
+          "min": 2566.0,
+          "max": 2569.0
         }
       },
       "registers": {
@@ -6165,9 +6165,9 @@
         "lv2": "0.0987 mol of Mg (2.40 g ÷ 24.305 g/mol) gives 0.0987 mol of MgO by the 2:2 ratio in the equation, which is 3.98 g (× 40.304 g/mol). The bench reports exactly 0.0987 mol of MgO and a balance reading of 3.98 g. The equation is not decoration — it is the conversion factor.",
         "lv2_de": "0,0987 mol Mg (2,40 g ÷ 24,305 g/mol) ergeben nach dem Verhältnis 2:2 in der Gleichung 0,0987 mol MgO, das sind 3,98 g (× 40,304 g/mol). Das Labor meldet exakt 0,0987 mol MgO und einen Waagenwert von 3,98 g. Die Reaktionsgleichung ist keine Dekoration — sie ist der Umrechnungsfaktor.",
         "lv2_fr": "0,0987 mol de Mg (2,40 g ÷ 24,305 g/mol) donne 0,0987 mol de MgO selon le rapport 2:2 de l'équation, soit 3,98 g (× 40,304 g/mol). Le banc rapporte exactement 0,0987 mol de MgO et une lecture de balance de 3,98 g. L'équation n'est pas une décoration — c'est le facteur de conversion.",
-        "lv3": "The 1:1 mole ratio survives because the Gibbs minimiser conserves the magnesium element budget exactly; oxygen is drawn from the atmospheric reservoir rather than the vessel's inventory, which is what makes the mass ratio 40.304/24.305 = 1.658 appear on the balance. At the 3042 K the solve settles to, gaseous Mg and MgO are thermodynamically accessible; they do not appear in the products because the condensed oxide dominates at 1 bar.",
-        "lv3_de": "Das Molverhältnis 1:1 bleibt erhalten, weil der Gibbs-Minimierer das Elementbudget des Magnesiums exakt einhält; Sauerstoff wird aus dem atmosphärischen Reservoir gezogen statt aus dem Inventar des Gefäßes, wodurch das Massenverhältnis 40,304/24,305 = 1,658 auf der Waage erscheint. Bei den 3042 K, auf die sich die Lösung einpendelt, sind gasförmiges Mg und MgO thermodynamisch zugänglich; sie erscheinen nicht in den Produkten, weil das kondensierte Oxid bei 1 bar dominiert.",
-        "lv3_fr": "Le rapport molaire 1:1 survit parce que le minimiseur de Gibbs conserve exactement le budget élémentaire du magnésium ; l'oxygène est puisé dans le réservoir atmosphérique plutôt que dans l'inventaire du récipient, ce qui fait apparaître sur la balance le rapport massique 40,304/24,305 = 1,658. Aux 3042 K auxquels la résolution se stabilise, le Mg et le MgO gazeux sont thermodynamiquement accessibles ; ils n'apparaissent pas dans les produits parce que l'oxyde condensé domine à 1 bar."
+        "lv3": "The oxygen comes from the atmospheric reservoir, so the open crucible gains mass while the magnesium atom count stays fixed. This restricted condensed-product model predicts about 2840 K (2567 °C): the spark first melts the ribbon, then the phase-specific Mg(L) feed and admitted air enter the enthalpy balance. Magnesium and MgO vapour are excluded from this product pool; their absence is a model boundary, not a calculated negligible abundance. This is a model prediction, not a measured flame temperature.",
+        "lv3_de": "Der Sauerstoff stammt aus dem atmosphärischen Reservoir; deshalb gewinnt der offene Tiegel Masse, während die Zahl der Magnesiumatome gleich bleibt. Dieses auf kondensierte Produkte beschränkte Modell berechnet etwa 2840 K (2567 °C): Der Funke schmilzt zuerst das Band, dann gehen der phasenspezifische Mg(L)-Eduktzustand und die zugelassene Luft in die Enthalpiebilanz ein. Magnesium- und MgO-Dampf sind aus diesem Produktpool ausgeschlossen; ihre Abwesenheit ist eine Modellgrenze, keine berechnete vernachlässigbare Häufigkeit. Dies ist eine Modellvorhersage, keine gemessene Flammentemperatur.",
+        "lv3_fr": "L’oxygène provient du réservoir atmosphérique : le creuset ouvert gagne donc de la masse tandis que le nombre d’atomes de magnésium reste constant. Ce modèle limité aux produits condensés prédit environ 2840 K (2567 °C) : l’étincelle fait d’abord fondre le ruban, puis le réactif Mg(L), avec sa phase explicite, et l’air admis entrent dans le bilan enthalpique. Les vapeurs de magnésium et de MgO sont exclues de cet ensemble de produits ; leur absence est une limite du modèle, pas une abondance négligeable calculée. Il s’agit d’une prédiction du modèle, pas d’une température de flamme mesurée."
       },
       "provenance": {
         "source": "Standard curriculum combustion stoichiometry; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -7148,21 +7148,20 @@
       },
       "expect": {
         "events": [
-          "dissolved:NaHCO3",
-          "gas_evolved:CO2"
+          "dissolved:NaHCO3"
         ],
         "absent": [],
         "predict": {
-          "question": "About 0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C in an open vessel. Dissolution absorbs heat, and carbonate speciation releases CO₂. What should the thermal calculation include?",
-          "question_de": "Etwa 0,1000 mol Natron kommen in einem offenen Gefäß in 100 mL Wasser bei 25,0 °C. Das Lösen nimmt Wärme auf, und bei der Carbonat-Speziation entweicht CO₂. Was muss die Wärmeberechnung berücksichtigen?",
+          "question": "About 0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C in an open vessel, and the thermometer is read straight away. What does it show?",
+          "question_de": "Etwa 0,1000 mol Natron kommen in einem offenen Gefäß in 100 mL Wasser bei 25,0 °C, und das Thermometer wird sofort abgelesen. Was zeigt es?",
           "options": [
             "Warmer — dissolving always releases energy",
-            "Cooling from the combined dissolution, speciation, and gas-loss energy balance",
+            "Cooling, by about 4 K, from the heat the dissolving crystal borrows from the water",
             "Unchanged — the water is what holds the temperature"
           ],
           "options_de": [
             "Erwärmung — Lösen setzt immer Energie frei",
-            "Abkühlung aus der gemeinsamen Energiebilanz von Lösen, Speziation und Gasverlust",
+            "Abkühlung um etwa 4 K, weil der sich lösende Kristall Wärme vom Wasser borgt",
             "Keine Änderung — das Wasser hält die Temperatur fest"
           ],
           "answer": 1,
@@ -7183,40 +7182,40 @@
               "option": 2,
               "reveals": "Water as a thermal anchor: a big steady liquid that a spoonful of powder cannot move — heat capacity mistaken for immunity.",
               "reveals_de": "Wasser als thermischer Anker: eine große, stetige Flüssigkeit, die ein Löffel Pulver nicht bewegen kann — Wärmekapazität wird mit Unempfindlichkeit verwechselt.",
-              "next": "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from about 416 J/K of water would cost about 4 K from dissolution alone. The open-vessel carbonate conversion contributes too. A larger capacity reduces a temperature change; it does not prohibit one.",
-              "next_de": "Wärmekapazität ist ein Preis, kein Veto: 1,67 kJ aus etwa 416 J/K Wasser zu entziehen würde allein durch das Lösen ungefähr 4 K kosten. Die Carbonat-Umwandlung im offenen Gefäß trägt ebenfalls bei. Eine größere Kapazität verkleinert die Temperaturänderung, verbietet sie aber nicht.",
+              "next": "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from about 416 J/K of water costs about 4 K. A larger capacity reduces a temperature change; it does not prohibit one.",
+              "next_de": "Wärmekapazität ist ein Preis, kein Veto: 1,67 kJ aus etwa 416 J/K Wasser zu entziehen kostet ungefähr 4 K. Eine größere Kapazität verkleinert die Temperaturänderung, verbietet sie aber nicht.",
               "source": null,
-              "next_fr": "La capacité thermique est un prix, pas un veto : retirer 1,67 kJ à environ 416 J/K d'eau coûterait environ 4 K rien que par la dissolution. La conversion du carbonate en récipient ouvert y contribue aussi. Une plus grande capacité réduit une variation de température ; elle ne l'interdit pas.",
+              "next_fr": "La capacité thermique est un prix, pas un veto : retirer 1,67 kJ à environ 416 J/K d'eau coûte environ 4 K. Une capacité plus grande réduit une variation de température ; elle ne l'interdit pas.",
               "reveals_fr": "L'eau vue comme une ancre thermique : un grand liquide stable qu'une cuillerée de poudre ne pourrait pas déplacer — la capacité thermique confondue avec l'immunité."
             }
           ],
           "misconception_fr": "Venant juste de voir le chlorure de calcium réchauffer un gobelet, les apprenants généralisent : dissoudre réchauffe les choses. Le signe de ΔH_dis est une propriété de la substance, pas de la dissolution. Le bicarbonate de soude, le chlorure de potassium et le nitrate d'ammonium vont tous dans l'autre sens, et une poche de froid instantanée est exactement cette expérience.",
           "options_fr": [
             "Un réchauffement — dissoudre libère toujours de l'énergie",
-            "Un refroidissement issu du bilan énergétique combiné de la dissolution, de la spéciation et de la perte de gaz",
+            "Un refroidissement d'environ 4 K, parce que le cristal qui se dissout emprunte de la chaleur à l'eau",
             "Aucun changement — c'est l'eau qui maintient la température"
           ],
-          "question_fr": "Environ 0,1000 mol de bicarbonate de soude est versée dans 100 mL d'eau à 25,0 °C, dans un récipient ouvert. La dissolution absorbe de la chaleur, et la spéciation du carbonate libère du CO₂. Que doit inclure le calcul thermique ?"
+          "question_fr": "Environ 0,1000 mol de bicarbonate de soude est versée dans 100 mL d'eau à 25,0 °C dans un récipient ouvert, et le thermomètre est lu aussitôt. Qu'indique-t-il ?"
         },
         "ph": null,
         "temperature_c": {
-          "min": 17.5,
-          "max": 19.5
+          "min": 20.5,
+          "max": 21.5
         }
       },
       "registers": {
         "lv1": "Same cup, same water, different powder — and this one goes cold instead of hot. That is not a trick or a different kind of stirring; some substances have to borrow energy from the water to come apart, and the water is left colder for lending it.",
         "lv1_de": "Derselbe Becher, dasselbe Wasser, ein anderes Pulver — und dieses wird kalt statt heiß. Das ist kein Trick und kein anderes Rühren; manche Stoffe müssen sich Energie vom Wasser leihen, um sich aufzulösen, und das Wasser bleibt kälter zurück, weil es sie verliehen hat.",
         "lv1_fr": "Même gobelet, même eau, poudre différente — et celle-ci refroidit au lieu de réchauffer. Ce n'est ni un tour ni une façon différente de remuer ; certaines substances doivent emprunter de l'énergie à l'eau pour se désagréger, et l'eau reste plus froide pour l'avoir prêtée.",
-        "lv2": "The dissolution-only estimate is q ≈ 0.1000 mol × 16.7 kJ/mol = 1.67 kJ absorbed, or about 4 K cooling for 100 mL of water. It is not the full prediction for this open beaker: the computed result is about 18.4 °C because carbonate speciation and CO₂ transfer also enter the energy balance.",
-        "lv2_de": "Allein für das Lösen ergibt sich q ≈ 0,1000 mol × 16,7 kJ/mol = 1,67 kJ Aufnahme, also ungefähr 4 K Abkühlung für 100 mL Wasser. Das ist nicht die vollständige Vorhersage für das offene Gefäß: Berechnet werden etwa 18,4 °C, weil auch Carbonat-Speziation und CO₂-Transfer in die Energiebilanz eingehen.",
-        "lv2_fr": "L'estimation ne portant que sur la dissolution est q ≈ 0,1000 mol × 16,7 kJ/mol = 1,67 kJ absorbés, soit environ 4 K de refroidissement pour 100 mL d'eau. Ce n'est pas la prédiction complète pour ce becher ouvert : le résultat calculé est d'environ 18,4 °C, car la spéciation du carbonate et le transfert de CO₂ entrent aussi dans le bilan énergétique.",
-        "lv3": "The ordinary aqueous solver prices the complete change in chemical inventory and gas exchange. About 0.0416 mol CO₂ leaves this input as bicarbonate redistributes toward carbonate under the open atmospheric boundary. That conversion is not thermally independent of dissolution. The result assumes immediate gas equilibrium and an adiabatic vessel; it predicts neither a gas-transfer time nor heat leakage from a real cup.",
-        "lv3_de": "Der wässrige Löser bilanziert die vollständige Änderung von Stoffinventar und Gasaustausch. Bei diesem Ansatz entweichen etwa 0,0416 mol CO₂, während Hydrogencarbonat unter der offenen atmosphärischen Randbedingung zu Carbonat umverteilt wird. Diese Umwandlung ist thermisch nicht unabhängig vom Lösen. Das Ergebnis setzt sofortiges Gasgleichgewicht und ein adiabatisches Gefäß voraus; es sagt weder eine Gastransferzeit noch Wärmeverluste eines echten Bechers voraus.",
-        "lv3_fr": "Le solveur aqueux ordinaire tarife le changement complet de l'inventaire chimique et de l'échange gazeux. Environ 0,0416 mol de CO₂ quitte cet apport à mesure que le bicarbonate se redistribue vers le carbonate sous la frontière atmosphérique ouverte. Cette conversion n'est pas thermiquement indépendante de la dissolution. Le résultat suppose un équilibre gazeux immédiat et un récipient adiabatique ; il ne prédit ni un temps de transfert gazeux ni les fuites de chaleur d'un vrai gobelet."
+        "lv2": "q ≈ 0.1000 mol × 16.7 kJ/mol = 1.67 kJ absorbed, from about 416 J/K of water: about 4 K of cooling, and the computed reading is about 21.0 °C. The thermometer is read straight away, so the carbon dioxide this open beaker will lose over the next hours has not left yet and plays no part.",
+        "lv2_de": "q ≈ 0,1000 mol × 16,7 kJ/mol = 1,67 kJ Aufnahme aus etwa 416 J/K Wasser: ungefähr 4 K Abkühlung, und berechnet werden etwa 21,0 °C. Das Thermometer wird sofort abgelesen, also ist das CO₂, das dieses offene Gefäß in den nächsten Stunden verliert, noch nicht entwichen und spielt keine Rolle.",
+        "lv2_fr": "q ≈ 0,1000 mol × 16,7 kJ/mol = 1,67 kJ absorbés, pris à environ 416 J/K d'eau : environ 4 K de refroidissement, et la lecture calculée est d'environ 21,0 °C. Le thermomètre est lu aussitôt, donc le dioxyde de carbone que ce becher ouvert perdra dans les heures qui suivent n'est pas encore parti et ne joue aucun rôle.",
+        "lv3": "The ordinary aqueous solver prices dissolution and carbonate speciation in the same step. An addition takes no time, so no gas crosses the open surface: bicarbonate disproportionation leaves only a little CO₂ in solution, below the pressure at which bubbles form, and its slow escape to room air is a separate, later process. The result assumes an adiabatic vessel; it predicts no heat leakage from a real cup.",
+        "lv3_de": "Der wässrige Löser bilanziert Lösen und Carbonat-Speziation im selben Schritt. Eine Zugabe dauert keine Zeit, also tritt kein Gas durch die offene Oberfläche: Die Disproportionierung des Hydrogencarbonats lässt nur wenig CO₂ in Lösung, unterhalb des Drucks, bei dem Blasen entstehen, und sein langsames Entweichen an die Raumluft ist ein getrennter, späterer Vorgang. Das Ergebnis setzt ein adiabatisches Gefäß voraus; Wärmeverluste eines echten Bechers sagt es nicht vorher.",
+        "lv3_fr": "Le solveur aqueux ordinaire tarife la dissolution et la spéciation des carbonates dans la même étape. Un ajout ne prend pas de temps, donc aucun gaz ne traverse la surface ouverte : la dismutation de l'hydrogénocarbonate ne laisse qu'un peu de CO₂ en solution, sous la pression à laquelle des bulles se forment, et sa lente fuite vers l'air de la pièce est un processus distinct et ultérieur. Le résultat suppose un récipient adiabatique ; il ne prédit aucune perte de chaleur d'un vrai gobelet."
       },
       "provenance": {
-        "source": "Existing registry enthalpy of solution of NaHCO₃ and PHREEQC carbonate data (USGS); no newly imported constants. Editorial judgement (Kerotakis), model-assisted revision 2026-09-06: distinguish dissolution-only arithmetic from the complete open-vessel energy balance.",
+        "source": "Existing registry enthalpy of solution of NaHCO₃ and PHREEQC carbonate data (USGS); no newly imported constants. Editorial judgement (Kerotakis), model-assisted revision 2026-09-06: distinguish dissolution-only arithmetic from the complete open-vessel energy balance. Revised 2026-11-11: an addition takes no time, so the reading is dissolution plus closed speciation, with no instant CO₂ loss.",
         "licence": null,
         "computed_by": "Kerotakis aqueous inventory/gas enthalpy balance using PHREEQC L2"
       }
@@ -7874,8 +7873,8 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": 2700.0,
-          "max": 3050.0
+          "min": 2566.0,
+          "max": 2569.0
         }
       },
       "registers": {
@@ -7885,9 +7884,9 @@
         "lv2": "0.0494 mol of Mg (1.20 g ÷ 24.305) becomes 0.0494 mol of MgO, which is 1.99 g. The gain of 0.79 g is 0.0247 mol of O₂ at 31.998 g/mol, taken from the atmosphere. Mass is conserved across the whole system; the crucible is not the whole system, and the missing accounting is the air.",
         "lv2_de": "0,0494 mol Mg (1,20 g ÷ 24,305) werden zu 0,0494 mol MgO, das sind 1,99 g. Der Zuwachs von 0,79 g entspricht 0,0247 mol O₂ bei 31,998 g/mol, aus der Atmosphäre entnommen. Masse bleibt über das gesamte System erhalten; der Tiegel ist nicht das gesamte System, und die fehlende Buchung ist die Luft.",
         "lv2_fr": "0,0494 mol de Mg (1,20 g ÷ 24,305) devient 0,0494 mol de MgO, soit 1,99 g. Le gain de 0,79 g correspond à 0,0247 mol de O₂ à 31,998 g/mol, prélevé dans l'atmosphère. La masse est conservée sur l'ensemble du système ; le creuset n'est pas le système entier, et la comptabilité manquante, c'est l'air.",
-        "lv3": "The oxygen is drawn from a reservoir rather than the vessel inventory, which is why the vessel's mass rises — a deliberate modelling choice matching an open crucible. The adiabatic solve settles at 3042 K with the condensed oxide dominant; at that temperature MgO(g) and atomic Mg are thermodynamically present in the NASA data but negligible at 1 bar, so essentially all of the metal is recovered as weighable solid.",
-        "lv3_de": "Der Sauerstoff wird aus einem Reservoir gezogen statt aus dem Inventar des Gefäßes, weshalb die Masse des Gefäßes steigt — eine bewusste Modellierungsentscheidung, die einem offenen Tiegel entspricht. Die adiabatische Lösung pendelt sich bei 3042 K mit dominierendem kondensiertem Oxid ein; bei dieser Temperatur sind MgO(g) und atomares Mg in den NASA-Daten thermodynamisch vorhanden, aber bei 1 bar vernachlässigbar, sodass im Wesentlichen das gesamte Metall als wägbarer Feststoff zurückgewonnen wird.",
-        "lv3_fr": "L'oxygène est puisé dans un réservoir plutôt que dans l'inventaire du récipient, ce qui explique la hausse de masse du récipient — un choix de modélisation délibéré correspondant à un creuset ouvert. La résolution adiabatique se stabilise à 3042 K avec l'oxyde condensé dominant ; à cette température, MgO(g) et le Mg atomique sont thermodynamiquement présents dans les données NASA mais négligeables à 1 bar, si bien que la quasi-totalité du métal est récupérée sous forme de solide pesable."
+        "lv3": "The oxygen comes from the atmospheric reservoir, so the open crucible gains mass while the magnesium atom count stays fixed. This restricted condensed-product model predicts about 2840 K (2567 °C): the spark first melts the ribbon, then the phase-specific Mg(L) feed and admitted air enter the enthalpy balance. Magnesium and MgO vapour are excluded from this product pool; their absence is a model boundary, not a calculated negligible abundance. This is a model prediction, not a measured flame temperature.",
+        "lv3_de": "Der Sauerstoff stammt aus dem atmosphärischen Reservoir; deshalb gewinnt der offene Tiegel Masse, während die Zahl der Magnesiumatome gleich bleibt. Dieses auf kondensierte Produkte beschränkte Modell berechnet etwa 2840 K (2567 °C): Der Funke schmilzt zuerst das Band, dann gehen der phasenspezifische Mg(L)-Eduktzustand und die zugelassene Luft in die Enthalpiebilanz ein. Magnesium- und MgO-Dampf sind aus diesem Produktpool ausgeschlossen; ihre Abwesenheit ist eine Modellgrenze, keine berechnete vernachlässigbare Häufigkeit. Dies ist eine Modellvorhersage, keine gemessene Flammentemperatur.",
+        "lv3_fr": "L’oxygène provient du réservoir atmosphérique : le creuset ouvert gagne donc de la masse tandis que le nombre d’atomes de magnésium reste constant. Ce modèle limité aux produits condensés prédit environ 2840 K (2567 °C) : l’étincelle fait d’abord fondre le ruban, puis le réactif Mg(L), avec sa phase explicite, et l’air admis entrent dans le bilan enthalpique. Les vapeurs de magnésium et de MgO sont exclues de cet ensemble de produits ; leur absence est une limite du modèle, pas une abondance négligeable calculée. Il s’agit d’une prédiction du modèle, pas d’une température de flamme mesurée."
       },
       "provenance": {
         "source": "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -8021,9 +8020,9 @@
         "lv2": "0.0999 mol of C (1.20 g ÷ 12.011) becomes 0.0999 mol of CO₂ — 4.40 g of gas, all of it gone from the crucible, which reads 0.00 g. The system gained 3.20 g of oxygen and the vessel lost 1.20 g of carbon; the two experiments differ in the phase of the product and in nothing else.",
         "lv2_de": "0,0999 mol C (1,20 g ÷ 12,011) werden zu 0,0999 mol CO₂ — 4,40 g Gas, vollständig aus dem Tiegel verschwunden, der 0,00 g zeigt. Das System nahm 3,20 g Sauerstoff auf, und das Gefäß verlor 1,20 g Kohlenstoff; die beiden Experimente unterscheiden sich in der Phase des Produkts und in nichts sonst.",
         "lv2_fr": "0,0999 mol de C (1,20 g ÷ 12,011) devient 0,0999 mol de CO₂ — 4,40 g de gaz, entièrement disparus du creuset, qui affiche 0,00 g. Le système a gagné 3,20 g d'oxygène, et le récipient a perdu 1,20 g de carbone ; les deux expériences diffèrent par la phase du produit et par rien d'autre.",
-        "lv3": "The adiabatic flame settles at 2216 °C against magnesium's 2769 °C, and the gap is not about which reaction is 'stronger' — carbon's ΔH per mole of O₂ is comparable — but about where the energy goes: the product here is a gas that carries it away in translational and vibrational modes, while magnesia is a condensed phase with far less to absorb. Flame temperature is an enthalpy balance, not a ranking of fuels.",
-        "lv3_de": "Die adiabatische Flamme pendelt sich bei 2216 °C ein, gegenüber 2769 °C bei Magnesium, und der Unterschied liegt nicht daran, welche Reaktion 'stärker' ist — Kohlenstoffs ΔH pro Mol O₂ ist vergleichbar —, sondern daran, wohin die Energie geht: Das Produkt hier ist ein Gas, das sie in Translations- und Schwingungsmoden mit sich forträgt, während Magnesiumoxid eine kondensierte Phase mit weit weniger Aufnahmefähigkeit ist. Flammtemperatur ist eine Enthalpiebilanz, keine Rangliste von Brennstoffen.",
-        "lv3_fr": "La flamme adiabatique se stabilise à 2216 °C contre 2769 °C pour le magnésium, et l'écart ne tient pas à quelle réaction serait « plus forte » — le ΔH du carbone par mole de O₂ est comparable — mais à où va l'énergie : le produit ici est un gaz qui l'emporte dans ses modes de translation et de vibration, tandis que la magnésie est une phase condensée avec bien moins de capacité d'absorption. La température de flamme est un bilan enthalpique, pas un classement de combustibles."
+        "lv3": "The computed charcoal flame is about 2216 °C, compared with about 2567 °C for this magnesium protocol. Flame temperature depends on the reactant enthalpy, the product phases and the admitted air. The charcoal product leaves as gas; the magnesium model retains condensed oxide. These temperatures describe the stated model and control volume, not a ranking of fuel strength.",
+        "lv3_de": "Die berechnete Holzkohleflamme erreicht etwa 2216 °C, verglichen mit etwa 2567 °C für dieses Magnesiumprotokoll. Die Flammentemperatur hängt von Eduktenthalpie, Produktphasen und zugelassener Luft ab. Das Holzkohleprodukt entweicht als Gas; das Magnesiummodell behält kondensiertes Oxid. Diese Temperaturen gelten für das angegebene Modell und Kontrollvolumen, nicht als Rangliste der Brennstoffstärke.",
+        "lv3_fr": "La flamme calculée du charbon atteint environ 2216 °C, contre environ 2567 °C pour ce protocole au magnésium. La température de flamme dépend de l’enthalpie des réactifs, des phases des produits et de l’air admis. Le produit du charbon s’échappe sous forme de gaz ; le modèle du magnésium conserve l’oxyde condensé. Ces températures décrivent le modèle et le volume de contrôle indiqués, pas un classement de la force des combustibles."
       },
       "provenance": {
         "source": "Standard curriculum combustion; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -8035,8 +8034,8 @@
       "id": "flame-temperature-is-a-balance-not-a-property",
       "progress": "advanced",
       "equation": null,
-      "summary": "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C",
-      "summary_de": "2 Mg + O₂ → 2 MgO von 228 °C → 2177 °C; dieselbe Reaktion von 927 °C → 2769 °C",
+      "summary": "2 Mg + O₂ → 2 MgO: a warmer starting state gives a hotter computed flame",
+      "summary_de": "2 Mg + O₂ → 2 MgO: Ein wärmerer Ausgangszustand ergibt eine heißere berechnete Flamme",
       "concepts": [
         "adiabatic-flame-temperature",
         "enthalpy-balance"
@@ -8097,12 +8096,12 @@
           "question_de": "Zwei identische 1,2-g-Magnesiumbänder brennen in identischer Luft. Das eine ist kaum warm, wenn es sich entzündet (228 °C); das andere glüht bereits (927 °C). Erreichen die beiden Flammen dieselbe Temperatur?",
           "options": [
             "Yes — the flame temperature is a property of magnesium",
-            "No: 2177 °C and 2769 °C. The heat you put in first is still in the products",
+            "No: the warmer starting state gives a hotter flame. The initial enthalpy remains in the balance",
             "No — the hotter one burns faster and so ends up cooler"
           ],
           "options_de": [
             "Ja — die Flammentemperatur ist eine Eigenschaft von Magnesium",
-            "Nein: 2177 °C und 2769 °C. Die zuerst hineingesteckte Wärme steckt noch in den Produkten",
+            "Nein: Der wärmere Ausgangszustand ergibt eine heißere Flamme. Die Anfangsenthalpie bleibt in der Bilanz",
             "Nein — das heißere brennt schneller und landet deshalb kühler"
           ],
           "answer": 1,
@@ -8113,10 +8112,10 @@
               "option": 0,
               "reveals": "Flame temperature as a substance constant, filed beside the melting point: one fuel, one number, whatever state it started in.",
               "reveals_de": "Flammtemperatur als Stoffkonstante, eingeordnet neben dem Schmelzpunkt: ein Brennstoff, eine Zahl, unabhängig davon, in welchem Zustand er startete.",
-              "next": "Change only the starting enthalpy and read the answer: 700 degrees more preheat, roughly 600 degrees more flame. A constant cannot respond to how you began; a balance must — and furnaces preheat their air because engineers bill by that balance.",
-              "next_de": "Ändere nur die Startenthalpie und lies die Antwort ab: 700 Grad mehr Vorwärmung, rund 600 Grad mehr Flamme. Eine Konstante kann nicht darauf reagieren, wie du begonnen hast; eine Bilanz muss es — und Öfen erwärmen ihre Luft vor, weil Ingenieure nach dieser Bilanz rechnen.",
+              "next": "Compare the two calculated temperatures. A constant cannot respond to the starting state; an enthalpy balance must. The spark also melts the hotter ribbon before the thermal solve, so its phase and the heat spent melting it belong in that balance.",
+              "next_de": "Vergleiche die beiden berechneten Temperaturen. Eine Konstante kann nicht auf den Ausgangszustand reagieren; eine Enthalpiebilanz muss es. Der Funke schmilzt das heißere Band vor der thermischen Berechnung, also gehören seine Phase und die Schmelzwärme in diese Bilanz.",
               "source": null,
-              "next_fr": "Change seulement l'enthalpie de départ et lis la réponse : 700 degrés de préchauffage en plus, environ 600 degrés de flamme en plus. Une constante ne peut pas répondre à la façon dont tu as commencé ; un bilan le doit — et les fours préchauffent leur air parce que les ingénieurs facturent selon ce bilan.",
+              "next_fr": "Compare les deux températures calculées. Une constante ne peut pas répondre à l’état initial ; un bilan enthalpique le doit. L’étincelle fait aussi fondre le ruban le plus chaud avant le calcul thermique : sa phase et la chaleur dépensée pour le fondre appartiennent donc à ce bilan.",
               "reveals_fr": "La température de flamme vue comme une constante propre à la substance, classée à côté du point de fusion : un combustible, un chiffre, quel que soit l'état dans lequel il a commencé."
             },
             {
@@ -8133,7 +8132,7 @@
           "misconception_fr": "La « température de flamme adiabatique du magnésium » est mémorisée comme une constante, comme un point de fusion. Ce n'est pas une propriété du combustible ; c'est la réponse à un bilan enthalpique, et l'enthalpie des réactifs est l'une des données d'entrée. Préchauffe les réactifs, et tu obtiens une flamme plus chaude — c'est exactement pourquoi les fours industriels préchauffent leur air.",
           "options_fr": [
             "Oui — la température de flamme est une propriété du magnésium",
-            "Non : 2177 °C et 2769 °C. La chaleur que tu as fournie en premier est toujours dans les produits",
+            "Non : l’état initial plus chaud donne une flamme plus chaude. L’enthalpie initiale reste dans le bilan",
             "Non — la plus chaude brûle plus vite et finit donc plus froide"
           ],
           "question_fr": "Deux rubans de magnésium identiques de 1,2 g brûlent dans un air identique. L'un est à peine tiède quand il s'enflamme (228 °C) ; l'autre rougeoie déjà (927 °C). Les deux flammes atteignent-elles la même température ?"
@@ -8145,22 +8144,22 @@
         }
       },
       "registers": {
-        "lv1": "Two identical ribbons, both burned, both blindingly bright — and one flame is six hundred degrees hotter than the other. The only difference was how warm the metal was when it caught. Heat you put in beforehand does not disappear when the fire starts; it is still there, added on top.",
-        "lv1_de": "Zwei identische Bänder, beide verbrannt, beide blendend hell — und die eine Flamme ist sechshundert Grad heißer als die andere. Der einzige Unterschied war, wie warm das Metall war, als es sich entzündete. Wärme, die du vorher hineingegeben hast, verschwindet nicht, wenn das Feuer beginnt; sie ist immer noch da, obendrauf addiert.",
-        "lv1_fr": "Deux rubans identiques, tous deux brûlés, tous deux d'un éclat aveuglant — et une flamme est de six cents degrés plus chaude que l'autre. La seule différence était la chaleur du métal au moment où il s'est enflammé. La chaleur que tu as fournie à l'avance ne disparaît pas quand le feu commence ; elle est toujours là, ajoutée par-dessus.",
-        "lv2": "Adiabatic means no heat leaves, so the products' enthalpy equals the reactants'. Starting at 228 °C the solve lands at 2176.97 °C; starting at 926.9 °C — the ignition temperature the bench uses — it lands at 2768.67 °C. Same ΔH of reaction, −601 kJ/mol; different starting enthalpy, different answer.",
-        "lv2_de": "Adiabatisch bedeutet, dass keine Wärme entweicht, sodass die Enthalpie der Produkte der der Edukte entspricht. Beginnt man bei 228 °C, landet die Lösung bei 2176,97 °C; beginnt man bei 926,9 °C — der Zündtemperatur, die das Labor verwendet — landet sie bei 2768,67 °C. Dieselbe Reaktionsenthalpie ΔH, −601 kJ/mol; andere Startenthalpie, andere Antwort.",
-        "lv2_fr": "Adiabatique signifie qu'aucune chaleur ne s'échappe, si bien que l'enthalpie des produits égale celle des réactifs. En partant de 228 °C, la résolution atterrit à 2176,97 °C ; en partant de 926,9 °C — la température d'inflammation qu'utilise le banc —, elle atterrit à 2768,67 °C. Même ΔH de réaction, −601 kJ/mol ; enthalpie de départ différente, réponse différente.",
-        "lv3": "The solver bisects on temperature until the products' enthalpy matches the reactants', evaluating both from the NASA-9 polynomials rather than assuming a constant heat capacity — which matters, because Cp rises substantially over two thousand kelvin. The vessel's share of the atmosphere is in the balance too, and it is the dominant heat sink: a gram of magnesium heats the air around it far more than it heats the speck of oxide it leaves.",
-        "lv3_de": "Der Löser halbiert das Intervall über der Temperatur, bis die Enthalpie der Produkte der der Edukte entspricht, wobei beide anhand der NASA-9-Polynome ausgewertet werden statt eine konstante Wärmekapazität anzunehmen — was wichtig ist, denn Cp steigt über zweitausend Kelvin hinweg erheblich an. Der Luftanteil des Gefäßes steckt ebenfalls in der Bilanz, und er ist die dominierende Wärmesenke: Ein Gramm Magnesium erwärmt die Luft um sich herum weit mehr, als es das winzige Oxidkorn erwärmt, das es hinterlässt.",
-        "lv3_fr": "Le solveur procède par bissection sur la température jusqu'à ce que l'enthalpie des produits corresponde à celle des réactifs, en évaluant les deux à partir des polynômes NASA-9 plutôt qu'en supposant une capacité thermique constante — ce qui compte, car Cp augmente sensiblement sur deux mille kelvins. La part atmosphérique du récipient entre aussi dans le bilan, et elle est le puits de chaleur dominant : un gramme de magnésium réchauffe bien davantage l'air qui l'entoure que le grain d'oxyde minuscule qu'il laisse derrière lui."
+        "lv1": "Both ribbons burn and leave white oxide, but the warmer starting state gives the hotter flame. Heat supplied beforehand remains part of the balance, including the heat spent melting the ribbon.",
+        "lv1_de": "Beide Bänder brennen und hinterlassen weißes Oxid, doch der wärmere Ausgangszustand ergibt die heißere Flamme. Vorher zugeführte Wärme bleibt Teil der Bilanz, einschließlich der Wärme zum Schmelzen des Bandes.",
+        "lv1_fr": "Les deux rubans brûlent et laissent un oxyde blanc, mais l’état initial le plus chaud donne la flamme la plus chaude. La chaleur fournie auparavant reste dans le bilan, y compris celle dépensée pour faire fondre le ruban.",
+        "lv2": "The cooler ribbon reacts above the bench’s 500 K kinetic gate. The spark sets the other ribbon to 1200 K; melting then leaves liquid magnesium near 943 K before the thermal solve. With phase-specific feed enthalpy and the admitted air, the hotter protocol predicts about 2840 K (2567 °C). The 1200 K spark is a modelling input, not a measured magnesium ignition temperature.",
+        "lv2_de": "Das kühlere Band reagiert oberhalb der kinetischen Modellschwelle von 500 K. Der Funke setzt das andere Band auf 1200 K; das Schmelzen hinterlässt dann flüssiges Magnesium bei etwa 943 K vor der thermischen Berechnung. Mit phasenspezifischer Eduktenthalpie und zugelassener Luft berechnet das heißere Protokoll etwa 2840 K (2567 °C). Die 1200 K des Funkens sind eine Modellannahme, keine gemessene Zündtemperatur von Magnesium.",
+        "lv2_fr": "Le ruban plus froid réagit au-dessus du seuil cinétique de 500 K du modèle. L’étincelle porte l’autre ruban à 1200 K ; la fusion laisse ensuite du magnésium liquide vers 943 K avant le calcul thermique. Avec l’enthalpie du réactif dans sa phase et l’air admis, le protocole plus chaud prédit environ 2840 K (2567 °C). Les 1200 K de l’étincelle sont une hypothèse du modèle, pas une température d’inflammation mesurée du magnésium.",
+        "lv3": "The solver matches product and reactant enthalpy using the phase-specific NASA-9 records. For the sparked ribbon, the core phase route first spends heat on fusion; the thermal route then uses liquid magnesium and air at the settled temperature. Its product pool retains condensed magnesium oxide and excludes magnesium and MgO vapour. The result is specific to these phase, atmosphere and ignition assumptions, not a calibrated physical flame temperature.",
+        "lv3_de": "Der Löser gleicht Produkt- und Eduktenthalpie mit phasenspezifischen NASA-9-Daten ab. Beim gezündeten Band bezahlt die Phasenroute zuerst die Schmelzwärme; die thermische Route verwendet danach flüssiges Magnesium und Luft bei der erreichten Temperatur. Ihr Produktpool behält kondensiertes Magnesiumoxid und schließt Magnesium- und MgO-Dampf aus. Das Ergebnis gilt für diese Phasen-, Atmosphären- und Zündannahmen und ist keine kalibrierte physikalische Flammentemperatur.",
+        "lv3_fr": "Le solveur égalise les enthalpies des produits et des réactifs à partir des données NASA-9 propres à chaque phase. Pour le ruban allumé, le traitement des phases dépense d’abord de la chaleur pour la fusion ; le calcul thermique utilise ensuite du magnésium liquide et de l’air à la température obtenue. Son ensemble de produits conserve l’oxyde de magnésium condensé et exclut les vapeurs de magnésium et de MgO. Le résultat dépend de ces hypothèses de phase, d’atmosphère et d’allumage ; ce n’est pas une température de flamme physique étalonnée."
       },
       "provenance": {
         "source": "Standard adiabatic-flame-temperature treatment (Gordon & McBride, NASA RP-1311); thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": "NASA CEA data: Apache-2.0",
         "computed_by": "Kerotakis L2g Gibbs minimiser"
       },
-      "summary_fr": "2 Mg + O₂ → 2 MgO de 228 °C → 2177 °C ; la même réaction de 927 °C → 2769 °C"
+      "summary_fr": "2 Mg + O₂ → 2 MgO : un état initial plus chaud donne une flamme calculée plus chaude"
     },
     {
       "id": "why-the-shelf-is-not-on-fire",

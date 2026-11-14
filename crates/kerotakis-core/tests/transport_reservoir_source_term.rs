@@ -49,8 +49,8 @@ fn tr006(second_inlet_volumes: f64) -> Bench {
     for _ in 0..5 {
         bench.step(Operator::NewVessel { kind: None }).unwrap();
     }
-    for index in 0..4 {
-        water(&mut bench.vessels[index], 1.0);
+    for vessel in &mut bench.vessels[..4] {
+        water(vessel, 1.0);
     }
     let carbon = species::lookup(&SpeciesId::new(CARBON)).expect("registry carbon");
     bench.vessels[0].deposit(

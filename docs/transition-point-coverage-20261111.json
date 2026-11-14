@@ -1,11 +1,11 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 161,
-    "boiling.reported": 35,
-    "melting.no_data": 141,
-    "melting.range": 3,
-    "melting.reported": 52
+    "boiling.no_data": 136,
+    "boiling.reported": 61,
+    "melting.no_data": 97,
+    "melting.range": 5,
+    "melting.reported": 95
   },
   "originals": [
     {
@@ -30,9 +30,21 @@
       "source_id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     },
+    "Ag3PO4": {
+      "source_id": "literature/transition-points/Ag3PO4",
+      "citation": "melting 1122 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 35-3 Silver, printed p. 679; read from the page image, archive.org circularofbureau500ross (leaf n686) Printed entry: Ag3PO4 Fusion c->liq 1122 K (849 C)."
+    },
+    "AgBr": {
+      "source_id": "literature/transition-points/AgBr",
+      "citation": "melting 703 K, boiling 1806 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 35-1 Silver, printed p. 677; read from the page image, archive.org circularofbureau500ross (leaf n684) Printed entry: AgBr Transition 532 K; Fusion 703 K (430 C); Vaporization 760 mmHg 1806 K (1533 C)."
+    },
     "AgCl": {
       "source_id": "literature/transition-points/AgCl",
       "citation": "Melting point 728 K (455 degrees Celsius) and normal boiling point 1830 K (1557 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-1, printed page 677."
+    },
+    "AgI": {
+      "source_id": "literature/transition-points/AgI",
+      "citation": "melting 831 K, boiling 1777 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 35-1 Silver, printed p. 677; read from the page image, archive.org circularofbureau500ross (leaf n684) Printed entry: AgI Transition 420 K; Fusion 831 K (558 C); Vaporization 760 mmHg 1777 K (1504 C)."
     },
     "AgNO3": {
       "source_id": "literature/transition-points/AgNO3",
@@ -42,6 +54,10 @@
       "source_id": "literature/transition-points/Al",
       "citation": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2743 K (2470 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11), and by the Wikipedia 'Aluminium' infobox, which cites the same paper (https://en.wikipedia.org/w/index.php?title=Aluminium&oldid=1384708213, cite_note-4); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     },
+    "Ba(OH)2": {
+      "source_id": "literature/transition-points/Ba(OH)2",
+      "citation": "melting 681 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 89-1 Barium, printed p. 787; read from the page image, archive.org circularofbureau500ross (leaf n794) Printed entry: Ba(OH)2 Fusion c->liq 681 K (408 C)."
+    },
     "BaCl2": {
       "source_id": "literature/transition-points/BaCl2",
       "citation": "Melting point 1235 K (962 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 89-1, printed page 787. Boiling point: the table gives vaporization only at 6.3 mm Hg, no normal boiling point, and none is claimed."
@@ -50,9 +66,29 @@
       "source_id": "literature/transition-points/BaSO4",
       "citation": "Melting point 1623 K (1350 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 89-2, printed page 788. The withdrawn tranche had 1853.15 K; Circular 500's value is the one read and used."
     },
+    "C": {
+      "source_id": "literature/transition-points/C",
+      "citation": "sublimation 4620 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Charcoal/graphite oxidise in air far below this. Printed entry: C Sublimation c,graphite -> equilibrium gas, 760 mmHg, 4620 K (4347 C). Charcoal and graphite oxidise in air far below this."
+    },
     "CH3COOH": {
       "source_id": "literature/transition-points/CH3COOH",
       "citation": "Melting point 289.77 K and normal boiling point 391.4 K (118.2 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), phase-transition tables; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read 2026-11-11 through the scanned text layer, which drops substance names from the value lines: the row was identified by its position in the formula-ordered block, so a reviewer should confirm it against the page image. The melting value is the same one Circular 500 prints beside acetic acid's enthalpy of fusion."
+    },
+    "CO": {
+      "source_id": "literature/transition-points/CO",
+      "citation": "melting 68.1 K, boiling 81.66 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Printed entry: CO Fusion c,I->liq 68.10 K (115.3 mmHg); Vaporization 760 mmHg 81.66 K."
+    },
+    "CO2": {
+      "source_id": "literature/transition-points/CO2",
+      "citation": "sublimation 194.68 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Printed entry: CO2 Sublimation c->g 760 mmHg 194.68 K (-78.48 C); Fusion 217.0 K (-56.2 C, at the triple point, above 1 atm)."
+    },
+    "Ca(OH)2": {
+      "source_id": "literature/transition-points/Ca(OH)2",
+      "citation": "decomposition 785.15 K (confidence M): P. E. Halstead and A. E. Moore, 'The thermal dissociation of calcium hydroxide', J. Chem. Soc. (1957) 3873, doi:10.1039/JR9570003873 (DOI metadata checked via Crossref), value as quoted by Wikipedia 'Calcium hydroxide' (https://en.wikipedia.org/w/index.php?title=Calcium_hydroxide&action=raw, read 2026-11-11): the water dissociation pressure reaches 101 kPa at 512 C. The paper itself was not read."
+    },
+    "Ca3(PO4)2": {
+      "source_id": "literature/transition-points/Ca3(PO4)2",
+      "citation": "melting 2003 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 87-2 Calcium, printed p. 779; read from the page image, archive.org circularofbureau500ross (leaf n786) (3CaO.P2O5 = Ca3(PO4)2). Printed entry: 3CaO.P2O5 Transition c,II->c,I 1373 K (1100 C); Fusion c,I->liq 2003 K (1730 C). Tabulated as 3CaO.P2O5."
     },
     "CaCl2": {
       "source_id": "literature/transition-points/CaCl2",
@@ -62,9 +98,17 @@
       "source_id": "literature/transition-points/CaO",
       "citation": "Melting point 2873 K (2600 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 87-1, printed page 778."
     },
+    "Cl2": {
+      "source_id": "literature/transition-points/Cl2",
+      "citation": "melting 172.16 K, boiling 239.1 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 10-1 Chlorine, printed p. 549; read from the page image, archive.org circularofbureau500ross (leaf n556) Printed entry: Cl2 Fusion c->liq 172.16 K; Vaporization liq->g 760 mmHg 239.10 K."
+    },
     "Cu": {
       "source_id": "literature/transition-points/Cu",
       "citation": "Melting point 1357.77 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2868 K (2595 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
+    },
+    "Cu2O": {
+      "source_id": "literature/transition-points/Cu2O",
+      "citation": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition."
     },
     "CuSO4": {
       "source_id": "literature/transition-points/CuSO4",
@@ -82,9 +126,25 @@
       "source_id": "literature/transition-points/FeSO4",
       "citation": "Decomposition of anhydrous FeSO4 beginning at about 873.15 K (stage IV 'begins at around 600 degrees Celsius', 6 FeSO4 -> Fe2(SO4)3 + 2 Fe2O3 + 3 SO2 at 550-610 degrees Celsius; TGA at 10 K/min in argon): Li et al., Materials 17 (2024) 2800, doi:10.3390/ma17122800 (open access, PMC11204637, results section, read 2026-11-11)."
     },
+    "H2": {
+      "source_id": "literature/transition-points/H2",
+      "citation": "melting 13.96 K, boiling 20.39 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 2-1 Hydrogen, printed p. 539; read from the page image, archive.org circularofbureau500ross (leaf n546) (read from OCR rows; Table 2a-1 for 1H2 gives the same) Printed entry: H2 Fusion 13.96 K (-259.20 C, 54.0 mmHg); Vaporization 760 mmHg 20.39 K (-252.77 C)."
+    },
+    "H2C2O4": {
+      "source_id": "literature/transition-points/H2C2O4",
+      "citation": "melting 464.45 K (confidence M, named primary as quoted by NIST): Tfus: Wilhoit and Shiao (1964), J. Chem. Eng. Data 9, 595, as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C144627&Mask=4, read 2026-11-11. Anhydrous acid; decomposes/sublimes near melting (WP). Cross-check: NBS Circular 500 (Rossini, Wagman, Evans, Levine, Jaffe, 1952), Series II 'Heat, temperature, and entropy of transition, fusion, and vaporization', Table 23-15 Carbon, printed p. 599; read from the page image, archive.org circularofbureau500ross (leaf n606) lists only sublimation at 373 K under 0.35 mmHg (not 1 atm). Values read: Tfus 464.45 K (unc 1.5 K). Primary papers not re-read."
+    },
     "H2O2": {
       "source_id": "literature/transition-points/H2O2",
-      "citation": "Melting point 271.2 K (-2.0 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 2-1, printed page 539. Boiling point: the table gives vaporization only at 2.1 mm Hg and 298.16 K (H2O2 decomposes on heating), no normal boiling point, and none is claimed."
+      "citation": "Melting point 271.2 K (-2.0 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 2-1, printed page 539. Normal boiling point 423.35 K (150.2 degrees Celsius, 100.00 wt% H2O2 at 760 mm Hg): W. C. Schumb et al. (MIT), 'Hydrogen Peroxide', Part 2, ch. 5 'Physical Properties', Office of Naval Research report (1953), DTIC AD0022243 (archive.org scan), a report prepared for the United States Government and approved for public release; the boiling-point table value is derived from the vapour-pressure equation of G. Scatchard, G. M. Kavanagh and L. B. Ticknor, 'Vapor-Liquid Equilibrium. VIII. Hydrogen Peroxide-Water Mixtures', J. Am. Chem. Soc. 74 (1952) 3715-3720, doi:10.1021/ja01135a001. It is an EXTRAPOLATED value: concentrated H2O2 decomposes well before it boils. NBS Circular 500 Table 2-1 gives vaporization only at 2.1 mm Hg and 298.16 K."
+    },
+    "H2SO4": {
+      "source_id": "literature/transition-points/H2SO4",
+      "citation": "melting 283.51 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-2 Sulfur, printed p. 553; read from the page image, archive.org circularofbureau500ross (leaf n560). No normal boiling point tabulated; 337 C (azeotrope, decomposes) retained from CRC 95th ed. p. 4-85 as quoted by Wikipedia 'Sulfuric acid'. Printed entry: H2SO4 Fusion c->liq 283.51 K (10.35 C). No normal boiling point is tabulated (the acid decomposes/forms an azeotrope); the handbook 337 C value has no primary and is not claimed."
+    },
+    "HBr": {
+      "source_id": "literature/transition-points/HBr",
+      "citation": "melting 186.28 K, boiling 206.43 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 11-1 Bromine, printed p. 550; read from the page image, archive.org circularofbureau500ross (leaf n557) Printed entry: HBr Fusion 186.28 K (-86.82 C); Vaporization 760 mmHg 206.43 K (-66.73 C)."
     },
     "I2": {
       "source_id": "literature/transition-points/I2",
@@ -97,6 +157,10 @@
     "KI": {
       "source_id": "literature/transition-points/KI",
       "citation": "Melting point 958 K (685 degrees Celsius) and normal boiling point 1597 K (1324 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 93-2, printed page 804."
+    },
+    "KIO3": {
+      "source_id": "literature/transition-points/KIO3",
+      "citation": "melting 833 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 93-3 Potassium, printed p. 805; read from the page image, archive.org circularofbureau500ross (leaf n812) Listed as fusion; decomposes with O2 loss near this temperature. Printed entry: KIO3 Fusion c->liq 833 K (560 C). Listed as fusion; the salt loses oxygen near this temperature."
     },
     "KMnO4": {
       "source_id": "literature/transition-points/KMnO4",
@@ -122,9 +186,21 @@
       "source_id": "literature/transition-points/MgSO4",
       "citation": "Melting point 1400 K (1127 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 86-1, printed page 772."
     },
+    "N2": {
+      "source_id": "literature/transition-points/N2",
+      "citation": "melting 63.15 K, boiling 77.34 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 18-1 Nitrogen, printed p. 561; read from the page image, archive.org circularofbureau500ross (leaf n568) Printed entry: N2 Fusion c,I->liq 63.15 K (94 mmHg); Vaporization 760 mmHg 77.34 K."
+    },
     "NH4Cl": {
       "source_id": "literature/transition-points/NH4Cl",
       "citation": "Dissociative sublimation NH4Cl(c) = NH3(g) + HCl(g) at 101.325 kPa: 610.95 K, i.e. 337.8 degrees Celsius, the temperature at which the dissociation pressure is 760.0 mm Hg in Table VI ('Dissociation pressures of NH4Cl at rounded temperatures') of A. Smith and R. H. Calvert, 'The dissociation pressures of ammonium- and tetramethylammonium halides and of phosphonium iodide and phosphorus pentachloride', J. Am. Chem. Soc. 36 (1914) 1363-1382, doi:10.1021/ja02184a003 (static isoteniscope measurement; their smoothed-curve fit passes through 338 C, 764.8 mm). Read 2026-11-11 from the public-domain (pre-1929) volume scan https://archive.org/details/dli.ernet.232695. Circular 500 Table 18-6 has no 1 atm value (only the 457.6 K transition and fusion at 793 K under 2.62e4 mm Hg)."
+    },
+    "NH4NO3": {
+      "source_id": "literature/transition-points/NH4NO3",
+      "citation": "melting 442.8 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 18-4 Nitrogen, printed p. 564; read from the page image, archive.org circularofbureau500ross (leaf n571) No decomposition temperature tabulated (the unsourced ~210 C Wikipedia value is dropped). Printed entry: NH4NO3 Fusion c,I->liq 760 mmHg 442.8 K (169.6 C). No decomposition temperature is tabulated and none is claimed."
+    },
+    "Na2B4O7": {
+      "source_id": "literature/transition-points/Na2B4O7",
+      "citation": "melting 1015 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 92-7 Sodium, printed p. 802; read from the page image, archive.org circularofbureau500ross (leaf n809) (Na2O.2B2O3 = Na2B4O7). Boiling 1575 C remains CRC-via-Wikipedia (L). Printed entry: Na2O.2B2O3 Fusion c,I->liq 1015 K (742 C). Tabulated as Na2O.2B2O3. The handbook 1575 C boiling point has no primary and is not claimed."
     },
     "Na2CO3": {
       "source_id": "literature/transition-points/Na2CO3",
@@ -142,6 +218,14 @@
       "source_id": "literature/transition-points/NaCl",
       "citation": "Melting point 1073.8 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 1738 K (1465 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-1, printed page 796."
     },
+    "NaHCO3": {
+      "source_id": "literature/transition-points/NaHCO3",
+      "citation": "decomposition onset 323.15 K (confidence L-M; cited primary as quoted by Wikipedia, marked as such): G. C. Pasquali, R. Bettini and F. Giordano, 'Thermal behaviour of diclofenac, diclofenac sodium and sodium bicarbonate compositions', J. Therm. Anal. Calorim. 90 (2007) 903-907, doi:10.1007/s10973-006-8182-1 (DOI metadata checked via Crossref), value as quoted by Wikipedia 'Sodium bicarbonate' (https://en.wikipedia.org/w/index.php?title=Sodium_bicarbonate&action=raw, read 2026-11-11): decomposes to sodium carbonate starting at 50 C (slow onset; fast above about 100 C). The paper itself was not read."
+    },
+    "NaHSO4": {
+      "source_id": "literature/transition-points/NaHSO4",
+      "citation": "melting 455 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 92-3 Sodium, printed p. 798; read from the page image, archive.org circularofbureau500ross (leaf n805) Supersedes the 315 C Wikipedia value. Printed entry: NaHSO4 Fusion c->liq 455 K (182 C). Supersedes the 315 C (588 K) handbook value."
+    },
     "NaNO3": {
       "source_id": "literature/transition-points/NaNO3",
       "citation": "Melting point 583 K (310 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-3, printed page 798."
@@ -150,13 +234,37 @@
       "source_id": "literature/transition-points/NaOH",
       "citation": "Melting point 593 K (320 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-1, printed page 796. Boiling point: the table gives none and none is claimed."
     },
+    "O2": {
+      "source_id": "literature/transition-points/O2",
+      "citation": "melting 54.4 K, boiling 90.19 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 1-1 Oxygen, printed p. 538; read from the page image, archive.org circularofbureau500ross (leaf n545) (read from coordinate-reconstructed OCR rows of the page) Printed entry: O2 Fusion 54.40 K (-218.76 C); Vaporization 760 mmHg 90.19 K (-182.97 C)."
+    },
     "Pb": {
       "source_id": "literature/transition-points/Pb",
       "citation": "Melting point 600.65 K: L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, US Bureau of Mines Bulletin 672 (1982), https://stacks.cdc.gov/view/cdc/219421, a United States Government work in the public domain (no doi), as already cited for this metal's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 2017 K (1744 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     },
+    "PbCO3": {
+      "source_id": "literature/transition-points/PbCO3",
+      "citation": "decomposition 588.15 K (confidence H): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, vol. 1 (National Research Council / McGraw-Hill, 1926), a 1926 publication now in the public domain in the United States (no doi); read from the page image, archive.org international-critical-tables_1926_1: table of inorganic compounds and minerals, p. 116, index 617 (leaf n137). Printed entry: PbCO3, Cerussite, M.P. 'd. 315'. Corroborated by a DSC of cerussite: 'Synthesis of Lead(II) Carbonate-Containing Nanoparticles Using Ultrasonication or Microwave Irradiation', ACS Omega (2024), doi:10.1021/acsomega.4c08839 (PMC11635499, full text read 2026-11-11): 'a principal endotherm at 315 C and a shoulder at 340 C'."
+    },
+    "PbI2": {
+      "source_id": "literature/transition-points/PbI2",
+      "citation": "melting 685 K, boiling 1145 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 27-2 Lead, printed p. 654; read from the page image, archive.org circularofbureau500ross (leaf n661) Printed entry: PbI2 Fusion 685 K (412 C); Vaporization 760 mmHg 1145 K (872 C)."
+    },
+    "PbSO4": {
+      "source_id": "literature/transition-points/PbSO4",
+      "citation": "melting 1360 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 27-2 Lead, printed p. 654; read from the page image, archive.org circularofbureau500ross (leaf n661) Printed entry: PbSO4 Transition c,II->c,I 1139 K (866 C); Fusion c,I->liq 1360 K (1087 C)."
+    },
     "S": {
       "source_id": "literature/transition-points/S",
       "citation": "Melting point 392 K (119 degrees Celsius; fusion of monoclinic crystal I, the form rhombic sulfur becomes at 368.6 K): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 14-1, printed page 552. Normal boiling point 718.2 K (445 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals. Zhang et al. tabulate 718.2 K for orthorhombic (alpha) sulfur; Circular 500 printed 717.76 K."
+    },
+    "SO2": {
+      "source_id": "literature/transition-points/SO2",
+      "citation": "melting 197.68 K, boiling 263.14 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-1 Sulfur, printed p. 552; read from the page image, archive.org circularofbureau500ross (leaf n559) Printed entry: SO2 Fusion 197.68 K (-75.48 C) at 1.256 mmHg; Vaporization 760 mmHg 263.14 K (-10.02 C)."
+    },
+    "SiO2": {
+      "source_id": "literature/transition-points/SiO2",
+      "citation": "melting 1883 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 24-1 Silicon, printed p. 629; read from the page image, archive.org circularofbureau500ross (leaf n636) Quartz I -> tridymite at 1140 K first under equilibrium; value is metastable quartz fusion. Cristobalite fusion 2001 K. Printed entry: SiO2 Fusion quartz,c,I->liq 1883 K (1610 C); Fusion cristobalite,I->liq 2001 K (1728 C); no boiling tabulated. Quartz fusion (metastable; quartz converts to tridymite at 1140 K first under equilibrium); cristobalite fuses at 2001 K."
     },
     "Zn": {
       "source_id": "literature/transition-points/Zn",
@@ -166,13 +274,29 @@
       "source_id": "literature/transition-points/ZnSO4",
       "citation": "Decomposition of anhydrous ZnSO4 from 863.15 K (formation of zinc oxysulfate 'started at 590 degrees Celsius', final decomposition to ZnO above 900 degrees Celsius): J. Mu and D. D. Perlmutter, Ind. Eng. Chem. Process Des. Dev. 20 (1981) 640-646, doi:10.1021/i200015a010, value as quoted by M. Lejda et al., Materials 17 (2024) 1232, doi:10.3390/ma17061232 (open access, https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10972427/fullTextXML, read 2026-11-11); the primary itself was not read."
     },
+    "atacamite": {
+      "source_id": "literature/transition-points/atacamite",
+      "citation": "decomposition 473.15 K (confidence H): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, vol. 1 (National Research Council / McGraw-Hill, 1926), a 1926 publication now in the public domain in the United States (no doi); read from the page image, archive.org international-critical-tables_1926_1: table of inorganic compounds and minerals, p. 122, index 944 (leaf n143). Printed entry: 3CuO.CuCl2.3H2O, Atacamite, M.P. 'd. 200' (decomposes at 200 C; paratacamite, index 945, likewise)."
+    },
+    "brochantite": {
+      "source_id": "literature/transition-points/brochantite",
+      "citation": "decomposition (end of dehydroxylation) 693.15 K (confidence M, stepwise and rate dependent): 'Surface Chemistry Aspects of Ion Exchange in Basic Copper Salts', Molecules 30 (2025) 21, doi:10.3390/molecules30010021 (open access, PMC11721559, full text read 2026-11-11), TGA at 1 K/min under N2: 'Brochantite lost 12.33% of its mass between 50 and 420 C and 17.39% of its mass between 520 and 670 C' (SO3 loss)."
+    },
     "bromoethane": {
       "source_id": "literature/transition-points/bromoethane",
       "citation": "Melting point 155.0 K (-118.2 degrees Celsius) and normal boiling point 311.5 K (38.3 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 23-26, printed page 610."
     },
+    "butane": {
+      "source_id": "literature/transition-points/butane",
+      "citation": "melting 134.6 K, boiling 273 K (confidence M, named primary as quoted by NIST): NIST averages (Ttriple of 6 values; Tboil of 33 values), NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C106978&Mask=4, read 2026-11-11. Values read: Ttriple 134.6 +/- 0.7 K; Tboil 273 +/- 1 K. Primary papers not re-read."
+    },
     "chalcanthite": {
       "source_id": "literature/transition-points/chalcanthite",
       "citation": "Dehydration of CuSO4.5H2O complete at 473.15 K: 'At 200 degrees Celsius, the sample is almost entirely converted to anhydrous CuSO4' (stepwise: 5H2O -> 3H2O by 60, -> 1H2O near 110, -> anhydrous near 210 degrees Celsius; TGA at 10 K/min under N2 with variable-temperature XRD): Jiao et al., Molecules 31 (2026) 1342, doi:10.3390/molecules31081342 (open access, PMC13119230, read 2026-11-11). This bench drives all five waters off in one step at that temperature; the intermediate hydrates are not modelled."
+    },
+    "citric_acid": {
+      "source_id": "literature/transition-points/citric_acid",
+      "citation": "melting 427.15 K (confidence M, named primary as quoted by NIST): Tfus: Wilhoit and Shiao (1964), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C77929&Mask=4, read 2026-11-11. The 175 C decomposition value has no primary (chemister.ru via Wikipedia) and is not claimed. Values read: Tfus 427.15 K. Primary papers not re-read."
     },
     "dodecane": {
       "source_id": "literature/transition-points/dodecane",
@@ -190,9 +314,25 @@
       "source_id": "literature/transition-points/ethanol",
       "citation": "Melting point 159.00 K (crystal I to liquid): T. Haida, H. Suga and S. Seki, J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 351.7 K (78.5 degrees Celsius, vaporization at 760 mm Hg): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 23-16, printed page 600."
     },
+    "ethene": {
+      "source_id": "literature/transition-points/ethene",
+      "citation": "melting 103.97 K, boiling 169.45 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-15 Carbon, printed p. 599; read from the page image, archive.org circularofbureau500ross (leaf n606) Printed entry: C2H4 ethene Fusion 103.97 K (0.9 mmHg); Vaporization 760 mmHg 169.45 K (-103.71 C)."
+    },
     "ethyl_acetate": {
       "source_id": "literature/transition-points/ethyl_acetate",
       "citation": "Melting point 189.3 K: G. S. Parks, H. M. Huffman and M. Barmore, J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 350.26 K: M. Wojciechowski and E. R. Smith, 'Boiling points and densities of acetates of normal aliphatic alcohols', J. Res. Natl. Bur. Stand. 18 (1937) 499, a United States Government work in the public domain (TRC uncertainty 0.06 K), doi:10.6028/jres.018.028, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C141786&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
+    },
+    "glucose": {
+      "source_id": "literature/transition-points/glucose",
+      "citation": "melting 423 K (confidence M, named primary as quoted by NIST): Tfus (alpha-D, hot stage): Kofler and Sitte (1950), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C50997&Mask=4, read 2026-11-11; Parks and Thomas (1934) 414 K. WP: alpha 146 C, beta 150 C. Caramelises/decomposes; no boiling. Values read: Tfus 423 K (unc 3 K). Primary papers not re-read."
+    },
+    "graphite": {
+      "source_id": "literature/transition-points/graphite",
+      "citation": "sublimation 4620 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Charcoal/graphite oxidise in air far below this. Printed entry: C Sublimation c,graphite -> equilibrium gas, 760 mmHg, 4620 K (4347 C). Charcoal and graphite oxidise in air far below this."
+    },
+    "gypsum": {
+      "source_id": "literature/transition-points/gypsum",
+      "citation": "dehydration to anhydrous CaSO4 (soluble anhydrite) at 453.15 K (confidence M, heating-rate dependent; this field means all crystal water driven off, as for epsomite): 'Geochemical Transformations of Gypsum Under Multiple Environmental Settings', ACS Earth Space Chem. (2025), doi:10.1021/acsearthspacechem.4c00137 (open access, PMC11931525, full text read 2026-11-11), TGA at 1 C/min under N2: 'the largest amount of water was released at 110 C'; 'gypsum transformed to soluble anhydrite at 180 C' (the paper cites a literature range of about 100-130 C for structural water loss)."
     },
     "hexadecane": {
       "source_id": "literature/transition-points/hexadecane",
@@ -202,13 +342,33 @@
       "source_id": "literature/transition-points/hexane",
       "citation": "Melting point 177.84 K: D. R. Douslin and H. M. Huffman, J. Am. Chem. Soc. 68 (1946) 1704-1708, doi:10.1021/ja01213a006 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 341.892 K (68.742 degrees Celsius): F. D. Rossini et al., Selected Values of Properties of Hydrocarbons, National Bureau of Standards Circular C461 (1947), Table 2m, normal boiling point at 1 atm; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular461.pdf, a United States Government work in the public domain (no doi)."
     },
+    "hydrogen_sulfide": {
+      "source_id": "literature/transition-points/hydrogen_sulfide",
+      "citation": "melting 187.63 K, boiling 212.82 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-2 Sulfur, printed p. 553; read from the page image, archive.org circularofbureau500ross (leaf n560) Printed entry: H2S Fusion c,I->liq 187.63 K; Vaporization 760 mmHg 212.82 K."
+    },
+    "isobutylene": {
+      "source_id": "literature/transition-points/isobutylene",
+      "citation": "melting 132.45 K, boiling 266.7 K (confidence M, named primary as quoted by NIST): Tfus: Kistiakowsky, Ruhoff et al. (1935); Tboil: NIST average of 25 of 28 values; NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C115117&Mask=4, read 2026-11-11. Values read: Tfus 132.45 K; Tboil 266.7 +/- 0.7 K. Primary papers not re-read."
+    },
     "isopropanol": {
       "source_id": "literature/transition-points/isopropanol",
       "citation": "Melting point 184.67 K: K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 355.4 K: R. F. Brunel, 'The purification and some physical properties of certain aliphatic alcohols. II', J. Am. Chem. Soc. 45 (1923) 1334-1338 (TRC uncertainty 0.05 K), doi:10.1021/ja01658a031, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C67630&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
     },
+    "lactic_acid": {
+      "source_id": "literature/transition-points/lactic_acid",
+      "citation": "melting 290 K (confidence M, named primary as quoted by NIST): Ttriple: Wilhoit, Chao et al. (1985), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C50215&Mask=4, read 2026-11-11 (DL). Normal boiling not defined (WP: 122 C at 15 mmHg; dehydrates/oligomerises). Values read: Ttriple 290 K (unc 0.2 K). Primary papers not re-read."
+    },
     "liquid_nitrogen": {
       "source_id": "literature/transition-points/liquid_nitrogen",
       "citation": "Triple-point (melting) temperature 63.14 K and normal boiling point 77.34 K: R. T. Jacobsen, R. B. Stewart and M. Jahangiri, 'Thermodynamic properties of nitrogen from the freezing line to 2000 K at pressures to 1000 MPa', J. Phys. Chem. Ref. Data 15 (1986) 735-909, doi:10.1063/1.555754, as listed in the NIST Chemistry WebBook (SRD 69) phase-change table, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Units=SI&Mask=4, retrieved 2026-11-11."
+    },
+    "malic_acid": {
+      "source_id": "literature/transition-points/malic_acid",
+      "citation": "melting 400.75 K (confidence M, named primary as quoted by NIST): Tfus (DL-malic): Wilhoit and Shiao (1964), as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C6915157&Mask=4, read 2026-11-11. WP: 130 C. Values read: Tfus 400.75 K. Primary papers not re-read."
+    },
+    "methane": {
+      "source_id": "literature/transition-points/methane",
+      "citation": "melting 90.68 K, boiling 111.67 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 23-1 Carbon, printed p. 585; read from the page image, archive.org circularofbureau500ross (leaf n592) Printed entry: CH4 Fusion 90.68 K (87.7 mmHg); Vaporization 760 mmHg 111.67 K (-161.49 C)."
     },
     "methanol": {
       "source_id": "literature/transition-points/methanol",
@@ -217,6 +377,10 @@
     "naphthalene": {
       "source_id": "literature/transition-points/naphthalene",
       "citation": "Melting point 353.40 K: J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane). Normal boiling point 491.15 K: A. R. Cooper, C. W. P. Crowne and P. G. Farrell, 'Gas-liquid chromatographic studies of electron-donor-acceptor systems. Part 2', Trans. Faraday Soc. 63 (1967) 447-454 (TRC uncertainty 0.5 K), doi:10.1039/tf9676300447, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C91203&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
+    },
+    "propane": {
+      "source_id": "literature/transition-points/propane",
+      "citation": "melting 85.46 K, boiling 231.1 K (confidence M, named primary as quoted by NIST): Tfus: Klipping and Schmidt (1965); Tboil: NIST average of 17 of 21 values; NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C74986&Mask=4, read 2026-11-11. Values read: Tfus 85.46 K; Tboil 231.1 +/- 0.2 K AVG. Primary papers not re-read."
     },
     "propanone": {
       "source_id": "literature/transition-points/propanone",
@@ -229,6 +393,14 @@
     "tert_butanol": {
       "source_id": "literature/transition-points/tert_butanol",
       "citation": "Melting point 298.97 K (stable crystal to liquid): F. L. Oetting, J. Phys. Chem. 67 (1963) 2757-2761, doi:10.1021/j100806a061 (carried over from the primary citation already recorded for this species' enthalpy of fusion in phase_route::FUSION_ENTHALPIES; not re-read against the paper in this lane; PENDING REVIEW). Normal boiling point 355.47 K: I. Brown, W. Fock and F. Smith, 'The thermodynamic properties of solutions of normal and branched alcohols in benzene and n-hexane', J. Chem. Thermodyn. 1 (1969) 273-291 (TRC uncertainty 0.12 K), doi:10.1016/0021-9614(69)90047-0, as listed as a single measurement in the NIST Chemistry WebBook (SRD 69) individual-data table https://webbook.nist.gov/cgi/cbook.cgi?ID=C75650&Units=SI&Type=TBOIL, read 2026-11-11; the paper itself was not re-read."
+    },
+    "tert_butyl_bromide": {
+      "source_id": "literature/transition-points/tert_butyl_bromide",
+      "citation": "melting 256.95 K, boiling 346.4 K (confidence M, named primary as quoted by NIST): Tfus: Timmermans (1952); Tboil: Majer and Svoboda (1985); as quoted by NIST Chemistry WebBook, SRD 69, Phase change data (single fact, TRC evaluation), https://webbook.nist.gov/cgi/cbook.cgi?ID=C507197&Mask=4, read 2026-11-11. Values read: Tfus 256.95 K; Tboil 346.4 K. Primary papers not re-read."
+    },
+    "uranium": {
+      "source_id": "literature/transition-points/uranium",
+      "citation": "melting 1405 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 81-1 Uranium, printed p. 765; read from the page image, archive.org circularofbureau500ross (leaf n772) No boiling point tabulated; not in Zhang et al. 2011 data-page row; unsourced 4404 K dropped. Printed entry: U Fusion c,I->liq 1405 K (1132 C). No boiling point is tabulated and none is claimed."
     },
     "water": {
       "source_id": "literature/transition-points/water",
@@ -244,24 +416,30 @@
     },
     {
       "species": "PE",
-      "lower_k": null,
+      "lower_k": 411.98,
       "upper_k": 414.6,
-      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K"
+      "source": "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K. Grade: S. Karagoz et al., 'Hazelnut Shell-Talc-Carbon Black Hybrid High-Density Polyethylene Biocomposites', Polymers 18 (2026), doi:10.3390/polym18202546, Table 6, neat HDPE (PEHSCB0), second heating: dHm 196.54 J/g, Tm 138.83 degrees Celsius, Xc 67.08 % against the 100 % crystalline reference 293 J/g (4.11 kJ/mol CH2: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048 'Polymer Heats of Fusion'). Grade latent heat 0.6708 x 293 J/g = 196.54 J/g"
     },
     {
       "species": "PP",
-      "lower_k": null,
+      "lower_k": 439.65,
       "upper_k": 460.7,
-      "source": "U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K"
+      "source": "Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K. Grade: Zhu et al., 'Relationships of Multiphase Structure with Flexibility and DC Insulation Performance in Impact-Resistant Polypropylene Copolymers', Polymers 18 (2026), doi:10.3390/polym18192351, homopolymer HICP, second heating, mean of three: Tm 166.5 +/- 0.8 degrees Celsius, dHm 107.4 +/- 1.9 J/g, Xc 51.9 +/- 0.9 % against the 100 % crystalline reference 207 J/g (8.70 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.519 x 207 J/g = 107.43 J/g"
+    },
+    {
+      "species": "PET",
+      "lower_k": 520.65,
+      "upper_k": 520.65,
+      "source": "W. Chaiwutthinan et al., 'Thermomechanical recycling of post-consumer poly(ethylene terephthalate) bottles and post-industrial polyamide 6 fishing nets reinforced with organo-modified montmorillonite', Sci. Rep. 16 (2026), doi:10.1038/s41598-026-43815-y, Table 2, neat post-consumer bottle rPET, second heating: Tm 247.5 degrees Celsius, dHm 55.2 J/g, Xc 39.4 % against the 100 % crystalline reference 140 J/g (26.9 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.394 x 140 J/g = 55.16 J/g"
+    },
+    {
+      "species": "nylon",
+      "lower_k": 536.15,
+      "upper_k": 536.15,
+      "source": "H. Ceviz et al., 'Investigation of Mechanical, Thermal and Microstructural Properties of Waste Micro-Nano Nichrome (NiCr 80/20) Powder-Reinforced Composites with Polyamide 66 (PA66) Matrix', Polymers 17 (2025), doi:10.3390/polym17202753: neat PA66 'exhibits a sharp endothermic peak at approximately 263 degrees Celsius'; dHm 60 J/g, Xc 31.9 % against the 100 % crystalline reference 188 J/g used by that paper (TN048 tabulates 226 J/g from B. Wunderlich, Thermal Analysis, 1990; the reference choice changes Xc, not the measured heat). Grade latent heat 0.319 x 188 J/g = 59.97 J/g"
     }
   ],
   "dropped": [
-    {
-      "species": "H2O2",
-      "property": "boiling_k",
-      "old_k": 423.35,
-      "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
-    },
     {
       "species": "NaOH",
       "property": "boiling_k",
@@ -285,6 +463,36 @@
       "property": "boiling_k",
       "old_k": 1833.15,
       "reason": "only source was the withdrawn kerotakis/phase-transitions-v1; no primary or public-domain value was read (2026-11-11 searches: Wikipedia infobox cites only CRC/Patnaik/Brauer handbooks without DOI; NIST-JANAF liquid tables print no T_vap value)"
+    }
+  ],
+  "not_applied": [
+    {
+      "species": "NH3",
+      "reason": "NBS Circular 500 Table 18-2 values (fusion 195.40 K, boiling 239.73 K) are for pure ammonia; the registry 'NH3' is ammonia SOLUTION, so a pure-substance boiling point below room temperature is not attached"
+    },
+    {
+      "species": "HCl",
+      "reason": "NBS Circular 500 Table 10-1 values (fusion 158.94 K, boiling 188.11 K) are for pure hydrogen chloride; the registry 'HCl' is hydrochloric acid solution"
+    },
+    {
+      "species": "HI",
+      "reason": "NBS Circular 500 Table 12-1 values (fusion 222.36 K, boiling 237.80 K) are for pure hydrogen iodide; the registry 'HI' is a liquid-phase (solution) entry, so a boiling point below room temperature is not attached"
+    },
+    {
+      "species": "H3PO4",
+      "reason": "NBS Circular 500 Table 19-2 fusion 315.51 K is for the pure acid; the registry 'H3PO4' is a liquid (solution) entry, so a pure-acid melting point above room temperature is not attached"
+    },
+    {
+      "species": "paraffin",
+      "reason": "the 327 K / 675.1 K values are for n-pentacosane (a proxy, NIST WebBook); paraffin wax keeps its sourced melting RANGE"
+    },
+    {
+      "species": "Na2S2O3",
+      "reason": "NBS Circular 500 tabulates only the pentahydrate (fusion 321.7 K); the registry key is the anhydrous salt"
+    },
+    {
+      "species": "BaCO3",
+      "reason": "NBS Circular 500 Table 89-2 lists only a solid-solid transition at 1083 K (the '811 C melting point' quoted elsewhere); the 1360 C decomposition has no primary"
     }
   ],
   "species": [
@@ -328,7 +536,10 @@
       "species": "Ag3PO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1122.0,
+        "source": "literature/transition-points/Ag3PO4"
       },
       "boiling": {
         "basis": "no_data"
@@ -338,10 +549,16 @@
       "species": "AgBr",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 703.0,
+        "source": "literature/transition-points/AgBr"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1806.0,
+        "source": "literature/transition-points/AgBr"
       }
     },
     {
@@ -364,10 +581,16 @@
       "species": "AgI",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 831.0,
+        "source": "literature/transition-points/AgI"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1777.0,
+        "source": "literature/transition-points/AgI"
       }
     },
     {
@@ -403,7 +626,10 @@
       "species": "Ba(OH)2",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 681.0,
+        "source": "literature/transition-points/Ba(OH)2"
       },
       "boiling": {
         "basis": "no_data"
@@ -470,10 +696,16 @@
       "species": "C",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 4620.0,
+        "source": "literature/transition-points/C"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 4620.0,
+        "source": "literature/transition-points/C"
       }
     },
     {
@@ -516,20 +748,32 @@
       "species": "CO",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 68.1,
+        "source": "literature/transition-points/CO"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 81.66,
+        "source": "literature/transition-points/CO"
       }
     },
     {
       "species": "CO2",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 194.68,
+        "source": "literature/transition-points/CO2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 194.68,
+        "source": "literature/transition-points/CO2"
       }
     },
     {
@@ -556,10 +800,16 @@
       "species": "Ca(OH)2",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 785.15,
+        "source": "literature/transition-points/Ca(OH)2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 785.15,
+        "source": "literature/transition-points/Ca(OH)2"
       }
     },
     {
@@ -576,7 +826,10 @@
       "species": "Ca3(PO4)2",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 2003.0,
+        "source": "literature/transition-points/Ca3(PO4)2"
       },
       "boiling": {
         "basis": "no_data"
@@ -633,10 +886,16 @@
       "species": "Cl2",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 172.16,
+        "source": "literature/transition-points/Cl2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 239.1,
+        "source": "literature/transition-points/Cl2"
       }
     },
     {
@@ -690,6 +949,19 @@
       "standard_phase": "aqueous",
       "melting": {
         "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cu2O",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1516.7,
+        "source": "literature/transition-points/Cu2O"
       },
       "boiling": {
         "basis": "no_data"
@@ -830,10 +1102,16 @@
       "species": "H2",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 13.96,
+        "source": "literature/transition-points/H2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 20.39,
+        "source": "literature/transition-points/H2"
       }
     },
     {
@@ -850,7 +1128,10 @@
       "species": "H2C2O4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 464.45,
+        "source": "literature/transition-points/H2C2O4"
       },
       "boiling": {
         "basis": "no_data"
@@ -866,8 +1147,10 @@
         "source": "literature/transition-points/H2O2"
       },
       "boiling": {
-        "basis": "no_data",
-        "withdrawn_value_dropped_k": 423.35
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 423.35,
+        "source": "literature/transition-points/H2O2"
       }
     },
     {
@@ -884,7 +1167,10 @@
       "species": "H2SO4",
       "standard_phase": "liquid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 283.51,
+        "source": "literature/transition-points/H2SO4"
       },
       "boiling": {
         "basis": "no_data"
@@ -914,10 +1200,16 @@
       "species": "HBr",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 186.28,
+        "source": "literature/transition-points/HBr"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 206.43,
+        "source": "literature/transition-points/HBr"
       }
     },
     {
@@ -1049,7 +1341,10 @@
       "species": "KIO3",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 833.0,
+        "source": "literature/transition-points/KIO3"
       },
       "boiling": {
         "basis": "no_data"
@@ -1226,10 +1521,16 @@
       "species": "N2",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 63.15,
+        "source": "literature/transition-points/N2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 77.34,
+        "source": "literature/transition-points/N2"
       }
     },
     {
@@ -1282,7 +1583,10 @@
       "species": "NH4NO3",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 442.8,
+        "source": "literature/transition-points/NH4NO3"
       },
       "boiling": {
         "basis": "no_data"
@@ -1322,7 +1626,10 @@
       "species": "Na2B4O7",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1015.0,
+        "source": "literature/transition-points/Na2B4O7"
       },
       "boiling": {
         "basis": "no_data"
@@ -1410,10 +1717,16 @@
       "species": "NaHCO3",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 323.15,
+        "source": "literature/transition-points/NaHCO3"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 323.15,
+        "source": "literature/transition-points/NaHCO3"
       }
     },
     {
@@ -1430,7 +1743,10 @@
       "species": "NaHSO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 455.0,
+        "source": "literature/transition-points/NaHSO4"
       },
       "boiling": {
         "basis": "no_data"
@@ -1487,10 +1803,16 @@
       "species": "O2",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 54.4,
+        "source": "literature/transition-points/O2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 90.19,
+        "source": "literature/transition-points/O2"
       }
     },
     {
@@ -1508,7 +1830,7 @@
       "standard_phase": "solid",
       "melting": {
         "basis": "range",
-        "lower_k": null,
+        "lower_k": 411.98,
         "upper_k": 414.6
       },
       "boiling": {
@@ -1519,7 +1841,9 @@
       "species": "PET",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "range",
+        "lower_k": 520.65,
+        "upper_k": 520.65
       },
       "boiling": {
         "basis": "no_data"
@@ -1540,7 +1864,7 @@
       "standard_phase": "solid",
       "melting": {
         "basis": "range",
-        "lower_k": null,
+        "lower_k": 439.65,
         "upper_k": 460.7
       },
       "boiling": {
@@ -1609,27 +1933,42 @@
       "species": "PbCO3",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 588.15,
+        "source": "literature/transition-points/PbCO3"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 588.15,
+        "source": "literature/transition-points/PbCO3"
       }
     },
     {
       "species": "PbI2",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 685.0,
+        "source": "literature/transition-points/PbI2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 1145.0,
+        "source": "literature/transition-points/PbI2"
       }
     },
     {
       "species": "PbSO4",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1360.0,
+        "source": "literature/transition-points/PbSO4"
       },
       "boiling": {
         "basis": "no_data"
@@ -1685,10 +2024,16 @@
       "species": "SO2",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 197.68,
+        "source": "literature/transition-points/SO2"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 263.14,
+        "source": "literature/transition-points/SO2"
       }
     },
     {
@@ -1715,7 +2060,10 @@
       "species": "SiO2",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1883.0,
+        "source": "literature/transition-points/SiO2"
       },
       "boiling": {
         "basis": "no_data"
@@ -1837,10 +2185,16 @@
       "species": "atacamite",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 473.15,
+        "source": "literature/transition-points/atacamite"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 473.15,
+        "source": "literature/transition-points/atacamite"
       }
     },
     {
@@ -1867,10 +2221,16 @@
       "species": "brochantite",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 693.15,
+        "source": "literature/transition-points/brochantite"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "decomposition",
+        "kelvin": 693.15,
+        "source": "literature/transition-points/brochantite"
       }
     },
     {
@@ -1903,10 +2263,16 @@
       "species": "butane",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 134.6,
+        "source": "literature/transition-points/butane"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 273.0,
+        "source": "literature/transition-points/butane"
       }
     },
     {
@@ -1956,7 +2322,10 @@
       "species": "citric_acid",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 427.15,
+        "source": "literature/transition-points/citric_acid"
       },
       "boiling": {
         "basis": "no_data"
@@ -2067,10 +2436,16 @@
       "species": "ethene",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 103.97,
+        "source": "literature/transition-points/ethene"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 169.45,
+        "source": "literature/transition-points/ethene"
       }
     },
     {
@@ -2103,7 +2478,10 @@
       "species": "glucose",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 423.0,
+        "source": "literature/transition-points/glucose"
       },
       "boiling": {
         "basis": "no_data"
@@ -2113,17 +2491,26 @@
       "species": "graphite",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 4620.0,
+        "source": "literature/transition-points/graphite"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "sublimation",
+        "kelvin": 4620.0,
+        "source": "literature/transition-points/graphite"
       }
     },
     {
       "species": "gypsum",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "dehydration",
+        "kelvin": 453.15,
+        "source": "literature/transition-points/gypsum"
       },
       "boiling": {
         "basis": "no_data"
@@ -2195,10 +2582,16 @@
       "species": "hydrogen_sulfide",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 187.63,
+        "source": "literature/transition-points/hydrogen_sulfide"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 212.82,
+        "source": "literature/transition-points/hydrogen_sulfide"
       }
     },
     {
@@ -2235,10 +2628,16 @@
       "species": "isobutylene",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 132.45,
+        "source": "literature/transition-points/isobutylene"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 266.7,
+        "source": "literature/transition-points/isobutylene"
       }
     },
     {
@@ -2271,7 +2670,10 @@
       "species": "lactic_acid",
       "standard_phase": "liquid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 290.0,
+        "source": "literature/transition-points/lactic_acid"
       },
       "boiling": {
         "basis": "no_data"
@@ -2307,7 +2709,10 @@
       "species": "malic_acid",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 400.75,
+        "source": "literature/transition-points/malic_acid"
       },
       "boiling": {
         "basis": "no_data"
@@ -2327,10 +2732,16 @@
       "species": "methane",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 90.68,
+        "source": "literature/transition-points/methane"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 111.67,
+        "source": "literature/transition-points/methane"
       }
     },
     {
@@ -2379,7 +2790,9 @@
       "species": "nylon",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "range",
+        "lower_k": 536.15,
+        "upper_k": 536.15
       },
       "boiling": {
         "basis": "no_data"
@@ -2421,10 +2834,16 @@
       "species": "propane",
       "standard_phase": "gas",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 85.46,
+        "source": "literature/transition-points/propane"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 231.1,
+        "source": "literature/transition-points/propane"
       }
     },
     {
@@ -2489,17 +2908,26 @@
       "species": "tert_butyl_bromide",
       "standard_phase": "liquid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 256.95,
+        "source": "literature/transition-points/tert_butyl_bromide"
       },
       "boiling": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "boiling",
+        "kelvin": 346.4,
+        "source": "literature/transition-points/tert_butyl_bromide"
       }
     },
     {
       "species": "uranium",
       "standard_phase": "solid",
       "melting": {
-        "basis": "no_data"
+        "basis": "reported",
+        "outcome": "melting",
+        "kelvin": 1405.0,
+        "source": "literature/transition-points/uranium"
       },
       "boiling": {
         "basis": "no_data"

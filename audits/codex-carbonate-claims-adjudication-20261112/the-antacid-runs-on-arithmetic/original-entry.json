@@ -1,0 +1,97 @@
+{
+  "id": "the-antacid-runs-on-arithmetic",
+  "progress": "intermediate",
+  "spine": [
+    "verwendung-von-saeuren-und-basen"
+  ],
+  "equation": "NaHCO₃ + HCl → NaCl + H₂O + CO₂",
+  "concepts": [
+    "neutralisation",
+    "buffer-capacity"
+  ],
+  "requires": [
+    "neutralisation"
+  ],
+  "apparatus": [
+    "beaker",
+    "ph-meter",
+    "balance"
+  ],
+  "calculations": [
+    "moles-from-mass",
+    "concentration"
+  ],
+  "curriculum": [
+    {
+      "system": "bayern-lehrplanplus",
+      "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+      "ages": {
+        "min": 15.0,
+        "max": 16.0
+      },
+      "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — neutralisation in an everyday context"
+    },
+    {
+      "system": "england-gcse-combined-science",
+      "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids",
+      "ages": {
+        "min": 14.0,
+        "max": 16.0
+      },
+      "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — neutralisation reactions are required content"
+    },
+    {
+      "system": "england-national-curriculum",
+      "stage": "KS3 Chemistry, Chemical reactions — neutralisation reactions",
+      "ages": {
+        "min": 11.0,
+        "max": 14.0
+      },
+      "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+    }
+  ],
+  "setup": {
+    "script": "add v1 water 100mL\nadd v1 HCl 0.01mol\nadd v1 NaHCO3 1g\n"
+  },
+  "expect": {
+    "events": [
+      "dissolved:NaHCO3",
+      "gas_evolved:CO2"
+    ],
+    "ph": {
+      "min": 9.0,
+      "max": 9.4
+    },
+    "predict": {
+      "question": "Stomach acid is roughly 0.1 mol/L hydrochloric acid — this beaker of it reads pH 1.1. In goes a gram of baking soda, about what a heartburn tablet carries. What does the meter say when the fizzing stops?",
+      "options": [
+        "Still about 1 — a kitchen powder cannot touch a strong acid",
+        "About 9, with a burp of carbon dioxide on the way",
+        "14 — soda is a base, and a base sends the scale to the top"
+      ],
+      "answer": 1,
+      "misconception": "Both wrong answers confuse what a substance IS with how much of it there is. 'Strong' describes how completely an acid gives up its protons, not how many it has: 0.01 mol of protons meets 0.012 mol of proton-acceptors and simply runs out. And a base does not teleport the scale to 14 — the leftover bicarbonate is a weak, gentle base that settles near 9, which is precisely why tablets are carbonates and not lye.",
+      "diagnosis": [
+        {
+          "option": 0,
+          "reveals": "'Strong acid' as invincible — strength read as power over any opponent, rather than as the completeness of its own dissociation.",
+          "next": "Count instead of ranking: 0.01 mol of protons against 0.012 mol of bicarbonate. Strength decided how the protons were offered (all at once, fully dissociated); the counting decides who runs out, and the acid does. The fizz is its protons leaving the beaker as gas."
+        },
+        {
+          "option": 2,
+          "reveals": "Bases as scale-flippers: adding 'a base' sends pH to the top of the scale, with the base's own strength and amount playing no part.",
+          "next": "Look at what is actually left over: excess bicarbonate, a weak proton-acceptor that settles the beaker near pH 9 — for the lye that really does reach the top of the scale, run `strong-base`. Your stomach lining is the reason the gentle landing is the design goal: an antacid that overshot to 14 would be a worse burn than the acid it cured."
+        }
+      ]
+    }
+  },
+  "registers": {
+    "lv1": "Pretend stomach acid: sour enough to sting. In goes the white powder — it fizzes hard, and when the bubbles stop, the sting is gone. The burp is the acid itself, leaving as gas.",
+    "lv2": "HCO₃⁻ + H⁺ → H₂O + CO₂↑. One gram of NaHCO₃ is 0.0119 mol against 0.0100 mol of acid, so the acid is the limiting reagent: the pH climbs from 1.1 to about 9.2, the balance loses ~0.45 g of CO₂, and the ~0.002 mol of unspent bicarbonate is what holds the finish gentle.",
+    "lv3": "The tablet is dosed to outlast the acid it expects — `buffer-capacity-exceeded` run in reverse: there, the insult outlasted the reserve; here, the reserve outlasts the insult, by design and by arithmetic. Honesty about the model: a beaker is not a stomach — a stomach keeps secreting acid and regulating volume, so the real relief is a running battle rather than this one-shot titration; and the beaker's pH 9.2 endpoint is an open-vessel carbonate equilibrium, venting CO₂ until it matches the atmosphere. What the arithmetic does transfer to the pharmacy shelf: the dose works by moles, not by magic, which is why the packet specifies grams."
+  },
+  "provenance": {
+    "source": "Standard curriculum application of neutralisation (antacids); carbonate equilibria from PHREEQC wateq4f.dat (USGS); stomach-acid concentration ~0.1 mol/L is a standard physiology figure. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
+    "computed_by": "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass bookkeeping by the Kerotakis bench"
+  }
+}

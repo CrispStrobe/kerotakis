@@ -929,7 +929,8 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
                     | PairStatus::SelfPair
                     | PairStatus::NoRegistryForm
             )
-        }) || solved;
+        }) || solved
+            || crate::sulfur_iv::covers(o, r);
         let list = if (admitted || solved) && !medium_ok {
             &mut outside
         } else if covered {
@@ -941,7 +942,8 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
             list.push(label);
         }
     }
-    let mut events = Vec::new();
+    // S(IV) beside peroxide that the sulfur(IV) writer refuses says so.
+    let mut events = crate::sulfur_iv::unpriced_notes(vessel);
     if !uncovered.is_empty() {
         events.push(Event::not_modeled(
             vessel.id,

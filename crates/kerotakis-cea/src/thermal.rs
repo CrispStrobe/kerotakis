@@ -154,8 +154,12 @@ fn registry_row(name: &str) -> Result<&'static species::SpeciesData, SolveError>
     species::REGISTRY
         .iter()
         .find(|r| {
-            cea_name(r.key)
-                .is_some_and(|mapped| cea_identity_stem(mapped) == cea_identity_stem(name))
+            cea_species(r.key).is_some_and(|mapped| {
+                db().get(name).is_some_and(|product| {
+                    mapped.composition == product.composition
+                        && cea_identity_stem(&mapped.name) == cea_identity_stem(name)
+                })
+            })
         })
         .ok_or_else(|| {
             owned_thermal_error(
@@ -353,17 +357,17 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
             let Some(want) = formula_composition(reg.formula) else {
                 continue;
             };
-            let want_gas = reg.standard_phase == Phase::Gas;
+            let room_phase = reg.standard_phase;
             // Prefer the phase the registry says the substance is in, and
             // among equals the most stable form (lowest G at 298 K).
             let products = db()
                 .species
                 .values()
-                .filter(|s| s.is_gas() == want_gas && s.composition == want)
+                .filter(|s| record_phase(s) == room_phase && s.composition == want)
                 .min_by(|a, b| {
-                    let ga = a.g(298.15).unwrap_or(f64::MAX);
-                    let gb = b.g(298.15).unwrap_or(f64::MAX);
-                    ga.total_cmp(&gb)
+                    reference_distance(a)
+                        .total_cmp(&reference_distance(b))
+                        .then_with(|| reference_gibbs(a).total_cmp(&reference_gibbs(b)))
                 });
             // CEA deliberately separates feed-only thermochemistry after
             // `END PRODUCTS`. The liquid alcohols — CH3OH(L), C2H5OH(L) —
@@ -374,11 +378,11 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
             let reactants = db()
                 .reactants
                 .values()
-                .filter(|s| s.is_gas() == want_gas && s.composition == want)
+                .filter(|s| record_phase(s) == room_phase && s.composition == want)
                 .min_by(|a, b| {
-                    let ga = a.g(298.15).unwrap_or(f64::MAX);
-                    let gb = b.g(298.15).unwrap_or(f64::MAX);
-                    ga.total_cmp(&gb)
+                    reference_distance(a)
+                        .total_cmp(&reference_distance(b))
+                        .then_with(|| reference_gibbs(a).total_cmp(&reference_gibbs(b)))
                 });
             let best = products.or(reactants);
             if let Some(s) = best {
@@ -387,6 +391,130 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
         }
         map
     })
+}
+
+/// CEA distinguishes liquids by record name, not by the numeric phase code:
+/// nonzero codes also enumerate successive solid polymorphs.
+fn record_phase(record: &Species) -> Phase {
+    if record.is_gas() {
+        Phase::Gas
+    } else if record
+        .name
+        .split(',')
+        .next()
+        .is_some_and(|name| name.ends_with("(L)"))
+    {
+        Phase::Liquid
+    } else {
+        Phase::Solid
+    }
+}
+
+/// Rank the room-phase identity only within its tabulated domain. Some solid
+/// records start at 300 K; their lower endpoint is a safer identity anchor than
+/// extrapolating a high-temperature liquid back to room temperature.
+fn reference_temperature(record: &Species) -> Option<f64> {
+    record
+        .intervals
+        .iter()
+        .filter(|interval| interval.t_min <= interval.t_max)
+        .map(|interval| 298.15_f64.clamp(interval.t_min, interval.t_max))
+        .min_by(|a, b| (a - 298.15).abs().total_cmp(&(b - 298.15).abs()))
+}
+
+fn reference_distance(record: &Species) -> f64 {
+    reference_temperature(record)
+        .map(|t| (t - 298.15).abs())
+        .unwrap_or(f64::MAX)
+}
+
+fn reference_gibbs(record: &Species) -> f64 {
+    reference_temperature(record)
+        .and_then(|t| record.g(t))
+        .unwrap_or(f64::MAX)
+}
+
+fn in_record(record: &Species, temperature: f64) -> bool {
+    record
+        .intervals
+        .iter()
+        .any(|interval| temperature >= interval.t_min && temperature <= interval.t_max)
+}
+
+/// The registry identifies a substance; its actual portion determines the
+/// thermochemical phase. Solid polymorphs compete only where their records
+/// cover the input temperature. Never let a liquid pay a solid's feed energy.
+fn feed_species(registry_key: &str, phase: Phase, temperature: f64) -> Option<&'static Species> {
+    let anchor = cea_species(registry_key)?;
+    db().species
+        .values()
+        .chain(db().reactants.values())
+        .filter(|candidate| {
+            candidate.composition == anchor.composition
+                && cea_identity_stem(&candidate.name) == cea_identity_stem(&anchor.name)
+                && record_phase(candidate) == phase
+                && in_record(candidate, temperature)
+        })
+        .min_by(|a, b| {
+            a.g(temperature)
+                .unwrap_or(f64::MAX)
+                .total_cmp(&b.g(temperature).unwrap_or(f64::MAX))
+        })
+        // Retain an identity for a typed, atomic out-of-range refusal. The
+        // separate ignition feed continuation is checked explicitly below.
+        .or(Some(anchor))
+}
+
+/// Reuse the solid heat-capacity model already charged by core heat():
+/// the exact tabulated curve with held endpoints, or its constant fallback. This
+/// is a model-limited superheated feed, not an extended NASA polynomial and
+/// not an already melted feed. HP must still pay for any phase transition.
+fn held_solid_feed(vessel: &Vessel, key: &str) -> Option<(&'static Species, f64, f64)> {
+    let data = species::lookup_key(key)?;
+    let Some(curve) = kerotakis_core::states::heat_capacity_curve(data, Phase::Solid) else {
+        // Without a curve, heat() already uses the registry's constant Cp.
+        // Carry that same sensible energy from a valid solid endpoint,
+        // visibly model-limited, rather than extrapolating NASA coefficients
+        // or silently throwing away the heat which the core charged.
+        let record = cea_species(key)?;
+        let (_, high) = record.t_range()?;
+        let t = vessel.temperature.0;
+        if record_phase(record) != Phase::Solid || !t.is_finite() || t <= high {
+            return None;
+        }
+        let h =
+            record.h(high)? + kerotakis_core::states::enthalpy_between(data, Phase::Solid, high, t);
+        return h.is_finite().then_some((record, h, high));
+    };
+    if curve.phase != Phase::Solid {
+        return None;
+    }
+    let interval = curve
+        .intervals
+        .iter()
+        .filter(|i| i.t_min <= i.t_max)
+        .max_by(|a, b| a.t_max.total_cmp(&b.t_max))?;
+    let high = interval.t_max;
+    let t = vessel.temperature.0;
+    if t <= high || !t.is_finite() {
+        return None;
+    }
+    let (name, _) = interval.reference.split_once(": ")?;
+    let record = db().get(name)?;
+    let anchor = cea_species(key)?;
+    if record_phase(record) != Phase::Solid
+        || record.composition != anchor.composition
+        || !record.intervals.iter().any(|nasa| {
+            interval.form == kerotakis_core::heat_capacity::CpForm::Nasa9
+                && interval.t_min == nasa.t_min
+                && interval.t_max == nasa.t_max
+                && interval.coefficients.as_slice() == &nasa.coeffs[..7]
+        })
+    {
+        return None;
+    }
+    let h = record.h(high)? + curve.enthalpy_between(high, t)?;
+    h.is_finite().then_some((record, h, high))
 }
 
 /// The CEA species a registry key resolves to, if any.
@@ -404,65 +532,45 @@ const CEA_ROUTE_MIN_K: f64 = 200.0;
 const CEA_ROUTE_MAX_K: f64 = 6000.0;
 
 fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
-    if db().get_reactant(&species.name).is_none() && species.is_gas() {
+    if in_record(species, temperature) {
         return species.h(temperature);
     }
-    if db().get_reactant(&species.name).is_none()
-        && !species.is_gas()
-        && species
-            .t_range()
-            .is_some_and(|(low, high)| temperature >= low && temperature <= high)
-    {
-        return species.h(temperature);
-    }
-    if species
-        .t_range()
-        .is_some_and(|(_, high)| temperature > high)
-    {
-        // `ignite` represents a small vapour zone brought to flame
-        // temperature. Once a feed-only liquid record ends at its boiling
-        // range, continue with the matching product-side gas polynomial;
-        // evaluating a liquid polynomial hundreds of kelvin beyond its
-        // validity would be worse than either phase model.
-        if let Some(gas) = db().species.values().find(|candidate| {
-            candidate.is_gas()
-                && cea_identity_stem(&candidate.name) == cea_identity_stem(&species.name)
-        }) {
-            return gas.h(temperature);
-        }
-    }
-    // Only a degenerate point record (an assigned enthalpy at its single
-    // reference temperature) still reaches this endpoint evaluation; a ranged
-    // record outside its range is refused upstream by
-    // `outside_ranged_record` instead of being booked at the clamped endpoint.
-    let t = species
-        .t_range()
-        .map(|(low, high)| temperature.clamp(low, high))
-        .unwrap_or(temperature);
-    species.h(t)
+    // Preserve the explicit ignition-zone model for a feed-only liquid: the
+    // zone is already vapour above the feed's upper bound. This is not a
+    // continuation of its liquid polynomial or a licence for other phases.
+    ignition_vapour(species, temperature)?.h(temperature)
 }
 
-/// A ranged condensed/feed record that `temperature` lies BELOW: the
-/// reagent persists there and its enthalpy would be the clamped endpoint
-/// value, a true extrapolation. Above the record's upper bound the species
-/// does not persist as booked: decomposition or a phase change (calcination,
-/// melting, vaporisation) is a transition the HP/TP solve owns, and the
-/// product, not the reagent, is evaluated there, so it is not refused.
-/// Gas records keep their polynomial (deferred: `Species::interval_for`
-/// extrapolates the nearest interval) and degenerate point records keep
-/// their assigned enthalpy.
-fn outside_ranged_record(species: &Species, temperature: f64) -> bool {
-    let Some((low, high)) = species.t_range() else {
-        return false;
-    };
-    if high <= low || temperature >= low {
-        return false;
+fn ignition_vapour(species: &Species, temperature: f64) -> Option<&'static Species> {
+    if db().get_reactant(&species.name).is_none()
+        || record_phase(species) != Phase::Liquid
+        || !species.t_range().is_some_and(|(_, hi)| temperature > hi)
+    {
+        return None;
     }
-    !(db().get_reactant(&species.name).is_none() && species.is_gas())
+    db().species.values().find(|candidate| {
+        candidate.is_gas()
+            && candidate.composition == species.composition
+            && cea_identity_stem(&candidate.name) == cea_identity_stem(&species.name)
+            && in_record(candidate, temperature)
+    })
+}
+
+#[cfg(test)]
+fn outside_ranged_record(species: &Species, temperature: f64) -> bool {
+    !in_record(species, temperature) && ignition_vapour(species, temperature).is_none()
 }
 
 fn cea_identity_stem(name: &str) -> &str {
-    name.split(['(', ',']).next().unwrap_or(name)
+    let name = name.split(',').next().unwrap_or(name);
+    // Strip the final phase suffix, preserving parentheses in a chemical
+    // formula: Cu(OH)2(cr) belongs to Cu(OH)2, never elemental Cu.
+    if name.ends_with(')') {
+        if let Some(index) = name.rfind('(') {
+            return &name[..index];
+        }
+    }
+    name
 }
 
 /// Element counts of a registry formula, ignoring charge and hydrate
@@ -590,9 +698,13 @@ struct Charge {
     air: BTreeMap<String, f64>,
     /// Registry species that mapped, with their amounts.
     mapped: Vec<(SpeciesId, f64)>,
+    /// Phase-specific feed records, one per original portion (never coalesced).
+    feeds: Vec<(&'static Species, f64, Option<f64>)>,
     /// At least one input came from CEA's feed-only section rather than its
     /// admissible equilibrium products (liquid methanol or ethanol).
     used_feed_thermo: bool,
+    /// Core-owned, explicitly model-limited superheated solid feeds.
+    solid_continuations: Vec<(SpeciesId, f64)>,
 }
 
 fn charge(vessel: &Vessel) -> Option<Charge> {
@@ -607,6 +719,8 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
 
     let mut budget: BTreeMap<String, f64> = BTreeMap::new();
     let mut mapped = Vec::new();
+    let mut feeds = Vec::new();
+    let mut solid_continuations = Vec::new();
     let mut condensed_moles = 0.0;
     let mut used_feed_thermo = false;
     for p in &vessel.contents {
@@ -614,7 +728,35 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
             return None; // something here is outside the NASA data: decline
         };
         used_feed_thermo |= db().get(cea).is_none() && db().get_reactant(cea).is_some();
-        let s = cea_species(&p.species.0)?;
+        let s = feed_species(&p.species.0, p.phase, vessel.temperature.0)?;
+        let enthalpy = if record_phase(s) == p.phase {
+            enthalpy_within_record(s, vessel.temperature.0)
+        } else {
+            None
+        };
+        // An already paid core coexistence plateau has its own reviewed
+        // fusion temperature and latent heat. It can differ slightly from
+        // CEA's older temperature scale (Zn: 692.677 versus 692.730 K).
+        // Reconstruct that owner's liquid enthalpy from an in-range solid
+        // plus its sourced latent heat; never extend the liquid polynomial.
+        let (s, enthalpy) = if enthalpy.is_none() && p.phase == Phase::Liquid {
+            paid_plateau_liquid(vessel, &p.species.0)
+                .map(|(solid, h)| (solid, Some(h)))
+                .unwrap_or((s, None))
+        } else {
+            (s, enthalpy)
+        };
+        let (s, enthalpy) = if enthalpy.is_none() && p.phase == Phase::Solid {
+            held_solid_feed(vessel, &p.species.0)
+                .map(|(record, h, high)| {
+                    solid_continuations.push((p.species.clone(), high));
+                    (record, Some(h))
+                })
+                .unwrap_or((s, None))
+        } else {
+            (s, enthalpy)
+        };
+        feeds.push((s, p.moles.0, enthalpy));
         for (el, count) in &s.composition {
             *budget.entry(el.clone()).or_insert(0.0) += count * p.moles.0;
         }
@@ -662,8 +804,32 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
         budget,
         air,
         mapped,
+        feeds,
         used_feed_thermo,
+        solid_continuations,
     })
+}
+
+/// Bridge a liquid at the exact reviewed core fusion temperature, including
+/// a pure liquid aliquot poured from a paid plateau. The liquid portion is
+/// the owner's state; coexistence need not survive a phase-selective pour.
+/// The added latent term is charged into HP, never granted to products.
+fn paid_plateau_liquid(vessel: &Vessel, key: &str) -> Option<(&'static Species, f64)> {
+    let melting = species::lookup_key(key)?.transitions?.melting_k?;
+    if (vessel.temperature.0 - melting).abs() > 64.0 * f64::EPSILON * melting.abs()
+        || !vessel
+            .contents
+            .iter()
+            .any(|p| p.species.0 == key && p.phase == Phase::Liquid && p.moles.0 > 0.0)
+    {
+        return None;
+    }
+    let latent = kerotakis_core::phase_route::fusion_enthalpy(key)?;
+    let solid = feed_species(key, Phase::Solid, melting)?;
+    if record_phase(solid) != Phase::Solid || !in_record(solid, melting) {
+        return None;
+    }
+    Some((solid, solid.h(melting)? + latent))
 }
 
 /// The core phase route has already spent the vessel's heat on sensible and
@@ -705,7 +871,10 @@ fn chemical_inventory_unchanged(
                     && liquid.moles.0 > 0.0
             })
     });
-    if !has_plateau {
+    let has_paid_liquid = vessel.contents.iter().any(|portion| {
+        portion.phase == Phase::Liquid && paid_plateau_liquid(vessel, &portion.species.0).is_some()
+    });
+    if !has_plateau && !has_paid_liquid {
         return false;
     }
     let totals = |portions: &[Portion]| {
@@ -858,10 +1027,10 @@ impl Equilibrator for ThermalEquilibrator {
             CeaSolveContext::IsothermalTp
         };
         if let Some(outside) = charge
-            .mapped
+            .feeds
             .iter()
-            .filter_map(|(sid, _)| cea_species(&sid.0))
-            .find(|s| outside_ranged_record(s, t))
+            .find(|(_, _, enthalpy)| enthalpy.is_none())
+            .map(|(s, _, _)| *s)
         {
             return Err(cea_solve_error(
                 &CeaError::OutOfRange(outside.name.clone(), t),
@@ -872,11 +1041,12 @@ impl Equilibrator for ThermalEquilibrator {
         // Enthalpy the vessel and its share of the atmosphere carry into
         // the problem.
         let h_before: f64 = charge
-            .mapped
+            .feeds
             .iter()
-            .filter_map(|(sid, moles)| {
-                let s = cea_species(&sid.0)?;
-                Some(enthalpy_within_record(s, t)? * moles)
+            .map(|(_, moles, enthalpy)| {
+                // Every feed was validated above; missing energy must never
+                // silently disappear through a filter_map.
+                enthalpy.expect("validated feed enthalpy") * moles
             })
             .sum::<f64>()
             + air_enthalpy(&charge, t);
@@ -902,6 +1072,38 @@ impl Equilibrator for ThermalEquilibrator {
             inlet_k: t,
         };
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
+        // A paid core plateau may require a phase fraction which a TP
+        // minimizer cannot determine from temperature alone. Check the
+        // chemical handoff before HP attempts to bisect that latent gap.
+        // Only an unchanged inventory AND unchanged actual atmosphere can
+        // return to core ownership; oxidation still proceeds through HP.
+        if adiabatic
+            && vessel.contents.iter().any(|portion| {
+                portion.phase == Phase::Liquid
+                    && paid_plateau_liquid(vessel, &portion.species.0).is_some()
+            })
+        {
+            if let Ok(probe) = equilibrate_tp(&charge.budget, &pool, t, 1.0) {
+                let mut condensed = Vec::new();
+                for (name, moles) in &probe.composition {
+                    let Some(record) = db().get(name) else {
+                        continue;
+                    };
+                    if record.is_gas() || *moles <= 1e-12 {
+                        continue;
+                    }
+                    condensed.push(Portion {
+                        species: SpeciesId::new(registry_row(name)?.key),
+                        moles: Moles(*moles),
+                        phase: record_phase(record),
+                    });
+                }
+                if chemical_inventory_unchanged(vessel, &condensed, &probe.composition, &charge.air)
+                {
+                    return Ok(Vec::new());
+                }
+            }
+        }
         let (eq, feed_tp_fallback) = if adiabatic {
             match crate::gibbs::equilibrate_hp_open(
                 &charge.budget,
@@ -945,11 +1147,12 @@ impl Equilibrator for ThermalEquilibrator {
             .sum();
         let reaction_energy_j = (h_before - products_at_initial_t).max(0.0);
         let mut dataset_sources = eq.sources.clone();
-        dataset_sources.extend(charge.mapped.iter().filter_map(|(id, _)| {
-            let name = cea_name(&id.0)?;
-            let feed = db().get_reactant(name)?;
-            Some(format!("{}: {}", feed.name, feed.reference))
-        }));
+        dataset_sources.extend(
+            charge
+                .feeds
+                .iter()
+                .map(|(feed, _, _)| format!("{}: {}", feed.name, feed.reference)),
+        );
         dataset_sources.sort();
         dataset_sources.dedup();
 
@@ -961,7 +1164,21 @@ impl Equilibrator for ThermalEquilibrator {
         // because that is the state the vessel is in. What LEAVES is read
         // at [`EXHAUST_K`], because a plume is not a flame and the frozen
         // dissociation products of one are not what comes off the other.
-        let mut events = Vec::new();
+        let mut events = charge.solid_continuations.iter().map(|(id, high)| {
+            Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    "not-modeled.cea-solid-feed-cp-continuation",
+                    "The solid {species} feed is at {temperature} K above its {high} K thermochemical range; its existing core endpoint-held heat-capacity model carries the sensible energy into this solve. This is a model-limited superheated feed, not validated thermochemistry outside the tabulated range.",
+                    vec![
+                        ("species".into(), Slot::text(id.0.clone())),
+                        ("high".into(), Slot::number(high.to_string())),
+                        ("temperature".into(), Slot::number(t.to_string())),
+                    ],
+                ),
+            )
+        }).collect::<Vec<_>>();
         let mut contents: Vec<Portion> = Vec::new();
         for (name, moles) in &eq.composition {
             let Some(s) = db().get(name) else { continue };
@@ -974,7 +1191,7 @@ impl Equilibrator for ThermalEquilibrator {
                 moles: Moles(*moles),
                 // CEA distinguishes condensed phases in the record identity;
                 // the room-temperature registry phase is not the solved phase.
-                phase: if s.name.ends_with("(L)") {
+                phase: if record_phase(s) == Phase::Liquid {
                     Phase::Liquid
                 } else {
                     Phase::Solid
@@ -1388,31 +1605,395 @@ mod record_domain_tests {
     fn ranged_condensed_records_refuse_outside_and_admit_their_boundaries() {
         let mut checked = 0;
         for s in db().species.values().filter(|s| !s.is_gas()) {
-            let Some((low, high)) = s.t_range() else {
+            let valid: Vec<_> = s.intervals.iter().filter(|i| i.t_min <= i.t_max).collect();
+            let Some(low) = valid.iter().map(|i| i.t_min).min_by(f64::total_cmp) else {
                 continue;
             };
-            if high <= low {
-                continue;
+            let high = valid
+                .iter()
+                .map(|i| i.t_max)
+                .max_by(f64::total_cmp)
+                .unwrap();
+            // Membership is the union of real intervals; CEA also carries
+            // inverted reference-marker intervals (for example Ca(a)).
+            for interval in valid {
+                for t in [
+                    interval.t_min,
+                    interval.t_max,
+                    0.5 * (interval.t_min + interval.t_max),
+                ] {
+                    assert!(!outside_ranged_record(s, t), "{} at {t}", s.name);
+                }
             }
-            assert!(!outside_ranged_record(s, low), "{} at low", s.name);
-            assert!(!outside_ranged_record(s, high), "{} at high", s.name);
-            assert!(!outside_ranged_record(s, 0.5 * (low + high)), "{}", s.name);
-            // Below the record there is never a gas continuation.
             assert!(outside_ranged_record(s, low - 1.0), "{} below", s.name);
-            // Above it, decomposition/phase change is owned by the solve.
-            assert!(!outside_ranged_record(s, high + 100.0), "{} above", s.name);
+            assert!(outside_ranged_record(s, high + 100.0), "{} above", s.name);
             checked += 1;
         }
         assert!(checked > 0);
     }
 
     #[test]
-    fn gas_records_are_not_refused_by_this_guard() {
+    fn gas_feed_records_also_require_in_range_thermochemistry() {
         for s in db().species.values().filter(|s| s.is_gas()).take(20) {
             if let Some((low, high)) = s.t_range() {
-                assert!(!outside_ranged_record(s, high + 100.0), "{}", s.name);
-                assert!(!outside_ranged_record(s, low - 1.0), "{}", s.name);
+                assert!(outside_ranged_record(s, high + 100.0), "{}", s.name);
+                assert!(outside_ranged_record(s, low - 1.0), "{}", s.name);
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod phase_feed_tests {
+    use super::*;
+
+    fn sample(key: &str, t: f64, phase: Phase, n: f64) -> Vessel {
+        let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "beaker");
+        vessel.temperature = Kelvin(t);
+        vessel.thermal_mode = ThermalMode::Thermostatted(Kelvin(t));
+        vessel.deposit(SpeciesId::new(key), Moles(n), phase);
+        vessel
+    }
+
+    #[test]
+    fn formula_parentheses_and_comma_qualified_liquids_keep_their_identity() {
+        assert_eq!(cea_identity_stem("Cu(OH)2(cr)"), "Cu(OH)2");
+        assert_eq!(cea_identity_stem("Cu(cr)"), "Cu");
+        assert_eq!(registry_row("Cu(cr)").unwrap().key, "Cu");
+        assert_eq!(registry_row("Cu(L)").unwrap().key, "Cu");
+        assert_eq!(registry_row("Cu(OH)2(cr)").unwrap().key, "Cu(OH)2");
+        let propylene = db().get_reactant("C3H6(L),propyle").unwrap();
+        assert_eq!(record_phase(propylene), Phase::Liquid);
+        assert_eq!(cea_name("PP"), None, "a repeat unit is not liquid monomer");
+        for product in db().species.values() {
+            if let Ok(row) = registry_row(&product.name) {
+                assert_eq!(
+                    cea_species(row.key).unwrap().composition,
+                    product.composition
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn cuprite_has_named_phases_and_a_consistent_fusion_ledger() {
+        assert_eq!(cea_name("Cu2O"), Some("Cu2O(cr)"));
+        let solid = db().get("Cu2O(cr)").unwrap();
+        let liquid = db().get("Cu2O(L)").unwrap();
+        assert_eq!(registry_row(&solid.name).unwrap().key, "Cu2O");
+        assert_eq!(registry_row(&liquid.name).unwrap().key, "Cu2O");
+        let melting = species::lookup_key("Cu2O")
+            .unwrap()
+            .transitions
+            .unwrap()
+            .melting_k
+            .unwrap();
+        assert_eq!(melting, 1516.7);
+        assert!((liquid.g(melting).unwrap() - solid.g(melting).unwrap()).abs() < 0.001);
+        let latent = kerotakis_core::phase_route::fusion_enthalpy("Cu2O").unwrap();
+        assert!((liquid.h(melting).unwrap() - solid.h(melting).unwrap() - latent).abs() < 1e-6);
+        let data = species::lookup_key("Cu2O").unwrap();
+        // The independently published JANAF room-temperature Cp is about
+        // 62.5 J/mol/K; core uses the NASA300 K endpoint, visibly bounded.
+        assert!(
+            (kerotakis_core::states::heat_capacity_at(data, Phase::Solid, 300.0) - 62.7).abs()
+                < 0.2
+        );
+        assert!(outside_ranged_record(solid, 1516.71));
+        assert!(outside_ranged_record(liquid, 1516.69));
+    }
+
+    #[test]
+    fn copper_oxidation_closes_energy_below_the_cupric_oxide_data_edge() {
+        // Frozen th-042 failure: 1 g Cu and 0.1 mol O2 at the ignition
+        // zone. Without registry Cu2O, HP jumps at CuO's 1400 K data edge
+        // from ~6288 to ~8800 J around its ~6912 J target. Naming the
+        // actual lower oxide must solve in-range, never relax that ledger.
+        let copper = 1.0 / 63.546;
+        let mut vessel = sample("Cu", 1200.0, Phase::Solid, copper);
+        vessel.deposit(SpeciesId::new("O2"), Moles(0.1), Phase::Gas);
+        vessel.thermal_mode = ThermalMode::Adiabatic;
+        let charge = charge(&vessel).unwrap();
+        let target = charge
+            .feeds
+            .iter()
+            .map(|(_, n, h)| n * h.unwrap())
+            .sum::<f64>()
+            + air_enthalpy(&charge, 1200.0);
+        let pool = pool_for(&charge.budget.keys().cloned().collect::<Vec<_>>());
+        assert!(pool.iter().any(|s| s.name == "Cu2O(cr)"));
+        assert!(pool.iter().any(|s| s.name == "Cu2O(L)"));
+        let atmosphere = OpenAtmosphere {
+            admitted: charge.air.clone(),
+            inlet_k: 1200.0,
+        };
+        let eq = crate::gibbs::equilibrate_hp_open(
+            &charge.budget,
+            &pool,
+            target,
+            1.0,
+            Some(&atmosphere),
+        )
+        .expect("the in-range lower oxide must close the original HP target");
+        assert!((1300.0..1400.0).contains(&eq.temperature), "{eq:?}");
+        assert!(eq.moles_of("Cu2O(cr)") > 0.99 * copper / 2.0, "{eq:?}");
+        let air_credit = charge
+            .air
+            .iter()
+            .map(|(name, n)| {
+                let gas = db().get(name).unwrap();
+                n.min(eq.moles_of(name)) * (gas.h(eq.temperature).unwrap() - gas.h(1200.0).unwrap())
+            })
+            .sum::<f64>()
+            .min(0.0);
+        assert!((eq.enthalpy - air_credit - target).abs() <= 1.0 + target.abs() * 1e-8);
+        for (element, expected) in &charge.budget {
+            let actual = eq
+                .composition
+                .iter()
+                .map(|(name, n)| {
+                    db().get(name)
+                        .unwrap()
+                        .composition
+                        .get(element)
+                        .copied()
+                        .unwrap_or(0.0)
+                        * n
+                })
+                .sum::<f64>();
+            assert!(
+                (actual - expected).abs() < 1e-10,
+                "{element}: {actual} vs {expected}"
+            );
+        }
+        let events = ThermalEquilibrator.equilibrate(&mut vessel).unwrap();
+        assert!(events
+            .iter()
+            .any(|event| matches!(event, Event::ThermalEquilibrium { .. })));
+        let retained_copper = vessel
+            .contents
+            .iter()
+            .map(|p| {
+                let data = species::lookup(&p.species).expect("named product");
+                let formula = kerotakis_core::stoich::parse_formula(data.formula).unwrap();
+                p.moles.0 * formula.counts.get("Cu").copied().unwrap_or(0.0)
+            })
+            .sum::<f64>();
+        assert!((retained_copper - copper).abs() < 1e-10);
+        assert!(vessel.moles_of(&SpeciesId::new("Cu2O")).0 > 0.99 * copper / 2.0);
+    }
+
+    #[test]
+    fn constant_cp_hot_solid_feed_keeps_the_core_sensible_energy() {
+        let t = 1773.15;
+        let vessel = sample("I2", t, Phase::Solid, 0.1);
+        let charge = charge(&vessel).unwrap();
+        let (record, n, h) = charge.feeds[0];
+        let high = record.t_range().unwrap().1;
+        assert_eq!(
+            charge.solid_continuations,
+            vec![(SpeciesId::new("I2"), high)]
+        );
+        assert!(
+            (n * (h.unwrap() - record.h(high).unwrap()) - vessel.energy_between(high, t)).abs()
+                < 1e-9
+        );
+        assert!(enthalpy_within_record(record, t).is_none());
+    }
+
+    #[test]
+    fn silica_feed_uses_supported_solid_polymorphs_and_actual_liquid_phase() {
+        assert_eq!(cea_name("SiO2"), Some("SiO2(a-qz)"));
+        for (t, phase, name) in [
+            (500.0, Phase::Solid, "SiO2(a-qz)"),
+            (847.99, Phase::Solid, "SiO2(a-qz)"),
+            (848.01, Phase::Solid, "SiO2(b-qz)"),
+            (1199.99, Phase::Solid, "SiO2(b-qz)"),
+            (1200.01, Phase::Solid, "SiO2(b-crt)"),
+            (1773.15, Phase::Solid, "SiO2(b-crt)"),
+            (1995.99, Phase::Solid, "SiO2(b-crt)"),
+            (1996.01, Phase::Liquid, "SiO2(L)"),
+            (2100.0, Phase::Liquid, "SiO2(L)"),
+        ] {
+            let mut vessel = sample("SiO2", t, phase, 0.1);
+            let charge = charge(&vessel).unwrap();
+            assert_eq!(charge.feeds[0].0.name, name);
+            assert!(charge.feeds[0].2.unwrap().is_finite());
+            ThermalEquilibrator
+                .equilibrate(&mut vessel)
+                .unwrap_or_else(|error| panic!("{name} at {t}: {error}"));
+            assert!((vessel.moles_of(&SpeciesId::new("SiO2")).0 - 0.1).abs() < 1e-10);
+            assert!(vessel.contents.iter().all(|p| p.phase == phase));
+            assert_eq!(vessel.temperature.0, t);
+        }
+    }
+
+    #[test]
+    fn silica_phase_mismatch_refuses_atomically_instead_of_extrapolating() {
+        for (t, phase) in [(1773.15, Phase::Liquid), (299.0, Phase::Solid)] {
+            let mut vessel = sample("SiO2", t, phase, 0.1);
+            let before = format!("{vessel:?}");
+            let error = ThermalEquilibrator.equilibrate(&mut vessel).unwrap_err();
+            assert_eq!(
+                error.owned_reason().unwrap().key,
+                "solver-reason.cea.isothermal-tp.data-out-of-range"
+            );
+            assert_eq!(format!("{vessel:?}"), before);
+        }
+    }
+
+    #[test]
+    fn paid_zinc_mixture_carries_its_latent_energy_and_retains_its_fractions() {
+        let t = species::lookup_key("Zn")
+            .unwrap()
+            .transitions
+            .unwrap()
+            .melting_k
+            .unwrap();
+        let latent = kerotakis_core::phase_route::fusion_enthalpy("Zn").unwrap();
+        let mut energies = Vec::new();
+        for liquid in [0.025, 0.075] {
+            let mut vessel = sample("Zn", t, Phase::Solid, 0.1 - liquid);
+            vessel.deposit(SpeciesId::new("Zn"), Moles(liquid), Phase::Liquid);
+            vessel.thermal_mode = ThermalMode::Adiabatic;
+            let charge = charge(&vessel).unwrap();
+            let h = charge
+                .feeds
+                .iter()
+                .map(|(_, n, h)| n * h.unwrap())
+                .sum::<f64>();
+            // The only difference between these equal-mass samples is the
+            // independently reviewed core latent heat already paid by heat().
+            let expected = 0.1 * db().get("Zn(cr)").unwrap().h(t).unwrap() + liquid * latent;
+            assert!((h - expected).abs() < 1e-9);
+            energies.push(h);
+            let before = format!("{vessel:?}");
+            let events = ThermalEquilibrator.equilibrate(&mut vessel).unwrap();
+            assert!(events.is_empty(), "paid phase handoff: {events:?}");
+            assert_eq!(format!("{vessel:?}"), before);
+        }
+        assert!((energies[1] - energies[0] - 0.05 * latent).abs() < 1e-9);
+    }
+
+    #[test]
+    fn plateau_bridge_accepts_transferred_liquid_only_at_exact_reviewed_temperature() {
+        let t = species::lookup_key("Zn")
+            .unwrap()
+            .transitions
+            .unwrap()
+            .melting_k
+            .unwrap();
+        let mut liquid = sample("Zn", t, Phase::Liquid, 0.1);
+        let (solid, h) = paid_plateau_liquid(&liquid, "Zn").unwrap();
+        let latent = kerotakis_core::phase_route::fusion_enthalpy("Zn").unwrap();
+        assert_eq!(h, solid.h(t).unwrap() + latent);
+        liquid.thermal_mode = ThermalMode::Adiabatic;
+        let before = format!("{liquid:?}");
+        assert!(ThermalEquilibrator
+            .equilibrate(&mut liquid)
+            .unwrap()
+            .is_empty());
+        assert_eq!(format!("{liquid:?}"), before);
+        liquid.deposit(SpeciesId::new("Zn"), Moles(0.1), Phase::Solid);
+        assert!(paid_plateau_liquid(&liquid, "Zn").is_some());
+        liquid.temperature.0 -= 0.001;
+        assert!(paid_plateau_liquid(&liquid, "Zn").is_none());
+        assert!(ThermalEquilibrator.equilibrate(&mut liquid).is_err());
+    }
+
+    #[test]
+    fn superheated_solid_feed_preserves_core_energy_and_reports_its_limit() {
+        for (key, high, t) in [("Mg", 923.0, 1200.0), ("CaCO3", 1603.0, 2200.0)] {
+            let mut vessel = sample(key, t, Phase::Solid, 0.1);
+            let charge = charge(&vessel).unwrap();
+            assert_eq!(
+                charge.solid_continuations,
+                vec![(SpeciesId::new(key), high)]
+            );
+            let feed = charge.feeds[0];
+            let at_endpoint = 0.1 * feed.0.h(high).unwrap();
+            let sensible = vessel.energy_between(high, t);
+            assert!(sensible > 100.0, "a lost sensible term must be detectable");
+            assert!((0.1 * feed.2.unwrap() - at_endpoint - sensible).abs() < 1e-8);
+            // The reverse core operation returns exactly the same energy.
+            assert!((vessel.energy_between(t, high) + sensible).abs() < 1e-8);
+            let expected_cp = 0.1 * feed.0.cp(high).unwrap();
+            assert!((sensible - expected_cp * (t - high)).abs() < 1e-8);
+
+            vessel.thermal_mode = ThermalMode::Adiabatic;
+            let target = 0.1 * feed.2.unwrap() + air_enthalpy(&charge, t);
+            let pool = pool_for(&charge.budget.keys().cloned().collect::<Vec<_>>());
+            let atmosphere = OpenAtmosphere {
+                admitted: charge.air.clone(),
+                inlet_k: t,
+            };
+            let eq = crate::gibbs::equilibrate_hp_open(
+                &charge.budget,
+                &pool,
+                target,
+                1.0,
+                Some(&atmosphere),
+            )
+            .unwrap();
+            let air_change = charge
+                .air
+                .iter()
+                .map(|(name, n)| {
+                    let gas = db().get(name).unwrap();
+                    eq.moles_of(name).min(*n) * (gas.h(eq.temperature).unwrap() - gas.h(t).unwrap())
+                })
+                .sum::<f64>()
+                .min(0.0);
+            // Preserve the independent 20 J energy bound, well below the
+            // missing sensible term. HP must refine its temperature bracket
+            // until the actual open-air energy residual also converges.
+            assert!(
+                (eq.enthalpy - air_change - target).abs() < 20.0,
+                "{key}: target={target}, solved={}, air credit={air_change}",
+                eq.enthalpy
+            );
+            for (element, expected) in &charge.budget {
+                let actual = eq
+                    .composition
+                    .iter()
+                    .map(|(name, n)| {
+                        db().get(name)
+                            .unwrap()
+                            .composition
+                            .get(element)
+                            .copied()
+                            .unwrap_or(0.0)
+                            * n
+                    })
+                    .sum::<f64>();
+                assert!((actual - expected).abs() < 1e-8, "{key}: {element}");
+            }
+            let events = ThermalEquilibrator.equilibrate(&mut vessel).unwrap();
+            assert!(
+                events.iter().any(|event| matches!(event,
+                Event::NotYetModeled { reason: Some(detail), .. }
+                    if detail.key == "not-modeled.cea-solid-feed-cp-continuation")),
+                "the superheated feed must remain visibly model-limited: {events:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn feed_records_without_polynomials_cannot_silently_lose_their_energy() {
+        let point = db()
+            .reactants
+            .values()
+            .find(|s| s.intervals.is_empty())
+            .unwrap();
+        assert!(enthalpy_within_record(point, 1200.0).is_none());
+        assert!(outside_ranged_record(point, 1200.0));
+        // The reviewed ignition continuation still uses a real, in-range
+        // vapour record and never evaluates the liquid at flame temperature.
+        let methanol = db().get_reactant("CH3OH(L)").unwrap();
+        assert_eq!(
+            enthalpy_within_record(methanol, 1200.0),
+            db().get("CH3OH").unwrap().h(1200.0)
+        );
+        assert!(enthalpy_within_record(methanol, 100.0).is_none());
     }
 }

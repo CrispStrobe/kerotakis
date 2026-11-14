@@ -19,19 +19,56 @@ each component melts over its own range.
 
 ## Range rows
 
-| species | lower (K) | upper (K) | ΔH_fus (J/kg) | class | source |
-|---|---|---|---|---|---|
-| paraffin | 315.15 | 341.15 | 189000.0 | paid | A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi, 'Review on thermal energy storage with phase change materials and applications', Renew. Sustain. Energy Rev. 13 (2009) 318-345, doi:10.1016/j.rser.2007.10.005, Table 2a: technical-grade paraffin waxes melt between 42-44 and 66-68 degrees Celsius depending on grade; latent heat of fusion 189 kJ/kg for five grades (compiled from A. Abhat, Solar Energy 30 (1983) 313-332, doi:10.1016/0038-092X(83)90186-X) |
-| PE | — (unsourced) | 414.6 | — (unsourced) | refused | U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K |
-| PP | — (unsourced) | 460.7 | — (unsourced) | refused | U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K |
+**Polymers.** A semicrystalline polymer's latent heat is that of its crystalline part,
+ΔH_f(grade) = X_c × ΔH_f(100 %). Each polymer row records both factors from one sourced DSC
+measurement of a named grade, with the reference that paper used. The grade's DSC peak is the
+lower end of the paid span; the upper end is the sourced equilibrium melting temperature
+(PE, PP) or, where none is sourced, the peak itself (PET, nylon 6,6: a plateau, the whole heat
+paid at one temperature, partial melts resolved by the energy balance).
+
+| species | lower (K) | upper (K) | X_c | ΔH_f 100 % (J/g) | ΔH_fus (J/kg) | class | source |
+|---|---|---|---|---|---|---|---|
+| paraffin | 315.15 | 341.15 | — | — | 189000.0 | paid | A. Sharma, V. V. Tyagi, C. R. Chen and D. Buddhi, 'Review on thermal energy storage with phase change materials and applications', Renew. Sustain. Energy Rev. 13 (2009) 318-345, doi:10.1016/j.rser.2007.10.005, Table 2a: technical-grade paraffin waxes melt between 42-44 and 66-68 degrees Celsius depending on grade; latent heat of fusion 189 kJ/kg for five grades (compiled from A. Abhat, Solar Energy 30 (1983) 313-332, doi:10.1016/0038-092X(83)90186-X) |
+| PE | 411.98 | 414.6 | 0.6708 | 293.0 | 196544.4 | paid | Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. II. Polyethylene', J. Phys. Chem. Ref. Data 10 (1981) 119-152, doi:10.1063/1.555636: equilibrium melting temperature 414.6 +/- 0.5 K. Grade: S. Karagoz et al., 'Hazelnut Shell-Talc-Carbon Black Hybrid High-Density Polyethylene Biocomposites', Polymers 18 (2026), doi:10.3390/polym18202546, Table 6, neat HDPE (PEHSCB0), second heating: dHm 196.54 J/g, Tm 138.83 degrees Celsius, Xc 67.08 % against the 100 % crystalline reference 293 J/g (4.11 kJ/mol CH2: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048 'Polymer Heats of Fusion'). Grade latent heat 0.6708 x 293 J/g = 196.54 J/g |
+| PP | 439.65 | 460.7 | 0.519 | 207.0 | 107433.0 | paid | Upper end: U. Gaur and B. Wunderlich, 'Heat capacity and other thermodynamic properties of linear macromolecules. IV. Polypropylene', J. Phys. Chem. Ref. Data 10 (1981) 1051-1064, doi:10.1063/1.555650: best-estimate equilibrium melting temperature of isotactic polypropylene 460.7 K. Grade: Zhu et al., 'Relationships of Multiphase Structure with Flexibility and DC Insulation Performance in Impact-Resistant Polypropylene Copolymers', Polymers 18 (2026), doi:10.3390/polym18192351, homopolymer HICP, second heating, mean of three: Tm 166.5 +/- 0.8 degrees Celsius, dHm 107.4 +/- 1.9 J/g, Xc 51.9 +/- 0.9 % against the 100 % crystalline reference 207 J/g (8.70 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.519 x 207 J/g = 107.43 J/g |
+| PET | 520.65 | 520.65 | 0.394 | 140.0 | 55160.0 | paid | W. Chaiwutthinan et al., 'Thermomechanical recycling of post-consumer poly(ethylene terephthalate) bottles and post-industrial polyamide 6 fishing nets reinforced with organo-modified montmorillonite', Sci. Rep. 16 (2026), doi:10.1038/s41598-026-43815-y, Table 2, neat post-consumer bottle rPET, second heating: Tm 247.5 degrees Celsius, dHm 55.2 J/g, Xc 39.4 % against the 100 % crystalline reference 140 J/g (26.9 kJ/mol: B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048). Grade latent heat 0.394 x 140 J/g = 55.16 J/g |
+| nylon | 536.15 | 536.15 | 0.319 | 188.0 | 59972.0 | paid | H. Ceviz et al., 'Investigation of Mechanical, Thermal and Microstructural Properties of Waste Micro-Nano Nichrome (NiCr 80/20) Powder-Reinforced Composites with Polyamide 66 (PA66) Matrix', Polymers 17 (2025), doi:10.3390/polym17202753: neat PA66 'exhibits a sharp endothermic peak at approximately 263 degrees Celsius'; dHm 60 J/g, Xc 31.9 % against the 100 % crystalline reference 188 J/g used by that paper (TN048 tabulates 226 J/g from B. Wunderlich, Thermal Analysis, 1990; the reference choice changes Xc, not the measured heat). Grade latent heat 0.319 x 188 J/g = 59.97 J/g |
+
+## Every polymer and wax in the registry
+
+| species | latent heat | paid |
+|---|---|---|
+| paraffin | range row | yes |
+| PE | range row | yes |
+| PP | range row | yes |
+| PET | range row | yes |
+| nylon | range row | yes |
+| hexadecane | phase_route::FUSION_ENTHALPIES (sharp point) | yes |
+| PS | none: atactic polystyrene is amorphous, no melting endotherm | no |
+| PVA | none: 161 J/g 100 % reference (Wunderlich via TN048) but no sourced grade crystallinity | no |
+
+## Refused by policy (`melting_range::REFUSED_FUSION`)
+
+| material | reason |
+|---|---|
+| PVC | poly(vinyl chloride) is nearly amorphous and dehydrochlorinates on heating instead of melting cleanly; no sourced crystallinity of a rigid grade was found (its 176 J/g 100 % reference, B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431 as quoted by R. L. Blaine, TA Instruments TN048, would have nothing to multiply) |
+| PTFE (unsintered) | virgin PTFE powder melts first far more crystalline than the sintered polymer (about twofold); only sintered PTFE has an open crystallinity measurement (39.5-43.1 % against 82 J/g, doi:10.3390/polym17101380) |
+| PLA (unstated thermal history) | poly(lactic acid) crystallinity runs from about 0 to 26 % with moulding and annealing history (Ingeo-type PLA plaques 19-25.7 %, doi:10.1021/acsomega.6c03726; a PLA/PCL blend 0.4 %, Europe PMC PMC12473204), so no grade value can be chosen without the history |
 
 ## Blends of range materials
 
 | a | b | class | source |
 |---|---|---|---|
+| PE | PET | solution-law | — |
 | PE | PP | immiscible | S. Teh, A. Rudin and J. C. Keung, 'A review of polyethylene-polypropylene blends and their compatibilization', Adv. Polym. Technol. 13 (1994) 1-23, doi:10.1002/adv.1994.060130101 |
+| PE | nylon | solution-law | — |
 | PE | paraffin | solution-law | — |
+| PET | PP | solution-law | — |
+| PET | nylon | solution-law | — |
+| PET | paraffin | solution-law | — |
+| PP | nylon | solution-law | — |
 | PP | paraffin | solution-law | — |
+| nylon | paraffin | solution-law | — |
 
 ## Notes
 
@@ -40,9 +77,19 @@ each component melts over its own range.
   material* table quotes 150-250 kJ/kg for paraffin waxes citing Kenisarin and Mahkamov (2007),
   doi:10.1016/j.rser.2006.05.005. It is spread over the span of the grades
   (315.15-341.15 K) because the grade in the beaker is not known.
-- PE / PP: Gaur and Wunderlich give the enthalpy of fusion of a 100 % crystalline polymer; a
-  grade's crystallinity is not known here and neither is its lower melting bound, so both are
-  refused rather than paid with an invented crystallinity.
+- Polymer 100 % references: PE 293, PP 207, PET 140 J/g from B. Wunderlich, *Thermal Analysis*
+  (Academic Press 1990) pp. 417-431, as tabulated by R. L. Blaine, TA Instruments TN048; PA66
+  uses the 188 J/g its grade paper used (TN048 lists 226 J/g; the choice moves X_c, not the
+  measured grade heat). PP's reference is disputed (165-209 J/g in use), same remark.
+- Sourced but not in the registry (no row until the species exists): LDPE 30.58 % x 293 J/g
+  (doi:10.3390/polym18202566), POM 44.3 % x 326.3 J/g (doi:10.3390/nano12050858), PCL Capa
+  57.4-65.0 J/g (doi:10.3390/ma19204377), sintered PTFE 39.5-43.1 % x 82 J/g
+  (doi:10.3390/polym17101380), stearic acid 201.0-216.5 J/g (Europe PMC PMC7490278,
+  PMC6515142), beeswax 137.6 J/g (doi:10.3390/ma18245521; other reports to 221 J/g, so
+  range-only).
+- Hexadecane is a pure alkane with a sharp point: its 53.36 kJ/mol (235.6 J/g; Finke et al.
+  1954, doi:10.1021/ja01631a005, as listed by the NIST WebBook) is paid by
+  `phase_route::FUSION_ENTHALPIES`, not by a range row.
 - A range material added to a vessel above its lower bound is still stocked solid (stocking is
   owned by `phase_route::stocked_phase`); the next settle melts it and pays from the vessel's
   sensible heat.

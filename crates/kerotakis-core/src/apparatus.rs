@@ -341,13 +341,13 @@ pub const PARTITION_COEFFICIENTS: &[PartitionCoefficient] = &[PartitionCoefficie
     solute: "I2",
     organic_solvent: "hexane",
     aqueous_solvent: "water",
-    k_organic_over_aqueous: 85.0,
+    k_organic_over_aqueous: 26.0,
     reference_temperature_k: 298.15,
     // The source states one equilibrium constant but no temperature curve.
     // Admit only an ordinary room-temperature reading; a wider range would
     // be an invented temperature model.
     temperature_tolerance_k: 0.5,
-    source: "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model",
+    source: "K = 26.0 (molar, [I2]hexane/[I2]water, 25 °C), DERIVED as the ratio of saturation concentrations, which equals the partition coefficient up to the negligible mutual solubility of hexane and water: I2 mole fraction 0.00456 in n-hexane (molar volume 131.6 cm3/mol) -> 0.0347 M, Hildebrand & Scott, The Solubility of Nonelectrolytes, 3rd ed. (1950), p. 274, Table 1 'Iodine Solutions, 25°C' (as read from archive.org solubilityofnone0000joel); aqueous solubility 0.3393 g/L (1.334e-3 M) at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741. The same ratio for CCl4 gives 88.5 against Jakowkin's measured 89.6 (Z. physik. Chem. 18 (1895) 585, as tabulated by Hildebrand & Scott p. 208), which checks the method; the earlier K = 85 cited an exam question and was the CCl4 value. Neither source gives a temperature model",
 }];
 
 /// A partitioning solute that also forms a 1:1 complex `S + L ⇌ SL` that

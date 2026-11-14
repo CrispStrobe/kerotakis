@@ -1,0 +1,8 @@
+2026-11-12T21:18:45.1704810Z error: the loop variable `later` is used to index `self.solvers`
+2026-11-12T21:18:45.1806700Z    --> crates/kerotakis-core/src/solve.rs:472:30
+2026-11-12T21:18:45.2008700Z 472 |                 for later in index + 1..range.end {
+2026-11-12T21:18:45.2412480Z    --> crates/kerotakis-core/src/solve.rs:473:34
+2026-11-12T21:18:45.2607130Z 473 |                     let solver = self.solvers[later].as_mut();
+2026-11-12T21:18:45.2609070Z     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.100.0/index.html#needless_range_loop
+2026-11-12T21:18:45.2623270Z     = help: to override `-D warnings` add `#[allow(clippy::needless_range_loop)]`
+2026-11-12T21:18:45.2624720Z 472 -                 for later in index + 1..range.end {

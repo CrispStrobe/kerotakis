@@ -17,8 +17,8 @@
 //! before the aqueous tail — so on the step where a reagent is ADDED the
 //! ledger still holds it as written, and the match succeeds. Add it first
 //! instead, let it go through a solve, and its name has changed underneath
-//! the reaction. The bicarbonate/acetic overlap now has an explicit native
-//! ownership route, so that pair is checked for actual final-dose CO2 and a
+//! the reaction. The carbonate/acetic overlaps now have an explicit native
+//! ownership route, so those pairs are checked for actual final-dose CO2 and a
 //! closed native material ledger; the other curated reactions still require
 //! their existing curated-event behavior.
 //!
@@ -40,8 +40,9 @@
 //! equation fires — not necessarily its own. That is deliberate: the
 //! established remedy for a renamed reagent is a sibling row written in the
 //! names the vessel holds (`MnO₄⁻` beside `KMnO4`). The selected
-//! bicarbonate/acetic native route is the explicit exception and is checked
-//! above by its final-dose physical outcome and closed material ledger.
+//! carbonate/acetic native routes are explicit exceptions and are checked
+//! above by actual final-dose gas and a closed material ledger. These model
+//! regressions do not qualify warned concentrated gas yields or mineral amounts.
 
 #![cfg(feature = "engine")]
 
@@ -121,7 +122,7 @@ fn fires_when_added_in(order: &[(&str, f64)], reaction: &CuratedReaction) -> boo
     })
 }
 
-fn is_bicarbonate_acetic_overlap(reaction: &CuratedReaction) -> bool {
+fn is_carbonate_acetic_overlap(reaction: &CuratedReaction) -> bool {
     if reaction.reactants.len() != 2 {
         return false;
     }
@@ -129,14 +130,14 @@ fn is_bicarbonate_acetic_overlap(reaction: &CuratedReaction) -> bool {
         .reactants
         .iter()
         .any(|(species, _)| *species == "CH3COOH");
-    let has_bicarbonate = reaction
+    let has_carbonate = reaction
         .reactants
         .iter()
-        .any(|(species, _)| *species == "NaHCO3" || *species == "HCO3-");
-    has_acid && has_bicarbonate
+        .any(|(species, _)| *species == "NaHCO3" || *species == "HCO3-" || *species == "CaCO3");
+    has_acid && has_carbonate && reaction.aqueous_overlap.is_some()
 }
 
-fn native_bicarbonate_acetic_fizz_when_added_in(order: &[(&str, f64)]) -> bool {
+fn native_carbonate_acetic_fizz_when_added_in(order: &[(&str, f64)]) -> bool {
     let mut bench = Bench::new();
     let mut stack = stack();
     let vessel = VesselId(0);
@@ -173,7 +174,7 @@ fn native_bicarbonate_acetic_fizz_when_added_in(order: &[(&str, f64)]) -> bool {
             vessel,
             actual_stock,
             *moles,
-            "bicarbonate/acetic order reachability",
+            "carbonate/acetic native order reachability",
         );
         if index + 1 == order.len() {
             return native_material_checks::positive_co2_gas_out(&events) > 1e-4;
@@ -237,8 +238,8 @@ fn every_curated_reaction_is_reachable_in_every_order() {
         for skip in 0..amounts.len() {
             let mut order = amounts.clone();
             order.rotate_left(skip);
-            let reachable = if is_bicarbonate_acetic_overlap(reaction) {
-                native_bicarbonate_acetic_fizz_when_added_in(&order)
+            let reachable = if is_carbonate_acetic_overlap(reaction) {
+                native_carbonate_acetic_fizz_when_added_in(&order)
             } else {
                 fires_when_added_in(&order, reaction)
             };

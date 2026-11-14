@@ -213,6 +213,76 @@ pub struct Portion {
     pub phase: Phase,
 }
 
+/// The liquid solvent that hosts the dissolved portions of a vessel with
+/// NO liquid water (SP-011, 2026-11-11): the most abundant liquid-phase
+/// portion. `None` when the vessel holds liquid water (dissolved portions
+/// are then aqueous) or holds no liquid at all.
+///
+/// The engine keeps one "dissolved" phase tag ([`Phase::Aqueous`]) for a
+/// solute whatever liquid it is in; extraction deposits I2 into a hexane
+/// receiver that way. Labelling such a solute "aqueous" in the snapshot
+/// was a false statement about a water-free vessel, so the snapshot and
+/// every pool report ask this function which medium the solute is in.
+pub fn nonaqueous_solvent(contents: &[Portion]) -> Option<&SpeciesId> {
+    let live = |p: &&Portion| p.phase == Phase::Liquid && p.moles.0.is_finite() && p.moles.0 > 0.0;
+    if contents.iter().filter(live).any(|p| p.species.0 == "water") {
+        return None;
+    }
+    contents
+        .iter()
+        .filter(live)
+        .max_by(|a, b| a.moles.0.total_cmp(&b.moles.0))
+        .map(|p| &p.species)
+}
+
+/// The snapshot phase label of a dissolved portion: `aqueous` in water,
+/// `nonaqueous_solution` in any other liquid solvent.
+pub const NONAQUEOUS_SOLUTION: &str = "nonaqueous_solution";
+
+#[derive(Serialize)]
+#[serde(untagged)]
+enum PhaseView {
+    Phase(Phase),
+    Label(&'static str),
+}
+
+#[derive(Serialize)]
+struct PortionView<'a> {
+    species: &'a SpeciesId,
+    moles: &'a Moles,
+    phase: PhaseView,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    solvent: Option<&'a SpeciesId>,
+}
+
+#[allow(clippy::ptr_arg)]
+fn serialize_contents<S: serde::Serializer>(
+    contents: &Vec<Portion>,
+    serializer: S,
+) -> Result<S::Ok, S::Error> {
+    // Binary formats keep the plain enum so they round-trip without the
+    // alias; the label is for readable snapshots (JSON) only.
+    let solvent = if serializer.is_human_readable() {
+        nonaqueous_solvent(contents)
+    } else {
+        None
+    };
+    serializer.collect_seq(contents.iter().map(|p| match (p.phase, solvent) {
+        (Phase::Aqueous, Some(solvent)) => PortionView {
+            species: &p.species,
+            moles: &p.moles,
+            phase: PhaseView::Label(NONAQUEOUS_SOLUTION),
+            solvent: Some(solvent),
+        },
+        _ => PortionView {
+            species: &p.species,
+            moles: &p.moles,
+            phase: PhaseView::Phase(p.phase),
+            solvent: None,
+        },
+    }))
+}
+
 impl Portion {
     /// Current physical solid inventory, independent of historical lot intent.
     /// This is material admission, so there is no display/detection cutoff.
@@ -1300,6 +1370,7 @@ pub struct Vessel {
     pub excess_enthalpy_j: f64,
     pub id: VesselId,
     pub label: String,
+    #[serde(serialize_with = "serialize_contents")]
     pub contents: Vec<Portion>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
@@ -1390,8 +1461,8 @@ pub struct Vessel {
     /// from persistence so a later operation cannot spend the same joules.
     #[serde(skip)]
     pub heat_input: Option<HeatInput>,
-    /// Step-local: this solve prices a dose delivered with NO elapsed time
-    /// (one titration increment). An open boundary then releases only gas
+    /// Step-local: this solve belongs to an operation with NO elapsed time
+    /// (including additions, separation and native mixing). An open boundary then releases only gas
     /// whose partial pressure exceeds the vessel's total pressure — the
     /// effervescence threshold at which bubbles can nucleate — and does not
     /// relax a supersaturated solution to the room's partial pressure.
@@ -1400,9 +1471,26 @@ pub struct Vessel {
     /// vented the CO2 that carbonate alkalinity was still holding at pH 9-10,
     /// each vented mole spending a proton, so a Warder titration read the
     /// phenolphthalein endpoint at total alkalinity minus residual carbon
-    /// rather than at OH- + CO3^2-. Never persisted; cleared after the solve.
+    /// rather than at OH- + CO3^2-. Instantaneous operations share this
+    /// boundary. Separately admitted acid/carbonate doses can transfer a
+    /// bounded newly formed CO2 parcel (`carbonate_endpoint`), never the
+    /// whole preexisting supersaturation. Never persisted; cleared after
+    /// the solve.
     #[serde(skip)]
     pub zero_time_dose: bool,
+    /// Step-local ownership of open-vessel CO2 film transfer. The clock
+    /// supplies a finite signed parcel; the aqueous pass may additionally
+    /// release bubbles above total pressure, but cannot relax that same
+    /// carbon to atmospheric equilibrium. Other gases retain their owners.
+    #[serde(skip)]
+    pub co2_film_boundary: bool,
+    /// Step-local: this step is `ignite`. A liquid fuel at or above its
+    /// autoignition temperature with oxygen to hand burns where it is
+    /// instead of boiling off the open dish before any combustion solver
+    /// sees it (the phase route runs before CEA and the curated fuels).
+    /// Never persisted; cleared after the step's solves.
+    #[serde(skip)]
+    pub ignition: bool,
     /// Free hydroxide the aqueous solver last MEASURED, in moles.
     ///
     /// Kept beside `solute_charge` and for the same reason — the heat
@@ -1597,6 +1685,12 @@ pub struct Vessel {
     /// Omitted when absent so existing snapshots serialise unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub starch_gelatinised_moles: Option<f64>,
+    /// Retrogradation, the table-route clock and per-source digested
+    /// amounts (`starch_amylase::StarchDigestionState`). Not carried by a
+    /// pour (declared). Omitted when absent so existing snapshots
+    /// serialise unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub starch_digestion: Option<crate::starch_amylase::StarchDigestionState>,
 }
 
 impl Vessel {
@@ -1607,6 +1701,7 @@ impl Vessel {
             activity_range_refusal: None,
             amylase_inactive_moles: None,
             starch_gelatinised_moles: None,
+            starch_digestion: None,
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,
@@ -1636,6 +1731,8 @@ impl Vessel {
             aqueous_heat: AqueousHeatOwnership::WholeStep,
             heat_input: None,
             zero_time_dose: false,
+            co2_film_boundary: false,
+            ignition: false,
             free_hydroxide: 0.0,
             free_proton: 0.0,
             co2_partial_pressure_atm: None,

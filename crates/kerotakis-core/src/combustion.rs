@@ -117,9 +117,11 @@ pub struct Fuel {
 /// has no n-alkane above C10, so a C12/C16 diesel cut cannot reach the
 /// equilibrium solver at all.
 ///
-/// The first three are solids and the last two are liquids, which is why
+/// The first three are solids and the rest are liquids, which is why
 /// the burn withdraws its fuel from whatever phase holds it rather than
-/// from `Phase::Solid`.
+/// from `Phase::Solid`. The four liquid solvents (ethanol, methanol,
+/// propanone, hexane; 2026-11-12) are here because NASA CEA names them
+/// only as gases: a spirit burner's liquid is this table's.
 pub const FUELS: &[Fuel] = &[
     Fuel {
         species: "paraffin",
@@ -199,6 +201,50 @@ pub const FUELS: &[Fuel] = &[
         autoignition_k: 478.0,
         equation: "C16H34 + 24.5 O2 -> 16 CO2 + 17 H2O",
         provenance: "Complete combustion of n-hexadecane — cetane, the fuel the cetane scale is defined against. Heat of combustion is the difference of the commonly tabulated standard formation enthalpies (16 CO2(g) −393.51, 17 H2O(l) −285.83, C16H34(l) −456.1 kJ/mol → 10699 kJ/mol, 47.2 MJ/kg). Autoignition near 478 K is the commonly tabulated value — pending-review lane: no primary page is cited. Editorial judgement (Kerotakis): this row is what makes th-048's answer computed rather than asserted, because 478 K sits below hexane's 498 K in GAS_AUTOIGNITION and the two tables are compared by a test rather than by prose",
+    },
+    Fuel {
+        species: "ethanol",
+        // C2H5OH + 3 O2 -> 2 CO2 + 3 H2O
+        oxygen: 3.0,
+        carbon_dioxide: 2.0,
+        water: 3.0,
+        heat_j_per_mol: 1_366_910.0,
+        autoignition_k: 636.15,
+        equation: "C2H5OH + 3 O2 -> 2 CO2 + 3 H2O",
+        provenance: "Complete combustion of liquid ethanol, the spirit-burner fuel. -ΔH°c = 1366.91 kJ/mol computed from NBS Circular 500 (Rossini et al. 1952, Series I, a public-domain U.S. Government work, values read from the page images): CO2(g) -94.0518 kcal = -393.51 kJ/mol, H2O(l) -68.3174 kcal = -285.84 kJ/mol, C2H5OH(l) -66.356 kcal = -277.63 kJ/mol. NASA CEA names only gaseous ethanol, so the liquid in an open dish is burned here; autoignition is the GAS_AUTOIGNITION row (Zabetakis 1965, pending page review)",
+    },
+    Fuel {
+        species: "methanol",
+        // CH3OH + 1.5 O2 -> CO2 + 2 H2O
+        oxygen: 1.5,
+        carbon_dioxide: 1.0,
+        water: 2.0,
+        heat_j_per_mol: 726_620.0,
+        autoignition_k: 658.15,
+        equation: "CH3OH + 1.5 O2 -> CO2 + 2 H2O",
+        provenance: "Complete combustion of liquid methanol. -ΔH°c = 726.62 kJ/mol computed from NBS Circular 500 (Rossini et al. 1952, Series I, a public-domain U.S. Government work, values read from the page images): CO2(g) -94.0518 kcal = -393.51 kJ/mol, H2O(l) -68.3174 kcal = -285.84 kJ/mol, CH3OH(l) -57.02 kcal = -238.57 kJ/mol. Autoignition is the GAS_AUTOIGNITION row (Zabetakis 1965, pending page review)",
+    },
+    Fuel {
+        species: "propanone",
+        // CH3COCH3 + 4 O2 -> 3 CO2 + 3 H2O
+        oxygen: 4.0,
+        carbon_dioxide: 3.0,
+        water: 3.0,
+        heat_j_per_mol: 1_788_620.0,
+        autoignition_k: 738.15,
+        equation: "CH3COCH3 + 4 O2 -> 3 CO2 + 3 H2O",
+        provenance: "Complete combustion of liquid acetone. -ΔH°c = 1788.62 kJ/mol computed from CO2(g) and H2O(l) as in NBS Circular 500 (Rossini et al. 1952, Series I, a public-domain U.S. Government work, values read from the page images), and propanone(l) -249.4 kJ/mol (Wiberg, Crocker & Morgan 1991, as quoted by the NIST Chemistry WebBook; Circular 500 stops at two-carbon compounds). Autoignition is the GAS_AUTOIGNITION row (Zabetakis 1965, pending page review)",
+    },
+    Fuel {
+        species: "hexane",
+        // C6H14 + 9.5 O2 -> 6 CO2 + 7 H2O
+        oxygen: 9.5,
+        carbon_dioxide: 6.0,
+        water: 7.0,
+        heat_j_per_mol: 4_163_170.0,
+        autoignition_k: 498.15,
+        equation: "C6H14 + 9.5 O2 -> 6 CO2 + 7 H2O",
+        provenance: "Complete combustion of liquid n-hexane, the registry petrol surrogate. -ΔH°c = 4163.17 kJ/mol computed from CO2(g) and H2O(l) as in NBS Circular 500 (Rossini et al. 1952, Series I, a public-domain U.S. Government work, values read from the page images), and C6H14(l) -198.7 kJ/mol (Good & Smith 1969, as quoted by the NIST Chemistry WebBook, whose combustion average is 4163 ± 20). Autoignition is the GAS_AUTOIGNITION row (Zabetakis 1965, pending page review)",
     },
 ];
 

@@ -76,10 +76,10 @@ fn repeated_fresh_portions_extract_more_and_conserve_every_species() {
             _ => None,
         })
         .expect("typed extraction result");
-    assert_eq!(split.partition_k, 85.0);
+    assert_eq!(split.partition_k, 26.0);
     assert!(split.staged_efficiency > split.single_stage_efficiency);
     assert!((split.extracted.0 + split.remaining.0 - 0.001).abs() < 1e-12);
-    assert!(split.provenance.contains("Edexcel"));
+    assert!(split.provenance.contains("Hildebrand"));
 
     assert!(single_events
         .iter()
@@ -261,7 +261,7 @@ fn reviewed_iodine_solubility_feeds_the_standing_water_hexane_partition() {
         .expect("iodine standing partition");
     assert!(standing.upper_moles > standing.lower_moles);
     assert!((standing.lower_moles + standing.upper_moles - standing.total_moles).abs() < 1e-12);
-    assert!(standing.provenance.contains("Edexcel"));
+    assert!(standing.provenance.contains("Hildebrand"));
 }
 
 #[test]

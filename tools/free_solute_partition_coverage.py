@@ -124,7 +124,11 @@ def render(data) -> str:
         "(US 6,398,961) and lab handouts report about 35 for hexane, and 85 is the",
         "classic CCl4/water value. No primary hexane or CCl4 number could be read",
         "openly (Davies & Gwynne-type JACS papers, doi:10.1021/ja01562a008, are",
-        "paywalled), so no K_D row was added or changed here.",
+        "paywalled), so no K_D row was added or changed here. The 2026-11-11",
+        "non-aqueous-solution lane searched again (see",
+        "docs/nonaqueous-solution-coverage-20261111.md); the only primary alkane",
+        "value found is K = 80 for cyclohexane / 1.00 F H2SO4 (Van de Steeg 1968,",
+        "doi:10.2172/4770773), which is neither hexane nor pure water.",
         "",
     ]
     return "\n".join(lines)

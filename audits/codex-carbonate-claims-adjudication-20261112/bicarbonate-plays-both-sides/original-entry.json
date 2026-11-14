@@ -1,0 +1,81 @@
+{
+  "id": "bicarbonate-plays-both-sides",
+  "progress": "advanced",
+  "spine": [
+    "saeure-basen-konzepte"
+  ],
+  "equation": "HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O",
+  "concepts": [
+    "amphiprotic-ions",
+    "proton-transfer"
+  ],
+  "requires": [
+    "conjugate-base"
+  ],
+  "models": [
+    "broensted-lowry"
+  ],
+  "apparatus": [
+    "beaker",
+    "ph-meter"
+  ],
+  "calculations": [
+    "ph-calculation"
+  ],
+  "curriculum": [
+    {
+      "system": "bayern-lehrplanplus",
+      "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+      "ages": {
+        "min": 15.0,
+        "max": 16.0
+      },
+      "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — amphoteric behaviour of hydrogen carbonate"
+    }
+  ],
+  "setup": {
+    "script": "add v1 water 100mL\nadd v1 NaHCO3 0.01mol\nadd v1 HCl 0.01mol\nnew\nadd v2 water 100mL\nadd v2 NaHCO3 0.01mol\nadd v2 NaOH 0.01mol\n"
+  },
+  "expect": {
+    "events": [
+      "dissolved:NaHCO3",
+      "gas_evolved:CO2",
+      "dissolved:NaOH"
+    ],
+    "ph": {
+      "min": 5.4,
+      "max": 5.8
+    },
+    "predict": {
+      "question": "Baking soda fizzes furiously when acid is poured on it. Pour concentrated lye onto the same baking soda solution instead. What happens?",
+      "options": [
+        "It fizzes again — fizzing is what baking soda does",
+        "Nothing at all — soda answers acids, and lye is not an acid",
+        "No gas this time: the bicarbonate hands over its own proton and becomes carbonate"
+      ],
+      "answer": 2,
+      "misconception": "Both wrong answers treat acid and base as badges a substance wears rather than roles in a transaction. Bicarbonate is amphiprotic: against an acid it accepts a proton (and the resulting carbonic acid leaves as CO₂ — the fizz); against a base it donates its own proton and becomes carbonate, silently. Brønsted's whole move is that acid and base name the two ends of one proton handover — and this beaker is that idea as an experiment.",
+      "diagnosis": [
+        {
+          "option": 0,
+          "reveals": "The fizz as the substance's signature move — bicarbonate 'contains' the gas the way a balloon does, and any provocation releases it.",
+          "next": "Ask what the gas is made of: CO₂ only forms when the bicarbonate *receives* a proton. Lye offers none. Watch the event stream — the lye step evolves nothing — and the lv3 speciation shows the carbon still in the beaker, now sitting as carbonate."
+        },
+        {
+          "option": 1,
+          "reveals": "Acid and base as fixed identities: bicarbonate is 'a base', and one base has no business with another — so nothing can happen.",
+          "next": "Something did happen; it was just silent. The lv3 speciation shows the bicarbonate gone and carbonate in its place: a proton left the HCO₃⁻ ion itself. One substance, two roles depending on the partner — the Arrhenius → Brønsted step in `models.toml` is this beaker written as theory."
+        }
+      ]
+    }
+  },
+  "registers": {
+    "lv1": "Against sour stuff, baking soda fights back with bubbles. Against the slippery stuff it does something sneakier: it hands over a tiny piece of itself, without a single bubble. The same powder plays both sides, depending on who it meets.",
+    "lv2": "Amphiprotic behaviour: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (base role — the fizz), but HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (acid role — no gas). The acid beaker ends near pH 5.6 with all its carbon gone as gas; the lye beaker keeps its carbon as carbonate.",
+    "lv3": "The bookkeeping, honestly: an open 0.1 mol/kgw bicarbonate solution self-vents about 0.003 mol of CO₂ on dissolution (its own carbonate equilibrium against the atmosphere — `baking-soda-vents-carbon-dioxide`), so 0.003 mol of the lye finds no bicarbonate partner and the second beaker's final pH carries that excess hydroxide. The acid beaker's pH 5.6 is not leftover acid: it is a sodium chloride solution equilibrated with atmospheric CO₂ — the same chemistry that makes clean rain slightly acidic. The Brønsted point is in the speciation: the same ion appears as proton acceptor in one vessel and proton donor in the other, which no fixed acid/base label can say."
+  },
+  "provenance": {
+    "source": "Standard curriculum acid–base concepts (amphiprotic species, Brønsted–Lowry); carbonate equilibria from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
+    "computed_by": "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria"
+  }
+}

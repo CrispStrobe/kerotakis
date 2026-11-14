@@ -129,7 +129,9 @@ fn potassium_iodide_is_a_retained_catalyst_that_makes_visible_foam() {
         portion.species.0 == "KI" && portion.phase == kerotakis_core::Phase::Solid
     }));
     let events = bench
-        .step(parse_op("stir v1 500rpm 10s").unwrap().unwrap())
+        // Liebhafsky & Mohammad's k0 (0.0115 L/mol/s) makes 3 % peroxide
+        // with 1 g KI foam over minutes, not seconds.
+        .step(parse_op("stir v1 500rpm 300s").unwrap().unwrap())
         .expect("iodide-catalysed stirring interval");
 
     assert!(events.iter().any(|event| matches!(
@@ -190,8 +192,9 @@ fn potassium_iodide_dissolves_even_when_it_is_added_before_the_liquid() {
 
 #[test]
 fn more_potassium_iodide_makes_more_oxygen_and_foam_on_the_same_clock() {
-    let low = household_foam_after("KI 0.25g", 10.0);
-    let high = household_foam_after("KI 1g", 10.0);
+    // Minutes, not seconds, at the measured k0 (see the test above).
+    let low = household_foam_after("KI 0.25g", 300.0);
+    let high = household_foam_after("KI 1g", 300.0);
     assert!(
         high.0 > low.0 * 2.0,
         "oxygen must respond to KI dose: low={low:?}, high={high:?}"

@@ -3,22 +3,22 @@
     "solid": "Ag",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "AgMetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Ag",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Agmetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Ag",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Ag2CO3",
@@ -151,21 +151,21 @@
     "route": "wateq4f",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Al",
     "route": "minteq.v4",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Al",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Ba(OH)2",
@@ -381,22 +381,22 @@
     "solid": "Cu",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "CuMetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Cu",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Cumetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Cu",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Cu(OH)2",
@@ -414,6 +414,27 @@
   },
   {
     "solid": "Cu(OH)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Cu2O",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Cuprite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Cu2O",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Cuprite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Cu2O",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -466,21 +487,21 @@
     "route": "wateq4f",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Fe",
     "route": "minteq.v4",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Fe",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Fe(OH)2",
@@ -528,15 +549,15 @@
     "solid": "Fe2O3",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Hematite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "Fe2O3",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Hematite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "Fe2O3",
@@ -760,21 +781,21 @@
     "route": "wateq4f",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Mg",
     "route": "minteq.v4",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Mg",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Mg(OH)2",
@@ -843,15 +864,15 @@
     "solid": "MnO2",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Pyrolusite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "MnO2",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Nsutite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "MnO2",
@@ -1180,21 +1201,21 @@
     "route": "wateq4f",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
   },
   {
     "solid": "PE",
     "route": "minteq.v4",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
   },
   {
     "solid": "PE",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
   },
   {
     "solid": "PET",
@@ -1284,22 +1305,22 @@
     "solid": "Pb",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "PbMetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Pb",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Pbmetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Pb",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Pb(NO3)2",
@@ -1389,15 +1410,15 @@
     "solid": "S",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Sulfur",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "S",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Sulfur",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "S",
@@ -1410,43 +1431,43 @@
     "solid": "SiO2",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Quartz",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "SiO2",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Quartz",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "SiO2",
     "route": "pitzer",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Chalcedony",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
   },
   {
     "solid": "Zn",
     "route": "wateq4f",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "ZnMetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Zn",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "phase": "Znmetal",
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Zn",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Zn(OH)2",
@@ -1726,21 +1747,21 @@
     "route": "wateq4f",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
   },
   {
     "solid": "dry_ice",
     "route": "minteq.v4",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
   },
   {
     "solid": "dry_ice",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
   },
   {
     "solid": "epsomite",
@@ -2104,20 +2125,20 @@
     "route": "wateq4f",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "uranium",
     "route": "minteq.v4",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "uranium",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
-    "reason": "the routed database defines no phase for this solid"
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   }
 ]

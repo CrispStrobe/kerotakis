@@ -12,7 +12,7 @@ import subprocess
 import time
 
 ROOT = Path(__file__).resolve().parents[2]
-MANIFEST_DIR = Path(__file__).with_name("source-fleets-2")
+MANIFEST_DIR = Path(__file__).with_name("source-fleets-2-closed-carbon-v1")
 SCHEMA = "kerotakis-source-fleet-v2"
 FIRST_ID, LAST_ID = 489, 776
 FAMILIES = (
@@ -32,6 +32,7 @@ ASSERTIONS = {
     "final-scalar-equal", "final-scalar-order", "event-scalar-equal",
     "event-scalar-order", "event-present", "event-boundary-present",
     "event-components-total-order",
+    "carbonate-closed-equilibrium-v1",
 }
 SUBSTANTIVE_ASSERTIONS = ASSERTIONS - {"event-present"}
 RELATION_KINDS = {"conservation", "independent-law", "metamorphic", "boundary"}

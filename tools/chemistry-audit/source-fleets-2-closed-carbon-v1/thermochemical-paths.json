@@ -1,0 +1,236 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "thermochemical-paths",
+  "cases": [
+    {
+      "id": "753-water-heat-path-1",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "script": "add v1 water 260mL\nheat v1 400J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "754-water-heat-path-2",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "script": "add v1 water 260mL\nheat v1 200J\nheat v1 200J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "755-water-heat-path-3",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "script": "add v1 water 260mL\nheat v1 100J\nheat v1 300J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "756-water-heat-path-4",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "script": "add v1 water 260mL\nheat v1 50J\nheat v1 150J\nheat v1 200J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "757-water-cool-path-1",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "script": "add v1 water 250mL @ 50C\ncool v1 300J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "758-water-cool-path-2",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "script": "add v1 water 250mL @ 50C\ncool v1 150J\ncool v1 150J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "759-water-cool-path-3",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "script": "add v1 water 250mL @ 50C\ncool v1 50J\ncool v1 250J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "760-water-cool-path-4",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "script": "add v1 water 250mL @ 50C\ncool v1 25J\ncool v1 75J\ncool v1 200J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "761-water-heat-dose-0",
+      "question": "How does supplied energy order final water temperature?",
+      "script": "add v1 water 250mL\nheat v1 0J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "762-water-heat-dose-100",
+      "question": "How does supplied energy order final water temperature?",
+      "script": "add v1 water 250mL\nheat v1 100J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "763-water-heat-dose-200",
+      "question": "How does supplied energy order final water temperature?",
+      "script": "add v1 water 250mL\nheat v1 200J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "764-water-heat-dose-400",
+      "question": "How does supplied energy order final water temperature?",
+      "script": "add v1 water 250mL\nheat v1 400J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "765-mix-scale-1",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "script": "add v1 water 50mL @ 70C\nnew\nadd v2 water 50mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "766-mix-scale-2",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "script": "add v1 water 100mL @ 70C\nnew\nadd v2 water 100mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "767-mix-scale-3",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "script": "add v1 water 150mL @ 70C\nnew\nadd v2 water 150mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "768-mix-scale-4",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "script": "add v1 water 200mL @ 70C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "769-hot-share-1",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "script": "add v1 water 100mL @ 70C\nnew\nadd v2 water 300mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "770-hot-share-2",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "script": "add v1 water 150mL @ 70C\nnew\nadd v2 water 250mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "771-hot-share-3",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "script": "add v1 water 250mL @ 70C\nnew\nadd v2 water 150mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "772-hot-share-4",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "script": "add v1 water 300mL @ 70C\nnew\nadd v2 water 100mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "773-thermal-roundtrip-50",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "script": "add v1 water 250mL\nheat v1 50J\ncool v1 50J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "774-thermal-roundtrip-100",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "script": "add v1 water 250mL\nheat v1 100J\ncool v1 100J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "775-thermal-roundtrip-200",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "script": "add v1 water 250mL\nheat v1 200J\ncool v1 200J\nmeasure v1 thermometer"
+    },
+    {
+      "id": "776-thermal-roundtrip-300",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "script": "add v1 water 250mL\nheat v1 300J\ncool v1 300J\nmeasure v1 thermometer"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v2b-thermochemical-paths-heat-partition",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "753-water-heat-path-1",
+        "754-water-heat-path-2",
+        "755-water-heat-path-3",
+        "756-water-heat-path-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0
+      }
+    },
+    {
+      "id": "v2b-thermochemical-paths-cool-partition",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "757-water-cool-path-1",
+        "758-water-cool-path-2",
+        "759-water-cool-path-3",
+        "760-water-cool-path-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0
+      }
+    },
+    {
+      "id": "v2b-thermochemical-paths-heat-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "761-water-heat-dose-0",
+        "762-water-heat-dose-100",
+        "763-water-heat-dose-200",
+        "764-water-heat-dose-400"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.05
+      }
+    },
+    {
+      "id": "v2b-thermochemical-paths-mix-intensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "765-mix-scale-1",
+        "766-mix-scale-2",
+        "767-mix-scale-3",
+        "768-mix-scale-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0
+      }
+    },
+    {
+      "id": "v2b-thermochemical-paths-hot-share",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "769-hot-share-1",
+        "770-hot-share-2",
+        "771-hot-share-3",
+        "772-hot-share-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1
+      }
+    },
+    {
+      "id": "v2b-thermochemical-paths-roundtrip",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "773-thermal-roundtrip-50",
+        "774-thermal-roundtrip-100",
+        "775-thermal-roundtrip-200",
+        "776-thermal-roundtrip-300"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0
+      }
+    }
+  ]
+}

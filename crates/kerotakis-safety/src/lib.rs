@@ -358,6 +358,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "BaCl2" => &[ToxicSoluble],
         "Ba+2" => &[ToxicSoluble],
 
+        // Cuprite has no group in this limited compatibility matrix. Do
+        // not label the insoluble oxide ToxicSoluble or ActiveMetal merely
+        // because it contains copper. This is not a harmlessness claim:
+        // ILO/WHO ICSC 0421 (Nov 2023) identifies inhalation/ingestion, eye,
+        // aquatic and aluminium-powder incompatibility hazards which this
+        // matrix does not encode. https://inchem.org/documents/icsc/icsc/eics0421.htm
+        "Cu2O" => &[],
+
         // ── inert: solvents, salts, oxides, ions, indicators ──────
         "water"
         | "NaCl"
@@ -689,6 +697,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "curcumin_ox",
     "Cu+2",
     "CuO",
+    "Cu2O",
     "Cu(OH)2",
     "CuSO4",
     "chalcanthite",
@@ -1958,6 +1967,16 @@ mod tests {
         let (labels, assessed) = hazard_assessment("FeCl3");
         assert!(assessed);
         assert!(labels.contains(&"irritant"), "{labels:?}");
+    }
+
+    #[test]
+    fn cuprite_has_explicit_matrix_coverage_without_false_soluble_or_metal_groups() {
+        assert!(COVERED_KEYS.contains(&"Cu2O"));
+        let row = groups("Cu2O");
+        assert!(!row.contains(&ReactiveGroup::ToxicSoluble));
+        assert!(!row.contains(&ReactiveGroup::ActiveMetal));
+        // An empty compatibility row is a documented model gap, not a
+        // general handling-safety or complete GHS assessment.
     }
 
     #[test]

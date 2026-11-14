@@ -1,0 +1,19 @@
+error: the loop variable `cell` is only used to index `bench.vessels`
+   --> crates/kerotakis-core/tests/transport_feed_ledger.rs:278:17
+    |
+278 |     for cell in 1..=2 {
+    |                 ^^^^^
+    |
+note: for this index operation
+   --> crates/kerotakis-core/tests/transport_feed_ledger.rs:279:20
+    |
+279 |         assert_eq!(bench.vessels[cell].moles_of(&ion).0, 0.0);
+    |                    ^^^^^^^^^^^^^^^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.100.0/index.html#needless_range_loop
+    = note: `-D clippy::needless-range-loop` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::needless_range_loop)]`
+help: consider using an iterator
+    |
+278 -     for cell in 1..=2 {
+278 +     for <item> in bench.vessels.iter().take(2 + 1).skip(1) {
+    |

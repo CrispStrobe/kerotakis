@@ -20,6 +20,7 @@ ASSERTIONS = {
     "final-scalar-equal", "final-scalar-order", "event-scalar-equal",
     "event-scalar-order", "event-present", "event-boundary-present",
     "event-components-total-order",
+    "carbonate-closed-equilibrium-v1",
 }
 
 
@@ -169,6 +170,13 @@ def _relation(relation, records, composition):
     if not isinstance(case_ids, list) or not case_ids or len(case_ids) != len(set(case_ids)):
         raise ValueError("relation cases must be a nonempty unique list")
     selected = [records[case_id] for case_id in case_ids]
+    if assertion == "carbonate-closed-equilibrium-v1":
+        from carbonate_closed_equilibrium import check_rows
+        doses = relation.get("expected_doses")
+        if not isinstance(doses, list) or len(doses) != len(selected):
+            raise ValueError("each closed-carbon case requires its independently specified dose")
+        return True, [check_rows(record["rows"], dose)
+                      for record, dose in zip(selected, doses)]
     if assertion == "final-inventory-equal":
         values = [_inventory(record["final"], relation) for record in selected]
         return _equal_maps(values, relation), values

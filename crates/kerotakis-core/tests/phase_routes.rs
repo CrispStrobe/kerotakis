@@ -595,19 +595,30 @@ fn every_boil_this_bench_pays_for_can_be_undone() {
         );
     }
 
-    // Every latent heat has to be payable inside one clock sub-step, or
-    // the last of a substance changes phase in an ever-smaller fraction
-    // for ever. `clock::LEDGER_EXCURSION_K` is 1000 K; the largest
-    // dH/Cp here must clear it.
-    for row in FUSION_ENTHALPIES.iter().chain(VAPORISATION_ENTHALPIES) {
-        let data = kerotakis_core::species::lookup(&SpeciesId::new(row.species)).unwrap();
-        let excursion = row.kj_per_mol * 1000.0 / data.heat_capacity;
-        assert!(
-            excursion < 1000.0,
-            "{} needs a {excursion:.0} K excursion to pay its latent heat, \
-             which is more than the clock allows itself",
-            row.species
-        );
+    // The clock's bounded temperature carrier must hold enough integrated
+    // sensible energy to pay a complete transition. The phase ledger spends
+    // integral Cp(T), so latent / the room-temperature scalar is not the
+    // required excursion for a hot crystal such as Cu2O.
+    for (rows, phase) in [
+        (FUSION_ENTHALPIES, Phase::Solid),
+        (VAPORISATION_ENTHALPIES, Phase::Liquid),
+    ] {
+        for row in rows {
+            let data = species::lookup_key(row.species).unwrap();
+            let transitions = data.transitions.unwrap();
+            let point = match phase {
+                Phase::Solid => transitions.melting_k.unwrap(),
+                Phase::Liquid => transitions.boiling_k.unwrap(),
+                _ => unreachable!(),
+            };
+            let available = states::enthalpy_between(data, phase, point, point + 1000.0);
+            let required = row.kj_per_mol * 1000.0;
+            assert!(
+                available > required,
+                "{}: the unchanged 1000 K carrier holds {available} J/mol but fusion/boiling requires {required} J/mol",
+                row.species
+            );
+        }
     }
 
     // And the superheat correction is gated on being a condensed gas,
@@ -867,4 +878,75 @@ fn a_cryogen_arrives_cold_and_a_salt_arrives_at_room_temperature() {
         .is_some_and(|k| (k - 194.65).abs() < 0.5));
     assert!(kerotakis_core::phase_route::arrives_at_k("NaCl").is_none());
     assert!(kerotakis_core::phase_route::arrives_at_k("ethanol").is_none());
+}
+
+#[test]
+fn ambient_cooling_completes_cuprite_freezing_without_a_stranded_liquid_tail() {
+    use kerotakis_core::clock::{AmbientClock, Clock, ClockContext};
+    let data = species::lookup_key("Cu2O").unwrap();
+    let melting = data.transitions.unwrap().melting_k.unwrap();
+    let mut vessel = Vessel::new(VesselId(0), "beaker");
+    vessel.temperature = Kelvin(melting);
+    vessel.deposit(SpeciesId::new("Cu2O"), Moles(1.0), Phase::Liquid);
+    let mut events = Vec::new();
+    AmbientClock
+        .advance(
+            &mut vessel,
+            100_000.0,
+            &ClockContext::default(),
+            &mut events,
+        )
+        .unwrap();
+    let amount = |phase| {
+        vessel
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == "Cu2O" && p.phase == phase)
+            .map(|p| p.moles.0)
+            .sum::<f64>()
+    };
+    assert!((amount(Phase::Solid) - 1.0).abs() < 1e-12, "{vessel:?}");
+    assert!(amount(Phase::Liquid) < 1e-12, "{vessel:?}");
+    assert!(vessel.temperature.0.is_finite());
+    assert!(
+        (vessel.temperature.0 - Kelvin::STANDARD.0).abs() < 0.01,
+        "{vessel:?}"
+    );
+    // Ambient substeps can freeze and remelt part of the same inventory
+    // while the coupled phase ledger settles. Gross freezing is therefore
+    // not the final amount: signed transitions must reproduce the actual
+    // phase inventory. This is an amount/settlement check, not an
+    // independent measurement of the clock's heat exchanged with the room.
+    let net_frozen = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::StateChanged {
+                species,
+                from,
+                to,
+                moles: Some(n),
+                ..
+            } if species.0 == "Cu2O" => {
+                assert!(n.0.is_finite() && n.0 > 0.0, "{e:?}");
+                match (from, to) {
+                    (Phase::Liquid, Phase::Solid) => Some(n.0),
+                    (Phase::Solid, Phase::Liquid) => Some(-n.0),
+                    _ => panic!("unexpected cuprite phase transition: {e:?}"),
+                }
+            }
+            _ => None,
+        })
+        .sum::<f64>();
+    assert!((net_frozen - 1.0).abs() < 1e-12, "{events:?}");
+    assert!((net_frozen - amount(Phase::Solid)).abs() < 1e-12);
+    let settled = vessel.clone();
+    let later = PhaseRouteEquilibrator.equilibrate(&mut vessel).unwrap();
+    assert!(
+        !later
+            .iter()
+            .any(|e| matches!(e, Event::StateChanged { .. })),
+        "{later:?}"
+    );
+    assert_eq!(vessel.contents, settled.contents);
+    assert_eq!(vessel.temperature, settled.temperature);
 }

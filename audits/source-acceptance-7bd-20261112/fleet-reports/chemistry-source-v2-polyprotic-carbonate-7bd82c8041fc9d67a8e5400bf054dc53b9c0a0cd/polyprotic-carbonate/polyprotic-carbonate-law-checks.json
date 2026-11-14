@@ -1,0 +1,1843 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "513-phosphoric-dose-0.0003: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "514-phosphoric-dose-0.0006: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "515-phosphoric-dose-0.0012: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "516-phosphoric-dose-0.0024: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "517-phosphoric-dilution-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "518-phosphoric-dilution-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "519-phosphoric-dilution-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "520-phosphoric-dilution-800: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "521-bicarbonate-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "522-bicarbonate-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "523-bicarbonate-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "524-bicarbonate-dose-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "525-carbonate-dose-0.00025: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "526-carbonate-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "527-carbonate-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "528-carbonate-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "529-carbonate-acid-0.0002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "530-carbonate-acid-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "531-carbonate-acid-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "532-carbonate-acid-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "533-carbonate-scale-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "534-carbonate-scale-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "535-carbonate-scale-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "536-carbonate-scale-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "polyprotic-carbonate:pc-phosphoric-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        3.06177781171,
+        2.801049765581,
+        2.558150993074,
+        2.334056093723
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-phosphoric-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.265723726753,
+        2.48398463561,
+        2.720806117929,
+        2.976062955623
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-bicarbonate-closed-carbon-v1",
+      "kind": "independent-law",
+      "assertion": "carbonate-closed-equilibrium-v1",
+      "passed": true,
+      "evidence": [
+        {
+          "model": "wateq4f-closed-carbon-v1",
+          "dose_mol": 0.0005,
+          "rows": [
+            {
+              "row": 1,
+              "physical_ledger_mol": {
+                "Na": 0.0005,
+                "C": 0.0005,
+                "H": 33.20616194837635,
+                "O": 16.604330974188176
+              },
+              "physical_charge_eq": -3.5405977195229754e-19,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -1.1897685000003478e-06,
+                8.313325000007056e-07
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329466277829411,
+                    -10.328790192897026
+                  ],
+                  [
+                    -10.328922681703409,
+                    -10.32890370880781
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.680603911288355,
+                    16.68131448939234
+                  ],
+                  [
+                    16.680772894517688,
+                    16.68085371383807
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -13.999946054557821,
+                    -13.999632713557595
+                  ],
+                  [
+                    -13.999773079797908,
+                    -13.999729678307055
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2506737063581111,
+                    -0.2498139646174424
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2695997963277426,
+                    1.2702955940093463
+                  ],
+                  [
+                    1.2698517657493602,
+                    1.2698539563814588
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 2,
+              "physical_ledger_mol": {
+                "Na": 0.0005,
+                "C": 0.0005,
+                "H": 33.20616194837635,
+                "O": 16.604330974188176
+              },
+              "physical_charge_eq": -3.5405977195229754e-19,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -1.1897685000003478e-06,
+                8.313325000007056e-07
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329466277829411,
+                    -10.328790192897026
+                  ],
+                  [
+                    -10.328922681703409,
+                    -10.32890370880781
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.680603911288355,
+                    16.68131448939234
+                  ],
+                  [
+                    16.680772894517688,
+                    16.68085371383807
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -13.999946054557821,
+                    -13.999632713557595
+                  ],
+                  [
+                    -13.999773079797908,
+                    -13.999729678307055
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2506737063581111,
+                    -0.2498139646174424
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2695997963277426,
+                    1.2702955940093463
+                  ],
+                  [
+                    1.2698517657493602,
+                    1.2698539563814588
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 3,
+              "physical_ledger_mol": {
+                "Na": 0.0005,
+                "C": 0.0005,
+                "H": 33.20616194837635,
+                "O": 16.604330974188176
+              },
+              "physical_charge_eq": -3.5405977195229754e-19,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -1.1897685000003478e-06,
+                8.313325000007056e-07
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329466277829411,
+                    -10.328790192897026
+                  ],
+                  [
+                    -10.328922681703409,
+                    -10.32890370880781
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.680603911288355,
+                    16.68131448939234
+                  ],
+                  [
+                    16.680772894517688,
+                    16.68085371383807
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -13.999946054557821,
+                    -13.999632713557595
+                  ],
+                  [
+                    -13.999773079797908,
+                    -13.999729678307055
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2506737063581111,
+                    -0.2498139646174424
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2695997963277426,
+                    1.2702955940093463
+                  ],
+                  [
+                    1.2698517657493602,
+                    1.2698539563814588
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "model": "wateq4f-closed-carbon-v1",
+          "dose_mol": 0.001,
+          "rows": [
+            {
+              "row": 1,
+              "physical_ledger_mol": {
+                "Na": 0.001,
+                "C": 0.001,
+                "H": 33.20666194837635,
+                "O": 16.605830974188176
+              },
+              "physical_charge_eq": -5.55653613398821e-19,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -1.4082385000010878e-06,
+                6.137625000012669e-07
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329156239310198,
+                    -10.32877076647257
+                  ],
+                  [
+                    -10.328981327435972,
+                    -10.328962353866022
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.68067888831906,
+                    16.681118493478476
+                  ],
+                  [
+                    16.680867397375895,
+                    16.680948219745776
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.000009398802142,
+                    -13.999693476897574
+                  ],
+                  [
+                    -13.999993070970289,
+                    -13.999949667902287
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501008086411774,
+                    -0.24974037324247608
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2693595048897668,
+                    1.2699436558246406
+                  ],
+                  [
+                    1.2697050746120926,
+                    1.269707265342595
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 2,
+              "physical_ledger_mol": {
+                "Na": 0.001,
+                "C": 0.001,
+                "H": 33.20666194837635,
+                "O": 16.605830974188176
+              },
+              "physical_charge_eq": -5.55653613398821e-19,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -1.4082385000010878e-06,
+                6.137625000012669e-07
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329156239310198,
+                    -10.32877076647257
+                  ],
+                  [
+                    -10.328981327435972,
+                    -10.328962353866022
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.68067888831906,
+                    16.681118493478476
+                  ],
+                  [
+                    16.680867397375895,
+                    16.680948219745776
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.000009398802142,
+                    -13.999693476897574
+                  ],
+                  [
+                    -13.999993070970289,
+                    -13.999949667902287
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501008086411774,
+                    -0.24974037324247608
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2693595048897668,
+                    1.2699436558246406
+                  ],
+                  [
+                    1.2697050746120926,
+                    1.269707265342595
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 3,
+              "physical_ledger_mol": {
+                "Na": 0.001,
+                "C": 0.001,
+                "H": 33.20666194837635,
+                "O": 16.605830974188176
+              },
+              "physical_charge_eq": -5.55653613398821e-19,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -1.4082385000010878e-06,
+                6.137625000012669e-07
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329156239310198,
+                    -10.32877076647257
+                  ],
+                  [
+                    -10.328981327435972,
+                    -10.328962353866022
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.68067888831906,
+                    16.681118493478476
+                  ],
+                  [
+                    16.680867397375895,
+                    16.680948219745776
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.000009398802142,
+                    -13.999693476897574
+                  ],
+                  [
+                    -13.999993070970289,
+                    -13.999949667902287
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501008086411774,
+                    -0.24974037324247608
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2693595048897668,
+                    1.2699436558246406
+                  ],
+                  [
+                    1.2697050746120926,
+                    1.269707265342595
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "model": "wateq4f-closed-carbon-v1",
+          "dose_mol": 0.002,
+          "rows": [
+            {
+              "row": 1,
+              "physical_ledger_mol": {
+                "Na": 0.002,
+                "C": 0.002,
+                "H": 33.207661948376355,
+                "O": 16.608830974188177
+              },
+              "physical_charge_eq": 1.5585406229479126e-18,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -6.338305000001016e-07,
+                1.388170500000981e-06
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329136448460286,
+                    -10.328899549429952
+                  ],
+                  [
+                    -10.329098606285614,
+                    -10.329079631367316
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.680874325048382,
+                    16.681171220500477
+                  ],
+                  [
+                    16.681056397700107,
+                    16.68113722616739
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.000635746523512,
+                    -14.000311377771386
+                  ],
+                  [
+                    -14.00043293656248,
+                    -14.000389530341018
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501296144589334,
+                    -0.24977512973061564
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2691832510061987,
+                    1.2694203396374186
+                  ],
+                  [
+                    1.2694117813024277,
+                    1.2694139722296849
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 2,
+              "physical_ledger_mol": {
+                "Na": 0.002,
+                "C": 0.002,
+                "H": 33.207661948376355,
+                "O": 16.608830974188177
+              },
+              "physical_charge_eq": 1.5585406229479126e-18,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -6.338305000001016e-07,
+                1.388170500000981e-06
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329136448460286,
+                    -10.328899549429952
+                  ],
+                  [
+                    -10.329098606285614,
+                    -10.329079631367316
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.680874325048382,
+                    16.681171220500477
+                  ],
+                  [
+                    16.681056397700107,
+                    16.68113722616739
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.000635746523512,
+                    -14.000311377771386
+                  ],
+                  [
+                    -14.00043293656248,
+                    -14.000389530341018
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501296144589334,
+                    -0.24977512973061564
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2691832510061987,
+                    1.2694203396374186
+                  ],
+                  [
+                    1.2694117813024277,
+                    1.2694139722296849
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 3,
+              "physical_ledger_mol": {
+                "Na": 0.002,
+                "C": 0.002,
+                "H": 33.207661948376355,
+                "O": 16.608830974188177
+              },
+              "physical_charge_eq": 1.5585406229479126e-18,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -6.338305000001016e-07,
+                1.388170500000981e-06
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.329136448460286,
+                    -10.328899549429952
+                  ],
+                  [
+                    -10.329098606285614,
+                    -10.329079631367316
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.680874325048382,
+                    16.681171220500477
+                  ],
+                  [
+                    16.681056397700107,
+                    16.68113722616739
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.000635746523512,
+                    -14.000311377771386
+                  ],
+                  [
+                    -14.00043293656248,
+                    -14.000389530341018
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501296144589334,
+                    -0.24977512973061564
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2691832510061987,
+                    1.2694203396374186
+                  ],
+                  [
+                    1.2694117813024277,
+                    1.2694139722296849
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "model": "wateq4f-closed-carbon-v1",
+          "dose_mol": 0.004,
+          "rows": [
+            {
+              "row": 1,
+              "physical_ledger_mol": {
+                "Na": 0.004,
+                "C": 0.004,
+                "H": 33.20966194837636,
+                "O": 16.614830974188177
+              },
+              "physical_charge_eq": 3.415236843329339e-18,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -8.873647500003741e-06,
+                1.1337353500002411e-05
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.32954956939925,
+                    -10.329055190440647
+                  ],
+                  [
+                    -10.32933315133636,
+                    -10.329314173722345
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.681401322794922,
+                    16.681859871497306
+                  ],
+                  [
+                    16.68143443765515,
+                    16.681515278312787
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.001584280886497,
+                    -14.001244227104975
+                  ],
+                  [
+                    -14.001312342905907,
+                    -14.001268930379839
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501583689853098,
+                    -0.2493598873535283
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2687675411214279,
+                    1.2694099810658719
+                  ],
+                  [
+                    1.2688254556957308,
+                    1.2688276470163504
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 2,
+              "physical_ledger_mol": {
+                "Na": 0.004,
+                "C": 0.004,
+                "H": 33.20966194837636,
+                "O": 16.614830974188177
+              },
+              "physical_charge_eq": 3.415236843329339e-18,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -8.873647500003741e-06,
+                1.1337353500002411e-05
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.32954956939925,
+                    -10.329055190440647
+                  ],
+                  [
+                    -10.32933315133636,
+                    -10.329314173722345
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.681401322794922,
+                    16.681859871497306
+                  ],
+                  [
+                    16.68143443765515,
+                    16.681515278312787
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.001584280886497,
+                    -14.001244227104975
+                  ],
+                  [
+                    -14.001312342905907,
+                    -14.001268930379839
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501583689853098,
+                    -0.2493598873535283
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2687675411214279,
+                    1.2694099810658719
+                  ],
+                  [
+                    1.2688254556957308,
+                    1.2688276470163504
+                  ]
+                ]
+              }
+            },
+            {
+              "row": 3,
+              "physical_ledger_mol": {
+                "Na": 0.004,
+                "C": 0.004,
+                "H": 33.20966194837636,
+                "O": 16.614830974188177
+              },
+              "physical_charge_eq": 3.415236843329339e-18,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "scope_serialization": "omitted Complete variant",
+              "charge_interval_molal": [
+                -8.873647500003741e-06,
+                1.1337353500002411e-05
+              ],
+              "log_equations": {
+                "K2": [
+                  [
+                    -10.32954956939925,
+                    -10.329055190440647
+                  ],
+                  [
+                    -10.32933315133636,
+                    -10.329314173722345
+                  ]
+                ],
+                "CO2-association": [
+                  [
+                    16.681401322794922,
+                    16.681859871497306
+                  ],
+                  [
+                    16.68143443765515,
+                    16.681515278312787
+                  ]
+                ],
+                "Kw": [
+                  [
+                    -14.001584280886497,
+                    -14.001244227104975
+                  ],
+                  [
+                    -14.001312342905907,
+                    -14.001268930379839
+                  ]
+                ],
+                "NaHCO3": [
+                  [
+                    -0.2501583689853098,
+                    -0.2493598873535283
+                  ],
+                  [
+                    -0.25,
+                    -0.25
+                  ]
+                ],
+                "NaCO3": [
+                  [
+                    1.2687675411214279,
+                    1.2694099810658719
+                  ],
+                  [
+                    1.2688254556957308,
+                    1.2688276470163504
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-carbonate-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.47363819661,
+        10.63423768024,
+        10.77767051917,
+        10.90455978847
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-carbonate-acid",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.73176913672,
+        10.47603145918,
+        10.07828399538,
+        8.417721456327
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-carbonate-scale",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        10.85387857262,
+        10.85387857262,
+        10.85387857262,
+        10.85387857262
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd",
+  "binary_sha256": "4c3ac9945c990ae405d9cfa0d0b0fc78060cfcac5621adab32beae9f3fc95fe4"
+}

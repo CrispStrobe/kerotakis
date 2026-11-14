@@ -592,3 +592,39 @@ fn igniting_magnesium_gains_mass_from_the_air() {
         "flame temperature in the right range, got {t:.0} K"
     );
 }
+
+#[test]
+fn magnesium_ignition_closes_the_liquid_feed_and_air_enthalpy_balance() {
+    // Match the production order: the spark's superheat first pays fusion.
+    // Independent ledger per mol: integral Cp_solid(922..1200) =
+    // 9000.351374783 J, less 8480 J fusion; liquid Cp is 24.9 J/mol/K.
+    // The resulting 942.897645574 K feed must use Mg(L), never Mg(g).
+    let db = kerotakis_cea::db();
+    let h = |name: &str, t: f64| db.get(name).unwrap().h(t).unwrap();
+    for mass in [1.2, 2.4] {
+        let n = mass / 24.305;
+        let mut vessel = Vessel::new(VesselId(0), "magnesium energy control");
+        vessel.temperature = Kelvin(1200.0);
+        vessel.thermal_mode = ThermalMode::Adiabatic;
+        vessel.ignition = true;
+        vessel.deposit(SpeciesId::new("Mg"), Moles(n), Phase::Solid);
+        PhaseRouteEquilibrator.equilibrate(&mut vessel).unwrap();
+        let inlet = vessel.temperature.0;
+        assert!((inlet - 942.897645574).abs() < 1e-5);
+        assert!(vessel.contents.iter().all(|p| p.phase == Phase::Liquid));
+        let target = n * (h("Mg(L)", inlet) + 6.24 * h("N2", inlet) + 1.68 * h("O2", inlet));
+        let unpaid_vapour = n * (h("Mg", inlet) - h("Mg(L)", inlet));
+        assert!(unpaid_vapour > 6500.0);
+        ThermalEquilibrator.equilibrate(&mut vessel).unwrap();
+        let final_k = vessel.temperature.0;
+        // Independently solved condensed-product balance, not a measured
+        // flame temperature. Mg/MgO vapours are outside this product pool.
+        assert!((final_k - 2840.287295629).abs() < 0.1);
+        let products =
+            n * (h("MgO(cr)", final_k) + 6.24 * h("N2", final_k) + 1.18 * h("O2", final_k));
+        assert!((products - target).abs() <= 1.0 + target.abs() * 1e-8);
+        assert!((vessel.moles_of(&SpeciesId::new("MgO")).0 - n).abs() < 1e-10);
+        assert!(vessel.contents.iter().all(|p| p.phase == Phase::Solid));
+        assert!((vessel.mass().0 - n * 40.304).abs() < 1e-8);
+    }
+}

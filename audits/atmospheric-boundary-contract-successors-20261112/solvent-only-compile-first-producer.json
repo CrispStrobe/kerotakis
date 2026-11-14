@@ -1,0 +1,34 @@
+{
+  "source": "0b3baf11a66af0b7d374843d4dca033497c20f8b",
+  "tests": {
+    "name": "workspace-tests",
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--workspace",
+      "--no-fail-fast"
+    ],
+    "exit": 101,
+    "seconds": 306.96319576400003,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "0fc1f8d556f26eac9f48720e6b5d609d650f39304307429b48599f25cec62255"
+  },
+  "clippy": {
+    "name": "workspace-clippy",
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 101,
+    "seconds": 232.417325119,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "d8a754ae80751aa1f7d98d735d45cd594fcd54e957feda0724d549dea916fad5"
+  }
+}

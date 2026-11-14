@@ -1,0 +1,18 @@
+{
+  "521-bicarbonate-dose-0.0005/experiment.lab": "de2890a8f06cedc7cf628202ce57c3ffc8c3fa2de77ffde44ea315be5b0d6808",
+  "521-bicarbonate-dose-0.0005/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "521-bicarbonate-dose-0.0005/stdout.ndjson": "928a37d40fbf61090265452dcb43d4b512b225a79cee3e53a4a14c7482e0cedc",
+  "522-bicarbonate-dose-0.001/experiment.lab": "92d78253afa817579cb3a1f69c6a8f45878e13ec4ee255fb73f839244b36a9e4",
+  "522-bicarbonate-dose-0.001/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "522-bicarbonate-dose-0.001/stdout.ndjson": "38134e230800be6a1d79a44a01b82de2c699720ea9fa53be5e28c145142f9205",
+  "523-bicarbonate-dose-0.002/experiment.lab": "15c7c3668b4fbc705952c3a81d25bdbc40139c9df32a4541f67851edcafeceec",
+  "523-bicarbonate-dose-0.002/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "523-bicarbonate-dose-0.002/stdout.ndjson": "025726bcc54b17ac6388f7c409708474547d25aefacfaf81d20514ce983d4b1c",
+  "524-bicarbonate-dose-0.004/experiment.lab": "c8dbeab48038c91d39c888434cd305c6a96a6d1d5ea0e989042e7c1cfe0adbd9",
+  "524-bicarbonate-dose-0.004/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "524-bicarbonate-dose-0.004/stdout.ndjson": "f583ee4496e0509f35a06588a57384dc2534a4c6582c3c05254964ccf24119e8",
+  "README.md": "a35f3d7d19466b8c02fee27e9f2cbdbb1532dae77f873894fd515ee7d768cca8",
+  "polyprotic-carbonate-law-checks.json": "492ca2add26213f60674605ed86601e486a0d67076331478d4f97d0ad8025b66",
+  "preflight-sha256.txt": "0f1597919fbdf9cc22c4a387518fb3667d0e116afdeb32f2c116ca63ba1ee754",
+  "strict-saved-assessment.json": "c6ebd2080659fa70737a3f6c6608d99008f7b13d781fa7ed2050cdb4f244ecd1"
+}

@@ -2,7 +2,7 @@
 //!
 //! Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977,
 //! doi:10.1021/ja01337a010, measured that in perchloric acid with (H+)
-//! 0.0203-0.841 M every peroxide consumed by H2O2 + I- ends as iodine.
+//! 0.00762-0.841 M (Table I, Curve II starts at 0.762 x 10^-2 M) every peroxide consumed by H2O2 + I- ends as iodine.
 //! The bench gives that step to the clock rows while a represented acid
 //! inventory lets them run (CATALYST_PATHWAY_OWNERS). These tests pin the
 //! two honesty edges of that ownership: an owner running below the
@@ -58,14 +58,26 @@ fn iodide_peroxide(represented_acid: f64, ph: Option<f64>) -> Vessel {
 }
 
 #[test]
-fn ki011_acidity_is_reported_below_the_measured_floor() {
-    // batch2:ki-011 after the KI step: pH 1.865, (H+) 0.0136 M < 0.0203 M.
-    let v = iodide_peroxide(0.002, Some(1.865065588166));
+fn acidity_below_the_measured_floor_is_reported() {
+    // pH 2.5, (H+) 3.16e-3 M < 7.62e-3 M, the least acidic point of
+    // Liebhafsky & Mohammad's Table I, Curve II (p. 3980).
+    let v = iodide_peroxide(0.002, Some(2.5));
     for owner in ["iodide-peroxide-clock", "iodide-peroxide-clock-direct"] {
         let (h, floor) = kinetics::pathway_owner_below_measured_acid(owner, &v)
             .unwrap_or_else(|| panic!("{owner} must report the extrapolation"));
-        assert!((h - 10f64.powf(-1.865065588166)).abs() < 1e-12);
-        assert_eq!(floor, 0.0203);
+        assert!((h - 10f64.powf(-2.5)).abs() < 1e-12);
+        assert_eq!(floor, 0.00762);
+    }
+}
+
+#[test]
+fn ki011_acidity_is_inside_the_measured_range() {
+    // batch2:ki-011 after the KI step: pH 1.865, (H+) 0.0136 M. That is
+    // above the measured floor 0.00762 M (the 0.0203 M floor read the
+    // series' second row as its first), so no extrapolation is claimed.
+    let v = iodide_peroxide(0.002, Some(1.865065588166));
+    for owner in ["iodide-peroxide-clock", "iodide-peroxide-clock-direct"] {
+        assert!(kinetics::pathway_owner_below_measured_acid(owner, &v).is_none());
     }
 }
 

@@ -19,10 +19,21 @@
 //!   & Mesmer, *J. Solution Chem.* 13 (1984) 673, doi:10.1007/BF00650374. (Earlier
 //!   spectrophotometric values span 698–770; Awtrey & Connick,
 //!   *J. Am. Chem. Soc.* 73 (1951) 1842, doi:10.1021/ja01148a097.)
-//! * ε(I2, 460 nm) = 746 and ε(I3-, 460 nm) = 975 L mol⁻¹ cm⁻¹, ε(I3-,
-//!   353 nm) = 26 400 L mol⁻¹ cm⁻¹: Awtrey & Connick (1951), as above.
-//!   The I3- 353 nm value is confirmed by later sources (24 800–26 400);
-//!   the I2 460 nm value of 746 is NOT yet confirmed by a second source.
+//! * ε(I2, 460 nm) = 722 and ε(I3-, 460 nm) = 1022 L mol⁻¹ cm⁻¹ at 25 °C
+//!   (temperature coefficients −0.19 %/°C and +0.48 %/°C, measured 20–35 °C):
+//!   Table 3 of "Colorimetric Determination of Dissolved Oxygen: Assessment
+//!   of Methodological Influences on Iodine Spectra, Isosbestic Point,
+//!   Precision and Accuracy", ACS Omega 9 (2024) 47350,
+//!   doi:10.1021/acsomega.4c09084, open access PMC11603272
+//!   (read 2026-11-11: "460 729 722 715 708 –0.19%" for I2 and
+//!   "460 997 1022 1045 1070 0.48%" for I3-). This replaces the earlier
+//!   unconfirmed I2 value of 746 and I3- 975 (Awtrey & Connick,
+//!   *J. Am. Chem. Soc.* 73 (1951) 1842, doi:10.1021/ja01148a097).
+//!   ε(I3-, 353 nm) = 26 400 L mol⁻¹ cm⁻¹: Awtrey & Connick (1951); later
+//!   sources give 24 800–26 400. The temperature coefficients are applied
+//!   by the cited single-wavelength reading
+//!   ([`crate::uvvis_absorptivity`]); the 16-band colour spectrum is the
+//!   25 °C one.
 //! * E°(Fe³⁺/Fe²⁺) from the halogen redox half table (llnl.dat, 0.7696 V);
 //!   E°(I2(aq)/I⁻) = 0.621 V: Bard, Parsons & Jordan, *Standard Potentials
 //!   in Aqueous Solution* (IUPAC/Dekker, 1985).
@@ -45,14 +56,16 @@ use crate::{Moles, SpeciesId};
 /// Triiodide association constant at 25 °C, L/mol (Palmer et al. 1984).
 pub const TRIIODIDE_K: f64 = 698.0;
 
-/// Free I2(aq) visible band: maximum 460 nm, ε 746 L mol⁻¹ cm⁻¹ (Awtrey &
-/// Connick 1951); the width is the band's ≈100 nm FWHM as a Gaussian σ.
-pub const I2_BAND: (f64, f64, f64) = (460.0, 746.0, 42.0);
+/// Free I2(aq) visible band: maximum 460 nm, ε 722 L mol⁻¹ cm⁻¹ at 25 °C
+/// (ACS Omega 2024, PMC11603272, Table 3); the width is the band's ≈100 nm
+/// FWHM as a Gaussian σ.
+pub const I2_BAND: (f64, f64, f64) = (460.0, 722.0, 42.0);
 
 /// I3⁻: the 353 nm band (ε 26 400) whose visible tail colours the solution.
-/// σ is FITTED so that ε(460 nm) = 975, the second cited point:
-/// σ = 107 / sqrt(2 ln(26400/975)) = 41.66 nm.
-pub const I3_BAND: (f64, f64, f64) = (353.0, 26_400.0, 41.66);
+/// σ is FITTED so that ε(460 nm) = 1022 at 25 °C (ACS Omega 2024,
+/// PMC11603272, Table 3), the second cited point:
+/// σ = 107 / sqrt(2 ln(26400/1022)) = 41.96 nm.
+pub const I3_BAND: (f64, f64, f64) = (353.0, 26_400.0, 41.96);
 
 /// E°(I2(aq)/I⁻), V (Bard, Parsons & Jordan 1985).
 pub const E0_I2AQ_IODIDE_V: f64 = 0.621;
@@ -659,7 +672,14 @@ pub struct IodineInventory {
     pub free_iodide_mol: f64,
     /// Starch–triiodide complex, as I3⁻ equivalents (one I2 + one I⁻ each).
     pub starch_bound_triiodide_mol: f64,
-    /// Oxidised iodine as I2 equivalents: free I2 + I3⁻ + starch-bound.
+    /// I2 dissolved in a water-free liquid solvent (an extraction receiver
+    /// such as hexane): molecular I2, no triiodide or starch split.
+    pub nonaqueous_i2_mol: f64,
+    /// The liquid hosting `nonaqueous_i2_mol`, when the vessel has no water.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nonaqueous_solvent: Option<String>,
+    /// Oxidised iodine as I2 equivalents: free I2 + I3⁻ + starch-bound +
+    /// I2 held in a non-aqueous solvent.
     pub oxidised_iodine_mol: f64,
     /// Iodine-bearing portions outside the split above.
     pub other_pools: Vec<IodinePool>,
@@ -701,6 +721,11 @@ fn may_name_iodine(text: &str) -> bool {
 pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
     let iodide_keys = crate::halogen_redox::registry_forms(IODIDE);
     let has_water = liquid_water(vessel) > 0.0;
+    // SP-011: a water-free liquid (hexane after an extraction) holds I2 as
+    // dissolved molecules. That is oxidised iodine and must be counted as
+    // such, not filed as an "other" pool beside a false aqueous tag.
+    let solvent = crate::vessel::nonaqueous_solvent(&vessel.contents).cloned();
+    let mut nonaqueous_i2 = 0.0;
     let mut ledger = 0.0;
     let mut other: Vec<IodinePool> = Vec::new();
     let mut unresolved: Vec<String> = Vec::new();
@@ -723,6 +748,10 @@ pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
             && p.phase == Phase::Aqueous
             && (key == IODINE || iodide_keys.iter().any(|k| k == key));
         if in_split {
+            continue;
+        }
+        if solvent.is_some() && p.phase == Phase::Aqueous && key == IODINE {
+            nonaqueous_i2 += p.moles.0;
             continue;
         }
         match other
@@ -759,7 +788,7 @@ pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
     // the ledger), so the closure below is a real check.
     let split_pooled = 2.0 * parts.iodine + 3.0 * parts.triiodide + parts.iodide + 3.0 * complex;
     let other_atoms: f64 = other.iter().map(|o| o.iodine_atoms_mol).sum();
-    let pooled = split_pooled + other_atoms;
+    let pooled = split_pooled + other_atoms + 2.0 * nonaqueous_i2;
     let mut limitations = Vec::new();
     if complex > TRACE {
         limitations.push(crate::phrase::Phrase::new(
@@ -774,7 +803,13 @@ pub fn iodine_inventory(vessel: &Vessel) -> IodineInventory {
         triiodide_mol: parts.triiodide,
         free_iodide_mol: parts.iodide,
         starch_bound_triiodide_mol: complex,
-        oxidised_iodine_mol: parts.iodine + parts.triiodide + complex,
+        nonaqueous_i2_mol: nonaqueous_i2,
+        nonaqueous_solvent: if nonaqueous_i2 > 0.0 {
+            solvent.map(|s| s.0)
+        } else {
+            None
+        },
+        oxidised_iodine_mol: parts.iodine + parts.triiodide + complex + nonaqueous_i2,
         other_pools: other,
         unresolved_species: unresolved,
         ledger_iodine_atoms_mol: ledger,
@@ -817,7 +852,7 @@ mod tests {
         let (centre, peak, sigma) = I3_BAND;
         let t = (460.0 - centre) / sigma;
         let at_460 = peak * (-0.5 * t * t).exp();
-        assert!((at_460 - 975.0).abs() < 5.0, "{at_460}");
+        assert!((at_460 - 1022.0).abs() < 5.0, "{at_460}");
     }
 
     #[test]

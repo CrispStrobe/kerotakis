@@ -32,8 +32,8 @@ fn column(carbon_grams: f64, dye_in_v0: f64) -> Bench {
     for _ in 0..4 {
         bench.step(Operator::NewVessel { kind: None }).unwrap();
     }
-    for index in 0..4 {
-        water_cell(&mut bench.vessels[index]);
+    for vessel in &mut bench.vessels[..4] {
+        water_cell(vessel);
     }
     if carbon_grams > 0.0 {
         let carbon = species::lookup(&SpeciesId::new(CARBON)).expect("registry carbon");
@@ -118,9 +118,9 @@ fn a_clean_water_flush_desorbs_toward_the_isotherm() {
     let downstream: f64 = (1..5).map(|i| bench.vessels[i].moles_of(&dye).0).sum();
     assert!(downstream > 0.5 * (bound_before - bound_after));
     // Every cell ends on its own isotherm (no stale bound pool anywhere).
-    for index in 0..3 {
+    for (index, vessel) in bench.vessels[..3].iter().enumerate() {
         assert!(
-            !adsorption::applies(&bench.vessels[index]),
+            !adsorption::applies(vessel),
             "cell {index} left off its isotherm"
         );
     }

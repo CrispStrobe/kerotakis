@@ -1,0 +1,4 @@
+2026-11-12T22:38:54.8525690Z codex: 3 problem(s)
+2026-11-12T22:38:54.8526460Z   · baking-soda-vents-carbon-dioxide: claims pH 9.5–9.9, computed 8.04
+2026-11-12T22:38:54.8526990Z   · bicarbonate-plays-both-sides: claims pH 5.4–5.8, computed 4.54
+2026-11-12T22:38:54.8527610Z   · the-antacid-runs-on-arithmetic: claims pH 9–9.4, computed 8.00

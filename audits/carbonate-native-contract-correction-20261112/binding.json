@@ -1,0 +1,20 @@
+{
+  "original_contract_source": "b2598f4411c47969cd7250f2bd4eab9ada403006",
+  "producer": {
+    "source": "e862b601fcdca68e4504656f8f6fbcc2a60bd424",
+    "tree": "2e9a6f94fc0a787a71bb5b14eabf63e44e4d78f1",
+    "binary_sha256": "4c3ac9945c990ae405d9cfa0d0b0fc78060cfcac5621adab32beae9f3fc95fe4",
+    "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "rust": "1.99.1"
+  },
+  "workspace_stdout_sha256": "f21754bdef6ec13c9a4ee6196ac8bf6051314922bafbf3043ffd57118fcabd89",
+  "scientific_qualification": false,
+  "note": "Saved producer readbacks; candidate test edits require changed-source hosted validation.",
+  "readback_engine_processes": 3,
+  "changed_candidate_engine_processes": 0,
+  "database": {
+    "repository_path": "vendor/iphreeqc/database/minteq.v4.dat",
+    "gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+    "sha256": "4a48bf5c357b3da3084606a5e322426c3ab1e969dd1c86f9c62a3a7995836ca3"
+  }
+}

@@ -18,7 +18,14 @@
 //!   (a temperature-independent log K cannot resolve crystallisation on
 //!   cooling) or the solid is unpriced (crystals would come out without
 //!   their heat);
-//! * `refused` — the route defines no phase for the solid.
+//! * `refused` — no phase is defined, aqueous admission excludes it, or
+//!   saturation exceeds the activity model's supported domain.
+//!
+//! Reporting boundary: these rows and English technical reasons feed the
+//! native coverage fixture and generated developer Markdown only. They are
+//! not bench Events, user-facing CLI/API/WASM observations, or Phrase/i18n
+//! content. A future product consumer must use a localized typed adapter
+//! rather than display `RouteRow::reason` directly.
 //!
 //! Domain: liquid water, 1 bar, 0–100 C. Debye–Hückel routes (wateq4f,
 //! minteq.v4) may claim saturation only up to
@@ -44,7 +51,10 @@ pub struct RouteRow {
     pub route: String,
     /// `crystallises-with-priced-heat`, `solubility-only` or `refused`.
     pub class: String,
+    /// Admitted phase, or an existing database match explaining a refusal.
+    /// `Some` alone never establishes aqueous admission.
     pub phase: Option<String>,
+    /// English technical coverage metadata; see the module reporting boundary.
     pub reason: String,
 }
 
@@ -104,6 +114,26 @@ pub fn route_row(solid: &str, db_tag: &str) -> RouteRow {
         reason,
     };
     let Some(phase) = derived::routed_phase_for_solid(solid, db_tag) else {
+        let defined = derived::defined_phase_for_solid(solid, db_tag);
+        if kerotakis_core::displacement::is_elemental_metal(solid) {
+            return row("refused", defined,
+                "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation".to_string());
+        }
+        // This existing admission predicate matches formulas and can also
+        // cover repeat-unit records such as PE. Report the ownership rule,
+        // never infer that every excluded material is a condensed gas.
+        if kerotakis_core::phase_route::is_condensed_gas(solid) {
+            return row(
+                "refused",
+                defined,
+                "this registry form is excluded from aqueous mineral posing by the physical phase-owner rule"
+                    .to_string(),
+            );
+        }
+        if let Some(defined) = defined {
+            return row("refused", Some(defined),
+                "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model".to_string());
+        }
         return row(
             "refused",
             None,

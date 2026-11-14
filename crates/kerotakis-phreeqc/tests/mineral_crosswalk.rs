@@ -48,14 +48,14 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 101,
-            database_phases: 44,
+            registry_solids: 102,
+            database_phases: 45,
             with_reviewed_solubility: 12,
-            without_reviewed_solubility: 32,
+            without_reviewed_solubility: 33,
             not_a_database_phase: 57,
-            phases_without_a_registry_solid: 613,
+            phases_without_a_registry_solid: 612,
             several_phase_names: 12,
-            not_posable: 4,
+            not_posable: 9,
         },
         "the crosswalk has drifted from the shipped databases or registry"
     );
@@ -119,6 +119,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "CaO",
             "Cu",
             "Cu(OH)2",
+            "Cu2O",
             "CuSO4",
             "Fe(OH)2",
             "Fe2O3",
@@ -216,21 +217,24 @@ fn every_claimed_phase_exists_in_the_database_it_is_claimed_for() {
     }
 }
 
-/// Four rows are database phases that are deliberately never posed as
-/// equilibrium phases. They stay in the crosswalk because they are part of
+/// Named phases may remain outside aqueous coverage because the route
+/// cannot book their oxidation states or elemental components. They stay in the crosswalk because they are part of
 /// the honest answer to "which registry solids do the databases spell";
 /// they are excluded from the candidate list for reasons recorded in
 /// `derived::Derived::build`, and a count that dropped them silently would
 /// be answering a quieter question.
 #[test]
-fn the_metals_are_phases_that_are_never_posed() {
+fn unbookable_database_phases_are_never_posed() {
     let rows = mineral_crosswalk();
     let not_posable: Vec<&str> = rows
         .iter()
         .filter(|r| !r.posable)
         .map(|r| r.species)
         .collect();
-    assert_eq!(not_posable, vec!["Ag", "Cu", "Pb", "Zn"]);
+    assert_eq!(
+        not_posable,
+        vec!["Ag", "Cu", "Cu2O", "Fe2O3", "MnO2", "Pb", "S", "SiO2", "Zn"]
+    );
     for key in &not_posable {
         assert!(
             !derived::candidate_phases()

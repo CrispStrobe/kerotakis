@@ -11,7 +11,7 @@ fn amount(v: &Vessel, key: &str, phase: Phase) -> f64 {
 
 #[test]
 fn partial_freezing_closes_the_transition_referenced_energy_for_different_phases() {
-    for key in ["Zn", "Pb", "naphthalene", "water"] {
+    for key in ["Zn", "Pb", "naphthalene", "water", "Cu2O"] {
         let data = species::lookup_key(key).expect("registry");
         let melting = data
             .transitions

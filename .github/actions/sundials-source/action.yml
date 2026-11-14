@@ -1,0 +1,22 @@
+name: Verified SUNDIALS source
+description: Cache only the pinned source archive; verify its SHA256 on every use.
+runs:
+  using: composite
+  steps:
+    - name: Read the authoritative archive digest
+      id: pin
+      shell: bash
+      run: |
+        digest="$(bash tools/fetch-sundials.sh --archive-sha256)"
+        [[ "$digest" =~ ^[0-9a-f]{64}$ ]]
+        printf 'sha256=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+    - name: Cache the source archive
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/sundials-source/${{ steps.pin.outputs.sha256 }}.tar.gz
+        key: sundials-source-v1-${{ runner.os }}-${{ steps.pin.outputs.sha256 }}
+    - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+      shell: bash
+      env:
+        SUNDIALS_ARCHIVE_CACHE: ${{ runner.temp }}/sundials-source/${{ steps.pin.outputs.sha256 }}.tar.gz
+      run: bash tools/fetch-sundials.sh

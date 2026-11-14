@@ -81,13 +81,15 @@ fn liquid_dodecane_reports_its_melting_point() {
 
 #[test]
 fn a_species_without_data_gets_the_typed_no_data_reason_not_nothing_to_test() {
-    // tert-butyl bromide is a registry liquid with no curated transition.
-    let sample = vessel_with(&[("tert_butyl_bromide", 0.05, Phase::Liquid)]);
+    // Sodium hypochlorite (bleach) is a registry liquid with no sourced
+    // transition. (tert-butyl bromide, the previous example, gained its
+    // NIST WebBook-quoted points on 2026-11-11.)
+    let sample = vessel_with(&[("NaOCl", 0.05, Phase::Liquid)]);
     let r = read_transition(&sample, TransitionRead::Melting);
     assert_eq!(r.verdict, PurityVerdict::NoData);
     assert!(r.value_c.is_none());
     assert_eq!(r.sample_phase, Some(Phase::Liquid));
-    assert_eq!(r.species.as_ref().unwrap().0.as_str(), "tert_butyl_bromide");
+    assert_eq!(r.species.as_ref().unwrap().0.as_str(), "NaOCl");
 }
 
 #[test]

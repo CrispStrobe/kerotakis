@@ -1,0 +1,43 @@
+{
+  "source": "32f3aed52ff1b8b4cedad4dbbadd7465a1a85877",
+  "tree": "f9778fec6cc5f23edac70680dcba365ebedb8b73",
+  "verified_downloaded_files": 365,
+  "mismatches": [],
+  "release": {
+    "source": "32f3aed52ff1b8b4cedad4dbbadd7465a1a85877",
+    "tree": "f9778fec6cc5f23edac70680dcba365ebedb8b73",
+    "binary_sha256": "3f8c72967b42557e33205b13c706a5c45e2971e847585ae39b58a21f9e9284f4",
+    "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "rust": "1.99.1"
+  },
+  "families": [
+    {
+      "family": "gas-production-transfer",
+      "cases": 24,
+      "checks": 32,
+      "passed": 32
+    },
+    {
+      "family": "polyprotic-carbonate",
+      "cases": 24,
+      "checks": 30,
+      "passed": 30
+    },
+    {
+      "family": "aqueous-selectivity",
+      "cases": 24,
+      "checks": 30,
+      "passed": 30
+    }
+  ],
+  "complete_source_acceptance": false,
+  "remaining_failures": [
+    "native boundary net gas event count",
+    "new separation test preparation inventory assertion",
+    "frontend template six missing term keys"
+  ],
+  "evidence_scope": "authenticated focused producer; not full source acceptance or an original-experiment qualification",
+  "completion_sha256": "15087426d86aabe72617169a66a82f407abae29f3fe03e9fd95aaf0d8c9fcb48",
+  "producer_inventory_sha256": "af9ce7ca7ad42d48ec9102575bff8acc6290fc5d1b748e80e35a1ec9a68e6dcd",
+  "source_script_sha256": "8ba25681ea02fb186225505efceefc511913e49eec80c03780dfc8a0c4af7bef"
+}

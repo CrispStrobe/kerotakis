@@ -36,7 +36,12 @@ fn chalk_barely_dissolves_in_water() {
     let mut bench = Bench::new();
     let v = VesselId(0);
     add(&mut bench, &mut eq, v, "water", 55.51);
-    add(&mut bench, &mut eq, v, "CaCO3", 0.01);
+    let events = add(&mut bench, &mut eq, v, "CaCO3", 0.01);
+    assert!(
+        !events.iter().any(|event| matches!(event,
+            Event::GasEvolved { species, .. } if species.0 == "CO2")),
+        "calcite without a fresh acid dose must not use the fast endpoint"
+    );
 
     let vessel = bench.vessel(v).unwrap();
     let solid = vessel
@@ -114,6 +119,20 @@ fn chalk_dissolves_and_fizzes_in_acid() {
         })
         .sum();
     assert!(co2 > 0.008, "the carbonate leaves as CO2, got {co2} mol");
+    let state = bench.vessel(v).unwrap();
+    let carbon = kerotakis_core::ledger::ConservedLedger::from_vessel(state)
+        .elements
+        .get("C")
+        .copied()
+        .unwrap_or(0.0);
+    assert!(
+        (carbon + co2 - 0.01).abs() < 1e-9,
+        "calcite carbon must close against its actual escaped parcel: {carbon} + {co2}"
+    );
+    assert!(
+        (state.moles_of(&SpeciesId::new("Ca+2")).0 - 0.01).abs() < 1e-8,
+        "dissolving calcite retains its calcium in the aqueous readback"
+    );
     let solid = bench
         .vessel(v)
         .unwrap()

@@ -98,14 +98,17 @@ pub const REACTIONS: &[CuratedReaction] = &[
         catalyst: None,
         acid_protons: None,
         post_aqueous: None,
-        aqueous_overlap: None,
+        aqueous_overlap: Some(AqueousOverlap::SpeciationAndGas),
         reactant_phases: None,
     },
     // ── familiar carbonate fizz (BRD-014) ─────────────────────────
     // Molecular bookkeeping for the observable household reaction. Sodium
     // acetate remains dissolved while carbon dioxide crosses the open vessel
-    // boundary (or enters a sealed headspace). No heat effect is claimed
-    // until a reviewed reaction enthalpy is installed.
+    // boundary (or enters a sealed headspace). Like the ionic spelling below,
+    // defer to a selected trusted aqueous owner: otherwise pouring powder
+    // into acid bypasses the bounded native gas endpoint while the reverse
+    // order uses it. The curated fallback remains available without that owner.
+    // No separate reaction heat is applied by this row.
     CuratedReaction {
         equation: "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑",
         reactants: &[("NaHCO3", 1.0), ("CH3COOH", 1.0)],
@@ -119,7 +122,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         catalyst: None,
         acid_protons: None,
         post_aqueous: None,
-        aqueous_overlap: None,
+        aqueous_overlap: Some(AqueousOverlap::SpeciationAndGas),
         reactant_phases: None,
     },
     // The same fizz, written in the names the beaker holds once the soda
@@ -980,7 +983,8 @@ impl Equilibrator for CuratedEquilibrator {
     fn applies_with_aqueous_owner(&self, vessel: &Vessel, owned: bool) -> bool {
         REACTIONS.iter().any(|r| {
             r.post_aqueous.is_none() && !(owned && r.aqueous_overlap.is_some()) && fires(vessel, r)
-        }) || crate::halogen_redox::fires(vessel)
+        }) || crate::sulfur_iv::fires(vessel)
+            || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
     }
 
@@ -1106,6 +1110,13 @@ impl Equilibrator for CuratedEquilibrator {
                         vessel.deposit(SpeciesId::new(key), n, *phase);
                     }
                 }
+            }
+            // S(IV) (SO2, HSO3-, SO3-2) is shared between iodine and
+            // hydrogen peroxide by their competing rate laws BEFORE the
+            // halogen writers, whose iodine/sulfite rows would otherwise
+            // give it all to iodine (see sulfur_iv).
+            if crate::sulfur_iv::apply(vessel, &mut events) {
+                progressed = true;
             }
             // The generic halogen/oxyhalogen writers run after the hand
             // rows, which own every pair they share (see halogen_redox).

@@ -256,13 +256,15 @@ measure v1 balance
 
 [reaction.expect]
 events = ["ignited", "consumed:Mg", "precipitated:MgO"]
-# Window re-centred 2026-08-29: merging CEA's same-name condensed phase
-# records (the fix that stopped hematite's data ending at the Curie
-# point) gives the magnesium flame its full-range MgO data, and the
-# computed adiabatic temperature moved from ~2870 to 2940.6 °C —
-# comfortably inside the literature's ~3100 K for Mg in air. The claim
-# follows the solver, as codex claims must.
-temperature_c = { min = 2700.0, max = 3050.0 }
+# Model regression, independently balanced 2026-11-14, not an empirical flame bound.
+# PhaseRoute spends 8480 J/mol fusion from 9000.351375 J/mol superheat,
+# leaving Mg(L) at 942.897646 K (core liquid Cp = 24.9 J/mol/K).
+# Per mol Mg: H_feed = 26862.041023 J; admitted air = 6.24 N2 + 1.68 O2.
+# H_MgO(cr)(T) + 6.24 H_N2(T) + 1.18 H_O2(T) = 184011.042372 J
+# gives 2840.287296 K = 2567.137296 C. The 3 K window allows numerical
+# rounding; it excludes the old solid-to-gas feed enthalpy overcredit.
+# Product pool excludes Mg/MgO vapour; spark and air are model assumptions.
+temperature_c = { min = 2566.0, max = 2569.0 }
 
 [reaction.expect.predict]
 question = "Burn 2.40 g of magnesium ribbon completely. The balanced equation is 2 Mg + O₂ → 2 MgO. M(Mg) = 24.305, M(MgO) = 40.304 g/mol. What mass of white powder is left?"
@@ -293,7 +295,7 @@ next = "Count atoms through the equation: two magnesiums share one O₂ — one 
 [reaction.registers]
 lv1 = "Weigh the ribbon: 2.40 g. Burn it. Weigh the ash: 3.98 g. Do it again with twice as much ribbon and you get twice as much ash — the relationship between what you start with and what you end with is fixed, and once you know it for one piece you know it for every piece."
 lv2 = "0.0987 mol of Mg (2.40 g ÷ 24.305 g/mol) gives 0.0987 mol of MgO by the 2:2 ratio in the equation, which is 3.98 g (× 40.304 g/mol). The bench reports exactly 0.0987 mol of MgO and a balance reading of 3.98 g. The equation is not decoration — it is the conversion factor."
-lv3 = "The 1:1 mole ratio survives because the Gibbs minimiser conserves the magnesium element budget exactly; oxygen is drawn from the atmospheric reservoir rather than the vessel's inventory, which is what makes the mass ratio 40.304/24.305 = 1.658 appear on the balance. At the 3042 K the solve settles to, gaseous Mg and MgO are thermodynamically accessible; they do not appear in the products because the condensed oxide dominates at 1 bar."
+lv3 = "The oxygen comes from the atmospheric reservoir, so the open crucible gains mass while the magnesium atom count stays fixed. This restricted condensed-product model predicts about 2840 K (2567 °C): the spark first melts the ribbon, then the phase-specific Mg(L) feed and admitted air enter the enthalpy balance. Magnesium and MgO vapour are excluded from this product pool; their absence is a model boundary, not a calculated negligible abundance. This is a model prediction, not a measured flame temperature."
 
 [reaction.provenance]
 source = "Standard curriculum combustion stoichiometry; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -808,14 +810,14 @@ measure v1 thermometer
 """
 
 [reaction.expect]
-events = ["dissolved:NaHCO3", "gas_evolved:CO2"]
-temperature_c = { min = 17.5, max = 19.5 }
+events = ["dissolved:NaHCO3"]
+temperature_c = { min = 20.5, max = 21.5 }
 
 [reaction.expect.predict]
-question = "About 0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C in an open vessel. Dissolution absorbs heat, and carbonate speciation releases CO₂. What should the thermal calculation include?"
+question = "About 0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C in an open vessel, and the thermometer is read straight away. What does it show?"
 options = [
   "Warmer — dissolving always releases energy",
-  "Cooling from the combined dissolution, speciation, and gas-loss energy balance",
+  "Cooling, by about 4 K, from the heat the dissolving crystal borrows from the water",
   "Unchanged — the water is what holds the temperature",
 ]
 answer = 1
@@ -829,15 +831,15 @@ next = "Run `hot-pack-arithmetic` and this beaker back to back: the sign travels
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Water as a thermal anchor: a big steady liquid that a spoonful of powder cannot move — heat capacity mistaken for immunity."
-next = "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from about 416 J/K of water would cost about 4 K from dissolution alone. The open-vessel carbonate conversion contributes too. A larger capacity reduces a temperature change; it does not prohibit one."
+next = "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from about 416 J/K of water costs about 4 K. A larger capacity reduces a temperature change; it does not prohibit one."
 
 [reaction.registers]
 lv1 = "Same cup, same water, different powder — and this one goes cold instead of hot. That is not a trick or a different kind of stirring; some substances have to borrow energy from the water to come apart, and the water is left colder for lending it."
-lv2 = "The dissolution-only estimate is q ≈ 0.1000 mol × 16.7 kJ/mol = 1.67 kJ absorbed, or about 4 K cooling for 100 mL of water. It is not the full prediction for this open beaker: the computed result is about 18.4 °C because carbonate speciation and CO₂ transfer also enter the energy balance."
-lv3 = "The ordinary aqueous solver prices the complete change in chemical inventory and gas exchange. About 0.0416 mol CO₂ leaves this input as bicarbonate redistributes toward carbonate under the open atmospheric boundary. That conversion is not thermally independent of dissolution. The result assumes immediate gas equilibrium and an adiabatic vessel; it predicts neither a gas-transfer time nor heat leakage from a real cup."
+lv2 = "q ≈ 0.1000 mol × 16.7 kJ/mol = 1.67 kJ absorbed, from about 416 J/K of water: about 4 K of cooling, and the computed reading is about 21.0 °C. The thermometer is read straight away, so the carbon dioxide this open beaker will lose over the next hours has not left yet and plays no part."
+lv3 = "The ordinary aqueous solver prices dissolution and carbonate speciation in the same step. An addition takes no time, so no gas crosses the open surface: bicarbonate disproportionation leaves only a little CO₂ in solution, below the pressure at which bubbles form, and its slow escape to room air is a separate, later process. The result assumes an adiabatic vessel; it predicts no heat leakage from a real cup."
 
 [reaction.provenance]
-source = "Existing registry enthalpy of solution of NaHCO₃ and PHREEQC carbonate data (USGS); no newly imported constants. Editorial judgement (Kerotakis), model-assisted revision 2026-09-06: distinguish dissolution-only arithmetic from the complete open-vessel energy balance."
+source = "Existing registry enthalpy of solution of NaHCO₃ and PHREEQC carbonate data (USGS); no newly imported constants. Editorial judgement (Kerotakis), model-assisted revision 2026-09-06: distinguish dissolution-only arithmetic from the complete open-vessel energy balance. Revised 2026-11-11: an addition takes no time, so the reading is dissolution plus closed speciation, with no instant CO₂ loss."
 computed_by = "Kerotakis aqueous inventory/gas enthalpy balance using PHREEQC L2"
 
 [[reaction]]
@@ -1160,13 +1162,15 @@ measure v1 balance
 
 [reaction.expect]
 events = ["ignited", "consumed:Mg", "precipitated:MgO"]
-# Window re-centred 2026-08-29: merging CEA's same-name condensed phase
-# records (the fix that stopped hematite's data ending at the Curie
-# point) gives the magnesium flame its full-range MgO data, and the
-# computed adiabatic temperature moved from ~2870 to 2940.6 °C —
-# comfortably inside the literature's ~3100 K for Mg in air. The claim
-# follows the solver, as codex claims must.
-temperature_c = { min = 2700.0, max = 3050.0 }
+# Model regression, independently balanced 2026-11-14, not an empirical flame bound.
+# PhaseRoute spends 8480 J/mol fusion from 9000.351375 J/mol superheat,
+# leaving Mg(L) at 942.897646 K (core liquid Cp = 24.9 J/mol/K).
+# Per mol Mg: H_feed = 26862.041023 J; admitted air = 6.24 N2 + 1.68 O2.
+# H_MgO(cr)(T) + 6.24 H_N2(T) + 1.18 H_O2(T) = 184011.042372 J
+# gives 2840.287296 K = 2567.137296 C. The 3 K window allows numerical
+# rounding; it excludes the old solid-to-gas feed enthalpy overcredit.
+# Product pool excludes Mg/MgO vapour; spark and air are model assumptions.
+temperature_c = { min = 2566.0, max = 2569.0 }
 
 [reaction.expect.predict]
 question = "Weigh a magnesium ribbon: 1.20 g. Burn it completely and weigh the white ash. Commit to a number before you look."
@@ -1197,7 +1201,7 @@ next = "Put a balance under every fire in this codex: something always remains o
 [reaction.registers]
 lv1 = "It burns with a white light so fierce it hurts to look at, and leaves a powder that is whiter than the ribbon was. Put it back on the scales: it is heavier. Something came out of the air and joined it — the air is not nothing, and this is one of the few experiments where you can weigh that fact."
 lv2 = "0.0494 mol of Mg (1.20 g ÷ 24.305) becomes 0.0494 mol of MgO, which is 1.99 g. The gain of 0.79 g is 0.0247 mol of O₂ at 31.998 g/mol, taken from the atmosphere. Mass is conserved across the whole system; the crucible is not the whole system, and the missing accounting is the air."
-lv3 = "The oxygen is drawn from a reservoir rather than the vessel inventory, which is why the vessel's mass rises — a deliberate modelling choice matching an open crucible. The adiabatic solve settles at 3042 K with the condensed oxide dominant; at that temperature MgO(g) and atomic Mg are thermodynamically present in the NASA data but negligible at 1 bar, so essentially all of the metal is recovered as weighable solid."
+lv3 = "The oxygen comes from the atmospheric reservoir, so the open crucible gains mass while the magnesium atom count stays fixed. This restricted condensed-product model predicts about 2840 K (2567 °C): the spark first melts the ribbon, then the phase-specific Mg(L) feed and admitted air enter the enthalpy balance. Magnesium and MgO vapour are excluded from this product pool; their absence is a model boundary, not a calculated negligible abundance. This is a model prediction, not a measured flame temperature."
 
 [reaction.provenance]
 source = "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1269,7 +1273,7 @@ next = "Grant the premise, then ask where the oxide *is*: MgO sits in the crucib
 [reaction.registers]
 lv1 = "The charcoal glows orange and then there is nothing left to weigh. It did the same thing the magnesium did — it joined with the air — but what it made was invisible and floated off. That is why bonfires look like destruction and why people believed for centuries that burning destroyed things."
 lv2 = "0.0999 mol of C (1.20 g ÷ 12.011) becomes 0.0999 mol of CO₂ — 4.40 g of gas, all of it gone from the crucible, which reads 0.00 g. The system gained 3.20 g of oxygen and the vessel lost 1.20 g of carbon; the two experiments differ in the phase of the product and in nothing else."
-lv3 = "The adiabatic flame settles at 2216 °C against magnesium's 2769 °C, and the gap is not about which reaction is 'stronger' — carbon's ΔH per mole of O₂ is comparable — but about where the energy goes: the product here is a gas that carries it away in translational and vibrational modes, while magnesia is a condensed phase with far less to absorb. Flame temperature is an enthalpy balance, not a ranking of fuels."
+lv3 = "The computed charcoal flame is about 2216 °C, compared with about 2567 °C for this magnesium protocol. Flame temperature depends on the reactant enthalpy, the product phases and the admitted air. The charcoal product leaves as gas; the magnesium model retains condensed oxide. These temperatures describe the stated model and control volume, not a ranking of fuel strength."
 
 [reaction.provenance]
 source = "Standard curriculum combustion; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1280,7 +1284,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 id = "flame-temperature-is-a-balance-not-a-property"
 progress = "advanced"
 spine = ["entropie-und-enthalpie"]
-summary = "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C"
+summary = "2 Mg + O₂ → 2 MgO: a warmer starting state gives a hotter computed flame"
 concepts = ["adiabatic-flame-temperature", "enthalpy-balance"]
 requires = ["combustion", "calorimetry"]
 calculations = ["enthalpy-change", "temperature-rise"]
@@ -1318,7 +1322,7 @@ temperature_c = { min = 2100.0, max = 2250.0 }
 question = "Two identical 1.2 g magnesium ribbons burn in identical air. One is barely warm when it catches (228 °C); the other is already glowing (927 °C). Do the two flames reach the same temperature?"
 options = [
   "Yes — the flame temperature is a property of magnesium",
-  "No: 2177 °C and 2769 °C. The heat you put in first is still in the products",
+  "No: the warmer starting state gives a hotter flame. The initial enthalpy remains in the balance",
   "No — the hotter one burns faster and so ends up cooler",
 ]
 answer = 1
@@ -1327,7 +1331,7 @@ misconception = "'Adiabatic flame temperature of magnesium' gets memorised as a 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Flame temperature as a substance constant, filed beside the melting point: one fuel, one number, whatever state it started in."
-next = "Change only the starting enthalpy and read the answer: 700 degrees more preheat, roughly 600 degrees more flame. A constant cannot respond to how you began; a balance must — and furnaces preheat their air because engineers bill by that balance."
+next = "Compare the two calculated temperatures. A constant cannot respond to the starting state; an enthalpy balance must. The spark also melts the hotter ribbon before the thermal solve, so its phase and the heat spent melting it belong in that balance."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
@@ -1335,9 +1339,9 @@ reveals = "Speed spends the heat: the hotter start burns faster, and faster some
 next = "Adiabatic means the ledger keeps everything regardless of pace: same fuel, same oxygen, more starting enthalpy — more ending enthalpy, full stop. Rate decides how soon the products arrive at their temperature, never what that temperature is."
 
 [reaction.registers]
-lv1 = "Two identical ribbons, both burned, both blindingly bright — and one flame is six hundred degrees hotter than the other. The only difference was how warm the metal was when it caught. Heat you put in beforehand does not disappear when the fire starts; it is still there, added on top."
-lv2 = "Adiabatic means no heat leaves, so the products' enthalpy equals the reactants'. Starting at 228 °C the solve lands at 2176.97 °C; starting at 926.9 °C — the ignition temperature the bench uses — it lands at 2768.67 °C. Same ΔH of reaction, −601 kJ/mol; different starting enthalpy, different answer."
-lv3 = "The solver bisects on temperature until the products' enthalpy matches the reactants', evaluating both from the NASA-9 polynomials rather than assuming a constant heat capacity — which matters, because Cp rises substantially over two thousand kelvin. The vessel's share of the atmosphere is in the balance too, and it is the dominant heat sink: a gram of magnesium heats the air around it far more than it heats the speck of oxide it leaves."
+lv1 = "Both ribbons burn and leave white oxide, but the warmer starting state gives the hotter flame. Heat supplied beforehand remains part of the balance, including the heat spent melting the ribbon."
+lv2 = "The cooler ribbon reacts above the bench’s 500 K kinetic gate. The spark sets the other ribbon to 1200 K; melting then leaves liquid magnesium near 943 K before the thermal solve. With phase-specific feed enthalpy and the admitted air, the hotter protocol predicts about 2840 K (2567 °C). The 1200 K spark is a modelling input, not a measured magnesium ignition temperature."
+lv3 = "The solver matches product and reactant enthalpy using the phase-specific NASA-9 records. For the sparked ribbon, the core phase route first spends heat on fusion; the thermal route then uses liquid magnesium and air at the settled temperature. Its product pool retains condensed magnesium oxide and excludes magnesium and MgO vapour. The result is specific to these phase, atmosphere and ignition assumptions, not a calibrated physical flame temperature."
 
 [reaction.provenance]
 source = "Standard adiabatic-flame-temperature treatment (Gordon & McBride, NASA RP-1311); thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"

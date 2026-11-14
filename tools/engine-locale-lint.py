@@ -56,6 +56,7 @@ BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
 # called orphans.
 COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/acid_endpoint.rs",
+    ROOT / "crates/kerotakis-core/src/carbonate_endpoint.rs",
     ROOT / "crates/kerotakis-core/src/appearance.rs",
     ROOT / "crates/kerotakis-core/src/aqueous_continuation.rs",
     ROOT / "crates/kerotakis-core/src/displacement.rs",
@@ -105,6 +106,7 @@ COMPOSERS = [
     # The redox pair table names the pairs it cannot price, and the medium
     # that blocks the ones it can, as a `Phrase` on its own events.
     ROOT / "crates/kerotakis-core/src/halogen_redox.rs",
+    ROOT / "crates/kerotakis-core/src/sulfur_iv.rs",
     # `Provenance.routing` — why one dataset answered and not another —
     # was the third instance of the same defect, and it is composed in
     # four files rather than one: the aqueous router chooses the dataset,

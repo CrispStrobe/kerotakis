@@ -1,0 +1,11 @@
+{
+  "source": "7bd82c8041fc9d67a8e5400bf054dc53b9c0a0cd",
+  "tree": "98c9aec404a70432f3ba97b66beb4a8e96095df0",
+  "bundle_sha256": "b9a0703f81e44ba6c88c87d524e22a01c6ec5719696358210ad18881f3e319c2",
+  "reused_actual_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "utc": "2026-11-12T19:45:45.467974+00:00",
+  "script_sha256": "9746b0c23f869d5da73cdc4a2883d111931881223bf3a335401151fb40ba86b1",
+  "cpu_only": true,
+  "no_production_access": true,
+  "no_blessing": true
+}

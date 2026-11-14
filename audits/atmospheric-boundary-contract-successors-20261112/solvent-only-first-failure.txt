@@ -1,0 +1,44 @@
+---- original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners stdout ----
+
+thread 'original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners' (19254) panicked at crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:56:9:
+assertion `left == right` failed: original boundary protocol: incomplete aqueous answer
+  left: SolventOnly
+ right: Complete
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed::<kerotakis_core::vessel::SolutionScope, kerotakis_core::vessel::SolutionScope>
+   4: clock_co2_boundary::assert_current_aqueous
+   5: clock_co2_boundary::original_boundary_step
+   6: clock_co2_boundary::original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners
+   7: clock_co2_boundary::original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners::{closure#0}
+   8: <clock_co2_boundary::original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- original_litre_bicarbonate_hour_closes_actual_finite_parcel stdout ----
+
+thread 'original_litre_bicarbonate_hour_closes_actual_finite_parcel' (19255) panicked at crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:56:9:
+assertion `left == right` failed: original boundary protocol: incomplete aqueous answer
+  left: SolventOnly
+ right: Complete
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed::<kerotakis_core::vessel::SolutionScope, kerotakis_core::vessel::SolutionScope>
+   4: clock_co2_boundary::assert_current_aqueous
+   5: clock_co2_boundary::original_boundary_step
+   6: clock_co2_boundary::original_boundary_add
+   7: clock_co2_boundary::original_litre_bicarbonate_hour_closes_actual_finite_parcel
+   8: clock_co2_boundary::original_litre_bicarbonate_hour_closes_actual_finite_parcel::{closure#0}
+   9: <clock_co2_boundary::original_litre_bicarbonate_hour_closes_actual_finite_parcel::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners
+    original_litre_bicarbonate_hour_closes_actual_finite_parcel
+
+test result: FAILED. 9 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.63s
+

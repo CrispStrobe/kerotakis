@@ -1,0 +1,50 @@
+{
+  "soda": {
+    "additions_audited": 3,
+    "max_element_or_charge_error_mol": 1.7763568394002505e-15,
+    "routing_hold": "routing.crystallisation-outside-activity-domain",
+    "model_limits": [
+      "not-modeled.carbonate-fast-endpoint"
+    ],
+    "scientific_prediction_status": "HELD: concentrated activity model and uncalibrated endpoint",
+    "gas_out_mol_by_vessel": {
+      "0": 0.048060922758632024
+    },
+    "retained_inorganic_carbon_mol": 0.0019390772413679733,
+    "gas_plus_retained_carbon_mol": 0.049999999999999996
+  },
+  "calcite": {
+    "additions_audited": 3,
+    "max_element_or_charge_error_mol": 5.393660778424403e-13,
+    "routing_hold": "routing.crystallisation-outside-activity-domain",
+    "model_limits": [
+      "not-modeled.carbonate-fast-endpoint"
+    ],
+    "scientific_prediction_status": "HELD: concentrated activity model and uncalibrated endpoint",
+    "gas_out_mol_by_vessel": {
+      "0": 0.04694715065863388
+    },
+    "retained_inorganic_carbon_mol": 0.003052849341231264,
+    "gas_plus_retained_carbon_mol": 0.04999999999986514,
+    "calcite_solid_mol": 0.00119221555638,
+    "calcite_logQ_from_printed_activities": -8.487228113462116,
+    "calcite_logK_at_reported_temperature": -8.487308780630764,
+    "calcite_printed_activity_log_residual": 8.06671686479632e-05
+  },
+  "lesson": {
+    "additions_audited": 4,
+    "max_element_or_charge_error_mol": 8.881784197001252e-16,
+    "routing_hold": "routing.crystallisation-outside-activity-domain",
+    "model_limits": [
+      "not-modeled.carbonate-fast-endpoint"
+    ],
+    "scientific_prediction_status": "HELD: concentrated activity model and uncalibrated endpoint",
+    "gas_out_mol_by_vessel": {
+      "1": 0.041880370345830614
+    },
+    "open_balance_g": 53.45688617319545,
+    "co2_molar_mass_g_mol": 44.009,
+    "input_minus_gas_balance_residual_g": -6.082548864583259e-07,
+    "unchanged_mass_tolerance_g": 0.0001
+  }
+}

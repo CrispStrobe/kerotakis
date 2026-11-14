@@ -64,13 +64,18 @@ pub(crate) fn valid_opaque_clock_stock(vessel: &Vessel) -> bool {
 
 /// Only these reviewed, non-native formula units and the typed catalyst may
 /// accompany a clock-owned aqueous answer. The carbohydrates have exact
-/// registry compositions; pepsin is an immutable catalyst dose whose `C`
+/// registry compositions. Solid chlorophyll is the registry's neutral
+/// chlorophyll-a formula unit (ChEBI:18230, neutral C55H72MgN4O5,
+/// https://www.ebi.ac.uk/chebi/CHEBI:18230), not a dissolved Mg/N owner;
+/// illumination supplies no pigment reaction in this model. Every admitted
+/// portion must still pass the exact before/after stock witness below.
+/// Pepsin is an immutable catalyst dose whose `C`
 /// formula is explicitly a placeholder, not a molecule-count claim.
 pub(crate) fn clock_spectator(portion: &Portion) -> bool {
     let key = portion.species.0.as_str();
     let phase_ok = match key {
         "glucose" | "fructose" => matches!(portion.phase, Phase::Solid | Phase::Aqueous),
-        "cellulose" => portion.phase == Phase::Solid,
+        "cellulose" | "chlorophyll" => portion.phase == Phase::Solid,
         "pepsin" => portion.phase == Phase::Aqueous,
         _ => false,
     };
@@ -81,10 +86,10 @@ pub(crate) fn clock_spectator(portion: &Portion) -> bool {
         return kerotakis_core::enzyme::family_of(key).is_some()
             && species::lookup(&portion.species).is_some_and(|row| row.formula == "C");
     }
-    let expected = if key == "cellulose" {
-        "C6H10O5"
-    } else {
-        "C6H12O6"
+    let expected = match key {
+        "cellulose" => "C6H10O5",
+        "chlorophyll" => "C55H72MgN4O5",
+        _ => "C6H12O6",
     };
     species::lookup(&portion.species).is_some_and(|row| {
         row.formula == expected
@@ -1007,6 +1012,46 @@ mod gas_aware_certificate_tests {
         changed.unresolved_materials[0].amount = f64::NAN;
         assert!(certify_opaque_clock_stock(&before, &changed).is_err());
         changed.unresolved_materials[0].amount = -1.0;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+    }
+
+    #[test]
+    fn chlorophyll_clock_stock_requires_real_formula_solid_phase_and_exact_immutability() {
+        let mut before = Vessel::new(VesselId(0), "pigment stock");
+        before.deposit(SpeciesId::new("chlorophyll"), Moles(0.001), Phase::Solid);
+        assert!(valid_clock_immutable_spectators(&before));
+        assert!(certify_opaque_clock_stock(&before, &before).is_ok());
+        let known = clock_known_component_ledger(&before, true);
+        for (element, expected) in [
+            ("C", 0.055),
+            ("H", 0.072),
+            ("Mg", 0.001),
+            ("N", 0.004),
+            ("O", 0.005),
+        ] {
+            assert!((known.elements[element] - expected).abs() < 1e-14);
+        }
+        assert_eq!(known.charge, 0.0);
+        let mut changed = before.clone();
+        changed.contents[0].moles.0 += 1e-13;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        for phase in [Phase::Aqueous, Phase::Liquid, Phase::Gas] {
+            changed = before.clone();
+            changed.contents[0].phase = phase;
+            assert!(!clock_spectator(&changed.contents[0]));
+            assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        }
+        for amount in [-0.001, f64::NAN, f64::INFINITY] {
+            changed = before.clone();
+            changed.contents[0].moles.0 = amount;
+            assert!(!clock_spectator(&changed.contents[0]));
+            assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        }
+        changed = before.clone();
+        changed.contents.clear();
+        // Releasing pigment Mg as a native ion cannot substitute for
+        // preserving the immutable solid.
+        changed.deposit(SpeciesId::new("Mg+2"), Moles(0.001), Phase::Aqueous);
         assert!(certify_opaque_clock_stock(&before, &changed).is_err());
     }
 

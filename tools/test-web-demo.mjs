@@ -201,6 +201,7 @@ check("the page reports a live engine", status?.[1] === "live");
 check("the app reached ready (scene arrived)", appReport.ready === true);
 check("the app rendered a bench with a vessel", (appReport.vessels ?? 0) >= 1);
 check("the app's aqueous engine attached (can_solve)", appReport.can_solve === true);
+console.log("foam scene readback:", JSON.stringify(appReport.foam_readback ?? null));
 check("the browser computed foam in both dose vessels", appReport.foam_vessels === 2);
 check("the high-dose vessel visibly overflowed", appReport.overflow_vessels >= 1);
 check("the browser rendered both foam columns", appReport.rendered_foam === 2);

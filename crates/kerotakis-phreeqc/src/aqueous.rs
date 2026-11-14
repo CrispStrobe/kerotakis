@@ -160,6 +160,7 @@ struct AuxiliaryPoseWitness {
     co2_partial_pressure_atm: Option<f64>,
     pending_co2_transfer_mol: f64,
     zero_time_dose: bool,
+    co2_film_boundary: bool,
     elapsed_seconds: f64,
     excess_enthalpy_j: f64,
     step_start: Option<kerotakis_core::vessel::StepStart>,
@@ -189,6 +190,7 @@ impl AuxiliaryPoseWitness {
             co2_partial_pressure_atm: vessel.co2_partial_pressure_atm,
             pending_co2_transfer_mol: vessel.pending_co2_transfer_mol,
             zero_time_dose: vessel.zero_time_dose,
+            co2_film_boundary: vessel.co2_film_boundary,
             elapsed_seconds: vessel.elapsed_seconds,
             excess_enthalpy_j: vessel.excess_enthalpy_j,
             step_start: vessel.step_start.clone(),
@@ -3662,23 +3664,18 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 let _ = exchange; // the finite dose was added above
                 continue;
             }
-            // EXP-57 changed NOTHING here, and the reader is owed that
-            // plainly, because the direction of travel invites the
-            // opposite reading.
-            //
-            // This phase is offered holding ZERO moles. PHREEQC can
-            // precipitate into it and cannot dissolve from it, so for an
-            // open vessel it is a one-way valve: carbon above the room's
-            // partial pressure leaves within the step, and carbon below it
-            // does nothing at all. That outward half stays equilibrium,
-            // exactly as it was — see `GasExchangeClock::advance` for why
-            // making it a rate needs a decision about fizz that this
-            // change does not take.
-            //
-            // What EXP-57 adds is the INWARD half, and it does not come
-            // through this phase, because it cannot: uptake needs a source
-            // of moles and this has none. `GasExchangeClock` sizes it and
-            // the element-totals block above delivers it.
+            // The CO2 clock owns both directions of finite-time film
+            // transfer. Its signed parcel entered the analytical totals
+            // above; offering a room-air sink here would discharge it a
+            // second time. Bubbles remain a separate pressure boundary.
+            let phase_target = if *phase == "CO2(g)"
+                && vessel.co2_film_boundary
+                && matches!(vessel.headspace, Headspace::Open)
+            {
+                effervescence_log_partial_pressure(vessel)
+            } else {
+                target.unwrap_or(*target_si)
+            };
             let gas_formula = phase.trim_end_matches("(g)");
             let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
             let all_present = required
@@ -3706,7 +3703,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             // there is — so the beaker of hydroxide is answered without
             // touching this.
             if all_present && !listed {
-                phases.push((phase.to_string(), 0.0, target.unwrap_or(*target_si)));
+                phases.push((phase.to_string(), 0.0, phase_target));
                 external_gases.push(ExternalGas {
                     phase: phase.to_string(),
                     species: species.to_string(),
@@ -11748,6 +11745,59 @@ mod gas_component_projection_tests {
             &problem,
             ComponentCertificate::Uncertified
         ));
+    }
+
+    #[test]
+    fn plant_clock_projection_owns_only_aqueous_carbon_not_pigment_or_prior_dose() {
+        let mut vessel = Vessel::new(VesselId(0), "aqueous carbon beside plant stock");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("CO2(aq)"), Moles(0.003), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("cellulose"), Moles(0.001), Phase::Solid);
+        vessel.deposit(SpeciesId::new("glucose"), Moles(0.001), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("chlorophyll"), Moles(0.001), Phase::Solid);
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "leaf".into(),
+            recipe_id: "plant/green-leaf".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 0.088,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        vessel.pending_co2_transfer_mol = -0.001;
+        let problem = partition(&vessel).expect("aqueous carbon and water");
+        assert_eq!(problem.clock_co2_applied_mol, -0.001);
+        assert!(
+            problem
+                .external_gases
+                .iter()
+                .all(|gas| gas.kind == ExternalGasKind::Reservoir),
+            "an exhausted dose has no surviving finite gas owner"
+        );
+        assert!(problem.gases.is_empty());
+        let phases: Vec<_> = problem
+            .phases
+            .iter()
+            .map(|(name, initial, _)| (name.clone(), *initial))
+            .collect();
+        assert_eq!(problem.totals, vec![("C".into(), 0.002)]);
+        // Neither chlorophyll's C/Mg/N nor sugar/fibre C may enter native
+        // totals. A numerical readback residue can be projected only onto
+        // the already clock-adjusted aqueous target.
+        let mut ions = vec![("C".into(), 0.002 + 1e-11)];
+        assert!(project(&vessel, &problem, &mut ions, &phases, &[], false).unwrap());
+        assert_eq!(amount(&ions, "C"), 0.002);
+        let mut double_count = vec![("C".into(), 0.003)];
+        assert!(project(&vessel, &problem, &mut double_count, &phases, &[], false).is_err());
+        vessel.deposit(SpeciesId::new("CO2"), Moles(0.001), Phase::Gas);
+        let remaining_dose = partition(&vessel).expect("finite gas dose");
+        assert!(remaining_dose
+            .external_gases
+            .iter()
+            .any(|gas| gas.kind == ExternalGasKind::Dose));
+        let mut unchanged = vec![("C".into(), 0.002)];
+        assert!(!project(&vessel, &remaining_dose, &mut unchanged, &[], &[], false).unwrap());
+        assert_eq!(unchanged, vec![("C".into(), 0.002)]);
     }
 
     #[test]

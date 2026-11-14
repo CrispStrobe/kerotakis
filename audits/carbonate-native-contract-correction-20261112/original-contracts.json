@@ -1,0 +1,6 @@
+{
+  "crates/kerotakis-core/tests/aqueous_overlap_ownership.rs": "bcd54f0dea8a7a03500143b8411e9a5605e22a4c235b28e0963ba7f21f613d14",
+  "crates/kerotakis-phreeqc/tests/acid_base.rs": "700dd70fb0f775ebc42dd23d63ca7fee960adb71ebc77ec6dc2c365341c912ef",
+  "crates/kerotakis-phreeqc/tests/curated_reachability_at_runtime.rs": "58cf9eafef178983c05403349295dcd65a836792825964b22234b427a3786864",
+  "crates/kerotakis-cli/tests/lessons_replay.rs": "0e64f29ad6455c7253227b87193e949bdb3c01bee2422122ffd375d926e1d471"
+}

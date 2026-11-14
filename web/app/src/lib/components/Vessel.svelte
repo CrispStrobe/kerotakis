@@ -2820,7 +2820,10 @@
           data-headspace-moles={headspace.moles.toExponential(3)}
           data-headspace-pressure-pa={Math.round(headspace.pressurePa)}
           data-headspace-source={headspace.source}
-          style={`opacity:${(0.08 + headspaceTint).toFixed(3)}`}
+          data-headspace-gases={vessel.headspace_colour?.gases.join(" ")}
+          style={vessel.headspace_colour?.srgb
+            ? `fill:${rgb(vessel.headspace_colour.srgb)};opacity:0.850`
+            : `opacity:${(0.08 + headspaceTint).toFixed(3)}`}
         >
           <title>{t("{litres} L of headspace gas at {pressure} kPa", {
             litres: formatReading(headspace.volumeL, 3),

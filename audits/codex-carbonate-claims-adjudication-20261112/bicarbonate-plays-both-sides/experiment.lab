@@ -1,0 +1,7 @@
+add v1 water 100mL
+add v1 NaHCO3 0.01mol
+add v1 HCl 0.01mol
+new
+add v2 water 100mL
+add v2 NaHCO3 0.01mol
+add v2 NaOH 0.01mol

@@ -1,0 +1,32 @@
+error: the loop variable `index` is only used to index `bench.vessels`
+  --> crates/kerotakis-core/tests/transport_source_withdrawal.rs:66:18
+   |
+66 |     for index in 0..3 {
+   |                  ^^^^
+   |
+note: for this index operation
+
+error: the loop variable `index` is only used to index `bench.vessels`
+  --> crates/kerotakis-core/tests/transport_surface_reequilibration.rs:35:18
+   |
+35 |     for index in 0..4 {
+   |                  ^^^^
+   |
+note: for this index operation
+
+error: the loop variable `index` is used to index `bench.vessels`
+   --> crates/kerotakis-core/tests/transport_surface_reequilibration.rs:121:18
+    |
+121 |     for index in 0..3 {
+    |                  ^^^^
+    |
+note: for this index operation
+
+error: the loop variable `index` is only used to index `bench.vessels`
+  --> crates/kerotakis-core/tests/transport_reservoir_source_term.rs:52:18
+   |
+52 |     for index in 0..4 {
+   |                  ^^^^
+   |
+note: for this index operation
+

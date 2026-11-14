@@ -24,21 +24,79 @@ State: Vessel::amylase_inactive_moles (irreversible; not carried by a pour). Typ
 
 ### Native (ungelatinised) starch granules (en-001)
 
-Rule: only starch booked as gelatinised (held in liquid water at >= GELATINISED_AT_K during a clock step) is digested at the soluble-starch unit rate; native granules are refused, not digested. Gelatinised at: 358.15 K.
+Rule: plain `starch` (no material recipe; generic laboratory starch of unstated plant source, insoluble in the registry) booked as gelatinised (held in liquid water at >= GELATINISED_AT_K during a clock step) is digested at the soluble-starch A3176 unit rate; plain native or retrograded starch is refused; starch from a material recipe follows the digestibility table. Gelatinised at: 358.15 K.
 Gelatinisation source: Belitz, Grosch, Schieberle, Food Chemistry, 3rd ed., Springer 2004, pp. 318-323 (ISBN 3-540-40818-5): unmodified native starches start swelling at 55 °C (some types) to 85 °C (others); value as quoted by https://en.wikipedia.org/wiki/Starch_gelatinization.
 Why no granule rate: Slaughter, Ellis, Butterworth, Biochim. Biophys. Acta 1525 (2001) 29-36, doi:10.1016/S0304-4165(00)00162-8: gelatinisation raises porcine pancreatic α-amylase k_cat/K_m 13-fold (waxy rice) to 239-fold (potato); source-dependent, so no generic granule rate.
-State: Vessel::starch_gelatinised_moles (irreversible; retrogradation and pours not modelled). Typed reason: `not-modeled.amylase-native-starch-granules`.
-Product: booked as maltose equivalents (the unit counts reducing sugar as maltose); maltotriose and alpha-limit dextrin end point NOT modelled: no sourced limit extent.
+State: Vessel::starch_gelatinised_moles (re-gelatinised by >= 85 C) and Vessel::starch_digestion (retrograded pool, 4 C hold seconds, table clock, digested per lot source); not carried by a pour. Typed reason: `not-modeled.amylase-starch-source-assumed-maize`.
+Product: booked as maltose equivalents (the unit counts reducing sugar as maltose); maltose, maltotriose and alpha-limit dextrins split NOT modelled: no sourced split (typed note not-modeled.amylase-starch-product-split-unsourced).
 
 | enzyme | route | module | typed refusals |
 |---|---|---|---|
-| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated, not-modeled.amylase-native-starch-granules |
+| amylase | unit-definition-rate | starch_amylase | not-modeled.amylase-outside-unit-conditions, not-modeled.amylase-dose-not-convertible, not-modeled.amylase-heat-inactivated, not-modeled.amylase-starch-source-assumed-maize, not-modeled.amylase-starch-fraction-no-data, not-modeled.amylase-starch-outside-source-protocol, not-modeled.amylase-starch-beyond-source-time, not-modeled.amylase-starch-product-split-unsourced |
 | lactase | bounded-activity | enzyme_activity | — |
 | protease | bounded-activity | enzyme_activity | — |
 | lipase | bounded-activity | enzyme_activity | — |
 | catalase | curated-kinetics | kinetics | — |
 | pepsin | bounded-activity | enzyme_activity | — |
 | bromelain | bounded-activity | enzyme_activity | — |
+
+### Per-material, per-state digestible fractions (lane A, round 4)
+
+Protocol: protocol W: 4 U Sigma A3176 porcine pancreatic alpha-amylase + 4 U A. niger amyloglucosidase (Megazyme E-AMGDF) per 10 mg starch, pH 6.0 phosphate, 37 C; RDS = digested by 20 min, SDS = 20-120 min, RS = rest.
+Window: 37 C +/- 0.5 K and 0.5x-2x the protocol dose (A3176 at the >=5 U/mg lower specification); outside: not-modeled.amylase-starch-outside-source-protocol (no sourced dose or temperature law). Time course: piecewise linear through (0,0), (20 min, RDS), (120 min, 100-RS), applied as a conditional fraction of what is left; nothing claimed after 120 min (not-modeled.amylase-starch-beyond-source-time); ranges use the lower digested end.
+Retrogradation: gelatinised starch held in liquid water at 4 C for a cumulative 36 h (the cited tables' treatment) is booked retrograded; >= 85 C re-gelatinises it.
+Caveat: tabulated values include amyloglucosidase, which acts synergistically on granules; amylase alone is expected to digest no faster, so booked digestion is an upper-bound-like figure.
+Products: maltose equivalents; alpha-amylase gives maltose, maltotriose (minor maltotetraose) and alpha-limit dextrins (PLoS One 8 (2013) e59745, doi:10.1371/journal.pone.0059745); split unsourced, typed note not-modeled.amylase-starch-product-split-unsourced.
+Iodine: the starch-iodine complex reads remaining ledger starch (starch_iodine::complex_moles).
+Plain `starch` default: maize (native 20-min range across rows 1.7-19.6 %; typed note `not-modeled.amylase-starch-source-assumed-maize`).
+
+Rows: 18 (7 botanical sources); starch-bearing registry materials: 20, with a row: 7, refused typed: 13.
+
+| botanical | state | RDS % (used) | digested by 120 min % (used) | reported RDS / SDS / RS | source |
+|---|---|---|---|---|---|
+| maize | native | 6.45 | 29.44 | 6.45 / 22.98 / 70.56 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| maize | gelatinised | 81.59 | 89.56 | 81.59 / 7.97 / 10.44 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| maize | retrograded | 78.72 | 86.71 | 78.72 / 7.99 / 13.29 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| potato | native | 2.27 | 8.6 | 2.27 / 6.33 / 91.40 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| potato | gelatinised | 84.14 | 92.63 | 84.14 / 8.49 / 7.37 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| potato | retrograded | 80.15 | 88.43 | 80.15 / 8.29 / 11.57 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| pea | native | 6.2 | 26.43 | 6.20 / 20.23 / 73.57 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| pea | gelatinised | 83.66 | 98.21 | 83.66 / 14.55 / 1.79 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| pea | retrograded | 78.49 | 96.28 | 78.49 / 17.80 / 3.72 | Molecules 23 (2018) 2132, doi:10.3390/molecules23092132, Table 6 (protocol W, sect. 3.12) |
+| wheat | native | 19.6 | 32.3 | 19.6 / 12.7 / 67.7 | Sci. Rep. 7 (2017) 12312, doi:10.1038/s41598-017-10802-3, Table 5 (wheat cv. Yangmai 16, well-watered; protocol W) |
+| wheat | gelatinised | 60.4 | 61.2 | 60.4 / 0.8 / 38.8 | Sci. Rep. 7 (2017) 12312, doi:10.1038/s41598-017-10802-3, Table 5 (wheat cv. Yangmai 16, well-watered; protocol W) |
+| wheat | retrograded | 49.2 | 53.5 | 49.2 / 4.3 / 46.5 | Sci. Rep. 7 (2017) 12312, doi:10.1038/s41598-017-10802-3, Table 5 (wheat cv. Yangmai 16, well-watered; protocol W) |
+| rice | gelatinised | 73.6 | 85.0 | 73.6-83.7 / 8.9-9.7 / 7.3-15.0 | Molecules 22 (2017) 1526, doi:10.3390/molecules22091526, Table 6 (six normal rice cultivars; protocol W) |
+| rice | retrograded | 68.7 | 77.2 | 68.7-76.7 / 7.5-10.1 / 15.2-22.8 | Molecules 22 (2017) 1526, doi:10.3390/molecules22091526, Table 6 (six normal rice cultivars; protocol W) |
+| green banana | native | 1.7 | 5.9 | 1.7 / 4.3 / 94.1 | Molecules 23 (2018) 2312, doi:10.3390/molecules23092312, Table 4 (green banana flesh starch; protocol W, 1 mL slurry + 1 mL enzyme) |
+| green banana | gelatinised | 73.0 | 78.1 | 73.0 / 5.1 / 21.9 | Molecules 23 (2018) 2312, doi:10.3390/molecules23092312, Table 4 (green banana flesh starch; protocol W, 1 mL slurry + 1 mL enzyme) |
+| sweet potato | native | 2.7 | 13.7 | 2.7-6.8 / 10.7-19.6 / 73.6-86.3 | Foods 13 (2024) 1103, doi:10.3390/foods13071103, Table 5 (three sweet potato varieties; A3176 + E-AMGDF, 37 °C) |
+| sweet potato | gelatinised | 74.2 | 75.7 | 74.2-84.6 / 0.9-3.7 / 14.2-24.3 | Foods 13 (2024) 1103, doi:10.3390/foods13071103, Table 5 (three sweet potato varieties; A3176 + E-AMGDF, 37 °C) |
+
+| material (registry) | starch mass fraction | botanical row | outcome |
+|---|---|---|---|
+| household/heat-activated-baking-powder-surrogate | 0.25 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| household/cornstarch | 1.0 | maize | table (native, gelatinised, retrograded) |
+| household/potato-starch | 1.0 | potato | table (native, gelatinised, retrograded) |
+| household/pea-starch | 1.0 | pea | table (native, gelatinised, retrograded) |
+| household/wheat-starch | 1.0 | wheat | table (native, gelatinised, retrograded) |
+| household/rice-starch | 1.0 | rice | table (gelatinised, retrograded) |
+| household/green-banana-starch | 1.0 | green banana | table (native, gelatinised) |
+| household/sweet-potato-starch | 1.0 | sweet potato | table (native, gelatinised) |
+| household/cocoa-powder | 0.11 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| household/wheat-flour-surrogate | 0.7 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| household/flour-and-water-dough | 0.42 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/potato | 0.165 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/bread | 0.45 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/pasta | 0.628 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/rice | 0.72 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/dried-beans | 0.5 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| plant/dry-seed | 0.55 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| plant/germinating-seed | 0.32 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/cake-batter | 0.24 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+| food/popcorn-kernel | 0.62 | — | refused: not-modeled.amylase-starch-fraction-no-data |
+
+Not sourced (refused or no registry material): native rice starch (figure only in the source); whole foods (flour, dough, bread, pasta, rice grain, potato tuber, beans, seeds, batter, popcorn, cocoa, baking powder): Englyst 1992 (Eur J Clin Nutr 46 S33) and 1999 (AJCN 69:448) food tables not readable.
 
 ## 2. Starch-iodine complex absorbance
 

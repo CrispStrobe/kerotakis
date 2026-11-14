@@ -44,6 +44,10 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
     (
+        "carbonate_endpoint.rs",
+        include_str!("../src/carbonate_endpoint.rs"),
+    ),
+    (
         "kerotakis-phreeqc/inventory.rs",
         include_str!("../../kerotakis-phreeqc/src/inventory.rs"),
     ),
@@ -117,6 +121,7 @@ const COMPOSERS: &[(&str, &str)] = &[
     // The typed refusal for a solid standing above where it melts with no
     // sourced latent heat (`not-modeled.melting-not-modelled`).
     ("melting_range.rs", include_str!("../src/melting_range.rs")),
+    ("sulfur_iv.rs", include_str!("../src/sulfur_iv.rs")),
     // AN-004: the editorial starch-bound iodine pool in `inspect`
     // (`not-modeled.starch-iodine-binding-stoichiometry`).
     (

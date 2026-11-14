@@ -8,8 +8,8 @@ lane). This lane bounds that ownership by the acidity the owning law was measure
 
 | reaction | catalyst | owners | measured (H+) floor M | source |
 |---|---|---|---|---|
-| peroxide-decomposition | I- | iodide-peroxide-clock, iodide-peroxide-clock-direct | 0.0203 | Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 2.03e-2 M, k'/(I-) = 0.893 |
-| peroxide-decomposition | KI | iodide-peroxide-clock, iodide-peroxide-clock-direct | 0.0203 | Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 2.03e-2 M, k'/(I-) = 0.893 |
+| peroxide-decomposition | I- | iodide-peroxide-clock, iodide-peroxide-clock-direct | 0.00762 | Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 7.62e-3 M ((H+) x 10^2 = 0.762 at (I-) = 0.0572), k'/(I-) = 0.770 = 0.69 + 10.4 x 0.00762 |
+| peroxide-decomposition | KI | iodide-peroxide-clock, iodide-peroxide-clock-direct | 0.00762 | Liebhafsky & Mohammad, J. Am. Chem. Soc. 55 (1933) 3977-3986, doi:10.1021/ja01337a010; archive.org scan of JACS vol. 55 (dli.ernet.233065), p. 3980 Table I Curve II: lowest 25 C (H+) = 7.62e-3 M ((H+) x 10^2 = 0.762 at (I-) = 0.0572), k'/(I-) = 0.770 = 0.69 + 10.4 x 0.00762 |
 
 ## Regimes
 

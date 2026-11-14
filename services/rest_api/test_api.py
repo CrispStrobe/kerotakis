@@ -151,10 +151,14 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(aliases, api.MULTIWORD_INGREDIENT_ALIASES)
         for script in ("stock sodium chloride 1mol", "stock carbon dioxide 1mol",
                        "stock Acetic Acid 1mol",
+                       "stock copper(I) oxide 1mol",
+                       "titrate v1 oxyde de cuivre(I) 1M 1mL until ph 7 max 20",
                        "titrate v1 sodium chloride 1M 1mL until ph 7 max 20",
                        "extract v1 v2 carbon dioxide 1mol stages 2"):
             api.validate_script(script)
         for script in ("titrate v1 sodium chloride 1M 1mL until ph 7 max 2001",
+                       "titrate v1 copper(I) oxide 1M 1mL until ph 7 max 2001",
+                       "titrate v1 oxyde de cuivre(I) 1M 1mL until ph 7 max 2000\n" * 3,
                        "titrate v1 sodium chloride 1M 1mL until ph 7 max 2000\n" * 3,
                        "extract v1 v2 carbon dioxide 1mol stages 17",
                        "extract v1 v2 carbon dioxide 1mol stages 2 stages 999999"):

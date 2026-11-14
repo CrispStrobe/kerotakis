@@ -565,6 +565,10 @@ pub struct Colour {
 pub enum Phase {
     Solid,
     Liquid,
+    /// A dissolved solute. In a vessel whose only liquid is not water the
+    /// snapshot writes it as `nonaqueous_solution` (see
+    /// [`crate::vessel::nonaqueous_solvent`]); the alias reads that back.
+    #[serde(alias = "nonaqueous_solution")]
     Aqueous,
     Gas,
 }

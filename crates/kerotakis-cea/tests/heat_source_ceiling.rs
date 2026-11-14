@@ -47,6 +47,113 @@ fn stack() -> SolverStack {
     ])
 }
 
+// Capture the actual vent temperature before Bench coalesces successive
+// heat-delivery passes. The observer forwards the same solver and contracts;
+// it contributes no chemistry or energy to the vessel.
+#[derive(Debug)]
+struct VentedParcel {
+    species: SpeciesId,
+    moles: f64,
+    temperature: f64,
+}
+
+struct ObservedThermal {
+    parcels: std::sync::Arc<std::sync::Mutex<Vec<VentedParcel>>>,
+}
+
+impl Equilibrator for ObservedThermal {
+    fn name(&self) -> &'static str {
+        ThermalEquilibrator.name()
+    }
+    fn applies(&self, vessel: &Vessel) -> bool {
+        ThermalEquilibrator.applies(vessel)
+    }
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        let events = ThermalEquilibrator.equilibrate(vessel)?;
+        for event in &events {
+            if let Event::GasEvolved { species, moles, .. } = event {
+                let temperature = events
+                    .iter()
+                    .find_map(|event| match event {
+                        Event::ThermalEquilibrium { temperature, .. } => Some(temperature.0),
+                        _ => None,
+                    })
+                    .expect("a thermal gas parcel states its actual equilibrium temperature");
+                self.parcels.lock().unwrap().push(VentedParcel {
+                    species: species.clone(),
+                    moles: moles.0,
+                    temperature,
+                });
+            }
+        }
+        Ok(events)
+    }
+}
+
+// An independent integral of the sourced Cp coefficients. In particular it
+// does not call the production absolute-enthalpy evaluator or reuse its
+// formation/entropy integration constants.
+fn sensible_from_nasa_cp(record: &kerotakis_cea::Species, from: f64, to: f64) -> f64 {
+    assert!(to >= from);
+    let mut cursor = from;
+    let mut joules = 0.0;
+    let endpoint_cp = |a: &[f64; 9], t: f64| {
+        kerotakis_cea::R
+            * (a[0] / t.powi(2)
+                + a[1] / t
+                + a[2]
+                + a[3] * t
+                + a[4] * t.powi(2)
+                + a[5] * t.powi(3)
+                + a[6] * t.powi(4))
+    };
+    let first = record.intervals.first().expect("sourced Cp interval");
+    if cursor < first.t_min {
+        // Core's sensible-heat model holds endpoint Cp outside a curve.
+        // CaO's source starts at 300 K, so the 298.15--300 K segment is
+        // priced with Cp(300), not extrapolated or silently discarded.
+        let right = to.min(first.t_min);
+        joules += (right - cursor) * endpoint_cp(&first.coeffs, first.t_min);
+        cursor = right;
+    }
+    for interval in &record.intervals {
+        let left = cursor.max(interval.t_min);
+        let right = to.min(interval.t_max);
+        if right <= left {
+            continue;
+        }
+        assert!(
+            (left - cursor).abs() < 1e-10,
+            "Cp integration cannot cross a data gap"
+        );
+        let a = interval.coeffs;
+        joules += kerotakis_cea::R
+            * (a[0] * (1.0 / left - 1.0 / right)
+                + a[1] * (right / left).ln()
+                + a[2] * (right - left)
+                + a[3] * (right.powi(2) - left.powi(2)) / 2.0
+                + a[4] * (right.powi(3) - left.powi(3)) / 3.0
+                + a[5] * (right.powi(4) - left.powi(4)) / 4.0
+                + a[6] * (right.powi(5) - left.powi(5)) / 5.0);
+        cursor = right;
+        if cursor >= to {
+            break;
+        }
+    }
+    let last = record.intervals.last().unwrap();
+    if to > last.t_max {
+        assert!((cursor - last.t_max).abs() < 1e-10 || from > last.t_max);
+        let left = cursor.max(last.t_max);
+        joules += (to - left) * endpoint_cp(&last.coeffs, last.t_max);
+        cursor = to;
+    }
+    assert!(
+        (cursor - to).abs() < 1e-10,
+        "Cp integral has an unresolved data gap"
+    );
+    joules
+}
+
 fn add(
     bench: &mut Bench,
     stack: &mut SolverStack,
@@ -160,7 +267,15 @@ fn transcript(bench: &Bench, v: VesselId, events: &[Event]) -> String {
 #[test]
 fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
     let mut bench = Bench::new();
-    let mut s = stack();
+    let parcels = std::sync::Arc::new(std::sync::Mutex::new(Vec::new()));
+    let mut s = SolverStack::new(vec![
+        Box::new(MixingEquilibrator),
+        Box::new(ObservedThermal {
+            parcels: parcels.clone(),
+        }),
+        Box::new(StateEquilibrator),
+        Box::new(HonestyEquilibrator),
+    ]);
     let v = VesselId(0);
     add(&mut bench, &mut s, v, "CaCO3", 0.1);
     let events = heat(&mut bench, &mut s, v, 40.0);
@@ -233,64 +348,33 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.sensible_j
     );
 
-    // Energy: the crucible's own books, and there is nothing left outside
-    // them.
-    //
-    // What the crucible costs is three things, and it took two changes to
-    // be able to write all three down:
-    //
-    //     the sensible heat the lime still holds     7 529 J
-    //     0.1 mol x 178.8 kJ/mol                    17 880 J
-    //     the sensible heat the CO2 carried out      7 783 J
-    //                                               --------
-    //                                               33 192 J
-    //
-    // The burner used to book 13 941 J of that - 58 % - and the hole was
-    // one lane away. `ThermalEquilibrator` solved an ADIABATIC charge that
-    // admitted eight times the vessel's own moles of air and let that air's
-    // sensible heat pay for the decomposition, though room air is at 298 K
-    // and `Vessel::heat_capacity()` never held it. Closing that took it to
-    // 22 538 J against a TWO-term ledger of 24 075 J, 93.6 %.
-    //
-    // That 93.6 % was two errors of opposite sign, and both are now named.
-    // `Vessel::heat_capacity()` was a room-temperature constant - 82.3
-    // J/(mol.K) for calcite, 42.0 for lime - while the NASA-9 polynomials
-    // the solver reads rise to about 139 and 53 by 1500 K. The burner was
-    // billed at 25 C prices for a crucible at 1500 C, and BOTH sides of the
-    // ratio were wrong with it: the ledger charged too little to warm the
-    // charge, and `vessel.enthalpy()` under-reported what the charge was
-    // holding. Both integrate the same curves now.
-    //
-    // With that gone, the second error stopped hiding behind it. The carbon
-    // dioxide leaves at the temperature it formed at and takes its sensible
-    // heat with it - a kiln really does pay that - and the two-line ledger
-    // simply never named it. Naming it closes the balance to 99.5 %.
-    //
-    // The 0.5 % that is left has a sign and a reason: the exhaust term here
-    // is charged at the crucible's FINAL temperature, and some of the CO2
-    // left on earlier passes when the crucible was cooler. So the accounted
-    // figure is a slight over-estimate, and `delivered < accounted` below is
-    // an assertion about that direction rather than a formality.
-    let warming = vessel.enthalpy().0;
+    // Close the actual whole-step energy: retained lime warmth, the
+    // independent 298 K reaction enthalpy, and each CO2 parcel's sensible
+    // heat AT ITS EVOLUTION TEMPERATURE. The source-bound diagnostic keeps
+    // the old failing final-temperature estimate and the actual parcels:
+    // 0.0615046140 mol at 1006.700134 K and 0.0384953859 at 1003.271484 K.
+    // Heating the remaining lime later cannot reheat gas that already left.
+    let db = kerotakis_cea::nasa9::db();
+    let lime = db.get("CaO(cr)").unwrap();
+    let co2 = db.get("CO2").unwrap();
+    let warming = 0.1 * sensible_from_nasa_cp(lime, 298.15, vessel.temperature.0);
+    assert!((warming - vessel.enthalpy().0).abs() < 1e-6);
     let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
-    // The gas's own sensible heat, from the same NASA-9 record the
-    // minimiser used. `h` is referenced so that h(298.15) is the formation
-    // enthalpy, which makes the difference a pure sensible heat.
-    let co2 = kerotakis_cea::nasa9::db()
-        .species
-        .get("CO2")
-        .expect("thermo.inp has carbon dioxide");
-    let exhaust = 0.1
-        * (co2
-            .h(vessel.temperature.0)
-            .expect("CO2 enthalpy at the ceiling")
-            - co2.h(298.15).expect("CO2 enthalpy at 298.15 K"));
+    let parcels = parcels.lock().unwrap();
+    let carbon_dioxide: Vec<_> = parcels.iter().filter(|p| p.species.0 == "CO2").collect();
+    let parcel_moles = carbon_dioxide.iter().map(|p| p.moles).sum::<f64>();
+    // The raw per-pass witness must account for exactly the gas in the
+    // accepted, coalesced transcript, rather than count speculative calls.
+    assert!((parcel_moles - gas(&events, "CO2")).abs() < 1e-10);
+    assert!((parcel_moles - 0.1).abs() < 1e-10);
+    assert!(carbon_dioxide.iter().all(|p| p.temperature.is_finite()
+        && p.temperature > 298.15
+        && p.temperature <= BUNSEN_CEILING_K));
+    let exhaust = carbon_dioxide
+        .iter()
+        .map(|p| p.moles * sensible_from_nasa_cp(co2, 298.15, p.temperature))
+        .sum::<f64>();
     let accounted = warming + chemistry + exhaust;
-    assert!(
-        exhaust > 7000.0 && exhaust < 8500.0,
-        "0.1 mol of CO2 taken from 25 C to 1500 C carries about 7.8 kJ out \
-         of the crucible, this says {exhaust:.1} J\n{seen}"
-    );
     assert!(
         book.delivered_j < accounted,
         "the burner cannot deliver more than the crucible costs: delivered \
@@ -301,11 +385,20 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
     assert!(
         book.delivered_j > 0.99 * accounted,
         "the burner should pay for what the crucible cost: {accounted:.1} J of \
-         warming, calcination and hot exhaust against {:.1} J booked, which is \
-         {:.1} % and leaves a bigger hole than charging the exhaust at the \
-         final temperature accounts for\n{seen}",
+         warming, calcination and actual hot exhaust against {:.1} J booked, \
+         which is {:.1} %\n{seen}",
         book.delivered_j,
         100.0 * book.delivered_j / accounted
+    );
+    // Negative control: the old proxy charges every parcel at the FINAL
+    // crucible temperature. Its plausible 7.8 kJ result is physically wrong
+    // for this measured trajectory and must fail the same 1% balance.
+    let final_temperature_exhaust = 0.1 * sensible_from_nasa_cp(co2, 298.15, vessel.temperature.0);
+    assert!((7000.0..8500.0).contains(&final_temperature_exhaust));
+    let wrong_accounted = warming + chemistry + final_temperature_exhaust;
+    assert!(
+        book.delivered_j < 0.99 * wrong_accounted,
+        "the obsolete final-temperature exhaust assumption must be detectable"
     );
 
     // The split the event reports is exactly the energy it says arrived.

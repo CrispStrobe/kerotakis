@@ -159,10 +159,10 @@ fn dissolved_inorganic_carbon(vessel: &serde_json::Value) -> f64 {
 /// * **Invariant.** Sodium does not move. A quantity computed by
 ///   apportioning the inventory almost always drags a spectator with it.
 /// * **Directional, independent of the first two.** Dissolved inorganic
-///   carbon *falls* (0.00923 → 0.00569 mol) while the CO₂ partial pressure
-///   above the open beaker stays at the room's own 3.90e-4 atm. The acid
-///   converts bicarbonate to CO₂ and the room takes it away; the beaker is
-///   buffered by the atmosphere, not by its own carbon.
+///   carbon falls after acidification. Endpoint and finite-time film parcels
+///   can both contribute; the liquid is not pinned to room pCO₂ after an hour.
+///   The supersaturation assertion applies to these exact saved protocols,
+///   not to every acid dose, geometry or elapsed interval.
 ///
 /// **What this establishes:** the proton is booked against the carbonate
 /// system as charge, in the reported speciation, in the right stoichiometry
@@ -187,6 +187,9 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
         if acid_mol > 0.0 {
             script.push_str(&format!("add v1 HCl {acid_mol}mol\n"));
         }
+        // Additions may earn a separately bounded curated endpoint parcel;
+        // film transfer requires this actual elapsed interval.
+        script.push_str("wait 1h\n");
         vessel(&run(&script), 0)
     };
 
@@ -221,8 +224,8 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
         );
     }
 
-    // The carbon leaves; the room's CO2 pressure does not budge. Neither
-    // half follows from charge balance.
+    // The carbon leaves through separately accounted endpoint and film
+    // parcels. An hour does not pin the liquid to room-air equilibrium.
     let (before, after) = (brine(0.0), brine(0.004));
     let (carbon_before, carbon_after) = (
         dissolved_inorganic_carbon(&before),
@@ -235,8 +238,11 @@ fn acid_takes_alkalinity_away_as_charge_and_leaves_the_spectator() {
     );
     let pressure = |v: &serde_json::Value| v["co2_partial_pressure_atm"].as_f64().unwrap();
     assert!(
-        (pressure(&after) - pressure(&before)).abs() < 1e-6,
-        "an open beaker is held at the room's pCO2, whatever it is: {} -> {}",
+        pressure(&before).is_finite()
+            && pressure(&after).is_finite()
+            && pressure(&before) > kerotakis_core::clock::ATMOSPHERIC_CO2_ATM
+            && pressure(&after) > kerotakis_core::clock::ATMOSPHERIC_CO2_ATM,
+        "finite-time liquid remains supersaturated after this hour: {} -> {}",
         pressure(&before),
         pressure(&after)
     );
@@ -898,4 +904,76 @@ fn a_slot_named_hydroxide_moves_like_hydroxide() {
              residual cation charge, not {fell}"
         );
     }
+}
+
+/// The fizz rule, both sides. An `add` takes no time: baking soda stirred
+/// into an open beaker keeps all its carbon (AB-035/GS-013 seal it next),
+/// while strong acid in excess turns the carbonate into CO2 that leaves
+/// at once, and time passing lets the unreacted solution seep toward air.
+#[test]
+fn baking_soda_keeps_its_carbon_until_acid_or_time_takes_it() {
+    // Every carbon the vessel still holds, whatever key the readback uses.
+    let carbon_of = |v: &serde_json::Value| {
+        dissolved_inorganic_carbon(v) + moles_of(v, "CO2") + moles_of(v, "NaHCO3")
+    };
+    let fresh = vessel(&run("add v1 water 100mL\nadd v1 NaHCO3 0.001mol\n"), 0);
+    let carbon = carbon_of(&fresh);
+    assert!(
+        (carbon - 0.001).abs() < 1e-8,
+        "no time has passed, so no carbon may leave: {carbon} mol"
+    );
+
+    let acid = vessel(
+        &run("add v1 water 100mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\n"),
+        0,
+    );
+    assert!(
+        carbon_of(&acid) < 0.0001,
+        "excess strong acid must fizz the carbon off in the same step: {} mol",
+        carbon_of(&acid)
+    );
+
+    let stood = vessel(
+        &run("add v1 water 100mL\nadd v1 NaHCO3 0.001mol\nwait 1h\n"),
+        0,
+    );
+    assert!(
+        carbon_of(&stood) < carbon,
+        "a standing bicarbonate solution loses CO2 to the room over time"
+    );
+}
+
+/// SP-011 verbatim: thiosulfate reduces the iodine, so the hexane that
+/// shakes the reduced arm receives none, while the control's hexane holds
+/// I2 as a non-aqueous solution.
+#[test]
+fn sp011_reduced_receiver_is_empty() {
+    let steps = run(
+        "add v1 water 100mL\nadd v1 KI 0.001mol\nadd v1 I2 0.0001mol\n\
+         add v1 Na2S2O3 0.0002mol\nnew\nadd v2 water 100mL\nadd v2 KI 0.001mol\n\
+         add v2 I2 0.0001mol\nwait 1s\nnew\nnew\n\
+         extract v1 v3 hexane 0.1mol stages 1\nextract v2 v4 hexane 0.1mol stages 1\n",
+    );
+    assert_eq!(moles_of(&vessel(&steps, 2), "I2"), 0.0);
+    assert!(moles_of(&vessel(&steps, 3), "I2") > 1e-5);
+}
+
+/// A spirit burner burns: `ignite` on liquid ethanol in an open dish
+/// consumes it through the curated fuel row (Circular 500 formation
+/// enthalpies) instead of boiling it off before any combustion solver
+/// sees it, and the same dish without a spark keeps its ethanol.
+#[test]
+fn ignited_ethanol_burns_rather_than_boiling_away() {
+    let steps = run("add v1 ethanol 1g\nignite v1\n");
+    let burned = steps
+        .iter()
+        .flat_map(|s| s["events"].as_array().cloned().unwrap_or_default())
+        .any(|e| e["event"] == "consumed" && e["species"] == "ethanol");
+    assert!(burned, "ethanol was not burned: {steps:?}");
+    let boiled_off = steps
+        .iter()
+        .flat_map(|s| s["events"].as_array().cloned().unwrap_or_default())
+        .any(|e| e["event"] == "gas_evolved" && e["species"] == "ethanol");
+    assert!(!boiled_off, "ignited ethanol must burn, not vent as vapour");
+    assert!(moles_of(&vessel(&steps, 0), "ethanol") < 1e-9);
 }

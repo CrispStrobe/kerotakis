@@ -59,7 +59,7 @@ def master_states(path):
 
 
 def build(db_dir):
-    src = AQ.read_text()
+    src = AQ.read_text(encoding="utf-8")
     fast = const_list(src, "FAST_REDOX")
     safe = const_list(src, "RESPECIATION_SAFE_PARTNERS")
     rows = []
@@ -138,13 +138,13 @@ def main():
     js = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
     md = markdown(doc)
     if "--check" in sys.argv:
-        bad = [p for p, c in ((JSON_OUT, js), (MD_OUT, md)) if not p.exists() or p.read_text() != c]
+        bad = [p for p, c in ((JSON_OUT, js), (MD_OUT, md)) if not p.exists() or p.read_text(encoding="utf-8") != c]
         if bad:
             sys.exit("stale: " + ", ".join(str(p) for p in bad) + " (run tools/redox_respeciation_coverage.py)")
         print("redox respeciation coverage current")
         return
-    JSON_OUT.write_text(js)
-    MD_OUT.write_text(md)
+    JSON_OUT.write_text(js, encoding="utf-8")
+    MD_OUT.write_text(md, encoding="utf-8")
     print(f"wrote {JSON_OUT} and {MD_OUT}")
 
 
