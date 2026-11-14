@@ -1,0 +1,18 @@
+[
+  {
+    "control": "lost_carbon",
+    "qualified": false
+  },
+  {
+    "control": "missing_ethanol_peak",
+    "qualified": false
+  },
+  {
+    "control": "missing_ionic_boundary",
+    "qualified": false
+  },
+  {
+    "control": "area_rescaling",
+    "qualified": true
+  }
+]

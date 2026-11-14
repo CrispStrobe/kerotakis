@@ -1,0 +1,11 @@
+# MO-011: historical staged hydrolysis and chromatogram review
+
+The unchanged original earns **both original criteria (2/2)** on the exact saved source `4bd93add656c936b0724673c7ea8332cf21e906f`, tree `3e1471c481b9ef6f91a962039e3158ab0df2763d`. This is independent of the later AN-006 diagnostic correction. No new execution, build or hydrolysis prediction is used to earn this historical qualification.
+
+Independent inventory reads show ethyl acetate 0.001 → 0.0005 → 0 mol, ethanol 0 → 0.0005 → 0.001 mol and the acetic-acid/acetate family 0 → 0.0005 → 0.001 mol. The two named calls consume the actual remaining limiting pools. Carbon is retained as four atoms per initial ester molecule; all available known C/H/O/Na/charge checkpoints close under the unchanged 1e-10 mol/eq bound. No solver failure or unaccounted gas crossing occurs and chromatographic measurements preserve inventory.
+
+Peak identities track those independently read pools: the ester peak is present initially and after partial conversion, then absent; ethanol appears after hydrolysis and remains. Ionic acetate stays outside the neutral-partition method. **Per-run normalised peak areas are not interpreted as stoichiometric mole ratios or compared across runs without response factors.** This explicitly satisfies MO-011-C2; no detector calibration is inferred.
+
+The original runtime also falsely lists `base_equivalents` as an unparameterised neutral. That diagnostic defect remains preserved here and is being corrected separately for AN-006 and other affected samples. It does not negate either of MO-011's two stated criteria: this review neither treats the analytical coordinate as a molecule nor infers a missing chemical conversion from that warning. No original requirement is rewritten or replaced by a new generic acceptance gate.
+
+The target script, source/tree, successful locked release-build receipt, actual producer lock and run/stdout/stderr hashes authenticate this historical result. The historical producer did not record an executable checksum; that limitation is explicit, and no later binary hash is retroactively substituted. Its overall command flag is false because other original executions failed; MO-011's own exit and scientific checks pass. This is not a claim that the whole producer or latest source passed all acceptance.

@@ -1,0 +1,13 @@
+{
+  "files_sha256": {
+    "original-criteria.json": "6335d9dd187d800149e682304cdc1ec9dbd90b8de05114837276701f96b073ff",
+    "reader-controls.json": "3ce5653371fb1e49644613b34e77b46e06b259f1809f37b64072182f4b85adb6",
+    "batch2-mo-011.stdout": "9dc864889e093e6feda26058fd0579edcfda1a05679d846b0b3f0b16c41322c7",
+    "README.md": "c5e7b6d66beb9a541de4492ba3412f2cd6c2c5b6e28e802f1afe6f6cf89626f9",
+    "batch2-mo-011.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "binding.json": "68e73f5e0feb9108eb8bb2811ec8fc141207af93334f6469e571dee703e98f29",
+    "scientific-review.json": "41b70ac32a2f270493c55ad4957c4502bf6e42eb4f1e935d06515d8fce68bccc",
+    "review_original.py": "59ebe51634c2b31fb0fd29e8c6ecd6562f8f735d9184f43d52ce58d9abac990a",
+    "original.lab": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541"
+  }
+}

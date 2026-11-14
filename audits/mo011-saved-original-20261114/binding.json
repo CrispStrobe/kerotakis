@@ -1,0 +1,44 @@
+{
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+  "output_sha256": "9dc864889e093e6feda26058fd0579edcfda1a05679d846b0b3f0b16c41322c7",
+  "producer_runner_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+  "producer_build": {
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "-p",
+      "kerotakis-cli"
+    ],
+    "exit": 0
+  },
+  "target_exit": 0,
+  "native_binary_sha256": null,
+  "native_identity_limit": "The historical producer did not capture a binary checksum. The authenticated source/tree, locked release-build receipt, actual producer lock and exact run/output hashes are preserved; no later executable hash is attributed retrospectively.",
+  "producer_all_commands_passed": false,
+  "other_producer_command_failures": [
+    {
+      "name": "batch3-diverse-co-005",
+      "exit": 1
+    },
+    {
+      "name": "batch3-diverse-tr-006",
+      "exit": 1
+    }
+  ],
+  "manifest_hashes": {
+    "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+    "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e",
+    "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+    "batch2-mo-011.json": "f60327782419aa82b6ef6cdd29efe12cf7d33b992b34bae0f997fc918186aac9",
+    "batch2-mo-011.stdout": "9dc864889e093e6feda26058fd0579edcfda1a05679d846b0b3f0b16c41322c7",
+    "batch2-mo-011.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch2-mo-011.lab": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd"
+  }
+}

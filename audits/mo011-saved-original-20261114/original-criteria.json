@@ -1,0 +1,14 @@
+[
+  {
+    "id": "MO-011-C1",
+    "criterion": "Relate peak identities to independently reported species inventories after each stage.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  },
+  {
+    "id": "MO-011-C2",
+    "criterion": "Do not compare raw areas as stoichiometric mole ratios unless response factors are provided; ionic acetate need not produce a comparable volatile peak.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  }
+]
