@@ -210,6 +210,7 @@ fn finite_carbonate(key: &str, phase: Phase, carbon: f64, base: f64) -> Vessel {
     }
     add(&mut v, key, carbon, phase);
     v.solute_charge = kerotakis_core::displacement::solute_charge(&v);
+    v.refresh_pressure();
     v
 }
 
@@ -253,6 +254,7 @@ fn carbonate_generated_hydroxide_and_measured_cache_do_not_supply_strong_reserve
     add(&mut v, "HCO3-", 0.000001, Phase::Aqueous);
     add(&mut v, "base_equivalents", 0.000001, Phase::Aqueous);
     v.free_hydroxide = 10.0; // Cache cannot manufacture capacity.
+    v.refresh_pressure();
     let before = serde_json::to_value(&v).unwrap();
     let (after, events) = react(v);
     assert_eq!(before, serde_json::to_value(&after).unwrap(), "{events:?}");
@@ -296,6 +298,7 @@ fn carbonate_extension_keeps_unowned_pending_wrong_phase_and_foreign_pool_refusa
                 add(&mut v, "ethanol", 100.0, Phase::Liquid);
             }
         }
+        v.refresh_pressure();
         let before = serde_json::to_value(&v).unwrap();
         let (after, events) = react(v);
         assert_eq!(
