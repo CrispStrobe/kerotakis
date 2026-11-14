@@ -14,7 +14,7 @@ or a successful process exit as a scientific pass.
 
 ## Residual solid notice follow-up
 
-The focused successor changes both live and preview notices to describe remaining solid without claiming dissolution from a registry flag. PVA without reviewed aqueous solubility now receives the existing missing-data notice. On source `1b7f2f86`, hosted solid-dissolution, liquid-contact, locale and rendering tests, generated coverage, formatting, CLI build and PO-008 replay passed. PO-008 remains unqualified: this corrects the notice, not the missing polymer dissolution model. The successor still requires its applicable broader validation and integration after PR881; do not replace the working catalog count with this test result.
+The focused successor changes both live and preview notices to describe remaining solid without claiming dissolution from a registry flag. PVA without reviewed aqueous solubility now receives the existing missing-data notice. On source `1b7f2f86`, hosted solid-dissolution, liquid-contact, locale and rendering tests, generated coverage, formatting, CLI build and PO-008 replay passed. PO-008 remains unqualified: this corrects the notice, not the missing polymer dissolution model. The same source also passed the hosted 500-prompt curiosity check with zero unmet requirements, solver/runtime failures or baseline drift; two declared missing boundaries remain. Integration follows PR881; do not replace the working catalog count with this test result.
 
 ## Rounds 4 and 5 — PR881 pending acceptance
 

@@ -97,6 +97,17 @@ class ApiTests(unittest.TestCase):
             self.assertEqual(response.status_code, 200)
             engine.assert_awaited_once_with(self.cfg, script)
 
+    def test_ordered_voltmeter_leads_have_strict_api_admission(self):
+        for script in ("cell v1 v2", "voltmeter v1 v2",
+                       "voltmeter positive v1 negative v2",
+                       "voltmeter positive v2 negative v1"):
+            api.validate_script(script)
+        for script in ("voltmeter positive v1 negative", "voltmeter negative v1 positive v2",
+                       "voltmeter positive v0 negative v2", "voltmeter positive v1 negative v2 extra",
+                       "cell positive v1 negative v2", "voltmeter positive v1 negative /etc/passwd"):
+            with self.subTest(script=script), self.assertRaises(HTTPException):
+                api.validate_script(script)
+
     def test_every_core_verb_and_alias_has_api_admission(self):
         # Read the engine's public grammar inventory, not another hand-copied
         # allowlist. A new engine verb must obtain an explicit API contract.

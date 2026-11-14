@@ -580,9 +580,14 @@ def validate_script(script: str):
             raise HTTPException(422, "Vessel lifecycle command expects one vessel")
         if verb == "stock" and len(words) != 3:
             raise HTTPException(422, "Stock expects an ingredient and amount")
-        if verb in ("cell", "voltmeter") and (
-                len(words) != 3 or any(not re.fullmatch(r"v[1-9][0-9]*", word) for word in words[1:])):
-            raise HTTPException(422, "Cell measurement expects two vessels")
+        if verb in ("cell", "voltmeter"):
+            legacy_leads = len(words) == 3 and all(
+                re.fullmatch(r"v[1-9][0-9]*", word) for word in words[1:])
+            signed_leads = (verb == "voltmeter" and len(words) == 5
+                and words[1] == "positive" and words[3] == "negative"
+                and all(re.fullmatch(r"v[1-9][0-9]*", words[i]) for i in (2, 4)))
+            if not (legacy_leads or signed_leads):
+                raise HTTPException(422, "Use cell <vessel> <vessel> or voltmeter positive <vessel> negative <vessel>")
         if verb in ("look", "observe", "explain", "smell", "waft", "particles", "zoom", "inspect") and (
                 len(words) > 2 or len(words) == 2 and not re.fullmatch(r"v[1-9][0-9]*", words[1])):
             raise HTTPException(422, "Observation expects an optional vessel")

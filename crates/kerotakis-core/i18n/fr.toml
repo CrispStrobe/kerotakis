@@ -673,6 +673,7 @@ hydroxylapatite = "hydroxylapatite"
 "heat-of-mixing.lv2-absorbed" = "{vessel} : chaleur de mélange absorbée — {joules} J"
 
 # Batch 2: the multi-line sites, converted on spans.
+"voltmeter-read" = "Voltmètre : borne positive {positive}, borne négative {negative} ; E(positive) − E(négative) = {volts} V à vide. Pont salin idéal ; aucun potentiel de diffusion. Aucun courant ne circule."
 "cell-voltage.lv1" = "Le voltmètre entre {anode} et {cathode} indique {volts} V — tu as construit une pile ! Les électrons veulent circuler de {anode} vers {cathode}. (Rien n'utilise encore le courant, donc rien ne change dans les béchers.)"
 "transition-point-read.lv1" = "L'échantillon de {vessel} {outcome} à {value} °C. Chaque substance pure a son propre point de transition, toujours le même — c'est ainsi qu'on distingue une poudre blanche d'une autre."
 "dehydrated.lv1" = "Les cristaux bleus deviennent blancs à mesure que l'eau de cristallisation est chassée. Cette eau n'a jamais été liquide — elle était liée dans le cristal et s'échappe maintenant sous forme de vapeur."

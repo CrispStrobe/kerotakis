@@ -3009,5 +3009,5 @@ function spillDestination(value: unknown): Pick<SpillRun, "surface" | "location"
  * Vessel ID from an event — events use `vessel`, `from`, or `into`.
  */
 export function vesselOf(e: EngineEvent): number {
-  return Number(e.vessel ?? e.from ?? e.into ?? e.anode ?? 0);
+  return Number(e.vessel ?? e.from ?? e.into ?? e.anode ?? e.positive ?? 0);
 }
