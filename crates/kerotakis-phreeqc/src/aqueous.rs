@@ -2320,6 +2320,12 @@ impl PhreeqcEquilibrator {
             let denominator = 1_u32 << (level + 1);
             let numerator = 2 * (interior_probe - (1_u32 << level)) + 1;
             let trial_pe = lo + (hi - lo) * numerator as f64 / denominator as f64;
+            // Exhausted floating-point resolution is a real stop. A fixed
+            // pe-width threshold is not: even a narrow interval can still
+            // owe more electrons than the physical charge budget permits.
+            if trial_pe <= lo || trial_pe >= hi {
+                break;
+            }
             let input = build_input_at(vessel, problem, db_tag, Some((trial_pe, coupling)));
             let Ok(out) = self.run_trial(db_tag, &input) else {
                 if interior_probe == 15 {
@@ -2354,9 +2360,6 @@ impl PhreeqcEquilibrator {
             // been refused gets waved through — the search just stops
             // paying for precision the verdict cannot use.
             if (sum - coupling.target).abs() <= residual_tol {
-                break;
-            }
-            if hi - lo < 1e-6 {
                 break;
             }
         }
