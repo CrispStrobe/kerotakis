@@ -1,0 +1,36 @@
+{
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "88a3f2c379ebddb1463d8e105c03d3c06d7ceda35c53039e1775423529275ded",
+  "output_sha256": "3bc6a900d7f4f709963223930284c791dd866fe37b005f17f387f2c2f033e0ac",
+  "native_binary_sha256": null,
+  "native_identity_limit": "No executable checksum was recorded by this historical producer; no later hash or source is substituted.",
+  "target_exit": 0,
+  "producer_build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "producer_build_exit": 0,
+  "producer_runner_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+  "manifest_hashes": {
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+    "batch2-tc-005.json": "1d7f05022813c649620037e22fed1964b97eaf0030c171bb119872a0de141e92",
+    "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+    "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e",
+    "batch2-tc-005.lab": "88a3f2c379ebddb1463d8e105c03d3c06d7ceda35c53039e1775423529275ded",
+    "batch2-tc-005.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch2-tc-005.stdout": "3bc6a900d7f4f709963223930284c791dd866fe37b005f17f387f2c2f033e0ac"
+  },
+  "source_registry_sha256": "8741b6f338bf68ca8c4acfa8eac6a121daa35b512ccb9f05d2508e3df34baa44",
+  "composition_extract": "Used stock/air/gas/aqueous compositions extracted verbatim from the historical source registry.",
+  "boundary_source_path": "crates/kerotakis-core/src/vessel.rs",
+  "boundary_full_source_sha256": "1d91a7a6f25b7f55945b7e05b94ace5b70a8231810fadf5aded3f621298ee3d8",
+  "boundary_excerpts_sha256": "334f9ad3026521199ee68ef45e5bddac6f2e7d48704558b209b96b7f20d6b4d3"
+}

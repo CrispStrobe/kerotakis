@@ -1,0 +1,556 @@
+{
+  "met": 2,
+  "total": 2,
+  "criteria": {
+    "TC-005-C1": true,
+    "TC-005-C2": true
+  },
+  "solver_failures": 0,
+  "known_element_charge_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "6.4706390E-17",
+        "O": "3.2186452515E-17",
+        "C": "1.5083840E-22",
+        "N": "-1.9940E-19",
+        "charge": "2.4808832320E-19"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "6.4706390E-17",
+        "O": "3.2186452515E-17",
+        "C": "1.5083840E-22",
+        "N": "-1.9940E-19",
+        "charge": "2.4808832320E-19"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0",
+        "O": "0",
+        "C": "0",
+        "N": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "6.4706390E-17",
+        "O": "3.2186452515E-17",
+        "C": "1.5083840E-22",
+        "N": "-1.9940E-19",
+        "charge": "2.4808832320E-19"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "C": "0",
+        "N": "0",
+        "charge": "0E-17"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "6.4706390E-17",
+        "O": "3.2186452515E-17",
+        "C": "1.5083840E-22",
+        "N": "-1.9940E-19",
+        "charge": "2.4808832320E-19"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-1.271970E-18",
+        "O": "-7.06588918E-19",
+        "C": "1.2702750E-22",
+        "N": "-3.9880E-19",
+        "charge": "-3.028405500E-20"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-1.271970E-18",
+        "O": "-7.06588918E-19",
+        "C": "1.2702750E-22",
+        "N": "-3.9880E-19",
+        "charge": "-3.028405500E-20"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 12,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 12,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    },
+    {
+      "step": 13,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-3.655018590E-16",
+        "O": "-1.82878356473E-16",
+        "C": "8.117570E-23",
+        "N": "-1.9940E-19",
+        "charge": "1.6917864860E-19"
+      }
+    },
+    {
+      "step": 13,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-2.843433350E-16",
+        "O": "-1.42530132345E-16",
+        "C": "-5.078180E-23",
+        "N": "-3.9880E-19",
+        "charge": "5.4472656360E-19"
+      }
+    }
+  ],
+  "pressure_controlled_volume_checks": [
+    {
+      "step": 1,
+      "vessel": 0,
+      "volume_l": 0.09999335852818733,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "volume_l": 0.09999335852818733,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "volume_l": 0.09999335852818733,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "volume_l": 0.09999335852818733,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "volume_l": 0.09999365226974169,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "volume_l": 0.09999365226974169,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 10,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 10,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 11,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 11,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 12,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 12,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 13,
+      "vessel": 0,
+      "volume_l": 1.4501718855312429,
+      "pv_volume_residual_l": 0.0
+    },
+    {
+      "step": 13,
+      "vessel": 1,
+      "volume_l": 0.7731766341929734,
+      "pv_volume_residual_l": 0.0
+    }
+  ],
+  "admitted_room_air_mol": {
+    "0": "0.004033954554584697",
+    "1": "0.008067909109169394"
+  },
+  "operative_pressure_kpa": {
+    "0": 100.0,
+    "1": 200.0
+  },
+  "reported_thermometer_c": {
+    "0": 99.63318778075063,
+    "1": 100.00000535673809
+  },
+  "boiling_routes": {
+    "0": {
+      "boiling": 372.7831877807506,
+      "event": "boiling_point_routed",
+      "model": "Antoine (Stull 1947)",
+      "pressure_kpa": 100.0,
+      "route": "cleared_correlation",
+      "shifted_by": -0.3668154667623753,
+      "species": "water",
+      "vessel": 0
+    },
+    "1": {
+      "boiling": 373.15000535673806,
+      "event": "boiling_point_routed",
+      "model": "Antoine (Stull 1947)",
+      "pressure_kpa": 200.0,
+      "route": "pressure_outside_cleared_window",
+      "shifted_by": 0.0,
+      "species": "water",
+      "vessel": 1
+    }
+  },
+  "boiling_apparatus": {
+    "0": {
+      "boundary": "the direction is claimed only for components that dissolve in each other's melt (a solution or eutectic system): such a mixture melts below its lowest-melting pure component and over a range, not at a point. Components that do not mix when molten (most polymer pairs) are not depressed: each melts over its own range. The SIZE of the depression is not claimed \u2014 that needs the cryoscopic constant and enthalpy of fusion of the major component, and this registry curates neither for solids other than water",
+      "components": [
+        "water"
+      ],
+      "kind": "boiling",
+      "lowest_component_c": 100.0,
+      "outcome": null,
+      "sample_phase": "liquid",
+      "source": null,
+      "species": "water",
+      "value_c": null,
+      "verdict": "not_isolated"
+    },
+    "1": {
+      "boundary": "the direction is claimed only for components that dissolve in each other's melt (a solution or eutectic system): such a mixture melts below its lowest-melting pure component and over a range, not at a point. Components that do not mix when molten (most polymer pairs) are not depressed: each melts over its own range. The SIZE of the depression is not claimed \u2014 that needs the cryoscopic constant and enthalpy of fusion of the major component, and this registry curates neither for solids other than water",
+      "components": [
+        "water"
+      ],
+      "kind": "boiling",
+      "lowest_component_c": 100.0,
+      "outcome": null,
+      "sample_phase": "liquid",
+      "source": null,
+      "species": "water",
+      "value_c": null,
+      "verdict": "not_isolated"
+    }
+  },
+  "reported_energy_allocation": {
+    "0": {
+      "capped": false,
+      "ceiling_k": 1773.15,
+      "delivered_j": 8000.0,
+      "event": "energy_transferred",
+      "heating": true,
+      "passes": 1,
+      "requested_j": 8000.0,
+      "sensible_j": 6129.087415125504,
+      "source": "Bunsen burner",
+      "time_coupled": false,
+      "vessel": 0
+    },
+    "1": {
+      "capped": false,
+      "ceiling_k": 1773.15,
+      "delivered_j": 8000.0,
+      "event": "energy_transferred",
+      "heating": true,
+      "passes": 1,
+      "requested_j": 8000.0,
+      "sensible_j": 6171.317774826019,
+      "source": "Bunsen burner",
+      "time_coupled": false,
+      "vessel": 1
+    }
+  },
+  "final_water_phases": {
+    "0": [
+      {
+        "moles": 1.067432406493862,
+        "phase": "liquid",
+        "species": "water"
+      },
+      {
+        "moles": 0.042753535829769616,
+        "phase": "gas",
+        "species": "water"
+      }
+    ],
+    "1": [
+      {
+        "moles": 1.0684121834359512,
+        "phase": "liquid",
+        "species": "water"
+      },
+      {
+        "moles": 0.041773749928581606,
+        "phase": "gas",
+        "species": "water"
+      }
+    ]
+  },
+  "scope": "Original actual pressure/phase-inventory and property-domain inspection only. Variable-volume owned gas, not a fixed100mL or atmospheric reservoir. The200kPa route is outside its cleared correlation and uses a flagged reference fallback. No validated2bar boiling law, high-pressure plateau or calorimetric calibration is qualified; no numeric apparatus reading is invented."
+}

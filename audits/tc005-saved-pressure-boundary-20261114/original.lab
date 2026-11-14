@@ -1,0 +1,17 @@
+# TC-005: Pressure shifts the boiling plateau under the same heat input
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 20g @ 25C
+regulate v1 1bar 100mL
+new
+add v2 water 20g @ 25C
+regulate v2 2bar 100mL
+heat v1 8kJ
+heat v2 8kJ
+measure v1 thermometer
+measure v2 thermometer
+measure v1 pressure
+measure v2 pressure
+measure v1 boiling_point
+measure v2 boiling_point
+inspect

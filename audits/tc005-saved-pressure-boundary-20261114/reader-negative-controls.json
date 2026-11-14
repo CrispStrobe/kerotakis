@@ -1,0 +1,38 @@
+[
+  {
+    "mutation": "lost-nitrogen",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-gaseous-water",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-air-admission",
+    "rejected": true
+  },
+  {
+    "mutation": "fixed-initial-volume",
+    "rejected": true
+  },
+  {
+    "mutation": "wrong-operative-pressure",
+    "rejected": true
+  },
+  {
+    "mutation": "hidden-pressure-domain-limit",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-apparatus-reading",
+    "rejected": true
+  },
+  {
+    "mutation": "mismatched-thermal-reading",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]

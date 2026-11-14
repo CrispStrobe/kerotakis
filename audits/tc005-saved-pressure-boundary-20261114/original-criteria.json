@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TC-005-C1",
+    "criterion": "Check actual pressure and phase inventories rather than assuming the regulator has no mass exchange.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  },
+  {
+    "id": "TC-005-C2",
+    "criterion": "Compare any reported boiling points with the operative vessel pressure, not automatically with a 1 bar reference value.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  }
+]
