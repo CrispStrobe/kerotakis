@@ -1,0 +1,72 @@
+
+running 11 tests
+test bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate ... ok
+test mild_base_original_hour_wait_closes_h_o_charge_and_books_actual_co2_once ... ok
+test already_earned_subfloor_parcel_survives_sealing_without_further_uptake ... ok
+test cached_and_fresh_native_adapters_spend_the_same_clock_carrier_once ... ok
+test native_mix_declines_a_pending_carrier_in_either_source_or_target ... ok
+test original_litre_bicarbonate_hour_closes_actual_finite_parcel ... ok
+test open_bicarbonate_wait_exports_only_the_finite_clock_parcel_once ... ok
+test original_litre_sealed_bicarbonate_hour_has_no_external_carbon_crossing ... ok
+test positive_subfloor_clock_transfer_is_parked_then_accumulates_and_spends_once ... ok
+test original_acid_doses_preserve_alkalinity_and_close_both_boundary_owners ... ok
+test valid_negative_carrier_removes_all_native_carbon_and_overdraw_refuses_atomically ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.15s
+
+
+running 2 tests
+test initially_empty_finite_gas_phase_can_form_without_an_external_reservoir ... ok
+test ideal_and_real_gas_databases_preserve_finite_carbon_across_settlement ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.65s
+
+
+running 2 tests
+test pressure_controlled_carbon_uses_finite_matter_while_volume_changes ... ok
+test sealed_carbonated_water_keeps_owned_carbon_and_charge_through_repeated_solves_and_opening ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.09s
+
+
+running 1 test
+test aq064_original_and_nearby_co2_exhaustion_preserve_material_and_charge ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.41s
+
+
+running 4 tests
+test finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat ... FAILED
+test finite_yeast_gas_cannot_admit_unknown_stock_or_clock_overdraw ... ok
+test actual_milk_fermentation_keeps_lactate_speciation_and_missing_casein_warning ... ok
+test earned_clock_parcel_enters_known_milk_serum_once_without_changing_opaque_stock ... ok
+
+failures:
+
+---- finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat stdout ----
+
+thread 'finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat' (5708) panicked at crates/kerotakis-phreeqc/tests/opaque_clock_boundary.rs:217:53:
+dose plus clock: NotConverged { solver: "phreeqc-canonical", detail: "clock CO2 parcel lacks a certified native component projection", reason: Some(Phrase { key: "solver-reason.aqueous.clock-projection-missing", en: "Clock CO2 lacks a certified native component projection.", slots: [] }) }
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::result::unwrap_failed
+   3: <core::result::Result<alloc::vec::Vec<kerotakis_core::ops::Event>, kerotakis_core::solve::SolveError>>::expect
+   4: opaque_clock_boundary::finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat
+   5: opaque_clock_boundary::finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat::{closure#0}
+   6: <opaque_clock_boundary::finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.81s
+
+
+running 2 tests
+test sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium ... ok
+test reactive_gas_acid_conserves_finite_doses_and_neutralises_generically ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.14s
+

@@ -1,0 +1,11 @@
+{
+  "source": "58497904f44ce3f20fd82a8b216784a88c0bb732",
+  "tree": "dac9a0e23679b45849f3a540a29929d2e71eafe5",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "native_binary_sha256": null,
+  "native_binary_identity_limit": "The prior producer did not capture a binary checksum; none is reconstructed or attributed retrospectively.",
+  "solver_failures": 3,
+  "original_qualified": false,
+  "material_mass_controls_passed": 71
+}

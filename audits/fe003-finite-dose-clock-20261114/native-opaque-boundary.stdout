@@ -1,0 +1,9 @@
+
+running 4 tests
+test finite_yeast_gas_cannot_admit_unknown_stock_or_clock_overdraw ... ok
+test finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat ... ok
+test earned_clock_parcel_enters_known_milk_serum_once_without_changing_opaque_stock ... ok
+test actual_milk_fermentation_keeps_lactate_speciation_and_missing_casein_warning ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.96s
+

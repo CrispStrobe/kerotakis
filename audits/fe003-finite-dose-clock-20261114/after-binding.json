@@ -1,0 +1,132 @@
+{
+  "source": "0bf5205db5d5dcd22273aca76602c0f2c7b40fec",
+  "tree": "e237b53b0209c92963a56aeef6c6306014eee079",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "native_binary_sha256": "7855dfdf568f802c8624acf5ff5d79e08f7182cc6a48d769ace01eacda73a216",
+  "native_profile": "debug (same profile as native controls)",
+  "script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+  "original_script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+  "producer_commands": [
+    {
+      "name": "rustup-fetch",
+      "exit": 0,
+      "seconds": 0.36796964699999535
+    },
+    {
+      "name": "rustup-install",
+      "exit": 0,
+      "seconds": 15.428792350000009
+    },
+    {
+      "name": "compiler",
+      "exit": 0,
+      "seconds": 0.03288468299999181
+    },
+    {
+      "name": "clippy-component",
+      "exit": 0,
+      "seconds": 1.4204372579999927
+    },
+    {
+      "name": "init",
+      "exit": 0,
+      "seconds": 0.11876424099997962
+    },
+    {
+      "name": "remote",
+      "exit": 0,
+      "seconds": 0.016875231000000213
+    },
+    {
+      "name": "base-fetch",
+      "exit": 0,
+      "seconds": 3.1275462159999847
+    },
+    {
+      "name": "base-checkout",
+      "exit": 0,
+      "seconds": 0.5669340620000014
+    },
+    {
+      "name": "prerequisite-3bd828a4e6a0",
+      "exit": 0,
+      "seconds": 2.525137887999989
+    },
+    {
+      "name": "bundle-verify",
+      "exit": 0,
+      "seconds": 0.016873255999996672
+    },
+    {
+      "name": "bundle-fetch",
+      "exit": 0,
+      "seconds": 0.8687642440000047
+    },
+    {
+      "name": "candidate-checkout",
+      "exit": 0,
+      "seconds": 0.21648783199998434
+    },
+    {
+      "name": "submodules",
+      "exit": 0,
+      "seconds": 3.1273212570000055
+    },
+    {
+      "name": "sundials",
+      "exit": 0,
+      "seconds": 3.278878858000013
+    },
+    {
+      "name": "clang",
+      "exit": 0,
+      "seconds": 70.126501897
+    },
+    {
+      "name": "fmt",
+      "exit": 0,
+      "seconds": 5.034327828000016
+    },
+    {
+      "name": "projection-units",
+      "exit": 0,
+      "seconds": 248.27339555599997
+    },
+    {
+      "name": "selector-guards",
+      "exit": 0,
+      "seconds": 10.159779029999982
+    },
+    {
+      "name": "unowned-dose-floor-guard",
+      "exit": 0,
+      "seconds": 0.9185982349999904
+    },
+    {
+      "name": "native-opaque-boundary",
+      "exit": 0,
+      "seconds": 12.633821803000046
+    },
+    {
+      "name": "debug-cli",
+      "exit": 0,
+      "seconds": 110.23316254999997
+    },
+    {
+      "name": "batch3-diverse-fe-003",
+      "exit": 0,
+      "seconds": 3.730000732999997
+    },
+    {
+      "name": "original-inventory-review",
+      "exit": 1,
+      "seconds": 0.41663378800001283
+    }
+  ],
+  "original_reader_first_stderr_sha256": "4bc1bff117262f5dfe2fee2b0e3ec22e10c33464f19ba2cb1fea22f212e98a49",
+  "original_reader_correction": "SolutionScope::Complete is the serde default and omitted on the wire; use that documented default, retaining rejection of solvent_only. No engine replay or physical-bound change.",
+  "scientific_original_qualified": true,
+  "full_source_release_acceptance": false,
+  "producer_runner_sha256": "5db4a792c53e27370ca7833bda5e477719d65b73c7276da51b3bcb6e1ed4f95b"
+}

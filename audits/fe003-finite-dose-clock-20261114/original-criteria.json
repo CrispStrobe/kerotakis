@@ -1,0 +1,34 @@
+{
+  "id": "batch3-diverse:fe-003",
+  "expected_result": "The first two preparations approximately match yeast solids and recipe water, unlike the equal-weighed-mass comparison. Early differences can also reflect the dry-yeast hydration state.",
+  "acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Do equal weighed masses and approximately equal culture-solids masses give different comparisons?",
+      "review_instruction": "The first two preparations approximately match yeast solids and recipe water, unlike the equal-weighed-mass comparison. Early differences can also reflect the dry-yeast hydration state.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: approximately matched solids; v3: equal weighed mass to the dry dose",
+      "result": null
+    }
+  ],
+  "limitations": [
+    "The recipe assumptions are not a viability assay. Water-volume adjustment is approximate and mass loss is not a direct ethanol assay in an open vessel."
+  ],
+  "script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee"
+}

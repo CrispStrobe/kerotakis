@@ -1,0 +1,4 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/carbonate-repair/repo/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized] target(s) in 8.90s
+     Running unittests src/lib.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/376d658d2d25cf63/out/kerotakis_phreeqc-376d658d2d25cf63)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --lib`

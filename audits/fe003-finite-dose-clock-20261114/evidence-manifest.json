@@ -1,0 +1,32 @@
+{
+  "files_sha256": {
+    "after-binding.json": "3a8fb9b194c064c90663c9314da8ec67400d33d02ae1b499413bdaff61e4cdb9",
+    "reader-negative-controls.json": "7b7b4defc20f047ba476b65c351556d08f4d1dd43ec2faeb3a5742ce0c03bdc3",
+    "after-observations.jsonl": "799eb4fdc0ca96c02932006e71bd6be8112773b10b8525311590b2e2cd81ea69",
+    "review_balance.py": "0493a59a42ed5befd74b919e55321e19a16905fafa626aaf8226d69cd7c0b57e",
+    "original-criteria.json": "205d4c2ca95c8d21b981cce4de8f15dd4b1082a51244d283e3dc3c4382b67886",
+    "native-opaque-boundary.stdout": "4cd92b45cb8eeb1f25d4886d435f4edcd2c68eb5ddf9cc122003d270652c8c8e",
+    "before-observations.jsonl": "06c10caa96c80efcd886f7cae32fee9e246c8d82f565015f46af05256274962c",
+    "review_original.first.py": "9b59de4cf2bab499817d3bc2d0ac2729919053ff96bc0036aad9e0b7ae78a2cc",
+    "unowned-dose-floor-guard.stdout": "5c942036d2d976bff2537309b1e37ff13dbe0c4a953311cac21cfb8c9e5241e6",
+    "before-binding.json": "fb2afd2ed420691fc38b0dce43eba06873c6c2cc3696ca20d853ebc45ac377c3",
+    "selector-guards.stdout": "88c2acd343e1e1d1376011f8932e36c361bb00270dbfa01721d3f424e2148650",
+    "scientific-review.json": "26314f6082765d7d4dd93d40f8b6d0811424e04dcfb04e0c64c1c44a276b100d",
+    "projection-units.stdout": "689c06ee7eb4ce7c7b14935907d0fb53832c3423e9415117ae4a7b931063f2e2",
+    "review_original.py": "dff2e5332146eb04602f2eb568564191edf7a3a33716d3d855f589f2516612eb",
+    "balance-review.json": "8ac103ad161e1781b96dff1665458d2b25777e826c7afd2f49d61e23007c901b",
+    "original.lab": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+    "ethanol-witness-candidate/native-opaque-boundary.stdout": "f71dd7b3afee210fe108005f881a54bc15bff831c02ee480ef9bddc584319204",
+    "ethanol-witness-candidate/batch3-diverse-fe-003.stdout": "e25505768c0f8cc217b397a2c48cdf3a55a06b340a2b926b6a748f2c5ff70cc4",
+    "ethanol-witness-candidate/inventory-units.stdout": "ec1ef898e3364b2819f30723d160f242bbf92b64a3a7704352f2b01ae17232c5",
+    "first-gas-candidate/inventory-units.stderr": "5aa938c3390320576803a0e3097197350db7752fea55fa4e0a88e8923a453082",
+    "first-gas-candidate/native-binary.json": "7ecacce9cc1b2fc1b2a4f5e31b4f1a36e52cf81833917bf1aaf4312e01455fe3",
+    "first-gas-candidate/source-and-lock.json": "6a04efd04a1c82dd4a9b28dd06513317c28e5017d894b540ad3c70723a75a147",
+    "first-gas-candidate/batch3-diverse-fe-003.stdout": "06c10caa96c80efcd886f7cae32fee9e246c8d82f565015f46af05256274962c",
+    "first-gas-candidate/COMPLETED.json": "c6b943e08a7cb66269dd38f6955f7c517509203b531d576ae1dac567cb6e37ce",
+    "first-gas-candidate/inventory-units.stdout": "4fe2a228f56a2dfb35a1b760bf9d67ac8203f0c1c1f1371a6b02a36a5a1c67a1",
+    "first-gas-candidate/native-boundaries.stderr": "c2c6a9f5b1691a58171216b9d855737468cd040b6594b9e02799fdd78ffe09d5",
+    "first-gas-candidate/projection-units.stdout": "85f9b582cf3aa7b625c136c80c26d484e951052d600ab7c5a1000626fc975be6",
+    "first-gas-candidate/native-boundaries.stdout": "2bb660f743e16b5308789d4a914978997d6854658105e3602620054016616925"
+  }
+}

@@ -1,0 +1,8 @@
+
+running 3 tests
+test aqueous::canonical_physical_closure_tests::secondary_selected_output_mu_must_be_finite_and_nonnegative ... ok
+test ligand_routing::tests::coefficients_and_secondary_species_reduce_to_master_elements ... ok
+test aqueous::gas_component_projection_tests::secondary_finite_dose_witness_is_bound_to_source_and_consumed_gas ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 213 filtered out; finished in 0.00s
+

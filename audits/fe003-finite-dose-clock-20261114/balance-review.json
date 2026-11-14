@@ -1,0 +1,27 @@
+{
+  "registry_sha256": "88f5df1a8404bd505e2f6989b6b74147b04189fe754ab2a7bb42baf666e4d31a",
+  "balance_readings": [
+    {
+      "vessel": 0,
+      "known_stock_mass_g": "50.84453541542307736293443372",
+      "unresolved_yeast_mass_g": "0.2999997",
+      "balance_g": "51.144535115423075",
+      "residual_g": "-2.36293443372E-15"
+    },
+    {
+      "vessel": 1,
+      "known_stock_mass_g": "50.84664770011397431771960489",
+      "unresolved_yeast_mass_g": "0.2999997000000001",
+      "balance_g": "51.14664740011398",
+      "residual_g": "5.58228039511E-15"
+    },
+    {
+      "vessel": 2,
+      "known_stock_mass_g": "51.05839384505229412142394674",
+      "unresolved_yeast_mass_g": "0.08999991000000003",
+      "balance_g": "51.148393755052304",
+      "residual_g": "9.84857605326E-15"
+    }
+  ],
+  "molar_mass_rounding_note": "Registry molar masses give a 0.0005 g/mol sucrose-reaction mass rounding residual. Element closure is assessed separately, without changing its 1e-10 mol/eq bound. This check compares each displayed balance with the actual retained stock; it does not turn a failed solver into a qualification."
+}

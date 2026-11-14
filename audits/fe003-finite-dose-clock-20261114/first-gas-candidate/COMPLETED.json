@@ -1,0 +1,320 @@
+{
+  "source": "3c192dd51b09050e01c2f76d1fe5ee98a2f5c9cd",
+  "tree": "80a1974d9f4f7b7937ce2e6bdb8543e5024a8753",
+  "steps": [
+    {
+      "name": "rustup-fetch",
+      "argv": [
+        "curl",
+        "--proto",
+        "=https",
+        "--tlsv1.2",
+        "-fsSL",
+        "https://sh.rustup.rs",
+        "-o",
+        "/kaggle/temp/carbonate-repair/rustup-init.sh"
+      ],
+      "exit": 0,
+      "seconds": 0.3675791349999997,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "rustup-install",
+      "argv": [
+        "sh",
+        "/kaggle/temp/carbonate-repair/rustup-init.sh",
+        "-y",
+        "--profile",
+        "minimal",
+        "--default-toolchain",
+        "1.100.0",
+        "--no-modify-path"
+      ],
+      "exit": 0,
+      "seconds": 17.084160156000024,
+      "stdout_sha256": "616bf045ec8d403b4a5c9fcbb1cb6eda61021a0d2666278776eb6a86b9f2d0a3",
+      "stderr_sha256": "1384241933bdbdefe5ef316eee6efde49746da1f1007a0553d6c8dbc48571dec"
+    },
+    {
+      "name": "compiler",
+      "argv": [
+        "rustc",
+        "--version",
+        "--verbose"
+      ],
+      "exit": 0,
+      "seconds": 0.032639871000014864,
+      "stdout_sha256": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clippy-component",
+      "argv": [
+        "rustup",
+        "component",
+        "add",
+        "clippy",
+        "rustfmt"
+      ],
+      "exit": 0,
+      "seconds": 1.6206804360000149,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4ae2551ea6202e5136e5d7344c5cd841fb1b981ec6798b8e0c525a228d335c72"
+    },
+    {
+      "name": "init",
+      "argv": [
+        "git",
+        "init",
+        "/kaggle/temp/carbonate-repair/repo"
+      ],
+      "exit": 0,
+      "seconds": 0.1166965609999977,
+      "stdout_sha256": "e40363159154a2a8eef0d95728a662349d376f3cb4ea7a672632eae54de17e21",
+      "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+    },
+    {
+      "name": "remote",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://github.com/CrispStrobe/kerotakis.git"
+      ],
+      "exit": 0,
+      "seconds": 0.016725417999992942,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "base-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "bb168622bdc97abc036e5ab6f2146f5df5737367"
+      ],
+      "exit": 0,
+      "seconds": 2.67453800200002,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "cc2f1c8f91336c1d5d35b8678f9c05e11ce5e98968cfc2eb53d160c63751ca5b"
+    },
+    {
+      "name": "base-checkout",
+      "argv": [
+        "git",
+        "checkout",
+        "--detach",
+        "FETCH_HEAD"
+      ],
+      "exit": 0,
+      "seconds": 0.6673142060000146,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d0ecd77eccdb58d961eac60056733f0eb9eb52ebf3f503b2f151a05608ad0f3a"
+    },
+    {
+      "name": "prerequisite-3bd828a4e6a0",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "3bd828a4e6a04689b2a94cbd71e1d7cb73273dc6"
+      ],
+      "exit": 0,
+      "seconds": 2.5746474210000088,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "63ad2ae75ae57a9748e1529b72ed3c64f1462defa78d94e7583a8b85c2ebaf73"
+    },
+    {
+      "name": "bundle-verify",
+      "argv": [
+        "git",
+        "bundle",
+        "verify",
+        "/kaggle/temp/carbonate-repair/candidate.bundle"
+      ],
+      "exit": 0,
+      "seconds": 0.016594187000009697,
+      "stdout_sha256": "f97ef5370b57c96811f19975440beeb8baf7d2551d5a84d46b4308d82f44defc",
+      "stderr_sha256": "03d605ca1c58dbcbdc6a64d63118796cd7cd874c300576af5d881f98446017f5"
+    },
+    {
+      "name": "bundle-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "/kaggle/temp/carbonate-repair/candidate.bundle",
+        "HEAD"
+      ],
+      "exit": 0,
+      "seconds": 0.8680513859999905,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "be7cf3c7cb1b3d3e312897dd5aee230eeca77c5d7002cd7d5f07dd97e998ac09"
+    },
+    {
+      "name": "candidate-checkout",
+      "argv": [
+        "git",
+        "checkout",
+        "--detach",
+        "3c192dd51b09050e01c2f76d1fe5ee98a2f5c9cd"
+      ],
+      "exit": 0,
+      "seconds": 0.41644751800001245,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "38b2870b1410c779f0fc50175d9dbc67dcbcbde8f501029e224929a8bafbbc7b"
+    },
+    {
+      "name": "submodules",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive",
+        "--depth",
+        "1"
+      ],
+      "exit": 0,
+      "seconds": 3.276573708000001,
+      "stdout_sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+      "stderr_sha256": "67d374d5cb620dc27f93d99c392590db1c560d59ffd62b99d1c38156cddbdb99"
+    },
+    {
+      "name": "sundials",
+      "argv": [
+        "bash",
+        "tools/fetch-sundials.sh"
+      ],
+      "exit": 0,
+      "seconds": 3.9791451060000043,
+      "stdout_sha256": "4570f3e18767374e77aa05865b340d676bd23d531a497e2e1f3a03c8e900cf11",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clang",
+      "argv": [
+        "bash",
+        "-c",
+        "(apt-get update -qq && apt-get install -y -qq libclang-dev clang cmake) || (sudo apt-get update -qq && sudo apt-get install -y -qq libclang-dev clang cmake)"
+      ],
+      "exit": 0,
+      "seconds": 71.52801155400002,
+      "stdout_sha256": "874f48efee4ea0952e9d063cd8eecec4e37541e3fdf0330ca29b8a0bc563a52c",
+      "stderr_sha256": "06c9322839309ecb298d9d37a70cf656e6d8d6f6a98e6898748c93fd94792630"
+    },
+    {
+      "name": "fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0,
+      "seconds": 5.5348413359999995,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "projection-units",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-phreeqc",
+        "--features",
+        "engine",
+        "--lib",
+        "gas_component_projection_tests"
+      ],
+      "exit": 0,
+      "seconds": 239.023787471,
+      "stdout_sha256": "85f9b582cf3aa7b625c136c80c26d484e951052d600ab7c5a1000626fc975be6",
+      "stderr_sha256": "ab2ee553f105582b3f51e65fba246a1a17cf996db2fbd579327eec35a31b7872"
+    },
+    {
+      "name": "inventory-units",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-phreeqc",
+        "--features",
+        "engine",
+        "--lib",
+        "gas_aware_certificate_tests"
+      ],
+      "exit": 101,
+      "seconds": 9.397082522000005,
+      "stdout_sha256": "4fe2a228f56a2dfb35a1b760bf9d67ac8203f0c1c1f1371a6b02a36a5a1c67a1",
+      "stderr_sha256": "5aa938c3390320576803a0e3097197350db7752fea55fa4e0a88e8923a453082"
+    },
+    {
+      "name": "native-boundaries",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-phreeqc",
+        "--features",
+        "engine",
+        "--test",
+        "clock_co2_boundary",
+        "--test",
+        "opaque_clock_boundary",
+        "--test",
+        "native_reservoir_endpoint",
+        "--test",
+        "finite_gas_moles",
+        "--test",
+        "finite_gas_temperature",
+        "--test",
+        "reactive_gas",
+        "--no-fail-fast"
+      ],
+      "exit": 101,
+      "seconds": 23.115030222999962,
+      "stdout_sha256": "2bb660f743e16b5308789d4a914978997d6854658105e3602620054016616925",
+      "stderr_sha256": "c2c6a9f5b1691a58171216b9d855737468cd040b6594b9e02799fdd78ffe09d5"
+    },
+    {
+      "name": "release-cli",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--release",
+        "-p",
+        "kerotakis-cli"
+      ],
+      "exit": 0,
+      "seconds": 517.6266346009999,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b2dddc797c44376159d5bd9119221e56944920221682817668dca40f6896eae9"
+    },
+    {
+      "name": "batch3-diverse-fe-003",
+      "argv": [
+        "/kaggle/temp/carbonate-repair/target/release/kero",
+        "run",
+        "/kaggle/working/evidence/batch3-diverse-fe-003.lab",
+        "--json"
+      ],
+      "exit": 0,
+      "seconds": 0.6170837109998502,
+      "stdout_sha256": "06c10caa96c80efcd886f7cae32fee9e246c8d82f565015f46af05256274962c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "all_commands_passed": false,
+  "focused_only": true
+}

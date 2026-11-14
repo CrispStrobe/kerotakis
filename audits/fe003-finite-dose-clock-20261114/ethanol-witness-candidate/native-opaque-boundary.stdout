@@ -1,0 +1,29 @@
+
+running 4 tests
+test finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat ... FAILED
+test finite_yeast_gas_cannot_admit_unknown_stock_or_clock_overdraw ... ok
+test actual_milk_fermentation_keeps_lactate_speciation_and_missing_casein_warning ... ok
+test earned_clock_parcel_enters_known_milk_serum_once_without_changing_opaque_stock ... ok
+
+failures:
+
+---- finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat stdout ----
+
+thread 'finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat' (5553) panicked at crates/kerotakis-phreeqc/tests/opaque_clock_boundary.rs:217:53:
+dose plus clock: NotConverged { solver: "phreeqc-canonical", detail: "secondary solvent selector changed outside a witnessed input-floor replay", reason: Some(Phrase { key: "solver-reason.aqueous.secondary-changed-without-floor", en: "The secondary solvent selector changed without a witnessed input-floor replay.", slots: [] }) }
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::result::unwrap_failed
+   3: <core::result::Result<alloc::vec::Vec<kerotakis_core::ops::Event>, kerotakis_core::solve::SolveError>>::expect
+   4: opaque_clock_boundary::finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat
+   5: opaque_clock_boundary::finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat::{closure#0}
+   6: <opaque_clock_boundary::finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    finite_yeast_co2_and_each_clock_sign_close_native_inventory_and_repeat
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.80s
+

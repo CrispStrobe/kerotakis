@@ -1,0 +1,18 @@
+[
+  {
+    "mutation": "carbon",
+    "rejected": true
+  },
+  {
+    "mutation": "opaque",
+    "rejected": true
+  },
+  {
+    "mutation": "scope",
+    "rejected": true
+  },
+  {
+    "mutation": "solver",
+    "rejected": true
+  }
+]

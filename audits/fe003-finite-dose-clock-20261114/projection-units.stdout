@@ -1,0 +1,22 @@
+
+running 17 tests
+test aqueous::gas_component_projection_tests::declared_native_alias_multiplicity_preserves_all_keyed_fractions ... ok
+test aqueous::gas_component_projection_tests::certified_components_require_complete_native_protonation ... ok
+test aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner ... ok
+test aqueous::gas_component_projection_tests::finite_gas_redistribution_uses_owned_initial_and_final_amounts ... ok
+test aqueous::gas_component_projection_tests::exhausted_registered_reservoir_closes_only_gas_amount_at_native_precision ... ok
+test aqueous::gas_component_projection_tests::exhausted_endpoint_requires_one_outward_registered_reservoir_only ... ok
+test aqueous::gas_component_projection_tests::oversized_invalid_and_unsupported_inputs_never_project ... ok
+test aqueous::gas_component_projection_tests::clock_overdraw_cannot_be_admitted_by_opaque_owner ... ok
+test aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component ... ok
+test aqueous::gas_component_projection_tests::raw_finite_gas_readback_refuses_invalid_values_before_projection ... ok
+test aqueous::gas_component_projection_tests::raw_analytical_components_cannot_hide_invalid_valence_readback ... ok
+test aqueous::gas_component_projection_tests::plant_clock_projection_separates_aqueous_carbon_pigment_and_finite_dose ... ok
+test aqueous::gas_component_projection_tests::reservoir_out_and_in_preserve_independent_native_components ... ok
+test aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct ... ok
+test aqueous::gas_component_projection_tests::secondary_finite_dose_witness_is_bound_to_source_and_consumed_gas ... ok
+test aqueous::gas_component_projection_tests::tagged_state_stays_tagged_and_protonation_fractions_stay_native ... ok
+test aqueous::gas_component_projection_tests::milk_and_culture_recipe_components_have_derived_owners_or_are_explicitly_opaque ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 199 filtered out; finished in 0.38s
+

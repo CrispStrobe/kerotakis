@@ -1,0 +1,11 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/carbonate-repair/repo/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized] target(s) in 7.70s
+     Running tests/clock_co2_boundary.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/e260293073c32f0d/out/clock_co2_boundary-e260293073c32f0d)
+     Running tests/finite_gas_moles.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/2c2057dad92fe253/out/finite_gas_moles-2c2057dad92fe253)
+     Running tests/finite_gas_temperature.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/6630fc2049c35ca2/out/finite_gas_temperature-6630fc2049c35ca2)
+     Running tests/native_reservoir_endpoint.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/9dc40dc4f5bc5ea4/out/native_reservoir_endpoint-9dc40dc4f5bc5ea4)
+     Running tests/opaque_clock_boundary.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/c0b1792c48e8cf62/out/opaque_clock_boundary-c0b1792c48e8cf62)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test opaque_clock_boundary`
+     Running tests/reactive_gas.rs (/kaggle/temp/carbonate-repair/target/debug/build/kerotakis-phreeqc/0ad77f690ce261c0/out/reactive_gas-0ad77f690ce261c0)
+error: 1 target failed:
+    `-p kerotakis-phreeqc --test opaque_clock_boundary`

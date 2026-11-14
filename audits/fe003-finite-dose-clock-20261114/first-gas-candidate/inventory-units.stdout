@@ -1,0 +1,33 @@
+
+running 9 tests
+test inventory::gas_aware_certificate_tests::charged_input_is_preserved_and_same_element_charge_change_is_refused ... ok
+test inventory::gas_aware_certificate_tests::finite_dose_clock_ledger_separates_uptake_vent_and_signed_clock ... ok
+test inventory::gas_aware_certificate_tests::gas_boundary_sign_vessel_and_nonnegative_amount_are_checked ... ok
+test inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock ... ok
+test inventory::gas_aware_certificate_tests::unresolved_formula_reason_keeps_unknown_id_in_raw_detail ... ok
+test inventory::gas_aware_certificate_tests::virtual_clock_carbon_is_signed_and_independent_of_native_reservoirs ... ok
+test inventory::gas_aware_certificate_tests::chlorophyll_clock_stock_requires_real_formula_solid_phase_and_exact_immutability ... ok
+test inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose ... FAILED
+test inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components ... ok
+
+failures:
+
+---- inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose stdout ----
+
+thread 'inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose' (5539) panicked at crates/kerotakis-phreeqc/src/inventory.rs:1395:9:
+assertion failed: valid_clock_immutable_spectators(&before)
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::panic
+   3: kerotakis_phreeqc::inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose
+   4: kerotakis_phreeqc::inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose::{closure#0}
+   5: <kerotakis_phreeqc::inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    inventory::gas_aware_certificate_tests::fermentation_spectators_keep_exact_identity_phase_and_dose
+
+test result: FAILED. 8 passed; 1 failed; 0 ignored; 0 measured; 206 filtered out; finished in 0.40s
+
