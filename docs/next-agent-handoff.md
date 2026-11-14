@@ -8,7 +8,7 @@ The residual-solid notice successor has focused hosted tests and an unchanged PO
 
 ## 0. State and open tasks after round 4 (2026-11-12)
 
-State: production `731931f0` until round 4 deploys; qualification **409/468**, with 59 originals remaining (see [STATUS](STATUS.md)).
+State: production `731931f0` until round 4 deploys; qualification **410/468**, with 58 originals remaining (see [STATUS](STATUS.md)).
 PR881 contains rounds 4 and 5, is ready with auto-merge enabled, and awaits required queued checks. Diagnose and repair any failures on the actual head; preserve unchanged forecasts and raw failures. Use bounded Kaggle CPU validation for heavy work while the
 Actions queue is congested; do not add `ci:full`, dispatch full workflows or create placeholder PRs.
 Keep independently developed successor fixes separate while checks run, minimize pushes, and preserve branch protection. The owner handles merges; deploy after integration. Then run

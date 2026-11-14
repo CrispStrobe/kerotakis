@@ -5,9 +5,9 @@ counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-
 
 ## Production and qualification
 
-Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-ab017.json)
-has **413 entries and 413 distinct catalog IDs**, representing **409 unique originals out of the fixed
-468**; **59 remain**. Four entries are from the separate supplied-reactions corpus and are outside
+Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-fo002.json)
+has **414 entries and 414 distinct catalog IDs**, representing **410 unique originals out of the fixed
+468**; **58 remain**. Four entries are from the separate supplied-reactions corpus and are outside
 that denominator. These are reviewed historical qualifications, not a uniform replay on the latest
 release. The goal is now to qualify the remaining originals without treating unsupported chemistry
 or a successful process exit as a scientific pass.
@@ -15,6 +15,10 @@ or a successful process exit as a scientific pass.
 ## Residual solid notice follow-up
 
 The focused successor changes both live and preview notices to describe remaining solid without claiming dissolution from a registry flag. PVA without reviewed aqueous solubility now receives the existing missing-data notice. On source `1b7f2f86`, hosted solid-dissolution, liquid-contact, locale and rendering tests, generated coverage, formatting, CLI build and PO-008 replay passed. PO-008 remains unqualified: this corrects the notice, not the missing polymer dissolution model. The same source also passed the hosted 500-prompt curiosity check with zero unmet requirements, solver/runtime failures or baseline drift; two declared missing boundaries remain. Integration follows PR881; do not replace the working catalog count with this test result.
+
+## Prepared-material and signed-cell follow-up
+
+The focused successor adds explicit signed voltmeter leads while retaining the legacy automatic cell orientation and trace-ion guards. Its hosted runtime and frontend controls passed; an LV1 event-translation key failed a broader test, was corrected, and the affected hosted suite subsequently passed. The unchanged RX-012 remains a hold. The same successor removes duplicate prepared-object time advancement and displays their existing state; 80 hosted prepared/locale/signed-lead tests and seven appearance tests passed. The unchanged FO-002 replay now accounts for both samples and shows the expected bounded comparison; it is included in the catalog with its model limits. Test and integrate the coherent successor without restarting PR881 checks.
 
 ## Rounds 4 and 5 — PR881 pending acceptance
 

@@ -28,5 +28,4 @@ Focused tests cover parser/serialization compatibility, exact lead reversal,
 activity-based magnitudes in zinc and copper concentration cells, Daniell and
 copper/silver cells, equal-potential zero, no vessel mutation, missing electrodes,
 invalid vessel pairs, bounded acid estimates, locale signs and REST admission.
-Rust runtime and PHREEQC tests require hosted validation; no local native build
-or scientific acceptance is claimed by this implementation note.
+The hosted focused run on source `0241467a` passed the signed-lead core, PHREEQC, CLI and codex tests, frontend tests and type check, and the explicit-lead control. It measured −0.0400385 V and +0.0400385 V on reversed zinc leads. The unchanged RX-012 retained its automatic positive cell output. A later broader locale test exposed a missing LV1 key; the successor corrected that key and the affected hosted locale and signed-lead suite passed.
