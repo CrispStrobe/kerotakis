@@ -1,0 +1,14 @@
+{
+  "files_sha256": {
+    "reader-negative-controls.json": "7a1b03d7d7323ce1360d7e32779a4c3db3a68371bf4ef2aa9d9dc196b566729b",
+    "original-criteria.json": "8ecafba6f3a720767897783ab1a7ec6b8d966d00119ee5a8dade285f7bb89913",
+    "source-compositions.json": "abb35fbc6fe349c1bb3705c58fb706f7e02cad873d9b214aef096ab5b780fc0b",
+    "README.md": "f6d2f4c5aec7315a587152fd459f6e375e458e7f1b0ad46c77f77d4bb342e70e",
+    "binding.json": "cfbd0d8152e8c7289e9e8f979ddcd3a427c53895bf701e5ed6eb6c51dc8f61a8",
+    "batch3-diverse-bd-003.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scientific-review.json": "2e537ce9ba0abe0b10c9283648b15c4256e401ebe1cc6e656eaf777490e14b8f",
+    "review_original.py": "ece7a6b71a221b6089dec0777abeda2988b3f851b3e1bd6ef1d8bee7ab09141c",
+    "batch3-diverse-bd-003.stdout": "42c9106d3b87404b5455ad5f521e7af3d9d3f458ed6afc7a5f5697c23b98c392",
+    "original.lab": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d"
+  }
+}

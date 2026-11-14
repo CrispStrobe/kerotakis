@@ -1,0 +1,26 @@
+[
+  {
+    "id": "question",
+    "criterion": "Does this pinned engine actually couple light to peroxide conversion, or only store the illumination state?",
+    "review_instruction": "Photochemical conversion is established only if runtime exposes a supported light-dependent route and a consistent reagent/product ledger beyond the dark control. Merely accepting irradiate or displaying a wavelength is not such evidence.",
+    "result": null
+  },
+  {
+    "id": "inventory",
+    "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+    "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+    "result": null
+  },
+  {
+    "id": "coverage",
+    "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+    "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+    "result": null
+  },
+  {
+    "id": "controls",
+    "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+    "review_instruction": "v2: peroxide in the dark; v3: irradiated water without peroxide",
+    "result": null
+  }
+]

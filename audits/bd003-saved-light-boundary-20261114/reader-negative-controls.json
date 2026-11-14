@@ -1,0 +1,30 @@
+[
+  {
+    "mutation": "invented-light-coupling",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-oxygen",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-carbon",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-nitrogen",
+    "rejected": true
+  },
+  {
+    "mutation": "unequal-dark-conversion",
+    "rejected": true
+  },
+  {
+    "mutation": "missing-water-control",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+  "output_sha256": "42c9106d3b87404b5455ad5f521e7af3d9d3f458ed6afc7a5f5697c23b98c392",
+  "native_binary_sha256": null,
+  "native_identity_limit": "No executable checksum was recorded by this historical producer; no later hash or source is substituted.",
+  "target_exit": 0,
+  "producer_build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "producer_build_exit": 0,
+  "producer_runner_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+  "manifest_hashes": {
+    "batch3-diverse-bd-003.json": "63b49ac8d40c9fe0c9b6fcb05837526531254d110586b0897086497f55365be0",
+    "batch3-diverse-bd-003.lab": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+    "batch3-diverse-bd-003.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+    "batch3-diverse-bd-003.stdout": "42c9106d3b87404b5455ad5f521e7af3d9d3f458ed6afc7a5f5697c23b98c392",
+    "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+    "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e"
+  },
+  "source_registry_sha256": "8741b6f338bf68ca8c4acfa8eac6a121daa35b512ccb9f05d2508e3df34baa44",
+  "composition_extract": "source-compositions.json contains only used compositions, extracted verbatim from the historical source registry."
+}
