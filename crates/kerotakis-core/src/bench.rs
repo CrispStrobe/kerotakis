@@ -4610,7 +4610,6 @@ impl Bench {
                         crate::kinetics::KineticContext::default(),
                         &mut events,
                     )?;
-                    advance_prepared_objects(vessel, seconds, &mut events);
                 }
             }
             Operator::Measure { vessel, instrument } => {

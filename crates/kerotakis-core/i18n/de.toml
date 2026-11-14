@@ -1406,6 +1406,8 @@ white = "weiß"
 # decline. That choice lives HERE, in the data, which is the whole point:
 # a translator changes the construction without changing a line of Rust.
 [look]
+prepared-object = "im Becher siehst du {material}"
+prepared-surface-browned = "die Oberfläche von {material} ist zu {percent} % gebräunt"
 indicator-optics-missing-ph = "Die Farbe ist unvollständig: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt."
 # The space between two whole sentences. It looks like typography rather
 # than language right up until the language is one that does not use it —

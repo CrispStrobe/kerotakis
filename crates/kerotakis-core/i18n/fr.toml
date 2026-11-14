@@ -1284,6 +1284,8 @@ white = "blanc"
 "yellow-green, toxic" = "jaune-vert, toxique"
 
 [look]
+prepared-object = "il y a {material} dans le bécher"
+prepared-surface-browned = "la surface de {material} est brunie à {percent} %"
 indicator-optics-missing-ph = "La couleur est incomplète : un pH aqueux fini est nécessaire pour {species}."
 # The space between two whole sentences. It looks like typography rather
 # than language right up until the language is one that does not use it —
