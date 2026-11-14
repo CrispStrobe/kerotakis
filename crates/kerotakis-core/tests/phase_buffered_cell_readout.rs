@@ -75,8 +75,12 @@ fn unchanged_original_cell_operations_read_zero_then_native_silver_activity_with
             _ => None,
         })
         .expect("finite native silver activity must remain readable beside AgCl");
+    // The captured half-cells have slightly different actual temperatures;
+    // use both, rather than imposing a common 25 C or a common slope.
     let expected = relations::nernst_slope(bench.vessels[0].temperature)
-        * (free(&bench.vessels[0], "Ag+") / free(&bench.vessels[1], "Ag+")).log10();
+        * free(&bench.vessels[0], "Ag+").log10()
+        - relations::nernst_slope(bench.vessels[1].temperature)
+            * free(&bench.vessels[1], "Ag+").log10();
     assert!((volts - expected).abs() < 1e-12);
     assert!((0.1..0.3).contains(&volts));
     assert_eq!((anode, cathode), (VesselId(1), VesselId(0)));
