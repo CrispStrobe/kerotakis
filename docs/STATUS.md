@@ -5,15 +5,16 @@ counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-
 
 ## Production and qualification
 
-Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. Qualification is **402/468** unique
-originals (406 entries; catalog `audits/working-experiments-20261111-reviewed-production-round3-29.json`
-on the audit branch). The goal of ≥ 401 is met; further qualifications continue the same way.
+Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-fo002.json)
+has **414 entries and 414 distinct catalog IDs**, representing **410 unique originals out of the fixed
+468**; **58 remain**. Four entries are from the separate supplied-reactions corpus and are outside
+that denominator. These are reviewed historical qualifications, not a uniform replay on the latest
+release. The goal is now to qualify the remaining originals without treating unsupported chemistry
+or a successful process exit as a scientific pass.
 
 ## Rounds 4 and 5 — PR881 pending acceptance
 
-[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is a draft while source review and
-acceptance remain incomplete. It has not merged or deployed; the production identity above remains
-current. Its first failing head is `bb168622`: six starch display names lack German translations,
+[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is ready with auto-merge enabled; required checks are queued. It has not merged or deployed; the production identity above remains current. Its first failing head is `bb168622`: six starch display names lack German translations,
 the bicarbonate demo lacks step prose, and carbonate/gas/selectivity fleet contracts fail. Repair
 work preserves those first failures and distinguishes physical source defects from invalid oracles.
 Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication
