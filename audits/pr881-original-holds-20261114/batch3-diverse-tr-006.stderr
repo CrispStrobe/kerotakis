@@ -1,0 +1,1 @@
+kero: /kaggle/working/evidence/batch3-diverse-tr-006.lab:19: the feed vessel holds -0.000 mL of liquid but transport step 3 needs 10.000 mL; the feed is a vessel on the bench and is debited by exactly what enters the column, so add more feed or declare 'reservoir' for an external constant-composition boundary
