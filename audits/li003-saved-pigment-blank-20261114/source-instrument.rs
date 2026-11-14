@@ -1,0 +1,945 @@
+//! INST-001: Instrument contract.
+//!
+//! An instrument observes or perturbs a vessel's state. The contract
+//! separates sampling (read-only) from perturbation (adds energy or
+//! removes material), so solvers know whether an observation changed
+//! the system.
+
+use serde::{Deserialize, Serialize};
+
+use crate::species::{Phase, SpeciesId};
+use crate::vessel::Vessel;
+
+/// What an instrument does to the system when it measures.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum InstrumentMode {
+    /// Pure observation — no state change.
+    Passive,
+    /// The measurement perturbs the system (e.g. calorimetry adds energy,
+    /// sampling removes material).
+    Perturbative,
+}
+
+/// A single reading from an instrument.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Reading {
+    /// What was measured (e.g. "temperature", "pH", "mass", "absorbance").
+    pub observable: String,
+    /// Numeric value in the instrument's native unit.
+    pub value: f64,
+    /// Unit symbol (e.g. "°C", "g", "pH").
+    pub unit: String,
+    /// Precision of the instrument (± in the same unit).
+    #[serde(default)]
+    pub precision: Option<f64>,
+    /// Whether the reading is within the instrument's calibrated range.
+    pub in_range: bool,
+}
+
+/// The instrument contract: every instrument can describe itself,
+/// check applicability, and take a reading.
+pub trait InstrumentContract {
+    /// Human-readable name (e.g. "thermometer", "pH meter", "balance").
+    fn name(&self) -> &'static str;
+
+    /// Whether this instrument applies to the given vessel state.
+    fn applies(&self, vessel: &Vessel) -> bool;
+
+    /// Whether the measurement perturbs the system.
+    fn mode(&self) -> InstrumentMode;
+
+    /// Take a reading from the vessel.
+    fn measure(&self, vessel: &Vessel) -> Option<Reading>;
+}
+
+// ── Built-in instruments (INST-002 migration targets) ──────────────
+
+/// The bench thermometer's stated precision, K. A temperature difference
+/// smaller than this cannot be observed on this bench.
+pub const THERMOMETER_PRECISION_K: f64 = 0.1;
+
+/// A simple thermometer: reads temperature, no perturbation.
+pub struct Thermometer;
+
+impl InstrumentContract for Thermometer {
+    fn name(&self) -> &'static str {
+        "thermometer"
+    }
+
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        Some(Reading {
+            observable: "temperature".into(),
+            value: vessel.temperature.0 - 273.15,
+            unit: "°C".into(),
+            precision: Some(THERMOMETER_PRECISION_K),
+            in_range: vessel.temperature.0 > 233.15 && vessel.temperature.0 < 573.15,
+        })
+    }
+}
+
+/// A laboratory balance: reads total mass, no perturbation.
+pub struct Balance;
+
+impl InstrumentContract for Balance {
+    fn name(&self) -> &'static str {
+        "balance"
+    }
+
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        Some(Reading {
+            observable: "mass".into(),
+            value: vessel.mass().0,
+            unit: "g".into(),
+            precision: Some(0.01),
+            in_range: true,
+        })
+    }
+}
+
+/// A pH meter: reads pH from the solved aqueous state.
+pub struct PhMeter;
+
+impl InstrumentContract for PhMeter {
+    fn name(&self) -> &'static str {
+        "pH meter"
+    }
+
+    fn applies(&self, vessel: &Vessel) -> bool {
+        vessel.solution.is_some() || crate::conductivity::neutral_aqueous_ph(vessel).is_some()
+    }
+
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        // A solution withdrawn for lying outside its activity model's
+        // stated range has no pH to read, and no blank stands in for it.
+        if vessel.solution.is_none() && vessel.activity_range_refusal.is_some() {
+            return None;
+        }
+        let value = vessel
+            .solution
+            .as_ref()
+            .map(|solution| solution.ph)
+            .or_else(|| crate::conductivity::neutral_aqueous_ph(vessel))?;
+        Some(Reading {
+            observable: "pH".into(),
+            value,
+            unit: "pH".into(),
+            precision: Some(0.01),
+            in_range: value > 0.0 && value < 14.0,
+        })
+    }
+}
+
+/// INST-003: Pressure gauge — reads headspace pressure in kPa.
+pub struct PressureGauge;
+
+impl InstrumentContract for PressureGauge {
+    fn name(&self) -> &'static str {
+        "pressure gauge"
+    }
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        Some(Reading {
+            observable: "pressure".into(),
+            value: vessel.pressure.0 / 1000.0, // Pa → kPa
+            unit: "kPa".into(),
+            precision: Some(0.1),
+            in_range: vessel.pressure.0 > 0.0 && vessel.pressure.0 < 1e7,
+        })
+    }
+}
+
+/// INST-004: Conductivity meter — Kohlrausch sum over the solved
+/// speciation (see [`crate::conductivity`]), mean-mobility estimate when
+/// the solver reported no speciation. `in_range` is honest about both the
+/// instrument's span and the model's own validity: a concentrated
+/// solution or an uncovered ion reads as out-of-calibration.
+///
+/// A vessel holding a dry solid and no solution is the other kind of
+/// conductor entirely, and it takes the other path: the registry's curated
+/// resistivity, reported in S/m. See
+/// [`crate::conductivity::dry_solid_conductance`] for the four conditions
+/// that path insists on before it will read anything.
+pub struct ConductivityMeter;
+
+impl InstrumentContract for ConductivityMeter {
+    fn name(&self) -> &'static str {
+        "conductivity meter"
+    }
+    fn applies(&self, vessel: &Vessel) -> bool {
+        vessel.solution.is_some()
+            || crate::conductivity::nonionic_aqueous_conductance(vessel).is_some()
+            || crate::conductivity::dry_solid_conductance(vessel).is_some()
+    }
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        if let Some(sol) = vessel.solution.as_ref() {
+            let est = crate::conductivity::specific_conductance(sol);
+            return Some(Reading {
+                observable: "conductivity".into(),
+                value: est.microsiemens_per_cm,
+                unit: "µS/cm".into(),
+                precision: Some(1.0),
+                in_range: est.trustworthy()
+                    && est.microsiemens_per_cm > 0.0
+                    && est.microsiemens_per_cm < 1e6,
+            });
+        }
+        if let Some(value) = crate::conductivity::nonionic_aqueous_conductance(vessel) {
+            return Some(Reading {
+                observable: "conductivity".into(),
+                value,
+                unit: "µS/cm".into(),
+                precision: Some(1.0),
+                in_range: true,
+            });
+        }
+        // A dry metal is the other kind of conductor, and it is reported in
+        // the other kind of unit: S/m for a bulk material property, not
+        // µS/cm for a solution's specific conductance. Putting the two on
+        // one scale would invite a comparison that means nothing.
+        let solid = crate::conductivity::dry_solid_conductance(vessel)?;
+        Some(Reading {
+            observable: "conductivity".into(),
+            value: solid.conductivity_s_per_m,
+            unit: "S/m".into(),
+            precision: None,
+            in_range: true,
+        })
+    }
+}
+
+/// INST-006: Simple calorimeter — reports temperature-change-based heat.
+pub struct Calorimeter;
+
+impl InstrumentContract for Calorimeter {
+    fn name(&self) -> &'static str {
+        "calorimeter"
+    }
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+    fn mode(&self) -> InstrumentMode {
+        // Reading temperature is passive; a real calorimeter has its own
+        // heat capacity, but this simplified version just reads ΔT.
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        // Report the vessel's total enthalpy relative to 25°C in kJ.
+        let q_kj = vessel.enthalpy().0 / 1000.0;
+        Some(Reading {
+            observable: "enthalpy".into(),
+            value: q_kj,
+            unit: "kJ".into(),
+            precision: Some(0.01),
+            in_range: q_kj.abs() < 1e6,
+        })
+    }
+}
+
+/// INST-005: Spectrophotometer — measures absorbance across visible wavelengths.
+///
+/// Computes the total absorbance spectrum from all coloured solutes using
+/// Beer-Lambert (A = ε·c·l), then reports the absorbance at the peak
+/// wavelength. The full spectrum is available via `measure_spectrum()`.
+pub struct Spectrophotometer {
+    /// Path length in cm (cuvette width).
+    pub path_cm: f64,
+}
+
+impl Default for Spectrophotometer {
+    fn default() -> Self {
+        Self { path_cm: 1.0 }
+    }
+}
+
+impl Spectrophotometer {
+    /// Compute the full absorbance spectrum of the vessel's solution.
+    pub fn measure_spectrum(&self, vessel: &Vessel) -> [f64; crate::spectrum::BANDS] {
+        crate::solution_optics::absorbance(vessel, self.path_cm)
+    }
+}
+
+impl InstrumentContract for Spectrophotometer {
+    fn name(&self) -> &'static str {
+        "spectrophotometer"
+    }
+    fn applies(&self, vessel: &Vessel) -> bool {
+        vessel.contents.iter().any(|portion| {
+            matches!(portion.phase, Phase::Liquid | Phase::Aqueous)
+                && portion.moles.0.is_finite()
+                && portion.moles.0 > 0.0
+        })
+    }
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        // A complete zero reading needs a real liquid blank. Empty or dry
+        // inventory has no optical sample, even when no spectrum is missing.
+        if !self.applies(vessel) {
+            return None;
+        }
+        let spectrum = self.measure_spectrum(vessel);
+        // A partial spectrum is useful diagnostically, but is not a complete
+        // instrument reading. The appearance reports the missing species.
+        if !crate::solution_optics::coverage(vessel).is_complete() {
+            return None;
+        }
+        let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);
+        let peak_idx = spectrum
+            .iter()
+            .position(|&a| (a - peak_abs).abs() < 1e-15)
+            .unwrap_or(0);
+        let peak_nm = crate::spectrum::BAND_NM[peak_idx];
+
+        Some(Reading {
+            observable: format!("absorbance at {peak_nm:.0} nm"),
+            value: peak_abs,
+            unit: "AU".into(),
+            precision: Some(0.001),
+            in_range: (0.0..4.0).contains(&peak_abs),
+        })
+    }
+}
+
+/// INST-007: Ideal-plate chromatography column.
+///
+/// Separates components by partition coefficient using ideal plate theory:
+///   retention_time = t₀ · (1 + k')
+///   k' = K · (Vs/Vm)  (capacity factor from partition coefficient)
+///   N = 16 · (tR/w)²  (plate count from peak width)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChromatographyColumn {
+    /// Number of theoretical plates.
+    pub plates: u32,
+    /// Void time (time for unretained species to elute), seconds.
+    pub void_time_s: f64,
+    /// Phase ratio Vs/Vm (stationary/mobile volume ratio).
+    pub phase_ratio: f64,
+}
+
+/// A chromatographic peak for one component.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChromatographicPeak {
+    pub species: String,
+    pub retention_time_s: f64,
+    pub peak_width_s: f64,
+    /// Relative area proportional to amount.
+    pub relative_area: f64,
+}
+
+impl ChromatographyColumn {
+    /// The bench's standard column. The numbers are the ones the
+    /// instrument-oracle test works by hand (N = 10⁴ plates, t₀ = 60 s,
+    /// β = 0.5), so a learner who checks the worked example against the
+    /// bench finds the same column in both places.
+    pub fn school() -> Self {
+        ChromatographyColumn {
+            plates: 10_000,
+            void_time_s: 60.0,
+            phase_ratio: 0.5,
+        }
+    }
+
+    /// Predict the retention time for a species with a given partition coefficient K.
+    pub fn retention_time(&self, partition_k: f64) -> f64 {
+        let capacity_factor = partition_k * self.phase_ratio;
+        self.void_time_s * (1.0 + capacity_factor)
+    }
+
+    /// Predict the peak width (4σ) from the plate count and retention time.
+    pub fn peak_width(&self, retention_time_s: f64) -> f64 {
+        4.0 * retention_time_s / (self.plates as f64).sqrt()
+    }
+
+    /// Resolution between two peaks.
+    pub fn resolution(&self, tr1: f64, tr2: f64) -> f64 {
+        let w1 = self.peak_width(tr1);
+        let w2 = self.peak_width(tr2);
+        2.0 * (tr2 - tr1).abs() / (w1 + w2)
+    }
+}
+
+/// KID-9 / EXP-8: the same separation, run on paper.
+///
+/// A column reports *when* a solute leaves; a paper strip reports *how far*
+/// it went. Both are the one partition coefficient read two ways, so the
+/// plate below deliberately takes the same `K` the column does — a solute
+/// the column retains longest is the one nearest the pencil line, and the
+/// bench cannot say otherwise in one experiment than in the other.
+///
+/// Rf = distance travelled ÷ distance the solvent front travelled, which for
+/// a partition separation is `Kβ / (1 + Kβ)`: the fraction of its time a
+/// solute spends in the moving phase.
+pub struct PaperPlate {
+    /// Volume of mobile phase per volume of stationary phase on the strip.
+    pub phase_ratio: f64,
+    /// How far the solvent front runs before the strip is taken out, mm.
+    pub front_mm: f64,
+}
+
+impl PaperPlate {
+    /// The bench's standard strip: a 10 cm run, and a phase ratio chosen so
+    /// the shipped dyes land across the readable part of the plate rather
+    /// than bunched at either end.
+    pub fn school() -> Self {
+        PaperPlate {
+            phase_ratio: 1.0,
+            front_mm: 100.0,
+        }
+    }
+
+    /// Retardation factor for a solute with partition coefficient `K`.
+    ///
+    /// Bounded to (0, 1) by construction: a spot cannot outrun the solvent
+    /// that carries it, and one that never leaves the origin has Rf 0.
+    pub fn rf(&self, partition_k: f64) -> f64 {
+        if !partition_k.is_finite() || partition_k <= 0.0 {
+            return 0.0;
+        }
+        let k = partition_k * self.phase_ratio;
+        (k / (1.0 + k)).clamp(0.0, 1.0)
+    }
+
+    /// Where the spot ends up, mm from the pencil line.
+    pub fn distance_mm(&self, partition_k: f64) -> f64 {
+        self.rf(partition_k) * self.front_mm
+    }
+}
+
+/// KID-9: partition coefficients for solutes UNIFAC cannot decompose.
+///
+/// The column's `K` is `γ∞(water)/γ∞(alkane)` from a group decomposition,
+/// which is the right way to get one and is available for exactly three
+/// species here. A food dye is a large glycoside or a sulfonated aromatic;
+/// splitting one into UNIFAC groups would be a fiction dressed as a
+/// calculation. So these are curated instead, and say so — the same
+/// position the codex takes wherever a number is reviewed rather than
+/// derived.
+///
+/// They are ordered, not measured: what they reproduce is which dye runs
+/// furthest on a school strip, and roughly how far apart the spots land.
+/// No claim is made about a particular solvent system, paper, or the Rf a
+/// laboratory would record.
+pub const CURATED_PARTITION_K: &[(&str, f64, &str)] = &[
+    (
+        "indigo_carmine",
+        0.18,
+        "doubly sulfonated and the most water-loving of the shipped dyes: it barely leaves the pencil line",
+    ),
+    (
+        "betanin",
+        0.54,
+        "a glycoside with a charged betalain core; it runs, but stays in the lower half",
+    ),
+    (
+        "anthocyanin",
+        0.82,
+        "the cabbage pigment, a glycoside like betanin and a little less polar",
+    ),
+    (
+        "curcumin",
+        5.7,
+        "a diarylheptanoid with no sugar and no charge: the one that runs with the front",
+    ),
+];
+
+/// The curated partition coefficient for a species, with the sentence that
+/// justifies it.
+pub fn curated_partition_k(species_key: &str) -> Option<(f64, &'static str)> {
+    CURATED_PARTITION_K
+        .iter()
+        .find(|(key, _, _)| *key == species_key)
+        .map(|(_, k, why)| (*k, *why))
+}
+
+/// INST-008: Qualitative analysis — computed identification from tests.
+///
+/// Instead of a scripted answer key, the system runs actual computed tests
+/// (solubility, flame colour, pH, precipitation) and compares results
+/// against detection limits to narrow down the identity.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QualitativeTest {
+    pub name: String,
+    pub observable: String,
+    pub detection_limit: f64,
+    pub unit: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QualitativeResult {
+    pub test_name: String,
+    pub observed_value: f64,
+    pub detected: bool,
+    pub consistent_with: Vec<String>,
+}
+
+// ── EXP-33: the melting-point apparatus ────────────────────────────
+
+/// Which transition the apparatus is set up to find.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TransitionRead {
+    /// A capillary of dry solid in the block: the melting point.
+    Melting,
+    /// A flask of liquid with a thermometer in the vapour: the boiling point.
+    Boiling,
+}
+
+impl TransitionRead {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Melting => "melting point",
+            Self::Boiling => "boiling point",
+        }
+    }
+    /// The phase the technique needs in the sample holder.
+    fn wanted_phase(&self) -> Phase {
+        match self {
+            Self::Melting => Phase::Solid,
+            Self::Boiling => Phase::Liquid,
+        }
+    }
+}
+
+/// Why the apparatus did or did not produce a sharp number.
+///
+/// The refusals are the pedagogy. "Mixture: no sharp point" is the single
+/// most useful thing a melting-point apparatus tells a chemist, and a bench
+/// that answered a mixture with the pure substance's constant would be
+/// teaching the opposite of the lesson.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PurityVerdict {
+    /// One substance, and the registry has its transition temperature.
+    Pure,
+    /// More than one substance in the sample holder.
+    Mixture,
+    /// One substance, but wet — or dissolved in something. The technique
+    /// needs an isolated sample, and packing a damp solid is the classic
+    /// way to get a low, broad, wrong answer.
+    NotIsolated,
+    /// One substance, isolated, but no transition temperature is curated.
+    NoData,
+    /// One material that has no melting point but a sourced melting RANGE
+    /// (a wax blend, a semicrystalline polymer): `range_c` carries it and
+    /// `value_c` stays empty, because there is no point to report.
+    MeltingRange,
+    /// Nothing of the right phase is in the vessel at all.
+    NothingToTest,
+}
+
+/// The threshold above which a second substance stops being a trace and
+/// starts being a mixture, as a mole fraction of the sample.
+///
+/// A stated model choice, deliberately stricter than a real apparatus: a
+/// capillary broadens visibly somewhere near a mole per cent, so refusing
+/// at a tenth of one errs towards calling a sample impure. The engine would
+/// rather withhold a sharp number it is not entitled to than print one.
+pub const PURITY_TRACE_FRACTION: f64 = 1e-3;
+
+/// What the apparatus found. Everything the renderer needs, including the
+/// citation — a transition temperature is curated data, and a number shown
+/// without the book it came from is not evidence.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct TransitionReading {
+    pub kind: TransitionRead,
+    pub verdict: PurityVerdict,
+    /// The one substance in the holder, where there is one.
+    pub species: Option<SpeciesId>,
+    /// The temperature in °C, where the apparatus is entitled to one.
+    pub value_c: Option<f64>,
+    /// What the sample actually does there — it is not always melting.
+    pub outcome: Option<crate::species::TransitionOutcome>,
+    /// Per-record citation for `value_c`.
+    pub source: Option<String>,
+    /// Everything of the wanted phase, in registry order. For a mixture this
+    /// is the answer: these are the things that are in the way.
+    pub components: Vec<SpeciesId>,
+    /// The lowest pure melting point among the components — for a mixture
+    /// that is miscible in the melt, the bound its own range begins below
+    /// (direction only; see `boundary`); for an immiscible blend, simply
+    /// the lowest component's own value, NOT a depressed onset.
+    pub lowest_component_c: Option<f64>,
+    /// What the reading does NOT claim.
+    pub boundary: Option<String>,
+    /// The phase the sample is actually in while it is read. Equal to the
+    /// technique's wanted phase in the classic case; different when the
+    /// apparatus reports the curated constant of a sample that is already
+    /// past it (a liquid alcohol's melting point, a solid alcohol's boiling
+    /// point). The renderer states it, so a value is never mistaken for an
+    /// observed crossing.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sample_phase: Option<Phase>,
+    /// The sourced lower end of a `MeltingRange`, °C, where one exists.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub range_low_c: Option<f64>,
+    /// The sourced upper end of a `MeltingRange`, °C: nothing of the
+    /// material stays solid above it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub range_high_c: Option<f64>,
+    /// A mixture whose components are all sourced as immiscible in the
+    /// melt (`melting_range::IMMISCIBLE_MELTS`): each melts over its own
+    /// range and the blend is NOT depressed below its lowest component.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub immiscible_blend: bool,
+}
+
+/// The phases, in priority order, the apparatus takes its sample from when
+/// nothing of the technique's own phase is in the vessel: the other
+/// condensed phase first, then gas. Dissolved matter is never the sample —
+/// it is what makes a sample "not isolated".
+fn fallback_phases(kind: TransitionRead) -> [Phase; 2] {
+    match kind {
+        TransitionRead::Melting => [Phase::Liquid, Phase::Gas],
+        TransitionRead::Boiling => [Phase::Solid, Phase::Gas],
+    }
+}
+
+/// What this apparatus is and is not, said once so every register can say it.
+pub const APPARATUS_BOUNDARY: &str =
+    "the block does not simulate the melt: it reports the curated literature constant for \
+     the substance the bench knows is in the capillary, to the precision a school apparatus \
+     resolves. A real determination is the evidence for an identity; here the identity is \
+     the evidence for the number, and only the refusals are computed from the sample";
+
+/// The mixture refusal's own boundary — the one number this bench will not
+/// invent.
+pub const MIXTURE_BOUNDARY: &str =
+    "the direction is claimed only for components that dissolve in each other's melt (a \
+     solution or eutectic system): such a mixture melts below its lowest-melting pure \
+     component and over a range, not at a point. Components that do not mix when molten \
+     (most polymer pairs) are not depressed: each melts over its own range. The SIZE of the \
+     depression is not claimed — that needs the cryoscopic constant and enthalpy of fusion \
+     of the major component, and this registry curates neither for solids other than water";
+
+/// The boundary of a blend whose components are all sourced as immiscible
+/// in the melt (po-009): no depression law applies.
+pub const IMMISCIBLE_BLEND_BOUNDARY: &str =
+    "these components are immiscible in the melt, so the blend is not a solution and no \
+     melting-point depression is claimed: each component melts over its own range as it \
+     would alone, and the blend shows each component's own melting rather than one lowered \
+     transition. A single returned value is not evidence of miscibility";
+
+/// Read a melting or boiling point off a vessel.
+///
+/// The whole method is: find out whether the sample is one substance, and
+/// only then look the constant up.
+pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReading {
+    // The sample is what is in the technique's own phase. Where there is
+    // none, the apparatus still reports the curated constant of what IS
+    // there — a liquid's melting point, a solid's boiling point — and says
+    // which phase the sample is in (transition-points lane, 2026-11-10):
+    // "nothing to test" for a beaker of isopropanol answered a question
+    // the registry can answer. In that fallback only dissolved matter makes
+    // the sample impure; a gas headspace beside a condensed sample does not.
+    let collect = |phase: Phase, impure: &dyn Fn(Phase) -> bool| {
+        let mut holder: Vec<(SpeciesId, f64)> = Vec::new();
+        let mut elsewhere = 0.0f64;
+        for p in &vessel.contents {
+            if p.moles.0 <= 0.0 {
+                continue;
+            }
+            if p.phase == phase {
+                match holder.iter_mut().find(|(s, _)| *s == p.species) {
+                    Some((_, n)) => *n += p.moles.0,
+                    None => holder.push((p.species.clone(), p.moles.0)),
+                }
+            } else if impure(p.phase) {
+                elsewhere += p.moles.0;
+            }
+        }
+        (holder, elsewhere)
+    };
+    let wanted = kind.wanted_phase();
+    let (mut holder, mut elsewhere) = collect(wanted, &|_| true);
+    let mut sample_phase = wanted;
+    if holder.is_empty() {
+        for phase in fallback_phases(kind) {
+            let (h, e) = collect(phase, &|q| q == Phase::Aqueous);
+            if !h.is_empty() {
+                holder = h;
+                elsewhere = e;
+                sample_phase = phase;
+                break;
+            }
+        }
+    }
+    let total: f64 = holder.iter().map(|(_, n)| n).sum();
+    let mut reading = TransitionReading {
+        kind,
+        verdict: PurityVerdict::NothingToTest,
+        species: None,
+        value_c: None,
+        outcome: None,
+        source: None,
+        components: holder.iter().map(|(s, _)| s.clone()).collect(),
+        lowest_component_c: None,
+        boundary: None,
+        sample_phase: None,
+        range_low_c: None,
+        range_high_c: None,
+        immiscible_blend: false,
+    };
+    if total <= 0.0 {
+        return reading;
+    }
+    reading.sample_phase = Some(sample_phase);
+
+    // The lowest pure point among whatever is in the holder — the mixture
+    // message's one grounded number, and harmless to compute either way.
+    reading.lowest_component_c = holder
+        .iter()
+        .filter_map(|(s, _)| {
+            let curated = crate::species::lookup(s)?
+                .transitions
+                .and_then(|t| match kind {
+                    TransitionRead::Melting => t.melting_reading(),
+                    TransitionRead::Boiling => t.boiling_reading(),
+                });
+            let k = match (curated, kind) {
+                (Some((k, _)), _) => k,
+                // A material with a sourced melting RANGE melts from its
+                // lower bound, which is the honest bound for a blend.
+                (None, TransitionRead::Melting) => {
+                    let row = crate::melting_range::range(&s.0)?;
+                    row.lower_k.unwrap_or(row.upper_k)
+                }
+                (None, TransitionRead::Boiling) => return None,
+            };
+            Some(k - 273.15)
+        })
+        .fold(None, |acc: Option<f64>, c| {
+            Some(acc.map_or(c, |a| a.min(c)))
+        });
+
+    let significant: Vec<&(SpeciesId, f64)> = holder
+        .iter()
+        .filter(|(_, n)| n / total > PURITY_TRACE_FRACTION)
+        .collect();
+    if significant.len() > 1 {
+        reading.verdict = PurityVerdict::Mixture;
+        let keys: Vec<&str> = significant.iter().map(|(s, _)| s.0.as_str()).collect();
+        if crate::melting_range::all_immiscible(&keys) {
+            reading.immiscible_blend = true;
+            reading.boundary = Some(IMMISCIBLE_BLEND_BOUNDARY.to_string());
+        } else {
+            reading.boundary = Some(MIXTURE_BOUNDARY.to_string());
+        }
+        return reading;
+    }
+    let (only, _) = significant
+        .first()
+        .copied()
+        .expect("a positive total has at least one significant component");
+    reading.species = Some(only.clone());
+
+    // Anything of another phase in the same vessel means the sample was not
+    // isolated: a damp solid, or a liquid with something dissolved in it.
+    // Both give a low, broad, wrong answer on a real bench, which is why the
+    // technique insists on a dry, isolated sample rather than tolerating one.
+    if elsewhere > 0.0 {
+        reading.verdict = PurityVerdict::NotIsolated;
+        reading.boundary = Some(MIXTURE_BOUNDARY.to_string());
+        return reading;
+    }
+
+    let Some(data) = crate::species::lookup(only) else {
+        reading.verdict = PurityVerdict::NoData;
+        return reading;
+    };
+    let found = data.transitions.and_then(|t| match kind {
+        TransitionRead::Melting => t.melting_reading().map(|r| (r, t)),
+        TransitionRead::Boiling => t.boiling_reading().map(|r| (r, t)),
+    });
+    match found {
+        Some(((k, outcome), t)) => {
+            reading.verdict = PurityVerdict::Pure;
+            reading.value_c = Some(k - 273.15);
+            reading.outcome = Some(outcome);
+            reading.source = Some(t.source.to_string());
+            reading.boundary = Some(match t.boundary {
+                Some(extra) => format!("{APPARATUS_BOUNDARY}. {extra}"),
+                None => APPARATUS_BOUNDARY.to_string(),
+            });
+            // BRD-032: a boiling point is read at the vessel's own
+            // pressure. The cleared correlation (BRD-031 pack, by the
+            // species' InChIKey) supplies the shift and the curated normal
+            // boiling point stays the anchor, so an open flask at one
+            // atmosphere reads exactly what it read before; a vacuum flask
+            // reads lower, and says which model moved it. Where the pack
+            // cannot answer — no row, or a pressure outside the cleared
+            // window — the curated value stands and the refusal is named
+            // rather than the fit extrapolated.
+            if kind == TransitionRead::Boiling {
+                let pressure_kpa = vessel.pressure.0 / 1000.0;
+                let (shift, route) =
+                    crate::states::boiling_shift_for_k(data.inchikey, pressure_kpa);
+                if route.routed() {
+                    reading.value_c = Some(k - 273.15 + shift);
+                    let model = kerotakis_thermo::pack::row_by_inchikey(data.inchikey)
+                        .and_then(|row| row.saturation_model())
+                        .unwrap_or("cleared correlation");
+                    reading.source = Some(format!(
+                        "{} at 1 atm; shifted {shift:+.2} K to {pressure_kpa:.2} kPa by the {model} \
+                         correlation of the BRD-031 pack",
+                        t.source
+                    ));
+                } else if route != crate::states::BoilingRoute::NormalBoilingPoint {
+                    reading.boundary = Some(format!(
+                        "{}. Read as the normal boiling point although the vessel stands at \
+                         {pressure_kpa:.2} kPa: {}",
+                        reading.boundary.as_deref().unwrap_or(APPARATUS_BOUNDARY),
+                        route.as_str()
+                    ));
+                }
+            }
+        }
+        None => match (kind, crate::melting_range::range(&only.0)) {
+            (TransitionRead::Melting, Some(row)) => {
+                reading.verdict = PurityVerdict::MeltingRange;
+                reading.range_low_c = row.lower_k.map(|k| k - 273.15);
+                reading.range_high_c = Some(row.upper_k - 273.15);
+                reading.outcome = Some(crate::species::TransitionOutcome::Melts);
+                reading.source = Some(row.source.to_string());
+                reading.boundary = Some(format!("{APPARATUS_BOUNDARY}. {}", row.boundary));
+            }
+            _ => reading.verdict = PurityVerdict::NoData,
+        },
+    }
+    reading
+}
+
+/// The INST-001 face of the apparatus: a scalar reading where there is one.
+pub struct MeltingPointApparatus(pub TransitionRead);
+
+impl InstrumentContract for MeltingPointApparatus {
+    fn name(&self) -> &'static str {
+        match self.0 {
+            TransitionRead::Melting => "melting-point apparatus",
+            TransitionRead::Boiling => "boiling-point apparatus",
+        }
+    }
+
+    fn applies(&self, vessel: &Vessel) -> bool {
+        !matches!(
+            read_transition(vessel, self.0).verdict,
+            PurityVerdict::NothingToTest
+        )
+    }
+
+    fn mode(&self) -> InstrumentMode {
+        // The capillary is charged from the bulk and the bulk is untouched:
+        // the sample in the tube is an aliquot too small for the ledger.
+        InstrumentMode::Passive
+    }
+
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        let reading = read_transition(vessel, self.0);
+        Some(Reading {
+            observable: reading.kind.as_str().to_string(),
+            value: reading.value_c?,
+            unit: "°C".into(),
+            // A school block resolves half a degree; the curated constants
+            // are quoted no finer, so claiming more would be theatre.
+            precision: Some(0.5),
+            in_range: true,
+        })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::vessel::VesselId;
+
+    #[test]
+    fn thermometer_reads_room_temperature() {
+        let vessel = Vessel::new(VesselId(0), "test");
+        let reading = Thermometer.measure(&vessel).unwrap();
+        assert_eq!(reading.observable, "temperature");
+        assert!((reading.value - 25.0).abs() < 0.1);
+        assert!(reading.in_range);
+    }
+
+    #[test]
+    fn ph_meter_requires_solution() {
+        let vessel = Vessel::new(VesselId(0), "test");
+        assert!(!PhMeter.applies(&vessel));
+        assert!(PhMeter.measure(&vessel).is_none());
+    }
+
+    #[test]
+    fn balance_reads_zero_for_empty_vessel() {
+        let vessel = Vessel::new(VesselId(0), "test");
+        let reading = Balance.measure(&vessel).unwrap();
+        assert_eq!(reading.observable, "mass");
+        assert!(reading.value.abs() < 0.001);
+    }
+
+    #[test]
+    fn spectrophotometer_reports_zero_for_empty_vessel() {
+        let vessel = Vessel::new(VesselId(0), "test");
+        let spec = Spectrophotometer::default();
+        // No aqueous species → not applicable
+        assert!(!spec.applies(&vessel));
+    }
+
+    #[test]
+    fn chromatography_retention_time_scales_with_k() {
+        let col = ChromatographyColumn {
+            plates: 1000,
+            void_time_s: 60.0,
+            phase_ratio: 1.0,
+        };
+        // k'=0 means unretained → tR = t₀
+        assert!((col.retention_time(0.0) - 60.0).abs() < 0.01);
+        // k'=1 → tR = 2·t₀
+        assert!((col.retention_time(1.0) - 120.0).abs() < 0.01);
+    }
+
+    #[test]
+    fn chromatography_resolution_increases_with_plates() {
+        let col_low = ChromatographyColumn {
+            plates: 100,
+            void_time_s: 60.0,
+            phase_ratio: 1.0,
+        };
+        let col_high = ChromatographyColumn {
+            plates: 10000,
+            void_time_s: 60.0,
+            phase_ratio: 1.0,
+        };
+        let tr1 = 100.0;
+        let tr2 = 120.0;
+        assert!(col_high.resolution(tr1, tr2) > col_low.resolution(tr1, tr2));
+    }
+}

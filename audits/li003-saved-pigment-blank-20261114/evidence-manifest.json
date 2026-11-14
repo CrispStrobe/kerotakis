@@ -1,0 +1,15 @@
+{
+  "files_sha256": {
+    "batch3-diverse-li-003.stdout": "0048627ab369b48ead26c305041f7bf3983486f9f28391b92661879f5f27b6f2",
+    "reader-negative-controls.json": "467d57f5aea8af9011996588d835cb6e860a87b4ee68ad36b50cd04b86a88ec9",
+    "original-criteria.json": "8b7383232a89b35bc64a1fe376c089cb3e59274a0eb600a77804d5f606088538",
+    "README.md": "adb0ad9513991619c970ca88725e4559a2ea1aa4d8c3de15b7d983604cc5a8d4",
+    "binding.json": "15de49dd49c93da3ac69f6075107ffc934bd8f07ff077dd952f2800a0704a105",
+    "source-instrument.rs": "2fa16139dbe6e56659a559275bf95d5bf8172930478698a8914233816ff63d8d",
+    "source-properties.json": "0ae55bfbf900eb227eb3d39ac2b9c5a3170250b2bfe0c3d547d68c49df9ee6df",
+    "scientific-review.json": "238a8f5e202dfdef2e8e87946a3f78dabec002a9aac8f102a957f156038524e3",
+    "review_original.py": "6ea9fa4eb10bbc17e95d6f7d7ab644cde2c657e3ac1b5aa7c4b6ca6d5b84a598",
+    "batch3-diverse-li-003.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original.lab": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167"
+  }
+}

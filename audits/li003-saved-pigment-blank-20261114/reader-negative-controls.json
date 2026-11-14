@@ -1,0 +1,38 @@
+[
+  {
+    "mutation": "lost-pigment",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-ethanol-spectator",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-carbonate-carbon",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-solvent",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-blank-band",
+    "rejected": true
+  },
+  {
+    "mutation": "mismatched-paired-ph",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-base-spectral-shift",
+    "rejected": true
+  },
+  {
+    "mutation": "partial-final-scope",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]

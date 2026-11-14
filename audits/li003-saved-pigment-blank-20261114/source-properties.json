@@ -1,0 +1,1732 @@
+{
+  "compositions": [
+    {
+      "id": "composition/water",
+      "species_id": "water",
+      "formula": "H2O",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/water",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/water",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/water",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/water",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/ethanol",
+      "species_id": "ethanol",
+      "formula": "C2H5OH",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ethanol",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ethanol",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ethanol",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ethanol",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/ethanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Na+",
+      "species_id": "Na+",
+      "formula": "Na+",
+      "elements": [
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na+",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na+",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Na+",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Na2CO3",
+      "species_id": "Na2CO3",
+      "formula": "Na2CO3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na2CO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Na2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/HCO3-",
+      "species_id": "HCO3-",
+      "formula": "HCO3-",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HCO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HCO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HCO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HCO3-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/HCO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/OH-",
+      "species_id": "OH-",
+      "formula": "OH-",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/OH-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/OH-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/curcumin",
+      "species_id": "curcumin",
+      "formula": "C21H20O6",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/CO2(aq)",
+      "species_id": "CO2(aq)",
+      "formula": "CO2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/CO3-2",
+      "species_id": "CO3-2",
+      "formula": "CO3-2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    }
+  ],
+  "curcumin_optical": [
+    {
+      "id": "optical/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "appearance": "bright yellow powder",
+      "flame_colour": null,
+      "reflective_srgb": "#FFD54F",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 44040.55716042445,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 55000.0,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 44040.55716042445,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 22611.17597789531,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 7443.440578013699,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1571.1025431502708,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 212.62560767100425,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 18.45044453463815,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.0265458012436297,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.03662098808421523,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.0008376488859591947,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.2284972899117373e-05,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.155225e-07,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.965291052001796e-10,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2.6927258955223627e-12,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.6746001746918315e-15,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    }
+  ]
+}

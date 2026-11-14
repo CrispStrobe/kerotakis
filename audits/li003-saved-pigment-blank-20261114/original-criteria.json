@@ -1,0 +1,26 @@
+[
+  {
+    "id": "question",
+    "criterion": "Can a pigment response to modest base addition be distinguished from changes caused by the solvent alone?",
+    "review_instruction": "The mixed-solvent blank should not acquire a curcumin band. Interpret a pigment response together with measured pH and coverage, rather than assuming every pH shift has a fully parameterised spectrum.",
+    "result": null
+  },
+  {
+    "id": "inventory",
+    "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+    "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+    "result": null
+  },
+  {
+    "id": "coverage",
+    "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+    "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+    "result": null
+  },
+  {
+    "id": "controls",
+    "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+    "review_instruction": "v2: solvent and base without pigment",
+    "result": null
+  }
+]
