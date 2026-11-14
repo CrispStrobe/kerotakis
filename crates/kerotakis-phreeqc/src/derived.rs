@@ -320,14 +320,36 @@ pub fn candidate_phases() -> &'static [DerivedPhase] {
     &derived().phases
 }
 
-/// The stablest phase `db_tag` itself defines for registry solid `key`
-/// (its own polymorph), or `None` when that database has none.
+/// The stablest admitted phase `db_tag` defines for registry solid `key`.
+/// `None` also covers phases excluded by aqueous component/oxidation-state
+/// or separately owned phase rules; it does not establish database absence.
 pub fn routed_phase_for_solid(key: &str, db_tag: &str) -> Option<&'static str> {
     let tag: &'static str = DB_TAGS.iter().find(|t| **t == db_tag).copied()?;
     derived()
         .db_best
         .get(&(key.to_string(), tag))
         .map(String::as_str)
+}
+
+/// A non-gas phase the database defines for this registry solid, whether
+/// or not the aqueous route may pose it. Exact composition/hydrate matching
+/// is the crosswalk's identity test; the lowest log K selects a polymorph.
+/// This is diagnostic database presence, NEVER an aqueous admission grant.
+pub fn defined_phase_for_solid(key: &str, db_tag: &str) -> Option<&'static str> {
+    let tag = DB_TAGS.iter().find(|tag| **tag == db_tag).copied()?;
+    index_for(tag)
+        .phases
+        .iter()
+        .filter(|(_, info)| {
+            !info.is_gas && registry_solid_matching(&info.composition, info.waters) == Some(key)
+        })
+        .min_by(|(name_a, a), (name_b, b)| {
+            a.log_k
+                .unwrap_or(f64::MAX)
+                .total_cmp(&b.log_k.unwrap_or(f64::MAX))
+                .then_with(|| name_a.cmp(name_b))
+        })
+        .map(|(name, _)| name.as_str())
 }
 
 pub fn phase_by_name(name: &str) -> Option<&'static DerivedPhase> {
@@ -1715,6 +1737,15 @@ mod tests {
             "Cu(I) oxide must not book as Cu(II)"
         );
         assert!(!candidate_phases().iter().any(|p| p.species == "Cu2O"));
+        for tag in ["wateq4f", "minteq.v4"] {
+            assert_eq!(defined_phase_for_solid("Cu2O", tag), Some("Cuprite"));
+            assert_eq!(
+                routed_phase_for_solid("Cu2O", tag),
+                None,
+                "database presence must not grant Cu(I) aqueous admission"
+            );
+        }
+        assert_eq!(defined_phase_for_solid("Cu2O", "unknown-route"), None);
         let rows = mineral_crosswalk();
         let cuprite = rows.iter().find(|r| r.species == "Cu2O").unwrap();
         assert!(cuprite.phases.iter().any(|(_, name)| name == "Cuprite"));

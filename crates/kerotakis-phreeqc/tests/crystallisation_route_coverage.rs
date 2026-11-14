@@ -104,3 +104,60 @@ fn known_members_classify_as_their_databases_define_them() {
         assert_eq!(row("KNO3", tag).class, "refused", "{tag}");
     }
 }
+
+#[test]
+fn defined_but_unadmitted_cuprite_is_not_reported_as_missing_data() {
+    use kerotakis_phreeqc::derived;
+    for tag in ["wateq4f", "minteq.v4"] {
+        let refused = crystallisation_route::route_row("Cu2O", tag);
+        assert_eq!(refused.class, "refused");
+        assert_eq!(refused.phase.as_deref(), Some("Cuprite"));
+        assert!(
+            refused.reason.contains("component/oxidation-state"),
+            "{}",
+            refused.reason
+        );
+        assert!(!refused.reason.contains("defines no phase"));
+        assert!(derived::routed_phase_for_solid("Cu2O", tag).is_none());
+    }
+    assert!(derived::role("Cu2O").is_none());
+    assert!(!derived::candidate_phases()
+        .iter()
+        .any(|phase| phase.species == "Cu2O"));
+    // Supported Cu(II) oxide still reaches its normal aqueous phase route.
+    assert!(derived::routed_phase_for_solid("CuO", "wateq4f").is_some());
+    assert_ne!(
+        crystallisation_route::route_row("CuO", "wateq4f").class,
+        "refused"
+    );
+    // A real absence retains the original, narrower explanation.
+    let missing = crystallisation_route::route_row("KNO3", "wateq4f");
+    assert_eq!(missing.class, "refused");
+    assert_eq!(missing.phase, None);
+    assert_eq!(
+        missing.reason,
+        "the routed database defines no phase for this solid"
+    );
+}
+
+#[test]
+fn separately_owned_metals_and_condensed_gases_do_not_acquire_aqueous_admission() {
+    use kerotakis_phreeqc::derived;
+    for metal in ["Cu", "Ag", "Zn"] {
+        let refused = crystallisation_route::route_row(metal, "wateq4f");
+        assert_eq!(refused.class, "refused");
+        assert!(
+            refused.phase.is_some(),
+            "the database's real metal phase remains visible"
+        );
+        assert!(refused.reason.contains("electron-balanced displacement"));
+        assert!(derived::routed_phase_for_solid(metal, "wateq4f").is_none());
+    }
+    let dry_ice = crystallisation_route::route_row("dry_ice", "wateq4f");
+    assert_eq!(dry_ice.class, "refused");
+    assert!(dry_ice.reason.contains("physical phase routing"));
+    assert!(derived::routed_phase_for_solid("dry_ice", "wateq4f").is_none());
+    assert!(!derived::candidate_phases()
+        .iter()
+        .any(|phase| phase.species == "dry_ice"));
+}
