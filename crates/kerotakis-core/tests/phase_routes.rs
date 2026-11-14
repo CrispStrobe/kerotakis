@@ -912,18 +912,41 @@ fn ambient_cooling_completes_cuprite_freezing_without_a_stranded_liquid_tail() {
         (vessel.temperature.0 - Kelvin::STANDARD.0).abs() < 0.01,
         "{vessel:?}"
     );
-    let frozen = events
+    // Ambient substeps can freeze and remelt part of the same inventory
+    // while the coupled phase ledger settles. Gross freezing is therefore
+    // not the final amount: signed transitions must reproduce the actual
+    // phase inventory. This is an amount/settlement check, not an
+    // independent measurement of the clock's heat exchanged with the room.
+    let net_frozen = events
         .iter()
         .filter_map(|e| match e {
             Event::StateChanged {
                 species,
-                from: Phase::Liquid,
-                to: Phase::Solid,
+                from,
+                to,
                 moles: Some(n),
                 ..
-            } if species.0 == "Cu2O" => Some(n.0),
+            } if species.0 == "Cu2O" => {
+                assert!(n.0.is_finite() && n.0 > 0.0, "{e:?}");
+                match (from, to) {
+                    (Phase::Liquid, Phase::Solid) => Some(n.0),
+                    (Phase::Solid, Phase::Liquid) => Some(-n.0),
+                    _ => panic!("unexpected cuprite phase transition: {e:?}"),
+                }
+            }
             _ => None,
         })
         .sum::<f64>();
-    assert!((frozen - 1.0).abs() < 1e-12, "{events:?}");
+    assert!((net_frozen - 1.0).abs() < 1e-12, "{events:?}");
+    assert!((net_frozen - amount(Phase::Solid)).abs() < 1e-12);
+    let settled = vessel.clone();
+    let later = PhaseRouteEquilibrator.equilibrate(&mut vessel).unwrap();
+    assert!(
+        !later
+            .iter()
+            .any(|e| matches!(e, Event::StateChanged { .. })),
+        "{later:?}"
+    );
+    assert_eq!(vessel.contents, settled.contents);
+    assert_eq!(vessel.temperature, settled.temperature);
 }

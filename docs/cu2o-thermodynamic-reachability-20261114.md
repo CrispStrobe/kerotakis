@@ -109,3 +109,17 @@ its Cp independently of the production absolute-enthalpy evaluator. Parcel
 moles must match the accepted transcript. The original 1% bound is retained;
 the obsolete final-temperature estimate is an explicit negative control.
 These changed controls still require their own hosted execution.
+
+
+The first hosted followup of these controls exposed two oracle details.
+The independent CaO warming integral now explicitly holds the 300 K source
+endpoint Cp over 298.15–300 K, matching the existing core model without
+extrapolating coefficients or dropping that heat; interior data gaps remain
+errors. The long ambient-cooling transcript aggregates 1.358362969 mol of
+freezing and 0.358362969 mol of remelting over bounded numerical substeps.
+These are gross transfers of the same inventory, not 1.358 mol present at
+once. The actual final inventory is one mole of solid and no liquid. The
+control now requires the signed net transitions to reproduce that inventory,
+positive finite event amounts, and stable subsequent phase settlement.
+It does not claim a separately measured whole-clock heat exchange. Neither
+runtime physics nor the 1%, amount, temperature or carrier bounds changed.

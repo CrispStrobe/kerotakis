@@ -97,6 +97,25 @@ fn sensible_from_nasa_cp(record: &kerotakis_cea::Species, from: f64, to: f64) ->
     assert!(to >= from);
     let mut cursor = from;
     let mut joules = 0.0;
+    let endpoint_cp = |a: &[f64; 9], t: f64| {
+        kerotakis_cea::R
+            * (a[0] / t.powi(2)
+                + a[1] / t
+                + a[2]
+                + a[3] * t
+                + a[4] * t.powi(2)
+                + a[5] * t.powi(3)
+                + a[6] * t.powi(4))
+    };
+    let first = record.intervals.first().expect("sourced Cp interval");
+    if cursor < first.t_min {
+        // Core's sensible-heat model holds endpoint Cp outside a curve.
+        // CaO's source starts at 300 K, so the 298.15--300 K segment is
+        // priced with Cp(300), not extrapolated or silently discarded.
+        let right = to.min(first.t_min);
+        joules += (right - cursor) * endpoint_cp(&first.coeffs, first.t_min);
+        cursor = right;
+    }
     for interval in &record.intervals {
         let left = cursor.max(interval.t_min);
         let right = to.min(interval.t_max);
@@ -121,9 +140,16 @@ fn sensible_from_nasa_cp(record: &kerotakis_cea::Species, from: f64, to: f64) ->
             break;
         }
     }
+    let last = record.intervals.last().unwrap();
+    if to > last.t_max {
+        assert!((cursor - last.t_max).abs() < 1e-10 || from > last.t_max);
+        let left = cursor.max(last.t_max);
+        joules += (to - left) * endpoint_cp(&last.coeffs, last.t_max);
+        cursor = to;
+    }
     assert!(
         (cursor - to).abs() < 1e-10,
-        "Cp integral outside the sourced domain"
+        "Cp integral has an unresolved data gap"
     );
     joules
 }
