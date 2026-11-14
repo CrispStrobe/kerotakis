@@ -1,0 +1,38 @@
+{
+  "status": "partial source acceptance only; full source/platform and applicable own-fleet acceptance remain required",
+  "reviewed_pr_head": "439bbe566ede9c0ce906cf24a2dcd23512fc1edb",
+  "base": "00784e5fe9169b8848a586c7b4a28b6a860de41f",
+  "actual_build_checkout": "0a7391f145ab6d7ca2c4812974570768df589bb7",
+  "actual_build_parents": [
+    "00784e5fe9169b8848a586c7b4a28b6a860de41f",
+    "439bbe566ede9c0ce906cf24a2dcd23512fc1edb"
+  ],
+  "build_and_head_tree": "264bed2b00d67ca27baa84b46aea106503947405",
+  "head_to_build_tree_diff": "empty",
+  "actual_build_command": [
+    "cargo",
+    "build",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "producer_lock_mode": "Actual generated producer lock captured; build command did not use --locked. Not claimed source-committed or identical to earlier Kaggle locks.",
+  "binary_sha256": "e7293591f625c1b32df6ed2c55fb8430d89a5c060af61d739a9b7b3805dc87b2",
+  "actual_producer_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "artifact_zip_sha256": "eb9d54d0729a31ff7e7381718e78b5fb6ba83a6d82b469b570a145b7f11087a9",
+  "artifact_id": 14120662430,
+  "artifact_name": "chemistry-audit-cli-0a7391f145ab6d7ca2c4812974570768df589bb7",
+  "build_job": "https://github.com/CrispStrobe/kerotakis/actions/runs/43603851962/job/132474143587",
+  "build_conclusion": "success",
+  "preflight_job": "https://github.com/CrispStrobe/kerotakis/actions/runs/43603851911/job/132474142501",
+  "preflight_conclusion": "success",
+  "observed_preflight_results": [
+    "37 auth/shared-admission/native-sandbox policy tests passed",
+    "REST client destination/credential/safe-rendering/clearing/payload controls passed",
+    "Service-worker API/client bypass and static caching controls passed"
+  ],
+  "original_qualification_delta": 0,
+  "historical_identity_rule": "No checksum or source from this artifact is substituted into historical qualifications. In particular their absent executable checksums remain null.",
+  "raw_build_log_sha256": "b6982dda7bf28f92086b4964138253393dc782a03c7704d4bf37bee14f7633ea",
+  "raw_preflight_log_sha256": "269462ef25214675a27cc0a5c2f2db8a84acdc68e260f0d72cd0dbcac7da4a76"
+}

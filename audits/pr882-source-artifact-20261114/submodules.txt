@@ -1,0 +1,2 @@
+ 8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa sundials-kinetics-rs (heads/master)
+ 47b459c4a5e3e20b9990fa304e207eca0dcc6ff1 vendor/iphreeqc (heads/master)
