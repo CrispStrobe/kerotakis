@@ -3742,10 +3742,10 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
-                // Two different gaps wearing one event. It dissolves and
-                // nothing speciates it, or nothing models it at all — and
-                // which one it is decides whether a database could ever fix
-                // it, so the cause is computed beside the sentence.
+                // A registry flag describes speciation coverage, not phase
+                // transfer. Missing reviewed solubility takes precedence;
+                // otherwise describe the remaining solid without claiming
+                // it dissolved. The phase owner alone books that transfer.
                 // A reviewed solubility of essentially zero is not a gap,
                 // it is the answer. "Does sand dissolve overnight?" was
                 // reaching `not yet modelled` — the bench declining to say
@@ -3789,19 +3789,21 @@ impl Equilibrator for HonestyEquilibrator {
                     }
                 }
                 let named = vec![("name".to_string(), Slot::term("species", name))];
-                let (reason, cause) = if species::lookup(&p.species)
+                let (reason, cause) = if let Some(reason) =
+                    organic_solid_without_solubility(&p.species, name)
+                {
+                    (reason, crate::ops::NotModelledCause::NoReviewedDatum)
+                } else if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
                     (
                         Phrase::new(
-                            "not-modeled.dissolves-unspeciated",
-                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+                            "not-modeled.residual-solid-unspeciated",
+                            "Some {name} remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
                             named,
                         ),
                         crate::ops::NotModelledCause::NotSpeciated,
                     )
-                } else if let Some(reason) = organic_solid_without_solubility(&p.species, name) {
-                    (reason, crate::ops::NotModelledCause::NoReviewedDatum)
                 } else {
                     (
                         Phrase::new(
@@ -3896,10 +3898,10 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
-                // Two different gaps wearing one event. It dissolves and
-                // nothing speciates it, or nothing models it at all — and
-                // which one it is decides whether a database could ever fix
-                // it, so the cause is computed beside the sentence.
+                // A registry flag describes speciation coverage, not phase
+                // transfer. Missing reviewed solubility takes precedence;
+                // otherwise describe the remaining solid without claiming
+                // it dissolved. The phase owner alone books that transfer.
                 // A reviewed solubility of essentially zero is not a gap,
                 // it is the answer. "Does sand dissolve overnight?" was
                 // reaching `not yet modelled` — the bench declining to say
@@ -3945,19 +3947,21 @@ impl Equilibrator for HonestyEquilibrator {
                     }
                 }
                 let named = vec![("name".to_string(), Slot::term("species", name))];
-                let (reason, cause) = if species::lookup(&p.species)
+                let (reason, cause) = if let Some(reason) =
+                    organic_solid_without_solubility(&p.species, name)
+                {
+                    (reason, crate::ops::NotModelledCause::NoReviewedDatum)
+                } else if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
                     (
                         Phrase::new(
-                            "not-modeled.dissolves-unspeciated",
-                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+                            "not-modeled.residual-solid-unspeciated",
+                            "Some {name} remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
                             named,
                         ),
                         crate::ops::NotModelledCause::NotSpeciated,
                     )
-                } else if let Some(reason) = organic_solid_without_solubility(&p.species, name) {
-                    (reason, crate::ops::NotModelledCause::NoReviewedDatum)
                 } else {
                     (
                         Phrase::new(
