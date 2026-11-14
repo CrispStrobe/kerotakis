@@ -1,0 +1,25 @@
+{
+  "name": "readout-controls",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "phase_buffered_cell_readout",
+    "--test",
+    "signed_cell_leads",
+    "--test",
+    "acid_metal_cell",
+    "--no-fail-fast",
+    "--message-format=json",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "exit": 0,
+  "seconds": 119.95278508300004,
+  "stdout_sha256": "5d4e35515cad242ce59235ebd58bb328eaa27459f148f79f2ed8e8115be4059a",
+  "stderr_sha256": "a1d96c118b6ad05d60050d9538499e54ad640bc05a7cd7a7466156e04ab6665c"
+}

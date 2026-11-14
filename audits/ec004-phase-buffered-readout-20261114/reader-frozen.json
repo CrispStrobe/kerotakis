@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-14T19:37:53.047291+00:00",
+  "reader_sha256": "d768a9fc8207b4014b92bc1172a2fa691f85ac8827f03a8646358ab16ece32da",
+  "before_collection": true,
+  "expected_criteria": [
+    "EC-004-C1",
+    "EC-004-C2"
+  ],
+  "expected_volts": 0.2197872243681109
+}

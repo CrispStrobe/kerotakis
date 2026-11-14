@@ -1,0 +1,29 @@
+[
+  {
+    "target": {
+      "kind": [
+        "test"
+      ],
+      "crate_types": [
+        "bin"
+      ],
+      "name": "phase_buffered_cell_readout",
+      "src_path": "/kaggle/temp/ec004-readout/repo/crates/kerotakis-core/tests/phase_buffered_cell_readout.rs",
+      "edition": "2021",
+      "doc": false,
+      "doctest": false,
+      "test": true
+    },
+    "sha256": "7618519809785d5673b6e6689edb6eeaa9906aa6b121482fe6db062539ccfe3c",
+    "source": "4151791fafb05dbc88ce39baec83b33ca4dd7b05",
+    "tree": "42a1d68a2507062f81d201b3852b4f6b4e72d3ac",
+    "cargo_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+    "profile": {
+      "opt_level": "0",
+      "debuginfo": 0,
+      "debug_assertions": true,
+      "overflow_checks": true,
+      "test": true
+    }
+  }
+]

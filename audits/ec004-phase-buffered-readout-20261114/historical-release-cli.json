@@ -1,0 +1,15 @@
+{
+  "name": "release-cli",
+  "argv": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "exit": 0,
+  "seconds": 496.7546172,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "3402039d79c4faf5e1bae6a25f9f38a58a88ad71c38417c049897e2c68bd2015"
+}

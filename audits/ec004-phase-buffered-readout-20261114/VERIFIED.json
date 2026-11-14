@@ -1,0 +1,14 @@
+{
+  "source": "4151791fafb05dbc88ce39baec83b33ca4dd7b05",
+  "tree": "42a1d68a2507062f81d201b3852b4f6b4e72d3ac",
+  "verified_producer_hashes": 44,
+  "readout_test_executable_sha256": "7618519809785d5673b6e6689edb6eeaa9906aa6b121482fe6db062539ccfe3c",
+  "physical_prefix_binary_sha256": null,
+  "physical_prefix_source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "physical_prefix_cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "changed_core_cargo_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "fixture_sha256": "2bdc16d1848513c8b7eb8d921e6f0b9e19aecfcbcd0bd796b2f3d4b2d46e8fff",
+  "chemical_prefix_replayed": false,
+  "stages_are_distinct": true,
+  "platform_and_full_fleet_acceptance": "Pending; not inferred from bounded core checks"
+}

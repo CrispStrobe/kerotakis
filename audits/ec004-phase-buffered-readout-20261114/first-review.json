@@ -1,0 +1,360 @@
+{
+  "criteria": {
+    "EC-004-C1": true,
+    "EC-004-C2": true
+  },
+  "historical_criteria": {
+    "EC-004-C1": true,
+    "EC-004-C2": false
+  },
+  "volts": 0.21978722436811088,
+  "independent_expected_volts": 0.2197872243681109,
+  "ledger_checks": 59,
+  "max_abs_residual": 1.7763568394002505e-15,
+  "ledger": [
+    {
+      "step": 0,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 0,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 0,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 1,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 2,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 3,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 4,
+      "element": "O",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 5,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 6,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 6,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 7,
+      "element": "Q",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "N",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "Ag",
+      "residual": 0.0
+    },
+    {
+      "step": 7,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 8,
+      "element": "Q",
+      "residual": -3.369158250998705e-17
+    },
+    {
+      "step": 8,
+      "element": "N",
+      "residual": -4.51841255383334e-17
+    },
+    {
+      "step": 8,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 8,
+      "element": "Ag",
+      "residual": -1.951563910473908e-17
+    },
+    {
+      "step": 8,
+      "element": "Na",
+      "residual": -9.039535613097893e-17
+    },
+    {
+      "step": 8,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 8,
+      "element": "Cl",
+      "residual": -3.152317816501604e-17
+    },
+    {
+      "step": 9,
+      "element": "Q",
+      "residual": -3.369158250998705e-17
+    },
+    {
+      "step": 9,
+      "element": "N",
+      "residual": -4.51841255383334e-17
+    },
+    {
+      "step": 9,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 9,
+      "element": "Ag",
+      "residual": -1.951563910473908e-17
+    },
+    {
+      "step": 9,
+      "element": "Na",
+      "residual": -9.039535613097893e-17
+    },
+    {
+      "step": 9,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 9,
+      "element": "Cl",
+      "residual": -3.152317816501604e-17
+    },
+    {
+      "step": 10,
+      "element": "Q",
+      "residual": -3.369158250998705e-17
+    },
+    {
+      "step": 10,
+      "element": "N",
+      "residual": -4.51841255383334e-17
+    },
+    {
+      "step": 10,
+      "element": "H",
+      "residual": 0.0
+    },
+    {
+      "step": 10,
+      "element": "Ag",
+      "residual": -1.951563910473908e-17
+    },
+    {
+      "step": 10,
+      "element": "Na",
+      "residual": -9.039535613097893e-17
+    },
+    {
+      "step": 10,
+      "element": "O",
+      "residual": 1.7763568394002505e-15
+    },
+    {
+      "step": 10,
+      "element": "Cl",
+      "residual": -3.152317816501604e-17
+    }
+  ],
+  "negative_cases": 27,
+  "physical_source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "historical_native_binary_sha256": null,
+  "readout_source": "4151791fafb05dbc88ce39baec83b33ca4dd7b05",
+  "readout_executable_sha256": "7618519809785d5673b6e6689edb6eeaa9906aa6b121482fe6db062539ccfe3c",
+  "chemical_prefix_replayed": false,
+  "reader_mutations": [
+    {
+      "case": "lost_AgCl",
+      "rejected": true
+    },
+    {
+      "case": "wrong_voltage",
+      "rejected": true
+    },
+    {
+      "case": "wrong_sign",
+      "rejected": true
+    },
+    {
+      "case": "mutated_readout",
+      "rejected": true
+    },
+    {
+      "case": "wrong_source",
+      "rejected": true
+    },
+    {
+      "case": "wrong_fixture",
+      "rejected": true
+    },
+    {
+      "case": "historical_binary_substitution",
+      "rejected": true
+    },
+    {
+      "case": "missing_negative",
+      "rejected": true
+    },
+    {
+      "case": "solver_failure",
+      "rejected": true
+    },
+    {
+      "case": "missing_native_activity",
+      "rejected": true
+    }
+  ],
+  "matched_core_tests": 10
+}

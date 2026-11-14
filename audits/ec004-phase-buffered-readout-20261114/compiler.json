@@ -1,0 +1,12 @@
+{
+  "name": "compiler",
+  "argv": [
+    "rustc",
+    "--version",
+    "--verbose"
+  ],
+  "exit": 0,
+  "seconds": 0.016248512999993636,
+  "stdout_sha256": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

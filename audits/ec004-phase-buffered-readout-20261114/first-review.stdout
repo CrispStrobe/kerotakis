@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "EC-004-C1": true,
+    "EC-004-C2": true
+  },
+  "historical_criteria": {
+    "EC-004-C1": true,
+    "EC-004-C2": false
+  },
+  "volts": 0.21978722436811088,
+  "independent_expected_volts": 0.2197872243681109,
+  "ledger_checks": 59,
+  "max_abs_residual": 1.7763568394002505e-15,
+  "negative_cases": 27,
+  "physical_source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "historical_native_binary_sha256": null,
+  "readout_source": "4151791fafb05dbc88ce39baec83b33ca4dd7b05",
+  "readout_executable_sha256": "7618519809785d5673b6e6689edb6eeaa9906aa6b121482fe6db062539ccfe3c",
+  "chemical_prefix_replayed": false,
+  "matched_core_tests": 10
+}

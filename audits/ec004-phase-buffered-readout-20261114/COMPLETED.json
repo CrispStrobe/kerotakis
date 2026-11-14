@@ -1,0 +1,165 @@
+{
+  "source": "4151791fafb05dbc88ce39baec83b33ca4dd7b05",
+  "tree": "42a1d68a2507062f81d201b3852b4f6b4e72d3ac",
+  "steps": [
+    {
+      "name": "rustup-fetch",
+      "argv": [
+        "curl",
+        "--proto",
+        "=https",
+        "--tlsv1.2",
+        "-fsSL",
+        "https://sh.rustup.rs",
+        "-o",
+        "/kaggle/temp/ec004-readout/rustup-init.sh"
+      ],
+      "exit": 0,
+      "seconds": 0.26614932799998314,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "rustup-install",
+      "argv": [
+        "sh",
+        "/kaggle/temp/ec004-readout/rustup-init.sh",
+        "-y",
+        "--profile",
+        "minimal",
+        "--default-toolchain",
+        "1.100.0",
+        "--no-modify-path"
+      ],
+      "exit": 0,
+      "seconds": 10.697859201000028,
+      "stdout_sha256": "ecd15c1cf589d1b4e36127641a8ff33e423234814f9ea2044303d8c536999f5e",
+      "stderr_sha256": "1384241933bdbdefe5ef316eee6efde49746da1f1007a0553d6c8dbc48571dec"
+    },
+    {
+      "name": "compiler",
+      "argv": [
+        "rustc",
+        "--version",
+        "--verbose"
+      ],
+      "exit": 0,
+      "seconds": 0.016248512999993636,
+      "stdout_sha256": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "init",
+      "argv": [
+        "git",
+        "init",
+        "/kaggle/temp/ec004-readout/repo"
+      ],
+      "exit": 0,
+      "seconds": 0.11581480500001362,
+      "stdout_sha256": "6b24682b4799b13f14f88ef5793e6941ebdbfb9769bb27aa0d86c9ef5ba7dd83",
+      "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+    },
+    {
+      "name": "remote",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://github.com/CrispStrobe/kerotakis.git"
+      ],
+      "exit": 0,
+      "seconds": 0.016269752000027893,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "4151791fafb05dbc88ce39baec83b33ca4dd7b05"
+      ],
+      "exit": 0,
+      "seconds": 2.7220877249999944,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "663b1df4e90661be5bd2af0d47e91aa1d59cc15740adda615175eb77c2585ffb"
+    },
+    {
+      "name": "checkout",
+      "argv": [
+        "git",
+        "checkout",
+        "--detach",
+        "4151791fafb05dbc88ce39baec83b33ca4dd7b05"
+      ],
+      "exit": 0,
+      "seconds": 0.4657948419999798,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c9a959adaa99022bda6c17554ce1b46b980eeb4c97f44c19959694f01ff4fc1d"
+    },
+    {
+      "name": "base-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "f71ec8d4638876e9949eede078408b9fa01394d4"
+      ],
+      "exit": 0,
+      "seconds": 2.6724509130000342,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8dcbd8af404154f1ddaeb7d560d6493ccde4f40bbbf4ce035858166c002d304c"
+    },
+    {
+      "name": "workspace-path-dependency",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--depth",
+        "1",
+        "sundials-kinetics-rs"
+      ],
+      "exit": 0,
+      "seconds": 1.1171640590000038,
+      "stdout_sha256": "a7e6804880255ee6804c68a90beb6926cc9b37a887f65507e9a9811da398842f",
+      "stderr_sha256": "cf8e5ec2a856d316638e651ffd7de146e52bc032253f58cbe22a2aa9a02e9bfe"
+    },
+    {
+      "name": "readout-controls",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "phase_buffered_cell_readout",
+        "--test",
+        "signed_cell_leads",
+        "--test",
+        "acid_metal_cell",
+        "--no-fail-fast",
+        "--message-format=json",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 119.95278508300004,
+      "stdout_sha256": "5d4e35515cad242ce59235ebd58bb328eaa27459f148f79f2ed8e8115be4059a",
+      "stderr_sha256": "a1d96c118b6ad05d60050d9538499e54ad640bc05a7cd7a7466156e04ab6665c"
+    }
+  ],
+  "all_commands_passed": true,
+  "focused_only": true,
+  "chemical_prefix_replayed": false
+}

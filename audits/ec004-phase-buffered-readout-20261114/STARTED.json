@@ -1,0 +1,7 @@
+{
+  "source": "4151791fafb05dbc88ce39baec83b33ca4dd7b05",
+  "tree": "42a1d68a2507062f81d201b3852b4f6b4e72d3ac",
+  "utc": "2026-11-14T19:35:51.598946+00:00",
+  "script_sha256": "566be8c965d459c40a62610d26027a073486533cc1495873723595670b3eb72d",
+  "stage": "Changed core pure readout of historical native states; no chemistry replay"
+}
