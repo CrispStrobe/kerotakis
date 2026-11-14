@@ -1,6 +1,6 @@
 # Kerotakis current state —2026-10-27
 
-**Coverage update — 2026-11-14:** The [current working catalog](../audits/working-experiments-20261114-pr881-reviewed-carbonate.json) contains **409 entries with 409 distinct catalog IDs**. Mapping those entries to the fixed 468-experiment corpus gives **405 unique originals covered and 63 remaining**. Four catalog entries belong to the separate supplied-reactions corpus and are outside that denominator. The latest additions are the unchanged [SP-011 iodine extraction comparison](../audits/sp011-current-replay-20261114/README.md) and [AB-035 and GS-013 carbonate comparisons](../audits/carbonate-originals-pr881-20261114/README.md), assessed on the PR881 candidate. The older counts below describe the 2026-10-27 checkpoint, not current coverage. These are reviewed historical qualifications, not a claim that all were replayed on the latest release.
+**Coverage update — 2026-11-14:** The [current working catalog](../audits/working-experiments-20261114-pr881-reviewed-po001.json) contains **410 entries with 410 distinct catalog IDs**. Mapping those entries to the fixed 468-experiment corpus gives **406 unique originals covered and 62 remaining**. Four catalog entries belong to the separate supplied-reactions corpus and are outside that denominator. The latest additions are the unchanged [SP-011 iodine extraction comparison](../audits/sp011-current-replay-20261114/README.md), [AB-035 and GS-013 carbonate comparisons](../audits/carbonate-originals-pr881-20261114/README.md), and [PO-001 density-class comparison](../audits/po001-current-replay-20261114/README.md), assessed on the PR881 candidate. The older counts below describe the 2026-10-27 checkpoint, not current coverage. These are reviewed historical qualifications, not a claim that all were replayed on the latest release.
 
 **Current delivery — 2026-10-27:** The diagnostic release is merged and deployed. [Actual release acceptance](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) verifies all 11 API protocols, security/admission/concurrency controls and all 82 browser checks on runtime `a7640a07`. Full source/platform and own-fleet acceptance are complete. The six ordered implementation/review lanes have reached their final maintained-summary update; the source and product checks do not need repeating.
 
@@ -46,7 +46,7 @@ All668 supplied records already have baseline executions:557zero/111nonzero exit
 
 ## Next work
 
-1. Assess the remaining 63 originals against their original criteria, prioritize shared source defects by the cases they affect, and qualify each original only when its observed results support it.
+1. Assess the remaining 62 originals against their original criteria, prioritize shared source defects by the cases they affect, and qualify each original only when its observed results support it.
 2. Repair supported mapping, ownership and data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
 3. Improve CI efficiency and diagnostic coverage while preserving logical checks and protected contexts.
 
