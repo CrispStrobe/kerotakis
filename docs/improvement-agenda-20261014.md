@@ -1,5 +1,7 @@
 # Ordered improvement agenda — current checkpoint2026-10-27
 
+**2026-11-14 coverage checkpoint:** The [current catalog](../audits/working-experiments-20261114-reviewed-mo003.json) has428entries representing424/468 originals,44remaining. [Unchanged MO003](../audits/mo003-finite-carbonate-owner-20261114/README.md) earns2/2 at source4aca6ecd1 after finite-carbonate ownership repair; all427 predecessor objects remain exact. Actual93hashes,43matched focused tests and500prompts authenticate that source-specific result. The selector filter matched zero tests; correctly matched selector/floor and full applicable source/platform/fleet acceptance still gate delivery. Earlier dated counts below remain historical.
+
 Use [current status](STATUS.md), [fresh-agent scopes](next-agent-handoff.md), [PR delivery policy](PR-WORKFLOW.md) and the ignored resource/controller handoff together. Earlier [agenda history](https://github.com/CrispStrobe/kerotakis/blob/56e32553/docs/improvement-agenda-20261014.md) preserves past hypotheses, first failures and superseded pending entries; it is not the current execution queue.
 
 ## Completed ordered delivery

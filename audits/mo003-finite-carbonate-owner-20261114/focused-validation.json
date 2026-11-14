@@ -1,0 +1,81 @@
+{
+  "manifest_hashes_verified": 93,
+  "source": "4aca6ecd16ecff4b0a5289a8b18348e9e19a274d",
+  "tree": "e9c6c5ab4119b922ca3664e336b3e75ff782d404",
+  "binary_sha256": "46ec4c631502ef3a2e9ab1319884cbef24a7fc0c2bc2025ec665830ec9c12739",
+  "all_commands_passed": true,
+  "failed_steps": [],
+  "matched_test_results": {
+    "core-named-alkaline": [
+      [
+        "ok",
+        "13",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    ],
+    "strong-reserve-coverage": [
+      [
+        "ok",
+        "8",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    ],
+    "native-inventory-certificates": [
+      [
+        "ok",
+        "13",
+        "0",
+        "0",
+        "0",
+        "205"
+      ]
+    ],
+    "native-named-hydrolysis": [
+      [
+        "ok",
+        "4",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    ],
+    "native-opaque-boundaries": [
+      [
+        "ok",
+        "4",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    ],
+    "native-selector-controls": [
+      [
+        "ok",
+        "0",
+        "0",
+        "0",
+        "0",
+        "218"
+      ]
+    ],
+    "native-finite-dose-witness": [
+      [
+        "ok",
+        "1",
+        "0",
+        "0",
+        "0",
+        "217"
+      ]
+    ]
+  },
+  "selector_filter_gap": "selector filter must not be counted as coverage if zero tests matched"
+}

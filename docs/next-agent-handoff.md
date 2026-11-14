@@ -1,5 +1,7 @@
 # Fresh-agent handoff —2026-10-27
 
+**2026-11-14 coverage checkpoint:** The [current catalog](../audits/working-experiments-20261114-reviewed-mo003.json) has428entries representing424/468 originals,44remaining. [Unchanged MO003](../audits/mo003-finite-carbonate-owner-20261114/README.md) earns2/2 at source4aca6ecd1 after finite-carbonate ownership repair; all427 predecessor objects remain exact. Actual93hashes,43matched focused tests and500prompts authenticate that source-specific result. The selector filter matched zero tests; correctly matched selector/floor and full applicable source/platform/fleet acceptance still gate delivery. Earlier dated counts below remain historical.
+
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md) and [PR policy](PR-WORKFLOW.md). The previous six-lane loop has completed source integration and actual product acceptance. This maintained-summary refresh records that checkpoint and scopes the next cycle. Do not follow historical pending notes as an active execution queue. Read the ignored operating handoff for private inputs, resource thresholds and protected evidence/worktree inventories; do not publish those details.
 
 ## 1. Accepted source and product; start the successor lanes

@@ -1,0 +1,15 @@
+{
+  "prompts": 500,
+  "unmet_requirements": 0,
+  "failures": [],
+  "baseline_drift": [],
+  "by_observed": {
+    "computed": 323,
+    "curated": 53,
+    "qualitative": 62,
+    "boundary": 60,
+    "missing": 2
+  },
+  "source": "4aca6ecd16ecff4b0a5289a8b18348e9e19a274d",
+  "binary_sha256": "46ec4c631502ef3a2e9ab1319884cbef24a7fc0c2bc2025ec665830ec9c12739"
+}

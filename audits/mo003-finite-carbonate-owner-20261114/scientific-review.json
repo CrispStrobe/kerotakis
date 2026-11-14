@@ -1,0 +1,245 @@
+{
+  "criteria": {
+    "MO-003-C1": true,
+    "MO-003-C2": true
+  },
+  "met": 2,
+  "total": 2,
+  "solver_failures": 0,
+  "known_atom_charge_checks": [
+    {
+      "step": 0,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "N": "0",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 1,
+      "residual_mol_eq": {
+        "C": "2.280780E-22",
+        "H": "-1.103138900E-15",
+        "O": "-5.52900515766E-16",
+        "Na": "0",
+        "N": "-4.3240E-19",
+        "charge": "1.3070438440E-18"
+      }
+    },
+    {
+      "step": 2,
+      "residual_mol_eq": {
+        "C": "8.677263540E-19",
+        "H": "-1.099745560E-15",
+        "O": "-5.51241620938E-16",
+        "Na": "0",
+        "N": "-4.3240E-19",
+        "charge": "4.8525872920E-18"
+      }
+    },
+    {
+      "step": 3,
+      "residual_mol_eq": {
+        "C": "8.9070389410E-19",
+        "H": "-9.7101050E-17",
+        "O": "-4.9387642212E-17",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "3.88105000000E-18"
+      }
+    },
+    {
+      "step": 4,
+      "residual_mol_eq": {
+        "C": "9.0761630E-19",
+        "H": "-3.501089680E-16",
+        "O": "-1.7594963340E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "4.06370000E-18"
+      }
+    },
+    {
+      "step": 5,
+      "residual_mol_eq": {
+        "C": "9.0761630E-19",
+        "H": "-3.501089680E-16",
+        "O": "-1.7594963340E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "4.06370000E-18"
+      }
+    },
+    {
+      "step": 6,
+      "residual_mol_eq": {
+        "C": "8.399580E-19",
+        "H": "-3.46169140E-16",
+        "O": "-1.740866640E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "1.2069000E-18"
+      }
+    },
+    {
+      "step": 7,
+      "residual_mol_eq": {
+        "C": "1.422193264120E-18",
+        "H": "5.479548340E-16",
+        "O": "2.71445379792E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "7.336847471760E-18"
+      }
+    },
+    {
+      "step": 8,
+      "residual_mol_eq": {
+        "C": "1.422193264120E-18",
+        "H": "5.479548340E-16",
+        "O": "2.71445379792E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "7.336847471760E-18"
+      }
+    },
+    {
+      "step": 9,
+      "residual_mol_eq": {
+        "C": "1.422193264120E-18",
+        "H": "5.479548340E-16",
+        "O": "2.71445379792E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "7.336847471760E-18"
+      }
+    }
+  ],
+  "reaction_timing": [
+    {
+      "step": 0,
+      "operator": {
+        "moles": 5.534276991396059,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0"
+    },
+    {
+      "step": 1,
+      "operator": {
+        "headspace_volume": 0.25,
+        "op": "seal",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.0000040874044524329450280780"
+    },
+    {
+      "step": 2,
+      "operator": {
+        "moles": 0.001,
+        "op": "add",
+        "species": "ethyl_acetate",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.0040040874044524338125263540"
+    },
+    {
+      "step": 3,
+      "operator": {
+        "moles": 0.001,
+        "op": "add",
+        "species": "NaOH",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.00400408740445243383550389410"
+    },
+    {
+      "step": 4,
+      "operator": {
+        "op": "react",
+        "reaction": "saponification",
+        "vessel": 0
+      },
+      "ethanol_mol": "0.0009918251910951323",
+      "ester_mol": "0.000008174808904867683",
+      "acetate_mol": "0.000991825191095132342633",
+      "total_owned_carbon_mol": "0.00400408740445243385241630"
+    },
+    {
+      "step": 5,
+      "operator": {
+        "op": "inspect"
+      },
+      "ethanol_mol": "0.0009918251910951323",
+      "ester_mol": "0.000008174808904867683",
+      "acetate_mol": "0.000991825191095132342633",
+      "total_owned_carbon_mol": "0.00400408740445243385241630"
+    },
+    {
+      "step": 6,
+      "operator": {
+        "moles": 0.002,
+        "op": "add",
+        "species": "O2",
+        "vessel": 0
+      },
+      "ethanol_mol": "0.0009918251910951323",
+      "ester_mol": "0.000008174808904867683",
+      "acetate_mol": "0.00099182519109513274264",
+      "total_owned_carbon_mol": "0.0040040874044524337847580"
+    },
+    {
+      "step": 7,
+      "operator": {
+        "op": "react",
+        "reaction": "alcohol-oxidation",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.000008174808904867683",
+      "acetate_mol": "0.0019836503821902649",
+      "total_owned_carbon_mol": "0.004004087404452434366993264120"
+    },
+    {
+      "step": 8,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.000008174808904867683",
+      "acetate_mol": "0.0019836503821902649",
+      "total_owned_carbon_mol": "0.004004087404452434366993264120"
+    },
+    {
+      "step": 9,
+      "operator": {
+        "op": "inspect"
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.000008174808904867683",
+      "acetate_mol": "0.0019836503821902649",
+      "total_owned_carbon_mol": "0.004004087404452434366993264120"
+    }
+  ],
+  "warning_keys": [],
+  "scope": "Only the unchanged requested net conversions and owned stock closure, counting contents once and excluding mirrored solution.species; no empirical reaction rate or heat calibration."
+}

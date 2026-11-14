@@ -1,0 +1,18 @@
+{
+  "catalog-preservation.json": "a88122aa0802059cf53e813376f15d3656305a02269cbe286c4f4f3b1f108e80",
+  "reader-negative-controls.json": "630c53010cf4c5ff1135d3be964e533281548312baaad04a41d6ea1bc8006823",
+  "curiosity-summary.json": "2eeafb52f1d1995b6511268214e36e5409869a2f30154ed566765e8e1afa0fa5",
+  "original-criteria.json": "b1697755e69013ddc3cef648f8f8afa9d2f5c3853b2b2ab9d889e0f25016c260",
+  "batch2-mo-003.stdout": "fd045a3b6fa86304b2b321de4c990f74e9b6675258e80b241413fe9bf4c5c130",
+  "source-compositions.json": "d9abb585d3ca9e98f9ffe1526c2d7467efb286685a753961387eea76136e7784",
+  "README.md": "5ca56193c2ee28991601741ce02845bdcd71b2668ae5bcd2bd3fb208c314e83a",
+  "batch2-mo-003.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "binding.json": "db78096a51cec5dd782fb034c34cf481482ef52251c0b4f4f81ea89c211a50ba",
+  "focused-validation.json": "03db7c69a853bdb6df9a0738347652f8daf8d70698f1472c27992b30d27f4f5c",
+  "scientific-review.json": "4d406920443ca24abc746ff883ebf104ca9d6cf9cedad8d636e0ff5a126fe0fa",
+  "review_original.py": "a781e1cd662fd210e5ee571fea8e4b8b80371b9478921ec209ebaa2e8de66c7f",
+  "original.lab": "6875ff952a63527b64167b44dd008fcbfdba5a59aebba05edaef99e5719efc45",
+  "first-candidate/batch2-mo-003.stdout": "3607a67e10f205c0e44d53572296fc849ce49d8ebde028126ded2c64fc0520e2",
+  "first-candidate/binding.json": "e4c69d1d543404b5f09dd93b33d26ff131ba7fde56dc4519d6252765baa704a1",
+  "first-candidate/scientific-review.json": "3186e56cbcd9b253c5f6d546c9747d7e3c922085df786cc709b00d5ec992b989"
+}

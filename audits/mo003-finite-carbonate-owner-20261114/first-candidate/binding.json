@@ -1,0 +1,23 @@
+{
+  "source": "5c33147f667035a2e48f146e1fecfc0f5c41cda9",
+  "tree": "2cf1aa9b58e87dc8a68ac6659a390b9f3dca14de",
+  "manifest_hashes_verified": 84,
+  "all_commands_passed": false,
+  "failed_steps": [
+    {
+      "name": "core-named-alkaline",
+      "exit": 101,
+      "stdout_sha256": "28c3eb1e3e985a8341a44ead86b421dbbe65ccb116995cbb69be990c41688c61",
+      "stderr_sha256": "839e5fb996371f4f2dbb8c8b043f0f47f43d10b3df4165b1796126a0d57af9a9"
+    },
+    {
+      "name": "original-scientific-review",
+      "exit": 1,
+      "stdout_sha256": "3186e56cbcd9b253c5f6d546c9747d7e3c922085df786cc709b00d5ec992b989",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "binary_sha256": "3d008c2b9f9de2d8d3a3c85cc07ee094856e5076101ac8ce0b03608213e68952",
+  "original_output_sha256": "3607a67e10f205c0e44d53572296fc849ce49d8ebde028126ded2c64fc0520e2",
+  "failure": "Two full-state fixture comparisons used stale pressure caches; the unchanged original remained1/2 because lost native inorganic carbon induced a charge/proton reserve refusal. Zero matched selector tests give no guard credit."
+}

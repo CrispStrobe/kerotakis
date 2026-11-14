@@ -1,0 +1,248 @@
+{
+  "criteria": {
+    "MO-003-C1": false,
+    "MO-003-C2": true
+  },
+  "met": 1,
+  "total": 2,
+  "solver_failures": 0,
+  "known_atom_charge_checks": [
+    {
+      "step": 0,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Na": "0",
+        "N": "0",
+        "charge": "0E-16"
+      }
+    },
+    {
+      "step": 1,
+      "residual_mol_eq": {
+        "C": "-6.119250E-22",
+        "H": "-1.103139040E-15",
+        "O": "-5.52902335775E-16",
+        "Na": "0",
+        "N": "-4.3240E-19",
+        "charge": "1.3071838500E-18"
+      }
+    },
+    {
+      "step": 2,
+      "residual_mol_eq": {
+        "C": "-6.119250E-22",
+        "H": "-1.103139040E-15",
+        "O": "-5.52902335775E-16",
+        "Na": "0",
+        "N": "-4.3240E-19",
+        "charge": "1.3071838500E-18"
+      }
+    },
+    {
+      "step": 3,
+      "residual_mol_eq": {
+        "C": "-1.317154550547809050E-12",
+        "H": "6.1478380E-16",
+        "O": "3.06141704382E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-5.268617057800000000E-12"
+      }
+    },
+    {
+      "step": 4,
+      "residual_mol_eq": {
+        "C": "-2.195257427705729140E-12",
+        "H": "-4.60574170E-16",
+        "O": "-2.31354181458E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-8.781028932630000000E-12"
+      }
+    },
+    {
+      "step": 5,
+      "residual_mol_eq": {
+        "C": "-2.195257427705729140E-12",
+        "H": "-4.60574170E-16",
+        "O": "-2.31354181458E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-8.781028932630000000E-12"
+      }
+    },
+    {
+      "step": 6,
+      "residual_mol_eq": {
+        "C": "-3.073348192331055340E-12",
+        "H": "1.039667530E-15",
+        "O": "5.21302867889E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-1.2293396663530000000E-11"
+      }
+    },
+    {
+      "step": 7,
+      "residual_mol_eq": {
+        "C": "-3.951438764448158720E-12",
+        "H": "-1.3098850E-15",
+        "O": "-6.53777896317E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-1.5805758343000000000E-11"
+      }
+    },
+    {
+      "step": 8,
+      "residual_mol_eq": {
+        "C": "-3.951438764448158720E-12",
+        "H": "-1.3098850E-15",
+        "O": "-6.53777896317E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-1.5805758343000000000E-11"
+      }
+    },
+    {
+      "step": 9,
+      "residual_mol_eq": {
+        "C": "-3.951438764448158720E-12",
+        "H": "-1.3098850E-15",
+        "O": "-6.53777896317E-16",
+        "Na": "0.0000",
+        "N": "-4.3240E-19",
+        "charge": "-1.5805758343000000000E-11"
+      }
+    }
+  ],
+  "reaction_timing": [
+    {
+      "step": 0,
+      "operator": {
+        "moles": 5.534276991396059,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0"
+    },
+    {
+      "step": 1,
+      "operator": {
+        "headspace_volume": 0.25,
+        "op": "seal",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.0000040874044524329441880750"
+    },
+    {
+      "step": 2,
+      "operator": {
+        "moles": 0.001,
+        "op": "add",
+        "species": "ethyl_acetate",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.0040040874044524329441880750"
+    },
+    {
+      "step": 3,
+      "operator": {
+        "moles": 0.001,
+        "op": "add",
+        "species": "NaOH",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087403135278394252190950"
+    },
+    {
+      "step": 4,
+      "operator": {
+        "op": "react",
+        "reaction": "saponification",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087402257175517094270860"
+    },
+    {
+      "step": 5,
+      "operator": {
+        "op": "inspect"
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087402257175517094270860"
+    },
+    {
+      "step": 6,
+      "operator": {
+        "moles": 0.002,
+        "op": "add",
+        "species": "O2",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087401379084752468944660"
+    },
+    {
+      "step": 7,
+      "operator": {
+        "op": "react",
+        "reaction": "alcohol-oxidation",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087400500994180351841280"
+    },
+    {
+      "step": 8,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087400500994180351841280"
+    },
+    {
+      "step": 9,
+      "operator": {
+        "op": "inspect"
+      },
+      "ethanol_mol": "0",
+      "ester_mol": "0.001",
+      "acetate_mol": "0",
+      "total_owned_carbon_mol": "0.004004087400500994180351841280"
+    }
+  ],
+  "warning_keys": [
+    "not-modeled.unproven-strong-base-capacity",
+    "not-modeled.no-limiting-reactant"
+  ],
+  "scope": "Only the unchanged requested net conversions and owned stock closure, counting contents once and excluding mirrored solution.species; no empirical reaction rate or heat calibration."
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "mutation": "carbon_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "water_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "charge_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "opaque_pool",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "solver_failure",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "missing_hydrolysis",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "missing_oxidation",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "premature_ethanol_loss",
+    "rejected": true,
+    "exit": 1
+  }
+]

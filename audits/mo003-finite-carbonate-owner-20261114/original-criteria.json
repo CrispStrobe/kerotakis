@@ -1,0 +1,262 @@
+{
+  "id": "batch2:mo-003",
+  "batch": 2,
+  "design_code": "MO-003",
+  "group": "molecular-analysis",
+  "rank": 99,
+  "title": "Hydrolyse an ester, then oxidise the liberated alcohol",
+  "title_de": "Ester hydrolysieren und den freigesetzten Alkohol oxidieren",
+  "question": "Can two requested transformations conserve the two-carbon fragments of a four-carbon ester?",
+  "educational_level": "University / advanced model interpretation",
+  "priority_tier": 3,
+  "experiment_kind": "controlled_experiment",
+  "tags": [
+    "molecular-analysis",
+    "batch-2",
+    "unrun-candidate",
+    "coupled-model-coverage"
+  ],
+  "script": "# MO-003: Hydrolyse an ester, then oxidise the liberated alcohol\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nseal v1 250mL\nadd v1 ethyl_acetate 0.001mol\nadd v1 NaOH 0.001mol\nreact v1 saponification\ninspect v1\nadd v1 O2 0.002mol\nreact v1 alcohol-oxidation\nmeasure v1 ph\ninspect\n",
+  "script_sha256": "6875ff952a63527b64167b44dd008fcbfdba5a59aebba05edaef99e5719efc45",
+  "script_body_sha256": "72a3468e3d434fe1868092a80d6a65b91357434755e81fb7ce162e19ac24e8b7",
+  "action_protocol_sha256": "bc03af37e271a5793e0c706cbbe504ef862996492239ed2c40f6c7d790c87adf",
+  "expected_result": "Successful sequential transformations first yield acetate and ethanol, then convert the ethanol fraction into another acetate/acetic-acid family pool. Carbon accounting should retain four carbons per initial ester molecule.",
+  "expected_processes": [
+    {
+      "equation": "CH3COOC2H5 + OH- -> CH3COO- + C2H5OH",
+      "interpretation": "Educational equation or schematic relationship; not a claim that every species, pathway or coupling is implemented."
+    },
+    {
+      "equation": "C2H5OH + O2 -> CH3COOH + H2O",
+      "interpretation": "Educational equation or schematic relationship; not a claim that every species, pathway or coupling is implemented."
+    }
+  ],
+  "acceptance_checks": [
+    {
+      "id": "MO-003-C1",
+      "criterion": "Verify ethanol appears after hydrolysis and decreases only after the requested oxidation.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "MO-003-C2",
+      "criterion": "Sum carbon across molecular and ionic pools without double-counting mirrored aqueous representations.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "novelty": {
+    "basis": "A new experimental question or substantive controlled extension; not a novel scientific discovery or necessarily a new reaction family.",
+    "distinction": "Composes two named reactions and audits intermediate ownership and fragment conservation.",
+    "previous_related_ids": [
+      "new120:or-006",
+      "new120:or-010"
+    ],
+    "previous_batch_full_file_comparison": true,
+    "comparison_methods": [
+      "exact_script",
+      "comment_whitespace_normalised_body",
+      "observation_stripped_vessel_canonicalised_action_protocol"
+    ],
+    "exhaustive_baseline_deduplication": false,
+    "original_147_note": "Original catalogue reviewed as source context through web excerpts; no complete local automated comparison or semantic-novelty certification."
+  },
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "high",
+    "runtime_verified": false
+  },
+  "limitations": [
+    "Each stage may expose a molecular-versus-aqueous ownership boundary; available oxygen includes the headspace.",
+    "Formal product acid/acetate proportions depend on the actual proton balance."
+  ],
+  "safety_context": "Simulation-only script. Not a wet-lab procedure, school risk assessment or permission to perform the chemistry.",
+  "evidence": {
+    "source_ids": [
+      "grammar",
+      "registry",
+      "baseline",
+      "previous-batch",
+      "curated"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/B2-MO-003.lab",
+    "script_sha256": "6875ff952a63527b64167b44dd008fcbfdba5a59aebba05edaef99e5719efc45"
+  },
+  "importance_rationale": "University-level coupled chemistry, calibration or model-state interpretation.",
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 4,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "ethyl_acetate",
+      "name": "Ethyl acetate",
+      "formula": "C4H8O2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 6,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "NaOH",
+      "name": "Sodium hydroxide",
+      "formula": "NaOH",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "O2",
+      "name": "Oxygen",
+      "formula": "O2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 10,
+      "amount": 0.002,
+      "unit": "mol",
+      "amount_literal": "0.002mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    }
+  ],
+  "observation_plan": [
+    {
+      "step": 7,
+      "script_line": 9,
+      "command": "inspect v1",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "command": "measure v1 ph",
+      "type": "ph"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    }
+  ],
+  "operations": [
+    {
+      "step": 1,
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "step": 2,
+      "script_line": 4,
+      "verb": "add",
+      "command": "add v1 water 100mL"
+    },
+    {
+      "step": 3,
+      "script_line": 5,
+      "verb": "seal",
+      "command": "seal v1 250mL"
+    },
+    {
+      "step": 4,
+      "script_line": 6,
+      "verb": "add",
+      "command": "add v1 ethyl_acetate 0.001mol"
+    },
+    {
+      "step": 5,
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v1 NaOH 0.001mol"
+    },
+    {
+      "step": 6,
+      "script_line": 8,
+      "verb": "react",
+      "command": "react v1 saponification"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "verb": "inspect",
+      "command": "inspect v1"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "verb": "add",
+      "command": "add v1 O2 0.002mol"
+    },
+    {
+      "step": 9,
+      "script_line": 11,
+      "verb": "react",
+      "command": "react v1 alcohol-oxidation"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "verb": "measure",
+      "command": "measure v1 ph"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "initial_conditions": {
+    "initial_vessel": "v1",
+    "new_command_creates_next_vessel": true,
+    "fresh_process_required": true,
+    "temperature_when_not_explicit": "Engine default; measure rather than presume an exact starting temperature.",
+    "environment_note": "Open-bench boundary unless changed by commands. Sealing can include pre-existing headspace gas; explicit gas additions are not always the total gas budget.",
+    "global_wait_note": "wait advances the bench, not only the most recently used vessel; compare arms with their complete time histories."
+  },
+  "static_validation": {
+    "status": "pass",
+    "errors": [],
+    "command_count": 11,
+    "vessel_count": 1,
+    "reagent_keys": [
+      "NaOH",
+      "O2",
+      "ethyl_acetate",
+      "water"
+    ],
+    "commands": {
+      "register": 1,
+      "add": 4,
+      "seal": 1,
+      "react": 2,
+      "inspect": 2,
+      "measure": 1
+    }
+  }
+}
