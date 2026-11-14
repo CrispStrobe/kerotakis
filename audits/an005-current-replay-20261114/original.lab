@@ -1,0 +1,21 @@
+# D3-AN-005: A neutral organic blend needs more than one chromatographic peak label
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+add v1 water 50mL
+add v1 ethanol 0.001mol
+add v1 ethyl_acetate 0.001mol
+add v1 propanone 0.001mol
+add v2 water 50mL
+add v2 ethanol 0.001mol
+add v3 water 50mL
+add v3 ethyl_acetate 0.001mol
+add v4 water 50mL
+add v4 propanone 0.001mol
+chromatograph v1
+chromatograph v2
+chromatograph v3
+chromatograph v4
+inspect
