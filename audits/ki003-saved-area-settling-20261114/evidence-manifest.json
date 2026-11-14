@@ -1,0 +1,16 @@
+{
+  "catalog-preservation.json": "230e559252bd7ab2fe7b3eb5d36c4b658473d8a8e6ed9ec22d6ddd087666f6d1",
+  "batch2-ki-003.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reader-negative-controls.json": "808dd7081e7d4b68e9b8c83da0115348221ae04f725064ad1658ff23748e5f3c",
+  "check_reader_negatives.py": "e8e59c3e874f28a71901faef3d32cf5f55f40916157b0de44b299f020ba2bf6d",
+  "original-criteria.json": "04c60fa1d217749e0b1f823130112dff91f7b9afda12ba4f7ec736f50571b072",
+  "source-excerpts.json": "8eb37863d765d39dc1062217e7031ea2026933945c7ed936dc1dec3ed88f348f",
+  "README.md": "9488c270f97a32cacd35b22f8eba9359c8193a563c9a89b2efb8e6396f2691f9",
+  "binding.json": "3f7f45a60f8cbfa1bb7510380c568b4d458453c0bb7b0a03c570c4bbbcf9f5f0",
+  "first-reader-failure.json": "a69acdc8ac54d4380f3e4455912443167adcfe1880338b0d2cb5c45c01d8a3dd",
+  "batch2-ki-003.stdout": "a18ff64f41d73527a0df4f499a5e965b71c791ed8c52f64c0678bde6926c6558",
+  "source-properties.json": "5c4781cd693a54301f2fbfe345d0ce7dcf4faf41557420bb0d61d7062fa1d6bb",
+  "scientific-review.json": "1a34001592a2278cbac8c986d73f398c6479842ebef0cf293c6370f1efc86272",
+  "review_original.py": "2710a2bb90a9bc04226cbe6b942b044c9a99d29985ae14eb4a6cc4714e589304",
+  "original.lab": "5ac1eccd4fd31ab27d92a228c2ea707c7913bb2b273aaafb47d6bda9ec68a468"
+}

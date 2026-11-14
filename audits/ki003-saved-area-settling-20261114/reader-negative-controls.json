@@ -1,0 +1,52 @@
+[
+  {
+    "mutation": "water_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "peroxide_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "catalyst_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "oxygen_loss",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "default_diameter",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "uncoupled_grind",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "missing_active_settling",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "wrong_clock",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "solver_failure",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "balanced_wrong_kinetics",
+    "rejected": true,
+    "exit": 1
+  }
+]

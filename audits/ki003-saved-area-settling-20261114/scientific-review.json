@@ -1,0 +1,309 @@
+{
+  "met": 2,
+  "total": 2,
+  "criteria": {
+    "KI-003-C1": true,
+    "KI-003-C2": true
+  },
+  "solver_failures": 0,
+  "known_atom_charge_checks": [
+    {
+      "step": 0,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-15",
+        "Mn": "0",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 1,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-15",
+        "Mn": "0",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 2,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 3,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 4,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0",
+        "O": "0",
+        "Mn": "0",
+        "charge": "0"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 5,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-15",
+        "Mn": "0",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 6,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-15",
+        "Mn": "0",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 7,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-20",
+        "Mn": "0E-20",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-21",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 8,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "0E-15",
+        "O": "0E-20",
+        "Mn": "0E-20",
+        "charge": "0E-20"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.774E-16",
+        "O": "-8.87270E-17",
+        "Mn": "0E-21",
+        "charge": "0E-22"
+      }
+    },
+    {
+      "step": 9,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-5.054E-16",
+        "O": "-2.526722E-16",
+        "Mn": "0E-20",
+        "charge": "0E-22"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-1.774E-16",
+        "O": "-8.87270E-17",
+        "Mn": "0E-21",
+        "charge": "0E-22"
+      }
+    },
+    {
+      "step": 10,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-5.054E-16",
+        "O": "-2.526722E-16",
+        "Mn": "0E-20",
+        "charge": "0E-22"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-6.144E-16",
+        "O": "-3.07166E-16",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 11,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-1.6670E-15",
+        "O": "-8.33476E-16",
+        "Mn": "0E-20",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 12,
+      "vessel": 0,
+      "residual_mol_eq": {
+        "H": "-6.144E-16",
+        "O": "-3.07166E-16",
+        "Mn": "0E-21",
+        "charge": "0E-21"
+      }
+    },
+    {
+      "step": 12,
+      "vessel": 1,
+      "residual_mol_eq": {
+        "H": "-1.6670E-15",
+        "O": "-8.33476E-16",
+        "Mn": "0E-20",
+        "charge": "0E-21"
+      }
+    }
+  ],
+  "ground_geometry": {
+    "0": {
+      "diameter_um": 10,
+      "nominal_area_m2": 0.00011928429423459242,
+      "default_area_m2": 1.1928429423459243e-05
+    },
+    "1": {
+      "diameter_um": 100,
+      "nominal_area_m2": 0.00011928429423459245,
+      "default_area_m2": 0.00011928429423459247
+    }
+  },
+  "paired_consumption_and_activity": [
+    [
+      {
+        "vessel": 0,
+        "elapsed_seconds": 10.0,
+        "fraction_consumed": "0.0086120392655887",
+        "remaining_h2o2_mol": "0.0009913879607344113",
+        "suspended_fraction": 0.9383004394764993,
+        "contact_factor": 0.9383004394764993,
+        "activity_multiplier": 0.11192450570296213,
+        "interval_start_temperature_k": 298.15,
+        "analytic_remaining_mol": 0.0009913879607041417,
+        "analytic_residual_mol": -3.02696236131883e-14,
+        "default_diameter_prediction_mol": 0.000999135440227214
+      },
+      {
+        "vessel": 1,
+        "elapsed_seconds": 10.0,
+        "fraction_consumed": "0.0032211322092527",
+        "remaining_h2o2_mol": "0.0009967788677907473",
+        "suspended_fraction": 0.0,
+        "contact_factor": 0.35,
+        "activity_multiplier": 0.041749502982107355,
+        "interval_start_temperature_k": 298.15,
+        "analytic_remaining_mol": 0.0009967788677737953,
+        "analytic_residual_mol": -1.6951934647679856e-14,
+        "default_diameter_prediction_mol": 0.0009967788677737953
+      }
+    ],
+    [
+      {
+        "vessel": 0,
+        "elapsed_seconds": 30.0,
+        "fraction_consumed": "0.0235343290073072",
+        "remaining_h2o2_mol": "0.0009764656709926928",
+        "suspended_fraction": 0.8225096296673946,
+        "contact_factor": 0.8225096296673946,
+        "activity_multiplier": 0.09811248067603115,
+        "interval_start_temperature_k": 298.15202757381155,
+        "analytic_remaining_mol": 0.0009764656709686211,
+        "analytic_residual_mol": -2.4071673473957667e-14,
+        "default_diameter_prediction_mol": 0.000989885526932819
+      },
+      {
+        "vessel": 1,
+        "elapsed_seconds": 30.0,
+        "fraction_consumed": "0.0096326833038335",
+        "remaining_h2o2_mol": "0.0009903673166961665",
+        "suspended_fraction": 0.0,
+        "contact_factor": 0.35,
+        "activity_multiplier": 0.041749502982107355,
+        "interval_start_temperature_k": 298.1507583564867,
+        "analytic_remaining_mol": 0.0009903673166790836,
+        "analytic_residual_mol": -1.7082906270116105e-14,
+        "default_diameter_prediction_mol": 0.0009903673166790836
+      }
+    ]
+  ],
+  "source_rate_parameters": {
+    "pre_exponential": 56000000.0,
+    "activation_energy_j_mol": 58000.0,
+    "gas_constant": 8.31446261815324,
+    "reference_area_m2": 0.001
+  },
+  "forecast_status": "Original nominal-area forecast preserved; similar consumption is not confirmed. Faster settling reduces the larger particles\u2019 modeled contact, so equal nominal area does not imply equal activity during these unstirred waits.",
+  "scope": "Original matched-time fractional consumption comparison and explicit diameter-to-activity inspection. Analytic checks verify the installed editorial teaching law, not empirical kinetics, BET/pore area, suspension/contact calibration, calorimetry or realistic catalyst performance. O2 remains in physical contents; gas_produced is not an external sink. Solvent-only pH is not used as a peroxide measurement."
+}

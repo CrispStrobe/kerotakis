@@ -1,0 +1,9 @@
+{
+  "error": "StopIteration",
+  "cause": "First reader required a gravity_settled event even for a lot already at zero suspended fraction. The pinned clock skips such lots.",
+  "first_reader_sha256": "02d75f75ef1f7a79cdfc92f8434175ec4b5b5503230f85417c6b97c281ab61a9",
+  "first_empty_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "correction": "An omitted settling event is permitted only when both previous and current suspended fraction are exactly zero; all active-lot event, stock, diameter, clock and analytic-rate checks remain.",
+  "engine_rerun": false,
+  "scientific_bound_changed": false
+}

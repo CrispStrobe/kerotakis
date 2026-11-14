@@ -1,0 +1,49 @@
+[
+  {
+    "species_id": "water",
+    "formula": "H2O",
+    "atoms": {
+      "H": 2,
+      "O": 1
+    },
+    "charge": 0,
+    "molar_mass": 18.015,
+    "density_g_ml": 0.997,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values"
+  },
+  {
+    "species_id": "H2O2",
+    "formula": "H2O2",
+    "atoms": {
+      "H": 2,
+      "O": 2
+    },
+    "charge": 0,
+    "molar_mass": 34.01,
+    "density_g_ml": 1.11,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values. Absent from every shipped PHREEQC database, so it has a decomposition rate but no equilibrium speciation"
+  },
+  {
+    "species_id": "MnO2",
+    "formula": "MnO2",
+    "atoms": {
+      "Mn": 1,
+      "O": 2
+    },
+    "charge": 0,
+    "molar_mass": 86.94,
+    "density_g_ml": 5.03,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values"
+  },
+  {
+    "species_id": "O2",
+    "formula": "O2",
+    "atoms": {
+      "O": 2
+    },
+    "charge": 0,
+    "molar_mass": 31.998,
+    "density_g_ml": 1.0,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values"
+  }
+]

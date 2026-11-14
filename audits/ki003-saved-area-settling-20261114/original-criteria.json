@@ -1,0 +1,292 @@
+{
+  "id": "batch2:ki-003",
+  "batch": 2,
+  "design_code": "KI-003",
+  "group": "kinetics",
+  "rank": 67,
+  "title": "Different catalyst masses can have the same nominal surface area",
+  "title_de": "Verschiedene Katalysatormassen k\u00f6nnen dieselbe Oberfl\u00e4che besitzen",
+  "question": "Does the surface model respond to mass divided by particle diameter?",
+  "educational_level": "Sekundarstufe II / university introduction",
+  "priority_tier": 2,
+  "experiment_kind": "controlled_experiment",
+  "tags": [
+    "kinetics",
+    "batch-2",
+    "unrun-candidate"
+  ],
+  "script": "# KI-003: Different catalyst masses can have the same nominal surface area\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nadd v1 MnO2 0.001g\ngrind v1 MnO2 10um\nnew\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nadd v2 MnO2 0.01g\ngrind v2 MnO2 100um\nwait 10s\ninspect\nwait 20s\ninspect\n",
+  "script_sha256": "5ac1eccd4fd31ab27d92a228c2ea707c7913bb2b273aaafb47d6bda9ec68a468",
+  "script_body_sha256": "0d9f134fdccb891536115ad98fd9a48067b3860aeeef5601a94d2390f42e1e8b",
+  "action_protocol_sha256": "ee6dd83a052daa75e8427fa9c527ebd70584f46ad45dc9d72dec727a616f9fdc",
+  "expected_result": "For the same material and spherical-particle approximation, mass/diameter is matched, so the two nominal surface-controlled responses should be similar.",
+  "expected_processes": [
+    {
+      "equation": "2 H2O2 -> 2 H2O + O2",
+      "interpretation": "Educational equation or schematic relationship; not a claim that every species, pathway or coupling is implemented."
+    }
+  ],
+  "acceptance_checks": [
+    {
+      "id": "KI-003-C1",
+      "criterion": "Compare fractional substrate consumption at the same elapsed times.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-003-C2",
+      "criterion": "Confirm that catalyst activity uses the stated diameters rather than defaults.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "novelty": {
+    "basis": "A new experimental question or substantive controlled extension; not a novel scientific discovery or necessarily a new reaction family.",
+    "distinction": "Tests a matched-area control, not simply smaller particles at equal mass.",
+    "previous_related_ids": [
+      "new120:kn-001"
+    ],
+    "previous_batch_full_file_comparison": true,
+    "comparison_methods": [
+      "exact_script",
+      "comment_whitespace_normalised_body",
+      "observation_stripped_vessel_canonicalised_action_protocol"
+    ],
+    "exhaustive_baseline_deduplication": false,
+    "original_147_note": "Original catalogue reviewed as source context through web excerpts; no complete local automated comparison or semantic-novelty certification."
+  },
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "medium",
+    "runtime_verified": false
+  },
+  "limitations": [
+    "Pore area, size distributions and adsorption are not captured by nominal spherical geometry."
+  ],
+  "safety_context": "Simulation-only script. Not a wet-lab procedure, school risk assessment or permission to perform the chemistry.",
+  "evidence": {
+    "source_ids": [
+      "grammar",
+      "registry",
+      "baseline",
+      "previous-batch",
+      "kinetics"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/B2-KI-003.lab",
+    "script_sha256": "5ac1eccd4fd31ab27d92a228c2ea707c7913bb2b273aaafb47d6bda9ec68a468"
+  },
+  "importance_rationale": "Upper-secondary quantitative reasoning or multistep experimental interpretation.",
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 4,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "H2O2",
+      "name": "Hydrogen peroxide",
+      "formula": "H2O2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 5,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "MnO2",
+      "name": "Manganese dioxide",
+      "formula": "MnO2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 6,
+      "amount": 0.001,
+      "unit": "g",
+      "amount_literal": "0.001g",
+      "input_temperature": null,
+      "role": "catalyst_or_catalyst_precursor"
+    },
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 9,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "H2O2",
+      "name": "Hydrogen peroxide",
+      "formula": "H2O2",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 10,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "MnO2",
+      "name": "Manganese dioxide",
+      "formula": "MnO2",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 11,
+      "amount": 0.01,
+      "unit": "g",
+      "amount_literal": "0.01g",
+      "input_temperature": null,
+      "role": "catalyst_or_catalyst_precursor"
+    }
+  ],
+  "observation_plan": [
+    {
+      "step": 12,
+      "script_line": 14,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 14,
+      "script_line": 16,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    }
+  ],
+  "operations": [
+    {
+      "step": 1,
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "step": 2,
+      "script_line": 4,
+      "verb": "add",
+      "command": "add v1 water 100mL"
+    },
+    {
+      "step": 3,
+      "script_line": 5,
+      "verb": "add",
+      "command": "add v1 H2O2 0.001mol"
+    },
+    {
+      "step": 4,
+      "script_line": 6,
+      "verb": "add",
+      "command": "add v1 MnO2 0.001g"
+    },
+    {
+      "step": 5,
+      "script_line": 7,
+      "verb": "grind",
+      "command": "grind v1 MnO2 10um"
+    },
+    {
+      "step": 6,
+      "script_line": 8,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "verb": "add",
+      "command": "add v2 water 100mL"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "verb": "add",
+      "command": "add v2 H2O2 0.001mol"
+    },
+    {
+      "step": 9,
+      "script_line": 11,
+      "verb": "add",
+      "command": "add v2 MnO2 0.01g"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "verb": "grind",
+      "command": "grind v2 MnO2 100um"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "verb": "wait",
+      "command": "wait 10s"
+    },
+    {
+      "step": 12,
+      "script_line": 14,
+      "verb": "inspect",
+      "command": "inspect"
+    },
+    {
+      "step": 13,
+      "script_line": 15,
+      "verb": "wait",
+      "command": "wait 20s"
+    },
+    {
+      "step": 14,
+      "script_line": 16,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "initial_conditions": {
+    "initial_vessel": "v1",
+    "new_command_creates_next_vessel": true,
+    "fresh_process_required": true,
+    "temperature_when_not_explicit": "Engine default; measure rather than presume an exact starting temperature.",
+    "environment_note": "Open-bench boundary unless changed by commands. Sealing can include pre-existing headspace gas; explicit gas additions are not always the total gas budget.",
+    "global_wait_note": "wait advances the bench, not only the most recently used vessel; compare arms with their complete time histories."
+  },
+  "static_validation": {
+    "status": "pass",
+    "errors": [],
+    "command_count": 14,
+    "vessel_count": 2,
+    "reagent_keys": [
+      "H2O2",
+      "MnO2",
+      "water"
+    ],
+    "commands": {
+      "register": 1,
+      "add": 6,
+      "grind": 2,
+      "new": 1,
+      "wait": 2,
+      "inspect": 2
+    }
+  }
+}
