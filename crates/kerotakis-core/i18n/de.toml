@@ -693,6 +693,7 @@ hydroxylapatite = "Hydroxylapatit"
 "heat-of-mixing.lv2-absorbed" = "{vessel}: Mischungswärme {joules} J aufgenommen"
 
 # Batch 2: the multi-line sites, converted on spans.
+"voltmeter-read.lv1" = "Voltmeter: Plusleitung {positive}, Minusleitung {negative}; E(Plus) − E(Minus) = {volts} V im Leerlauf. Ideale Salzbrücke; kein Diffusionspotential. Es fließt kein Strom."
 "cell-voltage.lv1" = "Das Voltmeter zwischen {anode} und {cathode} zeigt {volts} V — du hast eine Batterie gebaut! Die Elektronen wollen von {anode} nach {cathode} fließen. (Noch nutzt nichts den Strom, also ändert sich in den Bechergläsern nichts.)"
 "transition-point-read.lv1" = "Die Probe aus {vessel} {outcome} bei {value} °C. Jeder reine Stoff hat seinen eigenen, stets gleichen Übergangspunkt — so kann man ein weißes Pulver vom anderen unterscheiden."
 "dehydrated.lv1" = "Die blauen Kristalle werden weiß, während das Kristallwasser ausgetrieben wird. Das Wasser war nie flüssig — es war im Kristall gebunden und entweicht nun als Dampf."
@@ -1405,6 +1406,8 @@ white = "weiß"
 # decline. That choice lives HERE, in the data, which is the whole point:
 # a translator changes the construction without changing a line of Rust.
 [look]
+prepared-object = "im Becher siehst du {material}"
+prepared-surface-browned = "die Oberfläche von {material} ist zu {percent} % gebräunt"
 indicator-optics-missing-ph = "Die Farbe ist unvollständig: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt."
 # The space between two whole sentences. It looks like typography rather
 # than language right up until the language is one that does not use it —
@@ -1883,6 +1886,7 @@ amylase-starch-state-gelatinised = "gekochte (verkleisterte)"
 amylase-starch-state-retrograded = "gekochte und kalt gelagerte (retrogradierte)"
 solid-phase-reaction = "{name} hat direkt aus dem ungelösten Feststoff in {equation} reagiert: Keine geprüfte Wasserlöslichkeit löst den Stoff vorher auf, deshalb wird dies als Festphasenschritt verbucht, und weder eine Auflösung noch eine Geschwindigkeit wird behauptet"
 dissolves-unspeciated = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
+residual-solid-unspeciated = "Ein Teil von {name} bleibt hier fest: Weitere Auflösung oder Speziation dieses Feststoffs wird von keinem angebundenen Löser berechnet, daher wird kein zusätzlicher Beitrag zum pH-Wert oder zur Ionenstärke behauptet"
 proton-consuming-kinetics = "{reaction}: Protonenverbrauchende Kinetik erfordert ein gekoppeltes Gleichgewicht aus schwacher Säure und Puffer: die gemessene freie Protonenaktivität ist nicht der titrierbare Säurevorrat. Dieser ungekoppelte Geschwindigkeitsschritt wird zurückgehalten, statt den Puffer als festen Säurevorrat zu behandeln"
 template-refused = "die Reaktionsvorlage der Familie {family} ließ sich nicht anwenden: {detail}"
 unregistered-condensed-species = "nicht verzeichnete kondensierte Spezies {key}"

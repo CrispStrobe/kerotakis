@@ -611,6 +611,39 @@ fn describe(
             Slot::term("material", object.material),
         ));
     }
+    // Coherent prepared objects own their ingredients separately from bulk
+    // phases. Name that inventory without inventing a colour or buoyancy.
+    for object in &vessel.material_objects {
+        let recipe = crate::material::lookup_versioned(&object.recipe_id, object.recipe_version);
+        let name = recipe
+            .as_ref()
+            .map_or_else(|| object.material.clone(), |recipe| recipe.name.clone());
+        parts.push(Phrase::new(
+            "look.prepared-object",
+            "there is {material} in the beaker",
+            vec![("material".to_string(), Slot::term("material", name.clone()))],
+        ));
+        if recipe.as_ref().is_some_and(|recipe| {
+            recipe
+                .roles
+                .iter()
+                .any(|role| matches!(role, crate::material::MaterialRole::BrowningSurface))
+        }) {
+            // This is the stored bounded surface response, not an inferred
+            // RGB colour, enzyme mechanism or food-safety assessment.
+            parts.push(Phrase::new(
+                "look.prepared-surface-browned",
+                "the surface of {material} is {percent}% browned",
+                vec![
+                    ("material".to_string(), Slot::term("material", name)),
+                    (
+                        "percent".to_string(),
+                        Slot::number(format!("{:.0}", object.state.browned_fraction * 100.0)),
+                    ),
+                ],
+            ));
+        }
+    }
     // A vessel that is not empty and has nothing to look at.
     //
     // A sealed flask of warm gas is the case: no liquid, no solid, nothing

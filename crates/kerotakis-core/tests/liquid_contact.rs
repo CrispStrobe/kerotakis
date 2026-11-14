@@ -26,13 +26,14 @@ use kerotakis_core::render::{render_events_in, Register};
 use kerotakis_core::solve::{liquid_medium_present, solvent_state, SolventState};
 use kerotakis_core::*;
 
-/// Every sentence the honesty pass's per-solid loop can say. All five are
-/// claims about a solid meeting a liquid, and all five are gated by the
+/// Every sentence the honesty pass's per-solid loop can say. All six are
+/// claims about a solid meeting a liquid, and all six are gated by the
 /// one reading.
-const SAID_OF_A_SOLID_MEETING_A_LIQUID: [&str; 5] = [
+const SAID_OF_A_SOLID_MEETING_A_LIQUID: [&str; 6] = [
     "inert.insoluble-in-water",
     "inert.insoluble-in-water-trace-in-solution",
     "not-modeled.dissolves-unspeciated",
+    "not-modeled.residual-solid-unspeciated",
     "not-modeled.no-dissolution-solver",
     "not-modeled.organic-solid-no-solubility",
 ];

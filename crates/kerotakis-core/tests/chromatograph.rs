@@ -277,3 +277,99 @@ fn ions_and_unknown_neutrals_keep_their_separate_coverage_reports() {
     assert!(outside.iter().any(|s| s.0 == "Cl-"));
     assert!(!outside.iter().any(|s| s.0 == "dodecane"));
 }
+
+#[test]
+fn analytical_base_coordinate_is_not_a_missing_neutral_or_an_injected_ion() {
+    let mut bench = Bench::new();
+    for (key, n, phase) in [
+        ("water", 2.0, Phase::Liquid),
+        ("ethanol", 0.001, Phase::Liquid),
+        (species::BASE_EQUIVALENTS, 0.002, Phase::Aqueous),
+    ] {
+        bench.vessels[0].deposit(SpeciesId::new(key), Moles(n), phase);
+    }
+    let before = bench.vessels[0].contents.clone();
+    let events = bench
+        .step(Operator::Measure {
+            vessel: VesselId(0),
+            instrument: Instrument::Chromatograph,
+        })
+        .unwrap();
+    assert_eq!(bench.vessels[0].contents, before);
+    assert!(!events
+        .iter()
+        .any(|e| matches!(e, Event::NotYetModeled { .. })));
+    let (peaks, outside) = events
+        .iter()
+        .find_map(|e| match e {
+            Event::Chromatographed {
+                peaks,
+                outside_method,
+                ..
+            } => Some((peaks, outside_method)),
+            _ => None,
+        })
+        .expect("ethanol chromatogram");
+    assert_eq!(peaks.len(), 1);
+    assert_eq!(peaks[0].species.0, "ethanol");
+    assert!(outside.is_empty());
+}
+
+#[test]
+fn excluding_a_basis_keeps_real_ion_and_unknown_neutral_refusals() {
+    let mut bench = Bench::new();
+    for (key, n, phase) in [
+        ("water", 2.0, Phase::Liquid),
+        ("ethanol", 0.001, Phase::Liquid),
+        ("dodecane", 0.001, Phase::Liquid),
+        ("Na+", 0.001, Phase::Aqueous),
+        ("CH3COO-", 0.001, Phase::Aqueous),
+        ("H+", 1e-7, Phase::Aqueous),
+        ("OH-", 1e-7, Phase::Aqueous),
+        (species::BASE_EQUIVALENTS, 0.002, Phase::Aqueous),
+    ] {
+        bench.vessels[0].deposit(SpeciesId::new(key), Moles(n), phase);
+    }
+    let before = bench.vessels[0].contents.clone();
+    let events = bench
+        .step(Operator::Measure {
+            vessel: VesselId(0),
+            instrument: Instrument::Chromatograph,
+        })
+        .unwrap();
+    assert_eq!(bench.vessels[0].contents, before);
+    let warnings: Vec<_> = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::NotYetModeled {
+                cause: ops::NotModelledCause::NotParameterised,
+                what,
+                ..
+            } => Some(what),
+            _ => None,
+        })
+        .collect();
+    assert_eq!(warnings.len(), 1);
+    assert!(warnings[0].contains("dodecane"));
+    assert!(!warnings[0].contains(species::BASE_EQUIVALENTS));
+    let (peaks, outside) = events
+        .iter()
+        .find_map(|e| match e {
+            Event::Chromatographed {
+                peaks,
+                outside_method,
+                ..
+            } => Some((peaks, outside_method)),
+            _ => None,
+        })
+        .expect("supported peak and genuine ion boundary");
+    assert_eq!(peaks.len(), 1);
+    assert_eq!(peaks[0].species.0, "ethanol");
+    for key in ["Na+", "CH3COO-", "H+", "OH-"] {
+        assert!(
+            outside.iter().any(|id| id.0 == key),
+            "outside method: {key}"
+        );
+    }
+    assert!(!outside.iter().any(|id| id.0 == species::BASE_EQUIVALENTS));
+}

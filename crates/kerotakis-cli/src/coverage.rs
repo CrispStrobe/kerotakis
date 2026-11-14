@@ -929,6 +929,7 @@ fn execute_prompt(
         matches!(
             event,
             Event::Plated { .. }
+                | Event::VoltmeterRead { .. }
                 | Event::CellVoltage { .. }
                 | Event::AcidMetalCellVoltage { .. }
                 // Electrolytic plating is plating. `mat-064` asks why

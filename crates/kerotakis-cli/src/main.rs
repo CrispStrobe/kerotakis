@@ -2244,6 +2244,7 @@ fn semantic_scalar_events(events: &[Event]) -> Vec<kerotakis_codex::semantic::Sc
         .iter()
         .filter_map(|event| {
             let (kind, fields): (&str, Vec<(&str, f64)>) = match event {
+                Event::VoltmeterRead { volts, .. } => ("voltmeter_read", vec![("volts", *volts)]),
                 Event::CellVoltage {
                     volts,
                     standard_volts,

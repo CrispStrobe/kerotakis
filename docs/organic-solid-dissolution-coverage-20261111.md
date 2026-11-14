@@ -22,7 +22,7 @@ D-(+)-maltose monohydrate in water, mass fraction w = 0.4106 / 0.4424 / 0.4792 a
 hydrate water counted as solvent. Other sugars: glucose, fructose and sucrose already carry a
 registry solubility; no other sugar is a registry solid.
 
-Counts: other-route 2, refused 4, registry-solubility 13, reviewed-row 2.
+Counts: other-route 1, refused 5, registry-solubility 13, reviewed-row 2.
 
 | species | class | dissolves by route | g/100 mL | source |
 |---|---|---|---|---|
@@ -31,7 +31,7 @@ Counts: other-route 2, refused 4, registry-solubility 13, reviewed-row 2.
 | PET | registry-solubility | yes | 0 | registry model_parameters aqueous-solubility-g-per-100-ml |
 | PP | registry-solubility | yes | 0 | registry model_parameters aqueous-solubility-g-per-100-ml |
 | PS | registry-solubility | yes | 0 | registry model_parameters aqueous-solubility-g-per-100-ml |
-| PVA | other-route | no | — | registry dissolves-without-speciation: honesty says not-modeled.dissolves-unspeciated |
+| PVA | refused | no | — | no primary measurement read: not-modeled.organic-solid-no-solubility |
 | ascorbic_acid | reviewed-row | yes | 29.07 at 293 K | Shalmashi & Eliassi, J. Chem. Eng. Data 53(6), 1332-1334 (2008), doi:10.1021/je800056h |
 | cellulose | refused | no | — | no primary measurement read: not-modeled.organic-solid-no-solubility |
 | citric_acid | other-route | no | — | speciated as Citrate by the PHREEQC derived route (kerotakis-phreeqc derived.rs) |

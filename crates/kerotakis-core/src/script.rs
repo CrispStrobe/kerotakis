@@ -174,6 +174,8 @@ pub const GRAMMAR_WORDS: &[&str] = &[
     "below",
     "on",
     "with",
+    "positive",
+    "negative",
     "@",
 ];
 
@@ -1135,7 +1137,8 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         "new" | "ignite" | "open" | "look" | "observe" | "smell" | "waft" | "particles"
         | "zoom" | "chromatograph" => Some(2),
         "wait" | "react" | "stock" | "cool" | "filter" | "magnet" | "evaporate" | "drain"
-        | "measure" | "test" | "cell" | "voltmeter" | "dilute" => Some(3),
+        | "measure" | "test" | "cell" | "dilute" => Some(3),
+        "voltmeter" => Some(5),
         "decant" | "electrolyse" | "electrolyze" | "grind" | "irradiate" => Some(4),
         "centrifuge" => Some(6),
         _ => None,
@@ -1703,6 +1706,15 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 seconds,
             }
         }
+        "voltmeter" if words.len() != 3 => {
+            if words.len() != 5 || words[1] != "positive" || words[3] != "negative" {
+                return Err(usage("voltmeter positive <vessel> negative <vessel>"));
+            }
+            Operator::Voltmeter {
+                positive: parse_vessel(words[2])?,
+                negative: parse_vessel(words[4])?,
+            }
+        }
         "cell" | "voltmeter" => {
             if words.len() < 3 {
                 return Err(usage("cell <vessel> <vessel>"));
@@ -2131,6 +2143,7 @@ fn finite_operator_quantities(op: &Operator) -> Result<(), Refusal> {
         | Operator::Drain { .. }
         | Operator::Measure { .. }
         | Operator::Cell { .. }
+        | Operator::Voltmeter { .. }
         | Operator::Smell { .. }
         | Operator::Particles { .. }
         | Operator::TestGas { .. }

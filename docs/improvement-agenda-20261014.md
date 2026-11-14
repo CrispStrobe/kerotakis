@@ -1,6 +1,8 @@
 # Ordered improvement agenda — current checkpoint 2026-11-12
 
-Qualification is **410/468** unique originals (414 entries); 58 originals remain. Production
+**2026-11-14 reviewed delivery follow-through:** [Historical coverage](https://github.com/CrispStrobe/kerotakis/blob/14757d27a/audits/working-experiments-20261114-reviewed-sp012.json) is426/468 originals,42remaining,430catalog entries with all429 predecessor objects exact. [The actual predecessor failures and scoped review](https://github.com/CrispStrobe/kerotakis/blob/14757d27a/audits/pr882-reviewed-followups-20261114/README.md) preserve both platform artifacts and full original expectations. Only six lesson blocks and25 mass lines are updated;107 lesson blocks and every other scene line remain exact. Finite-owned-dose successor controls retain all genuine unsupported-stock/phase and atomic rollback cases and add strict signed-clock/overdraw checks. Runtime chemistry, routing and1e-10component/charge bounds are unchanged. Corrected-head full platform/preflight/fleet and successor-test execution remain required before readiness. Proper selector/floor guards passed on predecessor439 on both platforms, not on PR883; the zero-match filter earns no control credit. Historical qualifications do not depend on this delivery gate.
+
+Qualification is **414/468** unique originals (418 entries); 54 originals remain. Production
 remains `731931f0`. PR881 is ready with auto-merge enabled and queued checks; it has not merged or deployed. Its first failures and current repairs
 are described in [status](STATUS.md), [carbonate acceptance](carbonate-boundaries-20261112.md)
 and [fresh-agent scopes](next-agent-handoff.md).

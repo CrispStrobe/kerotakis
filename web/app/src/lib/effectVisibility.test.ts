@@ -73,6 +73,7 @@ const DRAWN_FROM_THE_SCENE: Readonly<Record<string, string>> = {
 
 /** A claim in words. The value is the reason there is no picture. */
 const REPORTED_NOT_DRAWN: Readonly<Record<string, string>> = {
+  voltmeter_read: "ordered electrical readout; the admitted cell event supplies the rig",
   acid_metal_cell_voltage: "the cell rig is a BenchEffect operation; the volts are a readout",
   collision_withstood: "a claim that nothing broke — there is no picture of an absence",
   inert: "the claim IS that nothing happened",

@@ -516,30 +516,31 @@ pub fn unresolved_portion_is_liquid(portion: &crate::vessel::UnresolvedMaterialP
     })
 }
 
-/// Mass represented by conserved unresolved homogeneous-liquid portions
-/// whenever their recipe basis defines an honest conversion. Other physical
-/// forms retain their existing accounting boundary; a mole-fraction aggregate
-/// still has no molecular mass.
+/// Mass represented by conserved unresolved portions. A mass-fraction
+/// expansion already stores grams, regardless of physical form. The existing
+/// density conversion remains restricted to homogeneous liquids; an aggregate
+/// mole-fraction portion still has no molecular mass.
 pub fn unresolved_material_mass_g(vessel: &crate::Vessel) -> f64 {
     vessel
         .unresolved_materials
         .iter()
         .filter_map(|portion| {
             let recipe = lookup_versioned(&portion.recipe_id, portion.recipe_version)?;
-            if !matches!(
-                recipe.physical_form,
-                kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid
-            ) {
-                return None;
-            }
             Some(match portion.basis {
                 MaterialBasis::MassFraction => portion.amount,
-                MaterialBasis::VolumeFraction => recipe
-                    .bulk_density
-                    .as_ref()
-                    .map(|density| portion.amount * density.value)
-                    .unwrap_or(0.0),
-                MaterialBasis::MoleFraction => 0.0,
+                MaterialBasis::VolumeFraction
+                    if matches!(
+                        recipe.physical_form,
+                        MaterialPhysicalForm::HomogeneousLiquid
+                    ) =>
+                {
+                    recipe
+                        .bulk_density
+                        .as_ref()
+                        .map(|density| portion.amount * density.value)
+                        .unwrap_or(0.0)
+                }
+                MaterialBasis::VolumeFraction | MaterialBasis::MoleFraction => 0.0,
             })
         })
         .sum()
