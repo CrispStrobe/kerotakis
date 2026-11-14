@@ -62,6 +62,14 @@ polyethylene melt as partial evidence with combustion unsupported. A combined wo
 curiosity run is in progress; it predates the exporter formatting correction. PR881 is still draft
 and no successor has been pushed or released.
 
+The hosted follow-up on the corrected candidate passes chalk and phase controls, registry and
+aqueous coverage, exporter, locale, safety, curiosity-unit, corpus perturbation and frontend
+checks. The earlier 702-case chemistry fleet passed on the copper runtime. Chalk's independent
+per-pass accounting closes within 1% using the actual CO2 exit temperatures; the previous test
+priced the exhaust at the later final temperature. The crystallisation report now distinguishes
+a database phase from one excluded by aqueous admission. Complete PR checks and delivery remain
+pending; no new production release or original qualification is claimed.
+
 Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.

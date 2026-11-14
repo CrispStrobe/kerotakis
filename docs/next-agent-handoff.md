@@ -56,8 +56,16 @@ including the copper energy and element balances. Its full curiosity run reporte
 failures. A registry-export byte comparison found one differently formatted coefficient, corrected
 locally; rerun the exporter test. The coverage successor retains the polyethylene combustion
 limitation in JSON and updates reviewed baseline records; its combined workspace and curiosity
-validation is running but predates that formatting correction. Review all results, fix failures,
-rerun the affected checks and the full fleet on the final candidate before pushing PR881.
+validation predates that formatting correction. Review its failures alongside the later focused
+results and rerun any checks affected by further source changes before delivering PR881.
+
+The later hosted focused run passes the corrected chalk and phase controls, regenerated registry
+and crystallisation coverage, exporter, locales, safety, curiosity units, corpus perturbation and
+frontend checks. The preceding 702-case fleet passed on the copper runtime. The full-workspace
+run on the earlier candidate exposed these follow-ups and is not itself a pass. Refresh main,
+review and push the coherent PR881 batch, follow required CI failures normally, then merge and
+perform the requested deployment and TestFlight submissions. Record actual external processing
+states; do not count unsupported chemistry as a scientific qualification.
 
 Every lane below is family-wide: one generic mechanism, a coverage table (value + primary citation, or
 no-data with the attempts listed), typed EN/DE/FR refusals and tests. Sources: primary, or "as quoted by"
