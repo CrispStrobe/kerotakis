@@ -53,6 +53,15 @@ Review each remaining classification change against its actual routes and observ
 including the polyethylene and silica cases, before updating any baseline. The candidate has not
 been pushed, merged or deployed.
 
+The copper follow-up adds sourced cuprous oxide to the thermal product pool. Hosted CEA,
+phase, core and aqueous controls pass, including the original copper charge with conserved
+elements and a closed energy balance; the full curiosity run has no solver failures on that
+candidate. Its registry-export check found a coefficient formatting difference, since corrected
+locally. The revised coverage report retains actual modelling limitations and identifies the
+polyethylene melt as partial evidence with combustion unsupported. A combined workspace and
+curiosity run is in progress; it predates the exporter formatting correction. PR881 is still draft
+and no successor has been pushed or released.
+
 Round 4:
 - S(IV) couples to iodine, peroxide and the other sourced oxidants (Yiin & Margerum; Hoffmann & Calvert;
   HOBr/OBr-; MnO4-/Cr(VI)/Br2 acid-limited); KI-011.
