@@ -2,15 +2,16 @@
 
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
 
+## Original-experiment follow-ups (2026-11-14)
+
+The residual-solid notice successor has focused hosted tests and an unchanged PO-008 replay; integrate after the current PR without claiming polymer dissolution is modelled. Review and run applicable broader validation. [Original holds](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/pr881-original-holds-20261114/README.md) scopes KNO₃ crystallisation, signed cell-lead readings, prepared-material rendering, brine density, gypsum, and iodine-clock follow-ups. Fix each model or interface at its source and rerun unchanged originals; preserve the centrifuge-balance and finite-feed guards.
+
 ## 0. State and open tasks after round 4 (2026-11-12)
 
-State: production `731931f0` until round 4 deploys; qualification **402/468** (see [STATUS](STATUS.md)).
-PR881 contains rounds 4 and 5 and remains draft pending source review and acceptance. First repair
-its actual translation, prose, instantaneous gas-transfer and scientific-oracle failures. Preserve
-unchanged forecasts and raw failures. Use bounded Kaggle CPU validation for heavy work while the
+State: production `731931f0` until round 4 deploys; qualification **409/468**, with 59 originals remaining (see [STATUS](STATUS.md)).
+PR881 contains rounds 4 and 5, is ready with auto-merge enabled, and awaits required queued checks. Diagnose and repair any failures on the actual head; preserve unchanged forecasts and raw failures. Use bounded Kaggle CPU validation for heavy work while the
 Actions queue is congested; do not add `ci:full`, dispatch full workflows or create placeholder PRs.
-Fold related repairs into this PR, minimize pushes and cancel superseded queued runs. Branch
-protection remains intact. After exact-head acceptance, merge normally and deploy once. Then run
+Keep independently developed successor fixes separate while checks run, minimize pushes, and preserve branch protection. The owner handles merges; deploy after integration. Then run
 only affected originals (KI-011, SP-011, EN-001, PO-009, TH-004, AB-035, GS-013, plus demonstrated
 changed observables) once on that release, independently review and append only earned entries.
 
