@@ -1,0 +1,391 @@
+diff --git a/crates/kerotakis-core/tests/golden/lessons.json b/crates/kerotakis-core/tests/golden/lessons.json
+index cf7d4c81b..2aa5b12f7 100644
+--- a/crates/kerotakis-core/tests/golden/lessons.json
++++ b/crates/kerotakis-core/tests/golden/lessons.json
+@@ -43,20 +43,17 @@
+     ]
+   },
+   "apple-browning": {
+-    "event_count": 12,
++    "event_count": 9,
+     "events_sample": [
+       "v1: +20.000 g freshly cut apple (6 known ingredient(s))",
+       "v1: freshly cut apple surface is 63% browned",
+-      "v1: freshly cut apple surface is 86% browned",
+-      "v1: There is nothing to see in the beaker.",
++      "v1: There is freshly cut apple in the beaker, the surface of freshly cut apple is 63% browned.",
+       "v2: new vessel",
+       "v2: +0.0100 mol ascorbic acid (vitamin C)",
+       "v2: +20.000 g freshly cut apple (6 known ingredient(s))",
+-      "v1: freshly cut apple surface is 95% browned",
+-      "v1: freshly cut apple surface is 98% browned",
++      "v1: freshly cut apple surface is 86% browned",
+       "v2: freshly cut apple surface is 2% browned",
+-      "v2: freshly cut apple surface is 3% browned",
+-      "v2: There is white ascorbic acid (vitamin C) in the beaker."
++      "v2: There is white ascorbic acid (vitamin C) in the beaker, there is freshly cut apple in the beaker, the surface of freshly cut apple is 2% browned."
+     ],
+     "lesson": "apple-browning.lab",
+     "vessels": [
+@@ -340,7 +337,7 @@
+       "v1: +5.5343 mol water",
+       "v1: +0.1242 mol sodium tetraborate (borax)",
+       "v1: 0.0202 mol sodium tetraborate (borax) dissolved",
+-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v1: not yet modelled — Some sodium tetraborate (borax) remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
+       "v1: 25.0 °C → 81.8 °C",
+       "v1: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
+       "v1: 0.0878 mol sodium tetraborate (borax) dissolved",
+@@ -351,7 +348,7 @@
+       "v2: +5.5343 mol water",
+       "v2: +0.7304 mol sucrose",
+       "v2: 0.6367 mol sucrose dissolved",
+-      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v2: not yet modelled — Some sucrose remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
+       "v2: 25.0 °C → 57.4 °C",
+       "v2: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
+       "v2: 0.0937 mol sucrose dissolved",
+@@ -5624,33 +5621,30 @@
+     ]
+   },
+   "naked-egg-osmosis": {
+-    "event_count": 18,
++    "event_count": 15,
+     "events_sample": [
+       "v1: +8.3264 mol water",
+       "v1: +50.000 g naked egg membrane surrogate (2 known ingredient(s))",
+       "v1: naked egg membrane surrogate exchanged 0.005981 mol water (+0.108 g)",
+-      "v1: naked egg membrane surrogate exchanged 0.005995 mol water (+0.108 g)",
+-      "v1: The liquid is colourless and clear.",
++      "v1: The liquid is colourless and clear, there is naked egg membrane surrogate in the beaker.",
+       "v2: new vessel",
+       "v2: +5.5509 mol water",
+       "v2: +1.0000 mol sucrose",
+       "v2: 0.6386 mol sucrose dissolved",
+-      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v2: not yet modelled — Some sucrose remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
+       "v2: +50.000 g naked egg membrane surrogate (2 known ingredient(s))",
+-      "v1: naked egg membrane surrogate exchanged 0.006010 mol water (+0.108 g)",
+-      "v1: naked egg membrane surrogate exchanged 0.006025 mol water (+0.109 g)",
++      "v1: naked egg membrane surrogate exchanged 0.005995 mol water (+0.108 g)",
+       "v2: 100% of the suspended particles settle in 3600 s",
+       "v2: naked egg membrane surrogate exchanged -0.039870 mol water (-0.718 g)",
+-      "v2: naked egg membrane surrogate exchanged -0.039220 mol water (-0.707 g)",
+-      "v2: 9.10 mmol sucrose dissolved",
+-      "v2: The liquid is colourless and clear, there is white sucrose at the bottom."
++      "v2: 4.59 mmol sucrose dissolved",
++      "v2: The liquid is colourless and clear, there is white sucrose at the bottom, there is naked egg membrane surrogate in the beaker."
+     ],
+     "lesson": "naked-egg-osmosis.lab",
+     "vessels": [
+       {
+         "contents": [
+           {
+-            "moles": 8.30238441,
++            "moles": 8.3144189,
+             "phase": "Liquid",
+             "species": "water"
+           }
+@@ -5662,17 +5656,17 @@
+       {
+         "contents": [
+           {
+-            "moles": 0.64770691,
++            "moles": 0.64319489,
+             "phase": "Aqueous",
+             "species": "sucrose"
+           },
+           {
+-            "moles": 0.35229309,
++            "moles": 0.35680511,
+             "phase": "Solid",
+             "species": "sucrose"
+           },
+           {
+-            "moles": 5.63001976,
++            "moles": 5.5908002,
+             "phase": "Liquid",
+             "species": "water"
+           }
+@@ -6532,7 +6526,7 @@
+       "v1: +2.0000 mol water",
+       "v1: +1.00 mmol iodine",
+       "v1: 48.3 µmol iodine dissolved",
+-      "v1: not yet modelled — iodine dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v1: not yet modelled — Some iodine remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
+       "v2: new vessel",
+       "v1 -> v2: 0.5000 mol hexane, divided across 4 ideal extraction stage(s) — iodine: 100.0% extracted (97.9% in one equal-total-solvent stage), K=26.000"
+     ],
+@@ -6580,7 +6574,7 @@
+       "v1: +5.5343 mol water",
+       "v1: +300.000 g granulated table sugar (1 known ingredient(s))",
+       "v1: 0.6367 mol sucrose dissolved",
+-      "v1: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v1: not yet modelled — Some sucrose remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
+       "v2: new vessel",
+       "v2: 25.0 °C → 95.0 °C",
+       "v2: +5.5343 mol water",
+@@ -6593,7 +6587,7 @@
+       "v2: The liquid is colourless and clear.",
+       "v2: +1.000 g granulated table sugar (1 known ingredient(s))",
+       "v2: 0.2494 mol sucrose precipitated ↓",
+-      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v2: not yet modelled — Some sucrose remains solid here: further dissolution or speciation of this solid is not resolved by a wired engine, so no additional contribution to pH or ionic strength is claimed",
+       "v2: The liquid is white and so cloudy you cannot see through it."
+     ],
+     "lesson": "rock-candy.lab",
+@@ -7241,14 +7235,14 @@
+     "events_sample": [
+       "v1: +5.5343 mol water",
+       "v1: +52.500 g PVA craft glue (2 known ingredient(s))",
+-      "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v1: not yet modelled — poly(vinyl alcohol) stays an undissolved solid: the dissolution route has no reviewed aqueous solubility for it, so none of it is counted as dissolved",
+       "v1: +0.050 g borax powder (1 known ingredient(s))",
+       "v1: 131 µmol sodium tetraborate (borax) dissolved",
+       "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+       "v2: new vessel",
+       "v2: +5.5343 mol water",
+       "v2: +52.500 g PVA craft glue (2 known ingredient(s))",
+-      "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v2: not yet modelled — poly(vinyl alcohol) stays an undissolved solid: the dissolution route has no reviewed aqueous solubility for it, so none of it is counted as dissolved",
+       "v2: +0.250 g borax powder (1 known ingredient(s))",
+       "v2: 655 µmol sodium tetraborate (borax) dissolved",
+       "v2: 15% of the poly(vinyl alcohol) is bound into a gel by 0.00065 mol sodium tetraborate (borax) across 11.55 g of polymer",
+@@ -7256,7 +7250,7 @@
+       "v3: new vessel",
+       "v3: +5.5343 mol water",
+       "v3: +52.500 g PVA craft glue (2 known ingredient(s))",
+-      "v3: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
++      "v3: not yet modelled — poly(vinyl alcohol) stays an undissolved solid: the dissolution route has no reviewed aqueous solubility for it, so none of it is counted as dissolved",
+       "v3: +2.000 g borax powder (1 known ingredient(s))",
+       "v3: 5.24 mmol sodium tetraborate (borax) dissolved"
+     ],
+diff --git a/crates/kerotakis-core/tests/golden/scene-five.json b/crates/kerotakis-core/tests/golden/scene-five.json
+index 1edaa6fb1..13abe851f 100644
+--- a/crates/kerotakis-core/tests/golden/scene-five.json
++++ b/crates/kerotakis-core/tests/golden/scene-five.json
+@@ -23314,7 +23314,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -23412,7 +23412,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -23510,7 +23510,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -23629,7 +23629,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -23796,7 +23796,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -23980,7 +23980,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -24071,7 +24071,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -24194,7 +24194,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -24285,7 +24285,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -24408,7 +24408,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -24499,7 +24499,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -24643,7 +24643,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -24734,7 +24734,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -24926,7 +24926,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -25017,7 +25017,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -25226,7 +25226,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -25317,7 +25317,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -25433,7 +25433,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 153.254,
++            "mass_g": 154.2,
+             "melting_point_k": 269.601343,
+             "notes": [
+               {
+@@ -25556,7 +25556,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.22635,
++            "mass_g": 152.25,
+             "melting_point_k": 269.667878,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -25647,7 +25647,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 152.33175,
++            "mass_g": 152.45,
+             "melting_point_k": 269.661052,
+             "notes": [
+               {
+@@ -25763,7 +25763,7 @@
+               ],
+               "volume_l": 0.140914
+             },
+-            "mass_g": 153.254,
++            "mass_g": 154.2,
+             "melting_point_k": 269.601343,
+             "notes": [
+               {
+@@ -25972,7 +25972,7 @@
+               ],
+               "volume_l": 0.1
+             },
+-            "mass_g": 104.45,
++            "mass_g": 104.7,
+             "melting_point_k": 273.15,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -26070,7 +26070,7 @@
+               ],
+               "volume_l": 0.1
+             },
+-            "mass_g": 104.45,
++            "mass_g": 104.7,
+             "melting_point_k": 273.15,
+             "pressure_pa": 101325.0,
+             "solids": [
+@@ -26162,7 +26162,7 @@
+             "id": 0,
+             "label": "beaker",
+             "liquid": null,
+-            "mass_g": 4.7488,
++            "mass_g": 4.9988,
+             "pressure_pa": 101325.0,
+             "solids": [
+               {
+@@ -26320,7 +26320,7 @@
+             "id": 0,
+             "label": "beaker",
+             "liquid": null,
+-            "mass_g": 4.7488,
++            "mass_g": 4.9988,
+             "pressure_pa": 101325.0,
+             "solids": [
+               {

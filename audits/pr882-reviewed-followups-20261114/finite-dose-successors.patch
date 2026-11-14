@@ -1,0 +1,168 @@
+diff --git a/crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs b/crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs
+index aaf4db667..2ad8744cb 100644
+--- a/crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs
++++ b/crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs
+@@ -213,7 +213,7 @@ fn bio_074_cabbage_ten_grams_salt_retains_carbohydrates() {
+ }
+ 
+ #[test]
+-fn clock_owner_refuses_unmapped_ion_acid_unknown_stock_and_finite_gas_dose_atomically() {
++fn clock_owner_refuses_unmapped_ion_acid_and_unknown_stock_atomically() {
+     let mut bench = Bench::new();
+     let mut solver = stack();
+     for command in [
+@@ -232,7 +232,6 @@ fn clock_owner_refuses_unmapped_ion_acid_unknown_stock_and_finite_gas_dose_atomi
+         ("KIO3", Phase::Aqueous),
+         ("malic_acid", Phase::Aqueous),
+         ("unknown_clock_stock", Phase::Solid),
+-        ("CO2", Phase::Gas), // a finite gas Dose is not the room's clock
+     ] {
+         let mut vessel = seed.clone();
+         vessel.deposit(SpeciesId::new(species), Moles(0.001), phase);
+@@ -341,7 +340,7 @@ fn leaf_and_pondweed_exhausted_co2_doses_have_a_single_conserved_clock_owner() {
+ }
+ 
+ #[test]
+-fn plant_clock_still_refuses_remaining_gas_unrepresented_ions_and_unknown_stock_atomically() {
++fn plant_clock_refuses_unrepresented_ions_unknown_stock_and_wrong_pigment_phase_atomically() {
+     let mut bench = Bench::new();
+     let mut solver = stack();
+     for command in ["add v1 leaf 1g", "add v1 water 100mL", "add v1 CO2 0.01mol"] {
+@@ -349,7 +348,6 @@ fn plant_clock_still_refuses_remaining_gas_unrepresented_ions_and_unknown_stock_
+     }
+     let seed = bench.vessel(VesselId(0)).unwrap().clone();
+     for (key, phase) in [
+-        ("CO2", Phase::Gas),
+         ("KIO3", Phase::Aqueous),
+         ("unknown_clock_stock", Phase::Solid),
+         ("chlorophyll", Phase::Aqueous),
+@@ -369,3 +367,129 @@ fn plant_clock_still_refuses_remaining_gas_unrepresented_ions_and_unknown_stock_
+         );
+     }
+ }
++
++// Successor to the two frozen blanket-Dose refusal cases. The independently
++// certified FE003 route now supports an owned finite gas dose beside a signed
++// clock. Input gas is not proof of an unowned or surviving post-solve parcel.
++// Unknown stock, an unsupported phase and overdraw must still refuse atomically.
++fn opaque_clock_seed(plant: bool) -> Vessel {
++    let mut bench = Bench::new();
++    let mut solver = stack();
++    let commands: &[&str] = if plant {
++        &["add v1 leaf 1g", "add v1 water 100mL", "add v1 CO2 0.01mol"]
++    } else {
++        &[
++            "add v1 protein 1g",
++            "add v1 water 100mL",
++            "add v1 NaOH 0.01mol",
++            "add v1 pepsin 0.001mol",
++        ]
++    };
++    for command in commands {
++        step(&mut bench, &mut solver, command);
++    }
++    bench.vessel(VesselId(0)).unwrap().clone()
++}
++
++#[test]
++fn finite_owned_bio_gas_and_each_clock_sign_have_one_certified_boundary() {
++    for plant in [false, true] {
++        for sign in [-1.0, 1.0] {
++            let mut vessel = opaque_clock_seed(plant);
++            vessel.deposit(SpeciesId::new("CO2"), Moles(0.001), Phase::Gas);
++            let clock = sign * 2.0 * CO2_TRANSFER_FLOOR_MOL;
++            vessel.pending_co2_transfer_mol = clock;
++            let before = vessel.clone();
++            let mut native = PhreeqcEquilibrator::new().expect("native adapter");
++            let events = native
++                .equilibrate(&mut vessel)
++                .expect("owned dose and clock must close");
++            assert_co2_boundary(&before, &vessel, &events, clock > 0.0);
++            assert_eq!(
++                vessel
++                    .contents
++                    .iter()
++                    .filter(|p| p.species.0 == "CO2" && p.phase == Phase::Gas)
++                    .map(|p| p.moles.0)
++                    .sum::<f64>(),
++                0.0
++            );
++            let clock_events = events
++                .iter()
++                .filter(|event| match event {
++                    Event::GasAbsorbed { species, moles, .. } if clock > 0.0 => {
++                        species.0 == "CO2" && moles.0.to_bits() == clock.to_bits()
++                    }
++                    Event::GasEvolved { species, moles, .. } if clock < 0.0 => {
++                        species.0 == "CO2" && moles.0.to_bits() == (-clock).to_bits()
++                    }
++                    _ => false,
++                })
++                .count();
++            assert_eq!(
++                clock_events, 1,
++                "the signed parcel must be emitted exactly once"
++            );
++            let after_first = vessel.clone();
++            native.equilibrate(&mut vessel).expect("zero-time reentry");
++            assert_eq!(vessel.pending_co2_transfer_mol, 0.0);
++            assert_eq!(
++                after_first.unresolved_materials,
++                vessel.unresolved_materials
++            );
++            assert_eq!(
++                immutable_spectators(&after_first),
++                immutable_spectators(&vessel)
++            );
++            let a = known_ledger(&after_first);
++            let b = known_ledger(&vessel);
++            for element in a.elements.keys().chain(b.elements.keys()) {
++                assert!(
++                    (a.elements.get(element).copied().unwrap_or(0.0)
++                        - b.elements.get(element).copied().unwrap_or(0.0))
++                    .abs()
++                        <= 1e-10,
++                    "{element}: zero-time replay must not spend either parcel again"
++                );
++            }
++            assert!((a.charge - b.charge).abs() <= 1e-10);
++        }
++    }
++}
++
++#[test]
++fn finite_bio_dose_cannot_hide_unknown_stock_wrong_phase_or_clock_overdraw() {
++    for plant in [false, true] {
++        let seed = opaque_clock_seed(plant);
++        for invalid in 0..3 {
++            let mut vessel = seed.clone();
++            vessel.deposit(
++                SpeciesId::new("CO2"),
++                Moles(0.001),
++                if invalid == 1 {
++                    Phase::Liquid
++                } else {
++                    Phase::Gas
++                },
++            );
++            vessel.pending_co2_transfer_mol = if invalid == 2 {
++                -1.0
++            } else {
++                2.0 * CO2_TRANSFER_FLOOR_MOL
++            };
++            if invalid == 0 {
++                vessel.deposit(
++                    SpeciesId::new("unknown_clock_stock"),
++                    Moles(0.001),
++                    Phase::Solid,
++                );
++            }
++            let snapshot = serde_json::to_value(&vessel).unwrap();
++            PhreeqcEquilibrator::new()
++                .expect("native adapter")
++                .equilibrate(&mut vessel)
++                .expect_err("finite dose cannot certify an unsupported owner or overdraw");
++            assert_eq!(serde_json::to_value(&vessel).unwrap(), snapshot, "plant={plant}, invalid={invalid}: refusal must retain complete stock and pending parcel");
++        }
++    }
++}

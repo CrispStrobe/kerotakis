@@ -1,0 +1,120 @@
+{
+  "met": 2,
+  "total": 2,
+  "criteria": {
+    "SP-012-C1": true,
+    "SP-012-C2": true
+  },
+  "solver_failures": 0,
+  "known_atom_charge_checks": [
+    {
+      "step": 0,
+      "residual_mol_eq": {
+        "C": "0",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 1,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 2,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 3,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 4,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 5,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    },
+    {
+      "step": 6,
+      "residual_mol_eq": {
+        "C": "0.000",
+        "H": "0E-15",
+        "O": "0E-15",
+        "charge": "0E-15"
+      }
+    }
+  ],
+  "whole_bench_before_measure_after_exact": true,
+  "dissolved_glucose_mol": 0.001,
+  "explicit_model_gap": "not-modeled.no-group-decomposition",
+  "unsupported_species": [
+    "glucose"
+  ],
+  "outside_method": [],
+  "supported_peaks": [
+    {
+      "partition_k": 0.27511100718517506,
+      "relative_area": 1.0,
+      "retention_time_s": 68.25333021555525,
+      "rf": 0.21575455441521627,
+      "species": "ethanol",
+      "width_s": 2.73013320862221
+    },
+    {
+      "partition_k": 28.084716713372202,
+      "relative_area": 1.0,
+      "retention_time_s": 902.5415014011661,
+      "rf": 0.965617681277252,
+      "species": "ethyl_acetate",
+      "width_s": 36.10166005604665
+    }
+  ],
+  "column_algebra_checks": [
+    {
+      "species": "ethanol",
+      "retention_residual_s": 0.0,
+      "width_residual_s": 0.0,
+      "rf_residual": 0.0
+    },
+    {
+      "species": "ethyl_acetate",
+      "retention_residual_s": 0.0,
+      "width_residual_s": 0.0,
+      "rf_residual": 0.0
+    }
+  ],
+  "relative_area_sum": 2,
+  "known_solute_masses_g": {
+    "ethanol": "0.046069",
+    "ethyl_acetate": "0.088106",
+    "glucose": "0.180156"
+  },
+  "scope": "Original supported-peak identification, explicit missing-parameter distinction and non-consuming measurement comparison. No glucose retention/peak, complete sample coverage, empirical retention/detector response or calibrated mass-fraction prediction is qualified. Areas are scaled to the largest supported molar amount, not to total sample mass. Contents are counted once; lots and mirrored solution species are not extra stock. Historical executable checksum remains absent."
+}

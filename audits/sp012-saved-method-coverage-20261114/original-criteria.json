@@ -1,0 +1,209 @@
+{
+  "id": "new120:sp-012",
+  "group": "separation",
+  "title": "Chromatography distinguishes dissolved neutral solutes without consuming the sample",
+  "title_de": "Chromatographie gel\u00f6ster neutraler Stoffe ohne Probenverbrauch",
+  "educational_level": "Sekundarstufe II / university foundation",
+  "priority_tier": 2,
+  "experiment_kind": "measurement",
+  "tags": [],
+  "script": "# SP-012: Chromatography distinguishes dissolved neutral solutes without consuming the sample\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 ethanol 0.001mol\nadd v1 ethyl_acetate 0.001mol\nadd v1 glucose 0.001mol\ninspect v1\nmeasure v1 chromatograph\ninspect v1\n",
+  "script_sha256": "3e410d636ad2a6b264a2db66f378935d9700aff474ef6bc6e338279974c45a8e",
+  "expected_result": "The supported chromatography model can report differing retention behaviour for neutral solutes while leaving the vessel\u2019s macroscopic inventory unchanged.",
+  "expected_processes": [],
+  "acceptance_checks": [
+    {
+      "id": "SP-012-C1",
+      "criterion": "Require identified supported peaks and distinguish absent model parameters from absence of a compound.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "SP-012-C2",
+      "criterion": "Before/after inventories are unchanged by the analytical measurement; reported relative peak area is not automatically a calibrated mass fraction.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "novelty": {
+    "basis": "New design or substantive controlled extension relative to the supplied catalogue; not a claim of a novel discovery.",
+    "distinction": "Introduces chromatographic analysis of a three-solute mixture, not physical removal of material.",
+    "exhaustive_baseline_deduplication": false
+  },
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "high",
+    "runtime_verified": false
+  },
+  "limitations": [
+    "Inspect all source and receiver inventories. Transfer commands are idealised operations, not a prediction of real apparatus recovery or analytical uncertainty."
+  ],
+  "safety_context": "Simulation-only script. Not a wet-lab procedure or permission to perform the chemistry in a classroom.",
+  "evidence": {
+    "source_ids": [
+      "grammar",
+      "registry",
+      "readme"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/SP-012.lab",
+    "script_sha256": "3e410d636ad2a6b264a2db66f378935d9700aff474ef6bc6e338279974c45a8e"
+  },
+  "script_body_sha256": "0bda0faba42cbb3134dd4d5639d82c72b6c5a066733345fd75aecbcdb7234dfe",
+  "rank": 107,
+  "importance_rationale": "Upper-secondary depth, a substantive controlled extension, or a multi-step workflow.",
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 4,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "ethanol",
+      "name": "Ethanol",
+      "formula": "C2H6O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 5,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "ethyl_acetate",
+      "name": "Ethyl acetate",
+      "formula": "C4H8O2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 6,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "glucose",
+      "name": "D-Glucose",
+      "formula": "C6H12O6",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 0.001,
+      "unit": "mol",
+      "amount_literal": "0.001mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    }
+  ],
+  "observation_plan": [
+    {
+      "step": 6,
+      "script_line": 8,
+      "command": "inspect v1",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "command": "measure v1 chromatograph",
+      "type": "chromatograph"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "command": "inspect v1",
+      "type": "inventory_snapshot"
+    }
+  ],
+  "operations": [
+    {
+      "step": 1,
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "step": 2,
+      "script_line": 4,
+      "verb": "add",
+      "command": "add v1 water 100mL"
+    },
+    {
+      "step": 3,
+      "script_line": 5,
+      "verb": "add",
+      "command": "add v1 ethanol 0.001mol"
+    },
+    {
+      "step": 4,
+      "script_line": 6,
+      "verb": "add",
+      "command": "add v1 ethyl_acetate 0.001mol"
+    },
+    {
+      "step": 5,
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v1 glucose 0.001mol"
+    },
+    {
+      "step": 6,
+      "script_line": 8,
+      "verb": "inspect",
+      "command": "inspect v1"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "verb": "measure",
+      "command": "measure v1 chromatograph"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "verb": "inspect",
+      "command": "inspect v1"
+    }
+  ],
+  "initial_conditions": {
+    "initial_vessel": "v1",
+    "new_command_creates_next_vessel": true,
+    "fresh_process_required": true,
+    "temperature_when_not_explicit": "Engine default; read the first observation.",
+    "environment_note": "Open-bench boundary unless changed by commands; released gases may leave the retained inventory."
+  },
+  "static_validation": {
+    "status": "pass",
+    "errors": [],
+    "command_count": 8,
+    "vessel_count": 1,
+    "reagent_keys": [
+      "ethanol",
+      "ethyl_acetate",
+      "glucose",
+      "water"
+    ],
+    "commands": {
+      "register": 1,
+      "add": 4,
+      "inspect": 2,
+      "measure": 1
+    }
+  }
+}

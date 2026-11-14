@@ -1,0 +1,18 @@
+[
+  {
+    "id": 14126080101,
+    "name": "snapshot-differences-Linux-0a7391f145ab6d7ca2c4812974570768df589bb7",
+    "digest": "sha256:b7e3401243f00882063e7d490b7ea526d80ccd32cb8547ddad850111cd710f82",
+    "files": [
+      "kerotakis-core/tests/golden/lessons.actual.json"
+    ]
+  },
+  {
+    "id": 14125943350,
+    "name": "snapshot-differences-macOS-0a7391f145ab6d7ca2c4812974570768df589bb7",
+    "digest": "sha256:56d8d4f62248cc6136ea0fce8dec6afb38766ec6dce76a3179a95355149ae0e3",
+    "files": [
+      "kerotakis-core/tests/golden/lessons.actual.json"
+    ]
+  }
+]

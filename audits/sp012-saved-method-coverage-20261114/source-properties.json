@@ -1,0 +1,53 @@
+[
+  {
+    "species_id": "water",
+    "formula": "H2O",
+    "atoms": {
+      "H": 2,
+      "O": 1
+    },
+    "charge": 0,
+    "molar_mass": 18.015,
+    "density_g_ml": 0.997,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values"
+  },
+  {
+    "species_id": "ethanol",
+    "formula": "C2H5OH",
+    "atoms": {
+      "C": 2,
+      "H": 1,
+      "O": 1
+    },
+    "charge": 0,
+    "molar_mass": 46.069,
+    "density_g_ml": 0.789,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values"
+  },
+  {
+    "species_id": "ethyl_acetate",
+    "formula": "CH3COOC2H5",
+    "atoms": {
+      "C": 2,
+      "H": 5,
+      "O": 1
+    },
+    "charge": 0,
+    "molar_mass": 88.106,
+    "density_g_ml": 0.9003,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.9003 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed."
+  },
+  {
+    "species_id": "glucose",
+    "formula": "C6H12O6",
+    "atoms": {
+      "C": 6,
+      "H": 12,
+      "O": 6
+    },
+    "charge": 0,
+    "molar_mass": 180.156,
+    "density_g_ml": 1.544,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density 1.544 g/mL at 25 C and aqueous solubility 90.9 g/100 mL water at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Solid molar heat capacity 236.6 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement. The substance modelled is D-glucose in its pyranose ring form, and the physical properties above are D-glucose's. The curated SMILES and official-library InChIKey carry the D configuration while deliberately leaving the anomeric centre unspecified, so identity distinguishes D- from L-glucose without pretending to choose the alpha or beta anomer. The key is not asserted; it is what the official IUPAC library computes. Enthalpy of solution is not claimed"
+  }
+]

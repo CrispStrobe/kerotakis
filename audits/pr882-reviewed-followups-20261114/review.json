@@ -1,0 +1,70 @@
+{
+  "source": "439bbe566ede9c0ce906cf24a2dcd23512fc1edb",
+  "validation_merge": "0a7391f145ab6d7ca2c4812974570768df589bb7",
+  "platform_lessons_actual_equal": true,
+  "actual_lessons_sha256": "a73731548b537f96f12a8abb7fdfa31d748198d61114339a40c248e4367a646d",
+  "lesson_count": 113,
+  "changed_lessons": [
+    "apple-browning",
+    "borax-snowflake",
+    "naked-egg-osmosis",
+    "repeated-liquid-extraction",
+    "rock-candy",
+    "slime"
+  ],
+  "unchanged_lessons": 107,
+  "notice_only_lessons": [
+    "borax-snowflake",
+    "repeated-liquid-extraction",
+    "rock-candy",
+    "slime"
+  ],
+  "single_clock_browning_percent": [
+    63,
+    86,
+    2
+  ],
+  "single_clock_membrane_water_mol": {
+    "first_uptake": 0.005980562488585914,
+    "second_uptake": 0.005995206688703029,
+    "outward_once": 0.03987041659057276,
+    "bath_final": [
+      8.3144189,
+      5.5908002
+    ]
+  },
+  "scene_changed_scalar_count": 25,
+  "scene_only_changed_field": "mass_g",
+  "scene_budget_deltas_g": {
+    "borax_0.05g": 0.02365,
+    "borax_0.25g": 0.11825,
+    "borax_2g": 0.946,
+    "sand_5g": 0.25
+  },
+  "native_prepared_controls_passed": 10,
+  "scope": "Six reviewed lesson entries only;107 unchanged. Scene25 scalar mass corrections reproduce conserved unresolved recipe fractions; all other scene fields unchanged. No runtime, recipe, scientific predicate, bound, routing or failure-behavior relaxation. Existing native gas tests have two separate obsolete blanket-Dose refusals; source delivery remains held pending explicit successor-control review and actual new-head execution.",
+  "unchanged_lesson_blocks_byte_exact": 107,
+  "scene_mass_lines_changed": 25,
+  "all_other_scene_lines_exact": true,
+  "proper_selector_and_floor_controls": {
+    "source": "439bbe566ede9c0ce906cf24a2dcd23512fc1edb",
+    "linux": "three exact named unit tests passed",
+    "macos": "three exact named unit tests passed",
+    "not_transferred_to_PR883_source": true
+  },
+  "native_contract_successor": {
+    "old_blanket_Dose_refusals": "Both actual accepted inputs exhausted their owned finite gas before secondary reentry; an input gas portion is not evidence of an unowned post-solve parcel. The finite-dose capability is already implemented and independently tested for FE003.",
+    "preserved_negative_cases": [
+      "KIO3 aqueous",
+      "malic_acid aqueous",
+      "unknown_clock_stock solid",
+      "chlorophyll wrong aqueous phase"
+    ],
+    "new_strict_negative_combinations": 6,
+    "new_strict_positive_combinations": 4,
+    "physical_component_charge_bound": 1e-10,
+    "pending_boundary_and_full_state_rollback": "unchanged",
+    "new_tests_execution": "pending actual corrected-head execution",
+    "witness_mismatch_and_surviving_gas_guards": "unchanged unit guards, both original platforms pass"
+  }
+}

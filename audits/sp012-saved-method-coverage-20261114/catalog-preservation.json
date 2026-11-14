@@ -1,0 +1,12 @@
+{
+  "previous_catalog": "working-experiments-20261114-reviewed-ki003.json",
+  "previous_sha256": "9cc03b95887b31837b427c011ad26ae8ce9845421a077b67341019d1e21f9720",
+  "catalog": "working-experiments-20261114-reviewed-sp012.json",
+  "catalog_sha256": "acbd1ebd9934f5c80ce9a8ca806cc758733f12b63dc6451dac67cc1b60a6cb70",
+  "prior_entries": 429,
+  "prior_entries_unchanged": true,
+  "catalog_entries": 430,
+  "fixed_originals": 426,
+  "fixed_denominator": 468,
+  "remaining": 42
+}

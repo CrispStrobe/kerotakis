@@ -1,0 +1,24 @@
+{
+  "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "original_script_sha256": "3e410d636ad2a6b264a2db66f378935d9700aff474ef6bc6e338279974c45a8e",
+  "native_binary_sha256": null,
+  "native_identity_limit": "Historical producer did not record executable checksum. No later binary identity is substituted.",
+  "target_exit": 0,
+  "producer_runner_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+  "manifest_hashes": {
+    "STARTED.json": "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+    "source-and-lock.json": "ad5a9c9158ac36a8b446b27552be69647d020a6d03d449345bd2b8110c18de7e",
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "release-cli.json": "4bc1b079a57d0e572b0cbad4aa45b87a5f21654ea53fa4f7d706455cf8d7ead9",
+    "new120-sp-012.json": "9d2697383d0e72c1fbdb1b6f8ad7c630794eb92f82a272a71d283bc6a9f59c45",
+    "new120-sp-012.lab": "3e410d636ad2a6b264a2db66f378935d9700aff474ef6bc6e338279974c45a8e",
+    "new120-sp-012.stdout": "abfaeaa13db6c17161d362d178dc309db2a1502a87e881f4b87bf81d640f898a",
+    "new120-sp-012.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "source_registry_sha256": "88f5df1a8404bd505e2f6989b6b74147b04189fe754ab2a7bb42baf666e4d31a",
+  "source_properties_sha256": "8c9e0e89432803081877f6c8e46e4af4030afd1c430b351a7acf37f8c0a47e9b",
+  "source_excerpts_sha256": "6770a5f856626a07d1cecac6122c1b720f80ae72a5afe748317727321f10807d"
+}

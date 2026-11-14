@@ -1,0 +1,18 @@
+{
+  "pr": 882,
+  "source": "439bbe566ede9c0ce906cf24a2dcd23512fc1edb",
+  "run": 43603851921,
+  "job": 132522204925,
+  "log_sha256": "06a2130b338b56a8835a46051dc2d8f0e498db0d26fcc113175f42ca3d37357d",
+  "log_bytes": 459000,
+  "failed_test": "lessons_produce_stable_output",
+  "target": "frozen_behavior",
+  "exit": 101,
+  "observed_failure": "Expected golden lessons JSON differs from actual generated lessons JSON; raw difference preserved. Not yet independently adjudicated, no blind baseline replacement.",
+  "source_acceptance": "held",
+  "historical_KI003_qualification_affected": false,
+  "rerun_or_cancellation": false,
+  "reported_differing_lines": 8894,
+  "log_truncation": "Failure prints only first600 differing lines; full generated snapshot is required before adjudication.",
+  "correction_to_first_receipt": "The target is frozen_behavior, not golden_lessons; exact native command is cargo test -p kerotakis-core --test frozen_behavior. This corrects the receipt label only; raw log bytes are unchanged."
+}

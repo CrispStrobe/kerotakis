@@ -1,0 +1,32 @@
+{
+  "linux": {
+    "job": 132522205069,
+    "log_sha256": "7a99f26691448eddc1bb22765ae44fa91f9da4e63bc2bee8a03b6d971aeddb20",
+    "failed_tests": [
+      "2026-11-14T18:06:24.8235160Z thread 'lessons_produce_stable_output' (22790) panicked at crates/kerotakis-core/tests/frozen_behavior.rs:195:13:",
+      "2026-11-14T18:07:07.5412727Z thread 'five_release_lessons_match_numeric_scene_golden' (23954) panicked at crates/kerotakis-core/tests/scene_golden.rs:98:5:",
+      "2026-11-14T18:08:34.8513216Z thread 'clock_owner_refuses_unmapped_ion_acid_unknown_stock_and_finite_gas_dose_atomically' (25479) panicked at crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs:244:14:",
+      "2026-11-14T18:08:34.8522667Z thread 'plant_clock_still_refuses_remaining_gas_unrepresented_ions_and_unknown_stock_atomically' (25481) panicked at crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs:364:14:"
+    ],
+    "proper_guard_test_results": [
+      "aqueous::canonical_physical_closure_tests::secondary_selected_output_mu_must_be_finite_and_nonnegative ... ok",
+      "aqueous::gas_component_projection_tests::secondary_finite_dose_witness_is_bound_to_source_and_consumed_gas ... ok",
+      "aqueous::numerical_water_activity_tests::pure_solvent_floor_is_not_misclassified_as_unsupported_or_queried ... ok"
+    ]
+  },
+  "macos": {
+    "job": 132522205100,
+    "log_sha256": "1ee1942e82506299b95d05d639ea926ccc262fcf2bc835d403abe50f736aee75",
+    "failed_tests": [
+      "2026-11-14T18:11:00.8472250Z thread 'lessons_produce_stable_output' (153284) panicked at crates/kerotakis-core/tests/frozen_behavior.rs:195:13:",
+      "2026-11-14T18:12:31.5357050Z thread 'five_release_lessons_match_numeric_scene_golden' (160355) panicked at crates/kerotakis-core/tests/scene_golden.rs:98:5:",
+      "2026-11-14T18:14:39.8490010Z thread 'clock_owner_refuses_unmapped_ion_acid_unknown_stock_and_finite_gas_dose_atomically' (168557) panicked at crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs:244:14:",
+      "2026-11-14T18:14:39.8509310Z thread 'plant_clock_still_refuses_remaining_gas_unrepresented_ions_and_unknown_stock_atomically' (168596) panicked at crates/kerotakis-phreeqc/tests/native_bio_curiosity_clock.rs:364:14:"
+    ],
+    "proper_guard_test_results": [
+      "aqueous::canonical_physical_closure_tests::secondary_selected_output_mu_must_be_finite_and_nonnegative ... ok",
+      "aqueous::gas_component_projection_tests::secondary_finite_dose_witness_is_bound_to_source_and_consumed_gas ... ok",
+      "aqueous::numerical_water_activity_tests::pure_solvent_floor_is_not_misclassified_as_unsupported_or_queried ... ok"
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "mutation": "lost_ethanol",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "lost_glucose",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "hidden_gap",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "invented_glucose_peak",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "missing_supported_peak",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "measurement_changed_clock",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "mass_fraction_areas",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "wrong_retention",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "wrong_outside_method",
+    "rejected": true,
+    "exit": 1
+  },
+  {
+    "mutation": "solver_failure",
+    "rejected": true,
+    "exit": 1
+  }
+]

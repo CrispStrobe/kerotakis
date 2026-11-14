@@ -1,0 +1,16 @@
+{
+  "native-first-outcomes.json": "795600424209efeb588adc30271fa9053554cb7054dc01eae92242d2db70a47d",
+  "review.json": "8fe74ecf844571347e6eca7bf607b32948dbeee640544c029a75ed36ff483edf",
+  "receipts.json": "da9f4d4ebc9ffa432221997e4de7d8307c7ec78aea637023a6e06025794fe8a0",
+  "six-lesson-semantic-diff.json": "6a7d177c30f86a823159e3012d745a44cdba80d6ffee1abac3a285b69fd21b85",
+  "first-preflight-receipt.json": "6a70faf8295abfe6c3dc9b04a14f22acd9716072a4e8ca992eba2a3594451d7a",
+  "finite-dose-successors.patch": "ac3f90296b0af61b4d255550ffef18c15a0f4843458808b6d5929d813cbccc79",
+  "lessons.original.json": "114bf40419a8e0be6ca066247da2723a852174acd6647ff062439cca82868897",
+  "scene-semantic-diff.json": "5f98fae0d735b36895a83f4ceb3db1ef646fa175aceb36e25b92890dcdfa9a5a",
+  "scene-five.original.json": "6b99ea74a7280743253760e905291095dfa4e2c96c1ef68e8f626783a4088756",
+  "README.md": "23231deeaf2a057a61d029b8eab12dd045be354a669b64fa9c28c065ca53f9ad",
+  "native_bio_curiosity_clock.original.rs": "29b957c6c11bee6d65a914ee3342b759d79cf845200ac9e7e1b70b6c3554b265",
+  "scene-five.actual.json": "f5acd2d5494bdb97358694ba37a1f51de4c9df815f50720474a8503aa04c3b52",
+  "lessons.actual.json": "a73731548b537f96f12a8abb7fdfa31d748198d61114339a40c248e4367a646d",
+  "goldens-reviewed.patch": "a937c86521d0a1013b6a27ba377fe96f1c3920dbba5c574ea52adb71e2a57a15"
+}
