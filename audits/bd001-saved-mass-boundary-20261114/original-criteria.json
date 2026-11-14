@@ -1,0 +1,26 @@
+[
+  {
+    "id": "question",
+    "criterion": "Will the current superabsorbent model wrongly preserve the same retention capacity after adding salt?",
+    "review_instruction": "The reviewed implementation uses water availability and a fixed polymer capacity, not ionic environment. An unchanged predicted retention state should be recorded as that limitation, not a finding that real polyelectrolyte gels are salt-insensitive.",
+    "result": null
+  },
+  {
+    "id": "inventory",
+    "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+    "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+    "result": null
+  },
+  {
+    "id": "coverage",
+    "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+    "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+    "result": null
+  },
+  {
+    "id": "controls",
+    "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+    "review_instruction": "v1: no added salt",
+    "result": null
+  }
+]

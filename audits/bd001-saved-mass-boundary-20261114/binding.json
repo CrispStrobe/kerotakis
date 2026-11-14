@@ -1,0 +1,32 @@
+{
+  "source": "58497904f44ce3f20fd82a8b216784a88c0bb732",
+  "tree": "dac9a0e23679b45849f3a540a29929d2e71eafe5",
+  "cargo_lock_sha256": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+  "lock_origin": "genuine first CPU producer, reused with unchanged dependency manifests; not source committed",
+  "script_sha256": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+  "output_sha256": "522505ff8fc23e12e98985eb022b94bc578b46249859a29f1cd7ce8fb8e7b381",
+  "native_binary_sha256": null,
+  "native_identity_limit": "This collected producer recorded no executable checksum; no later executable/hash is substituted.",
+  "target_exit": 0,
+  "producer_build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "kerotakis-cli"
+  ],
+  "producer_build_exit": 0,
+  "producer_runner_sha256": "2ab2f6e26c22edd20cfd2b23435189ac087763dec92342b1d608b9b621693efa",
+  "source_registry_sha256": "8741b6f338bf68ca8c4acfa8eac6a121daa35b512ccb9f05d2508e3df34baa44",
+  "manifest_hashes": {
+    "batch3-diverse-bd-001.stdout": "522505ff8fc23e12e98985eb022b94bc578b46249859a29f1cd7ce8fb8e7b381",
+    "actual-producer-Cargo.lock": "a43bbe9a6ce7be1b5ecbbfbf091e25124c60122b08bd2ba003c8e250d3262bdd",
+    "source-and-lock.json": "1306af71803b1d1889511a02365a2687be8256dbc1fe3148bafedac283976624",
+    "batch3-diverse-bd-001.lab": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+    "batch3-diverse-bd-001.json": "551f974480b21564a80f07654a211da9149ff44fa1a97458a58e667379bc80d3",
+    "batch3-diverse-bd-001.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "release-cli.json": "60c30ae20232e07a178cc1ec146612657ff9038e0492d7f72118345604214939",
+    "STARTED.json": "c1af0be0f2d6147b3b8765f175b241205ff82c9e57f236c4300074187d9669f5"
+  }
+}

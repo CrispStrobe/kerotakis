@@ -1,0 +1,30 @@
+[
+  {
+    "mutation": "preserved-first-mass-failure",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-polymer",
+    "rejected": true
+  },
+  {
+    "mutation": "lost-salt",
+    "rejected": true
+  },
+  {
+    "mutation": "extra-water",
+    "rejected": true
+  },
+  {
+    "mutation": "invented-salt-swelling-response",
+    "rejected": true
+  },
+  {
+    "mutation": "missing-conductivity-boundary",
+    "rejected": true
+  },
+  {
+    "mutation": "solver-failure",
+    "rejected": true
+  }
+]
