@@ -1,0 +1,21 @@
+{
+  "name": "basis-charge-controls",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-phreeqc",
+    "--features",
+    "engine",
+    "--lib",
+    "redox_basis_charge_tests",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "exit": 0,
+  "seconds": 9.94979625399992,
+  "stdout_sha256": "b7154775222682159acc540d3f42334482bb9628d1b9cf1a8275caaf80b21132",
+  "stderr_sha256": "04ef94bc155f23fb030cf9a18e7aa605580b92cb981c7dff7066557eaa41f096"
+}

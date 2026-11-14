@@ -1,0 +1,249 @@
+{
+  "source": "0aa222db64720fe6c8c5874f8241dce87db268ab",
+  "tree": "213917487071db3c483a06ae1eeafef43624194b",
+  "branch_base": "6068f2d1566dc79398047ef5871ba8112b472e0d",
+  "fixture_sha256": "adee22f70af455490364760fbefd78ce120f9a6ad0f0a3be00387442b17554ca",
+  "original": {
+    "id": "batch2:ec-009",
+    "batch": 2,
+    "design_code": "EC-009",
+    "group": "redox",
+    "rank": 59,
+    "title": "Compare one-electron iron with a multi-electron oxidant titre",
+    "title_de": "Ein-Elektronen-Eisen mit einem Mehr-Elektronen-Oxidant titrieren",
+    "question": "Can titration recover the five-to-one Fe(II)/permanganate electron ratio?",
+    "educational_level": "Sekundarstufe II / university introduction",
+    "priority_tier": 2,
+    "experiment_kind": "controlled_experiment",
+    "tags": [
+      "redox",
+      "batch-2",
+      "unrun-candidate",
+      "coupled-model-coverage"
+    ],
+    "script": "# EC-009: Compare one-electron iron with a multi-electron oxidant titre\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 H2SO4 0.005mol\nadd v1 FeSO4 0.001mol\ntitrate v1 KMnO4 0.02M 0.1mL until colour persists max 200\nmeasure v1 uvvis\ninspect\n",
+    "script_sha256": "f4d0b39c10c8ad54767d10f0920cb631f315ecff974fee826be215a2f1e3e6a0",
+    "script_body_sha256": "2f08dab779ccd02c75dced25c29a81077358ca758f9dfd101e6178ab30b73a2a",
+    "action_protocol_sha256": "6bc754a04302a826ba336159f7580440117c9c22cd8604abf7b356d0ffebd422",
+    "expected_result": "For the acidic Mn2+ endpoint, 1 mmol Fe(II) supplies the electrons for 0.2 mmol permanganate, nominally 10 mL titrant.",
+    "expected_processes": [
+      {
+        "equation": "MnO4- + 5 Fe2+ + 8 H+ -> Mn2+ + 5 Fe3+ + 4 H2O",
+        "interpretation": "Educational equation or schematic relationship; not a claim that every species, pathway or coupling is implemented."
+      }
+    ],
+    "acceptance_checks": [
+      {
+        "id": "EC-009-C1",
+        "criterion": "Confirm Fe(II) loss, Fe(III) formation and the actual manganese endpoint.",
+        "evaluation": "manual_review_of_saved_runtime_observations",
+        "result": null
+      },
+      {
+        "id": "EC-009-C2",
+        "criterion": "Do not apply the 5:1 ratio if MnO2 or another manganese product dominates.",
+        "evaluation": "manual_review_of_saved_runtime_observations",
+        "result": null
+      }
+    ],
+    "novelty": {
+      "basis": "A new experimental question or substantive controlled extension; not a novel scientific discovery or necessarily a new reaction family.",
+      "distinction": "Introduces a ferrous-ion redox assay with different electron stoichiometry from oxalate standardisation.",
+      "previous_related_ids": [
+        "new120:rx-008"
+      ],
+      "previous_batch_full_file_comparison": true,
+      "comparison_methods": [
+        "exact_script",
+        "comment_whitespace_normalised_body",
+        "observation_stripped_vessel_canonicalised_action_protocol"
+      ],
+      "exhaustive_baseline_deduplication": false,
+      "original_147_note": "Original catalogue reviewed as source context through web excerpts; no complete local automated comparison or semantic-novelty certification."
+    },
+    "status": "designed_not_run",
+    "observed_result": null,
+    "validated_on": null,
+    "engine_support": {
+      "assessment": "source_informed_candidate",
+      "coverage_risk": "high",
+      "runtime_verified": false
+    },
+    "limitations": [
+      "Air oxidation before titration and database redox ownership can bias the apparent titre."
+    ],
+    "safety_context": "Simulation-only script. Not a wet-lab procedure, school risk assessment or permission to perform the chemistry.",
+    "evidence": {
+      "source_ids": [
+        "grammar",
+        "registry",
+        "baseline",
+        "previous-batch",
+        "curated"
+      ],
+      "assessment": null,
+      "tested_script": null,
+      "candidate_script": "scripts/B2-EC-009.lab",
+      "script_sha256": "f4d0b39c10c8ad54767d10f0920cb631f315ecff974fee826be215a2f1e3e6a0"
+    },
+    "importance_rationale": "Upper-secondary quantitative reasoning or multistep experimental interpretation.",
+    "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+    "reagents": [
+      {
+        "registry_key": "water",
+        "name": "Water",
+        "formula": "H2O",
+        "vessel": "v1",
+        "introduced_by": "add",
+        "script_line": 4,
+        "amount": 100.0,
+        "unit": "mL",
+        "amount_literal": "100mL",
+        "input_temperature": null,
+        "role": "solvent_or_sample"
+      },
+      {
+        "registry_key": "H2SO4",
+        "name": "Sulfuric acid",
+        "formula": "H2SO4",
+        "vessel": "v1",
+        "introduced_by": "add",
+        "script_line": 5,
+        "amount": 0.005,
+        "unit": "mol",
+        "amount_literal": "0.005mol",
+        "input_temperature": null,
+        "role": "chemical_input"
+      },
+      {
+        "registry_key": "FeSO4",
+        "name": "Iron(II) sulfate",
+        "formula": "FeSO4",
+        "vessel": "v1",
+        "introduced_by": "add",
+        "script_line": 6,
+        "amount": 0.001,
+        "unit": "mol",
+        "amount_literal": "0.001mol",
+        "input_temperature": null,
+        "role": "chemical_input"
+      },
+      {
+        "registry_key": "KMnO4",
+        "name": "Potassium permanganate",
+        "formula": "KMnO4",
+        "vessel": "v1",
+        "introduced_by": "titrate",
+        "script_line": 7,
+        "amount": null,
+        "unit": "mol",
+        "amount_literal": null,
+        "input_temperature": null,
+        "role": "titrant",
+        "solution_concentration_mol_L": 0.02,
+        "step_volume": 0.1,
+        "step_volume_unit": "mL",
+        "maximum_steps": 200,
+        "maximum_added_amount_mol": 0.0004000000000000001,
+        "amount_note": "Actual delivered titrant is determined by the endpoint at runtime; the maximum is a bound, not an executed dose. Titrant solvent volume must also be included in liquid balances."
+      }
+    ],
+    "observation_plan": [
+      {
+        "step": 5,
+        "script_line": 7,
+        "command": "titrate v1 KMnO4 0.02M 0.1mL until colour persists max 200",
+        "type": "endpoint_and_delivered_titrant"
+      },
+      {
+        "step": 6,
+        "script_line": 8,
+        "command": "measure v1 uvvis",
+        "type": "uvvis"
+      },
+      {
+        "step": 7,
+        "script_line": 9,
+        "command": "inspect",
+        "type": "inventory_snapshot"
+      }
+    ],
+    "operations": [
+      {
+        "step": 1,
+        "script_line": 3,
+        "verb": "register",
+        "command": "register lv3"
+      },
+      {
+        "step": 2,
+        "script_line": 4,
+        "verb": "add",
+        "command": "add v1 water 100mL"
+      },
+      {
+        "step": 3,
+        "script_line": 5,
+        "verb": "add",
+        "command": "add v1 H2SO4 0.005mol"
+      },
+      {
+        "step": 4,
+        "script_line": 6,
+        "verb": "add",
+        "command": "add v1 FeSO4 0.001mol"
+      },
+      {
+        "step": 5,
+        "script_line": 7,
+        "verb": "titrate",
+        "command": "titrate v1 KMnO4 0.02M 0.1mL until colour persists max 200"
+      },
+      {
+        "step": 6,
+        "script_line": 8,
+        "verb": "measure",
+        "command": "measure v1 uvvis"
+      },
+      {
+        "step": 7,
+        "script_line": 9,
+        "verb": "inspect",
+        "command": "inspect"
+      }
+    ],
+    "initial_conditions": {
+      "initial_vessel": "v1",
+      "new_command_creates_next_vessel": true,
+      "fresh_process_required": true,
+      "temperature_when_not_explicit": "Engine default; measure rather than presume an exact starting temperature.",
+      "environment_note": "Open-bench boundary unless changed by commands. Sealing can include pre-existing headspace gas; explicit gas additions are not always the total gas budget.",
+      "global_wait_note": "wait advances the bench, not only the most recently used vessel; compare arms with their complete time histories."
+    },
+    "static_validation": {
+      "status": "pass",
+      "errors": [],
+      "command_count": 7,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "FeSO4",
+        "H2SO4",
+        "KMnO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "titrate": 1,
+        "measure": 1,
+        "inspect": 1
+      }
+    }
+  },
+  "historical_charge_error_eq": -1.0985317866111267e-06,
+  "expected_charge_abs_bound_eq": 1e-10,
+  "prepared_prefix_replayed": false,
+  "criteria_relaxed": false,
+  "qualification": "Pending actual changed-native stage and unchanged criteria independent review; count remains430",
+  "script_sha256": "d8de8696b62e189f97f281fd2ec0c39643276ec8f2db9b506546f95d1f812985"
+}

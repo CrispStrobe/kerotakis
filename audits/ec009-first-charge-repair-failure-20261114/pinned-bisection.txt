@@ -1,0 +1,77 @@
+    fn bisect_pe(
+        &mut self,
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        coupling: &RedoxCoupling,
+        mut lo: f64,
+        mut hi: f64,
+        residual_tol: f64,
+    ) -> Result<PeSearch, SolveError> {
+        let mut best: Option<Rc<SolveOutput>> = None;
+        let mut last_sum: Option<f64> = None;
+        // Whether the residual was ever seen on both sides of zero. A
+        // bisection that only ever approaches from one side never bracketed
+        // a root: it walked to an edge, and the edge is not a measurement.
+        let (mut saw_below, mut saw_above) = (false, false);
+        let mut mid = 0.5 * (lo + hi);
+        let mut interior_probe: u32 = 1;
+        // Failed evaluations have no residual sign. Keep the valid bounds
+        // unchanged and try dyadic interior points: midpoint, quarters,
+        // eighths, sixteenths. Both sides of a numerical hole are explored.
+        // Reset to the midpoint after each successful bound update. The
+        // total evaluation budget and per-interval probe budget are bounded.
+        for _ in 0..68 {
+            let level = 31 - interior_probe.leading_zeros();
+            let denominator = 1_u32 << (level + 1);
+            let numerator = 2 * (interior_probe - (1_u32 << level)) + 1;
+            let trial_pe = lo + (hi - lo) * numerator as f64 / denominator as f64;
+            let input = build_input_at(vessel, problem, db_tag, Some((trial_pe, coupling)));
+            let Ok(out) = self.run_trial(db_tag, &input) else {
+                if interior_probe == 15 {
+                    break;
+                }
+                interior_probe += 1;
+                continue;
+            };
+            let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
+                return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::RedoxTotalsMissing.phrase())),
+                    solver: "phreeqc-aqueous (redox)".to_string(),
+                    detail: "the coupled run reported no oxidation-state totals".to_string(),
+                });
+            };
+            mid = trial_pe;
+            interior_probe = 1;
+            if env_redox() {
+                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
+            }
+            last_sum = Some(sum);
+            best = Some(out);
+            if sum < coupling.target {
+                saw_below = true;
+                lo = mid;
+            } else {
+                saw_above = true;
+                hi = mid;
+            }
+            // Residual break (OPT-7): stopping here is judged by the same
+            // tolerance the post-check enforces, so nothing that would have
+            // been refused gets waved through — the search just stops
+            // paying for precision the verdict cannot use.
+            if (sum - coupling.target).abs() <= residual_tol {
+                break;
+            }
+            if hi - lo < 1e-6 {
+                break;
+            }
+        }
+        Ok(PeSearch {
+            best,
+            last_sum,
+            saw_below,
+            saw_above,
+            mid,
+        })
+    }
+

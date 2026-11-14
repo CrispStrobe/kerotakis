@@ -1,0 +1,25 @@
+{
+  "name": "native-charge-controls",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-phreeqc",
+    "--features",
+    "engine",
+    "--test",
+    "ec009_charge_continuation",
+    "--test",
+    "redox",
+    "--no-fail-fast",
+    "--message-format=json",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "exit": 101,
+  "seconds": 286.534019509,
+  "stdout_sha256": "b17bb70ca5411fe489733e00c29787093e270c12db856dc83fdf1b2b6ea9b246",
+  "stderr_sha256": "2ebda690640d16e9ff8d9c124a3ad6621dc33c8af2e9504386e12d26669ecba3"
+}
