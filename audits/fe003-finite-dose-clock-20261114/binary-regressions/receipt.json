@@ -1,0 +1,14 @@
+{
+  "source": "0bf5205db5d5dcd22273aca76602c0f2c7b40fec",
+  "binary_sha256": "7855dfdf568f802c8624acf5ff5d79e08f7182cc6a48d769ace01eacda73a216",
+  "profile": "preserved debug native artifact; no build or original replay",
+  "utc": "2026-11-14T13:20:37.360131+00:00",
+  "exit": 0,
+  "seconds": 123.55109441187233,
+  "input_hashes": {
+    "tests/coverage/curiosity-v1/manifest.toml": "12bcd49ac7cc19b5227be9a2ba79044fa91062f028ffda59920026635af8b43a",
+    "tests/coverage/curiosity-v1/baseline.toml": "7374457d078a8c679dc1dc7f8339a821acb3890fe004b065ee90a05ae27dd6ae"
+  },
+  "stdout_sha256": "330e787dc08f291a7445ffea557cbdd543ff35dffa5c437deeccb23d50fbdfb3",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

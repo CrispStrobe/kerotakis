@@ -27,6 +27,9 @@
     "first-gas-candidate/inventory-units.stdout": "4fe2a228f56a2dfb35a1b760bf9d67ac8203f0c1c1f1371a6b02a36a5a1c67a1",
     "first-gas-candidate/native-boundaries.stderr": "c2c6a9f5b1691a58171216b9d855737468cd040b6594b9e02799fdd78ffe09d5",
     "first-gas-candidate/projection-units.stdout": "85f9b582cf3aa7b625c136c80c26d484e951052d600ab7c5a1000626fc975be6",
-    "first-gas-candidate/native-boundaries.stdout": "2bb660f743e16b5308789d4a914978997d6854658105e3602620054016616925"
+    "first-gas-candidate/native-boundaries.stdout": "2bb660f743e16b5308789d4a914978997d6854658105e3602620054016616925",
+    "binary-regressions/curiosity.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "binary-regressions/receipt.json": "2a71324d4d34f194a4a66ae4ea2ceed16e005f02e3e2b0789a1efd8dde68a513",
+    "binary-regressions/curiosity.json": "330e787dc08f291a7445ffea557cbdd543ff35dffa5c437deeccb23d50fbdfb3"
   }
 }
