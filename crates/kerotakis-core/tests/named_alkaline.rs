@@ -194,3 +194,133 @@ fn serialization_does_not_recreate_spent_capacity_or_require_a_live_solution_cac
         serde_json::to_value(&after).unwrap()
     );
 }
+
+fn finite_carbonate(key: &str, phase: Phase, carbon: f64, base: f64) -> Vessel {
+    let mut v = solved(base);
+    v.headspace = Headspace::Sealed {
+        volume: Liters(0.25),
+    };
+    let anion = match key {
+        "HCO3-" => carbon,
+        "CO3-2" => 2.0 * carbon,
+        _ => 0.0,
+    };
+    if anion > 0.0 {
+        add(&mut v, "Na+", anion, Phase::Aqueous);
+    }
+    add(&mut v, key, carbon, phase);
+    v.solute_charge = kerotakis_core::displacement::solute_charge(&v);
+    v
+}
+
+#[test]
+fn finite_carbonate_reserves_its_entire_acid_demand_without_becoming_base() {
+    for (key, phase, neutralisation) in [
+        ("CO2(aq)", Phase::Aqueous, 0.002),
+        ("HCO3-", Phase::Aqueous, 0.001),
+        ("CO3-2", Phase::Aqueous, 0.0),
+        ("CO2", Phase::Gas, 0.002),
+    ] {
+        let v = finite_carbonate(key, phase, 0.001, 0.005);
+        let (after, events) = react(v.clone());
+        let expected = 0.005 - neutralisation;
+        assert!(
+            (amount(&after, "ethanol") - expected).abs() < 1e-12,
+            "{key}: {events:?}"
+        );
+        assert_eq!(amount(&after, key), amount(&v, key));
+        assert_eq!(amount(&after, "Na+"), amount(&v, "Na+"));
+        closes(&v, &after);
+        // The reserved hydroxide may still be present, but belongs to the
+        // carbonate obligation. Persistence and a second request cannot spend it.
+        let restored: Vessel =
+            serde_json::from_value(serde_json::to_value(&after).unwrap()).unwrap();
+        let (again, events) = react(restored);
+        assert_eq!(
+            serde_json::to_value(&again).unwrap(),
+            serde_json::to_value(&after).unwrap(),
+            "{key}: {events:?}"
+        );
+    }
+}
+
+#[test]
+fn carbonate_generated_hydroxide_and_measured_cache_do_not_supply_strong_reserve() {
+    let mut v = finite_carbonate("CO3-2", Phase::Aqueous, 0.000999, 0.0);
+    // A carbonate hydrolysis pose: some CO3 becomes HCO3 and OH, with all
+    // sodium retained. These owned hydroxides still are not a strong reserve.
+    add(&mut v, "Na+", 0.000002, Phase::Aqueous);
+    add(&mut v, "HCO3-", 0.000001, Phase::Aqueous);
+    add(&mut v, "base_equivalents", 0.000001, Phase::Aqueous);
+    v.free_hydroxide = 10.0; // Cache cannot manufacture capacity.
+    let before = serde_json::to_value(&v).unwrap();
+    let (after, events) = react(v);
+    assert_eq!(before, serde_json::to_value(&after).unwrap(), "{events:?}");
+    assert!(!events.iter().any(|e| matches!(e, Event::OrgReacted { .. })));
+}
+
+#[test]
+fn carbonate_extension_keeps_unowned_pending_wrong_phase_and_foreign_pool_refusals() {
+    for case in 0..9 {
+        let mut v = finite_carbonate("CO2(aq)", Phase::Aqueous, 0.001, 0.005);
+        match case {
+            0 => v.headspace = Headspace::Open,
+            1 => {
+                v.headspace = Headspace::Swept {
+                    pressure: Pascal(100_000.0),
+                }
+            }
+            2 => v.pending_co2_transfer_mol = 0.0001,
+            3 => {
+                add(&mut v, "Na2CO3", 0.001, Phase::Solid);
+            }
+            4 => {
+                add(&mut v, "NH3", 0.001, Phase::Aqueous);
+            }
+            5 => {
+                add(&mut v, "base_equivalents", 0.001, Phase::Aqueous);
+            }
+            6 => {
+                add(&mut v, "CO3-2", 0.001, Phase::Solid);
+            }
+            7 => {
+                v.unresolved_materials.push(
+                    serde_json::from_value(serde_json::json!({
+                        "material":"opaque control", "recipe_id":"unresolved control",
+                        "recipe_version":1, "basis":"mass_fraction", "amount":0.1
+                    }))
+                    .unwrap(),
+                );
+            }
+            _ => {
+                add(&mut v, "ethanol", 100.0, Phase::Liquid);
+            }
+        }
+        let before = serde_json::to_value(&v).unwrap();
+        let (after, events) = react(v);
+        assert_eq!(
+            before,
+            serde_json::to_value(&after).unwrap(),
+            "case {case}: {events:?}"
+        );
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::NotYetModeled { .. })),
+            "{events:?}"
+        );
+    }
+}
+
+#[test]
+fn acetate_and_carbonate_obligations_share_one_finite_alkali_budget() {
+    let mut v = finite_carbonate("CO2(aq)", Phase::Aqueous, 0.001, 0.017);
+    add(&mut v, "CH3COOH", 0.01, Phase::Aqueous);
+    let (after, events) = react(v.clone());
+    assert!(
+        (amount(&after, "ethanol") - 0.005).abs() < 1e-12,
+        "{events:?}"
+    );
+    assert!((acetate(&after) - 0.015).abs() < 1e-12);
+    closes(&v, &after);
+}
