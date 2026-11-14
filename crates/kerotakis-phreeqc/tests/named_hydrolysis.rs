@@ -165,3 +165,71 @@ fn real_weak_base_and_acetate_states_never_earn_caustic_conversion() {
         closed(&before, after);
     }
 }
+
+#[test]
+fn sealed_room_air_carbon_does_not_erase_a_proven_finite_alkali_excess() {
+    for counterion in ["NaOH", "KOH"] {
+        for solvent_moles in [1.1068553982792118, 5.534276991396059] {
+            let (mut b, mut s) = setup();
+            let extra = solvent_moles - mol(&b.vessels[0], "water");
+            if extra > 0.0 {
+                add(&mut b, &mut s, "water", extra);
+            }
+            let events = step(
+                &mut b,
+                &mut s,
+                Operator::Seal {
+                    vessel: VesselId(0),
+                    headspace_volume: Liters(0.25),
+                },
+            );
+            let air = events
+                .iter()
+                .find_map(|e| match e {
+                    Event::VesselSealed { trapped_air, .. } => Some(trapped_air.0),
+                    _ => None,
+                })
+                .expect("seal records finite room air");
+            add(&mut b, &mut s, "ethyl_acetate", 0.001);
+            add(&mut b, &mut s, counterion, 0.001);
+            let before = b.vessels[0].clone();
+            assert!(
+                ConservedLedger::from_vessel(&before).charge.abs() < 1e-12,
+                "native input to capacity must retain its source charge"
+            );
+            let expected = 0.001 - 2.0 * air * 0.0004;
+            let events = step(
+                &mut b,
+                &mut s,
+                Operator::React {
+                    vessel: VesselId(0),
+                    reaction: "saponification".into(),
+                },
+            );
+            let after = b.vessels[0].clone();
+            assert!(
+                (mol(&after, "ethanol") - expected).abs() < 1e-10,
+                "{counterion}: {events:?}"
+            );
+            assert!((mol(&after, "ethyl_acetate") - (0.001 - expected)).abs() < 1e-10);
+            closed(&before, &after);
+            let again_events = step(
+                &mut b,
+                &mut s,
+                Operator::React {
+                    vessel: VesselId(0),
+                    reaction: "saponification".into(),
+                },
+            );
+            assert!(
+                (mol(&b.vessels[0], "ethanol") - expected).abs() < 1e-10,
+                "{again_events:?}"
+            );
+            closed(&after, &b.vessels[0]);
+            eprintln!(
+                "FINITE_CARBONATE_RESERVE {}",
+                serde_json::json!({"counterion":counterion,"solvent_moles":solvent_moles,"air":air,"expected":expected,"before":before,"after":after,"again":b.vessels[0]})
+            );
+        }
+    }
+}

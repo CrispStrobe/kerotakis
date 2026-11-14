@@ -11,7 +11,14 @@
 //! and literal hydroxides minus the admitted proton reservoirs. The independent
 //! inventory bound below checks that identity before anything is consumed.
 //!
-//! Unknown buffers, bound/surface pools and mixed-solvent ionic states refuse.
+//! A finite owned carbonate pool can also be bounded without treating it as
+//! strong base: subtract TWO equivalents for every inorganic carbon, in every
+//! admitted protonation form and in the owned headspace. M-X-A-2C is the excess
+//! after reserving enough alkali to neutralise that entire acid reservoir.
+//! Carbonate-only alkalinity therefore supplies no capacity. This extension
+//! requires an owned finite headspace; atmospheric/swept reservoirs refuse.
+//!
+//! Other unknown buffers, bound/surface pools and mixed-solvent ionic states refuse.
 //! This is a to-completion stoichiometric request, not kinetics, titration of an
 //! arbitrary mixture or a measured activity/enthalpy model.
 use crate::{delta::StateDelta, species, Moles, Phase, SpeciesId, Vessel};
@@ -50,6 +57,7 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
     let (mut metal, mut anion, mut acetate, mut hydroxide, mut charge, mut charge_scale) =
         (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     let mut ionic = false;
+    let mut carbonate = 0.0;
     for p in &v.contents {
         let n = p.moles.0;
         if !n.is_finite() || n < 0.0 {
@@ -63,7 +71,15 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
         let fluid = matches!(p.phase, Phase::Liquid | Phase::Aqueous);
         // The reaction's own pool (solvent, ester, acetate, inert gases) is
         // admitted here; every strong acid/base carrier comes from the one
-        // shared certified table, and weak buffers are refused by name.
+        // shared certified table. Carbonate is an acid obligation, never a
+        // strong carrier; every other weak buffer keeps its existing refusal.
+        let carbonate_formula = match key {
+            "CO2(aq)" if aqueous => Some("CO2"),
+            "HCO3-" if aqueous => Some("HCO3-"),
+            "CO3-2" if aqueous => Some("CO3-2"),
+            "CO2" if p.phase == Phase::Gas => Some("CO2"),
+            _ => None,
+        };
         let pool = match key {
             "water" => Some(p.phase == Phase::Liquid),
             "ethyl_acetate" | "ethanol" | "CH3COOH" => Some(fluid),
@@ -72,6 +88,7 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
             "N2" | "O2" | "Ar" | "He" | "Ne" => {
                 Some(matches!(p.phase, Phase::Gas | Phase::Aqueous))
             }
+            _ if carbonate_formula.is_some() => Some(v.owns_headspace_gas()),
             _ => None,
         };
         let carrier = crate::strong_reserve::carrier(key);
@@ -93,6 +110,15 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
             .ok_or_else(|| format!("no molecular inventory definition for {key}"))?;
         let formula = crate::stoich::parse_formula(data.formula)
             .map_err(|_| format!("no molecular inventory formula for {key}"))?;
+        if let Some(expected) = carbonate_formula {
+            if formula != crate::stoich::parse_formula(expected).expect("carbonate formula") {
+                return Err(format!(
+                    "owned {key} has no certified carbonate composition"
+                ));
+            }
+            carbonate += n;
+            ionic = true;
+        }
         charge += formula.charge * n;
         charge_scale += (formula.charge * n).abs();
         if let Some(c) = carrier.filter(|_| pool.is_none()) {
@@ -111,9 +137,17 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
             _ => {}
         }
     }
-    if ![metal, anion, acetate, hydroxide, charge, charge_scale]
-        .iter()
-        .all(|n| n.is_finite())
+    if ![
+        metal,
+        anion,
+        acetate,
+        hydroxide,
+        charge,
+        charge_scale,
+        carbonate,
+    ]
+    .iter()
+    .all(|n| n.is_finite())
     {
         return Err("strong-base inventory arithmetic is non-finite".into());
     }
@@ -129,13 +163,18 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
     {
         return Err("ionic strong-base capacity requires a water-majority liquid; no named hydrolysis applied".into());
     }
-    let tolerance = RECONCILIATION * (metal + anion + acetate + hydroxide + charge_scale);
-    let excess = metal - anion - acetate;
+    let carbonate_obligation = 2.0 * carbonate;
+    let tolerance = RECONCILIATION
+        * (metal + anion + acetate + hydroxide + charge_scale + carbonate_obligation);
+    let excess = metal - anion - acetate - carbonate_obligation;
     if charge.abs() > tolerance || excess > hydroxide + tolerance {
         return Err(
             "owned charge/proton inventory does not certify the proposed strong-base reserve"
                 .into(),
         );
+    }
+    if carbonate > 0.0 && excess <= tolerance {
+        return Err("owned carbonate is a weak buffer, not a certified strong-base reserve beyond its full two-equivalent carbon obligation; no named hydrolysis applied".into());
     }
     let moles = if excess <= tolerance {
         0.0

@@ -1,5 +1,7 @@
 # Ordered improvement agenda — current checkpoint 2026-11-12
 
+**2026-11-14 current coverage:** [The catalog](https://github.com/CrispStrobe/kerotakis/blob/15b63aacc/audits/working-experiments-20261114-reviewed-mo003.json) contains 428 entries representing **424/468 originals, 44 remaining**. [MO003 evidence](https://github.com/CrispStrobe/kerotakis/blob/15b63aacc/audits/mo003-finite-carbonate-owner-20261114/README.md) earns both unchanged original criteria at source `4aca6ecd1`, with all 427 predecessor objects preserved. Its 93 output hashes, 43 matched focused tests, full physical ledgers and 500-prompt check verify the source-specific qualification. The selector filter matched zero tests: correctly matched selector/floor controls and full applicable source/platform/fleet acceptance remain delivery gates. PR882 is the separate reviewed prerequisite; its active head and acceptance must be preserved. Earlier coverage figures below describe historical checkpoints.
+
 Qualification is **414/468** unique originals (418 entries); 54 originals remain. Production
 remains `731931f0`. PR881 is ready with auto-merge enabled and queued checks; it has not merged or deployed. Its first failures and current repairs
 are described in [status](STATUS.md), [carbonate acceptance](carbonate-boundaries-20261112.md)

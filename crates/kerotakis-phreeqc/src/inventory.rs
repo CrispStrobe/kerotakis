@@ -521,6 +521,125 @@ fn amount(totals: &BTreeMap<String, f64>, element: &str) -> f64 {
     totals.get(element).copied().unwrap_or(0.0)
 }
 
+/// Separate canonical dissolved inorganic carbon from independently owned
+/// organic pools. A protonation change may repartition acetate; it may not
+/// turn ester, alcohol or another carbon owner into missing inorganic carbon.
+fn carbon_readback_owners(vessel: &Vessel) -> Option<(f64, BTreeMap<String, f64>)> {
+    let mut dissolved = 0.0;
+    let mut other = BTreeMap::new();
+    for p in &vessel.contents {
+        if !p.moles.0.is_finite() || p.moles.0 < 0.0 {
+            return None;
+        }
+        let formula = species::lookup(&p.species)
+            .and_then(|data| kerotakis_core::stoich::parse_formula(data.formula).ok())?;
+        let carbon = formula.counts.get("C").copied().unwrap_or(0.0);
+        let key = p.species.0.as_str();
+        if p.phase == Phase::Aqueous && matches!(key, "CO2(aq)" | "HCO3-" | "CO3-2") {
+            let expected = if key == "CO2(aq)" { "CO2" } else { key };
+            if formula != kerotakis_core::stoich::parse_formula(expected).ok()? {
+                return None;
+            }
+            dissolved += p.moles.0;
+        } else if key == "CO2" && p.phase == Phase::Gas {
+            if formula != kerotakis_core::stoich::parse_formula("CO2").ok()? {
+                return None;
+            }
+            // Native gas pose remains untouched; the finite total constrains
+            // only the aqueous remainder below.
+        } else if carbon != 0.0 {
+            let owner = if matches!(key, "CH3COOH" | "CH3COO-" | "NaOAc") {
+                "acetate".to_owned()
+            } else {
+                format!("{key}:{:?}", p.phase)
+            };
+            *other.entry(owner).or_default() += carbon * p.moles.0;
+        }
+    }
+    Some((dissolved, other))
+}
+
+/// Native finite-gas iteration may leave a sub-component-budget carbon
+/// residual. Restore that already-owned total before H/O reconstruction;
+/// otherwise conserving H/O while losing carbon creates four charge
+/// equivalents per lost inorganic carbon and can corrupt a finite reserve.
+/// This is NOT a new admission allowance: the existing 1e-10 component guard
+/// remains, with an additional one-ppm scale limit. No gas, organic owner,
+/// reservoir, clock, bound or opaque stock is corrected or newly admitted.
+fn reconcile_owned_carbon_readback(
+    before: &Vessel,
+    after: &mut Vessel,
+    events: &[Event],
+    reservoirs: &[&str],
+    clock: ClockCo2Boundary,
+    target_carbon: f64,
+) {
+    use kerotakis_core::Headspace;
+    let same_owner = match (before.headspace, after.headspace) {
+        (Headspace::Sealed { volume: a }, Headspace::Sealed { volume: b }) => a == b,
+        (
+            Headspace::PressureControlled { pressure: a, .. },
+            Headspace::PressureControlled { pressure: b, .. },
+        ) => a == b,
+        _ => false,
+    };
+    if !same_owner
+        || before.id != after.id
+        || !reservoirs.is_empty()
+        || clock.applied_mol != 0.0
+        || clock.vessel != before.id
+        || events
+            .iter()
+            .any(|e| matches!(e, Event::GasEvolved { .. } | Event::GasAbsorbed { .. }))
+        || [before, &*after].iter().any(|v| {
+            v.pending_co2_transfer_mol != 0.0
+                || !v.unresolved_materials.is_empty()
+                || !v.material_objects.is_empty()
+                || !v.surfaces.is_empty()
+                || !v.exchanges.is_empty()
+                || !v.electrodes.is_empty()
+                || !v.adsorbed.is_empty()
+                || !v.solid_solutions.is_empty()
+        })
+    {
+        return;
+    }
+    let (Some((_, source_owners)), Some((have, readback_owners))) = (
+        carbon_readback_owners(before),
+        carbon_readback_owners(after),
+    ) else {
+        return;
+    };
+    if source_owners.len() != readback_owners.len()
+        || source_owners.iter().any(|(key, a)| {
+            readback_owners
+                .get(key)
+                .is_none_or(|b| (a - b).abs() > 64.0 * f64::EPSILON * a.abs().max(b.abs()))
+        })
+    {
+        return;
+    }
+    let actual = amount(&ConservedLedger::from_vessel(after).elements, "C");
+    let delta = target_carbon - actual;
+    if !delta.is_finite()
+        || !have.is_finite()
+        || have <= 0.0
+        || delta.abs() > 1e-10
+        || delta.abs() > 1e-6 * have
+        || have + delta <= 0.0
+    {
+        return;
+    }
+    let factor = (have + delta) / have;
+    for p in &mut after.contents {
+        if p.phase == Phase::Aqueous
+            && matches!(p.species.0.as_str(), "CO2(aq)" | "HCO3-" | "CO3-2")
+        {
+            p.moles.0 *= factor;
+        }
+    }
+}
+
 pub(crate) fn complete_basis(
     before: &Vessel,
     after: &mut Vessel,
@@ -562,6 +681,14 @@ pub(crate) fn complete_basis(
             *target.entry(element).or_default() += clock.applied_mol * count;
         }
     }
+    reconcile_owned_carbon_readback(
+        before,
+        after,
+        events,
+        reservoirs,
+        clock,
+        amount(&target, "C"),
+    );
     // The before vessel, split the same way the after vessel is about to
     // be: the basis portions it already holds, kept as themselves, and
     // everything else.
@@ -1502,5 +1629,131 @@ mod gas_aware_certificate_tests {
             },
         )
         .is_err());
+    }
+}
+
+#[cfg(test)]
+mod owned_carbon_readback_tests {
+    use super::*;
+    use kerotakis_core::{Headspace, Liters};
+
+    fn pose() -> Vessel {
+        let mut v = Vessel::new(VesselId(0), "finite canonical carbon readback");
+        v.headspace = Headspace::Sealed {
+            volume: Liters(0.25),
+        };
+        for (key, n, phase) in [
+            ("water", 5.5, Phase::Liquid),
+            ("ethyl_acetate", 0.001, Phase::Liquid),
+            ("Na+", 0.001, Phase::Aqueous),
+            (species::BASE_EQUIVALENTS, 0.0009932, Phase::Aqueous),
+            ("CO2(aq)", 0.2e-6, Phase::Aqueous),
+            ("HCO3-", 0.8e-6, Phase::Aqueous),
+            ("CO3-2", 3e-6, Phase::Aqueous),
+            ("CO2", 1e-6, Phase::Gas),
+        ] {
+            v.deposit(SpeciesId::new(key), Moles(n), phase);
+        }
+        v
+    }
+    fn readback(before: &Vessel) -> Vessel {
+        let mut after = before.clone();
+        for p in &mut after.contents {
+            if p.species.0 == "CO2" && p.phase == Phase::Gas {
+                p.moles.0 = 0.5e-6;
+            }
+            if p.phase == Phase::Aqueous
+                && matches!(p.species.0.as_str(), "CO2(aq)" | "HCO3-" | "CO3-2")
+            {
+                p.moles.0 *= 1.125 * (1.0 - 2e-7);
+            }
+        }
+        after
+    }
+    #[test]
+    fn owned_carbon_readback_closes_source_charge_without_changing_the_gas_pose_or_organic_stock() {
+        for charged in [0.0, 0.0001] {
+            let mut before = pose();
+            if charged > 0.0 {
+                before.deposit(SpeciesId::new("H+"), Moles(charged), Phase::Aqueous);
+            }
+            let mut after = readback(&before);
+            let native_ratio = after.moles_of(&SpeciesId::new("HCO3-")).0
+                / after.moles_of(&SpeciesId::new("CO3-2")).0;
+            complete_basis(
+                &before,
+                &mut after,
+                &[],
+                &[],
+                ClockCo2Boundary::none(before.id),
+            )
+            .unwrap();
+            let a = ConservedLedger::from_vessel(&before);
+            let b = ConservedLedger::from_vessel(&after);
+            assert!(
+                (amount(&a.elements, "C") - amount(&b.elements, "C")).abs()
+                    <= 8.0 * f64::EPSILON * amount(&a.elements, "C").abs()
+            );
+            for key in ["H", "O"] {
+                assert!((amount(&a.elements, key) - amount(&b.elements, key)).abs() < 1e-12);
+            }
+            assert!((a.charge - b.charge).abs() < 1e-14, "{a:?} -> {b:?}");
+            assert!(
+                (b.charge - charged).abs() < 1e-14,
+                "source charge must not be silently neutralised"
+            );
+            assert_eq!(after.moles_of(&SpeciesId::new("CO2")).0, 0.5e-6);
+            assert_eq!(after.moles_of(&SpeciesId::new("ethyl_acetate")).0, 0.001);
+            let ratio = after.moles_of(&SpeciesId::new("HCO3-")).0
+                / after.moles_of(&SpeciesId::new("CO3-2")).0;
+            assert!((ratio - native_ratio).abs() < 1e-15);
+            certify_gas_aware_inventory(
+                &before,
+                &after,
+                &[],
+                &[],
+                ClockCo2Boundary::none(before.id),
+            )
+            .unwrap();
+        }
+    }
+    #[test]
+    fn owned_carbon_readback_never_corrects_unowned_crossings_clock_opaque_or_foreign_carbon() {
+        for case in 0..12 {
+            let mut before = pose();
+            let mut after = readback(&before);
+            let mut events = vec![];
+            let mut reservoirs = vec![];
+            let mut clock = ClockCo2Boundary::none(before.id);
+            match case {
+                0=>{before.headspace=Headspace::Open;after.headspace=Headspace::Open;},
+                1=>{before.headspace=Headspace::Swept{pressure:kerotakis_core::Pascal(100_000.0)};after.headspace=before.headspace;},
+                2=>after.pending_co2_transfer_mol=1e-6,
+                3=>after.unresolved_materials.push(serde_json::from_value(serde_json::json!({"material":"opaque","recipe_id":"unknown","recipe_version":1,"basis":"mass_fraction","amount":0.1})).unwrap()),
+                4=>reservoirs.push("CO2"),
+                5=>clock.applied_mol=1e-6,
+                6=>after.contents.iter_mut().find(|p|p.species.0=="ethyl_acetate").unwrap().moles.0-=1e-13,
+                7=>{for p in &mut after.contents {if p.phase==Phase::Aqueous && matches!(p.species.0.as_str(),"CO2(aq)"|"HCO3-"|"CO3-2"){p.moles.0*=1.0-1e-5;}}},
+                8=>after.contents.retain(|p|!(p.phase==Phase::Aqueous && matches!(p.species.0.as_str(),"CO2(aq)"|"HCO3-"|"CO3-2"))),
+                9=>events.push(Event::GasAbsorbed{vessel:before.id,species:SpeciesId::new("CO2"),moles:Moles(1e-12)}),
+                10=>after.id=VesselId(9),
+                _=>after.headspace=Headspace::Sealed{volume:Liters(0.5)},
+            }
+            let snapshot = serde_json::to_value(&after).unwrap();
+            let target = amount(&ConservedLedger::from_vessel(&before).elements, "C");
+            reconcile_owned_carbon_readback(
+                &before,
+                &mut after,
+                &events,
+                &reservoirs,
+                clock,
+                target,
+            );
+            assert_eq!(
+                snapshot,
+                serde_json::to_value(&after).unwrap(),
+                "case{case}"
+            );
+        }
     }
 }
