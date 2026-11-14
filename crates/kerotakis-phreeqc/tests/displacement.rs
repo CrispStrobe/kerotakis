@@ -858,3 +858,135 @@ fn vinegar_spends_its_bound_protons_and_then_runs_out() {
          the 0.04 mol must remain — {left:.5} mol left"
     );
 }
+
+fn ordered_read(
+    bench: &mut Bench,
+    stack: &mut SolverStack,
+    positive: usize,
+    negative: usize,
+) -> Vec<Event> {
+    let command = format!(
+        "voltmeter positive v{} negative v{}",
+        positive + 1,
+        negative + 1
+    );
+    bench
+        .step_with(
+            kerotakis_core::script::parse_op(&command).unwrap().unwrap(),
+            stack,
+            &PermissiveScreen,
+        )
+        .expect("ordered voltmeter")
+}
+
+fn signed_volts(events: &[Event]) -> f64 {
+    events
+        .iter()
+        .find_map(|event| match event {
+            Event::VoltmeterRead { volts, .. } => Some(*volts),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("no signed readout: {events:?}"))
+}
+
+#[test]
+fn signed_leads_reverse_without_changing_the_admitted_cell_or_its_activities() {
+    for (left, right) in [
+        (("Zn", "ZnSO4", 0.0001), ("Zn", "ZnSO4", 0.01)),
+        (("Cu", "CuSO4", 0.01), ("Cu", "CuSO4", 0.1)),
+        (("Zn", "ZnSO4", 0.1), ("Cu", "CuSO4", 0.1)),
+        (("Cu", "CuSO4", 0.1), ("Ag", "AgNO3", 0.1)),
+    ] {
+        let (mut bench, mut stack) = half_cells(left, right);
+        let before = serde_json::to_string(&bench.vessels).unwrap();
+        let ea = displacement::electrode(bench.vessel(VesselId(0)).unwrap()).unwrap();
+        let eb = displacement::electrode(bench.vessel(VesselId(1)).unwrap()).unwrap();
+        let forward_events = ordered_read(&mut bench, &mut stack, 0, 1);
+        let forward = signed_volts(&forward_events);
+        let reverse = signed_volts(&ordered_read(&mut bench, &mut stack, 1, 0));
+        assert!(
+            forward < 0.0 && reverse > 0.0,
+            "{left:?} / {right:?}: {forward}, {reverse}"
+        );
+        assert_eq!(forward, -reverse, "same model, reversed leads");
+        assert!((forward - (ea.volts - eb.volts)).abs() < 1e-12);
+        assert_eq!(before, serde_json::to_string(&bench.vessels).unwrap());
+        for events in [forward_events, wire(&mut bench, &mut stack)] {
+            assert!(events.iter().any(
+                |event| matches!(event, Event::CellVoltage { volts, .. } if *volts == forward.abs())
+            ));
+        }
+        let legacy_reverse = bench
+            .step_with(
+                Operator::Cell {
+                    a: VesselId(1),
+                    b: VesselId(0),
+                },
+                &mut stack,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        assert!(legacy_reverse.iter().any(
+            |event| matches!(event, Event::CellVoltage { volts, .. } if *volts == forward.abs())
+        ));
+        assert!(!legacy_reverse
+            .iter()
+            .any(|event| matches!(event, Event::VoltmeterRead { .. })));
+    }
+}
+
+#[test]
+fn signed_leads_preserve_missing_electrode_and_invalid_pair_guards() {
+    for (left, right) in [
+        (("Cu", "NaCl", 0.1), ("Zn", "ZnSO4", 0.1)),
+        (("Zn", "NaCl", 0.1), ("Cu", "CuSO4", 0.1)),
+    ] {
+        let (mut bench, mut stack) = half_cells(left, right);
+        for (positive, negative) in [(0, 1), (1, 0)] {
+            let events = ordered_read(&mut bench, &mut stack, positive, negative);
+            assert!(events
+                .iter()
+                .any(|event| matches!(event, Event::NoCell { .. })));
+            assert!(!events
+                .iter()
+                .any(|event| matches!(event, Event::VoltmeterRead { .. })));
+        }
+    }
+    let (mut bench, mut stack) = half_cells(("Zn", "ZnSO4", 0.01), ("Cu", "CuSO4", 0.01));
+    assert!(matches!(
+        bench.step_with(
+            Operator::Voltmeter {
+                positive: VesselId(0),
+                negative: VesselId(0)
+            },
+            &mut stack,
+            &PermissiveScreen
+        ),
+        Err(BenchError::SelfTransfer)
+    ));
+    assert!(bench
+        .step_with(
+            Operator::Voltmeter {
+                positive: VesselId(0),
+                negative: VesselId(99)
+            },
+            &mut stack,
+            &PermissiveScreen
+        )
+        .is_err());
+}
+
+#[test]
+fn signed_equal_half_cells_read_zero_while_legacy_cell_keeps_its_refusal() {
+    let (mut bench, mut stack) = half_cells(("Cu", "CuSO4", 0.01), ("Cu", "CuSO4", 0.01));
+    for (positive, negative) in [(0, 1), (1, 0)] {
+        let events = ordered_read(&mut bench, &mut stack, positive, negative);
+        assert_eq!(signed_volts(&events), 0.0);
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::NoCell { .. })));
+    }
+    assert!(wire(&mut bench, &mut stack)
+        .iter()
+        .any(|event| matches!(event, Event::NoCell { .. })));
+}

@@ -1,6 +1,6 @@
 # Ordered improvement agenda — current checkpoint 2026-11-12
 
-Qualification is **410/468** unique originals (414 entries); 58 originals remain. Production
+Qualification is **411/468** unique originals (415 entries); 57 originals remain. Production
 remains `731931f0`. PR881 is ready with auto-merge enabled and queued checks; it has not merged or deployed. Its first failures and current repairs
 are described in [status](STATUS.md), [carbonate acceptance](carbonate-boundaries-20261112.md)
 and [fresh-agent scopes](next-agent-handoff.md).

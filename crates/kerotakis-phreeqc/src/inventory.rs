@@ -69,24 +69,30 @@ pub(crate) fn valid_opaque_clock_stock(vessel: &Vessel) -> bool {
 /// https://www.ebi.ac.uk/chebi/CHEBI:18230), not a dissolved Mg/N owner;
 /// illumination supplies no pigment reaction in this model. Every admitted
 /// portion must still pass the exact before/after stock witness below.
-/// Pepsin is an immutable catalyst dose whose `C`
-/// formula is explicitly a placeholder, not a molecule-count claim.
+/// Pepsin and catalase are immutable catalyst doses whose `C` formulas are
+/// explicitly placeholders, not molecule-count claims. Sucrose and ethanol
+/// have the exact neutral registry formulas and remain unchanged by this
+/// aqueous call; fermentation acts before the source snapshot.
 pub(crate) fn clock_spectator(portion: &Portion) -> bool {
     let key = portion.species.0.as_str();
     let phase_ok = match key {
-        "glucose" | "fructose" => matches!(portion.phase, Phase::Solid | Phase::Aqueous),
+        "glucose" | "fructose" | "sucrose" => {
+            matches!(portion.phase, Phase::Solid | Phase::Aqueous)
+        }
         "cellulose" | "chlorophyll" => portion.phase == Phase::Solid,
-        "pepsin" => portion.phase == Phase::Aqueous,
+        "ethanol" | "pepsin" | "catalase" => portion.phase == Phase::Aqueous,
         _ => false,
     };
     if !phase_ok || !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
         return false;
     }
-    if key == "pepsin" {
+    if matches!(key, "pepsin" | "catalase") {
         return kerotakis_core::enzyme::family_of(key).is_some()
             && species::lookup(&portion.species).is_some_and(|row| row.formula == "C");
     }
     let expected = match key {
+        "sucrose" => "C12H22O11",
+        "ethanol" => "C2H5OH",
         "cellulose" => "C6H10O5",
         "chlorophyll" => "C55H72MgN4O5",
         _ => "C6H12O6",
@@ -317,14 +323,16 @@ pub(crate) fn valid_reservoir_immutable_spectators(vessel: &Vessel) -> bool {
 }
 
 /// The generic ledger parses the enzyme catalogue's placeholder `C` as a
-/// formula unit. For this narrowly admitted catalyst the exact dose is
+/// formula unit. For these narrowly admitted catalysts the exact dose is
 /// certified unchanged instead; subtract that placeholder from the physical
 /// component comparison. No carbon atom count for pepsin is claimed.
 fn clock_known_component_ledger(vessel: &Vessel, exclude_opaque_catalyst: bool) -> ConservedLedger {
     let mut ledger = ConservedLedger::from_vessel(vessel);
     if exclude_opaque_catalyst {
         for portion in &vessel.contents {
-            if portion.species.0 == "pepsin" && clock_spectator(portion) {
+            if matches!(portion.species.0.as_str(), "pepsin" | "catalase")
+                && clock_spectator(portion)
+            {
                 *ledger.elements.entry("C".into()).or_default() -= portion.moles.0;
             }
         }
@@ -656,6 +664,119 @@ pub(crate) fn certify_gas_aware_inventory(
         reservoirs,
         clock,
         ImmutablePolicy::Clock,
+        false,
+    )
+}
+
+/// A finite CO2 dose is already inside the source inventory. Its absorption
+/// event describes internal transfer; only venting crosses this boundary.
+/// This entry point is separate from reservoir and clock ownership.
+pub(crate) fn certify_finite_clock_co2_inventory(
+    before: &Vessel,
+    after: &Vessel,
+    events: &[Event],
+    reservoirs: &[&str],
+    clock: ClockCo2Boundary,
+) -> Result<(), SolveError> {
+    let initial: f64 = before
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
+        .map(|portion| portion.moles.0)
+        .sum();
+    if !initial.is_finite()
+        || initial <= 0.0
+        || reservoirs.contains(&"CO2")
+        || before.owns_headspace_gas()
+        || after.owns_headspace_gas()
+        || after
+            .contents
+            .iter()
+            .any(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
+    {
+        return Err(inventory_error(
+            InventoryReason::GasCrossingUnowned,
+            "invalid finite CO2 dose owner",
+        ));
+    }
+    let mut absorbed = 0.0;
+    let mut vented = 0.0;
+    let mut uptake_count = 0;
+    let mut vent_count = 0;
+    for event in events {
+        if let Event::GasAbsorbed { vessel, moles, .. } | Event::GasEvolved { vessel, moles, .. } =
+            event
+        {
+            if *vessel != before.id || !moles.0.is_finite() || moles.0 < 0.0 {
+                return Err(inventory_error(
+                    InventoryReason::GasCrossingUnowned,
+                    "invalid finite dose event",
+                ));
+            }
+        }
+        match event {
+            Event::GasAbsorbed { species, moles, .. } if species.0 == "CO2" => {
+                absorbed += moles.0;
+                uptake_count += 1;
+            }
+            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => {
+                vented += moles.0;
+                vent_count += 1;
+            }
+            _ => {}
+        }
+    }
+    if uptake_count > 1
+        || vent_count > 1
+        || !absorbed.is_finite()
+        || !vented.is_finite()
+        || (absorbed - (initial - vented).max(0.0)).abs() > 1e-10
+    {
+        return Err(inventory_error(
+            InventoryReason::GasCrossingUnowned,
+            "finite CO2 uptake and vent witness disagree",
+        ));
+    }
+    let external: Vec<_> = events
+        .iter()
+        .filter(|event| {
+            !matches!(event,
+                Event::GasAbsorbed { species, .. } if species.0 == "CO2"
+            )
+        })
+        .cloned()
+        .collect();
+    certify_finite_clock_co2_external_inventory(before, after, &external, reservoirs, clock)
+}
+
+/// Cumulative canonical events contain only external crossings: finite uptake
+/// was removed at the first pose, before any reservoir reentry. A later CO2
+/// reservoir may own either sign without changing the finite source parcel.
+pub(crate) fn certify_finite_clock_co2_external_inventory(
+    before: &Vessel,
+    after: &Vessel,
+    events: &[Event],
+    reservoirs: &[&str],
+    clock: ClockCo2Boundary,
+) -> Result<(), SolveError> {
+    if !before.contents.iter().any(|portion| {
+        portion.phase == Phase::Gas && portion.species.0 == "CO2" && portion.moles.0 > 0.0
+    }) || before.owns_headspace_gas()
+        || after.owns_headspace_gas()
+    {
+        return Err(inventory_error(
+            InventoryReason::GasCrossingUnowned,
+            "missing finite CO2 source parcel",
+        ));
+    }
+    certify_component_inventory(
+        before,
+        after,
+        events,
+        reservoirs,
+        clock,
+        ImmutablePolicy::Clock,
+        true,
     )
 }
 
@@ -703,6 +824,7 @@ pub(crate) fn certify_reservoir_opaque_inventory(
         reservoirs,
         ClockCo2Boundary::none(before.id),
         ImmutablePolicy::ReservoirOptical,
+        false,
     )
 }
 
@@ -713,6 +835,7 @@ fn certify_component_inventory(
     reservoirs: &[&str],
     clock: ClockCo2Boundary,
     policy: ImmutablePolicy,
+    finite_co2_dose: bool,
 ) -> Result<(), SolveError> {
     let prefix = match policy {
         ImmutablePolicy::Clock => "gas-aware physical ledger",
@@ -780,7 +903,8 @@ fn certify_component_inventory(
                 format!("unowned gas crossing {}", species_id.0),
             ));
         }
-        if !reservoirs.contains(&species_id.0.as_str()) {
+        let finite_dose_event = finite_co2_dose && species_id.0 == "CO2" && sign < 0.0;
+        if !reservoirs.contains(&species_id.0.as_str()) && !finite_dose_event {
             return Err(refused(
                 InventoryReason::GasCrossingUnowned,
                 format!("unowned gas crossing {}", species_id.0),
@@ -1187,6 +1311,110 @@ mod gas_aware_certificate_tests {
             error.to_string(),
             "phreeqc-inventory could not solve this state: gas-aware physical ledger: unresolved portion unregistered_mystery_ion"
         );
+    }
+
+    #[test]
+    fn finite_dose_clock_ledger_separates_uptake_vent_and_signed_clock() {
+        for applied in [-0.0001, 0.0001] {
+            let mut before = Vessel::new(VesselId(0), "finite CO2 beside signed clock");
+            before.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+            before.deposit(SpeciesId::new("CO2(aq)"), Moles(0.001), Phase::Aqueous);
+            before.deposit(SpeciesId::new("CO2"), Moles(0.002), Phase::Gas);
+            let clock = ClockCo2Boundary {
+                vessel: before.id,
+                applied_mol: applied,
+            };
+            let mut after = before.clone();
+            after
+                .contents
+                .retain(|portion| portion.species.0 != "CO2" && portion.species.0 != "CO2(aq)");
+            after.deposit(
+                SpeciesId::new("CO2(aq)"),
+                Moles(0.0025 + applied),
+                Phase::Aqueous,
+            );
+            let events = vec![
+                Event::GasAbsorbed {
+                    vessel: before.id,
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(0.0015),
+                },
+                Event::GasEvolved {
+                    vessel: before.id,
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(0.0005),
+                },
+            ];
+            complete_basis(&before, &mut after, &events, &[], clock).unwrap();
+            certify_finite_clock_co2_inventory(&before, &after, &events, &[], clock).unwrap();
+            // The reservoir-only entry must retain its original refusal.
+            assert!(certify_gas_aware_inventory(&before, &after, &events, &[], clock).is_err());
+            assert!(
+                certify_finite_clock_co2_inventory(&before, &after, &events, &["CO2"], clock)
+                    .is_err()
+            );
+            let mut wrong = after.clone();
+            wrong.deposit(SpeciesId::new("CO2(aq)"), Moles(0.0015), Phase::Aqueous);
+            assert!(
+                certify_finite_clock_co2_inventory(&before, &wrong, &events, &[], clock).is_err()
+            );
+            let mut wrong_events = events.clone();
+            wrong_events.push(Event::GasAbsorbed {
+                vessel: before.id,
+                species: SpeciesId::new("CO2"),
+                moles: Moles(0.0015),
+            });
+            assert!(
+                certify_finite_clock_co2_inventory(&before, &after, &wrong_events, &[], clock)
+                    .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn fermentation_spectators_keep_exact_identity_phase_and_dose() {
+        let mut before = Vessel::new(VesselId(0), "fermentation spectators");
+        for (key, amount) in [
+            ("sucrose", 0.003),
+            ("ethanol", 0.001),
+            ("catalase", 1.25e-12),
+        ] {
+            before.deposit(SpeciesId::new(key), Moles(amount), Phase::Aqueous);
+        }
+        before
+            .unresolved_materials
+            .push(kerotakis_core::vessel::UnresolvedMaterialPortion {
+                material: "dry_yeast".into(),
+                recipe_id: "household/dry-yeast-catalase-surrogate".into(),
+                recipe_version: 1,
+                basis: kerotakis_core::material::MaterialBasis::MassFraction,
+                amount: 0.2999997,
+                enzyme_hydrolysis: None,
+                protein_denatured_fraction: 0.0,
+            });
+        for portion in &before.contents {
+            assert!(
+                clock_spectator(portion),
+                "registry spectator {}",
+                portion.species.0
+            );
+        }
+        assert!(valid_clock_immutable_spectators(&before));
+        certify_opaque_clock_stock(&before, &before).unwrap();
+        let mut changed_yeast = before.clone();
+        changed_yeast.unresolved_materials[0].amount += 0.001;
+        assert!(certify_opaque_clock_stock(&before, &changed_yeast).is_err());
+        for key in ["sucrose", "ethanol", "catalase"] {
+            let mut after = before.clone();
+            after
+                .contents
+                .iter_mut()
+                .find(|portion| portion.species.0 == key)
+                .unwrap()
+                .moles
+                .0 *= 1.01;
+            assert!(certify_opaque_clock_stock(&before, &after).is_err());
+        }
     }
 
     #[test]

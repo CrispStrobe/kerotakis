@@ -5,16 +5,26 @@ counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-
 
 ## Production and qualification
 
-Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-fo002.json)
-has **414 entries and 414 distinct catalog IDs**, representing **410 unique originals out of the fixed
-468**; **58 remain**. Four entries are from the separate supplied-reactions corpus and are outside
+Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-fe003.json)
+has **415 entries and 415 distinct catalog IDs**, representing **411 unique originals out of the fixed
+468**; **57 remain**. Four entries are from the separate supplied-reactions corpus and are outside
 that denominator. These are reviewed historical qualifications, not a uniform replay on the latest
 release. The goal is now to qualify the remaining originals without treating unsupported chemistry
 or a successful process exit as a scientific pass.
 
+## Residual solid notice follow-up
+
+The focused successor changes both live and preview notices to describe remaining solid without claiming dissolution from a registry flag. PVA without reviewed aqueous solubility now receives the existing missing-data notice. On source `1b7f2f86`, hosted solid-dissolution, liquid-contact, locale and rendering tests, generated coverage, formatting, CLI build and PO-008 replay passed. PO-008 remains unqualified: this corrects the notice, not the missing polymer dissolution model. The same source also passed the hosted 500-prompt curiosity check with zero unmet requirements, solver/runtime failures or baseline drift; two declared missing boundaries remain. Integration follows PR881; do not replace the working catalog count with this test result.
+
+## Fermentation inventory follow-up
+
+[The unchanged FE-003 comparison](https://github.com/CrispStrobe/kerotakis/blob/7e7686834/audits/fe003-finite-dose-clock-20261114/README.md) qualifies on source `0bf5205db`: zero solver failures, six known C/H/O/charge ledgers within 1.2e-15 mol/eq under the original 1e-10 bound, exact retained yeast/catalyst stock and the original three-arm response. The fixed count is now 411/468, with 57 remaining. All 414 predecessor catalog entries remain unchanged.
+
+The mass candidate passed 71 focused controls but retained three original solver failures. Its successor fixes finite-dose/clock ownership, the exact registry ethanol witness and the certified post-uptake solvent query. All 17 projection/witness controls, three selector guards, the unowned-dose/floor guard and four native boundary controls pass. A separately corrected saved reader follows the wire's omitted-Complete scope contract and rejects carbon/stock/scope/solver mutations; the first reader failure and both source failures remain preserved. The actual source-bound executable also passes one 500-prompt regression with zero unmet requirements, failures or baseline drift; two missing boundaries remain. Broader coherent-source CI, full applicable fleet and integration acceptance remain pending. No empirical calibration or new release is claimed.
+
 ## Rounds 4 and 5 — PR881 pending acceptance
 
-[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is ready with auto-merge enabled. The previous head failed preflight on two stale Cu₂O coverage tables and native codex lint on two stale magnesium temperature claims; the successor regenerates the tables and corrects the claims using an independently checked phase-aware enthalpy balance. Hosted thermal, codex lint and coverage checks pass; the updated export snapshot is being retested. It has not merged or deployed; the production identity above remains current. Its first failing head is `bb168622`: six starch display names lack German translations,
+[PR881](https://github.com/CrispStrobe/kerotakis/pull/881) is ready with auto-merge enabled. The previous head failed preflight on two stale Cu₂O coverage tables and native codex lint on two stale magnesium temperature claims; the successor regenerates the tables and corrects the claims using an independently checked phase-aware enthalpy balance. Hosted thermal, codex lint and coverage checks pass; the updated export snapshot also passes on `00784e5fe`. Required checks remain queued. It has not merged or deployed; the production identity above remains current. Its first failing head is `bb168622`: six starch display names lack German translations,
 the bicarbonate demo lacks step prose, and carbonate/gas/selectivity fleet contracts fail. Repair
 work preserves those first failures and distinguishes physical source defects from invalid oracles.
 Normal exact-head auto-merge and one bound deployment follow acceptance. Version/tag publication remains pending.

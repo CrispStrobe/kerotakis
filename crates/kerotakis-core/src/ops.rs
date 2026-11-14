@@ -320,6 +320,12 @@ pub enum Operator {
     /// circuit: no current flows and nothing changes, which is what the
     /// activity series predicts — the voltage a battery *would* have.
     Cell { a: VesselId, b: VesselId },
+    /// Signed open-circuit reading: E(positive lead) − E(negative lead).
+    /// Shares the cell model and its admission guards; draws no current.
+    Voltmeter {
+        positive: VesselId,
+        negative: VesselId,
+    },
     /// Drive a current through a vessel for a time: electrolysis.
     ///
     /// The cell operator asks what voltage a pair *produces*. This asks
@@ -1602,6 +1608,13 @@ pub enum Event {
             skip_serializing_if = "is_unit_efficiency"
         )]
         current_efficiency: f64,
+    },
+    /// Ordered lead readout. Nonzero readings are accompanied by the admitted
+    /// cell model event, retaining its Nernst or bounded acid-cell explanation.
+    VoltmeterRead {
+        positive: VesselId,
+        negative: VesselId,
+        volts: f64,
     },
     CellVoltage {
         anode: VesselId,

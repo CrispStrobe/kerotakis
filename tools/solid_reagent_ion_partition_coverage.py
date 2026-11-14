@@ -6,8 +6,7 @@
    is classified:
      registry-solubility   the registry carries a reviewed figure
      reviewed-row          `organic_solid_solubility::ROWS` carries a cited series
-     other-route           dissolution owned by another route (named), or the
-                           registry flag dissolves-without-speciation
+     other-route           dissolution owned by another route (named)
      refused               `not-modeled.organic-solid-no-solubility`; a curated
                            reaction drawing on its undissolved solid in water is
                            labelled `not-modeled.solid-phase-reaction`
@@ -108,8 +107,6 @@ def main():
     formula = {r["species_id"]: r["formula"] for r in reg["compositions"]}
     sol = {r["subject"]["id"]: r["quantity"]["value"] for r in reg["model_parameters"]
            if r["parameter"] == "aqueous-solubility-g-per-100-ml"}
-    dws = {r["subject"]["id"]: r["quantity"]["value"] == 1.0 for r in reg["model_parameters"]
-           if r["parameter"] == "dissolves-without-speciation"}
     rows = reviewed_rows()
 
     # ---- 1. organic solids
@@ -128,9 +125,6 @@ def main():
             g = x / (1 - x) * mass[sid] / mass["water"] * 100 * density["water"]
             out.append(dict(species=sid, cls="reviewed-row", dissolves_by_route=True,
                             g_per_100_ml=round(g, 3), at_k=t, source=rows[sid]["source"]))
-        elif dws.get(sid):
-            out.append(dict(species=sid, cls="other-route", dissolves_by_route=False, g_per_100_ml=None,
-                            source="registry dissolves-without-speciation: honesty says not-modeled.dissolves-unspeciated"))
         elif sid in OTHER_ROUTE:
             out.append(dict(species=sid, cls="other-route", dissolves_by_route=False,
                             g_per_100_ml=None, source=OTHER_ROUTE[sid]))
