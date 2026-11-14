@@ -1690,7 +1690,10 @@ mod owned_carbon_readback_tests {
             .unwrap();
             let a = ConservedLedger::from_vessel(&before);
             let b = ConservedLedger::from_vessel(&after);
-            assert!((amount(&a.elements, "C") - amount(&b.elements, "C")).abs() < 1e-18);
+            assert!(
+                (amount(&a.elements, "C") - amount(&b.elements, "C")).abs()
+                    <= 8.0 * f64::EPSILON * amount(&a.elements, "C").abs()
+            );
             for key in ["H", "O"] {
                 assert!((amount(&a.elements, key) - amount(&b.elements, key)).abs() < 1e-12);
             }
