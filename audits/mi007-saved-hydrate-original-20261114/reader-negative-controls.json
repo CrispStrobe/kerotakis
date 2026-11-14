@@ -1,0 +1,26 @@
+[
+  {
+    "mutation": "lost_hydration_water",
+    "rejected": true
+  },
+  {
+    "mutation": "lost_copper",
+    "rejected": true
+  },
+  {
+    "mutation": "lost_sulfate",
+    "rejected": true
+  },
+  {
+    "mutation": "equal_mass_claim",
+    "rejected": true
+  },
+  {
+    "mutation": "hidden_model_limit",
+    "rejected": true
+  },
+  {
+    "mutation": "solver_failure",
+    "rejected": true
+  }
+]

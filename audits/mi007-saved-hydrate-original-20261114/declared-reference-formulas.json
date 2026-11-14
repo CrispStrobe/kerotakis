@@ -1,0 +1,294 @@
+[
+  {
+    "id": "composition/brochantite",
+    "species_id": "brochantite",
+    "formula": "Cu4SO4(OH)6",
+    "elements": [
+      {
+        "element": "Cu",
+        "count": {
+          "value": 4.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/brochantite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "H",
+        "count": {
+          "value": 6.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/brochantite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "O",
+        "count": {
+          "value": 10.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/brochantite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "S",
+        "count": {
+          "value": 1.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/brochantite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      }
+    ],
+    "net_charge": {
+      "value": 0.0,
+      "unit": {
+        "symbol": "1",
+        "dimension": "dimensionless"
+      },
+      "conditions": {
+        "temperature": null,
+        "pressure": null,
+        "ph": null,
+        "ionic_strength": null,
+        "medium": null,
+        "phase": null,
+        "notes": null
+      },
+      "uncertainty": {
+        "kind": "exact"
+      },
+      "source_id": "legacy/brochantite",
+      "method": {
+        "kind": "derived",
+        "detail": "parsed from the verbatim legacy declaration"
+      }
+    },
+    "evidence": {
+      "source_id": "legacy/brochantite",
+      "method": {
+        "kind": "imported",
+        "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+      }
+    }
+  },
+  {
+    "id": "composition/langite",
+    "species_id": "langite",
+    "formula": "Cu4SO4(OH)6\u00b7H2O",
+    "elements": [
+      {
+        "element": "Cu",
+        "count": {
+          "value": 4.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/langite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "H",
+        "count": {
+          "value": 8.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/langite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "O",
+        "count": {
+          "value": 11.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/langite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      },
+      {
+        "element": "S",
+        "count": {
+          "value": 1.0,
+          "unit": {
+            "symbol": "1",
+            "dimension": "dimensionless"
+          },
+          "conditions": {
+            "temperature": null,
+            "pressure": null,
+            "ph": null,
+            "ionic_strength": null,
+            "medium": null,
+            "phase": null,
+            "notes": null
+          },
+          "uncertainty": {
+            "kind": "exact"
+          },
+          "source_id": "legacy/langite",
+          "method": {
+            "kind": "derived",
+            "detail": "parsed from the verbatim legacy declaration"
+          }
+        }
+      }
+    ],
+    "net_charge": {
+      "value": 0.0,
+      "unit": {
+        "symbol": "1",
+        "dimension": "dimensionless"
+      },
+      "conditions": {
+        "temperature": null,
+        "pressure": null,
+        "ph": null,
+        "ionic_strength": null,
+        "medium": null,
+        "phase": null,
+        "notes": null
+      },
+      "uncertainty": {
+        "kind": "exact"
+      },
+      "source_id": "legacy/langite",
+      "method": {
+        "kind": "derived",
+        "detail": "parsed from the verbatim legacy declaration"
+      }
+    },
+    "evidence": {
+      "source_id": "legacy/langite",
+      "method": {
+        "kind": "imported",
+        "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+      }
+    }
+  }
+]

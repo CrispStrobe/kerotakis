@@ -1,0 +1,20 @@
+[
+  {
+    "id": "question",
+    "criterion": "What changes when langite and brochantite contain the same basic copper-sulfate units but different water inventories?",
+    "review_instruction": "Compare the declared mineral formulas and any dissolution ledger. The hydration difference changes initial mass and potentially solvent water, not the number of copper atoms per chosen formula-unit dose.",
+    "result": null
+  },
+  {
+    "id": "inventory",
+    "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+    "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+    "result": null
+  },
+  {
+    "id": "coverage",
+    "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+    "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+    "result": null
+  }
+]
