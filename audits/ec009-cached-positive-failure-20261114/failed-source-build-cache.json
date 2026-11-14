@@ -1,0 +1,8 @@
+{
+  "source": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "tree": "452d8dab7de58405cc0485b640203b863a27a2b6",
+  "sha256": "ae309879ccd707a808512fe1033692a22e7602999de1e79221dd4cb2b108aa68",
+  "actual_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "toolchain": "1.100.0",
+  "purpose": "Reuse only as build cache for a justified changed-source successor; not acceptance"
+}

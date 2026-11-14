@@ -1,0 +1,233 @@
+{
+  "source": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "tree": "452d8dab7de58405cc0485b640203b863a27a2b6",
+  "steps": [
+    {
+      "name": "rustup-fetch",
+      "argv": [
+        "curl",
+        "--proto",
+        "=https",
+        "--tlsv1.2",
+        "-fsSL",
+        "https://sh.rustup.rs",
+        "-o",
+        "/kaggle/temp/ec009-charge-continuation/rustup-init.sh"
+      ],
+      "exit": 0,
+      "seconds": 0.3702394779999736,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "rustup-install",
+      "argv": [
+        "sh",
+        "/kaggle/temp/ec009-charge-continuation/rustup-init.sh",
+        "-y",
+        "--profile",
+        "minimal",
+        "--default-toolchain",
+        "1.100.0",
+        "--no-modify-path"
+      ],
+      "exit": 0,
+      "seconds": 14.411256105999996,
+      "stdout_sha256": "1e755949afd4e3fcd8653aa4bf090a5d50eef6c273f1e7e277f1257173da6bc8",
+      "stderr_sha256": "1384241933bdbdefe5ef316eee6efde49746da1f1007a0553d6c8dbc48571dec"
+    },
+    {
+      "name": "compiler",
+      "argv": [
+        "rustc",
+        "--version",
+        "--verbose"
+      ],
+      "exit": 0,
+      "seconds": 0.03244995000000017,
+      "stdout_sha256": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "init",
+      "argv": [
+        "git",
+        "init",
+        "/kaggle/temp/ec009-charge-continuation/repo"
+      ],
+      "exit": 0,
+      "seconds": 0.06562850699998535,
+      "stdout_sha256": "49bf9d6ceb363d09625a4d8ea35e00ea83d021197b1f2860182834fca79fe162",
+      "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+    },
+    {
+      "name": "remote",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://github.com/CrispStrobe/kerotakis.git"
+      ],
+      "exit": 0,
+      "seconds": 0.008182247999968695,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "5271b14894f68d91e472acca3aa6bae982e4712a"
+      ],
+      "exit": 0,
+      "seconds": 2.3719745529999727,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c8248726e0139d11062f133f91dbb5b90f25d84f63a675fe89cd73be95daee4e"
+    },
+    {
+      "name": "checkout",
+      "argv": [
+        "git",
+        "checkout",
+        "--detach",
+        "5271b14894f68d91e472acca3aa6bae982e4712a"
+      ],
+      "exit": 0,
+      "seconds": 0.5662171299999841,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ad11fe6dec4954a5f1be16cb4493ddd64be39fefd57533ff5b8d9515e7c53903"
+    },
+    {
+      "name": "base-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "439bbe566ede9c0ce906cf24a2dcd23512fc1edb"
+      ],
+      "exit": 0,
+      "seconds": 2.522573953999995,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e60389faa21b284f6a496c17c3fad25ac95e3307d36849339bf812f13c357408"
+    },
+    {
+      "name": "submodules",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive",
+        "--depth",
+        "1"
+      ],
+      "exit": 0,
+      "seconds": 2.673630024999966,
+      "stdout_sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+      "stderr_sha256": "b1a2b41a7118ebf6f7cbb2ee69337f1b81f57ddb6c840d11d7d574584f4b1b62"
+    },
+    {
+      "name": "sundials",
+      "argv": [
+        "bash",
+        "tools/fetch-sundials.sh"
+      ],
+      "exit": 0,
+      "seconds": 2.6728317430000175,
+      "stdout_sha256": "1944a3832b607cafa212954695d9d1c4e5e40d37b6598119fca6da9a6fb4ebaa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clang",
+      "argv": [
+        "bash",
+        "-c",
+        "(apt-get update -qq && apt-get install -y -qq libclang-dev clang cmake) || (sudo apt-get update -qq && sudo apt-get install -y -qq libclang-dev clang cmake)"
+      ],
+      "exit": 0,
+      "seconds": 57.491532226000004,
+      "stdout_sha256": "874f48efee4ea0952e9d063cd8eecec4e37541e3fdf0330ca29b8a0bc563a52c",
+      "stderr_sha256": "06c9322839309ecb298d9d37a70cf656e6d8d6f6a98e6898748c93fd94792630"
+    },
+    {
+      "name": "cache-source-fetch",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "0aa222db64720fe6c8c5874f8241dce87db268ab"
+      ],
+      "exit": 0,
+      "seconds": 2.522091452999973,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "840301dbd1a15ebd4bd831fee1a13c9adadc06e21a6b93df09901a23e0eb02d6"
+    },
+    {
+      "name": "source-clean",
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code"
+      ],
+      "exit": 0,
+      "seconds": 1.2693814440000324,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "native-positive-controls",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-phreeqc",
+        "--features",
+        "engine",
+        "--test",
+        "redox",
+        "--message-format=json",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "seconds": 77.43847351400001,
+      "stdout_sha256": "4c7b0a50e120fca8b17d4437a6232f9eb588d395f9b28d33e8b0b613a744745a",
+      "stderr_sha256": "e8a9aa3999de054ff88d98edd4b147ca7a3edeaf1bbdc124193b2f913d3ea792"
+    },
+    {
+      "name": "basis-charge-controls",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-phreeqc",
+        "--features",
+        "engine",
+        "--lib",
+        "redox_basis_charge_tests",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 9.144176070000015,
+      "stdout_sha256": "b7154775222682159acc540d3f42334482bb9628d1b9cf1a8275caaf80b21132",
+      "stderr_sha256": "0383334fb7d8300a114b717eec9f5e5d0725cb6f1e27188bd0c938038621ef71"
+    }
+  ],
+  "all_commands_passed": false,
+  "focused_only": true,
+  "preparation_prefix_replayed": false
+}

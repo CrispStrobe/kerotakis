@@ -1,0 +1,9 @@
+{
+  "source": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "tree": "452d8dab7de58405cc0485b640203b863a27a2b6",
+  "fixture_sha256": "adee22f70af455490364760fbefd78ce120f9a6ad0f0a3be00387442b17554ca",
+  "cargo_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "lock_origin": "Genuine completed PR882 producer; unchanged manifests; not source committed",
+  "physical_source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+  "historical_native_binary_sha256": null
+}

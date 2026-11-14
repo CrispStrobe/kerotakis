@@ -1,0 +1,21 @@
+{
+  "COMPLETED.json": "a816ccd684edb21bc85bffc97293f1367104de57578f3c473eb20e3bc97eea51",
+  "README.md": "1beb4a81e7e8272d4c6b7fc4a8b795768e5b07ebfb6799af1b3c7a4c26b3a4a6",
+  "STARTED.json": "f5b9d64540b468659b1ad9963deb4ae33641ec7f0630f82254411195a397ae90",
+  "actual-positive-assessment.json": "102672f37669e823a752d4659df532efc8fe74e02cc6f9ee25790e49ae4b5fc2",
+  "basis-charge-controls.json": "783c86d89f8184864db755edfead3e8e042839a315cc3506dd379fa1c24ec5bc",
+  "basis-charge-controls.stderr": "0383334fb7d8300a114b717eec9f5e5d0725cb6f1e27188bd0c938038621ef71",
+  "basis-charge-controls.stdout": "b7154775222682159acc540d3f42334482bb9628d1b9cf1a8275caaf80b21132",
+  "cache-reuse.json": "8082fb00b7197c50b493a39bbb4de3dbbe2108cdc632b147911cc25d61c3fe73",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "failed-source-build-cache.json": "2066308c32f1a61cd33154dcfcc8a54547145626b5a386d185fdbbc8624bede6",
+  "native-continuation-executable.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "native-pair-fixture.json": "adee22f70af455490364760fbefd78ce120f9a6ad0f0a3be00387442b17554ca",
+  "native-positive-controls.json": "be5c649d5645474b84a5f7fd526a7d600b9f6a80e73feda460c544ea6a3a6ff8",
+  "native-positive-controls.stderr": "e8a9aa3999de054ff88d98edd4b147ca7a3edeaf1bbdc124193b2f913d3ea792",
+  "native-positive-controls.stdout": "4c7b0a50e120fca8b17d4437a6232f9eb588d395f9b28d33e8b0b613a744745a",
+  "original-continuation-skipped.json": "d3ba187da535aad50c417f81d1592228a4dfa61c74176da56aabe6b3fd24de27",
+  "positive-executable.json": "73af11287b43db7720a386a67b0d247beec1314b28fcae22bb229b405b097767",
+  "producer-SHA256.json": "9fff5629ef19f7b3ea1ffcd1329f6634845bf3055126d46d8eacae49f320a40f",
+  "source-and-lock.json": "d0ff8d910af311fcd3e48579582c4978e4ac595b0008d98bfc81c0607e352cd5"
+}

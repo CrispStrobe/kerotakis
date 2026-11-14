@@ -1,0 +1,22 @@
+{
+  "name": "native-positive-controls",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-phreeqc",
+    "--features",
+    "engine",
+    "--test",
+    "redox",
+    "--message-format=json",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "exit": 101,
+  "seconds": 77.43847351400001,
+  "stdout_sha256": "4c7b0a50e120fca8b17d4437a6232f9eb588d395f9b28d33e8b0b613a744745a",
+  "stderr_sha256": "e8a9aa3999de054ff88d98edd4b147ca7a3edeaf1bbdc124193b2f913d3ea792"
+}
