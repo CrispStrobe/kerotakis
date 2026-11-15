@@ -1,0 +1,41 @@
+{
+  "rx012-four-core": {
+    "selector_exact": true,
+    "exit": 0,
+    "seconds": 95.21917867599996,
+    "resource": {
+      "MemAvailable_MiB": 30898.4140625,
+      "load1": 1.81982421875,
+      "free_bytes": 1034619846656,
+      "elapsed_seconds": 127.75827875300001,
+      "cpu_count": 4,
+      "build_jobs": 2
+    }
+  },
+  "rx012-cli-scalar": {
+    "selector_exact": true,
+    "exit": 0,
+    "seconds": 165.7142585800001,
+    "resource": {
+      "MemAvailable_MiB": 30840.37890625,
+      "load1": 1.54541015625,
+      "free_bytes": 1034054017024,
+      "elapsed_seconds": 223.120891014,
+      "cpu_count": 4,
+      "build_jobs": 2
+    }
+  },
+  "gs007-two-projection": {
+    "selector_exact": true,
+    "exit": 0,
+    "seconds": 40.76283651699998,
+    "resource": {
+      "MemAvailable_MiB": 30922.84375,
+      "load1": 2.25,
+      "free_bytes": 1033635758080,
+      "elapsed_seconds": 389.06991022700004,
+      "cpu_count": 4,
+      "build_jobs": 2
+    }
+  }
+}

@@ -1,0 +1,8 @@
+running 4 tests
+test legacy_event_has_no_invented_lead_order_and_roundtrips_unchanged ... ok
+test ordered_negative_reading_is_visible_in_each_locale ... ok
+test reverse_leads_reverse_signed_readout_without_reversing_chemistry_or_changing_stock ... ok
+test unresolved_or_equal_activity_does_not_gain_polarity_authority ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+

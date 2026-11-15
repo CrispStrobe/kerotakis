@@ -1,0 +1,17 @@
+{
+  "README.md": "f2c5dccd5d5115e04664d8e65427268377e5e7d830a754a6128440a9d46e35ca",
+  "actual-producer-Cargo.lock": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "collection.json": "c7637a654ef637278b29c5ad084a0ed9b4f42269c6575bc686e127efc8a44637",
+  "command-selector-review.json": "9c344f60498787f5f101276e49c69eb297d7d0fc475ed9e32e16ffa3c1876aad",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "composed-source-files.json": "c779cf815ea35c2af679fc51e963d9bc0e40680efc8bde3db2c49270a2956251",
+  "gs007-two-projection.stdout.excerpt.txt": "4e258107fd5c843dab93e4269e24790f052d87dff62791a150bab73666dcbf99",
+  "independent-review.json": "af07ed072ecd2285ed09a378afa84ffaa824fc7a8c90ea3747b735ab4fb5380f",
+  "next-original-accepted.json": "fc280619de15392e91efe0b7cc765d414e996816db562824579f3c4192e55442",
+  "raw-producer-hashes.json": "d2d4f967a6d8bcdb0372d7f09737a4d542cc98fec2d825def4e54c32148218c6",
+  "rx012-cli-scalar.stdout.excerpt.txt": "f0a7e004683a9afb209e0c9970bdab64e59396bc0fda1109525a4210b66c3fc8",
+  "rx012-four-core.stdout.excerpt.txt": "753d5219c4e4520965fc77fc3b1b011c9025fc22014d5e5e7c306bb2465a0bad",
+  "source-and-lock.json": "87a41ed9d29cc1d56e20eff4b577d871dd89dd8412cc1b244eaa665f974761c1",
+  "status.json": "4d7e955920ac560ad236fa3dfdb0eb354c35a2fbe851ce133483bcea0a56a020",
+  "streamed-executables.json": "9bcefc3f5026465951d60a464232e8cf145940c70450817d21bc2eef132662ea"
+}

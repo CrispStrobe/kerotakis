@@ -1,0 +1,14 @@
+{
+  "crates/kerotakis-cli/src/main.rs": "ea27cd2c1fa218ffc972bb2722f65a12a6e3dc73e339c97d51d80660eeed85db",
+  "crates/kerotakis-core/i18n/de.toml": "90e04ae5bb68743d4399fd477006d43a1259ed2b164579555ee8b3f1597f7f64",
+  "crates/kerotakis-core/i18n/fr.toml": "635e72bd75e665677705486e3a1aa6ab3f5de96090493f06b8dba1de4c117407",
+  "crates/kerotakis-core/src/bench.rs": "5c13b03881a1255eb9e404d15693b69ad1af622501745d7f09d38ce005f2ea9b",
+  "crates/kerotakis-core/src/displacement.rs": "7b437929ff512022c2ac38931e60c6a33b91c5b31f45dd0073326efae9cfda51",
+  "crates/kerotakis-core/src/ops.rs": "0453423479cc111bd0a7d9a73795e486b366452b18716a91bc8c6151d5e077d8",
+  "crates/kerotakis-core/src/render.rs": "79080bf01588e1718a57ce28e179f9eda75050a1e82cda4ac4c2d256c4575b34",
+  "crates/kerotakis-core/tests/cell_terminal_polarity.rs": "47bbbaa561b13f8279f37e1fe57ee54402063f58fc52af484088d7fbb440eeba",
+  "crates/kerotakis-phreeqc/src/aqueous.rs": "684320f691b902e7a4cc22a24018d1d207d959094f0fca0e8742ca506cff26bd",
+  "crates/kerotakis-phreeqc/tests/swept_equilibrium_readback/contracts.rs": "07941f44c759b5cc48dc514f98429a874523ccc920d9bad6539af0575e565333",
+  "docs/gs007-swept-boundary-20261115.md": "94c191a38ec7f6ac9a0f0111aa6dd3c3ca83fc5ef9e13aaeff1e1e29d48d82d9",
+  "docs/ordered-cell-voltage-20261115.md": "e585b5babc2f14f6e7bc2dabd15401d26670fb0e47e4c1862451c031eb2c8ecd"
+}

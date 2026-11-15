@@ -1,0 +1,6 @@
+running 2 tests
+test aqueous::swept_equilibrium_readback_contracts::finite_dose_does_not_acquire_reservoir_warning ... ok
+test aqueous::swept_equilibrium_readback_contracts::swept_reservoir_warns_without_changing_carbon_export_or_inventory ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 213 filtered out; finished in 0.36s
+

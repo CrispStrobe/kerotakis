@@ -1,0 +1,28 @@
+{
+  "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+  "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a",
+  "verified_files": 62,
+  "actual_tests": {
+    "rx012-four-core": [
+      "legacy_event_has_no_invented_lead_order_and_roundtrips_unchanged",
+      "ordered_negative_reading_is_visible_in_each_locale",
+      "reverse_leads_reverse_signed_readout_without_reversing_chemistry_or_changing_stock",
+      "unresolved_or_equal_activity_does_not_gain_polarity_authority"
+    ],
+    "rx012-cli-scalar": [
+      "native_startup_tests::semantic_event_adapter_exposes_only_documented_scalar_fields"
+    ],
+    "gs007-two-projection": [
+      "aqueous::swept_equilibrium_readback_contracts::finite_dose_does_not_acquire_reservoir_warning",
+      "aqueous::swept_equilibrium_readback_contracts::swept_reservoir_warns_without_changing_carbon_export_or_inventory"
+    ]
+  },
+  "streamed_binary_hashes": {
+    "native-rx012-four-core-cell_terminal_polarity": "fc947531a987686db04adef82a7cc8f1e6f333e57ba4f315df89e73b2b67b256",
+    "native-rx012-cli-scalar-kero": "05a467f0c9a08103bb6d3863d5578395fde8d69946a0d8016d2f32339ab4baad",
+    "native-gs007-two-projection-kerotakis_phreeqc": "b618e7c7afb397c526bbed4d502b4031529e79a23aaf53e230e35788031b7da0"
+  },
+  "qualification_delta": 0,
+  "originals_replayed": false,
+  "full_source_platform_fleet_acceptance": false
+}

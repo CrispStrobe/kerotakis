@@ -1,0 +1,13 @@
+{
+  "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+  "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a",
+  "script_sha256": "62ba0274f50d7a1e422a2fcb2bb8ac8687df1fddd607d2c8f25c8b8c821e6023",
+  "kernel_id": 145185932,
+  "version": 1,
+  "accepted_hash_matches": true,
+  "scope": "RX012 unchanged native original + missing-metal refusal only",
+  "controls_replayed": false,
+  "PO002_replayed": false,
+  "GS007_replayed": false,
+  "qualification_pending": true
+}

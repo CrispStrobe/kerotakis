@@ -1,0 +1,26 @@
+{
+  "native-rx012-four-core-cell_terminal_polarity": {
+    "verified": true,
+    "actual_sha256": "fc947531a987686db04adef82a7cc8f1e6f333e57ba4f315df89e73b2b67b256",
+    "bytes": 26346768,
+    "bytes_stored": false,
+    "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+    "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a"
+  },
+  "native-rx012-cli-scalar-kero": {
+    "verified": true,
+    "actual_sha256": "05a467f0c9a08103bb6d3863d5578395fde8d69946a0d8016d2f32339ab4baad",
+    "bytes": 43284592,
+    "bytes_stored": false,
+    "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+    "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a"
+  },
+  "native-gs007-two-projection-kerotakis_phreeqc": {
+    "verified": true,
+    "actual_sha256": "b618e7c7afb397c526bbed4d502b4031529e79a23aaf53e230e35788031b7da0",
+    "bytes": 23417736,
+    "bytes_stored": false,
+    "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+    "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a"
+  }
+}
