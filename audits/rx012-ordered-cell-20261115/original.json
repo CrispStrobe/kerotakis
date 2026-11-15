@@ -1,0 +1,25 @@
+{
+  "id": "new120:rx-012",
+  "batch": "first120",
+  "title": "A zinc concentration cell reverses sign when electrodes are swapped",
+  "selected_script": "scripts/new120_rx-012.lab",
+  "selected_script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+  "original_script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+  "selection": "unchanged supplied protocol",
+  "original_physical_forecast": "The concentration difference generates a non-zero voltage, and reversing the electrode order reverses its sign without changing the chemistry.",
+  "original_acceptance_checks": [
+    {
+      "id": "RX-012-C1",
+      "criterion": "The two readings have approximately equal magnitudes and opposite signs.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "RX-012-C2",
+      "criterion": "Use zinc activity, not just nominal ZnSO4 molarity, for a Nernst comparison.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "prior_evidence": null
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "command": [
+      "rustfmt",
+      "--edition",
+      "2021",
+      "--check",
+      "crates/kerotakis-core/src/displacement.rs",
+      "crates/kerotakis-core/src/ops.rs",
+      "crates/kerotakis-core/src/bench.rs",
+      "crates/kerotakis-core/src/render.rs",
+      "crates/kerotakis-core/tests/cell_terminal_polarity.rs",
+      "crates/kerotakis-cli/src/main.rs"
+    ],
+    "exit": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "python",
+      "tools/i18n-holes-lint.py",
+      "--check"
+    ],
+    "exit": 0,
+    "stdout_sha256": "964c8e0fa86834209bcc543b38de5f2af1ee816dced22943e2662a331aa94868",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "python",
+      "tools/i18n-slug-lint.py"
+    ],
+    "exit": 0,
+    "stdout_sha256": "7a9f4f6af343ef7700e9265878aa75b9e1053959d16d5bb72cff7426e3385920",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

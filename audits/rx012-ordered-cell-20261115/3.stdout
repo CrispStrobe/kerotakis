@@ -1,0 +1,33 @@
+codex slugs the shell de-slugs: 380
+
+== de
+family                  de   slugs   coverage
+experiment names       131     131   100.0% ####################
+concepts               185     185   100.0% ####################
+apparatus               44      44   100.0% ####################
+models                  20      20   100.0% ####################
+
+== fr
+family                  fr   slugs   coverage
+experiment names       131     131   100.0% ####################
+concepts               185     185   100.0% ####################
+apparatus               44      44   100.0% ####################
+models                  20      20   100.0% ####################
+   ECHO: 'adsorption' is translated as itself
+   ECHO: 'balance' is translated as itself
+   ECHO: 'bases' is translated as itself
+   ECHO: 'burette' is translated as itself
+   ECHO: 'calcination' is translated as itself
+   ECHO: 'calcination' is translated as itself
+   ECHO: 'combustion' is translated as itself
+   ECHO: 'concentration' is translated as itself
+   ECHO: 'dilution' is translated as itself
+   ECHO: 'distillation' is translated as itself
+   ECHO: 'filtration' is translated as itself
+   ECHO: 'hydrates' is translated as itself
+   ECHO: 'ions' is translated as itself
+   ECHO: 'neutralisation' is translated as itself
+   ECHO: 'neutralisation' is translated as itself
+   ECHO: 'pipette' is translated as itself
+   ECHO: 'saturation' is translated as itself
+   ECHO: 'solutions' is translated as itself

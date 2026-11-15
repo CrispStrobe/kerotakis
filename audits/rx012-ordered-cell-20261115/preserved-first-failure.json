@@ -1,0 +1,43 @@
+{
+  "producer": {
+    "revision": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "source_head": "abf4e9a34eb16e51f605a2009e542b62002a30ea",
+    "binary_sha256": "6101bfbdcfc2c5f95cf771e44c549cf3ae390ee0a1cf37af06fbf9651b952544",
+    "cargo_lock_sha256": "c25e1ccd68ff9ef61dde11a62224117cf4f25ea61cce196d3e066ff5d4bb60bf"
+  },
+  "raw_response": {
+    "id": "new120:rx-012",
+    "original_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+    "http_status": 200,
+    "response_body_sha256": "4753cd42f72931ea7f54503da39dc613b2f387f5a46bfd29d2e1583a6194f86f"
+  },
+  "review": {
+    "id": "new120:rx-012",
+    "qualified": false,
+    "criteria": [
+      {
+        "id": "RX-012-C1",
+        "text": "Opposite signs",
+        "verdict": "FAIL",
+        "evidence": "both orders +0.040039 V, anode v1 cathode v2"
+      },
+      {
+        "id": "RX-012-C2",
+        "text": "Zinc activity",
+        "verdict": "PASS",
+        "evidence": "0.0400 V vs ideal 0.0592 V from molarity ratio consistent with activity correction"
+      }
+    ],
+    "closure": {
+      "elements": {
+        "all": "<2e-13"
+      },
+      "charge": 0,
+      "energy": "n/a"
+    },
+    "observed_result": "Zn concentration cell 0.0400 V; swapped order returns the same positive value.",
+    "limitations": "cell sorts electrodes.",
+    "doubts": "none"
+  },
+  "statement": "Preserved historical source-specific C1 failure; not rerun or relabelled as a new-source observation."
+}

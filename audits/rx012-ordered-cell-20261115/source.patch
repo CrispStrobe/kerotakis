@@ -1,0 +1,358 @@
+commit c484bb6bf57b4ebdb356cbcf4e36bdca5ffaae52
+Author:     crispasr integration <cze+github@mailbox.org>
+AuthorDate: Sun Nov 15 09:25:02 2026 +0000
+Commit:     crispasr integration <cze+github@mailbox.org>
+CommitDate: Sun Nov 15 09:25:02 2026 +0000
+
+    Retain requested terminal polarity in open-circuit cell readings
+    
+    Signed-off-by: crispasr integration <cze+github@mailbox.org>
+
+diff --git a/crates/kerotakis-cli/src/main.rs b/crates/kerotakis-cli/src/main.rs
+index c5b1d59cf..069d929be 100644
+--- a/crates/kerotakis-cli/src/main.rs
++++ b/crates/kerotakis-cli/src/main.rs
+@@ -2247,11 +2247,15 @@ fn semantic_scalar_events(events: &[Event]) -> Vec<kerotakis_codex::semantic::Sc
+                 Event::CellVoltage {
+                     volts,
+                     standard_volts,
++                    terminals,
+                     ..
+-                } => (
+-                    "cell_voltage",
+-                    vec![("volts", *volts), ("standard_volts", *standard_volts)],
+-                ),
++                } => {
++                    let mut fields = vec![("volts", *volts), ("standard_volts", *standard_volts)];
++                    if let Some(reading) = terminals {
++                        fields.push(("terminal_volts", reading.volts));
++                    }
++                    ("cell_voltage", fields)
++                }
+                 Event::AcidMetalCellVoltage { volts, ph, .. } => (
+                     "acid_metal_cell_voltage",
+                     vec![("volts", *volts), ("ph", *ph)],
+@@ -3871,6 +3875,7 @@ mod native_startup_tests {
+                 anode: VesselId(0),
+                 cathode: VesselId(1),
+                 volts: 1.08,
++                terminals: None,
+                 standard_volts: 1.10,
+                 notation: "cell".into(),
+                 equation: "reaction".into(),
+@@ -3908,6 +3913,19 @@ mod native_startup_tests {
+         assert_eq!(scalars[2].kind, "measured");
+         assert_eq!(scalars[2].fields.len(), 1);
+         assert_eq!(scalars[2].fields["value"], 101.325);
++
++        let mut ordered = events[0].clone();
++        if let Event::CellVoltage { terminals, .. } = &mut ordered {
++            *terminals = Some(kerotakis_core::ops::CellTerminalReading {
++                first: VesselId(1),
++                second: VesselId(0),
++                volts: -1.08,
++            });
++        }
++        let signed = semantic_scalar_events(&[ordered]);
++        assert_eq!(signed[0].fields.len(), 3);
++        assert_eq!(signed[0].fields["volts"], 1.08);
++        assert_eq!(signed[0].fields["terminal_volts"], -1.08);
+     }
+ 
+     #[test]
+diff --git a/crates/kerotakis-core/i18n/de.toml b/crates/kerotakis-core/i18n/de.toml
+index c40b8583e..c715b56ce 100644
+--- a/crates/kerotakis-core/i18n/de.toml
++++ b/crates/kerotakis-core/i18n/de.toml
+@@ -693,6 +693,7 @@ hydroxylapatite = "Hydroxylapatit"
+ "heat-of-mixing.lv2-absorbed" = "{vessel}: Mischungswärme {joules} J aufgenommen"
+ 
+ # Batch 2: the multi-line sites, converted on spans.
++"cell-terminal-voltage" = "Geordnete Voltmeteranschlüsse: Minus/Referenz {first}, Plus {second}; E({second}) - E({first}) = {volts} V. Das Vertauschen der Anschlüsse kehrt dieses Vorzeichen um, nicht die spontanen Elektrodenrollen."
+ "cell-voltage.lv1" = "Das Voltmeter zwischen {anode} und {cathode} zeigt {volts} V — du hast eine Batterie gebaut! Die Elektronen wollen von {anode} nach {cathode} fließen. (Noch nutzt nichts den Strom, also ändert sich in den Bechergläsern nichts.)"
+ "transition-point-read.lv1" = "Die Probe aus {vessel} {outcome} bei {value} °C. Jeder reine Stoff hat seinen eigenen, stets gleichen Übergangspunkt — so kann man ein weißes Pulver vom anderen unterscheiden."
+ "dehydrated.lv1" = "Die blauen Kristalle werden weiß, während das Kristallwasser ausgetrieben wird. Das Wasser war nie flüssig — es war im Kristall gebunden und entweicht nun als Dampf."
+diff --git a/crates/kerotakis-core/i18n/fr.toml b/crates/kerotakis-core/i18n/fr.toml
+index e59a5bac9..b9a2a921c 100644
+--- a/crates/kerotakis-core/i18n/fr.toml
++++ b/crates/kerotakis-core/i18n/fr.toml
+@@ -673,6 +673,7 @@ hydroxylapatite = "hydroxylapatite"
+ "heat-of-mixing.lv2-absorbed" = "{vessel} : chaleur de mélange absorbée — {joules} J"
+ 
+ # Batch 2: the multi-line sites, converted on spans.
++"cell-terminal-voltage" = "Bornes ordonnées du voltmètre : négative/référence {first}, positive {second} ; E({second}) - E({first}) = {volts} V. Inverser les bornes inverse ce signe, sans inverser les rôles spontanés des électrodes."
+ "cell-voltage.lv1" = "Le voltmètre entre {anode} et {cathode} indique {volts} V — tu as construit une pile ! Les électrons veulent circuler de {anode} vers {cathode}. (Rien n'utilise encore le courant, donc rien ne change dans les béchers.)"
+ "transition-point-read.lv1" = "L'échantillon de {vessel} {outcome} à {value} °C. Chaque substance pure a son propre point de transition, toujours le même — c'est ainsi qu'on distingue une poudre blanche d'une autre."
+ "dehydrated.lv1" = "Les cristaux bleus deviennent blancs à mesure que l'eau de cristallisation est chassée. Cette eau n'a jamais été liquide — elle était liée dans le cristal et s'échappe maintenant sous forme de vapeur."
+diff --git a/crates/kerotakis-core/src/bench.rs b/crates/kerotakis-core/src/bench.rs
+index c8231ed7f..b56cb3796 100644
+--- a/crates/kerotakis-core/src/bench.rs
++++ b/crates/kerotakis-core/src/bench.rs
+@@ -5684,6 +5684,11 @@ impl Bench {
+                             anode,
+                             cathode,
+                             volts: cell.volts,
++                            terminals: Some(crate::ops::CellTerminalReading {
++                                first: *a,
++                                second: *b,
++                                volts: cell.terminal_volts(),
++                            }),
+                             standard_volts: cell.standard_volts,
+                             notation: cell.notation(),
+                             equation: cell.equation(),
+diff --git a/crates/kerotakis-core/src/displacement.rs b/crates/kerotakis-core/src/displacement.rs
+index e72262a5a..b2f7c1d8c 100644
+--- a/crates/kerotakis-core/src/displacement.rs
++++ b/crates/kerotakis-core/src/displacement.rs
+@@ -1602,6 +1602,17 @@ pub struct Cell {
+ }
+ 
+ impl Cell {
++    /// Signed open-circuit reading with the negative lead on the first
++    /// requested vessel and the positive lead on the second. Spontaneous
++    /// electrode roles and their positive cell voltage remain separate.
++    pub fn terminal_volts(&self) -> f64 {
++        if self.anode_is_first {
++            self.volts
++        } else {
++            -self.volts
++        }
++    }
++
+     /// The reaction that would run if the circuit were closed.
+     pub fn equation(&self) -> String {
+         Displacement {
+diff --git a/crates/kerotakis-core/src/ops.rs b/crates/kerotakis-core/src/ops.rs
+index 195d7b5dd..0964a0f39 100644
+--- a/crates/kerotakis-core/src/ops.rs
++++ b/crates/kerotakis-core/src/ops.rs
+@@ -319,6 +319,8 @@ pub enum Operator {
+     /// Wire two vessels as a galvanic cell and read the voltmeter. Open
+     /// circuit: no current flows and nothing changes, which is what the
+     /// activity series predicts — the voltage a battery *would* have.
++    /// The ordered reading uses `a` as negative/reference lead and `b`
++    /// as positive lead, separately from the spontaneous electrode roles.
+     Cell { a: VesselId, b: VesselId },
+     /// Drive a current through a vessel for a time: electrolysis.
+     ///
+@@ -838,6 +840,17 @@ pub struct DiscardedPortion {
+     pub phase: Phase,
+ }
+ 
++/// Ordered voltmeter leads, independent of spontaneous anode/cathode order.
++#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
++pub struct CellTerminalReading {
++    /// Negative/reference lead: first argument of `cell`.
++    pub first: VesselId,
++    /// Positive lead: second argument of `cell`.
++    pub second: VesselId,
++    /// E(second) - E(first), V, from the admitted half-cell activities.
++    pub volts: f64,
++}
++
+ #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+ #[serde(tag = "event", rename_all = "snake_case")]
+ pub enum Event {
+@@ -1606,7 +1619,11 @@ pub enum Event {
+     CellVoltage {
+         anode: VesselId,
+         cathode: VesselId,
++        /// Positive spontaneous E(cathode) - E(anode), unchanged.
+         volts: f64,
++        /// Actual requested lead order. Absent in historical event records.
++        #[serde(default, skip_serializing_if = "Option::is_none")]
++        terminals: Option<CellTerminalReading>,
+         /// The standard cell potential from E° alone, for the comparison
+         /// that makes Nernst visible.
+         standard_volts: f64,
+diff --git a/crates/kerotakis-core/src/render.rs b/crates/kerotakis-core/src/render.rs
+index 1bf302031..6a586cb21 100644
+--- a/crates/kerotakis-core/src/render.rs
++++ b/crates/kerotakis-core/src/render.rs
+@@ -4391,10 +4391,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
+             anode,
+             cathode,
+             volts,
++            terminals,
+             standard_volts,
+             notation,
+             equation,
+-        } => match register.level() {
++        } => {
++            let line = match register.level() {
+             1 => locale.fill(
+                 "event.cell-voltage.lv1",
+                 "The voltmeter between {anode} and {cathode} reads {volts} V — you have made a battery! The electrons want to flow from {anode} to {cathode}. (Nothing is using the current yet, so nothing in the beakers changes.)",
+@@ -4410,6 +4412,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
+                 "{notation}: E_cell = {volts} V open-circuit, no current, no internal resistance modelled (E°_cell = {standard_volts} V; the difference is the Nernst term over the computed ion activities; ideal salt bridge, no liquid-junction potential); anode {anode}, cathode {cathode}; {equation}",
+                 &[("notation", &notation.to_string()), ("volts", &locale.number(format!("{volts:.4}"))), ("standard_volts", &locale.number(format!("{standard_volts:.4}"))), ("anode", &anode.to_string()), ("cathode", &cathode.to_string()), ("equation", &equation.to_string())],
+             ),
++            };
++            match terminals {
++                Some(reading) => format!("{line}\n{}", locale.fill(
++                    "event.cell-terminal-voltage",
++                    "Ordered voltmeter leads: negative/reference {first}, positive {second}; E({second}) - E({first}) = {volts} V. Reversing the leads reverses this sign; it does not reverse the spontaneous electrode roles.",
++                    &[("first", &reading.first.to_string()), ("second", &reading.second.to_string()), ("volts", &locale.number(format!("{:+.6}", reading.volts)))],
++                )),
++                None => line,
++            }
+         },
+         Event::AcidMetalCellVoltage { anode, cathode, volts, ph } => match register.level() {
+             1 => locale.fill(
+diff --git a/crates/kerotakis-core/tests/cell_terminal_polarity.rs b/crates/kerotakis-core/tests/cell_terminal_polarity.rs
+new file mode 100644
+index 000000000..277a4a3a5
+--- /dev/null
++++ b/crates/kerotakis-core/tests/cell_terminal_polarity.rs
+@@ -0,0 +1,132 @@
++//! Synthetic admitted-activity readout controls, not a native RX012 qualification.
++use kerotakis_core::{
++    displacement, ops::CellTerminalReading, render::render_event_in, Bench, Event, Locale, Moles,
++    Operator, Phase, Register, SolutionInfo, SpeciesDetail, SpeciesId, Vessel, VesselId,
++};
++
++fn half_cell(id: usize, activity: f64) -> Vessel {
++    let mut v = Vessel::new(VesselId(id), "polarity control");
++    v.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
++    v.deposit(SpeciesId::new("Zn"), Moles(0.01), Phase::Solid);
++    v.deposit(SpeciesId::new("Zn+2"), Moles(0.001), Phase::Aqueous);
++    v.solution = Some(SolutionInfo {
++        scope: Default::default(),
++        solvent_kg: None,
++        particle_molality: None,
++        ph: 7.0,
++        pe: None,
++        redox: vec![],
++        ionic_strength: 0.01,
++        species: vec![SpeciesDetail {
++            name: "Zn+2".into(),
++            molality: 0.01,
++            activity,
++        }],
++        provenance: None,
++        solvent_activity: None,
++    });
++    v
++}
++
++fn reading(events: &[Event]) -> (&CellTerminalReading, VesselId, f64) {
++    events
++        .iter()
++        .find_map(|event| match event {
++            Event::CellVoltage {
++                terminals: Some(reading),
++                anode,
++                volts,
++                ..
++            } => Some((reading, *anode, *volts)),
++            _ => None,
++        })
++        .expect("ordered terminal readout")
++}
++
++#[test]
++fn reverse_leads_reverse_signed_readout_without_reversing_chemistry_or_changing_stock() {
++    let mut bench = Bench::new();
++    bench.vessels = vec![half_cell(0, 1e-4), half_cell(1, 1e-2)];
++    let before = serde_json::to_value(&bench.vessels).unwrap();
++    let ea = displacement::electrode(&bench.vessels[0]).unwrap().volts;
++    let eb = displacement::electrode(&bench.vessels[1]).unwrap().volts;
++    let forward = bench
++        .step(Operator::Cell {
++            a: VesselId(0),
++            b: VesselId(1),
++        })
++        .unwrap();
++    let reverse = bench
++        .step(Operator::Cell {
++            a: VesselId(1),
++            b: VesselId(0),
++        })
++        .unwrap();
++    let (f, fa, fm) = reading(&forward);
++    let (r, ra, rm) = reading(&reverse);
++    assert_eq!((f.first, f.second), (VesselId(0), VesselId(1)));
++    assert_eq!((r.first, r.second), (VesselId(1), VesselId(0)));
++    assert!(f.volts > 0.0 && r.volts < 0.0);
++    assert_eq!(f.volts, eb - ea);
++    assert_eq!(r.volts, ea - eb);
++    assert_eq!(fa, ra, "lead order does not change the spontaneous anode");
++    assert_eq!(fm, rm, "legacy spontaneous voltage stays positive");
++    assert_eq!(before, serde_json::to_value(&bench.vessels).unwrap());
++}
++
++#[test]
++fn unresolved_or_equal_activity_does_not_gain_polarity_authority() {
++    let a = half_cell(0, 1e-4);
++    let mut b = half_cell(1, 1e-2);
++    b.solution = None;
++    assert!(displacement::cell(&a, &b).is_err());
++    for invalid in [0.0, -1.0, f64::NAN, f64::INFINITY] {
++        let b = half_cell(1, invalid);
++        assert!(displacement::cell(&a, &b).is_err());
++    }
++    assert!(displacement::cell(&a, &half_cell(1, 1e-4)).is_err());
++}
++
++#[test]
++fn legacy_event_has_no_invented_lead_order_and_roundtrips_unchanged() {
++    let value = serde_json::json!({"event":"cell_voltage","anode":0,"cathode":1,
++        "volts":0.04,"standard_volts":0.0,"notation":"Zn cell","equation":"Zn exchange"});
++    let event: Event = serde_json::from_value(value.clone()).unwrap();
++    assert!(matches!(
++        event,
++        Event::CellVoltage {
++            terminals: None,
++            ..
++        }
++    ));
++    assert_eq!(serde_json::to_value(&event).unwrap(), value);
++    assert!(!render_event_in(&event, Register::LV3, Locale::EN).contains("Ordered voltmeter"));
++}
++
++#[test]
++fn ordered_negative_reading_is_visible_in_each_locale() {
++    let event = Event::CellVoltage {
++        anode: VesselId(0),
++        cathode: VesselId(1),
++        volts: 0.04,
++        standard_volts: 0.0,
++        notation: "Zn cell".into(),
++        equation: "Zn exchange".into(),
++        terminals: Some(CellTerminalReading {
++            first: VesselId(1),
++            second: VesselId(0),
++            volts: -0.04,
++        }),
++    };
++    for language in ["en", "de", "fr"] {
++        let locale = Locale::parse(language);
++        let line = render_event_in(&event, Register::LV3, locale);
++        assert!(
++            line.contains(&locale.number("-0.040000".to_string())),
++            "{line}"
++        );
++        assert!(
++            !line.contains("{first}") && !line.contains("{second}") && !line.contains("{volts}")
++        );
++    }
++}
+diff --git a/docs/ordered-cell-voltage-20261115.md b/docs/ordered-cell-voltage-20261115.md
+new file mode 100644
+index 000000000..40ce6346f
+--- /dev/null
++++ b/docs/ordered-cell-voltage-20261115.md
+@@ -0,0 +1,13 @@
++# Ordered cell-voltage readout
++
++Original `new120:rx-012` asks for equal-magnitude opposite-sign readings after reversing zinc concentration-cell terminals, compared with actual zinc activities. The unchanged script uses100mL water and1gZn on each side, with0.0001mol versus0.01molZnSO4. The saved abf-source review reports+0.040039V in both orders: C1 FAIL/C2 PASS. It remains preserved and unqualified.
++
++`displacement::cell` already computes admitted half-cell Nernst potentials, then sorts electrodes into spontaneous anode/cathode order. Its positive `Cell.volts` represents spontaneous chemical driving force, so swapping requested leads loses the sign. The repair adds `Cell::terminal_volts()` and carries the original vessel order in optional `CellVoltage.terminals {first, second, volts}`. The signed reading is `E(second)-E(first)`: first is the negative/reference lead, second the positive lead. It uses the existing resolved activities and temperature. Spontaneous electrode roles, magnitude, standard voltage, equation and notation remain unchanged. No new species, activity law, thermodynamic constant, kinetic parameter or stock is added.
++
++The actual `Operator::Cell` path emits the ordered readout. EN/DE/FR rendering states lead order and signed voltage; the CLI semantic scalar adapter exposes `terminal_volts` separately from the legacy spontaneous `volts`. Historical events deserialize with no terminal reading and serialize without fabricated order. The acid-metal estimate route is unchanged and does not gain a resolved-activity claim.
++
++Four core controls cover reversed leads with unchanged stock/roles, unresolved/equal/invalid-activity refusal, historical JSON round-trip and EN/DE/FR signed rendering. The existing CLI scalar guard is preserved and extended to require the additional signed field only when order exists. These fixtures test readout behavior; they do not supply scientific observations or qualify the original.
++
++Formatting, diff checks, locale placeholder checks and i18n lint pass. Rust compile/runtime tests are **UNEXECUTED** after the single Cycle73 admission refused load6.202148 while lock, memory and reserve passed. No second admission, native original replay, new validation job or PR is issued. Next bounded acceptance is `cargo test --locked -p kerotakis-core --test cell_terminal_polarity`, the CLI semantic scalar guard, and subsequently an admitted exact-source unchanged-original positive/refusal review with actual zinc activities and complete stock/charge/thermal-state checks. Ordinary source/platform/fleet acceptance remains required before integration. No golden or original predicate is weakened or blessed here.
++
++Coverage stays431/468 originals,435 catalog objects,37 remaining. GS007's two524 projection controls remain unexecuted and its C2 failure remains separate. PR884ee027 stays DRAFT; this source branch does not amend it or authorize a merge or Apple action.

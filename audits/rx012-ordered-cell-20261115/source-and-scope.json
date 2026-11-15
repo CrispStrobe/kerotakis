@@ -1,0 +1,35 @@
+{
+  "source": "c484bb6bf57b4ebdb356cbcf4e36bdca5ffaae52",
+  "tree": "7e16b4090e15e778bee9163d58e645ad694791a5",
+  "base": "6068f2d1566dc79398047ef5871ba8112b472e0d",
+  "changed_paths": [
+    "crates/kerotakis-cli/src/main.rs",
+    "crates/kerotakis-core/i18n/de.toml",
+    "crates/kerotakis-core/i18n/fr.toml",
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/displacement.rs",
+    "crates/kerotakis-core/src/ops.rs",
+    "crates/kerotakis-core/src/render.rs",
+    "crates/kerotakis-core/tests/cell_terminal_polarity.rs",
+    "docs/ordered-cell-voltage-20261115.md"
+  ],
+  "resource_thresholds": {
+    "memory_MiB_at_least": 4608,
+    "load_strictly_less_than": 3.5,
+    "free_bytes_strictly_greater_than": 12884901888,
+    "lock": "nonblocking exclusive; fd retained through actual child"
+  },
+  "GS007_projection_controls_executed": false,
+  "RX012_Rust_controls_executed": false,
+  "RX012_native_original_executed": false,
+  "original_criteria_unchanged": true,
+  "scientific_qualification": false,
+  "coverage": {
+    "before": 431,
+    "after": 431,
+    "catalog_entries": 435,
+    "remaining": 37,
+    "catalog_sha256": "aa2fa65be0be6c34f6225759f175b7ec063b97170b75b260a05e05cc2012e8ec"
+  },
+  "selected_original_confirmed_remaining": true
+}

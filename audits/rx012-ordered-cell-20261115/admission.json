@@ -1,0 +1,12 @@
+{
+  "utc": "2026-11-15T09:17:39.556131+00:00",
+  "source": "52404e01c7bed8498516d76829e6feb87911f544",
+  "lock_acquired": true,
+  "MemAvailable_MiB": 4687.7734375,
+  "load1": 6.2021484375,
+  "free_bytes": 15296630784,
+  "child_started": false,
+  "refusals": [
+    "load"
+  ]
+}
