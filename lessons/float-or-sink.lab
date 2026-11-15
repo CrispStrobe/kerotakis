@@ -45,7 +45,7 @@ look v3
 # as light as water. This is a density-based possibility, not a simulated
 # separation of these pieces or an empirical calibration.
 #
-# Other dissolved-ion mixtures do not inherit that support. Where the model
+#@part.7 Other dissolved-ion mixtures do not inherit that support. Where the model
 # lacks volume authority, the meter keeps an explicit missing-volume warning.
 # Potassium chloride currently stays outside this density route; its
 # approximate number is not a supported separation threshold. Shape, trapped air and surface effects
