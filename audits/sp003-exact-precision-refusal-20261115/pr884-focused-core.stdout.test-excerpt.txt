@@ -1,0 +1,74 @@
+Test-output excerpt; full raw SHA256 retained in raw-producer-hashes.json.
+running 5 tests
+test a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok
+test a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok
+test a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok
+test an_ordinary_dense_solid_is_not_a_bubble_rider ... ok
+test still_water_says_nothing_about_riding_bubbles ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.62s
+
+
+running 6 tests
+test a_conserved_object_answers_from_its_recipe ... ok
+test a_liquid_answers_even_when_a_solid_is_sitting_in_it ... ok
+test a_mixture_of_two_solids_refuses_and_names_them ... ok
+test an_empty_vessel_has_no_density ... ok
+test dissolved_sugar_makes_the_water_denser_and_the_reading_says_so ... ok
+test three_metals_of_equal_mass_are_told_apart_only_by_density ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.59s
+
+
+running 5 tests
+test a_floating_solid_does_not_cloud_the_water ... ok
+test a_salt_solution_says_what_its_density_reading_omits ... ok
+test named_objects_use_their_reviewed_bulk_density ... ok
+test polypropylene_floats_and_the_denser_plastics_do_not ... ok
+test the_same_solid_floats_in_a_liquid_dense_enough ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.82s
+
+
+running 8 tests
+test error_stream_is_reproducible_and_survives_save_load ... ok
+test failed_readings_do_not_advance_the_noise_stream ... ok
+test invalid_configuration_and_time_are_refused ... ok
+test lag_relaxes_toward_the_target_and_time_must_progress ... ok
+test out_of_range_readings_are_flagged_not_hidden ... ok
+test records_carry_no_sample_composition ... ok
+test resolution_quantizes_the_recorded_value ... ok
+test two_point_calibration_maps_raw_to_reference_and_is_recorded ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.61s
+
+
+running 7 tests
+test a_species_without_a_pair_keeps_its_registry_density ... ok
+test melting_inside_the_range_is_reported_at_the_vessel_temperature ... ok
+test molten_paraffin_has_its_sourced_liquid_density ... ok
+test paraffin_pair_is_sourced_and_denser_as_a_solid ... ok
+test solid_paraffin_sinks_in_its_own_melt ... ok
+test solid_paraffin_still_floats_on_water ... ok
+test th004_freezing_on_cooling_is_reported_inside_the_declared_range ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.60s
+
+
+running 13 tests
+test a_metal_with_no_gated_reaction_claims_no_extent ... ok
+test a_phase_transition_says_how_much_moved ... ok
+test a_sealed_jar_of_chlorine_shows_its_colour_in_the_scene ... ok
+test a_sublimation_is_not_a_boil_on_the_wire ... ok
+test a_vessel_under_partial_vacuum_reads_as_boiling_while_it_merely_sits ... ok
+test an_empty_vessel_claims_no_plateau_at_all ... ok
+test an_old_scene_without_corrosion_data_still_deserializes ... ok
+test an_open_beaker_of_water_stands_at_the_normal_boiling_point ... ok
+test corroded_extent_grows_with_the_rust_and_not_otherwise ... ok
+test molar_volume_separates_a_fluffy_solid_from_a_dense_one ... ok
+test only_a_vessel_that_owns_its_gas_reports_a_headspace ... ok
+test the_pistons_volume_follows_the_pressure_it_is_held_at ... ok
+test the_standing_plateau_is_the_one_a_boil_reports ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s
+

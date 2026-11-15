@@ -1,0 +1,2780 @@
+{
+  "after": [
+    {
+      "co2_partial_pressure_atm": null,
+      "contents": [
+        {
+          "moles": 2.556188750566667,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.039409218370669685,
+          "phase": "liquid",
+          "species": "ethanol"
+        }
+      ],
+      "elapsed_seconds": 0.0,
+      "excess_enthalpy_j": 0.0,
+      "foam": {
+        "peak_volume_liters": 0.0,
+        "trapped_gas_liters": 0.0,
+        "volume_liters": 0.0
+      },
+      "free_hydroxide": 0.0,
+      "free_proton": 0.0,
+      "headspace": {
+        "boundary": "open"
+      },
+      "id": 0,
+      "label": "beaker",
+      "lots": [
+        {
+          "added_at": 0.0,
+          "moles": 5.550929780738273,
+          "particle_size_um": null,
+          "phase": "liquid",
+          "source": "reagent bottle",
+          "species": "water",
+          "suspended_fraction": null
+        },
+        {
+          "added_at": 0.0,
+          "moles": 0.21706570578914236,
+          "particle_size_um": null,
+          "phase": "liquid",
+          "source": "reagent bottle",
+          "species": "ethanol",
+          "suspended_fraction": null
+        }
+      ],
+      "nuclides": {
+        "inventory": {}
+      },
+      "pending_co2_transfer_mol": 0.0,
+      "pressure": 101325.0,
+      "resolved": {
+        "solution": null,
+        "valid": false
+      },
+      "solute_charge": 0.0,
+      "solution": null,
+      "surfaces": [],
+      "temperature": 298.15,
+      "thermal_mode": "adiabatic"
+    },
+    {
+      "co2_partial_pressure_atm": null,
+      "contents": [
+        {
+          "moles": 2.7754648903691366,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.10853285289457118,
+          "phase": "liquid",
+          "species": "ethanol"
+        }
+      ],
+      "elapsed_seconds": 0.0,
+      "excess_enthalpy_j": 0.0,
+      "foam": {
+        "peak_volume_liters": 0.0,
+        "trapped_gas_liters": 0.0,
+        "volume_liters": 0.0
+      },
+      "free_hydroxide": 0.0,
+      "free_proton": 0.0,
+      "headspace": {
+        "boundary": "open"
+      },
+      "id": 1,
+      "label": "beaker",
+      "nuclides": {
+        "inventory": {}
+      },
+      "pending_co2_transfer_mol": 0.0,
+      "pressure": 101325.0,
+      "resolved": {
+        "solution": null,
+        "valid": false
+      },
+      "solute_charge": 0.0,
+      "solution": null,
+      "surfaces": [],
+      "temperature": 298.15,
+      "thermal_mode": "adiabatic"
+    },
+    {
+      "co2_partial_pressure_atm": null,
+      "contents": [
+        {
+          "moles": 0.21927613980246935,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.0691236345239015,
+          "phase": "liquid",
+          "species": "ethanol"
+        }
+      ],
+      "elapsed_seconds": 0.0,
+      "excess_enthalpy_j": 0.0,
+      "foam": {
+        "peak_volume_liters": 0.0,
+        "trapped_gas_liters": 0.0,
+        "volume_liters": 0.0
+      },
+      "free_hydroxide": 0.0,
+      "free_proton": 0.0,
+      "headspace": {
+        "boundary": "open"
+      },
+      "id": 2,
+      "label": "beaker",
+      "nuclides": {
+        "inventory": {}
+      },
+      "pending_co2_transfer_mol": 0.0,
+      "pressure": 101325.0,
+      "resolved": {
+        "solution": null,
+        "valid": false
+      },
+      "solute_charge": 0.0,
+      "solution": null,
+      "surfaces": [],
+      "temperature": 298.15,
+      "thermal_mode": "adiabatic"
+    },
+    {
+      "co2_partial_pressure_atm": null,
+      "contents": [],
+      "elapsed_seconds": 0.0,
+      "excess_enthalpy_j": 0.0,
+      "foam": {
+        "peak_volume_liters": 0.0,
+        "trapped_gas_liters": 0.0,
+        "volume_liters": 0.0
+      },
+      "free_hydroxide": 0.0,
+      "free_proton": 0.0,
+      "headspace": {
+        "boundary": "open"
+      },
+      "id": 3,
+      "label": "beaker",
+      "nuclides": {
+        "inventory": {}
+      },
+      "pending_co2_transfer_mol": 0.0,
+      "pressure": 101325.0,
+      "resolved": {
+        "solution": null,
+        "valid": false
+      },
+      "solute_charge": 0.0,
+      "solution": null,
+      "surfaces": [],
+      "temperature": 298.15,
+      "thermal_mode": "adiabatic"
+    }
+  ],
+  "engine_scope": "Native Rust core physics + honesty stack; no aqueous chemical engine",
+  "frames": [
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "register lv3",
+      "command": "register lv3",
+      "events": []
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.550929780738273,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "add v1 water 100g",
+      "command": "add v1 water 100g",
+      "events": [
+        {
+          "event": "added",
+          "moles": 5.550929780738273,
+          "species": "water",
+          "total_after": 5.550929780738273,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.550929780738273,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.21706570578914236,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.550929780738273,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "add v1 ethanol 10g",
+      "command": "add v1 ethanol 10g",
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.21706570578914236,
+          "species": "ethanol",
+          "total_after": 0.21706570578914236,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.550929780738273,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.21706570578914236,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.550929780738273,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.21706570578914236,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "new",
+      "command": "new",
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.550929780738273,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.21706570578914236,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "decant v1 v2 0.5",
+      "command": "decant v1 v2 0.5",
+      "events": [
+        {
+          "event": "transferred",
+          "fraction": 0.5,
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "new",
+      "command": "new",
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "new",
+      "command": "new",
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 3
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.556188750566667,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.039409218370669685,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.21927613980246935,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0691236345239015,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "distil v1 v3 0.1 stages 1",
+      "command": "distil v1 v3 0.1 stages 1",
+      "events": [
+        {
+          "at": 364.17578162817006,
+          "azeotropic": false,
+          "components": [
+            [
+              "water",
+              0.21927613980246935
+            ],
+            [
+              "ethanol",
+              0.0691236345239015
+            ]
+          ],
+          "ended": 368.42715937485843,
+          "energy_kj": 11.581899835881103,
+          "ethanol": 0.0691236345239015,
+          "event": "distilled",
+          "from": 0,
+          "stages": 1,
+          "to": 2,
+          "water": 0.21927613980246935
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.556188750566667,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.039409218370669685,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.21927613980246935,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0691236345239015,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.556188750566667,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.039409218370669685,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.21927613980246935,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0691236345239015,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "distil v2 v4 0.1 stages 4",
+      "command": "distil v2 v4 0.1 stages 4",
+      "events": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred",
+            "key": "not-modeled.still-condensate-precision"
+          },
+          "vessel": 1,
+          "what": "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred"
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.556188750566667,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.039409218370669685,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.21927613980246935,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0691236345239015,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "before": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.556188750566667,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.039409218370669685,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.550929780738273,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.21706570578914236,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7754648903691366,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.10853285289457118,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.21927613980246935,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0691236345239015,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "canonical": "inspect",
+      "command": "inspect",
+      "events": []
+    }
+  ],
+  "original": {
+    "acceptance_checks": [
+      {
+        "criterion": "Compare product compositions at equal cut fractions from the split feed.",
+        "evaluation": "manual_review_of_saved_runtime_observations",
+        "id": "SP-003-C1",
+        "result": null
+      },
+      {
+        "criterion": "No extra ethanol is created by increasing stage count; inventory closure includes both residues.",
+        "evaluation": "manual_review_of_saved_runtime_observations",
+        "id": "SP-003-C2",
+        "result": null
+      }
+    ],
+    "educational_level": "Sekundarstufe II / university foundation",
+    "engine_support": {
+      "assessment": "source_informed_candidate",
+      "coverage_risk": "high",
+      "runtime_verified": false
+    },
+    "evidence": {
+      "assessment": null,
+      "candidate_script": "scripts/SP-003.lab",
+      "script_sha256": "203a94f77d183e9be5adfd54dcb62a1024bd25979e94d036cba16e97c52df085",
+      "source_ids": [
+        "grammar",
+        "registry",
+        "readme"
+      ],
+      "tested_script": null
+    },
+    "expected_processes": [],
+    "expected_result": "The modelled multi-stage separation should enrich the more volatile component more strongly than a one-stage separation of a matched feed.",
+    "experiment_kind": "controlled-comparison",
+    "group": "separation",
+    "id": "new120:sp-003",
+    "importance_rationale": "Upper-secondary depth, a substantive controlled extension, or a multi-step workflow.",
+    "initial_conditions": {
+      "environment_note": "Open-bench boundary unless changed by commands; released gases may leave the retained inventory.",
+      "fresh_process_required": true,
+      "initial_vessel": "v1",
+      "new_command_creates_next_vessel": true,
+      "temperature_when_not_explicit": "Engine default; read the first observation."
+    },
+    "limitations": [
+      "Inspect all source and receiver inventories. Transfer commands are idealised operations, not a prediction of real apparatus recovery or analytical uncertainty."
+    ],
+    "novelty": {
+      "basis": "New design or substantive controlled extension relative to the supplied catalogue; not a claim of a novel discovery.",
+      "distinction": "Changes separation stages rather than simply repeating extraction-stage examples.",
+      "exhaustive_baseline_deduplication": false
+    },
+    "observation_plan": [
+      {
+        "command": "inspect",
+        "script_line": 12,
+        "step": 10,
+        "type": "inventory_snapshot"
+      }
+    ],
+    "observed_result": null,
+    "operations": [
+      {
+        "command": "register lv3",
+        "script_line": 3,
+        "step": 1,
+        "verb": "register"
+      },
+      {
+        "command": "add v1 water 100g",
+        "script_line": 4,
+        "step": 2,
+        "verb": "add"
+      },
+      {
+        "command": "add v1 ethanol 10g",
+        "script_line": 5,
+        "step": 3,
+        "verb": "add"
+      },
+      {
+        "command": "new",
+        "script_line": 6,
+        "step": 4,
+        "verb": "new"
+      },
+      {
+        "command": "decant v1 v2 0.5",
+        "script_line": 7,
+        "step": 5,
+        "verb": "decant"
+      },
+      {
+        "command": "new",
+        "script_line": 8,
+        "step": 6,
+        "verb": "new"
+      },
+      {
+        "command": "new",
+        "script_line": 9,
+        "step": 7,
+        "verb": "new"
+      },
+      {
+        "command": "distil v1 v3 0.1 stages 1",
+        "script_line": 10,
+        "step": 8,
+        "verb": "distil"
+      },
+      {
+        "command": "distil v2 v4 0.1 stages 4",
+        "script_line": 11,
+        "step": 9,
+        "verb": "distil"
+      },
+      {
+        "command": "inspect",
+        "script_line": 12,
+        "step": 10,
+        "verb": "inspect"
+      }
+    ],
+    "priority_tier": 2,
+    "rank": 105,
+    "reagents": [
+      {
+        "amount": 100.0,
+        "amount_literal": "100g",
+        "formula": "H2O",
+        "input_temperature": null,
+        "introduced_by": "add",
+        "name": "Water",
+        "registry_key": "water",
+        "role": "solvent_or_sample",
+        "script_line": 4,
+        "unit": "g",
+        "vessel": "v1"
+      },
+      {
+        "amount": 10.0,
+        "amount_literal": "10g",
+        "formula": "C2H6O",
+        "input_temperature": null,
+        "introduced_by": "add",
+        "name": "Ethanol",
+        "registry_key": "ethanol",
+        "role": "chemical_input",
+        "script_line": 5,
+        "unit": "g",
+        "vessel": "v1"
+      }
+    ],
+    "safety_context": "Simulation-only script. Not a wet-lab procedure or permission to perform the chemistry in a classroom.",
+    "script": "# SP-003: More theoretical stages change enrichment at the same cut specification\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100g\nadd v1 ethanol 10g\nnew\ndecant v1 v2 0.5\nnew\nnew\ndistil v1 v3 0.1 stages 1\ndistil v2 v4 0.1 stages 4\ninspect\n",
+    "script_body_sha256": "a8b45e456ce0cdd2204f06dcfe964c45e23b7afee4f2ab92c2caf59b858587c9",
+    "script_sha256": "203a94f77d183e9be5adfd54dcb62a1024bd25979e94d036cba16e97c52df085",
+    "static_validation": {
+      "command_count": 10,
+      "commands": {
+        "add": 2,
+        "decant": 1,
+        "distil": 2,
+        "inspect": 1,
+        "new": 3,
+        "register": 1
+      },
+      "errors": [],
+      "reagent_keys": [
+        "ethanol",
+        "water"
+      ],
+      "status": "pass",
+      "vessel_count": 4
+    },
+    "status": "designed_not_run",
+    "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+    "tags": [],
+    "title": "More theoretical stages change enrichment at the same cut specification",
+    "title_de": "Theoretische Stufen verändern die Trennleistung",
+    "validated_on": null
+  },
+  "totals": [
+    5.550929780738272,
+    0.21706570578914236
+  ]
+}

@@ -1,0 +1,12 @@
+Test-output excerpt; full raw SHA256 retained in raw-producer-hashes.json.
+running 2 tests
+test independently_supported_small_cut_and_impossible_composition_controls ... ok
+test unchanged_original_sp003_requires_both_equal_cut_products ... FAILED
+
+failures:
+
+failures:
+    unchanged_original_sp003_requires_both_equal_cut_products
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.93s
+

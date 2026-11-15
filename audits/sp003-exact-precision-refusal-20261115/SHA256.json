@@ -1,0 +1,19 @@
+{
+  "README.md": "e0eb9f885aa6cf6670293379f5dd15984a23a824a20788967aaa70ad203424d5",
+  "actual-producer-Cargo.lock": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "catalog-preservation.json": "9dffbc477583220c806f16e9616c3351de0a54f939d945a16ff314588b669729",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "original-review.json": "160377658912df630351a23aa4c1a82ccb26c18beedec2869130b61c00e38c04",
+  "pr884-focused-core.stdout.test-excerpt.txt": "303a6d99a4d1c25a1815a8fdb27aa799d3324540973c8a4ebad7c32773fa1b98",
+  "pr884-ordinary-acceptance.json": "b3867a7055461582b76dc30cd9158d393d2ccec11f2e79fe91e5b2ee1932a90c",
+  "precision-refusal.excerpt.txt": "fb22812b8b8b7552ff7edc7a473d54792adc535848652d436f1b27d3167cac20",
+  "raw-producer-hashes.json": "bd80c11f0a05c40a0bcd4439614b228edf0f5f69212c95f8bbc9ea0e5eb72f72",
+  "readouts/original.json": "63517eb68971942444ebf0d3e67f860312f404fad90ef88ebf80fdd47d69eea3",
+  "review.py": "cc20df7a4f81921f6d56325cddf226ac026328225a48df507e340239c9207936",
+  "source-diff.patch": "b00d8194e3675b62a7124aa9c83d09e86aea1c21e8ba4d4cf8de01bd3593a23f",
+  "sp003-original-and-controls.stdout.test-excerpt.txt": "cfdf4992746418dba58623e42a08709149ba4b2f33faf8e4e7b4b879266124c6",
+  "sp003-original.json": "090d2b7a9748bff2301bbfda2a4d413009235977b4ff2b46d51e5f1da1bac6f9",
+  "sp003-source-and-lock.json": "6cdcf63df45f66a78c2e8f7f34543c89b57f7c21607aaf465096544de62bb5dc",
+  "streamed-executables.json": "7200acd76f2045d8ff746b83977fae8c7702aa373ffc2aef78e1ee147d59bf0c",
+  "unchanged-precision-guards.stdout": "e105c15d5d2a37d6347e1e48f384a02160e91d94b8c9329449f25dbbf2e93d1a"
+}

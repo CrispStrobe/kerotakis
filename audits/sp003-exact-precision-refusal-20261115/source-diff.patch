@@ -1,0 +1,23 @@
+diff --git a/crates/kerotakis-thermo/src/vle.rs b/crates/kerotakis-thermo/src/vle.rs
+index 3ad600507..e707a8edf 100644
+--- a/crates/kerotakis-thermo/src/vle.rs
++++ b/crates/kerotakis-thermo/src/vle.rs
+@@ -2104,7 +2104,7 @@ fn ethanol_water_still_with_limit(
+     }
+     let tolerance = budget * 16.0 * f64::EPSILON;
+     let mut completed = false;
+-    for _ in 0..max_steps {
++    for step_index in 0..max_steps {
+         if matches!(take, StillTake::EnergyKj(kj) if energy_kj == kj) {
+             // Exact completion owns no further transfer. In particular it
+             // must not enter the affordable-share branch with a zero share.
+@@ -2139,6 +2139,9 @@ fn ethanol_water_still_with_limit(
+         let de = step * y_top[0];
+         let dw = step * y_top[1];
+         if de <= 0.0 || dw <= 0.0 || e_over + de == e_over || w_over + dw == w_over {
++            if std::env::var_os("KERO_STILL_TRACE").is_some() {
++                eprintln!("still-condensate-refusal iteration={step_index} stages={stages} initial_w={water_moles:.17e} initial_e={ethanol_moles:.17e} w={w:.17e} e={e:.17e} w_over={w_over:.17e} e_over={e_over:.17e} dw={dw:.17e} de={de:.17e} budget={budget:.17e} remaining={remaining:.17e} y_e={:.17e} y_w={:.17e}", y_top[0], y_top[1]);
++            }
+             return Err(StillError::UnrepresentableCondensate);
+         }
+         let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;

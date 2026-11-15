@@ -1,0 +1,7 @@
+Scientific refusal excerpt; compiler headers omitted, full raw SHA256 retained separately.
+still-condensate-refusal iteration=629 stages=4 initial_w=2.77546489036913657e0 initial_e=1.08532852894571180e-1 w=2.73428661615462154e0 e=2.77555756156289135e-17 w_over=4.11782742145151148e-2 e_over=1.08532852894571152e-1 dw=1.38567164285836562e-5 de=6.93889390390722838e-18 budget=2.88399774326370817e-1 remaining=1.38688647217284550e-1 y_e=5.00760330895578723e-13 y_w=9.99999999999499289e-1
+
+thread 'unchanged_original_sp003_requires_both_equal_cut_products' (983) panicked at crates/kerotakis-core/tests/sp003_original.rs:54:5:
+SP-003-C1 requires two actual nonempty products, got one-stage=2.88399774326370872e-1, four-stage=-0.00000000000000000e0; a typed refused cut is not qualification
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p kerotakis-core --test sp003_original`

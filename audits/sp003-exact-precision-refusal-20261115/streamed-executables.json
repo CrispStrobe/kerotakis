@@ -1,0 +1,51 @@
+{
+  "native-measurement": {
+    "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+    "actual_sha256": "5a0d7bf79b513b38da9d1968e2184ca38bce2503cec0e95c6d9562377aed45ea",
+    "verified": true,
+    "bytes": 21075328,
+    "bytes_stored": false
+  },
+  "native-density": {
+    "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+    "actual_sha256": "f92c3ca2ae8b869936936888ce4a8f83b7a830414d0bb83201936cceef09034b",
+    "verified": true,
+    "bytes": 20728680,
+    "bytes_stored": false
+  },
+  "native-paraffin_melt_density": {
+    "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+    "actual_sha256": "0c543b6b6aa97bb7c4b2ba3dc55cb7e26b0bfddc28ccabd14f22ee110ee5b036",
+    "verified": true,
+    "bytes": 21074344,
+    "bytes_stored": false
+  },
+  "native-scene_numbers": {
+    "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+    "actual_sha256": "b43ad2098fe9923b6100d4a3f9fdba17a0646325a3fc5c48b5e1a478266fd68b",
+    "verified": true,
+    "bytes": 22417832,
+    "bytes_stored": false
+  },
+  "native-float_or_sink": {
+    "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+    "actual_sha256": "9735812048a2d74095aabaa6e4d890da72919bbab7db7527d0a29cbde0aeb6c4",
+    "verified": true,
+    "bytes": 20736392,
+    "bytes_stored": false
+  },
+  "native-buoyancy": {
+    "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+    "actual_sha256": "15b0e27fcf8b819b853a90943738fbbaef7900feb2f91d12f5ce05a3b5e6f00e",
+    "verified": true,
+    "bytes": 20738840,
+    "bytes_stored": false
+  },
+  "native-sp003_original": {
+    "source": "daeb04f0e1005da08747d371be1eb5959ee93514",
+    "actual_sha256": "a39d4ae79e4350ea5df4b77650aa9fc2763e0e4bd039d4f42790bca36512fd26",
+    "verified": true,
+    "bytes": 22063496,
+    "bytes_stored": false
+  }
+}

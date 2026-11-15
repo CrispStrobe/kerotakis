@@ -1,0 +1,10 @@
+
+running 5 tests
+test vle::still_failure_tests::a_deliberately_exhausted_iteration_budget_is_not_a_phase_failure ... ok
+test vle::still_failure_tests::excessive_stage_counts_refuse_before_any_phase_work ... ok
+test vle::still_failure_tests::independent_rayleigh_matrix_separates_supported_cuts_from_condensate_precision ... ok
+test vle::still_failure_tests::phase_and_coordinate_failures_have_distinct_owners_at_each_stage ... ok
+test vle::still_failure_tests::request_residue_and_energy_boundaries_are_distinct ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 81 filtered out; finished in 0.05s
+

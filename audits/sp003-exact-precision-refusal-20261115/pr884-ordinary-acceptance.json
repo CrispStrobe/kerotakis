@@ -1,0 +1,29 @@
+{
+  "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+  "tree": "cbbc417da7002f9494efa30aa9f316928be8f980",
+  "suite_names": [
+    "buoyancy",
+    "density",
+    "float_or_sink",
+    "measurement",
+    "paraffin_melt_density",
+    "scene_numbers"
+  ],
+  "suite_pass_counts_in_execution_order": [
+    5,
+    6,
+    5,
+    8,
+    7,
+    13
+  ],
+  "passed": 44,
+  "failed": 0,
+  "exit": 0,
+  "actual_binary_artifacts_stream_verified": 6,
+  "po002_original_repeated": false,
+  "full_source_platform_fleet_acceptance": false,
+  "merge_authorized": false,
+  "stdout_sha256": "5e16c1ac661df334bdc5819b589ad904176982961659906531fd8c520d3ce734",
+  "stderr_sha256": "a4f50ee920675900ea8860bffcef1c6539741ee4ce191cb931775fe0f004a1d7"
+}

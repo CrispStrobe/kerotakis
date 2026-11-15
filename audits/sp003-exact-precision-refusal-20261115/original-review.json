@@ -1,0 +1,129 @@
+{
+  "criteria": {
+    "SP-003-C1": "FAIL",
+    "SP-003-C2": "PASS"
+  },
+  "qualification": false,
+  "matched_feed_mol": {
+    "water": 2.7754648903691366,
+    "ethanol": 0.10853285289457118
+  },
+  "one_stage_product_mol": {
+    "water": 0.21927613980246935,
+    "ethanol": 0.0691236345239015
+  },
+  "four_stage_product_mol": {
+    "water": 0,
+    "ethanol": 0
+  },
+  "four_stage_source_retained_mol": {
+    "water": 2.7754648903691366,
+    "ethanol": 0.10853285289457118
+  },
+  "four_stage_whole_bench_unchanged": true,
+  "bench_temperature_K": 298.15,
+  "bench_pressure_Pa": 101325.0,
+  "model_pressure_kPa": 101.325,
+  "phase_temperature_at_internal_refusal": null,
+  "ledger_max_abs": 1.7763568394002505e-15,
+  "ledger_residuals": [
+    {},
+    {
+      "Q": 0.0,
+      "O": 0.0,
+      "H": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 1.7763568394002505e-15,
+      "C": 0.0,
+      "O": -8.881784197001252e-16
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    }
+  ],
+  "refusal_events": [
+    {
+      "cause": "model-boundary",
+      "event": "not_yet_modeled",
+      "reason": {
+        "en": "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred",
+        "key": "not-modeled.still-condensate-precision"
+      },
+      "vessel": 1,
+      "what": "a positive component cannot be retained in the accumulated condensate: at this cut and stage count the column strips one component from the pot below the precision the collected distillate can resolve; a smaller cut or fewer stages stays representable; no material was transferred"
+    }
+  ],
+  "source": "daeb04f0e1005da08747d371be1eb5959ee93514",
+  "tree": "9a5c1e08467964db6be1941635bf9138ee078fa2",
+  "original_script_sha256": "203a94f77d183e9be5adfd54dcb62a1024bd25979e94d036cba16e97c52df085",
+  "internal_provisional_refusal": {
+    "iteration": 629.0,
+    "stages": 4.0,
+    "initial_w": 2.7754648903691366,
+    "initial_e": 0.10853285289457118,
+    "w": 2.7342866161546215,
+    "e": 2.7755575615628914e-17,
+    "w_over": 0.041178274214515115,
+    "e_over": 0.10853285289457115,
+    "dw": 1.3856716428583656e-05,
+    "de": 6.938893903907228e-18,
+    "budget": 0.2883997743263708,
+    "remaining": 0.13868864721728455,
+    "y_e": 5.007603308955787e-13,
+    "y_w": 0.9999999999994993
+  },
+  "internal_trial_was_not_committed": true,
+  "native_executable_sha256": "a39d4ae79e4350ea5df4b77650aa9fc2763e0e4bd039d4f42790bca36512fd26",
+  "verified_producer_files": 59,
+  "coverage_before": 431,
+  "coverage_after": 431,
+  "ordinary_PR884_acceptance_exit": 0,
+  "scope": "Original C1 FAIL, not an integration/chemistry pass; native Rust core physics actual execution. Current public cut/portion API owns overhead scalars and cannot retain this small positive component separately from accumulated overhead without a representation change.",
+  "mutations_rejected": [
+    "fake_product",
+    "lost_stock",
+    "removed_refusal",
+    "changed_protocol"
+  ]
+}
