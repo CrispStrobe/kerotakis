@@ -1,0 +1,7 @@
+# PR884 first preflight failure
+
+Source `5db4a1260112c79b7ed610e5a8399b151dfd7363`; [run43686719519/job132731064724](https://github.com/CrispStrobe/kerotakis/actions/runs/43686719519/job/132731064724). Actual `lessons_replay` exits101,32PASS/1FAIL at `plastics_sort_themselves_by_density_in_water`: “the brine caveat is the point of the last vessel”. The original lesson and complete test source are frozen here, with the actual combined-log excerpt and full raw-log hash. Full raw output remains in the private operating handoff.
+
+The failed transcript shows a supported NaCl Pitzer density of1.17g/mL, not a missing-volume fallback. The old lesson/test assert the earlier blanket limitation for all ionic solutions. The qualification's NaCl volume authority is narrower than general ionic support; KCl and unsupported mixtures must retain their explicit missing-volume boundary. The PP/PS/PET water contrast remains an acceptance requirement.
+
+The successor changes only the obsolete lesson narrative and its oracle, adds independent density bounds/provenance/liquid-state/T/P/stock/charge/read-only checks, and keeps an explicit unsupported KCl control. The lesson command sequence is unchanged. No solver, numerical tolerance, scientific guard, phase model, constant, original qualification or catalog entry is changed. Full source/platform/fleet acceptance remains required; no gate waiver or merge is authorized.

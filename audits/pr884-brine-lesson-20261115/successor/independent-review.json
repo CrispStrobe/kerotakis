@@ -1,0 +1,73 @@
+{
+  "water_density_g_ml": 0.997,
+  "NaCl_density_g_ml": 1.173313959919,
+  "NaCl_temperature_K": 293.3734436319696,
+  "NaCl_pressure_Pa": 101325.0,
+  "NaCl_native_dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+  "NaCl_missing_volume_warning": false,
+  "KCl_native_density_authority": false,
+  "KCl_missing_volume_warning": true,
+  "stock_max_abs": 0.0,
+  "stock_residuals": [
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Q": 0.0,
+      "H": 0.0,
+      "C": 0.0,
+      "O": 0.0
+    },
+    {
+      "Na": 0.0,
+      "Cl": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "O": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "K": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "O": 0.0
+    }
+  ],
+  "all_three_polymer_stocks_g": 5,
+  "measurements_read_only": true,
+  "source": "ee027474365d0b9a48647132b964be58c5d2c36a",
+  "tree": "2ba6ceeca730cbbee668ff8e4fc8bf30c39c3078",
+  "full_CLI_lessons_passed": 34,
+  "unchanged_core_golden_passed": true,
+  "lesson_commands_unchanged": true,
+  "production_solver_model_guard_and_data_unchanged": true,
+  "changed_paths": [
+    "crates/kerotakis-cli/tests/fixtures/kcl-density-boundary.lab",
+    "crates/kerotakis-cli/tests/lessons_replay.rs",
+    "lessons/float-or-sink.lab"
+  ],
+  "actual_binary_hashes": {
+    "lessons_replay": "fd43be2834329d909ff5e13c485aabbcf9f9b3bd265d0445dc54f8ec1dd7246b",
+    "kero": "a2d390436bec8d147e8968d3a34e0f74bdafcdf518bf05a36817987e3e1e88c6"
+  },
+  "verified_small_producer_files": 55,
+  "mutations_rejected": [
+    "false_NaCl_density",
+    "lost_polymer",
+    "false_KCl_authority",
+    "missing_KCl_warning"
+  ],
+  "qualification_delta": 0,
+  "coverage": 431,
+  "full_source_platform_fleet_acceptance": false,
+  "merge_authorized": false
+}

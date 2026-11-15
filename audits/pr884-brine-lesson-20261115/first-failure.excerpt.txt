@@ -1,0 +1,44 @@
+Exact combined CI log excerpt; full raw SHA256 is in first-failure.json.
+2026-11-15T07:52:08.8906079Z ---- plastics_sort_themselves_by_density_in_water stdout ----
+2026-11-15T07:52:08.8906370Z 
+2026-11-15T07:52:08.8907098Z thread 'plastics_sort_themselves_by_density_in_water' (13765) panicked at crates/kerotakis-cli/tests/lessons_replay.rs:1012:5:
+2026-11-15T07:52:08.8907672Z the brine caveat is the point of the last vessel:
+2026-11-15T07:52:08.8908003Z   v1: +11.0686 mol water
+2026-11-15T07:52:08.8909342Z   v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+2026-11-15T07:52:08.8910310Z   v1: +0.1188 mol polypropylene
+2026-11-15T07:52:08.8910943Z   v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0 g per 100 mL, which is below anything a beaker would show. It is still all there
+2026-11-15T07:52:08.8911764Z   v1 density meter: 1.00 g/mL
+2026-11-15T07:52:08.8912120Z   v1: The liquid is colourless and clear, white polypropylene floats on top.
+2026-11-15T07:52:08.8912459Z   v2: new vessel
+2026-11-15T07:52:08.8912659Z   v2: +11.0686 mol water
+2026-11-15T07:52:08.8913375Z   v2: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+2026-11-15T07:52:08.8914013Z   v2: +0.0480 mol polystyrene
+2026-11-15T07:52:08.8914575Z   v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0 g per 100 mL, which is below anything a beaker would show. It is still all there
+2026-11-15T07:52:08.8915114Z   v2: 97% of the suspended particles settle in 120 s
+2026-11-15T07:52:08.8915825Z   v2: The liquid is colourless and very slightly hazy, there is white polystyrene at the bottom.
+2026-11-15T07:52:08.8916155Z   v3: new vessel
+2026-11-15T07:52:08.8916346Z   v3: +11.0686 mol water
+2026-11-15T07:52:08.8917040Z   v3: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+2026-11-15T07:52:08.8917671Z   v3: +0.0260 mol polyethylene terephthalate
+2026-11-15T07:52:08.8918354Z   v3: polyethylene terephthalate does not react — polyethylene terephthalate does not dissolve in water: its reviewed solubility is 0 g per 100 mL, which is below anything a beaker would show. It is still all there
+2026-11-15T07:52:08.8918945Z   v2: 97% of the suspended particles settle in 120 s
+2026-11-15T07:52:08.8919229Z   v3: 100% of the suspended particles settle in 120 s
+2026-11-15T07:52:08.8919577Z   v3: The liquid is colourless and clear, there is white polyethylene terephthalate at the bottom.
+2026-11-15T07:52:08.8922554Z [1m[91merror[0m: test failed, to rerun pass `-p kerotakis-cli --test lessons_replay`
+2026-11-15T07:52:08.8922878Z   v4: new vessel
+2026-11-15T07:52:08.8923070Z   v4: +11.0686 mol water
+2026-11-15T07:52:08.8923832Z   v4: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+2026-11-15T07:52:08.8924452Z   v4: +1.0266 mol sodium chloride
+2026-11-15T07:52:08.8924688Z   v4: 1.0266 mol sodium chloride dissolved
+2026-11-15T07:52:08.8925303Z   v4: answered by pitzer.dat, with the reviewed Sander HBr gas-uptake slice — chosen because the solution is concentrated (~10.3 mol/kgw), where the ion-interaction model is the valid one
+2026-11-15T07:52:08.8925958Z   v4: pH 6.55
+2026-11-15T07:52:08.8926164Z   v4: 25.0 °C → 20.2 °C
+2026-11-15T07:52:08.8926364Z   v4 density meter: 1.17 g/mL
+2026-11-15T07:52:08.8926502Z 
+2026-11-15T07:52:08.8926673Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-11-15T07:52:08.8926887Z 
+2026-11-15T07:52:08.8926903Z 
+2026-11-15T07:52:08.8926974Z failures:
+2026-11-15T07:52:08.8927177Z     plastics_sort_themselves_by_density_in_water
+2026-11-15T07:52:08.8927331Z 
+2026-11-15T07:52:08.8927541Z test result: FAILED. 32 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 150.84s

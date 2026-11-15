@@ -1,0 +1,11 @@
+{
+  "lesson_commands_unchanged": true,
+  "command_sha256": "322be9462af1f77d679c7f7049c27878b25ee469f2e7a28d886bb66e92bf2e20",
+  "production_runtime_diff": [
+    "crates/kerotakis-cli/tests/lessons_replay.rs",
+    "lessons/float-or-sink.lab"
+  ],
+  "old_water_sorting_assertions_preserved": true,
+  "new_guard": "Native NaCl bounds/units/provenance/liquid state/T/P and element/charge/polymer stock; KCl Pitzer result must carry no native_density and retain missing-volume warning",
+  "original_PO002_replayed": false
+}

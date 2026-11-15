@@ -1,0 +1,17 @@
+{
+  "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+  "run": 43686719519,
+  "job": 132731064724,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/43686719519/job/132731064724",
+  "exit": 101,
+  "passed": 32,
+  "failed": 1,
+  "first_failed_test": "plastics_sort_themselves_by_density_in_water",
+  "first_assertion": "the brine caveat is the point of the last vessel",
+  "raw_log_sha256": "7c186f605d6a842fcc3d8be7ad5143c40913b49ceae9195ad7710593ee4de338",
+  "old_lesson_sha256": "ddfe00d923c098036806c0af72dbd8c101a11685c86609ea49a1d7cd44f52227",
+  "old_test_file_sha256": "785c984b2b6824eced62f4873e93422767ef3dae8b37c1401ab24accf0df0baf",
+  "observed_NaCl_density_g_ml": 1.17,
+  "observed_route": "pitzer.dat",
+  "diagnosis": "Old blanket missing-ion-volume oracle/narrative conflicts with qualified NaCl RHO scope; preserve water contrasts and require supported/unsupported authority independently."
+}

@@ -1,0 +1,169 @@
+commit 52404e01c7bed8498516d76829e6feb87911f544
+Author:     crispasr integration <cze+github@mailbox.org>
+AuthorDate: Sun Nov 15 08:45:13 2026 +0000
+Commit:     crispasr integration <cze+github@mailbox.org>
+CommitDate: Sun Nov 15 08:45:13 2026 +0000
+
+    Expose swept gas equilibrium scope at reservoir readback
+    
+    Signed-off-by: crispasr integration <cze+github@mailbox.org>
+
+diff --git a/crates/kerotakis-core/i18n/de.toml b/crates/kerotakis-core/i18n/de.toml
+index c40b8583e..6bf06a50b 100644
+--- a/crates/kerotakis-core/i18n/de.toml
++++ b/crates/kerotakis-core/i18n/de.toml
+@@ -1908,6 +1908,7 @@ thiocyanate-slice = "Thiocyanat wird als erhaltener SCN−-Ligand behandelt. Die
+ hbr-at-the-reference-temperature = "Dieser Zustand liegt bei der Referenztemperatur von 25 °C."
+ hbr-away-from-the-reference-temperature = "Abseits von 25 °C wird hier eine lokale van-'t-Hoff-Näherung mit konstanter Enthalpie verwendet, keine geprüfte Korrelation über einen weiten Temperaturbereich."
+ hbr-gas-uptake = "Die HBr-Gasaufnahme verwendet die dissoziative Henry-Konstante aus der CC-BY-Sammlung von Sander, umgerechnet von der Konzentration auf den verdünnt-molalen Standardzustand. Die Reaktionsenthalpie stammt aus deren lokaler Temperatursteigung und einer Korrektur für die Lösungsmitteldichte, nicht aus einer eigenständigen kalorimetrischen Messung. {temperature} Der Gasübergang ist eine Gleichgewichtsgrenze, kein zeitabhängiges Absorptionsmodell."
++swept-gas-equilibrium = "{species}-Austausch unter der Inertgasspülung verwendet eine Gleichgewichtsgrenze mit nahezu verschwindendem äußerem Partialdruck. Ein endlicher Spülgasvorrat, Durchfluss oder eine Übertragungszeit ist nicht abgebildet. Warten liefert keine zeitabhängige Vorhersage für Entgasung oder Kalkbildung."
+ finite-gas-dose = "{species}, endliche Gasdosis: die Aufnahme ist eine augenblickliche Gleichgewichtsrechnung, keine Stoffübergangsgeschwindigkeit. Nach der Dosis tauscht nur ausdrücklich eingerichtete Atmosphärenspezies mit einem äußeren Reservoir aus; aus der Dosis wird kein neues Reservoir abgeleitet. Wartezeit parametrisiert das Ausgasen nicht"
+ redox-coupling-stood-down = "diese Elemente haben nicht miteinander reagiert — sie werden in den Oxidationsstufen gezeigt, in denen sie zugegeben wurden, und das ist nicht, was das Becherglas täte: {why}"
+ unnameable-oxidation-state = "{moles} mol haben sich als {column} eingestellt, eine Oxidationsstufe, für die dieses Labor keinen Namen hat — sie steht nicht im Bestand des Gefäßes, es ist also etwas weniger von diesem Element im Glas, als hineingegeben wurde"
+diff --git a/crates/kerotakis-core/i18n/fr.toml b/crates/kerotakis-core/i18n/fr.toml
+index e59a5bac9..5da88c322 100644
+--- a/crates/kerotakis-core/i18n/fr.toml
++++ b/crates/kerotakis-core/i18n/fr.toml
+@@ -1700,6 +1700,7 @@ thiocyanate-slice = "Le thiocyanate est traité comme un ligand SCN− conservé
+ hbr-at-the-reference-temperature = "Cet état se trouve à la température de référence de 25 °C."
+ hbr-away-from-the-reference-temperature = "En dehors de 25 °C, une approximation locale de van 't Hoff à enthalpie constante est utilisée ici, et non une corrélation vérifiée sur une large plage de température."
+ hbr-gas-uptake = "L'absorption du gaz HBr utilise la constante de Henry dissociative de la collection CC-BY de Sander, convertie de la concentration à l'état standard molal dilué. L'enthalpie de réaction provient de sa pente locale en température et d'une correction pour la masse volumique du solvant, et non d'une mesure calorimétrique indépendante. {temperature} Le transfert gazeux est une limite d'équilibre, non un modèle d'absorption dépendant du temps."
++swept-gas-equilibrium = "L’échange de {species} sous balayage inerte utilise une limite d’équilibre à pression partielle extérieure presque nulle. Aucun stock fini de gaz de balayage, débit ni temps de transfert n’est représenté. L’attente ne fournit pas de prédiction transitoire du dégazage ou du dépôt minéral."
+ finite-gas-dose = "{species}, dose de gaz finie : l'absorption est un calcul d'équilibre instantané, non une vitesse de transfert de matière. Après la dose, seule une espèce atmosphérique explicitement configurée échange avec un réservoir extérieur ; aucun nouveau réservoir n'est déduit de la dose. Le temps d'attente ne paramètre pas le dégazage"
+ redox-coupling-stood-down = "ces éléments n'ont pas réagi entre eux — ils sont montrés dans les degrés d'oxydation où ils ont été ajoutés, ce qui n'est pas ce que ferait le bécher : {why}"
+ unnameable-oxidation-state = "{moles} mol se sont retrouvées sous {column}, un degré d'oxydation auquel ce laboratoire ne donne aucun nom — il ne figure pas dans le bilan du récipient, il y a donc un peu moins de cet élément dans le verre que ce qui y a été versé"
+diff --git a/crates/kerotakis-phreeqc/src/aqueous.rs b/crates/kerotakis-phreeqc/src/aqueous.rs
+index d0d85282b..012c85c25 100644
+--- a/crates/kerotakis-phreeqc/src/aqueous.rs
++++ b/crates/kerotakis-phreeqc/src/aqueous.rs
+@@ -10313,6 +10313,20 @@ impl PhreeqcEquilibrator {
+             {
+                 match exchange.kind {
+                     ExternalGasKind::Reservoir => {
++                        if matches!(vessel.headspace, Headspace::Swept { .. }) {
++                            events.push(Event::not_modeled(
++                                vessel.id,
++                                kerotakis_core::ops::NotModelledCause::ModelBoundary,
++                                Phrase::new(
++                                    "not-modeled.swept-gas-equilibrium",
++                                    "{species} exchange under the inert sweep uses a near-zero external partial-pressure equilibrium boundary. No finite swept-gas inventory, flow or transfer time is represented. Waiting does not supply a transient degassing or mineral-scale prediction.",
++                                    vec![(
++                                        "species".to_string(),
++                                        Slot::term("species", exchange.species.clone()),
++                                    )],
++                                ),
++                            ));
++                        }
+                         let transferred = *moles - exchange.initial_moles;
+                         if transferred > TRACE {
+                             events.push(Event::GasEvolved {
+@@ -15248,3 +15262,8 @@ mod crystal_diagnostic_amount_contract {
+         }
+     }
+ }
++
++// Source-bound external-reservoir event controls; no native solve or new gas data.
++#[cfg(test)]
++#[path = "../tests/swept_equilibrium_readback/contracts.rs"]
++mod swept_equilibrium_readback_contracts;
+diff --git a/crates/kerotakis-phreeqc/tests/swept_equilibrium_readback/contracts.rs b/crates/kerotakis-phreeqc/tests/swept_equilibrium_readback/contracts.rs
+new file mode 100644
+index 000000000..323749d2b
+--- /dev/null
++++ b/crates/kerotakis-phreeqc/tests/swept_equilibrium_readback/contracts.rs
+@@ -0,0 +1,80 @@
++//! Event projection controls, not an original qualification or native replay.
++use super::*;
++use kerotakis_core::{Pascal, VesselId};
++
++fn projection(headspace: Headspace, kind: ExternalGasKind) -> (Vec<Event>, Vec<Portion>) {
++    let mut vessel = Vessel::new(VesselId(0), "carbonate boundary control");
++    vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
++    vessel.deposit(SpeciesId::new("CaCO3"), Moles(0.0005), Phase::Solid);
++    vessel.headspace = headspace;
++    let mut problem = partition(&vessel).expect("represented carbonate input");
++    // Bind the projection to one explicitly selected external phase.
++    problem.external_gases = vec![ExternalGas {
++        phase: "CO2(g)".into(),
++        species: "CO2".into(),
++        initial_moles: 0.0,
++        kind,
++    }];
++    PhreeqcEquilibrator::rebuild_contents_and_events(
++        &vessel,
++        &problem,
++        &[],
++        problem.kgw,
++        &[],
++        &[("CO2(g)".into(), 0.0001)],
++        &[],
++        &[],
++        &BTreeMap::new(),
++    )
++}
++
++fn warning(event: &Event) -> bool {
++    matches!(event, Event::NotYetModeled { reason: Some(reason), .. }
++        if reason.key.as_str() == "not-modeled.swept-gas-equilibrium")
++}
++
++#[test]
++fn swept_reservoir_warns_without_changing_carbon_export_or_inventory() {
++    let (swept, swept_contents) = projection(
++        Headspace::Swept {
++            pressure: Pascal(101325.0),
++        },
++        ExternalGasKind::Reservoir,
++    );
++    let (open, open_contents) = projection(Headspace::Open, ExternalGasKind::Reservoir);
++    assert_eq!(swept.iter().filter(|event| warning(event)).count(), 1);
++    assert!(!open.iter().any(warning));
++    assert_eq!(swept_contents, open_contents);
++    let gas = |events: &[Event]| {
++        events
++            .iter()
++            .filter_map(|event| match event {
++                Event::GasEvolved { species, moles, .. } => Some((species.clone(), *moles)),
++                _ => None,
++            })
++            .collect::<Vec<_>>()
++    };
++    assert_eq!(gas(&swept), vec![(SpeciesId::new("CO2"), Moles(0.0001))]);
++    assert_eq!(gas(&swept), gas(&open));
++    let event = swept.iter().find(|event| warning(event)).unwrap();
++    assert!(matches!(
++        event,
++        Event::NotYetModeled {
++            cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
++            ..
++        }
++    ));
++}
++
++#[test]
++fn finite_dose_does_not_acquire_reservoir_warning() {
++    let (events, _) = projection(
++        Headspace::Swept {
++            pressure: Pascal(101325.0),
++        },
++        ExternalGasKind::Dose,
++    );
++    assert!(!events.iter().any(warning));
++    assert!(events.iter().any(|event| matches!(event,
++        Event::NotYetModeled { reason: Some(reason), .. } if reason.key.as_str() == "not-modeled.finite-gas-dose")));
++}
+diff --git a/docs/gs007-swept-boundary-20261115.md b/docs/gs007-swept-boundary-20261115.md
+new file mode 100644
+index 000000000..e93d108ff
+--- /dev/null
++++ b/docs/gs007-swept-boundary-20261115.md
+@@ -0,0 +1,9 @@
++# GS007 swept-equilibrium scope repair
++
++Original `new120:gs-007` remains unqualified. Its unchanged criteria require measurable calcium dissolution at the CO2-rich stage (C1 PASS) and increased carbonate solid after sweeping with swept carbon included (C2 FAIL). The saved source6a2 trace consumes the remaining1.038837619669e-4mol calcite; carbon/H/O/charge close. This is a scoped equilibrium-sink limit, not demonstrated lost-carbon ownership.
++
++The adapter currently offers an external CO2 reservoir at log10 partial pressure−12atm under `Headspace::Swept`. It does not own a finite swept-gas parcel, flow or transfer time. `GasExchangeClock` treats Open boundaries only. The correction adds `not-modeled.swept-gas-equilibrium` at actual selected external-reservoir readback, with EN/DE/FR wording. It preserves the reservoir target, gas transfer events, solids, basis bookkeeping, numerical guards and original criteria. It adds no gas/kinetic/thermodynamic data. An unselected phase or finite gas dose does not acquire reservoir authority through this diagnostic.
++
++Two event-projection controls are provided: swept versus open readback must retain identical gas amounts and inventory while only the swept reservoir emits this boundary; a finite dose must retain its separate dose warning. These are adapter controls, not a native original replay or empirical validation. Formatting, diff checks, TOML parsing and new placeholder consistency have passed. Rust compilation and execution have **not** passed or run: the single admission check refused the occupied heavy slot, insufficient memory and excess load. No validation job was submitted. Keep this source unaccepted until its exact-source controls execute.
++
++The next physical repair needs finite external-gas parcel/transfer ownership with sourced domain and flow/time authority, coupled to carbonate equilibrium and tested against unchanged GS007 plus finite-dose/open/sealed refusal controls. Do not tune pCO2 to satisfy C2 or infer a flow from waiting time. Vendored USGS database provenance remains unchanged; no primary flow parameter is supplied by this patch. Coverage remains431/468,435 catalog objects,37 remaining. PR884 ordinary source/platform/fleet acceptance and iOS delivery remain separate.

@@ -1,0 +1,15 @@
+{
+  "FF-PUSHED.json": "41a39b31e4775cf4ad8c19930f4268f4a296bbbc4cdd78ef48e913477613a58e",
+  "README.md": "e383b83982e175429d446ae26f2a4fa7eebe74cedadeb01634cee15780738492",
+  "all-cli-lessons.excerpt.txt": "935da4d087e60c9abae3a63368a89b9e39f60d15240d908bd532c7e0aedc4f0a",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "final-source-scope.json": "966b40d7f927bdd6702e70a18733cb23941200dd95c6ab01f39252dd1b189773",
+  "independent-review.json": "79af26a1986259ed56f5321ec9b9af21a688f0de0a00991588cf2a026e472985",
+  "raw-producer-hashes.json": "b14523613e88b4f1d231a41394a4b9eb9d12c157aa3314a01e37bbdbaf7d4692",
+  "readouts/float-or-sink.jsonl": "5ee3279d2946de8de0fb2a7e1c834b725b9f93e7ac356f18bed5dd06ad9b9b72",
+  "readouts/kcl-density-boundary.jsonl": "ed2adc6ea03110849e7b0241eae0ef9ff4a41d18339514403fc4e0857469115e",
+  "review.py": "396ce944faf0e9892bdf0c56e86209f6a218f035ce3ea7c4534399e450461ed6",
+  "source-and-lock.json": "45de35ad65ad43fc6a74d16060b3192e708d4b8b2954def2f4308f3050889be3",
+  "streamed-executables.json": "4562f95a1e6a102c08c7e280c2dd8b46237dbca56a26d12aa331941c5d6ec56e",
+  "unchanged-core-golden.excerpt.txt": "26824a40a9ee8cf685f41d66458507c4d1fea5f3d8db1a2f53c6e4a6a519fad5"
+}

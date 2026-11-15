@@ -1,0 +1,31 @@
+{
+  "original_id": "new120:gs-007",
+  "source": "52404e01c7bed8498516d76829e6feb87911f544",
+  "base": "6068f2d1566dc79398047ef5871ba8112b472e0d",
+  "implemented": "selected swept external-reservoir model-boundary diagnostic; EN/DE/FR; two adapter projection controls",
+  "scientific_runtime_parameters_changed": false,
+  "original_criteria_changed": false,
+  "static_checks": [
+    "rustfmt --check",
+    "git diff --check",
+    "DE/FR TOML parse",
+    "EN/DE/FR species placeholder binding"
+  ],
+  "Rust_controls_executed": false,
+  "native_original_executed": false,
+  "validation_job_submitted": false,
+  "qualification": false,
+  "criteria_retained": {
+    "C1": "PASS",
+    "C2": "FAIL"
+  },
+  "coverage": {
+    "before": 431,
+    "after": 431,
+    "catalog_entries": 435,
+    "remaining": 37
+  },
+  "next_physical_blocker": "No sourced finite swept-gas inventory/flow/time authority or coupled transient carbonate model; existing near-zero reservoir remains equilibrium-only",
+  "next_bounded_test": "cargo test --locked -p kerotakis-phreeqc --no-default-features --lib swept_equilibrium_readback_contracts",
+  "acceptance": "source-only patch, not compile/test accepted; no PR opened while exact-source tests remain unexecuted"
+}

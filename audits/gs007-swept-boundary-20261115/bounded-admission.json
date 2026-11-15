@@ -1,0 +1,17 @@
+{
+  "utc": "2026-11-15T08:44:05.565252+00:00",
+  "lock_acquired": false,
+  "MemAvailable_MiB": 4166.6015625,
+  "load1": 5.0595703125,
+  "free_bytes": 15680032768,
+  "required_memory_MiB": 4608,
+  "max_load1": 3.5,
+  "required_free_strictly_greater_bytes": 12884901888,
+  "child_started": false,
+  "refusals": [
+    "lock_busy",
+    "memory",
+    "load"
+  ],
+  "holder_PID_at_lslocks_snapshot": 2747608
+}

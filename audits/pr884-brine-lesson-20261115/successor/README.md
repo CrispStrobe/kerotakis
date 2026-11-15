@@ -1,0 +1,9 @@
+# Exact-head lesson-oracle repair
+
+PR884 successor `ee027474365d0b9a48647132b964be58c5d2c36a`, tree `2ba6ceeca730cbbee668ff8e4fc8bf30c39c3078`, changes only the lesson narrative, its CLI assertions and one KCl refusal fixture. The frozen first failure at source5db remains in the parent directory. The prior assertion assumed every ionic solution lacked volume authority. The native NaCl authority invalidated that assumption; unsupported KCl still has no such authority.
+
+All original lesson commands and water PP/PS/PET sorting assertions are unchanged. The successor checks independent PS/PET density bounds, exact native dataset/liquid/T/P binding, all five element/charge stock budgets, 5g of each polymer, read-only measurement and supported NaCl versus unsupported KCl warnings.
+
+The existing bounded CPU output passes all34 CLI lessons and the unchanged core lesson golden. The independent reader actually verifies55 producer files, two streamed executable hashes and four refusal mutations. NaCl density is1.173313959919g/mL at293.3734436319696K/101325Pa; all five stock/charge residuals are zero. Test excerpts omit private Cargo paths; full producer hashes bind the retained raw output. These controls are source validation, not another PO002 credit or a particle-separation/calibration claim.
+
+PR884 was fast-forwarded once after validation and remains DRAFT. Exact-head ordinary CI [43695162071](https://github.com/CrispStrobe/kerotakis/actions/runs/43695162071) and fleet [43695162078](https://github.com/CrispStrobe/kerotakis/actions/runs/43695162078) were queued at readback; no exact-head failure was available for diagnosis. Full source/platform/fleet acceptance remains required. Coverage stays431/468 originals,435 entries,37 remaining. No merge, new validation job, original replay or Apple action.

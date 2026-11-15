@@ -1,0 +1,8 @@
+{
+  "source": "ee027474365d0b9a48647132b964be58c5d2c36a",
+  "tree": "2ba6ceeca730cbbee668ff8e4fc8bf30c39c3078",
+  "cargo_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "runtime_base": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+  "lock_origin": "Genuine completed producer; manifests unchanged",
+  "source_scope": "Three lesson/test fixture paths only; no production solver/model/guard changes"
+}

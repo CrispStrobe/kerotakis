@@ -1,0 +1,16 @@
+{
+  "native-lessons_replay": {
+    "source": "ee027474365d0b9a48647132b964be58c5d2c36a",
+    "actual_sha256": "fd43be2834329d909ff5e13c485aabbcf9f9b3bd265d0445dc54f8ec1dd7246b",
+    "verified": true,
+    "bytes": 9007096,
+    "bytes_stored": false
+  },
+  "native-kero": {
+    "source": "ee027474365d0b9a48647132b964be58c5d2c36a",
+    "actual_sha256": "a2d390436bec8d147e8968d3a34e0f74bdafcdf518bf05a36817987e3e1e88c6",
+    "verified": true,
+    "bytes": 53614664,
+    "bytes_stored": false
+  }
+}
