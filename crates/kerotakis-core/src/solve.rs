@@ -4437,6 +4437,7 @@ mod phase_residual_certificate_tests {
             );
         }
         vessel.solution = Some(SolutionInfo {
+            native_density: None,
             scope: crate::vessel::SolutionScope::Complete,
             solvent_kg: Some(kg),
             particle_molality: Some(particles),

@@ -167,6 +167,7 @@ fn below_domain_state_emits_a_typed_refusal_without_inventory_mutation() {
     v.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
     v.temperature = Kelvin(251.0);
     v.solution = Some(kerotakis_core::vessel::SolutionInfo {
+        native_density: None,
         scope: Default::default(),
         solvent_kg: Some(0.018_015),
         particle_molality: None,

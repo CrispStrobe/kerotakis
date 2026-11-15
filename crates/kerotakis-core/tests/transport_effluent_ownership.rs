@@ -332,6 +332,7 @@ fn zero_courant_without_invented_movement_or_heat() {
     bench.vessels[0].deposit(SpeciesId::new("water"), Moles(5.5509), Phase::Liquid);
     bench.vessels[0].temperature = Kelvin(333.15);
     bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
+        native_density: None,
         scope: Default::default(),
         solvent_kg: Some(0.1),
         particle_molality: None,
@@ -355,6 +356,7 @@ fn zero_courant_without_invented_movement_or_heat() {
         v.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
         v.temperature = Kelvin(298.0);
         v.solution = Some(kerotakis_core::vessel::SolutionInfo {
+            native_density: None,
             scope: Default::default(),
             solvent_kg: Some(0.02),
             particle_molality: None,

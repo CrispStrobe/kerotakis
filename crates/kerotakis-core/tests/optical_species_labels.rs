@@ -153,6 +153,7 @@ fn scene_names_known_ph_gap_ids_without_rewriting_them() {
 fn scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids() {
     let mut v = indicator("methyl_orange");
     v.solution = Some(SolutionInfo {
+        native_density: None,
         scope: Default::default(),
         solvent_kg: Some(0.1),
         particle_molality: None,

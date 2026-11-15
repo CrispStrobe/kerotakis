@@ -24,6 +24,7 @@ fn column_cell(id: usize, water_moles: f64, tracer_moles: f64) -> Vessel {
     vessel.temperature = Kelvin(295.0);
     vessel.solute_charge = tracer_moles * 0.25;
     vessel.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
@@ -51,6 +52,7 @@ fn inlet_for_cell(water_moles: f64) -> Vessel {
     inlet.temperature = Kelvin(295.0);
     inlet.solute_charge = 0.25 * water_moles / 5.5509;
     inlet.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,

@@ -349,6 +349,7 @@ mod tests {
         let total_spectrum = absorbance(&v, 1.0);
         assert!(total_spectrum.iter().any(|x| *x > 0.0));
         v.solution = Some(SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: Some(0.1),

@@ -431,6 +431,7 @@ mod tests {
         let mut v = Vessel::new(VesselId(0), "beaker");
         v.deposit(SpeciesId::new("water"), Moles(5.5343), Phase::Liquid);
         v.solution = Some(crate::vessel::SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: None,

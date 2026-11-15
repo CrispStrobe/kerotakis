@@ -17,6 +17,7 @@ fn stock() -> Vessel {
 
 fn characterized(vessel: &mut Vessel, scope: SolutionScope) {
     vessel.solution = Some(SolutionInfo {
+        native_density: None,
         scope,
         solvent_kg: Some(0.09),
         particle_molality: Some(0.02),

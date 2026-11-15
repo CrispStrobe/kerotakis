@@ -17,6 +17,7 @@ impl Equilibrator for MissingChemistry {
 
 fn stale_solution() -> SolutionInfo {
     SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
