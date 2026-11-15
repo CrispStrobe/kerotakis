@@ -5684,6 +5684,11 @@ impl Bench {
                             anode,
                             cathode,
                             volts: cell.volts,
+                            terminals: Some(crate::ops::CellTerminalReading {
+                                first: *a,
+                                second: *b,
+                                volts: cell.terminal_volts(),
+                            }),
                             standard_volts: cell.standard_volts,
                             notation: cell.notation(),
                             equation: cell.equation(),

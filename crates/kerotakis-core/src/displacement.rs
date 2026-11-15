@@ -1602,6 +1602,17 @@ pub struct Cell {
 }
 
 impl Cell {
+    /// Signed open-circuit reading with the negative lead on the first
+    /// requested vessel and the positive lead on the second. Spontaneous
+    /// electrode roles and their positive cell voltage remain separate.
+    pub fn terminal_volts(&self) -> f64 {
+        if self.anode_is_first {
+            self.volts
+        } else {
+            -self.volts
+        }
+    }
+
     /// The reaction that would run if the circuit were closed.
     pub fn equation(&self) -> String {
         Displacement {

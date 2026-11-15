@@ -319,6 +319,8 @@ pub enum Operator {
     /// Wire two vessels as a galvanic cell and read the voltmeter. Open
     /// circuit: no current flows and nothing changes, which is what the
     /// activity series predicts — the voltage a battery *would* have.
+    /// The ordered reading uses `a` as negative/reference lead and `b`
+    /// as positive lead, separately from the spontaneous electrode roles.
     Cell { a: VesselId, b: VesselId },
     /// Drive a current through a vessel for a time: electrolysis.
     ///
@@ -836,6 +838,17 @@ pub struct DiscardedPortion {
     pub species: SpeciesId,
     pub moles: Moles,
     pub phase: Phase,
+}
+
+/// Ordered voltmeter leads, independent of spontaneous anode/cathode order.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CellTerminalReading {
+    /// Negative/reference lead: first argument of `cell`.
+    pub first: VesselId,
+    /// Positive lead: second argument of `cell`.
+    pub second: VesselId,
+    /// E(second) - E(first), V, from the admitted half-cell activities.
+    pub volts: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -1606,7 +1619,11 @@ pub enum Event {
     CellVoltage {
         anode: VesselId,
         cathode: VesselId,
+        /// Positive spontaneous E(cathode) - E(anode), unchanged.
         volts: f64,
+        /// Actual requested lead order. Absent in historical event records.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        terminals: Option<CellTerminalReading>,
         /// The standard cell potential from E° alone, for the comparison
         /// that makes Nernst visible.
         standard_volts: f64,

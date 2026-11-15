@@ -4391,10 +4391,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             anode,
             cathode,
             volts,
+            terminals,
             standard_volts,
             notation,
             equation,
-        } => match register.level() {
+        } => {
+            let line = match register.level() {
             1 => locale.fill(
                 "event.cell-voltage.lv1",
                 "The voltmeter between {anode} and {cathode} reads {volts} V — you have made a battery! The electrons want to flow from {anode} to {cathode}. (Nothing is using the current yet, so nothing in the beakers changes.)",
@@ -4410,6 +4412,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{notation}: E_cell = {volts} V open-circuit, no current, no internal resistance modelled (E°_cell = {standard_volts} V; the difference is the Nernst term over the computed ion activities; ideal salt bridge, no liquid-junction potential); anode {anode}, cathode {cathode}; {equation}",
                 &[("notation", &notation.to_string()), ("volts", &locale.number(format!("{volts:.4}"))), ("standard_volts", &locale.number(format!("{standard_volts:.4}"))), ("anode", &anode.to_string()), ("cathode", &cathode.to_string()), ("equation", &equation.to_string())],
             ),
+            };
+            match terminals {
+                Some(reading) => format!("{line}\n{}", locale.fill(
+                    "event.cell-terminal-voltage",
+                    "Ordered voltmeter leads: negative/reference {first}, positive {second}; E({second}) - E({first}) = {volts} V. Reversing the leads reverses this sign; it does not reverse the spontaneous electrode roles.",
+                    &[("first", &reading.first.to_string()), ("second", &reading.second.to_string()), ("volts", &locale.number(format!("{:+.6}", reading.volts)))],
+                )),
+                None => line,
+            }
         },
         Event::AcidMetalCellVoltage { anode, cathode, volts, ph } => match register.level() {
             1 => locale.fill(

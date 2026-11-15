@@ -2247,11 +2247,15 @@ fn semantic_scalar_events(events: &[Event]) -> Vec<kerotakis_codex::semantic::Sc
                 Event::CellVoltage {
                     volts,
                     standard_volts,
+                    terminals,
                     ..
-                } => (
-                    "cell_voltage",
-                    vec![("volts", *volts), ("standard_volts", *standard_volts)],
-                ),
+                } => {
+                    let mut fields = vec![("volts", *volts), ("standard_volts", *standard_volts)];
+                    if let Some(reading) = terminals {
+                        fields.push(("terminal_volts", reading.volts));
+                    }
+                    ("cell_voltage", fields)
+                }
                 Event::AcidMetalCellVoltage { volts, ph, .. } => (
                     "acid_metal_cell_voltage",
                     vec![("volts", *volts), ("ph", *ph)],
@@ -3871,6 +3875,7 @@ mod native_startup_tests {
                 anode: VesselId(0),
                 cathode: VesselId(1),
                 volts: 1.08,
+                terminals: None,
                 standard_volts: 1.10,
                 notation: "cell".into(),
                 equation: "reaction".into(),
@@ -3908,6 +3913,19 @@ mod native_startup_tests {
         assert_eq!(scalars[2].kind, "measured");
         assert_eq!(scalars[2].fields.len(), 1);
         assert_eq!(scalars[2].fields["value"], 101.325);
+
+        let mut ordered = events[0].clone();
+        if let Event::CellVoltage { terminals, .. } = &mut ordered {
+            *terminals = Some(kerotakis_core::ops::CellTerminalReading {
+                first: VesselId(1),
+                second: VesselId(0),
+                volts: -1.08,
+            });
+        }
+        let signed = semantic_scalar_events(&[ordered]);
+        assert_eq!(signed[0].fields.len(), 3);
+        assert_eq!(signed[0].fields["volts"], 1.08);
+        assert_eq!(signed[0].fields["terminal_volts"], -1.08);
     }
 
     #[test]
