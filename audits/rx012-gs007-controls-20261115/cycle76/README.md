@@ -1,0 +1,11 @@
+# Cycle76: one cache-version detail lookup
+
+One authenticated `GetKernel` request returns **HTTP200, current version1**, existing cache kernel145141251. There is no inventory/status scan, retry, second provider lookup, local resource attempt, SaveKernel request, new job or PR. The raw response/request stay private and their hashes bind this receipt.
+
+The version-bearing response closes the cache-version authority gap. Current version1 equals the saved accepted version1/kernel ID; its source blob SHA2562085b251e86342dd46c68b73afd55786f3b111c5ab60f5fc90c07b062de37f5b equals both the saved producer script and actual STARTED script hash. Hash-verified STARTED/COMPLETED/cache/compiler/lock receipts bind source5db4a1260/treecbbc417d and the already completed producer. This proves that existing exact version terminal without running or crediting PO002 again. The initial lookup records no terminal decision; the successor version-terminal-proof combines the actual response with the retained producer evidence and makes that decision.
+
+The provider's returned lastRunTime2026-11-12T10:19:08.322793800Z conflicts with actual retained STARTED2026-11-15T06:27:56.714420Z. Both are preserved. Timestamp coincidence is **not** used as authority; the numeric accepted/current version, kernel identity, source-blob and producer hashes provide the binding.
+
+This cache kernel was already known terminal and was not one of the15 unknown rate-limited entries. Thus it retires zero capacity unknowns. The retained conservative capacity inventory remains1active+16unknown=17 against5. The current cache response cannot establish other kernels' current versions or idle capacity. Runtime execution remains **BLOCKED**, with all seven c637 controls **UNEXECUTED** and no accepted control-run version/job ID. The single prepared composition/request and exact unresolved inventory remain intact.
+
+Coverage stays431/468 originals,435 catalog objects,37remaining; no new criteria replay or scientific qualification. PR884ee027 remains separately DRAFT. Apple, integration, original protocols, physical data/rates and guards remain untouched. No `ci:full`, design-only audit PR, new validation job or polling controller is created.

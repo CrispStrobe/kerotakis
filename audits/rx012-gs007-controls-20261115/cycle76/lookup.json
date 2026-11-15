@@ -1,0 +1,15 @@
+{
+  "utc": "2026-11-15T10:19:08.102456+00:00",
+  "lookup": "GetKernel",
+  "request_count": 1,
+  "timeout_seconds": 45,
+  "retries": 0,
+  "version": 1,
+  "terminal_proven": false,
+  "SaveKernel_attempted": false,
+  "http_status": 200,
+  "response_sha256": "d890348395f8abc912d9b771c399844ac22afa3090364ae443969a0f152b7497",
+  "last_run_time": "2026-11-12T10:19:08.322793800Z",
+  "source_blob_sha256": "2085b251e86342dd46c68b73afd55786f3b111c5ab60f5fc90c07b062de37f5b",
+  "CPU_only": true
+}
