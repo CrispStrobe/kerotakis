@@ -1,0 +1,11 @@
+{
+  "base_main": "6068f2d1566dc79398047ef5871ba8112b472e0d",
+  "frozen_v2": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "test_first": "aa067603f319c7937aa0e1cb28a0e563b3a22d29",
+  "candidate": "838a590a31c94d86ed6faace782a85360b3e469c",
+  "candidate_tree": "aec65a681537995d7f4dd49a0ced7c9b01876b45",
+  "candidate_branch": "fix/redox-native-trial-precision-20261115",
+  "solved_water_patch_applied": false,
+  "old_native_controls_and_original_continuation_unchanged": true,
+  "actual_fixed_source_outcomes": "pending; not inferred from retained failed binary"
+}

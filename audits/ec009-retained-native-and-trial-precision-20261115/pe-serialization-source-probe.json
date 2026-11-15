@@ -1,0 +1,41 @@
+{
+  "source": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "source_file_sha256": "dbe7f0fa26ab303f1a18d4d14dd82cffb654665ab1cc4ee2459e6786ff130c9f",
+  "scope": "Source-derived formatting probe only; neither native execution nor qualification. Bisection trials closer than1e-6 may serialize identically despite the removed width stop.",
+  "cases": [
+    {
+      "pe_a": -9.1234567,
+      "pe_b": -9.12345669,
+      "actual_source_formatted_a": "-9.123457",
+      "actual_source_formatted_b": "-9.123457",
+      "proposed_formatted_a": "-9.1234567000000002e+00",
+      "proposed_formatted_b": "-9.1234566899999994e+00"
+    },
+    {
+      "pe_a": 3.50000001,
+      "pe_b": 3.50000002,
+      "actual_source_formatted_a": "3.500000",
+      "actual_source_formatted_b": "3.500000",
+      "proposed_formatted_a": "3.5000000099999999e+00",
+      "proposed_formatted_b": "3.5000000199999999e+00"
+    },
+    {
+      "pe_a": 7.1234567,
+      "pe_b": 7.12345671,
+      "actual_source_formatted_a": "7.123457",
+      "actual_source_formatted_b": "7.123457",
+      "proposed_formatted_a": "7.1234567000000002e+00",
+      "proposed_formatted_b": "7.1234567100000001e+00"
+    },
+    {
+      "pe_a": 16.1234567,
+      "pe_b": 16.12345671,
+      "actual_source_formatted_a": "16.123457",
+      "actual_source_formatted_b": "16.123457",
+      "proposed_formatted_a": "1.6123456699999998e+01",
+      "proposed_formatted_b": "1.6123456709999999e+01"
+    }
+  ],
+  "scientific_claim": false,
+  "next_source_change_if_native_trace_supports": "Round-trip the trial pe into native input instead of six decimal places; preserve all search/electron/charge/admission limits."
+}

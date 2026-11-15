@@ -1,0 +1,149 @@
+{
+  "source": "78e0be4b29f9d42f66aa4db3bc92f38583aeff1b",
+  "tree": "b7e4dd5254af62f0290f06a7441d0aed25b81569",
+  "qualified": false,
+  "coverage_before": 430,
+  "coverage_after": 430,
+  "all_required_commands_passed": false,
+  "focused_results": {
+    "fixed-precision": {
+      "exit": 0,
+      "expected_passes": 3,
+      "passed": true
+    },
+    "fixed-ledger-negatives": {
+      "exit": 0,
+      "expected_passes": 3,
+      "passed": true
+    },
+    "basis-charge-controls": {
+      "exit": 0,
+      "expected_passes": 3,
+      "passed": true
+    },
+    "native-positive-controls": {
+      "exit": 0,
+      "expected_passes": 6,
+      "passed": true
+    },
+    "frontend-observation-controls": {
+      "exit": 0,
+      "expected_passes": 2,
+      "passed": true
+    },
+    "last-state-diagnostic": {
+      "exit": 0,
+      "expected_passes": 1,
+      "passed": true
+    },
+    "native-charge-controls": {
+      "exit": 101,
+      "expected_passes": 1,
+      "passed": false
+    }
+  },
+  "physical_stage_predicates": {
+    "criteria": {
+      "EC-009-C1": true,
+      "EC-009-C2": true
+    },
+    "actual_burette_l": 0.009999999999999995,
+    "actual_mn2_mol": 0.0001979999999999992,
+    "actual_mn7_mol": 2.000000000000468e-06,
+    "actual_mno2_mol": 0,
+    "fe2_lost_mol": 0.0009900000000679107,
+    "fe3_formed_mol": 0.0009900000000679103,
+    "electron_residual_eq": 6.79142072440575e-14,
+    "ledger": {
+      "H": 2.842170943040401e-14,
+      "Q": 6.769237947956697e-14,
+      "Fe": -4.336808689942018e-19,
+      "S": -8.673617379884035e-19,
+      "Mn": -2.439454888092385e-19,
+      "K": -2.168404344971009e-19,
+      "O": 1.4210854715202004e-14
+    },
+    "max_abs_residual": 6.769237947956697e-14
+  },
+  "actual_observations": {
+    "spectrum.json": {
+      "unchanged": true,
+      "canonical_command": "measure v1 uvvis"
+    },
+    "inspect.json": {
+      "unchanged": true,
+      "canonical_command": "inspect"
+    }
+  },
+  "last_state_stock_drift": {
+    "Fe+2": 0.0,
+    "Fe+3": 0.0,
+    "Mn+2": 0.0,
+    "MnO4-": 0.0
+  },
+  "model_boundary_accepted": false,
+  "terminal_refused_electron_eq": [
+    3.236e-09
+  ],
+  "unchanged_electron_budget": 1e-12,
+  "refused_model_events": [
+    {
+      "cause": "no-solver",
+      "event": "not_yet_modeled",
+      "reason": {
+        "en": "these elements have not reacted with each other \u2014 they are shown in the oxidation states they were added in, which is not what the beaker would do: {why}",
+        "key": "not-modeled.redox-coupling-stood-down",
+        "slots": [
+          [
+            "why",
+            {
+              "text": {
+                "text": "phreeqc-aqueous (redox) could not solve this state: no electron activity in the stability field of water balances this beaker: 3.236e-9 mol of electron-equivalents are unaccounted for out of 3.400e-3. An oxidant in excess of what the reductants can supply has to take its remaining electrons from the solvent itself, which this bench does not model"
+              }
+            }
+          ]
+        ]
+      },
+      "vessel": 0,
+      "what": "these elements have not reacted with each other \u2014 they are shown in the oxidation states they were added in, which is not what the beaker would do: phreeqc-aqueous (redox) could not solve this state: no electron activity in the stability field of water balances this beaker: 3.236e-9 mol of electron-equivalents are unaccounted for out of 3.400e-3. An oxidant in excess of what the reductants can supply has to take its remaining electrons from the solvent itself, which this bench does not model"
+    },
+    {
+      "cause": "no-reviewed-datum",
+      "event": "not_yet_modeled",
+      "reason": {
+        "en": "{pairs}: an oxidant and a reductant are together here, but no reviewed fast writer, curated row or rate law prices this pair, so it is left unreacted. That is a gap in the model, not evidence that nothing happens",
+        "key": "not-modeled.redox-pair-unpriced",
+        "slots": [
+          [
+            "pairs",
+            {
+              "text": {
+                "text": "MnO\u2084\u207b + Fe\u00b2\u207a"
+              }
+            }
+          ]
+        ]
+      },
+      "vessel": 0,
+      "what": "MnO\u2084\u207b + Fe\u00b2\u207a: an oxidant and a reductant are together here, but no reviewed fast writer, curated row or rate law prices this pair, so it is left unreacted. That is a gap in the model, not evidence that nothing happens"
+    }
+  ],
+  "reader_mutations_rejected": [
+    "wrong_source",
+    "wrong_prefix_binary",
+    "charge_drift",
+    "solver_failure",
+    "wrong_dose",
+    "wrong_ferric_product",
+    "invent_MnO2_endpoint",
+    "lost_water",
+    "unreached_endpoint",
+    "changed_preparation",
+    "unspent_pending_owner",
+    "unowned_opaque_stock"
+  ],
+  "verified_small_producer_files": 76,
+  "continuation_executable_sha256_streamed": "46818732303ffb60294a98d72fc890fab986059b0abe8ceb968fd7882a2942fb",
+  "prefix_native_binary_sha256": null,
+  "no_criterion_or_tolerance_relaxation": true
+}

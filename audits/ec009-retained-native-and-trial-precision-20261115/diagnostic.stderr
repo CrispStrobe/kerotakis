@@ -1,0 +1,510 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9983249999999996e-2
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.998325000000e-2
+   pH           1.083286038338e+00
+   pe           1.954436489058e+01
+   mu           1.000167528063e-01
+   mass_H2O     9.998325000000e-02
+   Cl           1.000167528061e-01
+   m_H+         1.000167528063e-01
+   m_OH-        1.586944542002e-13
+   la_H2O       -1.481303377667e-03
+   particle_molality 2.002951066329e-01
+   elements=["Cl"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9983249999999996e-2
+    Cl 1.000167528061e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.998325000000e-2
+   pH           1.083286038338e+00
+   pe           1.954436489058e+01
+   mu           1.000167528063e-01
+   mass_H2O     9.998325000000e-02
+   Cl           1.000167528061e-01
+   m_H+         1.000167528063e-01
+   m_OH-        1.586944542002e-13
+   la_H2O       -1.481303377667e-03
+   particle_molality 2.002951066329e-01
+   elements=["Cl"]
+--- PHREEQC input ---
+PHASES
+    Fe(OH)2
+        Fe(OH)2 + 2 H+ = Fe+2 + 2 H2O
+        log_k 13.564
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9983249999999996e-2
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 5.000837640305e-2
+    S(6) 5.000837640305e-2
+EQUILIBRIUM_PHASES 1
+    Fe(OH)2 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Fe(2) S(6) Fe(3) S(-2)
+    -equilibrium_phases Fe(OH)2
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.998325000000e-2
+   pH           1.255102768129e+00
+   pe           1.937275878002e+01
+   mu           1.988468024910e-01
+   mass_H2O     9.998325000000e-02
+   Cl           1.000167528061e-01
+   Fe(2)        5.000837640305e-02
+   Fe(3)        2.829290098810e-31
+   S(6)         5.000837640305e-02
+   S(-2)        0.000000000000e+00
+   m_H+         6.966242287570e-02
+   m_OH-        2.535239957619e-13
+   la_H2O       -1.902541841156e-03
+   Fe(OH)2      0.000000000000e+00
+   d_Fe(OH)2    0.000000000000e+00
+   particle_molality 2.571284076549e-01
+   S            5.0008376403050003e-2
+   elements=["Cl", "Fe(2)", "S(6)"]
+--- PHREEQC input ---
+PHASES
+    Fe(OH)2
+        Fe(OH)2 + 2 H+ = Fe+2 + 2 H2O
+        log_k 13.564
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.8738
+    pH        7  charge
+    water     9.9983249999999996e-2
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 5.000837640305e-2
+    S(6) 5.000837640305e-2
+EQUILIBRIUM_PHASES 1
+    Fe(OH)2 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Fe(2) S(6) Fe(3) S(-2)
+    -equilibrium_phases Fe(OH)2
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.998325000000e-2
+   pH           1.256011027002e+00
+   pe           1.929811141828e+01
+   mu           1.985166147632e-01
+   mass_H2O     9.998325000000e-02
+   Cl           1.000167528061e-01
+   Fe(2)        5.000837640305e-02
+   Fe(3)        2.396328832414e-31
+   S(6)         5.000837640305e-02
+   S(-2)        0.000000000000e+00
+   m_H+         6.953109636506e-02
+   m_OH-        2.714087034625e-13
+   la_H2O       -1.901382064185e-03
+   Fe(OH)2      0.000000000000e+00
+   d_Fe(OH)2    0.000000000000e+00
+   particle_molality 2.569720067410e-01
+   S            5.0008376403050003e-2
+   elements=["Cl", "Fe(2)", "S(6)"]
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.8738
+    pH        7  charge
+    water     9.9983249999999996e-2
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 5.000837640305e-2
+    K 2.000335056122e-3
+    Mn(7) 2.000335056122e-3
+    S(6) 5.000837640305e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Fe(2) K Mn(7) S(6) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+  pe=3.500 sum=1.040000e-2 target=1.140000e-2
+  pe=10.250 sum=1.059404e-2 target=1.140000e-2
+  pe=13.625 sum=1.532308e-2 target=1.140000e-2
+  pe=11.938 sum=1.346605e-2 target=1.140000e-2
+  pe=11.094 sum=1.145315e-2 target=1.140000e-2
+  pe=10.672 sum=1.087457e-2 target=1.140000e-2
+  pe=10.883 sum=1.111860e-2 target=1.140000e-2
+  pe=10.988 sum=1.127399e-2 target=1.140000e-2
+  pe=11.041 sum=1.136058e-2 target=1.140000e-2
+  pe=11.067 sum=1.140612e-2 target=1.140000e-2
+  pe=11.054 sum=1.138316e-2 target=1.140000e-2
+  pe=11.061 sum=1.139460e-2 target=1.140000e-2
+  pe=11.064 sum=1.140035e-2 target=1.140000e-2
+  pe=11.062 sum=1.139747e-2 target=1.140000e-2
+  pe=11.063 sum=1.139891e-2 target=1.140000e-2
+  pe=11.064 sum=1.139963e-2 target=1.140000e-2
+  pe=11.064 sum=1.139999e-2 target=1.140000e-2
+  pe=11.064 sum=1.140017e-2 target=1.140000e-2
+  pe=11.064 sum=1.140008e-2 target=1.140000e-2
+  pe=11.064 sum=1.140003e-2 target=1.140000e-2
+  pe=11.064 sum=1.140001e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140001e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+readback: kgw_out=9.998325000000e-2
+   pH           1.256001357238e+00
+   pe           1.929813606741e+01
+   mu           2.006608224774e-01
+   mass_H2O     9.998325000000e-02
+   Cl           1.000167528061e-01
+   Fe(2)        5.000837640305e-02
+   Fe(3)        0.000000000000e+00
+   K            2.000335056122e-03
+   Mn(2)        0.000000000000e+00
+   Mn(3)        0.000000000000e+00
+   Mn(6)        0.000000000000e+00
+   Mn(7)        2.000335056122e-03
+   S(6)         5.000837640305e-02
+   S(-2)        0.000000000000e+00
+   m_H+         6.956907413294e-02
+   m_OH-        2.717183752357e-13
+   la_H2O       -1.931340799124e-03
+   particle_molality 2.610119370795e-01
+   S            5.0008376403050003e-2
+   elements=["Cl", "Fe(2)", "K", "Mn(7)", "S(6)"]
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.8661
+    pH        7  charge
+    water     9.9983249999999996e-2
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 5.000837640305e-2
+    K 2.000335056122e-3
+    Mn(7) 2.000335056122e-3
+    S(6) 5.000837640305e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Fe(2) K Mn(7) S(6) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+  pe=3.500 sum=1.040000e-2 target=1.140000e-2
+  pe=10.250 sum=1.059396e-2 target=1.140000e-2
+  pe=13.625 sum=1.532304e-2 target=1.140000e-2
+  pe=11.938 sum=1.346552e-2 target=1.140000e-2
+  pe=11.094 sum=1.145278e-2 target=1.140000e-2
+  pe=10.672 sum=1.087437e-2 target=1.140000e-2
+  pe=10.883 sum=1.111832e-2 target=1.140000e-2
+  pe=10.988 sum=1.127366e-2 target=1.140000e-2
+  pe=11.041 sum=1.136023e-2 target=1.140000e-2
+  pe=11.067 sum=1.140576e-2 target=1.140000e-2
+  pe=11.054 sum=1.138281e-2 target=1.140000e-2
+  pe=11.061 sum=1.139423e-2 target=1.140000e-2
+  pe=11.064 sum=1.139998e-2 target=1.140000e-2
+  pe=11.066 sum=1.140287e-2 target=1.140000e-2
+  pe=11.065 sum=1.140143e-2 target=1.140000e-2
+  pe=11.064 sum=1.140070e-2 target=1.140000e-2
+  pe=11.064 sum=1.140034e-2 target=1.140000e-2
+  pe=11.064 sum=1.140016e-2 target=1.140000e-2
+  pe=11.064 sum=1.140007e-2 target=1.140000e-2
+  pe=11.064 sum=1.140003e-2 target=1.140000e-2
+  pe=11.064 sum=1.140001e-2 target=1.140000e-2
+  pe=11.064 sum=1.139999e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+readback: kgw_out=9.998325000000e-2
+   pH           1.255993313825e+00
+   pe           1.929879193803e+01
+   mu           2.006637165140e-01
+   mass_H2O     9.998325000000e-02
+   Cl           1.000167528061e-01
+   Fe(2)        5.000837640305e-02
+   Fe(3)        0.000000000000e+00
+   K            2.000335056122e-03
+   Mn(2)        0.000000000000e+00
+   Mn(3)        0.000000000000e+00
+   Mn(6)        0.000000000000e+00
+   Mn(7)        2.000335056122e-03
+   S(6)         5.000837640305e-02
+   S(-2)        0.000000000000e+00
+   m_H+         6.957023545663e-02
+   m_OH-        2.715558772755e-13
+   la_H2O       -1.931351006669e-03
+   particle_molality 2.610133135178e-01
+   S            5.0008376403050003e-2
+   elements=["Cl", "Fe(2)", "K", "Mn(7)", "S(6)"]
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.8661
+    pH        7  charge
+    water     9.9983249999999982e-2
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 5.000837640305e-2
+    K 2.000335056122e-3
+    Mn(7) 2.000335056122e-3
+    S(6) 5.000837640305e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Fe(2) K Mn(7) S(6) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+  pe=3.500 sum=1.040000e-2 target=1.140000e-2
+  pe=10.250 sum=1.059396e-2 target=1.140000e-2
+  pe=13.625 sum=1.532304e-2 target=1.140000e-2
+  pe=11.938 sum=1.346552e-2 target=1.140000e-2
+  pe=11.094 sum=1.145278e-2 target=1.140000e-2
+  pe=10.672 sum=1.087437e-2 target=1.140000e-2
+  pe=10.883 sum=1.111832e-2 target=1.140000e-2
+  pe=10.988 sum=1.127366e-2 target=1.140000e-2
+  pe=11.041 sum=1.136023e-2 target=1.140000e-2
+  pe=11.067 sum=1.140576e-2 target=1.140000e-2
+  pe=11.054 sum=1.138281e-2 target=1.140000e-2
+  pe=11.061 sum=1.139423e-2 target=1.140000e-2
+  pe=11.064 sum=1.139998e-2 target=1.140000e-2
+  pe=11.066 sum=1.140287e-2 target=1.140000e-2
+  pe=11.065 sum=1.140143e-2 target=1.140000e-2
+  pe=11.064 sum=1.140070e-2 target=1.140000e-2
+  pe=11.064 sum=1.140034e-2 target=1.140000e-2
+  pe=11.064 sum=1.140016e-2 target=1.140000e-2
+  pe=11.064 sum=1.140007e-2 target=1.140000e-2
+  pe=11.064 sum=1.140003e-2 target=1.140000e-2
+  pe=11.064 sum=1.140001e-2 target=1.140000e-2
+  pe=11.064 sum=1.139999e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+  pe=11.064 sum=1.140000e-2 target=1.140000e-2
+
+thread 'permanganate_oxidises_iron_in_the_ratio_the_half_equations_give' (10) panicked at crates/kerotakis-phreeqc/tests/redox.rs:69:9:
+0.0002 mol MnO4- should oxidise 20% of the iron, got -0.0%: [RedoxState { element: "Fe", oxidation: 2, molality: 0.05000837640305 }, RedoxState { element: "Mn", oxidation: 7, molality: 0.002000335056122 }, RedoxState { element: "S", oxidation: 6, molality: 0.05000837640305 }]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

@@ -1,0 +1,10 @@
+{
+  "source": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "exit": 101,
+  "readback_blocks": 6,
+  "candidates": [],
+  "causal_confirmation": false,
+  "absent_coupled_rows_are_not_proof": true,
+  "qualification": false,
+  "new_originals": 0
+}

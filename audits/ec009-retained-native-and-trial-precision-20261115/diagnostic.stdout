@@ -1,0 +1,11 @@
+
+running 1 test
+test permanganate_oxidises_iron_in_the_ratio_the_half_equations_give ... FAILED
+
+failures:
+
+failures:
+    permanganate_oxidises_iron_in_the_ratio_the_half_equations_give
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.76s
+

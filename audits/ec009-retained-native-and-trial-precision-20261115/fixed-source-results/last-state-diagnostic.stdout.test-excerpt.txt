@@ -1,0 +1,6 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 1 test
+test saved_last_state_reports_the_refusal_without_replaying_the_titration ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.91s
+

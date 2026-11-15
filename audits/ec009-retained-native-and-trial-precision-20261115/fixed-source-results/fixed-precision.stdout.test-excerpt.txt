@@ -1,0 +1,8 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 3 tests
+test aqueous::redox_trial_precision_tests::neighboring_redox_trials_round_trip_without_native_input_collisions ... ok
+test aqueous::redox_trial_precision_tests::refining_pe_cannot_change_the_other_native_inputs ... ok
+test aqueous::redox_trial_precision_tests::signed_small_trials_and_unchanged_bracket_edges_survive_serialization ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 216 filtered out; finished in 0.31s
+

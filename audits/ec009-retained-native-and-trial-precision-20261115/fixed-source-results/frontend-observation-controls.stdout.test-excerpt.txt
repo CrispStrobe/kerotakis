@@ -1,0 +1,7 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 2 tests
+test inspect_is_a_canonical_frontend_observation_without_a_bench_operator ... ok
+test unrelated_frontend_commands_cannot_masquerade_as_inspection ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+

@@ -1,0 +1,8 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 3 tests
+test aqueous::oxidation_sum_tests::equilibrium_input_is_independent_of_feed_order ... ok
+test aqueous::oxidation_sum_tests::invalid_or_partial_native_ledgers_are_not_balances ... ok
+test aqueous::oxidation_sum_tests::valid_negative_oxidation_sum_and_zero_population_are_preserved ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 216 filtered out; finished in 0.33s
+

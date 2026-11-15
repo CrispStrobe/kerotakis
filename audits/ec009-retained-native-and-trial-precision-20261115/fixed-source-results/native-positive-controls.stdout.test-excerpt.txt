@@ -1,0 +1,11 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 6 tests
+test a_pe_no_couple_constrains_is_not_published ... ok
+test a_stood_down_coupling_is_announced_where_it_happens ... ok
+test excess_oxidant_is_refused_rather_than_balanced_from_nowhere ... ok
+test permanganate_oxidises_iron_in_the_ratio_the_half_equations_give ... ok
+test the_equivalence_point_reports_no_potential ... ok
+test the_refusal_does_not_depend_on_which_acid ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.51s
+

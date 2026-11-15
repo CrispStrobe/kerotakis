@@ -1,0 +1,24 @@
+{
+  "source": "5271b14894f68d91e472acca3aa6bae982e4712a",
+  "tree": "452d8dab7de58405cc0485b640203b863a27a2b6",
+  "compiler_sha256": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "cache_sha256": "ae309879ccd707a808512fe1033692a22e7602999de1e79221dd4cb2b108aa68",
+  "producer_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "binary_sha256": "9370afba7b99d8d6d100768608a7392431158f35f9c0780b042589083a65b41a",
+  "no_build": true,
+  "no_repair": true,
+  "no_original_continuation": true,
+  "no_qualification": true,
+  "cpu_seconds": 30,
+  "wall_seconds": 45,
+  "address_space_bytes": 2147483648,
+  "test_name": "permanganate_oxidises_iron_in_the_ratio_the_half_equations_give",
+  "result": {
+    "exit": 101,
+    "timed_out": false,
+    "seconds": 0.8215468780000492,
+    "no_qualification": true,
+    "stdout_sha256": "8d839fbd607cf75fd48d8da534a03a93861614cfe1c222e8ff45f7c69ce8d2fe",
+    "stderr_sha256": "ed1d97540cc17e1610e0f4f958e66df501b5efa41f785d6121b3888c56d8124c"
+  }
+}

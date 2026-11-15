@@ -1,0 +1,11 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 1 test
+test unchanged_ec009_titration_preserves_the_prepared_atoms_and_charge ... FAILED
+
+failures:
+
+failures:
+    unchanged_ec009_titration_preserves_the_prepared_atoms_and_charge
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 36.03s
+

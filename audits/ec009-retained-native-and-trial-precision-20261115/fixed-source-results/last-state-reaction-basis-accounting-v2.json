@@ -1,0 +1,46 @@
+{
+  "source": "78e0be4b29f9d42f66aa4db3bc92f38583aeff1b",
+  "actual_source_target": "0.003400000000067911196",
+  "sampled_target": "0.00340000000006791077",
+  "actual_unspent_mol": {
+    "Fe+2": "0.00000999999993208931",
+    "Fe+3": "0.0009900000000679103",
+    "Mn+2": "0.0001979999999999992",
+    "MnO4-": "0.000002000000000000468"
+  },
+  "allowed_stoichiometric_vector": {
+    "Fe+2": -5,
+    "MnO4-": -1,
+    "H+": -8,
+    "Fe+3": 5,
+    "Mn+2": 1,
+    "water": 4
+  },
+  "vector_element_and_charge_residuals": {
+    "Fe": "0.0",
+    "Q": "0.0",
+    "Mn": "0.0",
+    "O": "0.0",
+    "H": "0.0",
+    "electron_weight": "0"
+  },
+  "capacity_limits_mol": {
+    "FeII/5": "0.000001999999986417862",
+    "MnVII": "0.000002000000000000468",
+    "represented_Hplus/8": "0.00105199999999997225"
+  },
+  "synthetic_closed_extent_mol": "0.000001999999986417862",
+  "synthetic_products_not_applied": {
+    "Fe+2": "0E-21",
+    "MnO4-": "1.3582606E-14",
+    "H+": "0.008400000000108435104",
+    "Fe+3": "0.000999999999999999610",
+    "Mn+2": "0.000199999999986417062",
+    "water": "6.088504690535623671448"
+  },
+  "scope": "Stoichiometric accounting of the actual unspent state only; not an executed reaction, validated kinetic writer, native solved endpoint or qualification.",
+  "source_model_blocker": "Existing bounded native pe search has no observed sign crossing and misses1e-12 at its upper bound. Reaction basis can be balanced, but no reviewed route currently owns completing this terminal state within the unchanged domain.",
+  "qualification": false,
+  "source_target_difference_eq": "4.26E-19",
+  "represented_proton_arithmetic_is_not_new_available_capacity_authority": true
+}

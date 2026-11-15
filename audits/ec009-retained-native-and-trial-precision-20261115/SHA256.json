@@ -1,0 +1,15 @@
+{
+  "README.md": "f3257051f0aba60fdbe113a706969a63407be31dc6d3cf882d0df9b543b27de5",
+  "adapter-test-result.json": "20f54faad0bcde2efa1718f8d081917044c4c7578bd82f4e0f79164ec9140c82",
+  "adapter-tests-followup.stderr": "7d59a8fbca92ef540f42b6883247c3844892d23f501b6cf2621d0e535813fb81",
+  "adapter-tests-followup.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "candidate-sources.json": "d729fb1863e73b19367ee253b42de55acad2035c2a63fa5fd7693bbab0231bc6",
+  "diagnostic-provenance.json": "0775336e15df72cfba7452cf60fc9109dd1e96f82cb33c36b4752d43424c506f",
+  "diagnostic.py": "d585eb19989778c386f235544c2ee05f0b2294ed7480d59bc95a0a2352686efa",
+  "diagnostic.stderr": "ed1d97540cc17e1610e0f4f958e66df501b5efa41f785d6121b3888c56d8124c",
+  "diagnostic.stdout": "8d839fbd607cf75fd48d8da534a03a93861614cfe1c222e8ff45f7c69ce8d2fe",
+  "inspect_diagnostic.py": "6d5b4327c9d0438f4fc642780309fedd2e7d61fd2b660e70bcd7ad3b9744d9c1",
+  "native-causal-review.json": "a1efa44d28c2de97efa43b75b1c97a7cdcbae72447c213af033494349df25ac8",
+  "pe-serialization-source-probe.json": "bbadb64a12fb6fbd44357267805e5e77c7dbe8f337bf1d63e51e8c23ca024fb5",
+  "test_harness.py": "0670c5ddbb2191cd56f07e0d8d090af6e46c51b33c6c9236e1120b4b8d83df9f"
+}

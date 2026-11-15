@@ -1,0 +1,8 @@
+{
+  "source": "78e0be4b29f9d42f66aa4db3bc92f38583aeff1b",
+  "actual_sha256": "46818732303ffb60294a98d72fc890fab986059b0abe8ceb968fd7882a2942fb",
+  "expected_sha256": "46818732303ffb60294a98d72fc890fab986059b0abe8ceb968fd7882a2942fb",
+  "bytes": 41529632,
+  "bytes_stored": false,
+  "sha256_verified_by_streaming_actual_artifact": true
+}

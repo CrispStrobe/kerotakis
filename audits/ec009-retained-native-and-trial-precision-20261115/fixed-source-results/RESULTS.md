@@ -1,0 +1,11 @@
+# EC009 fixed-source result: not qualified
+
+Actual source `78e0be4b29f9d42f66aa4db3bc92f38583aeff1b`, tree `b7e4dd5254af62f0290f06a7441d0aed25b81569`. Trial serialization repair `838a590a3` restores adjacent native trial distinction. The final source passes precision3, ledger3, basis3, native redox6, canonical frontend2 and saved-state diagnostic1 controls. The unchanged original continuation exits101; the complete reader actually ran and rejects qualification. Coverage430→430; all434 catalog objects remain unchanged.
+
+The genuine spectrum and canonical frontend `inspect` run without parser panic and preserve the exact inventory. Chemical stage predicates are true at10mL with0.990mmol Fe(III) and0.198mmol Mn(II), but the terminal model refusal remains. The original whole-charge residual6.77e-14 is distinct from the solver's refused electron residual3.236e-9 against unchanged1e-12.
+
+The106 captured trials comprise two existing53-trial searches. None crosses zero in the unchanged pe domain. Best residual−3.235904484e-9; solved-water correction magnitude≤7.48e-18. The water proposal is causally disproved for this failure and remains unapplied. Exact allowed-reaction accounting closes H/O/Fe/Mn/charge/electron weight; source-versus-native target difference4.26e-19 cannot explain the refusal. Balanced synthetic extent is arithmetic only, never an executed route or qualification.
+
+Capability blocker: no reviewed native/model writer owns the terminal redox completion inside the unchanged domain. This is not a universal physical impossibility claim. Preserve the failed v1/v2 sources, all raw evidence, original criteria,1e-12 electron/1e-10 charge guards, pe bracket and call cap. No unchanged-source retry is warranted. Independent PO002 native-volume source repair proceeds separately.
+
+The exact executable artifact was independently stream-hashed without storing its bytes; see its receipt. Full raw producer logs and manifests remain preserved in the private operating handoff. Public log files are explicitly labelled excerpts; their original full raw hashes are retained. The complete reader source and its actual result are supplied; executing it again requires the original producer evidence bundle, not these excerpts.

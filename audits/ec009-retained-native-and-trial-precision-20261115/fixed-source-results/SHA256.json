@@ -1,0 +1,22 @@
+{
+  "RESULTS.md": "f46bfcba3045819b4ecf724a8912f60d9ed7f4cdebefacce7fc1db0893c53018",
+  "actual-producer-Cargo.lock": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "basis-charge-controls.stdout.test-excerpt.txt": "bb9625a604657709e1b993f08c186043fafccb5f3dc533565799621148f2a7cb",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "complete-original-review.json": "1562f27ca99e46fc022b8e42d5815d291f70b8b9d519557a9a5a4e8f17d162d3",
+  "fixed-ledger-negatives.stdout.test-excerpt.txt": "f7d73bdd121c7d722d19d8bb7f38f2f6dd28da91ca2544bd18ec5e24a682bd56",
+  "fixed-precision.stdout.test-excerpt.txt": "fc178e30d2a691a39afe143db96ef5fb3abbb40b3b44de67fd6720a157083677",
+  "frontend-observation-controls.stdout.test-excerpt.txt": "76ee0f6f2e56ec450fcbfe57275a3e2ccccbe371b2c203f5e208b0f5133528de",
+  "last-state-causal-review.json": "787cd46fde1bc143faf7648e78eeb115a56a43a00d21625936fc509ce3c95cfa",
+  "last-state-diagnostic.stdout.test-excerpt.txt": "b2514045becd0aa1016d4e1f0b24489f660b59abc0b403f616d06742611e859b",
+  "last-state-reaction-basis-accounting-v2.json": "bb6e41c8fb2b76a5daad9fdd7b7322706d3c2f2f582289a6222c786848abe001",
+  "native-charge-controls.stdout.test-excerpt.txt": "d91dd363a8abe356f4bc8e5ca86e3e65503fb1ca28a5182ca36f4c7fe9f50390",
+  "native-positive-controls.stdout.test-excerpt.txt": "9b6fa0c8b8a22a95880bf9b30d982af8996aac78418757d953a1e9d91e30a8e3",
+  "raw-hashes.json": "c09c61691e84f8ba86b2572556082610c292a29165d4d5e3a0519d67f2be25d3",
+  "readouts/inspect.json": "0e4553cd5db4466716922df4936b7a7afd2d942c1f0ac5e6882d9db7b07d674c",
+  "readouts/last-state-diagnostic.json": "c86348a9eceddea7be7a585d20555c69a66c046d80778484ec359b77a1c3d61e",
+  "readouts/spectrum.json": "ae76c31a74de30769bd7652dcfb333cbf42ec90765872c48698a60ec387fd26d",
+  "readouts/titration.json": "5f9bf426de5a7cf1bc987adc7e3a02f3dde7e823ff60a601fb2139683d12124c",
+  "review_complete.py": "d8c82ae287c992e602af35e2011a50df2c64003654a8fe24be6c25f6a7065b56",
+  "streamed-native-executable.json": "c1d9002f6bbac6812e9364685050caa5a567ebd52eda28bdf449394bffe19138"
+}

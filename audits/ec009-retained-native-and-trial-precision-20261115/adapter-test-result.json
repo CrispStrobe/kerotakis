@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-15T05:06:25.408846+00:00",
+  "adapter_tests": 3,
+  "negative_cases": 11,
+  "successful_followup_stderr_sha256": "7d59a8fbca92ef540f42b6883247c3844892d23f501b6cf2621d0e535813fb81",
+  "first_capture_status": "First bounded child exceeded15s wall time with no captured output; underlying cause not established. Raw empty files and failure retained privately.",
+  "native_executions": 0,
+  "scientific_tests": 0,
+  "qualification": false
+}

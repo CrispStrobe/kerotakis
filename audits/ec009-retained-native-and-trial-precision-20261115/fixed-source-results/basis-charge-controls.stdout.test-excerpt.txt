@@ -1,0 +1,8 @@
+Test-output excerpt; full raw file SHA256 is in raw-hashes.json.
+running 3 tests
+test inventory::redox_basis_charge_tests::atom_closed_oxidation_state_errors_do_not_become_protons_or_water ... ok
+test inventory::redox_basis_charge_tests::electron_closed_split_retains_atom_and_charge_closure ... ok
+test inventory::redox_basis_charge_tests::small_rounding_within_the_existing_charge_guard_is_not_a_new_rejection ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 216 filtered out; finished in 0.00s
+

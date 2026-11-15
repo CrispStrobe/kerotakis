@@ -1,0 +1,16 @@
+{
+  "fixed-precision.stdout": "5c61d3ff8ead581f08616f1920156cce963ed4f46a83f5ceff40ffdc81722b3d",
+  "fixed-precision.stderr": "8b63fa6c0e29fb7bbe4a87be2caf2e9104afdaf34b9076b0fab20c1f827c35b4",
+  "fixed-ledger-negatives.stdout": "77c730fa4226df5215c40121a1cc5efef5d11e76f88be44e7b3fc154eb6601be",
+  "fixed-ledger-negatives.stderr": "4bba58333a7f6ecb89748e82fbe6e645d97a46e5b1de0b8a1cd54e06fb669557",
+  "basis-charge-controls.stdout": "0d73cf60d8c9fc4c4d70d8b7cf5dc22ef2053a854cc5d38df6cb47a1f776ac19",
+  "basis-charge-controls.stderr": "bee5d87e149b9726328f16a7415a33d0eebfa7323a9805fe91977a715c316bea",
+  "native-positive-controls.stdout": "464b653597b669b45e535d020289edc51d56c910b7fe50afd3a155e6d4ae029a",
+  "native-positive-controls.stderr": "10937ccb78d7c279db1f3de722ed2a257c757e497ab9b052b67027dc396e9749",
+  "frontend-observation-controls.stdout": "a71366202b59751af3ce1cd953ea0f2eda0ef98096885a7b146077016eb521d5",
+  "frontend-observation-controls.stderr": "8cbb24d629181088a109c853f04a4b014532e8c0f1776da2e5d2751282abe332",
+  "last-state-diagnostic.stdout": "77ab527a1711c1b474bbf355a2cd17cebda258eeff5de8c7bee2a0b49a0de530",
+  "last-state-diagnostic.stderr": "2af735359c79af61123a345152573d363bbd52b2f844e93ffb8b10ae5d3f2101",
+  "native-charge-controls.stdout": "c9394ece299df78d23c1ac14eaa1593e92eef687a67b926828bb269db837c025",
+  "native-charge-controls.stderr": "c0ad19c27d460890c450eb85a62fcd842d76d6e3c92fa56cff694db5332a8d49"
+}
