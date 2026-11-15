@@ -2344,7 +2344,23 @@ impl PhreeqcEquilibrator {
             mid = trial_pe;
             interior_probe = 1;
             if env_redox() {
-                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
+                // Retain the actual trial/readback owners even when the
+                // coupled search refuses before canonical readback.
+                let solved_water: Vec<_> = out
+                    .selected
+                    .first()
+                    .zip(out.selected.last())
+                    .into_iter()
+                    .flat_map(|(header, values)| header.iter().zip(values))
+                    .filter(|(name, _)| name.as_str() == "mass_H2O")
+                    .map(|(_, value)| value.as_str())
+                    .collect();
+                eprintln!(
+                    "  pe={mid:.17e} sum={sum:.17e} target={:.17e} residual={:.17e} kgw_in={:.17e} mass_H2O={solved_water:?}",
+                    coupling.target,
+                    sum - coupling.target,
+                    problem.kgw,
+                );
             }
             last_sum = Some(sum);
             best = Some(out);
