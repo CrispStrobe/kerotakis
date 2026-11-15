@@ -1,0 +1,8 @@
+{
+  "kind": "FileNotFoundError",
+  "cause": "source reader resolved original capsule relative to repository root rather than audits directory",
+  "failed_operation": "read original.json; no output report written",
+  "fix": "Path.parents[2] selects audits instead of Path.parents[3]",
+  "scientific_predicates_changed": false,
+  "native_execution": false
+}

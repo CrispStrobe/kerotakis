@@ -1,0 +1,50 @@
+{
+  "source": "52404e01c7bed8498516d76829e6feb87911f544",
+  "tree": "eae2f9832b9741d614a5f3e92bd9cb1341574099",
+  "source_file_sha256": {
+    "crates/kerotakis-core/src/ops.rs": "be2b5650435fc1417cd46e95646b1d35bfcf8a91f19d479f22eafb9734b3f811",
+    "crates/kerotakis-core/src/vessel.rs": "1d91a7a6f25b7f55945b7e05b94ace5b70a8231810fadf5aded3f621298ee3d8",
+    "crates/kerotakis-core/src/bench.rs": "4b22e3d33c3b0bbe981b98a2188547d2b0dcc64f32a7b4233eab3fa7bbf9c03a",
+    "crates/kerotakis-core/src/clock.rs": "d03cc20920163756067f29c7943d811e9e585e03956947f08d545d9e72aa2f16",
+    "crates/kerotakis-core/src/script.rs": "a8268b2baa61ea7d2a3eb4c77ac650b0abe62e6ac0def2cf196079711970f14e",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "684320f691b902e7a4cc22a24018d1d207d959094f0fca0e8742ca506cff26bd",
+    "crates/kerotakis-phreeqc/src/inventory.rs": "678e215d6d1317290aff0815e928d2ce9f14dc1e13b44fb7f75078692db1f534"
+  },
+  "source_contract_checks": {
+    "operator_only_vessel_and_pressure": true,
+    "headspace_swept_only_pressure": true,
+    "sweep_has_no_owned_headspace_volume": true,
+    "canonical_sweep_syntax_has_no_flow_or_budget": true,
+    "initial_sweep_vents_owned_headspace": true,
+    "film_clock_explicitly_excludes_swept": true,
+    "sweep_selects_existing_reservoir_target": true,
+    "target_log_atm_unchanged_minus12": true,
+    "external_kinds_are_reservoir_and_dose": true,
+    "reservoir_starts_with_zero_moles": true,
+    "basis_accounts_external_h_o": true,
+    "no_source_edit_for_this_review": true
+  },
+  "original_id": "new120:gs-007",
+  "original_script_sha256": "aee4f444f4bc8c20870b424b4a9c64d5ed6b30b5efa652432289c54acb08cce9",
+  "original_criteria": [
+    {
+      "id": "GS-007-C1",
+      "criterion": "First verify that the CO2-rich stage dissolved a measurable calcium fraction.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "GS-007-C2",
+      "criterion": "After sweeping, check for increased calcium-carbonate solid and include swept carbon in the balance.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "missing_original_inputs": [
+    "finite inlet molar inventory or inlet molar-flow history and composition",
+    "a declared contact/transfer model with its apparatus-specific parameters and domain"
+  ],
+  "parameters_inferred_or_added": false,
+  "native_execution": false,
+  "scientific_qualification": false
+}

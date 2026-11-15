@@ -1,0 +1,15 @@
+{
+  "utc": "2026-11-15T08:58:56.981804+00:00",
+  "source": "52404e01c7bed8498516d76829e6feb87911f544",
+  "flock_nonblocking_acquired": true,
+  "MemAvailable_MiB": 4668.62890625,
+  "load1": 7.81787109375,
+  "free_bytes": 15673675776,
+  "required_memory_MiB": 4608,
+  "required_load_strictly_below": 3.5,
+  "required_free_strictly_greater_bytes": 12884901888,
+  "child_started": false,
+  "refusals": [
+    "load"
+  ]
+}
