@@ -1,0 +1,6 @@
+{
+  "stage": "read-only account guard before SaveKernel",
+  "exception": "KeyError: 'ref' on ListKernels row",
+  "save_attempt_marker_present": false,
+  "kernel_issued": false
+}

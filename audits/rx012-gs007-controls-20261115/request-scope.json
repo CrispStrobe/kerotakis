@@ -1,0 +1,19 @@
+{
+  "script_sha256": "57a48ef0792a73de4c6c48378d70502b02f7385bba521ed7156a22202dd583d6",
+  "cpu_only": true,
+  "new_dataset": false,
+  "existing_cache_attachments": 1,
+  "build_jobs": 2,
+  "session_budget_seconds": 1800,
+  "minimum_available_memory_MiB": 4608,
+  "load_strictly_below": 3.5,
+  "fast_free_strictly_above_bytes": 12884901888,
+  "per_command_nonblocking_exclusive_lock": true,
+  "fd_alive_through_child": true,
+  "core_controls": 4,
+  "CLI_scalar_controls": 1,
+  "GS007_projection_controls": 2,
+  "originals": 0,
+  "PR884_acceptance_replays": 0,
+  "request_submitted": false
+}

@@ -1,0 +1,19 @@
+{
+  "utc": "2026-11-15T09:43:40.939718+00:00",
+  "stage": "pre-submission facility capacity/cache authentication",
+  "active_runs": 1,
+  "unresolved_slots": 16,
+  "status_HTTP429": 15,
+  "unaddressable_records": 1,
+  "capacity_limit": 5,
+  "admission_passed": false,
+  "SaveKernel_attempted": false,
+  "job_id": null,
+  "accepted_version": null,
+  "accepted_script_hash": null,
+  "remote_resources_verified": false,
+  "controls_executed": false,
+  "original_replay": false,
+  "qualification_delta": 0,
+  "next_required_evidence": "One authoritative capacity snapshot resolving current status errors and addressability, authenticated completed cache/version, and accepted source/script/version/resource readback before any wait. No automatic retry or polling is installed."
+}
