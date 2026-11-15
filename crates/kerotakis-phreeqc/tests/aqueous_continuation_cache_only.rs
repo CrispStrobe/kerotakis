@@ -15,6 +15,7 @@ fn concrete_cache_miss_and_failed_hook_cannot_reuse_an_old_solution() {
     // Intentionally stale complete-looking reading. The concrete adapter must
     // clear this on its private candidate, not attest it as a computed answer.
     vessel.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: SolutionScope::Complete,
         solvent_kg: Some(0.1),

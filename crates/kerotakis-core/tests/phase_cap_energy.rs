@@ -262,6 +262,7 @@ fn declare_activity(v: &mut Vessel, route: Route) {
     // Explicit synthetic input only. No native solve, trust receipt, pH
     // inference, chemical yield, empirical activity or calibration is asserted.
     v.solution = Some(SolutionInfo {
+        native_density: None,
         scope: Default::default(),
         solvent_kg: Some(kg),
         particle_molality: None,

@@ -1823,6 +1823,7 @@ mod tests {
         // missing. `solution_optics::spectral_gaps` has reported this for
         // as long as it has existed.
         v.solution = Some(SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: Some(0.1),

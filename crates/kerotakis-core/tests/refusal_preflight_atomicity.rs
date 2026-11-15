@@ -33,6 +33,7 @@ fn prepared(fresh: bool) -> Bench {
         vessel.deposit(SpeciesId::new("water"), Moles(4.0), Phase::Liquid);
         vessel.free_proton = 1e-7;
         vessel.solution = Some(SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: Some(0.072),

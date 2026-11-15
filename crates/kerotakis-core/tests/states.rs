@@ -468,6 +468,7 @@ impl Equilibrator for ParticleBalanceSolver {
         }
         let particle_molality = self.particle_moles / liquid_kg;
         vessel.solution = Some(SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: None,

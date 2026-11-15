@@ -17,6 +17,7 @@ use kerotakis_core::vessel::{SolutionInfo, Vessel, VesselId};
 
 fn solution(ph: f64) -> SolutionInfo {
     SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,

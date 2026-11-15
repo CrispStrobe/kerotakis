@@ -275,6 +275,7 @@ fn outside_the_cited_ph_window_digestion_is_refused_typed() {
     v.deposit(SpeciesId::new("amylase"), Moles(1e-6), Phase::Aqueous);
     v.starch_gelatinised_moles = Some(0.1);
     v.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: SolutionScope::Complete,
         solvent_kg: Some(55.0 * 0.018015),

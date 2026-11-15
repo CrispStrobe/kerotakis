@@ -4933,6 +4933,7 @@ mod tests {
     fn vessel_exposes_only_resolved_aqueous_and_owned_gas_activities() {
         let mut vessel = crate::Vessel::new(crate::VesselId(0), "activity cell");
         vessel.solution = Some(crate::SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: crate::SolutionScope::Complete,
             solvent_kg: Some(1.0),
@@ -5319,6 +5320,7 @@ mod tests {
             crate::Phase::Aqueous,
         );
         vessel.solution = Some(crate::SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: crate::SolutionScope::Complete,
             solvent_kg: Some(1.0),
@@ -5732,6 +5734,7 @@ mod tests {
             crate::Phase::Aqueous,
         );
         vessel.solution = Some(crate::SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: crate::SolutionScope::Complete,
             solvent_kg: Some(1.0),
@@ -6194,6 +6197,7 @@ mod tests {
             crate::Phase::Aqueous,
         );
         vessel.solution = Some(crate::SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: crate::SolutionScope::Complete,
             solvent_kg: Some(1.0),
