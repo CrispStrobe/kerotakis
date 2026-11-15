@@ -14623,6 +14623,80 @@ mod oxidation_sum_tests {
 }
 
 #[cfg(test)]
+mod redox_trial_precision_tests {
+    use super::{build_input_at, partition, redox_coupling, RedoxCoupling};
+    use kerotakis_core::{Moles, Phase, SpeciesId, Vessel, VesselId};
+
+    fn feed() -> Vessel {
+        let mut vessel = Vessel::new(VesselId(0), "redox trial precision");
+        for (species, moles, phase) in [
+            ("water", 5.55, Phase::Liquid),
+            ("HCl", 0.01, Phase::Solid),
+            ("FeSO4", 0.005, Phase::Solid),
+            ("KMnO4", 0.0002, Phase::Solid),
+        ] {
+            vessel.deposit(SpeciesId::new(species), Moles(moles), phase);
+        }
+        vessel
+    }
+
+    fn input(vessel: &Vessel, pe: f64) -> String {
+        let problem = partition(vessel).expect("aqueous problem");
+        let coupling: RedoxCoupling =
+            redox_coupling(&problem, "wateq4f").expect("Fe/Mn electron budget");
+        build_input_at(vessel, &problem, "wateq4f", Some((pe, &coupling)))
+    }
+
+    fn written_pe(input: &str) -> f64 {
+        input
+            .lines()
+            .find_map(|line| {
+                let mut words = line.split_whitespace();
+                (words.next() == Some("pe"))
+                    .then(|| words.next().expect("pe value").parse().unwrap())
+            })
+            .expect("native pe coordinate")
+    }
+
+    #[test]
+    fn neighboring_redox_trials_round_trip_without_native_input_collisions() {
+        let vessel = feed();
+        for pe in [-9.1234567, 3.50000001, 7.1234567, 16.1234567] {
+            let neighbor = pe + 1e-8;
+            let first = input(&vessel, pe);
+            let second = input(&vessel, neighbor);
+            assert_eq!(written_pe(&first), pe);
+            assert_eq!(written_pe(&second), neighbor);
+            assert_ne!(first, second);
+        }
+    }
+
+    #[test]
+    fn signed_small_trials_and_unchanged_bracket_edges_survive_serialization() {
+        let vessel = feed();
+        for pe in [-10.0, -1e-9, 0.0, 1e-9, 17.0] {
+            assert_eq!(written_pe(&input(&vessel, pe)), pe);
+        }
+    }
+
+    #[test]
+    fn refining_pe_cannot_change_the_other_native_inputs() {
+        let vessel = feed();
+        let without_pe = |input: String| {
+            input
+                .lines()
+                .filter(|line| line.split_whitespace().next() != Some("pe"))
+                .map(str::to_string)
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(
+            without_pe(input(&vessel, 7.1234567)),
+            without_pe(input(&vessel, 7.12345671))
+        );
+    }
+}
+
+#[cfg(test)]
 mod dataset_claim_tests {
     use super::{dataset_phrase, Locale};
     use kerotakis_core::Provenance;
