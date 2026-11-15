@@ -1,0 +1,142 @@
+{
+  "density_water_g_ml": 0.997,
+  "density_brine_g_ml": 1.098426197242,
+  "density_ps_g_ml": 1.05,
+  "density_pet_g_ml": 1.38,
+  "ledger_max_abs": 2.7755575615628914e-17,
+  "ledger_residuals": [
+    {},
+    {},
+    {
+      "H": 0.0,
+      "Q": 0.0,
+      "O": 0.0
+    },
+    {
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0
+    },
+    {
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0
+    },
+    {
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0
+    },
+    {
+      "Cl": 2.7755575615628914e-17,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 2.7755575615628914e-17
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    },
+    {
+      "Cl": 0.0,
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0,
+      "C": 0.0,
+      "Na": 0.0
+    }
+  ],
+  "unsupported_events": [],
+  "KCl_refusal": {
+    "native_density_authority": false,
+    "missing_ion_volume_warning_retained": true,
+    "not_a_supported_density_measurement": true
+  },
+  "native_readback": {
+    "RHO_kg_l": 1.098426197242,
+    "same_numeric_units_as_g_ml": true,
+    "input_temperature_c": "22.4665",
+    "bound_vessel_temperature_K": 295.61653134225594,
+    "bound_pressure_Pa": 101325.0,
+    "temperature_precision": "Existing unchanged four-decimal Celsius native-input formatter",
+    "placeholder_substitution": false
+  },
+  "criteria": {
+    "question": "PASS",
+    "inventory": "PASS",
+    "coverage": "PASS",
+    "controls": "PASS"
+  },
+  "original_id": "batch3-diverse:po-002",
+  "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+  "tree": "cbbc417da7002f9494efa30aa9f316928be8f980",
+  "original_script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+  "native_executable_sha256": "ec3f36f3942022da620082d1c5e6b584e8e2c0e48f911b55ae6931e58fe02c0b",
+  "cargo_lock_sha256": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "focused_pass": true,
+  "mutations_rejected": [
+    "false_KCl_authority",
+    "missing_KCl_refusal",
+    "wrong_density",
+    "stale_temperature",
+    "stale_pressure",
+    "lost_salt",
+    "solver_failure",
+    "changed_original"
+  ],
+  "verified_files": 59,
+  "qualification": true,
+  "coverage_before": 430,
+  "coverage_after": 431,
+  "delivery_acceptance_complete": false,
+  "scope": "All unchanged original criteria PASS on the exact native candidate source; density-only feasibility, not empirical calibration or particle separation. Full source/platform/fleet/integration acceptance remains separate."
+}

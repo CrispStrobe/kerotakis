@@ -1,0 +1,20 @@
+{
+  "README.md": "109929c31247e048f58cb3763243c2e60403a8ce0b3e281290441133fd14c0f5",
+  "actual-producer-Cargo.lock": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "catalog-preservation.json": "ca48d5b93e7689a953495eb31a0d8134d57513f0a3fc33db2cd75460066bddbb",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "native-original-and-refusal.stdout.test-excerpt.txt": "4d5dd503565d22987e231d330d7fba017b875c8beab802d99c53d4013afef53c",
+  "native-scientific-trace.excerpt.txt": "2e0af2d5a6f37e103d02ff7549369977ee5f4dcfa548bc7a69bb517b42678ba6",
+  "original.json": "7be657f8a975f08976013a700c364568bdd0841d8cc5aad674b96b769519553a",
+  "particle-census-controls.stdout.test-excerpt.txt": "748aa71d0784f828923099ca50543699dca73c1b9bdc4248983cb629d7d10954",
+  "prior-production-cause.json": "092767d90a49a79b2ae9118fe4dbc29f7f46d469077f873452f96639eebe76e0",
+  "qualification-final.json": "d486b7840229c0b086b4208dabe865dc8181d5685b9e4f27ab807d0a7878874d",
+  "raw-producer-hashes.json": "2779e24c90fed348477d86e55251c935cda830d6d515deb551323da719768c07",
+  "reader-v1-registry-schema-failure.json": "094cbf4eb6d73bd5b708b798dd6c43bc90e3ce42215335a069d081ec4c155ff4",
+  "readouts/original.json": "4c87d6da19f89846bb19e7bf64fad5a922dd41d6b49e3f43a0d0edee1e13d615",
+  "readouts/unsupported-electrolyte.json": "4c813970b0e46dc4409761627e8fa5d6aedc2eb62b0bf7b1730ebfe3f0cb6585",
+  "review.py": "81ffc36e4804b1af63329a6be0068a1c38c788c190f7993b526515783b533f70",
+  "source-and-lock.json": "d6ea3b9f7082bc5e5a383c94c8c51d0731d010440b53cff136ec5b71c4ee39c0",
+  "source-provenance-review.json": "bfb07762292a661e06f2b19df6bb3a9c4e3302315e521e5fc9ec629d767ac3ca",
+  "streamed-native-executable.json": "f5b627fcc1b5c5f54d534e3de708b116cf9d6acb7fb3bac9861cd42048975d6c"
+}

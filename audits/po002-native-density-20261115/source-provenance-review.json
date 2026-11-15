@@ -1,0 +1,24 @@
+{
+  "source": "5db4a1260112c79b7ed610e5a8399b151dfd7363",
+  "base": "6068f2d1566dc79398047ef5871ba8112b472e0d",
+  "original_id": "batch3-diverse:po-002",
+  "units": {
+    "RHO": "kg/L, numerically g/mL",
+    "native_Vm": "cm^3/mol"
+  },
+  "primary_manual": "https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqc3-html/phreeqc3-61.htm",
+  "pinned_submodule": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "pitzer_sha256": "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb",
+  "native_density_implementation_sha256": "6e446d1d20eb4c2613ecadca6fe2a496761f850268c3ae891b78404cff54e2ec",
+  "license_record": "provenance/sources.toml (USGS User Rights Notice, existing runtime lane)",
+  "new_data_imports": false,
+  "new_engine_solves": false,
+  "physical_claim": false,
+  "qualification": false,
+  "unchanged_criteria": "Original question, inventory, coverage, water control, and density-only feasibility limitation; no separation operation inferred",
+  "aqueous_diff_sha256": "c70c07ee25f7b9e7d97ed107e5327f2324a26291eb333cf96d835dd9856d614d",
+  "native_density_refs": [
+    "Appelo, Parkhurst and Post (2014), Geochimica et Cosmochimica Acta125,49\u201367 (vendored pitzer.dat ref1)",
+    "Vendored calc_dens cites Millero (2000), The equation of state of lakes, Aquatic Geochemistry6,1\u201317"
+  ]
+}

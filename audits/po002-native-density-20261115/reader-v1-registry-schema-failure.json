@@ -1,0 +1,7 @@
+{
+  "reader_sha256": "c38efe064c2fbf24e6f9e4a71a807acb2916278b0a1ebdd1bf994fb7f66cc392",
+  "exception": "TypeError: unhashable type: dict",
+  "assertion_or_stage": "Reader v1 property-map extraction before any scientific criterion; phase_thermodynamics also contains structured-property records. Select only unchanged scalar mass_density/molar_mass records.",
+  "native_job_repeated": false,
+  "qualification": false
+}

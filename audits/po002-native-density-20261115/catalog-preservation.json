@@ -1,0 +1,13 @@
+{
+  "predecessor": "working-experiments-20261114-reviewed-ki011.json",
+  "predecessor_sha256": "09bb906bc3b1371a0e17159fe83e863f3a25485cd2fe57eea156797d11d372a1",
+  "successor": "working-experiments-20261115-reviewed-po002.json",
+  "successor_sha256": "aa2fa65be0be6c34f6225759f175b7ec063b97170b75b260a05e05cc2012e8ec",
+  "predecessor_objects_preserved": 434,
+  "entries_before": 434,
+  "entries_after": 435,
+  "originals_before": 430,
+  "originals_after": 431,
+  "remaining": 37,
+  "outside_original_denominator": 4
+}

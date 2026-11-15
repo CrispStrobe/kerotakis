@@ -1,0 +1,306 @@
+{
+  "code": "D3-PO-002",
+  "title": "Change the separating liquid, not the plastic sample",
+  "title_de": "Das Trennmedium ändern, nicht die Kunststoffprobe",
+  "question": "How does a liquid-density change alter the potential separation of polystyrene and PET?",
+  "script": "# D3-PO-002: Change the separating liquid, not the plastic sample\n# Simulation candidate; no runtime observations are claimed.\nregister lv3\nnew\nadd v1 water 50mL\nadd v1 PS 0.5g\nadd v1 PET 0.5g\nadd v2 water 50mL\nadd v2 NaCl 8g\nadd v2 PS 0.5g\nadd v2 PET 0.5g\nmeasure v1 density\nmeasure v2 density\nlook v1\nlook v2\ninspect\n",
+  "expected_result": "Compare measured liquid density with each polymer density. A denser brine may cross the PS threshold while remaining below PET, allowing a different classification than pure water.",
+  "limitations": [
+    "This is a density-based feasibility test, not a guaranteed particle-separation operation. Surface wetting, trapped air and polymer additives are not represented."
+  ],
+  "priority_tier": 2,
+  "experiment_kind": "controlled_comparison",
+  "expected_processes": [],
+  "controls": [
+    "v1: water reference"
+  ],
+  "expected_products_or_states": [
+    "density-threshold separation opportunity"
+  ],
+  "id": "batch3-diverse:po-002",
+  "group": "polymers-and-macromolecules",
+  "rank": 52,
+  "educational_level": "Sekundarstufe II / optional school enrichment",
+  "importance_rationale": "Broadens upper-secondary chemistry into a distinct material, process or method.",
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+  "script_body_sha256": "740ca199adcfe6f3fc733b6b4ef35418fdc056a441449f7bf2babdf2e853c2f6",
+  "action_protocol_sha256": "0427110f9cceb97e5274ed292003b66c18e33b62bfa751a667aac0ae25c20a08",
+  "quantity_independent_protocol_sha256": "3ab0ddf84827c947b743b616bfb6828e98c6e824e0d820a2cc7b7fa3a7d745f5",
+  "novelty": {
+    "basis": "New experimental question and/or chemical/material system relative to the earlier generated batches; substantive controls and conceptual extensions are allowed.",
+    "distinction": "Introduces choice of separation medium and an explicit density threshold for two new polymers.",
+    "semantic_uniqueness_certified": false,
+    "comparison_against_previous_221": "See novelty_comparison.json for reproducible exact, normalized and action-protocol checks.",
+    "original_147_exhaustively_compared": false
+  },
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "high",
+    "runtime_verified": false,
+    "official_parser_verified": false,
+    "coverage_claim": "Inputs and command forms have source references; complete feature composition remains unrun."
+  },
+  "equation_validation": {
+    "automated_atom_and_charge_balance_checked": false,
+    "note": "Equations are educational relationships; schematic families and unresolved materials are labelled, not claimed as exact molecular mechanisms."
+  },
+  "acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "How does a liquid-density change alter the potential separation of polystyrene and PET?",
+      "review_instruction": "Compare measured liquid density with each polymer density. A denser brine may cross the PS threshold while remaining below PET, allowing a different classification than pure water.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: water reference",
+      "result": null
+    }
+  ],
+  "evidence": {
+    "source_ids": [
+      "upstream_catalogue",
+      "parser",
+      "registry",
+      "gel",
+      "swelling",
+      "plastics",
+      "species"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/D3-PO-002.lab",
+    "script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0"
+  },
+  "safety_context": "Virtual chemistry only. These quantities are simulator inputs, not a wet-lab procedure, risk assessment, food-safety claim or permission for unsupervised handling.",
+  "initial_conditions": {
+    "execution": "Fresh Kero process for this script; initial vessel v1 is assumed; new creates subsequent vessels.",
+    "temperature": "Use explicit @ temperatures where supplied; otherwise inherit engine defaults and verify reported values.",
+    "time": "wait advances all live vessels; it is not a per-vessel clock.",
+    "gas_boundary": "Open/default unless explicitly changed; seal does not mean evacuated or oxygen-free.",
+    "transport_boundary": null
+  },
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "water",
+      "identity_kind": "species",
+      "formula": "H2O",
+      "repeat_unit_formula": null,
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 5,
+      "amount": 50.0,
+      "unit": "mL",
+      "amount_literal": "50mL",
+      "input_temperature": null,
+      "role": "solvent"
+    },
+    {
+      "registry_key": "PS",
+      "name": "polystyrene",
+      "identity_kind": "polymer",
+      "formula": null,
+      "repeat_unit_formula": "C8H8",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 6,
+      "amount": 0.5,
+      "unit": "g",
+      "amount_literal": "0.5g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "PET",
+      "name": "poly(ethylene terephthalate)",
+      "identity_kind": "polymer",
+      "formula": null,
+      "repeat_unit_formula": "C10H8O4",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 0.5,
+      "unit": "g",
+      "amount_literal": "0.5g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "water",
+      "name": "water",
+      "identity_kind": "species",
+      "formula": "H2O",
+      "repeat_unit_formula": null,
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 8,
+      "amount": 50.0,
+      "unit": "mL",
+      "amount_literal": "50mL",
+      "input_temperature": null,
+      "role": "solvent"
+    },
+    {
+      "registry_key": "NaCl",
+      "name": "sodium chloride",
+      "identity_kind": "species",
+      "formula": "NaCl",
+      "repeat_unit_formula": null,
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 9,
+      "amount": 8.0,
+      "unit": "g",
+      "amount_literal": "8g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "PS",
+      "name": "polystyrene",
+      "identity_kind": "polymer",
+      "formula": null,
+      "repeat_unit_formula": "C8H8",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 10,
+      "amount": 0.5,
+      "unit": "g",
+      "amount_literal": "0.5g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    },
+    {
+      "registry_key": "PET",
+      "name": "poly(ethylene terephthalate)",
+      "identity_kind": "polymer",
+      "formula": null,
+      "repeat_unit_formula": "C10H8O4",
+      "vessel": "v2",
+      "introduced_by": "add",
+      "script_line": 11,
+      "amount": 0.5,
+      "unit": "g",
+      "amount_literal": "0.5g",
+      "input_temperature": null,
+      "role": "experimental input (not necessarily consumed)"
+    }
+  ],
+  "operations": [
+    {
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "script_line": 4,
+      "verb": "new",
+      "command": "new"
+    },
+    {
+      "script_line": 5,
+      "verb": "add",
+      "command": "add v1 water 50mL"
+    },
+    {
+      "script_line": 6,
+      "verb": "add",
+      "command": "add v1 PS 0.5g"
+    },
+    {
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v1 PET 0.5g"
+    },
+    {
+      "script_line": 8,
+      "verb": "add",
+      "command": "add v2 water 50mL"
+    },
+    {
+      "script_line": 9,
+      "verb": "add",
+      "command": "add v2 NaCl 8g"
+    },
+    {
+      "script_line": 10,
+      "verb": "add",
+      "command": "add v2 PS 0.5g"
+    },
+    {
+      "script_line": 11,
+      "verb": "add",
+      "command": "add v2 PET 0.5g"
+    },
+    {
+      "script_line": 12,
+      "verb": "measure",
+      "command": "measure v1 density"
+    },
+    {
+      "script_line": 13,
+      "verb": "measure",
+      "command": "measure v2 density"
+    },
+    {
+      "script_line": 14,
+      "verb": "look",
+      "command": "look v1"
+    },
+    {
+      "script_line": 15,
+      "verb": "look",
+      "command": "look v2"
+    },
+    {
+      "script_line": 16,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "observation_plan": [
+    {
+      "script_line": 12,
+      "verb": "measure",
+      "command": "measure v1 density"
+    },
+    {
+      "script_line": 13,
+      "verb": "measure",
+      "command": "measure v2 density"
+    },
+    {
+      "script_line": 14,
+      "verb": "look",
+      "command": "look v1"
+    },
+    {
+      "script_line": 15,
+      "verb": "look",
+      "command": "look v2"
+    },
+    {
+      "script_line": 16,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ]
+}

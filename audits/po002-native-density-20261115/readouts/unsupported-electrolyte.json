@@ -1,0 +1,598 @@
+{
+  "frames": [
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 2.7671384956980294,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 5.0152131035944206e-9,
+          "free_proton": 5.0152131035944206e-9,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 2.7671384956980294,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 1.006060803128269e-7,
+            "pe": null,
+            "ph": 6.997375771104036,
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "redox": [],
+            "scope": "solvent_only",
+            "solvent_kg": 0.04985,
+            "species": [
+              {
+                "activity": 1.006060803128269e-7,
+                "molality": 1.006060803128269e-7,
+                "name": "H+"
+              },
+              {
+                "activity": 1.006060803128269e-7,
+                "molality": 1.006060803128269e-7,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "command": "add v1 water 50mL",
+      "events": [
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.10730909042132232,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.10730909042132232,
+              "phase": "aqueous",
+              "species": "K+"
+            },
+            {
+              "moles": 2.7671384956980294,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 3.879500343274892e-9,
+          "free_proton": 3.879500343661229e-9,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 2.7671384956980294,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.10730909042132232,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "KCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 2.152639805432,
+            "particle_molality": 4.305279610865,
+            "pe": null,
+            "ph": 7.08099462948,
+            "provenance": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+                "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+                "Hnedkovsky et al., 1996, JCT 28, 125",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the solution is concentrated (~4.3 mol/kgw), where the ion-interaction model is the valid one",
+              "routing_phrase": {
+                "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                "key": "routing.concentrated-ion-interaction",
+                "slots": [
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "4.3"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.04985,
+            "species": [
+              {
+                "activity": 0.9319418032742163,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 1.214,
+                "molality": 2.153,
+                "name": "Cl-"
+              },
+              {
+                "activity": 1.214,
+                "molality": 2.153,
+                "name": "K+"
+              },
+              {
+                "activity": 8.299e-8,
+                "molality": 7.782e-8,
+                "name": "H+"
+              },
+              {
+                "activity": 5.609e-8,
+                "molality": 7.782e-8,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 289.2963749109956,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "command": "add v1 KCl 8g",
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.10730909042132232,
+          "species": "KCl",
+          "total_after": 0.10730909042132232,
+          "vessel": 0
+        },
+        {
+          "event": "dissolved",
+          "moles": 0.10730909042132232,
+          "species": "KCl",
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+              "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+              "Hnedkovsky et al., 1996, JCT 28, 125",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the solution is concentrated (~4.3 mol/kgw), where the ion-interaction model is the valid one",
+            "routing_phrase": {
+              "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+              "key": "routing.concentrated-ion-interaction",
+              "slots": [
+                [
+                  "molality",
+                  {
+                    "number": {
+                      "text": "4.3"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 2.152639805432,
+          "ph": 7.08099462948,
+          "vessel": 0
+        },
+        {
+          "event": "temperature_changed",
+          "from": 298.15,
+          "to": 289.2963749109956,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.10730909042132232,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.10730909042132232,
+              "phase": "aqueous",
+              "species": "K+"
+            },
+            {
+              "moles": 2.7671384956980294,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 3.879500343274892e-9,
+          "free_proton": 3.879500343661229e-9,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 2.7671384956980294,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.10730909042132232,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "KCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 2.152639805432,
+            "particle_molality": 4.305279610865,
+            "pe": null,
+            "ph": 7.08099462948,
+            "provenance": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+                "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+                "Hnedkovsky et al., 1996, JCT 28, 125",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "Pitzer specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (fitted per electrolyte to stated molality ranges)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the solution is concentrated (~4.3 mol/kgw), where the ion-interaction model is the valid one",
+              "routing_phrase": {
+                "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                "key": "routing.concentrated-ion-interaction",
+                "slots": [
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "4.3"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.04985,
+            "species": [
+              {
+                "activity": 0.9319418032742163,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 1.214,
+                "molality": 2.153,
+                "name": "Cl-"
+              },
+              {
+                "activity": 1.214,
+                "molality": 2.153,
+                "name": "K+"
+              },
+              {
+                "activity": 8.299e-8,
+                "molality": 7.782e-8,
+                "name": "H+"
+              },
+              {
+                "activity": 5.609e-8,
+                "molality": 7.782e-8,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 289.2963749109956,
+          "thermal_mode": "adiabatic"
+        }
+      ],
+      "command": "measure v1 density",
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "densitometer",
+          "unit": "g/mL",
+          "value": 0.9974137931034484,
+          "vessel": 0
+        },
+        {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing",
+            "key": "not-modeled.density-of-the-dissolved-ions"
+          },
+          "vessel": 0,
+          "what": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+        }
+      ]
+    }
+  ]
+}

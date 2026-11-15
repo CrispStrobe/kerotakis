@@ -1,0 +1,35 @@
+{
+  "original_id": "batch3-diverse:po-002",
+  "script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+  "raw_sha256": "5190296f1aa9073e31682ecdba76452d6e23b13c0b5611c9c723741c36b1eb6b",
+  "saved_source_scope": "Authenticated historical production response only, not current changed-source execution",
+  "density_readouts": [
+    {
+      "event": "measured",
+      "instrument": "densitometer",
+      "unit": "g/mL",
+      "value": 0.997,
+      "vessel": 0
+    },
+    {
+      "event": "measured",
+      "instrument": "densitometer",
+      "unit": "g/mL",
+      "value": 0.9974137931034484,
+      "vessel": 1
+    }
+  ],
+  "prior_missing_density_events": [
+    {
+      "cause": "no-reviewed-datum",
+      "event": "not_yet_modeled",
+      "reason": {
+        "en": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing",
+        "key": "not-modeled.density-of-the-dissolved-ions"
+      },
+      "vessel": 1,
+      "what": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+    }
+  ],
+  "qualification": false
+}

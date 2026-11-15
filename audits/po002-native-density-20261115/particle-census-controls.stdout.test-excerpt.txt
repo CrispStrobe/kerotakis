@@ -1,0 +1,7 @@
+Test-output excerpt. Full raw file SHA256 recorded in raw-producer-hashes.json.
+running 2 tests
+test aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback ... ok
+test aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 211 filtered out; finished in 0.00s
+

@@ -1,0 +1,7 @@
+Test-output excerpt. Full raw file SHA256 recorded in raw-producer-hashes.json.
+running 2 tests
+test other_electrolytes_do_not_inherit_sodium_chloride_volume_authority ... ok
+test unchanged_original_compares_water_and_brine_with_ps_and_pet ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.61s
+
