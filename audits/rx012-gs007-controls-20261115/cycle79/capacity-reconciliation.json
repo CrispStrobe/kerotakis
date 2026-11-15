@@ -71,7 +71,6 @@
       "executed_provider_version": 1,
       "source_blob_sha256": "2b9b6e80034e7ea17632b1a88a2d9c9c777e4b580f925c6c9f96189e89671257",
       "actual_execution_version_proof": "Census v1 COMPLETE",
-      "version_proof_excerpt": "Census v1 COMPLETE,79original runtime hashes/pre-run binding/full raw guest state equal to uninstrumentedcf65. Observed7,906,840interpreted attempts allcomplete=6,379,836protected32+1,527,004other;0incomplete/throw/nested/factfailure.3,228machine steps outside native16,428,211+observedmethods to total24,338,279. Top protected32:89MOV714,028;F6group649,280;A4MOVSB632,108;0F85nearJNZ493,931;8Bload345,623;E8call233,458;C3ret233,453. NearJZ0F84also1,857.89memory forms549,946 (mod0unpref494,944) but not allfallbacks implyunsupported; activeREPcontext/F6subop notrecorded. Branchdirection/locality/EIPtarget notcaptured by existingdata, no invented trace or newrun.\nRaw artifact/census/audit/report retained /mnt/volume1/code/lego/x86-xv6-census-result-cf65e8-20261114, archiveSHA256d81eae33875b475d1f5f5ee8f7ba71151d811da4f3b5628262882733efea0678. Completed/failedtable sums independently match; original guest equality includes CPU/RAM/disk/device/nativecounters, no timing/performance claim. Parent+bottleneck received topcounts and selected minimal0F84/85sourceexperiment; next committed testedcandidate pending. No furthercensus/newpairedrun submitted.",
       "actual_owner_execution_log_sha256": "58d00a2ccdc3aa81d2a4a3098f939d1c912df5925f8f247c61c50de3d5b91d20",
       "local_script_sha256": "2b9b6e80034e7ea17632b1a88a2d9c9c777e4b580f925c6c9f96189e89671257",
       "archive_sha256": "d81eae33875b475d1f5f5ee8f7ba71151d811da4f3b5628262882733efea0678",
@@ -80,7 +79,8 @@
       "terminal_proven": true,
       "timestamp_used_as_authority": false,
       "new_proof_for_previously_unresolved_profile": false,
-      "known_slug": "xv6-dispatcher-fallback-census-20261114"
+      "known_slug": "xv6-dispatcher-fallback-census-20261114",
+      "version_proof_excerpt_sha256": "84eda34eafbd04453ce58b9f74e9533fa2134df422bb6ba7a337752a7cc80a08"
     },
     {
       "provider_id": 144971636,
@@ -88,7 +88,6 @@
       "executed_provider_version": 2,
       "source_blob_sha256": "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
       "actual_execution_version_proof": "Separate profile kernel version2 COMPLETE",
-      "version_proof_excerpt": "Separate profile kernel version2 COMPLETE, exact cf65candidate runtime79hashes and full reported guest state equal to unprofiled candidate (source snapshot Git fields separately bound).24,338,279steps/native16,428,211,3,901,353calls. Diagnostic Node1ms main-thread9,349samples/profile10.335320swall; wholeCPU13.942866s/wall10.451415s. VMCPU model not captured in this diagnostic; do not borrow model/timing from paired VM or infer profiling overhead across hosts.\nOriginal/profile/rankings/positions/semantic audit/report retained /mnt/volume1/code/lego/x86-xv6-profile-result-cf65e8-20261114; archive SHA2567784f8a07207e57fe989fe0749f9b962754aaabd64dfdb907b2fb035c91cd2f7. No new paired run/source change. Profile/actual4arm results now complete; next source candidate pending owner selection.",
       "actual_owner_execution_log_sha256": "58d00a2ccdc3aa81d2a4a3098f939d1c912df5925f8f247c61c50de3d5b91d20",
       "local_script_sha256": "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
       "archive_sha256": "7784f8a07207e57fe989fe0749f9b962754aaabd64dfdb907b2fb035c91cd2f7",
@@ -97,7 +96,8 @@
       "terminal_proven": true,
       "timestamp_used_as_authority": false,
       "new_proof_for_previously_unresolved_profile": true,
-      "known_slug": "xv6-dispatcher-cpu-profile-20261114"
+      "known_slug": "xv6-dispatcher-cpu-profile-20261114",
+      "version_proof_excerpt_sha256": "e761ff360f07ae3b11052ca1b58fb6cf4a95e39c74f102c398c9857f9d285050"
     }
   ],
   "remaining": [
