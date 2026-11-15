@@ -1,0 +1,29 @@
+Test-output excerpt; full raw SHA256 recorded in raw-producer-hashes.json.
+running 15 tests
+test exact_exhaustion_succeeds_but_real_overdraw_is_rejected ... ok
+test invalid_scalar_and_pair_inputs_are_rejected ... ok
+test invalid_scale_overflow_and_total_underflow_are_rejected ... ok
+test json_round_trip_preserves_both_components_and_legacy_scalars_load ... ok
+test negative_high_input_can_normalize_to_a_nonnegative_total ... ok
+test pair_construction_normalizes_without_discarding_a_small_addend ... ok
+test persisted_pairs_are_validated_instead_of_silently_renormalized ... ok
+test quantized_subnormal_scale_refuses_but_exact_subnormal_scale_succeeds ... ok
+test repeated_sub_ulp_additions_cross_the_scalar_resolution_boundary ... ok
+test repeated_sub_ulp_debits_and_inverse_credits_cancel ... ok
+test scale_preserves_low_component_for_exact_power_of_two ... ok
+test scale_retains_normal_product_rounding_error ... ok
+test sub_ulp_addition_and_subtraction_retain_the_signed_low_component ... ok
+test subtracting_the_large_component_exposes_preserved_small_inventory ... ok
+test zero_and_scalar_inputs_are_canonical ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test actual_sp003_step629_correction_cannot_authorize_a_scalar_writer ... ok
+test independent_dyadic_residue_and_condensate_remain_positive_and_close ... ok
+test invalid_split_owners_never_receive_write_authority ... ok
+test representable_split_plans_both_writes_and_stale_donor_is_rejected ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

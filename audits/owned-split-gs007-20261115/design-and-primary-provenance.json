@@ -1,0 +1,32 @@
+{
+  "source": "6a2a4fc916e311aadeb96abad25222b6d5aac9d7",
+  "tree": "8ac9981b82aa2d0ba8f6d203d9bee384437fe3a3",
+  "SP003_original_not_replayed": true,
+  "production_still_or_writer_changed": false,
+  "implemented_design": "Immutable ComponentSplit owns retained and transferred compensated Amounts, plus a checked scalar write plan that refuses any lost low limb, stale donor or receiver rounding",
+  "exact_API_invariant": "Portion.moles is public Moles(f64); deposit merges by scalar addition, withdraw_phase debits scalar p.moles - take and returns a scalar Moles. A standalone residual/low-part map would create a second authority while other solvers/persistence still overwrite/read the public scalar. All live donor/receiver writers and persistence must retain one authoritative amount before that split can be committed.",
+  "false_authority_controls": [
+    "Actual SP003 step629 next residue and positive transferred low limb must survive in Amount and be rejected by scalar_write_plan",
+    "Independent dyadic 1 - 2^-70 split: both positive owners and exact closure, but scalar writer refuses",
+    "Exactly representable .25/.75 split with receiver .5 produces exact .25/1.25 plan",
+    "Stale donor, nonfinite/negative balances, overdraw and receiver low-limb loss refuse"
+  ],
+  "next_original": "new120:gs-007",
+  "original_criteria": [
+    "CO2-rich stage dissolved measurable calcium",
+    "After sweeping increased calcium-carbonate solid; include swept carbon"
+  ],
+  "GS007_model_provenance": {
+    "database_source": "Vendored USGS IPhreeqc thermodynamic databases; existing runtime lane and USGS User Rights Notice in provenance/sources.toml",
+    "pinned_submodule": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+    "wateq4f_sha256": "93547b0343d9f151e73fb48e7927aa9e9c777399fedcb8c7497d00371af4d0ae",
+    "native_concentration_unit": "mol/kg water",
+    "vessel_inventory_unit": "mol",
+    "native_gas_partial_pressure_unit": "atm (log10 target for sweep=-12, unchanged source constant)",
+    "vessel_temperature_unit": "K",
+    "vessel_pressure_unit": "Pa",
+    "new_constants_or_data_imported": false,
+    "actual_selected_database": "Read actual native provenance after execution; do not assume selection"
+  },
+  "scope": "Design/planning only. No migrated vessel writer, no SP003 fix/qualification, no invented GS007 finite-flow or kinetic parameter."
+}

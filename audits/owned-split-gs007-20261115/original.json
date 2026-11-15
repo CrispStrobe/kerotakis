@@ -1,0 +1,227 @@
+{
+  "id": "new120:gs-007",
+  "group": "gases",
+  "title": "Degassing hard water promotes calcium-carbonate scale",
+  "title_de": "Entgasen von hartem Wasser fördert Kalkbildung",
+  "educational_level": "Sekundarstufe I / II",
+  "priority_tier": 1,
+  "experiment_kind": "reaction",
+  "tags": [],
+  "script": "# GS-007: Degassing hard water promotes calcium-carbonate scale\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 CO2 0.003mol\nadd v1 CaCO3 0.0005mol\ninspect v1\nsweep v1 1bar\nwait 60s\ninspect v1\nmeasure v1 ph\ninspect\n",
+  "script_sha256": "aee4f444f4bc8c20870b424b4a9c64d5ed6b30b5efa652432289c54acb08cce9",
+  "expected_result": "Removing CO2 from a bicarbonate-rich calcium solution favours renewed calcium-carbonate precipitation.",
+  "expected_processes": [
+    {
+      "equation": "Ca(2+) + 2 HCO3- -> CaCO3 + CO2 + H2O",
+      "interpretation": "Educational chemical equation, not an assertion that the runtime implements every species or pathway."
+    }
+  ],
+  "acceptance_checks": [
+    {
+      "id": "GS-007-C1",
+      "criterion": "First verify that the CO2-rich stage dissolved a measurable calcium fraction.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "GS-007-C2",
+      "criterion": "After sweeping, check for increased calcium-carbonate solid and include swept carbon in the balance.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "novelty": {
+    "basis": "New design or substantive controlled extension relative to the supplied catalogue; not a claim of a novel discovery.",
+    "distinction": "Connects the gas boundary to mineral scale, rather than sweeping a non-reactive gas alone.",
+    "exhaustive_baseline_deduplication": false
+  },
+  "status": "designed_not_run",
+  "observed_result": null,
+  "validated_on": null,
+  "engine_support": {
+    "assessment": "source_informed_candidate",
+    "coverage_risk": "high",
+    "runtime_verified": false
+  },
+  "limitations": [
+    "Sealing traps a finite room-air inventory; headspace pressure includes that air and water vapour. Account separately for dissolved, headspace and vented gas."
+  ],
+  "safety_context": "Simulation-only script. Not a wet-lab procedure or permission to perform the chemistry in a classroom.",
+  "evidence": {
+    "source_ids": [
+      "registry",
+      "grammar",
+      "readme"
+    ],
+    "assessment": null,
+    "tested_script": null,
+    "candidate_script": "scripts/GS-007.lab",
+    "script_sha256": "aee4f444f4bc8c20870b424b4a9c64d5ed6b30b5efa652432289c54acb08cce9"
+  },
+  "script_body_sha256": "6d4e815244af4bb6013d45f71ff610a65a0cdca48ad97567c4ee7421c945194f",
+  "rank": 36,
+  "importance_rationale": "Foundational school concept or a broadly useful experimental distinction.",
+  "syntax_reference_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
+  "reagents": [
+    {
+      "registry_key": "water",
+      "name": "Water",
+      "formula": "H2O",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 4,
+      "amount": 100.0,
+      "unit": "mL",
+      "amount_literal": "100mL",
+      "input_temperature": null,
+      "role": "solvent_or_sample"
+    },
+    {
+      "registry_key": "CO2",
+      "name": "Carbon dioxide",
+      "formula": "CO2",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 6,
+      "amount": 0.003,
+      "unit": "mol",
+      "amount_literal": "0.003mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    },
+    {
+      "registry_key": "CaCO3",
+      "name": "Calcium carbonate",
+      "formula": "CaCO3",
+      "vessel": "v1",
+      "introduced_by": "add",
+      "script_line": 7,
+      "amount": 0.0005,
+      "unit": "mol",
+      "amount_literal": "0.0005mol",
+      "input_temperature": null,
+      "role": "chemical_input"
+    }
+  ],
+  "observation_plan": [
+    {
+      "step": 6,
+      "script_line": 8,
+      "command": "inspect v1",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 9,
+      "script_line": 11,
+      "command": "inspect v1",
+      "type": "inventory_snapshot"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "command": "measure v1 ph",
+      "type": "ph"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "command": "inspect",
+      "type": "inventory_snapshot"
+    }
+  ],
+  "operations": [
+    {
+      "step": 1,
+      "script_line": 3,
+      "verb": "register",
+      "command": "register lv3"
+    },
+    {
+      "step": 2,
+      "script_line": 4,
+      "verb": "add",
+      "command": "add v1 water 100mL"
+    },
+    {
+      "step": 3,
+      "script_line": 5,
+      "verb": "seal",
+      "command": "seal v1 500mL"
+    },
+    {
+      "step": 4,
+      "script_line": 6,
+      "verb": "add",
+      "command": "add v1 CO2 0.003mol"
+    },
+    {
+      "step": 5,
+      "script_line": 7,
+      "verb": "add",
+      "command": "add v1 CaCO3 0.0005mol"
+    },
+    {
+      "step": 6,
+      "script_line": 8,
+      "verb": "inspect",
+      "command": "inspect v1"
+    },
+    {
+      "step": 7,
+      "script_line": 9,
+      "verb": "sweep",
+      "command": "sweep v1 1bar"
+    },
+    {
+      "step": 8,
+      "script_line": 10,
+      "verb": "wait",
+      "command": "wait 60s"
+    },
+    {
+      "step": 9,
+      "script_line": 11,
+      "verb": "inspect",
+      "command": "inspect v1"
+    },
+    {
+      "step": 10,
+      "script_line": 12,
+      "verb": "measure",
+      "command": "measure v1 ph"
+    },
+    {
+      "step": 11,
+      "script_line": 13,
+      "verb": "inspect",
+      "command": "inspect"
+    }
+  ],
+  "initial_conditions": {
+    "initial_vessel": "v1",
+    "new_command_creates_next_vessel": true,
+    "fresh_process_required": true,
+    "temperature_when_not_explicit": "Engine default; read the first observation.",
+    "environment_note": "A sealed or regulated headspace starts with finite ambient air, not vacuum."
+  },
+  "static_validation": {
+    "status": "pass",
+    "errors": [],
+    "command_count": 11,
+    "vessel_count": 1,
+    "reagent_keys": [
+      "CO2",
+      "CaCO3",
+      "water"
+    ],
+    "commands": {
+      "register": 1,
+      "add": 3,
+      "seal": 1,
+      "inspect": 3,
+      "sweep": 1,
+      "wait": 1,
+      "measure": 1
+    }
+  }
+}

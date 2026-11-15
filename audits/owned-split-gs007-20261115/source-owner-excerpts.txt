@@ -1,0 +1,275 @@
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-core/src/species.rs:1073
+1073: /// an inventory coordinate, not an amount of hydroxide.
+1074: ///
+1075: /// One equivalent carries one O, one H and one negative charge, which is
+1076: /// why it is priced and conserved exactly as `OH-` is — the stoichiometry
+1077: /// is honest, the name it used to wear was not. Anything asking "how much
+1078: /// free base is there" wants [`crate::vessel::Vessel::free_hydroxide`] or
+1079: /// the reported speciation instead; anything asking "does this inventory
+1080: /// balance" wants this.
+1081: pub const BASE_EQUIVALENTS: &str = "base_equivalents";
+1082: 
+1083: /// Whether a `contents` key is an acid/base coordinate of the analytical
+1084: /// basis rather than an amount of a substance — the one predicate every
+1085: /// site that used to write `matches!(key, "H+" | "OH-")` now asks.
+1086: ///
+1087: /// Three keys, for two different reasons:
+1088: ///
+1089: /// * [`BASE_EQUIVALENTS`] is the basis term this rename introduced.
+1090: /// * `H+` is its acid half, and is published under the proton's name for
+1091: ///   the same bad reason the base half used to be. It is the same defect
+1092: ///   and it is NOT fixed here: `kerotakis-safety` already refuses to read
+1093: ///   it as a strong-acid bottle ("analytical proton equivalents are not a
+1094: ///   strong-acid bottle"), which blunts it, and widening a contract change
+1095: ///   past what was decided is its own kind of surprise. Recorded, not
+1096: ///   fixed.
+1097: /// * `OH-` stays in the set because a genuine hydroxide portion — the
+1098: ///   caustic soda a chloralkali cell makes, a curated reaction's product —
+1099: ///   is folded into this same basis by the aqueous tail, and every one of
+1100: ///   these sites excluded it before the rename. Excluding it is what keeps
+1101: ///   the rename a rename.
+1102: pub fn is_acid_base_basis(key: &str) -> bool {
+1103:     matches!(key, "H+" | "OH-" | BASE_EQUIVALENTS)
+1104: }
+1105: 
+1106: /// The basis carrier's species data: the registry's `OH-` row with the key,
+1107: /// the name, the identity and the provenance replaced. Derived rather than
+1108: /// retyped so the mass, the formula and the (zero) heat capacity cannot
+1109: /// drift from the ion whose stoichiometry it borrows, and deliberately NOT
+1110: /// in [`all_species`]: it is not on the shelf, nothing can be weighed out
+1111: /// of it, and no hazard row, translation gate or codex entry is owed for it.
+1112: fn basis_species_data(key: &str) -> Option<&'static SpeciesData> {
+1113:     if key != BASE_EQUIVALENTS {
+1114:         return None;
+1115:     }
+1116:     use std::sync::OnceLock;
+1117:     static BASIS: OnceLock<&'static SpeciesData> = OnceLock::new();
+1118:     Some(*BASIS.get_or_init(|| {
+1119:         let mut data = lookup_index()
+1120:             .get("OH-")
+1121:             .copied()
+1122:             .expect("the registry defines the hydroxide ion")
+1123:             .clone();
+1124:         data.key = BASE_EQUIVALENTS;
+1125:         data.name = "base equivalents";
+1126:         // Not a substance, so it has no substance identity. An InChIKey
+1127:         // here would claim this slot IS hydroxide, which is the claim the
+1128:         // rename exists to withdraw.
+1129:         data.inchikey = "";
+1130:         data.provenance = "Analytical aqueous basis coordinate: the base half of the \
+1131:                            acid/base equivalents that close a solved vessel's H/O \
+1132:                            balance. Stoichiometry and mass are the registry's OH- row \
+1133:                            because one equivalent is one OH by construction; this is \
+1134:                            not a measurement of hydroxide, which is carried by \
+1135:                            Vessel::free_hydroxide and the reported speciation.";
+1136:         &*Box::leak(Box::new(data))
+1137:     }))
+1138: }
+1139: 
+1140: pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
+1141:     lookup_key(id.0.as_str())
+1142: }
+1143: 
+1144: /// Registry-authoritative English source name for display and localization.
+1145: /// Unknown/native identifiers remain exact; no names are inferred from spelling.
+1146: pub fn english_name(key: &str) -> &str {
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-core/src/bench.rs:2761
+2761:                     trapped_gas: trapped,
+2762:                 });
+2763:             }
+2764:             Operator::Sweep { vessel, pressure } => {
+2765:                 if pressure.0 <= 0.0 {
+2766:                     return Err(BenchError::NonPositiveAmount);
+2767:                 }
+2768:                 let v = self.vessel_mut(*vessel)?;
+2769:                 let gases = vent_headspace(v);
+2770:                 v.headspace = Headspace::Swept {
+2771:                     pressure: *pressure,
+2772:                 };
+2773:                 v.refresh_pressure();
+2774:                 events.push(Event::VesselSwept {
+2775:                     vessel: *vessel,
+2776:                     pressure: *pressure,
+2777:                 });
+2778:                 for (species, moles) in gases {
+2779:                     events.push(Event::GasEvolved {
+2780:                         vessel: *vessel,
+2781:                         species,
+2782:                         moles,
+2783:                     });
+2784:                 }
+2785:             }
+2786:             Operator::Open { vessel } => {
+2787:                 let v = self.vessel_mut(*vessel)?;
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-core/src/clock.rs:1315
+1315: /// measured in days rather than hours.
+1316: ///
+1317: /// This clock computes the amount and parks it in
+1318: /// [`Vessel::pending_co2_transfer_mol`]; the aqueous tail spends it. It
+1319: /// deliberately emits no gas event of its own — the solver that applies
+1320: /// the carbon announces it, and KID-11 is explicit that one parcel
+1321: /// described by two engines is how an observable comes to be counted
+1322: /// twice.
+1323: pub struct GasExchangeClock;
+1324: 
+1325: impl Clock for GasExchangeClock {
+1326:     fn name(&self) -> &'static str {
+1327:         "gas-exchange"
+1328:     }
+1329: 
+1330:     fn advance(
+1331:         &self,
+1332:         vessel: &mut Vessel,
+1333:         seconds: f64,
+1334:         _ctx: &ClockContext,
+1335:         _events: &mut Vec<Event>,
+1336:     ) -> Result<(), IntegrationError> {
+1337:         if seconds <= 0.0 {
+1338:             return Ok(());
+1339:         }
+1340:         // Only a vessel open to the room exchanges with the room. A sealed
+1341:         // or swept headspace is a boundary the aqueous adapter already
+1342:         // owns, and a second engine moving the same CO₂ would double it.
+1343:         if !matches!(vessel.headspace, crate::vessel::Headspace::Open) {
+1344:             return Ok(());
+1345:         }
+1346:         // Nothing has characterised this solution, so there is no measured
+1347:         // pressure to drive anything. A vessel nobody has solved is not
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-phreeqc/src/aqueous.rs:3643
+3643:         }
+3644:         // Reservoir boundaries do not own a gas inventory. An open vessel
+3645:         // sees room-air partial pressures; an inert nitrogen sweep drives
+3646:         // volatile products toward a near-zero partial pressure.
+3647:         let target = match vessel.headspace {
+3648:             // A zero-time dose (titration increment) has no time for
+3649:             // diffusive exchange with room air: only gas above the bubble
+3650:             // threshold (SI = log10 of total pressure in atm) leaves.
+3651:             // See `Vessel::zero_time_dose`.
+3652:             Headspace::Open if vessel.zero_time_dose => {
+3653:                 Some(effervescence_log_partial_pressure(vessel))
+3654:             }
+3655:             Headspace::Open => None,
+3656:             Headspace::Swept { .. } => Some(SWEPT_LOG_PARTIAL_PRESSURE),
+3657:             _ => unreachable!("finite gas boundaries handled above"),
+3658:         };
+3659:         for (phase, species, target_si) in ATMOSPHERIC {
+3660:             if let Some(exchange) = external_gases
+3661:                 .iter()
+3662:                 .find(|exchange| exchange.phase == *phase)
+3663:             {
+3664:                 let _ = exchange; // the finite dose was added above
+3665:                 continue;
+3666:             }
+3667:             // The CO2 clock owns both directions of finite-time film
+3668:             // transfer. Its signed parcel entered the analytical totals
+3669:             // above; offering a room-air sink here would discharge it a
+3670:             // second time. Bubbles remain a separate pressure boundary.
+3671:             let phase_target = if *phase == "CO2(g)"
+3672:                 && vessel.co2_film_boundary
+3673:                 && matches!(vessel.headspace, Headspace::Open)
+3674:             {
+3675:                 effervescence_log_partial_pressure(vessel)
+3676:             } else {
+3677:                 target.unwrap_or(*target_si)
+3678:             };
+3679:             let gas_formula = phase.trim_end_matches("(g)");
+3680:             let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
+3681:             let all_present = required
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-phreeqc/src/aqueous.rs:10307
+10307:                 // it is now counted once.
+10308:                 let _ = waters;
+10309:             } else if let Some(exchange) = problem
+10310:                 .external_gases
+10311:                 .iter()
+10312:                 .find(|exchange| exchange.phase == *phase)
+10313:             {
+10314:                 match exchange.kind {
+10315:                     ExternalGasKind::Reservoir => {
+10316:                         let transferred = *moles - exchange.initial_moles;
+10317:                         if transferred > TRACE {
+10318:                             events.push(Event::GasEvolved {
+10319:                                 vessel: vessel.id,
+10320:                                 species: SpeciesId::new(&exchange.species),
+10321:                                 moles: Moles(transferred),
+10322:                             });
+10323:                         } else if transferred < -TRACE {
+10324:                             events.push(Event::GasAbsorbed {
+10325:                                 vessel: vessel.id,
+10326:                                 species: SpeciesId::new(&exchange.species),
+10327:                                 moles: Moles(-transferred),
+10328:                             });
+10329:                         }
+10330:                     }
+10331:                     ExternalGasKind::Dose => {
+10332:                         events.push(Event::not_modeled(
+10333:                             vessel.id,
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-phreeqc/src/inventory.rs:516
+516: pub(crate) fn complete_basis(
+517:     before: &Vessel,
+518:     after: &mut Vessel,
+519:     events: &[Event],
+520:     reservoirs: &[&str],
+521:     clock: ClockCo2Boundary,
+522: ) -> Result<(), SolveError> {
+523:     let before_ledger = ConservedLedger::from_vessel(before);
+524:     let mut target = before_ledger.elements;
+525:     // What the gas that left or arrived took with it, both as element
+526:     // totals and as its own acid/base coordinate.
+527:     let mut gas_excess = 0.0;
+528:     for event in events {
+529:         let (id, moles) = match event {
+530:             Event::GasEvolved { species, moles, .. } => (species, -moles.0),
+531:             Event::GasAbsorbed { species, moles, .. }
+532:                 if reservoirs.contains(&species.0.as_str()) =>
+533:             {
+534:                 (species, moles.0)
+535:             }
+536:             _ => continue,
+537:         };
+538:         if let Some(formula) =
+539:             species::lookup(id).and_then(|s| kerotakis_core::stoich::parse_formula(s.formula).ok())
+540:         {
+541:             let h = formula.counts.get("H").copied().unwrap_or(0.0);
+542:             let o = formula.counts.get("O").copied().unwrap_or(0.0);
+543:             gas_excess += moles * (h - 2.0 * o);
+544:             for (element, count) in formula.counts {
+545:                 *target.entry(element).or_default() += moles * count;
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-phreeqc/src/inventory.rs:589
+589:     // every mole of solvent contributes nothing to it. Dropping the solvent
+590:     // from both sides therefore changes no value and removes the whole of
+591:     // the cancellation: what is left is the before vessel's own acid/base
+592:     // portions, carried across exactly, plus the coordinate of the species
+593:     // on each side, all of them small.
+594:     let excess = basis_excess + (amount(&core, "H") - 2.0 * amount(&core, "O")) + gas_excess
+595:         - (amount(&booked, "H") - 2.0 * amount(&booked, "O"));
+596:     let acid = excess.max(0.0);
+597:     let base = (-excess).max(0.0);
+598:     let water = oxygen - base;
+599:     if !water.is_finite() || water < -1e-9 || !acid.is_finite() || !base.is_finite() {
+600:         return Err(inventory_error(
+601:             InventoryReason::AqueousBasisInvalid,
+602:             format!(
+603:                 "no nonnegative aqueous basis conserves H/O: residual H={hydrogen}, O={oxygen}"
+604:             ),
+605:         ));
+606:     }
+
+6a2a4fc916e311aadeb96abad25222b6d5aac9d7:crates/kerotakis-phreeqc/src/inventory.rs:627
+627:         ("water", water.max(0.0), Phase::Liquid),
+628:         ("H+", acid, Phase::Aqueous),
+629:         (species::BASE_EQUIVALENTS, base, Phase::Aqueous),
+630:     ] {
+631:         if amount > 1e-12 {
+632:             after.contents.push(Portion {
+633:                 species: SpeciesId::new(key),
+634:                 moles: Moles(amount),
+635:                 phase,
+636:             });
+637:         }
+638:     }

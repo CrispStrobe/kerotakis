@@ -1,0 +1,23 @@
+{
+  "native-compensated_amount_contracts": {
+    "source": "6a2a4fc916e311aadeb96abad25222b6d5aac9d7",
+    "actual_sha256": "9bb41c007852c78ffa67583320630f90dbfc671fbffc7c57082363f7f42ce8ad",
+    "verified": true,
+    "bytes": 1756712,
+    "bytes_stored": false
+  },
+  "native-component_split_authority": {
+    "source": "6a2a4fc916e311aadeb96abad25222b6d5aac9d7",
+    "actual_sha256": "e0a9a68d384be314a706ef09f78404fd7862a563fedece7b160fcd1a609f3c30",
+    "verified": true,
+    "bytes": 2010416,
+    "bytes_stored": false
+  },
+  "native-gs007_original": {
+    "source": "6a2a4fc916e311aadeb96abad25222b6d5aac9d7",
+    "actual_sha256": "1cff89b92c9f420eb7336976bc2906d9d8840c530057dae773753ebde8051892",
+    "verified": true,
+    "bytes": 38762776,
+    "bytes_stored": false
+  }
+}

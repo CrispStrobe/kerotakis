@@ -1,0 +1,11 @@
+Test-output excerpt; full raw SHA256 recorded in raw-producer-hashes.json.
+running 1 test
+test unchanged_gs007_requires_dissolution_then_increased_carbonate_solid ... FAILED
+
+failures:
+
+failures:
+    unchanged_gs007_requires_dissolution_then_increased_carbonate_solid
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.73s
+

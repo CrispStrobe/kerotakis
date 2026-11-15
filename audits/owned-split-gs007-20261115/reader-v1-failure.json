@@ -1,0 +1,8 @@
+{
+  "reader_sha256": "801477bc2be9ffcf1bb84c82af7348610a73e5a21a4a6eb34a1b4cf7d063f4f2",
+  "exception": "KeyError: base_equivalents",
+  "stage": "Independent ledger extraction before criterion result; runtime basis carrier is synthesized by species::basis_species_data, not exported as a shelf composition.",
+  "correction": "Bind exact runtime source and inherit its declared OH- stoichiometry for element/charge accounting only; never relabel basis as measured hydroxide.",
+  "native_job_repeated": false,
+  "qualification": false
+}

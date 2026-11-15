@@ -1,0 +1,264 @@
+{
+  "criteria": {
+    "GS-007-C1": "PASS",
+    "GS-007-C2": "FAIL"
+  },
+  "criterion_C1": true,
+  "criterion_C2": false,
+  "rich_solid_mol": 0.0001038837619669,
+  "final_solid_mol": 0,
+  "rich_dissolved_Ca_mol": 0.0003961162380331,
+  "rich_temperature_K": 298.2014743281659,
+  "rich_pressure_Pa": 112418.98012693944,
+  "final_temperature_K": 298.04112821167905,
+  "final_pressure_Pa": 100000.0,
+  "ledger_max_abs": 1.7763568394002505e-15,
+  "ledger_pass": true,
+  "ledger_residuals": [
+    {
+      "command": "register lv3",
+      "delta": {}
+    },
+    {
+      "command": "add v1 water 100mL",
+      "delta": {
+        "Q": 0.0,
+        "O": 0.0,
+        "H": 0.0
+      }
+    },
+    {
+      "command": "seal v1 500mL",
+      "delta": {
+        "Q": 7.135193789433412e-19,
+        "N": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 1.7763568394002505e-15
+      }
+    },
+    {
+      "command": "add v1 CO2 0.003mol",
+      "delta": {
+        "Q": 2.5577218633527667e-18,
+        "N": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0
+      }
+    },
+    {
+      "command": "add v1 CaCO3 0.0005mol",
+      "delta": {
+        "Q": -3.516880796999855e-18,
+        "N": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0,
+        "Ca": 0.0
+      }
+    },
+    {
+      "command": "inspect v1",
+      "delta": {
+        "Q": 0.0,
+        "N": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0,
+        "Ca": 0.0
+      }
+    },
+    {
+      "command": "sweep v1 1bar",
+      "delta": {
+        "Q": 1.1130012926921506e-18,
+        "N": 0.0,
+        "C": 1.36054667152722e-20,
+        "O": 0.0,
+        "H": -1.7763568394002505e-15,
+        "Ca": 0.0
+      }
+    },
+    {
+      "command": "wait 60s",
+      "delta": {
+        "Q": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0,
+        "Ca": 0.0
+      }
+    },
+    {
+      "command": "inspect v1",
+      "delta": {
+        "Q": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0,
+        "Ca": 0.0
+      }
+    },
+    {
+      "command": "measure v1 ph",
+      "delta": {
+        "Q": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0,
+        "Ca": 0.0
+      }
+    },
+    {
+      "command": "inspect",
+      "delta": {
+        "Q": 0.0,
+        "C": 0.0,
+        "O": 0.0,
+        "H": 0.0,
+        "Ca": 0.0
+      }
+    }
+  ],
+  "actual_gas_crossings": [
+    {
+      "command": "sweep v1 1bar",
+      "direction": "out",
+      "species": "N2",
+      "moles": 0.016147291289336348
+    },
+    {
+      "command": "sweep v1 1bar",
+      "direction": "out",
+      "species": "O2",
+      "moles": 0.004281556163923509
+    },
+    {
+      "command": "sweep v1 1bar",
+      "direction": "out",
+      "species": "CO2",
+      "moles": 0.002241891385439
+    },
+    {
+      "command": "sweep v1 1bar",
+      "direction": "out",
+      "species": "CO2",
+      "moles": 0.001265954140717
+    },
+    {
+      "command": "wait 60s",
+      "direction": "out",
+      "species": "CO2",
+      "moles": 1.063249319833e-10
+    }
+  ],
+  "solver_failures": [],
+  "model_warnings": [],
+  "pending_CO2_by_frame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "native_provenance": {
+    "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+    "dataset_phrase": {
+      "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+      "key": "provenance.dataset.with-gas-uptake-slice",
+      "slots": [
+        [
+          "file",
+          {
+            "phrase": {
+              "phrase": {
+                "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                "key": "provenance.dataset.plus-reference-complexes",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "wateq4f.dat"
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    },
+    "dataset_sources": [
+      "WATEQ4F, Alpers and others, 1989",
+      "log K from llnl.dat  Aug 23, 2005",
+      "Dzombak and Morel, 1990",
+      "usbm-ic9429-complexes-25c",
+      "sander-2023-hbr-reference"
+    ],
+    "engine": "PHREEQC (IPhreeqc, USGS)",
+    "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+    "model_phrase": {
+      "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+      "key": "provenance.model.wateq-debye-huckel",
+      "slots": [
+        [
+          "name",
+          {
+            "text": {
+              "text": "WATEQ Debye-H\u00fcckel"
+            }
+          }
+        ],
+        [
+          "ionic_strength",
+          {
+            "number": {
+              "text": "1"
+            }
+          }
+        ]
+      ]
+    },
+    "routing": "the default inorganic aqueous dataset",
+    "routing_phrase": {
+      "en": "the default inorganic aqueous dataset",
+      "key": "routing.default-inorganic"
+    }
+  },
+  "source_complete": true,
+  "source": "6a2a4fc916e311aadeb96abad25222b6d5aac9d7",
+  "tree": "8ac9981b82aa2d0ba8f6d203d9bee384437fe3a3",
+  "original_id": "new120:gs-007",
+  "original_script_sha256": "aee4f444f4bc8c20870b424b4a9c64d5ed6b30b5efa652432289c54acb08cce9",
+  "qualification": false,
+  "coverage_before": 431,
+  "coverage_after": 431,
+  "GS007_native_exit": 101,
+  "split_planning_controls_passed": true,
+  "vessel_writer_migrated": false,
+  "SP003_qualified": false,
+  "actual_binary_hashes": {
+    "compensated_amount_contracts": "9bb41c007852c78ffa67583320630f90dbfc671fbffc7c57082363f7f42ce8ad",
+    "component_split_authority": "e0a9a68d384be314a706ef09f78404fd7862a563fedece7b160fcd1a609f3c30",
+    "gs007_original": "1cff89b92c9f420eb7336976bc2906d9d8840c530057dae773753ebde8051892"
+  },
+  "verified_small_producer_files": 57,
+  "runtime_basis_source_sha256": "2af6866267cfbf2772f8f881dc7807918b4b49c564471583b23d708458124967",
+  "base_equivalents_scope": "Runtime basis carrier borrows OH stoichiometry for elemental/charge closure, not measured free hydroxide",
+  "scope": "Split planning proof is not a committed still transfer. GS007 original criteria remain unchanged; any native or inventory failure stays a refusal.",
+  "mutations_rejected": [
+    "changed_script",
+    "changed_final_solid",
+    "wrong_rich_stage",
+    "lost_readonly_state"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "source": "6a2a4fc916e311aadeb96abad25222b6d5aac9d7",
+  "gas_crossings": [
+    {
+      "command": "sweep v1 1bar",
+      "species": "N2",
+      "moles": 0.016147291289336348,
+      "direction": "out",
+      "owner": "core vent_headspace"
+    },
+    {
+      "command": "sweep v1 1bar",
+      "species": "O2",
+      "moles": 0.004281556163923509,
+      "direction": "out",
+      "owner": "core vent_headspace"
+    },
+    {
+      "command": "sweep v1 1bar",
+      "species": "CO2",
+      "moles": 0.002241891385439,
+      "direction": "out",
+      "owner": "core vent_headspace"
+    },
+    {
+      "command": "sweep v1 1bar",
+      "species": "CO2",
+      "moles": 0.001265954140717,
+      "direction": "out",
+      "owner": "native ExternalGasKind::Reservoir projection"
+    },
+    {
+      "command": "wait 60s",
+      "species": "CO2",
+      "moles": 1.063249319833e-10,
+      "direction": "out",
+      "owner": "native ExternalGasKind::Reservoir projection"
+    }
+  ],
+  "carbon_and_certified_basis": [
+    {
+      "command": "sweep v1 1bar",
+      "before_carbon_mol": "0.003508174808904866109780",
+      "after_carbon_mol": "3.292827488660853778093970E-7",
+      "actual_gas_carbon_delta_mol": "-0.003507845526156000",
+      "carbon_closure_residual_mol": "-2.4402190603E-20",
+      "predicted_acid_minus_base_eq": "-0.0009993471721120419266457624120",
+      "actual_acid_minus_base_eq": "-0.00099934717211204080",
+      "basis_closure_residual_eq": "1.1266457624120E-18",
+      "pending_CO2_before": 0.0,
+      "pending_CO2_after": 0.0
+    },
+    {
+      "command": "wait 60s",
+      "before_carbon_mol": "3.292827488660853778093970E-7",
+      "after_carbon_mol": "3.291764239341020848520460E-7",
+      "actual_gas_carbon_delta_mol": "-1.0632493198330E-10",
+      "carbon_closure_residual_mol": "7.0426490E-24",
+      "predicted_acid_minus_base_eq": "-0.0009993473836925600984078294040",
+      "actual_acid_minus_base_eq": "-0.000999347383692560",
+      "basis_closure_residual_eq": "9.84078294040E-20",
+      "pending_CO2_before": 0.0,
+      "pending_CO2_after": 0.0
+    }
+  ],
+  "classification": "Source-trace inference: scoped swept-reservoir model limitation; no demonstrated carbon/charge ownership bug in this trace",
+  "cause": "Operator::Sweep first vents the finite headspace. Native partition then offers CO2(g) as ExternalGasKind::Reservoir at log10 partial pressure -12. Coupled Calcite equilibrium dissolves retained solid while exporting carbon. complete_basis books actual gas carbon and H/O, reconstructing base_equivalents rather than silently losing atoms or measured ions.",
+  "model_boundary": {
+    "kind": "Near-zero equilibrium gas sink",
+    "log10_pCO2_atm": -12,
+    "gas_moles_budget": "No finite supplied sink inventory",
+    "finite_time_or_flow_model": false,
+    "source_warning_event_emitted": false,
+    "source_warning_gap": "No NotYetModeled boundary event is emitted for the missing finite-flow/transient interpretation; the source boundary and native input reveal the limit"
+  },
+  "pending_carbon_cause": false,
+  "conservation_bug_proved": false,
+  "qualification": false,
+  "next_source_change": "Separate finite swept-gas parcel/transfer authority from the existing equilibrium reservoir and couple carbonate equilibration to that owned boundary, with primary justified parameters. Expose the equilibrium-only scope explicitly. Do not tune pCO2 or invent a flow/rate to make C2 pass.",
+  "core_vent_events_exactly_match_pre_sweep_gas_portions": true,
+  "clock_owner": "GasExchangeClock explicitly returns for non-Open boundaries, including Swept; it emits no separate gas event. Native reservoir owns both remaining CO2 events.",
+  "gas_exchange_clock_source_sha256": "d03cc20920163756067f29c7943d811e9e585e03956947f08d545d9e72aa2f16",
+  "final_base_equivalents_mol": 0.00099934738369256,
+  "final_measured_free_hydroxide_mol": 0.0009539820797277511,
+  "these_are_distinct_quantities": true,
+  "dissolved_solid_at_sweep_events": [
+    {
+      "event": "dissolved",
+      "moles": 1.2987770658116097e-05,
+      "species": "CaCO3",
+      "vessel": 0
+    },
+    {
+      "event": "dissolved",
+      "moles": 9.08959913087839e-05,
+      "species": "CaCO3",
+      "vessel": 0
+    }
+  ],
+  "source_locations": {
+    "core_vent": "crates/kerotakis-core/src/bench.rs:2765,7672",
+    "swept_equilibrium_target": "crates/kerotakis-phreeqc/src/aqueous.rs:3643,3656,12725",
+    "native_gas_event_projection": "crates/kerotakis-phreeqc/src/aqueous.rs:10311",
+    "certified_acid_base_reconstruction": "crates/kerotakis-phreeqc/src/inventory.rs:516,594",
+    "runtime_basis_stoichiometry": "crates/kerotakis-core/src/species.rs:1073,1113",
+    "open_only_film_clock": "crates/kerotakis-core/src/clock.rs:1339"
+  }
+}
