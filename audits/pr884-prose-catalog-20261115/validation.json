@@ -1,0 +1,36 @@
+[
+  {
+    "name": "lesson-prose",
+    "argv": [
+      "python",
+      "tools/lesson-prose-lint.py",
+      "--check"
+    ],
+    "exit": 0,
+    "stdout_sha256": "3bc7a3e13368a81436b81f6e80c88c958bc8bd24913220ddb597d6274f9b5fe2",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "lesson-prose-selftest",
+    "argv": [
+      "python",
+      "-m",
+      "unittest",
+      "tools.tests.test_lesson_prose_lint"
+    ],
+    "exit": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "eb9c5916b44aec2e226793ead6a401a70ecbe6050fddb8492bf9e0808fdf060f"
+  },
+  {
+    "name": "diff-check",
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

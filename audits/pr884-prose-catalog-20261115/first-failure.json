@@ -1,0 +1,18 @@
+{
+  "utc": "2026-11-15T12:22:37.883576+00:00",
+  "PR": 884,
+  "source": "ee027474365d0b9a48647132b964be58c5d2c36a",
+  "run": 43695162071,
+  "execution_job": 132757077519,
+  "downstream_gate_job": 132787839059,
+  "exit_code": 1,
+  "step": "lesson prose",
+  "first_assertion": "lessons/prose/en.toml float-or-sink.part.6 differs from the labelled .lab source text",
+  "log_sha256": "5f2cc359c45cc9768fffee6bd03414703b7d33c84c12a7fd1f1eaf48dcaac990",
+  "first_failed_source_unchanged": true,
+  "counts": {
+    "SUCCESS": 58,
+    "FAILURE": 2,
+    "SKIPPED": 1
+  }
+}

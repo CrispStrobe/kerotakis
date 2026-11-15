@@ -1,0 +1,27 @@
+{
+  "headRefOid": "3ba17120684c6f4c1682dbf9dd59075ffcd62483",
+  "isDraft": true,
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/43713802382/job/132810880210",
+      "name": "Classify complete change range",
+      "startedAt": "2026-11-15T12:25:55Z",
+      "status": "QUEUED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/43713802345/job/132810879995",
+      "name": "Build audited CLI once",
+      "startedAt": "2026-11-15T12:25:55Z",
+      "status": "QUEUED",
+      "workflowName": "Chemistry audit fleets"
+    }
+  ],
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/884"
+}

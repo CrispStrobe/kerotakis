@@ -1,0 +1,15 @@
+{
+  "README.md": "ff4204e3ba10733757d5b37b12b7e1b9ee4af54f088006583cc712ba7418f3c2",
+  "catalog-unchanged.json": "995758d9dc2bd7608a86b4f6a52e6adfb637c54b48a2301caa290b3911ffa577",
+  "exact-head-checks.json": "0e26f4277eb297f740ed3053a7b0507b4c2b17dd342b2936f1801c43cbc8b39c",
+  "first-failure.excerpt.txt": "2cdec4c4c92397226f1d69b3d9bb02d85c55e82dd8b8ada75a8013db21d644af",
+  "first-failure.json": "225a6a112dca2b03187ec8e7b59c6cc0648a054d850ba934843781865f6586ac",
+  "lesson-prose-selftest.stderr": "eb9c5916b44aec2e226793ead6a401a70ecbe6050fddb8492bf9e0808fdf060f",
+  "lesson-prose-selftest.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "lesson-prose.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "lesson-prose.stdout": "3bc7a3e13368a81436b81f6e80c88c958bc8bd24913220ddb597d6274f9b5fe2",
+  "push-receipt.json": "d3a8810953093957ad24ba370cebc1efc278cea37903887589aa3a44828f84c3",
+  "source-scope-review.json": "b48436e1fb224a1c4ce23a35f02c5c5a6c3af05570da8a1744bab151b14838eb",
+  "source.patch": "16f7194eb000bbf1c3196cb23c18b8725968bbd186feda188ff940127c8d6904",
+  "validation.json": "435fe806e26c8eb9281cdccca08b69c12a6d70c7b956755f4e1bc71b3350ac8b"
+}

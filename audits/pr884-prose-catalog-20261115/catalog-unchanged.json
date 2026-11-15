@@ -1,0 +1,10 @@
+{
+  "current_catalog": "audits/working-experiments-20261115-reviewed-rx012.json",
+  "sha256": "bca757a5d464084225f53b8a0bac01c79e9fffb2f8b0e8172df1db755700ec57",
+  "catalog_entries": 436,
+  "originals": 432,
+  "remaining": 36,
+  "qualification_delta": 0,
+  "RX012_first_credit_cycle": 81,
+  "product_controls_first_cycle": 80
+}

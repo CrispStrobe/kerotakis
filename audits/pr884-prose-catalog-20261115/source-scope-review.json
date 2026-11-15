@@ -1,0 +1,20 @@
+{
+  "previous_head": "ee027474365d0b9a48647132b964be58c5d2c36a",
+  "changed_paths": [
+    "lessons/float-or-sink.lab",
+    "lessons/prose/de.toml",
+    "lessons/prose/en.toml",
+    "lessons/prose/fr.toml"
+  ],
+  "lesson_commands_identical": true,
+  "command_sha256": "322be9462af1f77d679c7f7049c27878b25ee469f2e7a28d886bb66e92bf2e20",
+  "native_Rust_tests_and_scientific_data_unchanged": true,
+  "criteria_and_tolerances_unchanged": true,
+  "labels": 414,
+  "lessons": 113,
+  "EN_generated_matches_source": true,
+  "DE_complete": true,
+  "FR_complete": true,
+  "qualification_delta": 0,
+  "no_local_heavy_execution": true
+}

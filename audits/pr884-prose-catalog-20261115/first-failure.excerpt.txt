@@ -1,0 +1,5 @@
+2026-11-15T10:53:24.9354457Z [1m== lesson prose[0m
+2026-11-15T10:53:24.9906458Z lesson prose — 413 labels referenced by 113 of 113 lessons
+2026-11-15T10:53:24.9910205Z    en.toml: `float-or-sink.part.6` no longer matches the lesson's own words (the .lab says 'Sodium-chloride brine can raise the liquid density above polystyrene while staying below PET. For a represented water/sodium/chloride solution, the native Pitzer route now supplies the solution density: compare the meter with the two polymer densities rather than assuming salt water is as light as water. This is a density-based possibility, not a simulated separation of these pieces or an empirical calibration.'); rerun --write and check the translations of it
+2026-11-15T10:53:24.9912279Z lesson prose: 1 problem(s)
+2026-11-15T10:53:24.9968729Z ##[error]Process completed with exit code 1.

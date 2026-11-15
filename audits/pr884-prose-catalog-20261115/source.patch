@@ -1,0 +1,65 @@
+commit 3ba17120684c6f4c1682dbf9dd59075ffcd62483
+Author:     crispasr integration <cze+github@mailbox.org>
+AuthorDate: Sun Nov 15 12:25:41 2026 +0000
+Commit:     crispasr integration <cze+github@mailbox.org>
+CommitDate: Sun Nov 15 12:25:41 2026 +0000
+
+    Synchronize supported brine lesson prose and translated boundary
+    
+    Signed-off-by: crispasr integration <cze+github@mailbox.org>
+
+diff --git a/lessons/float-or-sink.lab b/lessons/float-or-sink.lab
+index c25787fd1..5772836ba 100644
+--- a/lessons/float-or-sink.lab
++++ b/lessons/float-or-sink.lab
+@@ -45,7 +45,7 @@ look v3
+ # as light as water. This is a density-based possibility, not a simulated
+ # separation of these pieces or an empirical calibration.
+ #
+-# Other dissolved-ion mixtures do not inherit that support. Where the model
++#@part.7 Other dissolved-ion mixtures do not inherit that support. Where the model
+ # lacks volume authority, the meter keeps an explicit missing-volume warning.
+ # Potassium chloride currently stays outside this density route; its
+ # approximate number is not a supported separation threshold. Shape, trapped air and surface effects
+diff --git a/lessons/prose/de.toml b/lessons/prose/de.toml
+index 2c08507fe..15aff3e73 100644
+--- a/lessons/prose/de.toml
++++ b/lessons/prose/de.toml
+@@ -238,7 +238,8 @@ part.2 = "2. Polystyrol, 1,05 g/mL. Nur knapp schwerer — aber schwerer ist sch
+ part.3 = "3. PET, 1,38 g/mL, der Kunststoff der Getränkeflaschen. Noch einmal schwerer."
+ part.4 = "Das Sortieren hat geklappt: Einer schwimmt, zwei sinken, und gewogen wurde nichts. Das ist das ganze industrielle Verfahren — ein Schwimm-Sink-Becken mit einer Flüssigkeit, deren Dichte man einstellt."
+ part.5 = "Was hier nicht abgebildet wird: Die Dichte gehört dem MATERIAL und nicht dem Stück. Eine hohle PET-Flasche schwimmt in einem echten Spülbecken, und diese Werkbank würde PET trotzdem schwerer als Wasser nennen, weil sie keine Form hat, über die sie nachdenken könnte — dieselbe Grenze, die auch das Dichtemessgerät nennt. Auch die Oberflächenspannung, die kleine leichte Gegenstände wirklich trägt, ist nicht abgebildet."
+-part.6 = "Und eine Warnung, die die Werkbank sich selbst ausstellt: Die Dichte des Wassers mit Salz zu erhöhen wäre der Weg, die beiden Sinker zu trennen, und dieses Modell kann das nicht. Jedes Ion im Verzeichnis trägt die Dichte von Wasser als Platzhalter, Salzwasser liest sich also als genau 1,00 g/mL. Das Messgerät sagt das, statt dich der Sole glauben zu lassen."
++part.6 = "Natriumchlorid-Sole kann die Flüssigkeitsdichte über die von Polystyrol anheben, während sie unter der von PET bleibt. Für eine dargestellte Lösung aus Wasser, Natrium und Chlorid liefert der native Pitzer-Rechenweg jetzt die Lösungsdichte: Vergleiche den Messwert mit den beiden Polymerdichten, statt Salzwasser als ebenso leicht wie Wasser anzunehmen. Das zeigt eine Möglichkeit aufgrund der Dichte, keine simulierte Trennung dieser Stücke oder empirische Kalibrierung."
++part.7 = "Andere Gemische gelöster Ionen übernehmen diese Unterstützung nicht. Wo das Modell keine verlässliche Volumenbeschreibung hat, behält das Messgerät einen ausdrücklichen Hinweis auf fehlende Volumendaten bei. Kaliumchlorid liegt derzeit außerhalb dieses Dichterechenwegs; sein Näherungswert ist keine abgesicherte Trennschwelle. Form, eingeschlossene Luft und Oberflächeneffekte bleiben außerhalb dieses Vergleichs."
+ 
+ ["follow-the-salt-through-staged-transfers"]
+ title = "Verfolge das Salz durch mehrstufiges Umfüllen"
+diff --git a/lessons/prose/en.toml b/lessons/prose/en.toml
+index ba995f01d..b0934d95e 100644
+--- a/lessons/prose/en.toml
++++ b/lessons/prose/en.toml
+@@ -252,7 +252,8 @@ part.2 = "2. Polystyrene, 1.05 g/mL. Barely heavier — but heavier is heavier.
+ part.3 = "3. PET, 1.38 g/mL, the drinks-bottle plastic. Heavier again."
+ part.4 = "The sorting worked: one floats, two sink, and nothing was weighed. That is the whole of the industrial method — a float-sink tank with the liquid set to a chosen density."
+ part.5 = "What this does not model: the density belongs to the MATERIAL, not to the piece. A hollow bottle of PET floats in a real sink and this bench would still call PET heavier than water, because it has no shape to reason about — the same boundary the density meter states. Surface tension, which really does hold small light objects up, is not modelled either."
+-part.6 = "And a caution the bench prints for itself: raising the water's density with salt is how you would separate the two sinkers, and this model cannot do it. Every ion in the registry carries water's density as a placeholder, so salt water reads exactly 1.00 g/mL. The meter says so rather than letting you believe the brine."
++part.6 = "Sodium-chloride brine can raise the liquid density above polystyrene while staying below PET. For a represented water/sodium/chloride solution, the native Pitzer route now supplies the solution density: compare the meter with the two polymer densities rather than assuming salt water is as light as water. This is a density-based possibility, not a simulated separation of these pieces or an empirical calibration."
++part.7 = "Other dissolved-ion mixtures do not inherit that support. Where the model lacks volume authority, the meter keeps an explicit missing-volume warning. Potassium chloride currently stays outside this density route; its approximate number is not a supported separation threshold. Shape, trapped air and surface effects remain outside this comparison."
+ 
+ ["follow-the-salt-through-staged-transfers"]
+ title = "Follow the salt through staged transfers"
+diff --git a/lessons/prose/fr.toml b/lessons/prose/fr.toml
+index d970b8a7a..340c45b0d 100644
+--- a/lessons/prose/fr.toml
++++ b/lessons/prose/fr.toml
+@@ -250,7 +250,8 @@ part.2 = "2. Polystyrène, 1,05 g/mL. À peine plus lourd — mais plus lourd, c
+ part.3 = "3. Le PET, 1,38 g/mL, le plastique des bouteilles de boisson. Encore plus lourd."
+ part.4 = "Le tri a fonctionné : un flotte, deux coulent, et rien n'a été pesé. C'est toute la méthode industrielle — un bac de flottaison-décantation avec un liquide réglé à une masse volumique choisie."
+ part.5 = "Ce que ceci ne modélise pas : la masse volumique appartient au MATÉRIAU, pas au morceau. Une bouteille creuse en PET flotte dans un vrai évier, et cette paillasse dirait quand même que le PET est plus lourd que l'eau, car elle n'a pas de forme sur laquelle raisonner — la même limite qu'énonce le densimètre. La tension superficielle, qui soutient vraiment de petits objets légers, n'est pas non plus modélisée."
+-part.6 = "Et un avertissement que la paillasse s'adresse à elle-même : augmenter la masse volumique de l'eau avec du sel serait le moyen de séparer les deux qui coulent, et ce modèle ne peut pas le faire. Chaque ion du registre porte la masse volumique de l'eau comme valeur par défaut, l'eau salée se lit donc exactement 1,00 g/mL. Le densimètre le dit plutôt que de te laisser croire la saumure."
++part.6 = "Une saumure de chlorure de sodium peut porter la masse volumique du liquide au-dessus de celle du polystyrène tout en restant sous celle du PET. Pour une solution représentée d'eau, de sodium et de chlorure, le modèle Pitzer natif fournit maintenant la masse volumique de la solution : compare le résultat aux deux masses volumiques des polymères au lieu de supposer que l'eau salée est aussi légère que l'eau. Cela indique une possibilité fondée sur la masse volumique, pas une séparation simulée de ces morceaux ni un étalonnage empirique."
++part.7 = "Les autres mélanges d'ions dissous ne bénéficient pas automatiquement de cette prise en charge. Lorsque le modèle ne décrit pas les volumes, l'instrument conserve un avertissement explicite sur les données de volume manquantes. Le chlorure de potassium reste actuellement hors de ce calcul de masse volumique ; sa valeur approximative n'est pas un seuil de séparation pris en charge. La forme, l'air piégé et les effets de surface restent hors de cette comparaison."
+ 
+ ["follow-the-salt-through-staged-transfers"]
+ title = "Suivre le sel à travers des transferts étagés"
