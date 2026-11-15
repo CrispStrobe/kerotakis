@@ -1,0 +1,303 @@
+{
+  "recorded_utc": "2026-11-15T10:04:22.877131+00:00",
+  "mode": "LOCAL_RECEIPTS_ONLY",
+  "API_calls": 0,
+  "proven_latest_terminal": 0,
+  "unknown_rate_limited": 15,
+  "unknown_unaddressable": 1,
+  "retained_active": 1,
+  "conservative_active_plus_unknown": 17,
+  "capacity_limit": 5,
+  "admission_passed": false,
+  "SaveKernel_attempted": false,
+  "job_id": null,
+  "seven_Rust_controls": "UNEXECUTED",
+  "local_fallback": {
+    "actual_observed_MemAvailable_MiB": 4618.15234375,
+    "actual_observed_load1": 12.17041015625,
+    "actual_observed_free_bytes": 15041138688,
+    "observation_utc_not_recorded": true,
+    "required_memory_MiB": 4608,
+    "required_load_strictly_below": 3.5,
+    "required_free_strictly_greater_bytes": 12884901888,
+    "load_guard_passed": false,
+    "lock_attempted": false,
+    "child_started": false
+  },
+  "private_inventory_sha256": "5fab572cdbe227f7ab4e186de44cb1dbb9149c60a9aaadc99fe62a0805676f07",
+  "rows": [
+    {
+      "slot_id": "rate-limited-01",
+      "last_observed_listed_run": "2026-11-14T11:33:09.020Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": 4,
+      "terminal_version4_result_proven": true,
+      "missing_evidence": "Version4 result is terminal, but no local provider metadata binds numeric version4 as the latest version represented by the later listing; do not assume no subsequent version.",
+      "receipt_sha256": [
+        "d0a16ebda53ebc9c229b2621731ed535d6a788ea2abeaefa3d94fa3e7c8d340c",
+        "a3dcd52cb1891a1da5867a3e645e3e81ee76bf3ee4630125ab947b87a0207680",
+        "931a3d7faa5d381c0c083ffb47f5c832c22897f168a2f5189c1b9102b6caa845"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-02",
+      "last_observed_listed_run": "2026-11-14T11:19:42.663Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "68f8c51441f2c428411e186e7a69f487134a4b83c1287a409f8a2632b345dd6a",
+        "ca497057b48060358f85e716b8d143fff82353a121ff9bb1e3dd0af9ec6eb011",
+        "a91288f8454b425e9cbecf2ba8cf56857d82c602f92d556da676e7d802892309"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-03",
+      "last_observed_listed_run": "2026-11-14T11:18:16.013Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding.",
+      "receipt_sha256": [
+        "8117876d0ce64826540c5c23172cd026b46a50b4dae778b636b6b44e9fb805e3",
+        "0445f4b19c1ad977f79868202c517793910a3b1559d728b8f687e20abb229dc7"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-04",
+      "last_observed_listed_run": "2026-11-14T11:03:46.310Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "3884c59dfc1a38e4c90146f14f4a1fb8295f4a020b5570841d8ac64df7b00a1f",
+        "f7c1ee3efd0d1bfb63c8ed504402a419b7614dd13dcc3b958c540e3c490fe065",
+        "bcdb2ecac352eff04aa049725b1ec094827a5071b4373e11883b2ad2e5c7e5e2"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-05",
+      "last_observed_listed_run": "2026-11-14T10:51:17.370Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "26b2d32af33a8ea79df3de8f66cf3f41ce8329412630559189e6ba24f5c1eb43",
+        "19ef41f6ba1e4113c15d3e9794976b36493adda197b18a7e171b975a14e1145a",
+        "2cfc42a4ff9d5314ab52fa22cdca6bad45ccc53b532de19ebec56cf249f78237"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-06",
+      "last_observed_listed_run": "2026-11-14T10:46:07.187Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "96d4799535ae162a92edf9649e62aa8bea1fc23ca583c254e5cd44ea54cb08e4",
+        "f0ce9df199d4df8303f3e2dd13e55f9a568f8c50d2a50a2a737e53931ba67af2",
+        "3b7c60530156f5ab092afbe40ba88379ff37b86693d24943d24286c7565478a6"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-07",
+      "last_observed_listed_run": "2026-11-14T10:39:31.467Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding.",
+      "receipt_sha256": [
+        "bc0f9f6b31991a745fd3ee552d1abcbe1b377dca54d2ef03fb11818ff3bcc857",
+        "2cdb463685d615d2fb91f92df90a0fe5c1d5871cfa0942d31176a089541bd133"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-08",
+      "last_observed_listed_run": "2026-11-14T10:30:22.060Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding.",
+      "receipt_sha256": [
+        "87a8b078c6d90f5e33b49546b5cb32d60aac5f3e3d0e012c6ba1213c4c5f226e",
+        "3bf9838a72e2de0ace5384606d28da4fa02b7fe38c32a1a9d614819ab671e50b"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-09",
+      "last_observed_listed_run": "2026-11-14T10:20:28.017Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "0d517102b53bfc1ed1045dcf92cf5b265b14bb2b88440b75d1fb2a061163e1c8",
+        "c2e5761a80e6602b11302c5cc556a63b87262b35aa6813485c12081121989995",
+        "bed2cd55ccacdc477f5efbff2b532c9af9b7ad393a20565a81fac6ac2a507167"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-10",
+      "last_observed_listed_run": "2026-11-14T10:02:43.733Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "0fdca9bd26d9e5e3ddb2bcc95eeb0c91edc20580be2333ad91f25f23ef1f9d24",
+        "ceaf88178f664002be228ce403d2b961a38750b2ca75a1ea8ad77aab46ceac0d",
+        "0a8bb4ac128b3420149db71cc7e834ff2447e8f3914aab490369e1cb6694f31d"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-11",
+      "last_observed_listed_run": "2026-11-14T09:46:55.807Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": 4,
+      "terminal_version4_result_proven": true,
+      "missing_evidence": "Version4 result is terminal, but no local provider metadata binds numeric version4 as the latest version represented by the later listing; do not assume no subsequent version.",
+      "receipt_sha256": [
+        "c614879fe0a54b05d7ff4222b4625e40b06ca3a634026e27aafeb4c695fee5b6",
+        "78bcc238586bdb667ebec1ab56b3f849d7fa2f922fd50a2189359026e7990aa5"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-12",
+      "last_observed_listed_run": "2026-11-14T09:25:43.540Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+        "766cbc1dae52a2bc06bb4a2b434dadf6e679e71a3ceb5d5410fddca9e3054cd5",
+        "4ef2ab96e82739dbca7e1c59e75501b0f1e7b9dfc56224efdd9e5dae4c5ba37e"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-13",
+      "last_observed_listed_run": "2026-11-14T09:23:00.110Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": true,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity.",
+      "receipt_sha256": [
+        "51ca64c515e668f8ab9a585b36a7519a2306febbe11ee3e7a6338f4bb78e7f44",
+        "d9e0c42f6e3a35a7de2d224bdfc432b61d855e5f5fc6eb9bc44e076fb83cd171",
+        "75aa7809d64b9bff6c04997e53c11df8e60b628d3ebd8582ff58729ebf6e3327"
+      ],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-14",
+      "last_observed_listed_run": "2026-11-14T09:16:47.293Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Older COMPLETE status receipt by slug only; no exact latest-version producer/acceptance receipt located in bounded local receipt indexes.",
+      "receipt_sha256": [],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    },
+    {
+      "slot_id": "rate-limited-15",
+      "last_observed_listed_run": "2026-11-14T08:32:49.737Z",
+      "older_terminal_status": "COMPLETE",
+      "older_terminal_status_utc": "2026-11-15T08:14:39.374105+00:00",
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "capacity_classification": "UNRESOLVED_LATEST_VERSION",
+      "producer_terminal_receipt": false,
+      "receipt_numeric_version": null,
+      "terminal_version4_result_proven": false,
+      "missing_evidence": "Older COMPLETE status receipt by slug only; no exact latest-version producer/acceptance receipt located in bounded local receipt indexes.",
+      "receipt_sha256": [],
+      "status_receipt_sha256": "21b56d2c7c3314eb4e7214b66bc5682f814b5967e8d1b6efeff2590f8816287c"
+    }
+  ]
+}
