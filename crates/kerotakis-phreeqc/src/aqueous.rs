@@ -13520,7 +13520,10 @@ fn build_input_at(
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
-        Some((pe, _)) => writeln!(input, "    pe        {pe:.6}").unwrap(),
+        // The electron search can refine below 1e-6 pe. Round-tripping its
+        // coordinate keeps distinct trials distinct in the native solver;
+        // rounding here otherwise defeats the unchanged residual budget.
+        Some((pe, _)) => writeln!(input, "    pe        {pe:.16e}").unwrap(),
         // Otherwise the beaker is open to the room, and the air above it is
         // what sets its redox state. PHREEQC's default of pe 4 is not a
         // measurement, it is a placeholder, and it is mildly *reducing*:
