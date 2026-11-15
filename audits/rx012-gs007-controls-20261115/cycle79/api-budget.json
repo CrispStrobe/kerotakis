@@ -1,0 +1,38 @@
+{
+  "known_unknown_detail_calls": 4,
+  "remaining_calls": [
+    {
+      "request_number": 5,
+      "method": "GetKernel",
+      "utc": "2026-11-15T11:21:44.581901+00:00",
+      "http_status": 200,
+      "response_sha256": "41b201bb5f645662acd2702009248b8ec2fec9d7883891cf471c3f46f3729f69"
+    },
+    {
+      "request_number": 6,
+      "method": "GetKernelSessionStatus",
+      "utc": "2026-11-15T11:21:45.336797+00:00",
+      "http_status": 200,
+      "response_sha256": "8c65d9493ad080266a23df2675f847486fedc0546a88a91c866b812d970915b5"
+    },
+    {
+      "request_number": 7,
+      "method": "SaveKernel",
+      "utc": "2026-11-15T11:21:45.786054+00:00",
+      "http_status": 200,
+      "response_sha256": "e9008be8749fdabeeb279732bffdb51ed9a0f0228bb8a19a9445e73db9b56eb2"
+    },
+    {
+      "request_number": 8,
+      "method": "GetKernel",
+      "utc": "2026-11-15T11:21:47.123128+00:00",
+      "http_status": 200,
+      "response_sha256": "fbd0815f2717336fb0fa9766dcbecf63bd7bace846d2a8e846059fdf567d3252"
+    }
+  ],
+  "total": 8,
+  "retries": 0,
+  "global_inventory_calls": 0,
+  "ninth_call": false,
+  "SaveKernel_calls": 1
+}

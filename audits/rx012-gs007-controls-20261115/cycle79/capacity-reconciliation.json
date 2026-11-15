@@ -1,0 +1,118 @@
+{
+  "provider_requests": 4,
+  "unaddressable": 1,
+  "retained_active": 1,
+  "capacity_before": 6,
+  "capacity_after": 4,
+  "capacity_limit": 5,
+  "admission_passed": true,
+  "SaveKernel_attempted": true,
+  "seven_controls": "NOT_COLLECTED; no execution/pass claim",
+  "job_id": 145182564,
+  "accepted_version": 1,
+  "lookup_details": [
+    {
+      "request_number": 1,
+      "utc": "2026-11-15T11:20:03.403683+00:00",
+      "terminal_proven": false,
+      "retries": 0,
+      "http_status": 200,
+      "response_sha256": "9052fde16c928bb2302843c1be3c20103b8f23cadf3a1cd0523738101d43ddd1",
+      "provider_id": 144978049,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "2b9b6e80034e7ea17632b1a88a2d9c9c777e4b580f925c6c9f96189e89671257",
+      "timestamp_used_as_authority": false,
+      "known_slug": "xv6-dispatcher-fallback-census-20261114"
+    },
+    {
+      "request_number": 2,
+      "utc": "2026-11-15T11:20:03.918144+00:00",
+      "terminal_proven": false,
+      "retries": 0,
+      "http_status": 200,
+      "response_sha256": "91c132f02224f526098b26deddd1eccaec2591c1c4d83e00e3c6c3efb40dfe0f",
+      "provider_id": 144971636,
+      "currentVersionNumber": 2,
+      "source_blob_sha256": "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
+      "timestamp_used_as_authority": false,
+      "known_slug": "xv6-dispatcher-cpu-profile-20261114"
+    },
+    {
+      "request_number": 3,
+      "utc": "2026-11-15T11:20:04.368791+00:00",
+      "terminal_proven": false,
+      "retries": 0,
+      "http_status": 200,
+      "response_sha256": "bbeffbaa2ab46aaf4e6ec5b094cf5ca6437c480fe95fa5b94c204a8e862f3dbc",
+      "provider_id": 144966172,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "2d700fa47c1bd9167fa1a75c17351d488dc4f700341909476ab079df93ef4b08",
+      "timestamp_used_as_authority": false,
+      "known_slug": "crispembed-rust-dat-independent-review-v1"
+    },
+    {
+      "request_number": 4,
+      "utc": "2026-11-15T11:20:04.908500+00:00",
+      "terminal_proven": false,
+      "retries": 0,
+      "http_status": 200,
+      "response_sha256": "99daf03a9461d606655fc233ba8482195e335b5042d7d26e781f65b503860c96",
+      "provider_id": 144959965,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "8640462e3203cca4dc5223a2864ead785ed93f9b8b0887b8dfa4d5e9cc55ccd0",
+      "timestamp_used_as_authority": false,
+      "known_slug": "crispembed-python-dat-independent-review-v1"
+    }
+  ],
+  "terminal_proofs": [
+    {
+      "provider_id": 144978049,
+      "currentVersionNumber": 1,
+      "executed_provider_version": 1,
+      "source_blob_sha256": "2b9b6e80034e7ea17632b1a88a2d9c9c777e4b580f925c6c9f96189e89671257",
+      "actual_execution_version_proof": "Census v1 COMPLETE",
+      "version_proof_excerpt": "Census v1 COMPLETE,79original runtime hashes/pre-run binding/full raw guest state equal to uninstrumentedcf65. Observed7,906,840interpreted attempts allcomplete=6,379,836protected32+1,527,004other;0incomplete/throw/nested/factfailure.3,228machine steps outside native16,428,211+observedmethods to total24,338,279. Top protected32:89MOV714,028;F6group649,280;A4MOVSB632,108;0F85nearJNZ493,931;8Bload345,623;E8call233,458;C3ret233,453. NearJZ0F84also1,857.89memory forms549,946 (mod0unpref494,944) but not allfallbacks implyunsupported; activeREPcontext/F6subop notrecorded. Branchdirection/locality/EIPtarget notcaptured by existingdata, no invented trace or newrun.\nRaw artifact/census/audit/report retained /mnt/volume1/code/lego/x86-xv6-census-result-cf65e8-20261114, archiveSHA256d81eae33875b475d1f5f5ee8f7ba71151d811da4f3b5628262882733efea0678. Completed/failedtable sums independently match; original guest equality includes CPU/RAM/disk/device/nativecounters, no timing/performance claim. Parent+bottleneck received topcounts and selected minimal0F84/85sourceexperiment; next committed testedcandidate pending. No furthercensus/newpairedrun submitted.",
+      "actual_owner_execution_log_sha256": "58d00a2ccdc3aa81d2a4a3098f939d1c912df5925f8f247c61c50de3d5b91d20",
+      "local_script_sha256": "2b9b6e80034e7ea17632b1a88a2d9c9c777e4b580f925c6c9f96189e89671257",
+      "archive_sha256": "d81eae33875b475d1f5f5ee8f7ba71151d811da4f3b5628262882733efea0678",
+      "inventory_sha256": "2cdb463685d615d2fb91f92df90a0fe5c1d5871cfa0942d31176a089541bd133",
+      "source": "cf65e82e6ee9f52a9988498a0e5ad170f597b8be",
+      "terminal_proven": true,
+      "timestamp_used_as_authority": false,
+      "new_proof_for_previously_unresolved_profile": false,
+      "known_slug": "xv6-dispatcher-fallback-census-20261114"
+    },
+    {
+      "provider_id": 144971636,
+      "currentVersionNumber": 2,
+      "executed_provider_version": 2,
+      "source_blob_sha256": "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
+      "actual_execution_version_proof": "Separate profile kernel version2 COMPLETE",
+      "version_proof_excerpt": "Separate profile kernel version2 COMPLETE, exact cf65candidate runtime79hashes and full reported guest state equal to unprofiled candidate (source snapshot Git fields separately bound).24,338,279steps/native16,428,211,3,901,353calls. Diagnostic Node1ms main-thread9,349samples/profile10.335320swall; wholeCPU13.942866s/wall10.451415s. VMCPU model not captured in this diagnostic; do not borrow model/timing from paired VM or infer profiling overhead across hosts.\nOriginal/profile/rankings/positions/semantic audit/report retained /mnt/volume1/code/lego/x86-xv6-profile-result-cf65e8-20261114; archive SHA2567784f8a07207e57fe989fe0749f9b962754aaabd64dfdb907b2fb035c91cd2f7. No new paired run/source change. Profile/actual4arm results now complete; next source candidate pending owner selection.",
+      "actual_owner_execution_log_sha256": "58d00a2ccdc3aa81d2a4a3098f939d1c912df5925f8f247c61c50de3d5b91d20",
+      "local_script_sha256": "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
+      "archive_sha256": "7784f8a07207e57fe989fe0749f9b962754aaabd64dfdb907b2fb035c91cd2f7",
+      "inventory_sha256": "3bf9838a72e2de0ace5384606d28da4fa02b7fe38c32a1a9d614819ab671e50b",
+      "source": "cf65e82e6ee9f52a9988498a0e5ad170f597b8be",
+      "terminal_proven": true,
+      "timestamp_used_as_authority": false,
+      "new_proof_for_previously_unresolved_profile": true,
+      "known_slug": "xv6-dispatcher-cpu-profile-20261114"
+    }
+  ],
+  "remaining": [
+    {
+      "known_slug": "crispembed-rust-dat-independent-review-v1",
+      "current_provider_version": 1,
+      "terminal_proven": false,
+      "missing_binding": "No completed producer/script/executed-version receipt bound to this current provider detail; kept unknown."
+    },
+    {
+      "known_slug": "crispembed-python-dat-independent-review-v1",
+      "current_provider_version": 1,
+      "terminal_proven": false,
+      "missing_binding": "No completed producer/script/executed-version receipt bound to this current provider detail; kept unknown."
+    }
+  ],
+  "private_reconciliation_sha256": "42cf20354e67fe29b66151b6c7b9543a87167a76441bd875d5ede3308f378cdb"
+}
