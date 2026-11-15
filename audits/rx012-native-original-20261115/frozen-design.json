@@ -1,0 +1,13 @@
+{
+  "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+  "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a",
+  "script_sha256": "62ba0274f50d7a1e422a2fcb2bb8ac8687df1fddd607d2c8f25c8b8c821e6023",
+  "original_id": "new120:rx-012",
+  "original_script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+  "negative_script_sha256": "1fe14a57a6796e4f12d38be4201ea714734898ca305000be225799e444bf58e7",
+  "justification": "Actual existing145182564/v1 4core+1CLI+2GS PASS; independent reader62files/3actualbinaryhashes/exactselectors; original RX012 causal polarity repair validated, scientific criteria still pending.",
+  "guards_unchanged": true,
+  "originals": 1,
+  "PO002_replayed": false,
+  "GS007_replayed": false
+}

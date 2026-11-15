@@ -1,0 +1,206 @@
+{
+  "criteria": {
+    "RX-012-C1": "PASS",
+    "RX-012-C2": "PASS"
+  },
+  "qualification": true,
+  "ordered_volts": [
+    0.04003851213353726,
+    -0.04003851213353726
+  ],
+  "independent_nernst_volts": [
+    0.04003851213353729,
+    -0.04003851213353729
+  ],
+  "native_states": [
+    {
+      "vessel": 0,
+      "activity": 0.0006922,
+      "molality": 0.0008895,
+      "temperature_K": 298.1692632926198,
+      "pressure_Pa": 101325.0,
+      "ionic_strength": 0.003560860411942,
+      "native_dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice"
+    },
+    {
+      "vessel": 1,
+      "activity": 0.01604,
+      "molality": 0.0488,
+      "temperature_K": 300.07615722614673,
+      "pressure_Pa": 101325.0,
+      "ionic_strength": 0.1952104928658,
+      "native_dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice"
+    }
+  ],
+  "positive_frames": 10,
+  "negative_frames": 8,
+  "whole_bench_read_only": true,
+  "solid_Zn_g_each": 1,
+  "missing_metal_refused": true,
+  "ledger_max_abs": 1.4210854715202004e-14,
+  "ledger_residuals": [
+    {
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7267684638010437e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7755575615628914e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7755575615628914e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7755575615628914e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6132928326584306e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6167622796103842e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6167622796103842e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6167622796103842e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6167622796103842e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": 0.0,
+      "H": 0.0,
+      "Q": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7267684638010437e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7267684638010437e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": 0.0,
+      "Zn": 2.7267684638010437e-17,
+      "Q": 0.0,
+      "S": 2.7267684638010437e-17,
+      "H": 0.0
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6115581091824538e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6132928326584306e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6132928326584306e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    },
+    {
+      "O": -1.0658141036401503e-14,
+      "Zn": -1.6132928326584306e-15,
+      "Q": 0.0,
+      "S": -1.6115581091824538e-15,
+      "H": -1.4210854715202004e-14
+    }
+  ],
+  "preserved_model_warnings": [
+    {
+      "frame": 2,
+      "vessel": 0,
+      "cause": "rate-not-modelled",
+      "key": "not-modeled.stays-as-the-metal"
+    },
+    {
+      "frame": 6,
+      "vessel": 1,
+      "cause": "rate-not-modelled",
+      "key": "not-modeled.stays-as-the-metal"
+    },
+    {
+      "frame": 5,
+      "vessel": 1,
+      "cause": "rate-not-modelled",
+      "key": "not-modeled.stays-as-the-metal"
+    }
+  ],
+  "scope": "Instantaneous model open-circuit ordered readout, native activities at actual T/P, ideal salt bridge; no current/lifetime/slow-zinc kinetics or empirical calibration.",
+  "source": "c637d2b2f1d3e431cfa41e742214256d19cbbbc4",
+  "tree": "27f4470de6b3b1ee1183df2fba3b2235cda5212a",
+  "verified_producer_files": 65,
+  "actual_binary_sha256": "9fa3165682d92fa6270647d9b0b83768e2db82d94652997f4f95b7ab893a5446",
+  "fresh_Cargo_binary": true,
+  "actual_argv_verified": true,
+  "compiler_lock_verified": true,
+  "reader_mutations": {
+    "same_positive_sign": "REJECTED",
+    "missing_lead_order": "REJECTED",
+    "false_lead_binding": "REJECTED",
+    "changed_stock": "REJECTED",
+    "false_zinc_activity": "REJECTED",
+    "false_native_provenance": "REJECTED",
+    "missing_refusal": "REJECTED",
+    "readout_mutates_bench": "REJECTED"
+  },
+  "coverage_before": 431,
+  "coverage_after": 432,
+  "other_originals_replayed": false
+}

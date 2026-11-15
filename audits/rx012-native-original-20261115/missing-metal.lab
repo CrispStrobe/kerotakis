@@ -1,0 +1,10 @@
+# RX012 missing-metal refusal companion, not a replacement original.
+register lv3
+add v1 water 100mL
+add v1 ZnSO4 0.0001mol
+new
+add v2 water 100mL
+add v2 ZnSO4 0.01mol
+add v2 Zn 1g
+cell v1 v2
+inspect

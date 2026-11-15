@@ -1,0 +1,22 @@
+{
+  "README.md": "fb1321636729466179b4cb5e39232106d67971c6aef7186a519c5fede7db6741",
+  "accepted-version.json": "fc280619de15392e91efe0b7cc765d414e996816db562824579f3c4192e55442",
+  "actual-producer-Cargo.lock": "c2d28fbc40c3e864abc011d7c3731cf449a2a13737a3c7e4ecd89d8b5c238fd7",
+  "catalog-preservation.json": "06cdf0271f51e0b9033290a812921b300cd87e063545b53e4c16731821e68fa8",
+  "collection.json": "e8a3f36a43f8dba4c9e194d959c924a2235931b15e34b890e3faff378f213bcc",
+  "compiler.stdout": "be69adad9137eaa0bdac1dd07e2fe286b1831fc8bad193ea27806ca0c7c8e7c6",
+  "composed-source-files.json": "c779cf815ea35c2af679fc51e963d9bc0e40680efc8bde3db2c49270a2956251",
+  "execution-bindings.json": "482cf069b3e919c2fbf7e9b0d701f7f796ed56baa607793234757165da5e7fb8",
+  "frozen-design.json": "eddead22d55f0f6594d8452b6270dea2f304368e5de2125d5a3408fd395e4951",
+  "missing-metal.jsonl": "0231c7bc89f23600bf6d6e7bd5674772c15579136eed731214dae86ceb63d115",
+  "missing-metal.lab": "1fe14a57a6796e4f12d38be4201ea714734898ca305000be225799e444bf58e7",
+  "original-criteria.json": "13ffb0f66bdea514f7b0139194696e0190ddde4134584e0d16a3d0faddda9e6d",
+  "original-review.json": "84e612cd42e057010ab397b0985ea39fbdf936252a6f693d278e75501a1635fa",
+  "original.jsonl": "ac4e721127031eb0f87cd1ffc634e5bbfdd77bf4d238ebf1ab5b1df2c3cabb5e",
+  "original.lab": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+  "raw-producer-hashes.json": "ec830fd2df652f7f3ee23dc60af38ae693739d5c55eb70ce6ba636adca19019b",
+  "review.py": "4b237df270e981a4a9e4cf4cd8ff8d8bc78adedf6f499b010a904b70a0027a87",
+  "source-and-lock.json": "87a41ed9d29cc1d56e20eff4b577d871dd89dd8412cc1b244eaa665f974761c1",
+  "status.json": "c134231c9ac7765b71195d93ff93a5960fde82fc13ab4d63d4731361a83b71d9",
+  "streamed-executable.json": "26825eb09e7bb4ad8e18aaf1b04f2c29db47e3496a0d1d003be249da270e94e6"
+}

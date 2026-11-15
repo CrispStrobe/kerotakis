@@ -1,0 +1,50 @@
+{
+  "build-exact-cli": {
+    "exit": 0,
+    "seconds": 162.00516237599993,
+    "stdout_sha256": "0552cfeec3e3dc98f2c1c86e052eba3b917aaf9d3a915e6b7e8ac142837e9d8c",
+    "stderr_sha256": "bcef34d007366d092b81710fb6d98d98de79e4866a44571641a8c92cb7724275",
+    "actual_argv_verified": true,
+    "fresh_Cargo_production_binary_binding": true,
+    "resource": {
+      "MemAvailable_MiB": 30746.625,
+      "load1": 1.27685546875,
+      "free_bytes": 1034619838464,
+      "elapsed_seconds": 158.34401924199994,
+      "cpu_count": 4,
+      "build_jobs": 2
+    }
+  },
+  "rx012-original": {
+    "exit": 0,
+    "seconds": 2.5259650959999362,
+    "stdout_sha256": "ac4e721127031eb0f87cd1ffc634e5bbfdd77bf4d238ebf1ab5b1df2c3cabb5e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_argv_verified": true,
+    "fresh_Cargo_production_binary_binding": true,
+    "resource": {
+      "MemAvailable_MiB": 30791.28515625,
+      "load1": 2.19775390625,
+      "free_bytes": 1034032828416,
+      "elapsed_seconds": 320.568992751,
+      "cpu_count": 4,
+      "build_jobs": 2
+    }
+  },
+  "rx012-missing-metal": {
+    "exit": 0,
+    "seconds": 2.4241948940000384,
+    "stdout_sha256": "0231c7bc89f23600bf6d6e7bd5674772c15579136eed731214dae86ceb63d115",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_argv_verified": true,
+    "fresh_Cargo_production_binary_binding": true,
+    "resource": {
+      "MemAvailable_MiB": 30844.65234375,
+      "load1": 2.1015625,
+      "free_bytes": 1034032828416,
+      "elapsed_seconds": 323.09519863599996,
+      "cpu_count": 4,
+      "build_jobs": 2
+    }
+  }
+}
