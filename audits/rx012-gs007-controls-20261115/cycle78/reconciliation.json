@@ -1,0 +1,306 @@
+{
+  "provider_requests": 8,
+  "request_limit": 8,
+  "sequential": true,
+  "retries": 0,
+  "global_inventory_calls": 0,
+  "capacity_before": 13,
+  "terminal_unknowns_retired": 7,
+  "capacity_after": 6,
+  "unresolved_addressable": 4,
+  "unresolved_unaddressable": 1,
+  "retained_active": 1,
+  "capacity_limit": 5,
+  "admission_passed": false,
+  "seven_controls": "UNEXECUTED",
+  "SaveKernel_attempted": false,
+  "job_id": null,
+  "proofs": [
+    {
+      "index": 0,
+      "utc": "2026-11-15T11:00:38.994883+00:00",
+      "request_number": 1,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "2b165f4f270854ee3fd21dce3d79d1ebcecbeb16edee6a27cbe24d57de633609",
+      "provider_id": 144972910,
+      "currentVersionNumber": 4,
+      "source_blob_sha256": "a84a965224ae7485218f9b108188bf594abc3f23e90771f771d47e331f9bd2fc",
+      "expected_receipt_version": 4,
+      "provider_lastRunTime": "2026-11-12T11:00:39.228545700Z",
+      "timestamp_used_as_authority": false,
+      "source": "1cf0952ab61799e490d5f3f39236fde8548c45d1",
+      "source_binding_sha256": "7021fb39fa4554e8536d2e476986f3d58e1b7e07586c9f834a71c1934edb1c69",
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_matches_frozen_task_script": true,
+        "completed_version_binding": true
+      },
+      "receipt_version": 4,
+      "known_slug": "xv6-dispatcher-cpu-retest-20261114",
+      "producer_receipt_sha256": [
+        "a84a965224ae7485218f9b108188bf594abc3f23e90771f771d47e331f9bd2fc",
+        "d0a16ebda53ebc9c229b2621731ed535d6a788ea2abeaefa3d94fa3e7c8d340c",
+        "a3dcd52cb1891a1da5867a3e645e3e81ee76bf3ee4630125ab947b87a0207680",
+        "c98e501c68fb9a8fd9302839d4eabe792bcaceadb157ce92efde42110af2fe0a",
+        "931a3d7faa5d381c0c083ffb47f5c832c22897f168a2f5189c1b9102b6caa845"
+      ]
+    },
+    {
+      "index": 1,
+      "utc": "2026-11-15T11:00:39.563506+00:00",
+      "request_number": 2,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "9e350290f142fa0792c9c2706ab0c915e7f5210591425f69a4d95b406faaed9e",
+      "provider_id": 144983034,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "7ae7233e38d7b87717111ad2d9ffad53e81e20bbd4ab047d86b3e66a798b8060",
+      "expected_receipt_version": 1,
+      "provider_lastRunTime": "2026-11-12T11:00:39.772909Z",
+      "timestamp_used_as_authority": false,
+      "source": "5f18561341f8b054526201abf6153f95eaa96eb0",
+      "source_binding_sha256": "56f5907716b72be586f221ce3265475d59c08613e8a8767d9b7db092b656891c",
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_matches_frozen_task_script": true,
+        "completed_version_binding": true
+      },
+      "receipt_version": 1,
+      "known_slug": "xv6-admission-context-20261114",
+      "producer_receipt_sha256": [
+        "7ae7233e38d7b87717111ad2d9ffad53e81e20bbd4ab047d86b3e66a798b8060",
+        "8117876d0ce64826540c5c23172cd026b46a50b4dae778b636b6b44e9fb805e3",
+        "0445f4b19c1ad977f79868202c517793910a3b1559d728b8f687e20abb229dc7",
+        "95c96ff15b39f5f997a8e3d8b2f75d70548d9c7e67024fdd5240321b81f4cfdb"
+      ]
+    },
+    {
+      "index": 2,
+      "utc": "2026-11-15T11:00:40.115465+00:00",
+      "request_number": 3,
+      "retries": 0,
+      "terminal_proven": false,
+      "http_status": 200,
+      "response_sha256": "c83d433d0d7421e33eeacdfd68c434b60e2879d2c0e4d609a03dcf210ad76db3",
+      "provider_id": 144971636,
+      "currentVersionNumber": 2,
+      "source_blob_sha256": "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
+      "expected_receipt_version": null,
+      "provider_lastRunTime": "2026-11-12T11:00:40.332807Z",
+      "timestamp_used_as_authority": false,
+      "source": "cf65e82e6ee9f52a9988498a0e5ad170f597b8be",
+      "source_binding_sha256": "12c21951b23a7b01cecfe4abe5b30c1a71ec35390b968db2bc58ebee89fa90f3",
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": false,
+        "retained_terminal_status": true,
+        "current_script_matches_frozen_task_script": true,
+        "completed_version_binding": true
+      },
+      "receipt_version": null,
+      "first_missing_binding": "Completed profile receipt carries no explicit executed provider version; actual current version2 and matching source do not alone establish that execution-version binding.",
+      "known_slug": "xv6-dispatcher-cpu-profile-20261114",
+      "producer_receipt_sha256": [
+        "e5c8d869f5e1c1c16cf49c506f1ea7bc5faf21a6a9d69067cdbe854d1d2d4ea7",
+        "87a8b078c6d90f5e33b49546b5cb32d60aac5f3e3d0e012c6ba1213c4c5f226e",
+        "3bf9838a72e2de0ace5384606d28da4fa02b7fe38c32a1a9d614819ab671e50b",
+        "7784f8a07207e57fe989fe0749f9b962754aaabd64dfdb907b2fb035c91cd2f7"
+      ],
+      "initial_matcher_first_version_prerequisite": 1
+    },
+    {
+      "index": 3,
+      "utc": "2026-11-15T11:00:40.622696+00:00",
+      "request_number": 4,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "912740160093b8a3ac5c81b8b68cc28d642a811fe07255ea5ed446e954ddb053",
+      "provider_id": 144969115,
+      "currentVersionNumber": 4,
+      "source_blob_sha256": "262144cef01a501cd65d36eb99449e49a3001ae2656423ec65e9f6238980d3fa",
+      "expected_receipt_version": 4,
+      "provider_lastRunTime": "2026-11-12T11:00:40.862826Z",
+      "timestamp_used_as_authority": false,
+      "source": "4664874681b165f5d117e5edc4a8dff470ba3341",
+      "source_binding_sha256": "8f996991a2b921d5d6ea5318267898b61adf6158ef4293a0e003ecd44c684b02",
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_matches_frozen_task_script": true,
+        "completed_version_binding": true
+      },
+      "receipt_version": 4,
+      "known_slug": "xv6-dispatcher-cpu-comparison-20261114",
+      "producer_receipt_sha256": [
+        "262144cef01a501cd65d36eb99449e49a3001ae2656423ec65e9f6238980d3fa",
+        "c614879fe0a54b05d7ff4222b4625e40b06ca3a634026e27aafeb4c695fee5b6",
+        "78bcc238586bdb667ebec1ab56b3f849d7fa2f922fd50a2189359026e7990aa5",
+        "3088e9da631b8c4aceb41fdd3777c219ac6d6e255a50fdb7c944cb38bd0f1135"
+      ]
+    },
+    {
+      "index": 4,
+      "utc": "2026-11-15T11:00:41.190925+00:00",
+      "request_number": 5,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "cbe85324dcad3ace12a4f68c7071c39aff884e66084e1c31a140da982178aefc",
+      "provider_id": 144975648,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "401de3f62e5ecd85740edeccf414c21843f8b8a5ea9ed3983a0a24a8a2499378",
+      "expected_receipt_version": 1,
+      "provider_lastRunTime": "2026-11-12T11:00:41.409020100Z",
+      "timestamp_used_as_authority": false,
+      "source": "1b7f2f86d1d07db97bf4fdde6a478f22c0a80080",
+      "tree": "b926188cdfbc657210ee661868419e9dceadf43b",
+      "producer_all_commands_passed": true,
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_is_executed_script": true,
+        "completed_source_matches_start": true,
+        "unique_first_version": true
+      },
+      "receipt_version": 1,
+      "known_slug": "kerotakis-solid-notice-fleet-20261114",
+      "producer_receipt_sha256": [
+        "0d517102b53bfc1ed1045dcf92cf5b265b14bb2b88440b75d1fb2a061163e1c8",
+        "c2e5761a80e6602b11302c5cc556a63b87262b35aa6813485c12081121989995",
+        "bed2cd55ccacdc477f5efbff2b532c9af9b7ad393a20565a81fac6ac2a507167"
+      ]
+    },
+    {
+      "index": 5,
+      "utc": "2026-11-15T11:00:42.102295+00:00",
+      "request_number": 6,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "12039e1af8c04efef12d6a64e41e187ff094efd2bf95f99b40e03f1c3644886e",
+      "provider_id": 144972453,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "7e7edab441cfcb2b32da7e8d9e85f7d258e3a940d9cc463ce8aea9e46073e17e",
+      "expected_receipt_version": 1,
+      "provider_lastRunTime": "2026-11-12T11:00:42.332771500Z",
+      "timestamp_used_as_authority": false,
+      "source": "1b7f2f86d1d07db97bf4fdde6a478f22c0a80080",
+      "tree": "b926188cdfbc657210ee661868419e9dceadf43b",
+      "producer_all_commands_passed": true,
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_is_executed_script": true,
+        "completed_source_matches_start": true,
+        "unique_first_version": true
+      },
+      "receipt_version": 1,
+      "known_slug": "kerotakis-solid-notice-check-20261114",
+      "producer_receipt_sha256": [
+        "0fdca9bd26d9e5e3ddb2bcc95eeb0c91edc20580be2333ad91f25f23ef1f9d24",
+        "ceaf88178f664002be228ce403d2b961a38750b2ca75a1ea8ad77aab46ceac0d",
+        "0a8bb4ac128b3420149db71cc7e834ff2447e8f3914aab490369e1cb6694f31d"
+      ]
+    },
+    {
+      "index": 6,
+      "utc": "2026-11-15T11:00:42.973569+00:00",
+      "request_number": 7,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "d32b939a3b2bf010e646d5305e7c34634c31b7950955057ec298d3eb9e365491",
+      "provider_id": 144967459,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "4a05104084078a770b104ba4acf42e4f61f254311dcb1148f3cc8352c6df2815",
+      "expected_receipt_version": 1,
+      "provider_lastRunTime": "2026-11-12T11:00:43.186594400Z",
+      "timestamp_used_as_authority": false,
+      "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+      "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+      "producer_all_commands_passed": false,
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_is_executed_script": true,
+        "completed_source_matches_start": true,
+        "unique_first_version": true
+      },
+      "receipt_version": 1,
+      "known_slug": "kerotakis-remaining-originals-run-20261114",
+      "producer_receipt_sha256": [
+        "84e502a8ac2d2a38d6aae59e4aafee451c1f0d2e182be4c473bf12997e62cc82",
+        "766cbc1dae52a2bc06bb4a2b434dadf6e679e71a3ceb5d5410fddca9e3054cd5",
+        "4ef2ab96e82739dbca7e1c59e75501b0f1e7b9dfc56224efdd9e5dae4c5ba37e"
+      ]
+    },
+    {
+      "index": 7,
+      "utc": "2026-11-15T11:00:44.005789+00:00",
+      "request_number": 8,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "2770bebfe9a3ee4d8a39b08aedd5378c968411f92fc6c8fbeeeb5254f478678a",
+      "provider_id": 144967036,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "ee83dd2966e0230132ccf7d65fef470d49327cbf94934e78ecd01b40d8f00391",
+      "expected_receipt_version": 1,
+      "provider_lastRunTime": "2026-11-12T11:00:44.225778100Z",
+      "timestamp_used_as_authority": false,
+      "source": "4bd93add656c936b0724673c7ea8332cf21e906f",
+      "tree": "3e1471c481b9ef6f91a962039e3158ab0df2763d",
+      "producer_all_commands_passed": true,
+      "binding_checks": {
+        "provider_identity": true,
+        "current_version_matches_receipt": true,
+        "retained_terminal_status": true,
+        "current_script_is_executed_script": true,
+        "completed_source_matches_start": true,
+        "unique_first_version": true
+      },
+      "receipt_version": 1,
+      "known_slug": "kerotakis-five-originals-run-20261114",
+      "producer_receipt_sha256": [
+        "51ca64c515e668f8ab9a585b36a7519a2306febbe11ee3e7a6338f4bb78e7f44",
+        "d9e0c42f6e3a35a7de2d224bdfc432b61d855e5f5fc6eb9bc44e076fb83cd171",
+        "75aa7809d64b9bff6c04997e53c11df8e60b628d3ebd8582ff58729ebf6e3327"
+      ]
+    }
+  ],
+  "remaining": [
+    {
+      "known_slug": "xv6-dispatcher-fallback-census-20261114",
+      "latest_version_proven": false,
+      "missing_binding": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding."
+    },
+    {
+      "known_slug": "xv6-dispatcher-cpu-profile-20261114",
+      "latest_version_proven": false,
+      "missing_binding": "Completed profile execution-version binding absent; actual latest2/source known"
+    },
+    {
+      "known_slug": "crispembed-rust-dat-independent-review-v1",
+      "latest_version_proven": false,
+      "missing_binding": "Older COMPLETE status receipt by slug only; no exact latest-version producer/acceptance receipt located in bounded local receipt indexes."
+    },
+    {
+      "known_slug": "crispembed-python-dat-independent-review-v1",
+      "latest_version_proven": false,
+      "missing_binding": "Older COMPLETE status receipt by slug only; no exact latest-version producer/acceptance receipt located in bounded local receipt indexes."
+    }
+  ],
+  "private_exact_inventory_sha256": "8329ceba8e73feb88bd2e81ac420dbd7da0b09aa6dd7f1fac5b23d14c6e35f00"
+}

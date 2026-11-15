@@ -1,0 +1,12 @@
+{
+  "kind": "provisional matcher expectation clarification",
+  "first_record_sha256": "84734895c6eea633e133a46d65b6dd1ba22402edce4e24ae8e9419f24efc6fc5",
+  "actual_current_provider_version": 2,
+  "current_provider_id": 144971636,
+  "actual_completed_receipt_numeric_version": null,
+  "initial_expected_first_version": 1,
+  "source_blob_matches_frozen_profile_script": true,
+  "clarification": "Initial receipt_version/expected_receipt_version1 was the matcher first-version prerequisite, not a numeric version read from the completed profile receipt. The receipt has no such field. Keep this slot unresolved until its executed-version binding is established.",
+  "terminal_proven": false,
+  "capacity_after": 6
+}
