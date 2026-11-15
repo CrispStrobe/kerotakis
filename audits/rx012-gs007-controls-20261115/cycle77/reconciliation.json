@@ -1,0 +1,261 @@
+{
+  "provider_requests": 4,
+  "request_limit": 4,
+  "parallel_calls": false,
+  "polling": false,
+  "retries": 0,
+  "capacity_before": 17,
+  "terminal_unknowns_retired": 4,
+  "capacity_after": 13,
+  "unresolved_addressable": 11,
+  "unresolved_unaddressable": 1,
+  "retained_active": 1,
+  "limit": 5,
+  "seven_controls": "UNEXECUTED",
+  "SaveKernel_attempted": false,
+  "job_id": null,
+  "proofs": [
+    {
+      "index": 0,
+      "utc": "2026-11-15T10:38:28.647808+00:00",
+      "method": "GetKernel",
+      "request_number": 1,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "5fa7d4b90ca8ad7715c38a9fe03801017cdb4ad74c2e023ab00c130b154c3a24",
+      "provider_id": 144983247,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "230135e0a05a8eec9cfa41efb614fe52c152c626d4beea834574929796066730",
+      "lastRunTime": "2026-11-12T10:38:28.918168800Z",
+      "binding_checks": {
+        "accepted_provider_identity_is_exact": true,
+        "latest_version_is_unique_first_version": true,
+        "actual_completed_script_is_provider_current_source": true,
+        "actual_completed_source_matches_start": true,
+        "retained_provider_terminal_status": true
+      },
+      "receipt_version": 1,
+      "accepted_id": 144983247,
+      "source": "69b47297491193577ddd9091ed836e747795371f",
+      "tree": "25a6b81f3b7ec7beaf486ef6819d9a814e41a2dd",
+      "producer_started_utc": "2026-11-14T11:19:45.739503+00:00",
+      "producer_script_sha256": "230135e0a05a8eec9cfa41efb614fe52c152c626d4beea834574929796066730",
+      "producer_receipts": {
+        "STARTED.json": "68f8c51441f2c428411e186e7a69f487134a4b83c1287a409f8a2632b345dd6a",
+        "COMPLETED.json": "ca497057b48060358f85e716b8d143fff82353a121ff9bb1e3dd0af9ec6eb011",
+        "SHA256.json": "a91288f8454b425e9cbecf2ba8cf56857d82c602f92d556da676e7d802892309"
+      },
+      "producer_all_commands_passed": true,
+      "timestamp_used_as_authority": false,
+      "known_slug": "kerotakis-prepared-visibility-fleet-20261114"
+    },
+    {
+      "index": 1,
+      "utc": "2026-11-15T10:38:29.995072+00:00",
+      "method": "GetKernel",
+      "request_number": 2,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "58e0748c5dd21149c91d2b002a91d3cbc33d18c5c208998be78f285b5ae4c2df",
+      "provider_id": 144981220,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "2c8b4f047c2009f932e7c1ba440f5cc888f989e4d8096ecaa983b95954ae6136",
+      "lastRunTime": "2026-11-12T10:38:30.218731500Z",
+      "binding_checks": {
+        "accepted_provider_identity_is_exact": true,
+        "latest_version_is_unique_first_version": true,
+        "actual_completed_script_is_provider_current_source": true,
+        "actual_completed_source_matches_start": true,
+        "retained_provider_terminal_status": true
+      },
+      "receipt_version": 1,
+      "accepted_id": 144981220,
+      "source": "69b47297491193577ddd9091ed836e747795371f",
+      "tree": "25a6b81f3b7ec7beaf486ef6819d9a814e41a2dd",
+      "producer_started_utc": "2026-11-14T11:03:52.562884+00:00",
+      "producer_script_sha256": "2c8b4f047c2009f932e7c1ba440f5cc888f989e4d8096ecaa983b95954ae6136",
+      "producer_receipts": {
+        "STARTED.json": "3884c59dfc1a38e4c90146f14f4a1fb8295f4a020b5570841d8ac64df7b00a1f",
+        "COMPLETED.json": "f7c1ee3efd0d1bfb63c8ed504402a419b7614dd13dcc3b958c540e3c490fe065",
+        "SHA256.json": "bcdb2ecac352eff04aa049725b1ec094827a5071b4373e11883b2ad2e5c7e5e2"
+      },
+      "producer_all_commands_passed": true,
+      "timestamp_used_as_authority": false,
+      "known_slug": "kerotakis-prepared-visibility-v2-check-20261114"
+    },
+    {
+      "index": 2,
+      "utc": "2026-11-15T10:38:31.371294+00:00",
+      "method": "GetKernel",
+      "request_number": 3,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "998601727a238f4c29994c886001553ec09c1bb97dac80e66cfd62a95879ea23",
+      "provider_id": 144979604,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "551a698680568e6201052261e39330c364857e37aa99c091e10793287086d7ab",
+      "lastRunTime": "2026-11-12T10:38:31.602981100Z",
+      "binding_checks": {
+        "accepted_provider_identity_is_exact": true,
+        "latest_version_is_unique_first_version": true,
+        "actual_completed_script_is_provider_current_source": true,
+        "actual_completed_source_matches_start": true,
+        "retained_provider_terminal_status": true
+      },
+      "receipt_version": 1,
+      "accepted_id": 144979604,
+      "source": "6dd16e8c1725cbb031b4e3d2ebb8c3fa78cf1a53",
+      "tree": "6cca0eae382e308fec7ef9121733ece2ed238769",
+      "producer_started_utc": "2026-11-14T10:51:26.655108+00:00",
+      "producer_script_sha256": "551a698680568e6201052261e39330c364857e37aa99c091e10793287086d7ab",
+      "producer_receipts": {
+        "STARTED.json": "26b2d32af33a8ea79df3de8f66cf3f41ce8329412630559189e6ba24f5c1eb43",
+        "COMPLETED.json": "19ef41f6ba1e4113c15d3e9794976b36493adda197b18a7e171b975a14e1145a",
+        "SHA256.json": "2cfc42a4ff9d5314ab52fa22cdca6bad45ccc53b532de19ebec56cf249f78237"
+      },
+      "producer_all_commands_passed": false,
+      "timestamp_used_as_authority": false,
+      "known_slug": "kerotakis-prepared-visibility-check-20261114"
+    },
+    {
+      "index": 3,
+      "utc": "2026-11-15T10:38:33.031627+00:00",
+      "method": "GetKernel",
+      "request_number": 4,
+      "retries": 0,
+      "terminal_proven": true,
+      "http_status": 200,
+      "response_sha256": "5c324973079b055969ecd3bb8ec50afc1565998fd93057638b5b923c92730336",
+      "provider_id": 144978885,
+      "currentVersionNumber": 1,
+      "source_blob_sha256": "8d46deebaf7db0c3e701e7a5b1b48fb860f724c6a707e66c2ad3db9d6af5641e",
+      "lastRunTime": "2026-11-12T10:38:33.242339600Z",
+      "binding_checks": {
+        "accepted_provider_identity_is_exact": true,
+        "latest_version_is_unique_first_version": true,
+        "actual_completed_script_is_provider_current_source": true,
+        "actual_completed_source_matches_start": true,
+        "retained_provider_terminal_status": true
+      },
+      "receipt_version": 1,
+      "accepted_id": 144978885,
+      "source": "0241467a7c4efe00d78f5139b3c1e80a963f6f75",
+      "tree": "ff5d7cd0433936be616051fe36eea99952ca7a7e",
+      "producer_started_utc": "2026-11-14T10:46:10.421083+00:00",
+      "producer_script_sha256": "8d46deebaf7db0c3e701e7a5b1b48fb860f724c6a707e66c2ad3db9d6af5641e",
+      "producer_receipts": {
+        "STARTED.json": "96d4799535ae162a92edf9649e62aa8bea1fc23ca583c254e5cd44ea54cb08e4",
+        "COMPLETED.json": "f0ce9df199d4df8303f3e2dd13e55f9a568f8c50d2a50a2a737e53931ba67af2",
+        "SHA256.json": "3b7c60530156f5ab092afbe40ba88379ff37b86693d24943d24286c7565478a6"
+      },
+      "producer_all_commands_passed": true,
+      "timestamp_used_as_authority": false,
+      "known_slug": "kerotakis-signed-leads-check-20261114"
+    }
+  ],
+  "remaining": [
+    {
+      "slot": 1,
+      "known_slug": "xv6-dispatcher-cpu-retest-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": 4,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Version4 result is terminal, but no local provider metadata binds numeric version4 as the latest version represented by the later listing; do not assume no subsequent version."
+    },
+    {
+      "slot": 2,
+      "known_slug": "xv6-admission-context-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding."
+    },
+    {
+      "slot": 3,
+      "known_slug": "xv6-dispatcher-fallback-census-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding."
+    },
+    {
+      "slot": 4,
+      "known_slug": "xv6-dispatcher-cpu-profile-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Completed diagnostic result exists, but source/result inventory does not supply an exact latest provider-version binding."
+    },
+    {
+      "slot": 5,
+      "known_slug": "kerotakis-solid-notice-fleet-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity."
+    },
+    {
+      "slot": 6,
+      "known_slug": "kerotakis-solid-notice-check-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity."
+    },
+    {
+      "slot": 7,
+      "known_slug": "xv6-dispatcher-cpu-comparison-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": 4,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Version4 result is terminal, but no local provider metadata binds numeric version4 as the latest version represented by the later listing; do not assume no subsequent version."
+    },
+    {
+      "slot": 8,
+      "known_slug": "kerotakis-remaining-originals-run-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity."
+    },
+    {
+      "slot": 9,
+      "known_slug": "kerotakis-five-originals-run-20261114",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Provider accepted-version receipt and binding of that version to the latest listed session; completed producer has source/time but no provider version identity."
+    },
+    {
+      "slot": 10,
+      "known_slug": "crispembed-rust-dat-independent-review-v1",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Older COMPLETE status receipt by slug only; no exact latest-version producer/acceptance receipt located in bounded local receipt indexes."
+    },
+    {
+      "slot": 11,
+      "known_slug": "crispembed-python-dat-independent-review-v1",
+      "older_terminal_status": "COMPLETE",
+      "receipt_numeric_version": null,
+      "latest_provider_version": null,
+      "latest_version_proven": false,
+      "missing_binding": "Older COMPLETE status receipt by slug only; no exact latest-version producer/acceptance receipt located in bounded local receipt indexes."
+    }
+  ],
+  "private_exact_inventory_sha256": "2348cf3308f6918e3f6613f9315e8b5e3bc38b9841fab774eea9ce62a2c0b633"
+}
