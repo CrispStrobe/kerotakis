@@ -1007,12 +1007,218 @@ fn plastics_sort_themselves_by_density_in_water() {
         "exactly one of the three floats:\n{out}"
     );
 
-    // The lesson ends by trying the salt trick and the bench declining to
-    // pretend. Whoever reads it meets the limit before they rely on it.
+    // The native NaCl route now supports this comparison. Pin the physical
+    // threshold, not one rounded RHO value or the obsolete blanket warning.
+    let brine = out
+        .lines()
+        .find_map(|line| {
+            line.trim()
+                .strip_prefix("v4 density meter: ")?
+                .strip_suffix(" g/mL")?
+                .parse::<f64>()
+                .ok()
+        })
+        .expect("the lesson measures its brine");
     assert!(
-        out.contains("dissolved ions' share of this density"),
-        "the brine caveat is the point of the last vessel:\n{out}"
+        1.05 < brine && brine < 1.38,
+        "the brine must cross PS while staying below PET:\n{out}"
     );
+    assert!(
+        out.contains("pitzer.dat"),
+        "the supported density needs its native route:\n{out}"
+    );
+}
+
+/// Supported NaCl and unsupported KCl must remain separate even when both
+/// aqueous speciation results use Pitzer. A plausible number is not authority.
+#[test]
+fn salt_density_authority_has_provenance_stocks_and_an_unsupported_control() {
+    use kerotakis_core::{ledger::ConservedLedger, species, Phase, Vessel};
+    fn rows(path: &std::path::Path) -> Vec<serde_json::Value> {
+        let (out, err, ok) = run(&["run", path.to_str().unwrap(), "--json"]);
+        assert!(ok, "{}: {err}", path.display());
+        if let Some(dir) = std::env::var_os("KEROTAKIS_BRINE_LESSON_EVIDENCE_DIR") {
+            std::fs::write(
+                std::path::PathBuf::from(dir).join(format!(
+                    "{}.jsonl",
+                    path.file_stem().unwrap().to_string_lossy()
+                )),
+                &out,
+            )
+            .unwrap();
+        }
+        out.lines()
+            .filter(|line| !line.trim().is_empty())
+            .map(|line| serde_json::from_str(line).unwrap())
+            .collect()
+    }
+    fn vessel(rows: &[serde_json::Value], index: usize) -> Vessel {
+        serde_json::from_value(
+            rows.iter()
+                .rev()
+                .find_map(|row| row["bench"]["vessels"].get(index))
+                .expect("final vessel")
+                .clone(),
+        )
+        .unwrap()
+    }
+    fn readings(rows: &[serde_json::Value], index: usize) -> Vec<f64> {
+        rows.iter()
+            .flat_map(|row| row["events"].as_array().into_iter().flatten())
+            .filter(|event| {
+                event["event"] == "measured"
+                    && event["vessel"] == index
+                    && event["instrument"] == "densitometer"
+                    && event["unit"] == "g/mL"
+            })
+            .map(|event| event["value"].as_f64().unwrap())
+            .collect()
+    }
+    fn missing_volume(rows: &[serde_json::Value], index: usize) -> bool {
+        rows.iter()
+            .flat_map(|row| row["events"].as_array().into_iter().flatten())
+            .any(|event| {
+                event["vessel"] == index
+                    && event["reason"]["key"] == "not-modeled.density-of-the-dissolved-ions"
+            })
+    }
+    fn check_stock(
+        vessel: &Vessel,
+        water_ml: f64,
+        salt: Option<(&str, f64)>,
+        polymer: Option<&str>,
+    ) {
+        assert!(vessel.unresolved_materials.is_empty() && vessel.material_objects.is_empty());
+        let mut expected = std::collections::BTreeMap::<String, f64>::new();
+        let mut add = |key: &str, grams: f64| {
+            let data = species::lookup_key(key).unwrap();
+            let n = grams / data.molar_mass;
+            for (element, count) in kerotakis_core::stoich::parse_formula(data.formula)
+                .unwrap()
+                .counts
+            {
+                *expected.entry(element).or_default() += n * count;
+            }
+        };
+        add(
+            "water",
+            water_ml * species::lookup_key("water").unwrap().density,
+        );
+        if let Some((key, grams)) = salt {
+            add(key, grams);
+        }
+        if let Some(key) = polymer {
+            add(key, 5.0);
+        }
+        let actual = ConservedLedger::from_vessel(vessel);
+        for element in expected.keys().chain(actual.elements.keys()) {
+            assert!(
+                (actual.elements.get(element).copied().unwrap_or(0.0)
+                    - expected.get(element).copied().unwrap_or(0.0))
+                .abs()
+                    <= 1e-10,
+                "{} {} stock drift",
+                vessel.id.0,
+                element
+            );
+        }
+        assert!(actual.charge.abs() <= 1e-10);
+        if let Some(key) = polymer {
+            let portions: Vec<_> = vessel
+                .contents
+                .iter()
+                .filter(|p| p.species.0 == key)
+                .collect();
+            assert_eq!(portions.len(), 1);
+            assert_eq!(portions[0].phase, Phase::Solid);
+            assert!(
+                (portions[0].moles.0 * species::lookup_key(key).unwrap().molar_mass - 5.0).abs()
+                    <= 1e-10
+            );
+        }
+    }
+    let lesson = rows(&lessons_dir().join("float-or-sink.lab"));
+    for (index, key) in [(0, "PP"), (1, "PS"), (2, "PET")] {
+        check_stock(&vessel(&lesson, index), 200.0, None, Some(key));
+    }
+    let brine = vessel(&lesson, 3);
+    check_stock(&brine, 200.0, Some(("NaCl", 60.0)), None);
+    let info = brine.solution.as_ref().expect("native solution");
+    let native = info
+        .native_density
+        .as_ref()
+        .expect("NaCl has native volume authority");
+    assert!(native.dataset.contains("pitzer.dat"));
+    assert_eq!(native.dataset, info.provenance.as_ref().unwrap().dataset);
+    assert_eq!(native.temperature, brine.temperature);
+    assert_eq!(native.pressure, brine.pressure);
+    assert_eq!(
+        native.liquid_contents,
+        brine
+            .contents
+            .iter()
+            .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+            .cloned()
+            .collect::<Vec<_>>()
+    );
+    let measured = readings(&lesson, 3);
+    assert_eq!(
+        measured,
+        vec![native.kg_per_l],
+        "kg/L equals g/mL; do not substitute a placeholder"
+    );
+    assert!(1.05 < measured[0] && measured[0] < 1.38);
+    let water = readings(&lesson, 0);
+    assert_eq!(water.len(), 1);
+    assert!(
+        water[0] < 1.05 && water[0] < measured[0],
+        "the water reference must remain below PS and the brine"
+    );
+    assert!(
+        !missing_volume(&lesson, 3),
+        "supported NaCl must not carry a stale caveat"
+    );
+    for pair in lesson.windows(2) {
+        if pair[1]["operator"]["op"] == "measure" {
+            assert_eq!(
+                pair[0]["bench"]["vessels"], pair[1]["bench"]["vessels"],
+                "density reads do not move stock"
+            );
+        }
+    }
+    let control = rows(
+        &std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/kcl-density-boundary.lab"),
+    );
+    let kcl = vessel(&control, 0);
+    check_stock(&kcl, 50.0, Some(("KCl", 8.0)), None);
+    let kcl_info = kcl.solution.as_ref().expect("characterised KCl");
+    assert!(kcl_info
+        .provenance
+        .as_ref()
+        .unwrap()
+        .dataset
+        .contains("pitzer.dat"));
+    assert!(
+        kcl_info.native_density.is_none(),
+        "a Pitzer route alone does not earn density authority"
+    );
+    assert!(
+        missing_volume(&control, 0),
+        "unsupported KCl must keep its explicit boundary"
+    );
+    assert_eq!(
+        readings(&control, 0).len(),
+        1,
+        "fallback remains labelled, never qualified here"
+    );
+    for row in lesson.iter().chain(control.iter()) {
+        assert!(!row["events"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .any(|e| e["event"] == "solver_failed"));
+    }
 }
 
 /// K52: the borax snowflake, and the two different things a cooling
