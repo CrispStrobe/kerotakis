@@ -10313,6 +10313,20 @@ impl PhreeqcEquilibrator {
             {
                 match exchange.kind {
                     ExternalGasKind::Reservoir => {
+                        if matches!(vessel.headspace, Headspace::Swept { .. }) {
+                            events.push(Event::not_modeled(
+                                vessel.id,
+                                kerotakis_core::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.swept-gas-equilibrium",
+                                    "{species} exchange under the inert sweep uses a near-zero external partial-pressure equilibrium boundary. No finite swept-gas inventory, flow or transfer time is represented. Waiting does not supply a transient degassing or mineral-scale prediction.",
+                                    vec![(
+                                        "species".to_string(),
+                                        Slot::term("species", exchange.species.clone()),
+                                    )],
+                                ),
+                            ));
+                        }
                         let transferred = *moles - exchange.initial_moles;
                         if transferred > TRACE {
                             events.push(Event::GasEvolved {
@@ -15248,3 +15262,8 @@ mod crystal_diagnostic_amount_contract {
         }
     }
 }
+
+// Source-bound external-reservoir event controls; no native solve or new gas data.
+#[cfg(test)]
+#[path = "../tests/swept_equilibrium_readback/contracts.rs"]
+mod swept_equilibrium_readback_contracts;
