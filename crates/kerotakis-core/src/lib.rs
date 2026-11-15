@@ -34,6 +34,7 @@ pub mod chemiluminescence;
 pub mod clock;
 pub mod combustion;
 pub mod compartment;
+pub mod component_split;
 pub mod conductivity;
 pub mod constants;
 pub mod corrosion;
