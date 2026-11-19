@@ -130,7 +130,7 @@ fn open_beaker_oxygen_does_not_oxidise_sulfide_and_the_room_sink_strips_only_h2s
         let sulfide = &db.totals["S(-2)"];
         let punch = format!("SELECTED_OUTPUT\n -reset false\n -high_precision true\nUSER_PUNCH\n -headings sulfate sulfide\n10 PUNCH TOT(\"{sulfate}\")*TOT(\"water\"), TOT(\"{sulfide}\")*TOT(\"water\")\n");
         let mut engine = Phreeqc::with_database(&db.database).unwrap();
-        let alkaline = format!("SOLUTION 1\n pH 7 charge\n pe 4 O2(g) -0.68\n units mol/kgw\n -water 1\n Na 0.002\n {sulfide} 0.001\n{punch}END\n");
+        let alkaline = format!("SOLUTION 1\n pH 11 charge\n pe 4 O2(g) -0.68\n units mol/kgw\n -water 1\n Na 0.002\n {sulfide} 0.001\n{punch}END\n");
         engine
             .run(&alkaline)
             .unwrap_or_else(|e| panic!("{tag} alkaline: {e}"));
