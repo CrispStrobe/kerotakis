@@ -78,6 +78,15 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      constant), then an `ATMOSPHERIC` H2S(g) entry offered only where `S(-2)` is present (never to
      sulfate, `S(6)`), log p -12 (room air holds none at bench resolution; registry key
      `hydrogen_sulfide`). Pitzer names the phase `H2Sg(g)`; the gas-coverage importer must cover it.
+     **2026-11-19 (branch fix/sulfide-family-20261119): step 1 done, untested.** `extract_sulfide`
+     in `derived.rs` books `S(-2)` only for charge-balanced monosulfides (H2S, NaHS, Na2S, FeS,
+     ZnS, PbS, CuS); S, S8, FeS2, Na2S2 and Cu2S stay refused. Inert for every current registry
+     role. Tests `monosulfides_map_to_s_minus_2_and_nothing_else_does`,
+     `no_registry_role_books_sulfide_yet` were written but not run. The real blocker is redox:
+     the open vessel's `pe 4 O2(g) -0.68` would oxidise S(-2) to sulfate, so registry Na2S, the
+     ATMOSPHERIC entry and H2S fizz wait on a redox-isolated S(-2) capability with an open-beaker
+     Na2S control. wateq4f/minteq.v4 already carry native `H2S(g)` (no Sander import needed);
+     pitzer has no S(-2). See `docs/sulfide-coverage-20261119.md`.
    - SO2: SO2(g) is defined in none of the routed databases. The S(IV) extension also omits
      neutral dissolved SO2 and its first dissociation; adding only a gas PHASE would leave that
      ownership gap. Review Goldberg and Parker (1985), doi:10.6028/jres.090.024, NBS Table9,

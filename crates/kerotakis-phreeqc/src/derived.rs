@@ -1421,6 +1421,72 @@ fn extract_sulfite(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     Some(1.0)
 }
 
+/// Reduced sulfur, S(-2), by an exact charge-balance rule - never by a
+/// residue rule.
+///
+/// The tempting rule "sulfur without oxygen is sulfide" is wrong twice on
+/// this bench's own shelf: elemental sulfur `S` would enter solution as
+/// sulfide out of nothing, and pyrite `FeS2` - a DISulfide, iron(II) with
+/// `S2-2` - would be booked as two sulfides against one ferrous iron, which
+/// is four negative charges against two positive ones. So bare `S` stays
+/// off `RESIDUE_OK` and `oxyanion_groups()` gains no `S` row.
+///
+/// What identifies a monosulfide is that its own formula pays for every
+/// sulfur's two negative charges: `sum(cation charge) + H == 2 * S`, with
+/// the cation charge being the charge this lab books that cation as
+/// (`cation_charge`, the same statement `BOOKING_OVERRIDES` makes for iron
+/// and copper). Accepted by that test, and by nothing looser:
+///
+/// - `H2S` (two protons, no cation), `NaHS` (one cation charge, one proton);
+/// - `Na2S`, `K2S`, `FeS`, `ZnS`, `CuS`, `PbS`, `MnS`, `Ag2S` and the
+///   database monosulfide minerals of the same shape.
+///
+/// Refused, by name: elemental `S` (no charge paid), `FeS2`/`Na2S2`
+/// polysulfides (half paid), `Cu2S` (the lab books copper as Cu(2), so
+/// two coppers would pay four: chalcocite is copper(I) and has no Cu(1)
+/// booking here), anything carrying oxygen (a sulfoxy anion, which the
+/// sulfite/thiosulfate/tetrathionate/`SO4` rules own), carbon, nitrogen
+/// (`SCN` is claimed earlier by its own rule) or a halide, and any route
+/// set that has no `S(-2)` master species at all. Ions are not counted
+/// here: the formula parser drops charge, so `S-2` and elemental `S` have
+/// the same counts; a registry ion reaches its element through the
+/// database-master branch in `build`, not through this rule.
+///
+/// The counts are consumed only on success; a refusal leaves them intact.
+fn extract_sulfide(counts: &mut BTreeMap<String, f64>, indexes: [&DbIndex; 3]) -> Option<f64> {
+    let sulfur = counts.get("S").copied().unwrap_or(0.0);
+    if sulfur <= 0.0 || sulfur.fract() != 0.0 {
+        return None;
+    }
+    if !indexes.iter().any(|idx| idx.has_element("S(-2)")) {
+        return None;
+    }
+    if counts
+        .keys()
+        .any(|el| el != "S" && el != "H" && !CATION_RESIDUE.contains(&el.as_str()))
+    {
+        return None;
+    }
+    let hydrogen = counts.get("H").copied().unwrap_or(0.0);
+    let mut paid = hydrogen;
+    for (el, n) in counts.iter() {
+        if el == "S" || el == "H" {
+            continue;
+        }
+        let q = cation_charge(el, indexes)?;
+        if q <= 0.0 {
+            return None;
+        }
+        paid += q * n;
+    }
+    if (paid - 2.0 * sulfur).abs() > 1e-9 {
+        return None;
+    }
+    counts.remove("S");
+    counts.remove("H");
+    Some(sulfur)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
@@ -1441,6 +1507,13 @@ fn contribution_from_counts(
 
     if let Some(n) = extract_sulfite(&mut counts) {
         contrib.push(("Sulfite".to_string(), n));
+    }
+
+    // Reduced sulfur, by charge balance (see `extract_sulfide`). Runs
+    // after the sulfoxy rules but cannot compete with them: it refuses any
+    // formula carrying oxygen.
+    if let Some(n) = extract_sulfide(&mut counts, indexes) {
+        contrib.push(("S(-2)".to_string(), n));
     }
 
     for (group_formula, element) in oxyanion_groups() {
@@ -2123,5 +2196,83 @@ mod tests {
             "10^{log_p} is {as_atm} atm but the gas-exchange clock drives \
              at {clock} atm; they are the same constant"
         );
+    }
+
+    fn sulfide_contribution(formula: &str) -> Option<Vec<(String, f64)>> {
+        let d = derived();
+        let indexes = [&d.wateq4f, &d.minteq, &d.pitzer];
+        derive_contribution(formula, indexes)
+    }
+
+    /// Reduced sulfur reaches solution only through an explicit,
+    /// charge-balanced monosulfide formula. Elemental sulfur, pyrite and
+    /// polysulfides stay refused, and the sulfoxy rules keep their own
+    /// formulas. See `extract_sulfide`.
+    #[test]
+    fn monosulfides_map_to_s_minus_2_and_nothing_else_does() {
+        assert!(index_for("wateq4f").has_element("S(-2)"));
+        assert!(index_for("minteq.v4").has_element("S(-2)"));
+        assert_eq!(
+            sulfide_contribution("H2S"),
+            Some(vec![("S(-2)".into(), 1.0)])
+        );
+        assert_eq!(
+            sulfide_contribution("Na2S"),
+            Some(vec![("S(-2)".into(), 1.0), ("Na".into(), 2.0)])
+        );
+        assert_eq!(
+            sulfide_contribution("NaHS"),
+            Some(vec![("S(-2)".into(), 1.0), ("Na".into(), 1.0)])
+        );
+        // Redox-active cations keep the state the lab books them as.
+        assert_eq!(
+            sulfide_contribution("FeS"),
+            Some(vec![("S(-2)".into(), 1.0), ("Fe(2)".into(), 1.0)])
+        );
+        for formula in ["ZnS", "PbS", "CuS"] {
+            let c = sulfide_contribution(formula).unwrap_or_else(|| panic!("{formula}"));
+            assert!(c.contains(&("S(-2)".into(), 1.0)), "{formula}: {c:?}");
+        }
+        // Refused: elemental sulfur, disulfides, a copper(I) sulfide the
+        // lab cannot book, and sulfoxy salts that other rules own.
+        for formula in ["S", "S8", "FeS2", "Na2S2", "Cu2S"] {
+            let c = sulfide_contribution(formula);
+            assert!(
+                !c.iter().flatten().any(|(el, _)| el == "S(-2)"),
+                "{formula} must not book sulfide: {c:?}"
+            );
+        }
+        assert_eq!(sulfide_contribution("S"), None);
+        assert_eq!(sulfide_contribution("FeS2"), None);
+        assert_eq!(
+            sulfide_contribution("Na2SO4"),
+            Some(vec![("S(6)".into(), 1.0), ("Na".into(), 2.0)])
+        );
+        assert_eq!(
+            sulfide_contribution("Na2SO3"),
+            Some(vec![("Sulfite".into(), 1.0), ("Na".into(), 2.0)])
+        );
+    }
+
+    /// The mapping alone changes no registry role: the shelf's only
+    /// oxygen-free sulfur formulas are elemental sulfur (refused), the
+    /// gas `hydrogen_sulfide` (no `EQUILIBRIUM_GASES` entry, so no role)
+    /// and thiocyanate (its own rule). No derived role books `S(-2)` until
+    /// a sulfide salt and its booking ion are added.
+    #[test]
+    fn no_registry_role_books_sulfide_yet() {
+        assert!(!matches!(role("S"), Some(DerivedRole::Dissolves(_))));
+        assert!(role("hydrogen_sulfide").is_none());
+        for s in species::REGISTRY {
+            if let Some(DerivedRole::Dissolves(c))
+            | Some(DerivedRole::Mineral { elements: c, .. }) = role(s.key)
+            {
+                assert!(
+                    !c.iter().any(|(el, _)| el == "S(-2)"),
+                    "{} books S(-2) without a sulfide booking ion",
+                    s.key
+                );
+            }
+        }
     }
 }
