@@ -155,3 +155,9 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 7. TR-006's verbatim script asks a 20 mL feed for 60 mL and is correctly refused; leave it.
 
 Earlier handoffs (2026-10-27 successor lanes 1–8) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
+
+- Heat note (2026-11-19): the false "reaction heat ... not modelled" note is suppressed for Zn + HCl
+  (displacement books its swap as paid), but Kaggle da showed it still emitted for Mg + HCl, where the
+  aqueous tail names Mg as unpriced after the booked change. Trace the Mg route (`book_paid_change` in
+  displacement.rs vs `contents_after_paid`) and restore the note assertion in
+  `magnesium_in_acid_states_no_false_unmodelled_heat`. Temperatures are correct either way.

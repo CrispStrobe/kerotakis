@@ -336,6 +336,8 @@ fn direct_licence_allowed(kind: Kind, licence: &str) -> bool {
         // These approvals do not authorize code or arbitrary LicenseRef names.
         "LicenseRef-US-Bureau-of-Mines-Public-Domain",
         "LicenseRef-US-Coast-Guard-Public-Domain",
+        // NBS/NIST Journal of Research papers (U.S. Government work).
+        "LicenseRef-NBS-Public-Domain",
     ];
     match kind {
         Kind::Code => CODE.contains(&licence),
