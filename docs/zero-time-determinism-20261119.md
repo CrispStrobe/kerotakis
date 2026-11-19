@@ -119,3 +119,39 @@ deltas are not printed.
   salt-first aq-023 builds in one process must give identical bits for pH,
   I, solvent kg and the three auxiliary diagnostics. It guards the
   determinism conclusion; if it ever fails, this analysis is wrong.
+
+## Resolution (fix/aux-repose-20261119)
+
+Path established by reading, not by running the engine:
+
+- The closed (strict physical closure) route cannot produce this gap.
+  `canonical_physical_delta` (`aqueous.rs`, the `compare_auxiliary` block)
+  only accepts closure when two consecutive poses agree on water activity,
+  particle molality and ionic strength of the auxiliary answer to 1e-10
+  absolute, and the deferred `ReservoirWithOpaque` route
+  (`aqueous.rs` ~4485) returns an error rather than an unclosed answer.
+  A 7.3e-5 non-idempotence therefore cannot come out of a closed step.
+- It comes out of the unclosed route: `solve_at_temperature_using` returns
+  `closed = false` for an uncertified / incomplete first pose, and the
+  caller (`aqueous.rs` ~4572) then runs `recharacterise_canonically`. That
+  pass rewrote `solvent_kg`, `particle_molality`, `ph`, `ionic_strength`
+  and `species` from the canonical pose of the settled contents but left
+  `solution.solvent_activity` from the earlier `solve_once` pose of
+  "previous contents + reagent". The repeat poses settled contents, so its
+  auxiliary value is the canonical one: candidate 1 above.
+
+Change: `recharacterise_canonically` now re-asks the solvent-activity
+second opinion (`solvent_activity_second_opinion`, same problem, database
+and canonical columns as the re-pose) and replaces
+`solution.solvent_activity` when the fresh answer has the same dataset and
+model as the recorded one and finite values. A decline or a model change
+leaves the field as it was, so the routing prose and provenance stay
+true. pH, ionic strength, amounts and temperature are untouched; the extra
+question is at most one auxiliary solve per re-posed equilibration (often
+a cache hit).
+
+Tests: `order_invariance.rs` compares the zero-time auxiliary diagnostics
+at 1e-10 absolute again; the bit-identity test stays. Risk to watch on the
+hosted run: `the_canonical_pose_costs_at_most_one_solve_per_equilibration`
+(budget 12 engine calls) if the auxiliary re-ask misses the cache, and
+any test pinning an exact pre-fix auxiliary value of a zero-time addition.

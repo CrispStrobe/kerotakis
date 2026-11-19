@@ -227,22 +227,12 @@ fn aq_023(second: &str, third: &str) -> Read {
         ),
     ] {
         assert!(
-            // Relative 1e-7: since an `add` keeps its sub-bubble CO2
-            // (2026-11-11), the repeat re-solves a supersaturated carbonate
-            // state against a zero-mole CO2(g) phase, and lands 1.6e-10 away
-            // in water activity and 1.9e-8 (relative) in particle molality,
-            // and up to 6e-7 when the earlier step re-solved (Kaggle cv/cw).
-            // Kaggle cx saw 7.3e-5 in particle molality. That was NOT
-            // run-to-run noise (docs/zero-time-determinism-20261119.md):
-            // every run executed this test twice with bit-identical values,
-            // and the pre-repeat value only moved when 680b1ca0f made
-            // `AddMaterial` a zero-time dose. The open defect is that the
-            // zero-time addition and its zero-time repeat are not the same
-            // fixed point; `repeated_fresh_benches_read_bit_identically`
-            // below holds the determinism half.
-            before.is_finite()
-                && after.is_finite()
-                && (after - before).abs() <= 1e-4 * before.abs().max(1.0),
+            // Absolute 1e-10, the canonical closure tolerance. The final
+            // canonical re-pose now re-derives these diagnostics from the
+            // settled contents, so the zero-time addition and its zero-time
+            // repeat read the same fixed point
+            // (docs/zero-time-determinism-20261119.md).
+            before.is_finite() && after.is_finite() && (after - before).abs() <= 1e-10,
             "native auxiliary {coordinate} changed at zero time: {before:.15e} -> {after:.15e}"
         );
     }
@@ -440,8 +430,8 @@ fn aq_023_salt_first_bits() -> [u64; 6] {
 /// in one process, read the same bits. Hosted logs already showed this
 /// across processes (each run executed the order test twice, identically);
 /// this pins it in-process, where shared caches or hash-order iteration
-/// would show up. If it ever fails, the 1e-4 zero-time budget above is
-/// hiding real non-determinism and the 2026-11-19 analysis is wrong.
+/// would show up. If it ever fails, the 2026-11-19 analysis is wrong and
+/// the zero-time comparison above may be failing for a different reason.
 #[test]
 fn repeated_fresh_benches_read_bit_identically() {
     let first = aq_023_salt_first_bits();

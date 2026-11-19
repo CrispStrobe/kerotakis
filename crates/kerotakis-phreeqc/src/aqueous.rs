@@ -7912,10 +7912,48 @@ impl PhreeqcEquilibrator {
         else {
             return Ok(());
         };
+        // The auxiliary solvent diagnostics belong to the same pose as the
+        // pH and ionic strength rewritten below. Left alone they keep the
+        // value from the last `solve_once`, posed from "previous contents
+        // + reagent", which is what made a zero-time addition and its
+        // zero-time repeat disagree by 7.3e-5 in particle molality
+        // (docs/zero-time-determinism-20261119.md). Re-ask the same
+        // question of the settled contents; accept the answer only when it
+        // comes from the same dataset and model the record already names,
+        // so the routing prose stays true. Anything else (a decline, a
+        // different model) leaves the field exactly as it was, like every
+        // other decline in this pass.
+        let refreshed_activity = match vessel
+            .solution
+            .as_ref()
+            .and_then(|info| info.solvent_activity.as_ref())
+        {
+            Some(previous) => {
+                let previous_route = (previous.dataset.clone(), previous.model.clone());
+                let value_fn: &dyn Fn(&str) -> Option<f64> = &value;
+                let answer = self.solvent_activity_second_opinion(
+                    vessel,
+                    &setup.problem,
+                    setup.db_tag,
+                    value_fn,
+                    SecondaryFirstHint::Auto,
+                );
+                answer.provenance.filter(|fresh| {
+                    (fresh.dataset.clone(), fresh.model.clone()) == previous_route
+                        && fresh.water_activity.is_finite()
+                        && fresh.particle_molality.is_finite()
+                        && fresh.ionic_strength.is_finite()
+                })
+            }
+            None => None,
+        };
         refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kg)?;
         let Some(info) = vessel.solution.as_mut() else {
             return Ok(());
         };
+        if let Some(fresh) = refreshed_activity {
+            info.solvent_activity = Some(fresh);
+        }
         info.solvent_kg = Some(solvent_kg);
         info.particle_molality = value("particle_molality");
         info.ph = ph;
