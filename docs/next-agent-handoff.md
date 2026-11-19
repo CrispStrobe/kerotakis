@@ -100,8 +100,13 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      **Third pass (same branch, untested):** registry `Na2S` (anhydrous; CEA Cp, USCG/HSDB
      density, PubChem identity) and booking ion `HS-` (aqueous basis) added with exporter,
      legacy-diff, golden, locales, aliases, safety, coverage docs; the sulfide family is now
-     exercisable. Engine test `tests/sulfide_family.rs`. Open: acid+sulfide safety rule,
-     H2S/HS- protonation split, Na2S melting transition, `hydrogen_sulfide` gas-dose path.
+     exercisable. Engine test `tests/sulfide_family.rs`. Open: H2S/HS- protonation split,
+     Na2S melting transition, `hydrogen_sulfide` gas-dose path.
+     **Fourth pass (branch fix/safety-notes-20261119, untested):** safety rule
+     `acid-sulfide-h2s` (Danger; new `Sulfide` group on Na2S/HS-; ICSC 0165; en/de/fr) DONE.
+     The `hydrogen_sulfide` -> S(-2) booking was evaluated and deliberately NOT added: it needs
+     a neutral aqueous H2S key + S(-2) split first and an S(-2)-gated finite-headspace path
+     (reasons and prerequisites in `docs/sulfide-coverage-20261119.md`, fourth pass).
    - SO2: SO2(g) is defined in none of the routed databases. The S(IV) extension also omits
      neutral dissolved SO2 and its first dissociation; adding only a gas PHASE would leave that
      ownership gap. Review Goldberg and Parker (1985), doi:10.6028/jres.090.024, NBS Table9,
@@ -119,6 +124,9 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      water, sealed 0.5 L: pSO2 0.0622 atm ideal / 0.0579 with Davies, gas 1.27e-3 /
      1.18e-3 mol), gas coverage stale check, sulfite_speciation, sulfur_iv_coupling and
      the curated/kinetic reactants-survive tests. Details: docs/gas-phase-coverage-20261027.md.
+     Learner note `not-modeled.so2-finite-headspace` (en/de/fr) is emitted whenever SO2(g) is
+     coupled to a finite headspace (branch fix/safety-notes-20261119, untested; unit tests
+     `sulfur_dioxide_boundary_tests`); validator should also see it in `sulfur_dioxide_gas.rs`.
    - NH3: far too soluble to bubble, so no fizz rule applies; its open-vessel escape is lane 3's rate
      (`volatility.rs` is deliberately silent over an open vessel).
    The fizz test itself can then generalise from carbonic acid's pK1 to "the molecular gas is the

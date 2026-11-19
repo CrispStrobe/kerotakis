@@ -143,8 +143,8 @@ Dissolving Na2S has no reviewed enthalpy on any route, so a step that dissolves 
 `not-modeled.aqueous-heat-unpriced` (chemistry and pH stand; heat withheld), as Na2SO3 does.
 
 Safety: `Na2S` -> BaseStrong, ReducingAgent, ToxicSoluble; `HS-` -> ReducingAgent,
-ToxicSoluble. Known gap: there is no acid + sulfide -> H2S mixture rule (the analogue of
-`acid-carbonate-co2`); it needs its own rule metadata, real-world sentence and locales.
+ToxicSoluble, and both also carry the `Sulfide` group. The fourth pass (below) closes the
+former gap with the `acid-sulfide-h2s` rule.
 
 Thermal: Na2S(cr)/Na2S(L) now enter CEA thermal pools for Na+S charges (the registry names
 them). No melting transition or fusion enthalpy was added, so a hot Na2S run may need the
@@ -153,3 +153,43 @@ Cu2O-style transition and fusion-ledger work.
 Validator tests (not run): `crates/kerotakis-phreeqc/tests/sulfide_family.rs`, see the
 expectations above; `derived::tests::sodium_sulfide_books_reduced_sulfur_and_nothing_else_does`;
 `kerotakis-safety` `sodium_sulfide_and_its_booking_ion_are_screened`.
+
+## Fourth pass: acid + sulfide rule, SO2 headspace note, H2S booking decision (2026-11-19, untested)
+
+**Safety.** New reactive group `Sulfide` on `Na2S` and `HS-` (hazard label "toxic"), and a
+Danger row `acid-sulfide-h2s` (AcidStrong x Sulfide), citing ILO/WHO ICSC 0165 (hydrogen
+sulfide: acutely toxic by inhalation, smell fatigue at harmful levels, extremely flammable).
+Joins the reviewed strong-acid final-projection set beside `acid-carbonate-co2`, so a solved
+vessel whose HCl is booked as `H+` charge does not warn a second time. de/fr in core i18n and
+web locales. Tests: `acid_and_sulfide_warns_of_hydrogen_sulfide`,
+`sulfide_alone_or_sulfate_with_acid_does_not_raise_h2s`, rule-id contract row `HCl + Na2S`.
+The frozen production contract tests were not touched; they enumerate only their three rules.
+
+**SO2 note.** `not-modeled.so2-finite-headspace` (aqueous.rs
+`sulfur_dioxide_headspace_boundary`), emitted whenever `problem.gases` holds `SO2(g)`, i.e.
+the minteq.v4 finite-headspace coupling. It reuses the HBr temperature clauses (same
+constant-enthalpy van't Hoff convention). Unit tests in `sulfur_dioxide_boundary_tests`.
+
+**H2S gas -> dissolved S(-2): NOT implemented.** Evaluated against the NH3 -> N(-3)
+precedent and found not clearly correct:
+
+1. NH3 works because one registry key serves both sides: `NH3` is the gas AND the neutral
+   aqueous half of the `N(-3)` protonation split (`("N(-3)", [NH3, NH4+])`), so gas and
+   dissolved ammonia read back under the same name. `S(-2)` has no split: it books wholly as
+   the ion `HS-`. A `hydrogen_sulfide` Dissolves role would turn a neutral gas dose into an
+   anion with no counter-cation; its proton would ride as negative `solute_charge`, which
+   `kerotakis-safety` reads as dissociated acidity and `strong_reserve` would have to
+   reconcile against `hydrogen_sulfide` = "sulfide". Clean booking needs a neutral aqueous
+   key (e.g. an `H2S(aq)` basis row) and an `("S(-2)", [H2S(aq), HS-])` split first.
+2. A finite headspace never admits `H2S(g)`: `finite_headspace_gases` gates on
+   `gas_component_elements`, which for `H2S(g)` returns bare `S`, never the valence-tagged
+   `S(-2)` the partition notes. The NH3 path has a dedicated `N(-3)` special case at both
+   the supplied-gas site and the empty-component site; H2S would need the same pair plus a
+   `gas_component_elements` override (as SO2 has) and evidence that the `redox_isolation`
+   rewrite onto `Sredtwo` holds through a GAS_PHASE block, which only an engine run shows.
+3. With no H2S clock (first-pass item 1), a dissolving role would let an open-beaker dose
+   enter solution but never leave on timed steps, which inverts the physical expectation.
+
+Prerequisites, in order: neutral aqueous H2S key + split; S(-2)-gated finite headspace
+admission with readback to `hydrogen_sulfide`; engine tests for sealed partition and
+conservation (pattern: `tests/reactive_gas.rs`) on wateq4f and minteq.v4; pitzer refusal.
