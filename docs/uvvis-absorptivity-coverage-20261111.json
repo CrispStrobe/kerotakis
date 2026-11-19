@@ -285,7 +285,7 @@
   "no_data": [
     {
       "species": "FeCl+2",
-      "reason": "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure"
+      "reason": "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure. Tabulated values (Byrne and Kester, J. Solution Chem. 10 (1981), 220-400 nm; Stefansson et al.; Gamlen and Jordan) are not open access and no open paper or Wikipedia/NIST page quoting a number was found (searched 2026-11-19)"
     }
   ]
 }

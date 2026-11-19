@@ -138,7 +138,10 @@
 //! * Products: α-amylase gives maltose, maltotriose and α-limit dextrins
 //!   ("The linear structures are comprised of maltose, maltotriose, and a
 //!   minor amount of maltotetraose", PLoS One 8 (2013) e59745,
-//!   doi:10.1371/journal.pone.0059745). No readable source gives the split,
+//!   doi:10.1371/journal.pone.0059745). No readable source gives the split
+//!   (re-searched 2026-11-19: Europe PMC open full text and the web give
+//!   only the qualitative pattern, e.g. Whelan's two-stage salivary
+//!   amylolysis of amylose, or industrial malt hydrolysates, not a digest),
 //!   so the product is booked as maltose equivalents and the unsourced split
 //!   is reported, not hidden.
 //! * Plain `starch` (no material recipe: a generic laboratory starch of
