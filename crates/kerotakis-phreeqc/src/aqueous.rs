@@ -962,6 +962,12 @@ pub struct PhreeqcEquilibrator {
     /// heat ledger is incomplete is characterised at its supplied
     /// temperature and says so, rather than applying a partial ledger.
     last_heat_unpriced: Option<enthalpy::Unpriced>,
+    /// The most recent decline was entirely inside changes an earlier
+    /// solver of this step already charged (`StepStart::heat_paid`): the
+    /// remainder of the step prices. The heat mode is unchanged — no extra
+    /// heat is charged on top of the earlier owner — but the "not modelled"
+    /// refusal would be false and is not emitted.
+    last_heat_paid_elsewhere: bool,
     /// Set once a pass of the current thermal fixed point found its
     /// unpriced movers too large to bound away. The decision is then held
     /// for every later pass of the same step: a threshold that flipped with
@@ -2410,6 +2416,7 @@ impl PhreeqcEquilibrator {
             hook: None,
             neutralisation,
             last_heat_unpriced: None,
+            last_heat_paid_elsewhere: false,
             unpriced_bound_refused: false,
         })
     }
@@ -2435,6 +2442,7 @@ impl PhreeqcEquilibrator {
             hook: None,
             neutralisation: std::collections::HashMap::new(),
             last_heat_unpriced: None,
+            last_heat_paid_elsewhere: false,
             unpriced_bound_refused: false,
         })
     }
@@ -4384,6 +4392,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut volume_guess = start.headspace_volume();
         let mut settled: Option<(Vessel, Vec<Event>, f64, bool, f64)> = None;
         let mut settled_unpriced: Option<enthalpy::Unpriced> = None;
+        let mut settled_paid_elsewhere = false;
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
@@ -4401,6 +4410,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
             let mut deferred_seed = None;
             self.last_heat_unpriced = None;
+            self.last_heat_paid_elsewhere = false;
             let (mut events, q_joules, mut physical_canonical_closed, mut clock_applied) =
                 if full_strict_thermal {
                     self.solve_at_temperature(&mut trial)?
@@ -4460,6 +4470,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             // temperature, not an adiabatic prediction. Even a Cp/water basis
             // change must not reconstruct omitted endpoint heat indirectly.
             let mut heat_unpriced = self.last_heat_unpriced.clone();
+            let mut heat_paid_elsewhere = self.last_heat_paid_elsewhere;
             let mut next =
                 aqueous_temperature_target(&start, &trial, q_joules, heat_unpriced.is_none());
             let mut next_volume = trial.headspace_volume();
@@ -4488,6 +4499,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                     physical_canonical_closed = strict_closed;
                     clock_applied = strict_clock;
                     heat_unpriced = self.last_heat_unpriced.clone();
+                    heat_paid_elsewhere = self.last_heat_paid_elsewhere;
                     next = aqueous_temperature_target(
                         &start,
                         &trial,
@@ -4525,6 +4537,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 clock_applied,
             ));
             settled_unpriced = heat_unpriced;
+            settled_paid_elsewhere = heat_paid_elsewhere;
             previous_guess = if reset_thermal_history {
                 None
             } else {
@@ -4571,8 +4584,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         events.extend(component_charge_note);
+        // A decline that lies wholly inside a change another solver of this
+        // step already charged is not a missing heat: the refusal would
+        // tell the reader the temperature stayed put while it visibly rose
+        // by exactly that owner's heat. Temperature handling is unchanged.
         if let Some(unpriced) = settled_unpriced.filter(|_| {
-            matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+            !settled_paid_elsewhere
+                && matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
                 && kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
         }) {
             events.push(unpriced_heat_note(vessel.id, &unpriced));
@@ -7937,6 +7955,7 @@ impl PhreeqcEquilibrator {
         auxiliary_policy: AuxiliaryPolicy,
     ) -> Result<AqueousPass, SolveError> {
         self.last_heat_unpriced = None;
+        self.last_heat_paid_elsewhere = false;
         if hint.primary_route.is_some() {
             // A provisional answer on another database must not reuse an
             // electron-search guess from the abandoned model.
@@ -8430,6 +8449,25 @@ impl PhreeqcEquilibrator {
                     heat_mode = HeatMode::Unpriced;
                     q_joules = 0.0;
                     let _ = prior_physical_events;
+                    // Was the decline only about a change an earlier owner
+                    // in this step already priced (the displacement
+                    // solver's metal + acid swap)? Re-quote the remainder:
+                    // from the snapshot with those paid changes applied.
+                    // Only a fully priced remainder clears the refusal; the
+                    // heat mode — and so the temperature — is untouched.
+                    self.last_heat_paid_elsewhere =
+                        vessel.step_start.as_ref().is_some_and(|start| {
+                            !start.heat_paid.is_empty()
+                                && enthalpy::heat_quote(
+                                    &start.contents_after_paid(),
+                                    before_oh,
+                                    &vessel.contents,
+                                    measured_oh,
+                                    &gas_out,
+                                    db_tag,
+                                )
+                                .is_ok_and(|remainder| remainder.unpriced.is_none())
+                        });
                     self.last_heat_unpriced = Some(unpriced);
                 }
             }
