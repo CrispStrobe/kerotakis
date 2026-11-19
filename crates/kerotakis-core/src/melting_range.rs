@@ -58,8 +58,9 @@
 //! Refused by policy (no row, so never paid): poly(vinyl chloride) (it is
 //! nearly amorphous and dehydrochlorinates instead of melting cleanly; no
 //! crystallinity of a rigid grade was found in a source), unsintered
-//! (virgin) PTFE (first-melt crystallinity differs about twofold from the
-//! sintered polymer and no open measurement was found), and any grade
+//! (virgin) PTFE (first melt 81 wt.% crystalline against 32 wt.% once
+//! melt-crystallised, doi:10.3390/polym12040791, so one grade heat is
+//! wrong after the first melt), and any grade
 //! whose crystallinity is set by an unstated thermal history. See
 //! [`REFUSED_FUSION`]; none of those is in the registry today.
 
@@ -113,7 +114,7 @@ pub const REFUSED_FUSION: &[RefusedFusion] = &[
     },
     RefusedFusion {
         material: "PTFE (unsintered)",
-        reason: "virgin PTFE powder melts first far more crystalline than the sintered polymer (about twofold); only sintered PTFE has an open crystallinity measurement (39.5-43.1 % against 82 J/g, doi:10.3390/polym17101380)",
+        reason: "virgin (nascent) PTFE powder pays a first-melt latent heat that its own melt never pays again: F. Christakopoulos et al., 'Melting Kinetics of Nascent Poly(tetrafluoroethylene) Powder', Polymers 12 (2020) 791, doi:10.3390/polym12040791, measure 81 wt.% crystallinity on first melting (first apparent melting 345 degrees Celsius) against 32 wt.% after melt-crystallisation (melting 327 degrees Celsius), both against 82 J/g, i.e. about 66.4 J/g first and 26.2 J/g thereafter; sintered PTFE is 39.5-43.1 % (doi:10.3390/polym17101380). A single grade latent heat would be wrong on every melt after the first, and PTFE is not in the registry",
     },
     RefusedFusion {
         material: "PLA (unstated thermal history)",

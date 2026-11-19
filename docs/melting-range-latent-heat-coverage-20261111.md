@@ -52,7 +52,7 @@ paid at one temperature, partial melts resolved by the energy balance).
 | material | reason |
 |---|---|
 | PVC | poly(vinyl chloride) is nearly amorphous and dehydrochlorinates on heating instead of melting cleanly; no sourced crystallinity of a rigid grade was found (its 176 J/g 100 % reference, B. Wunderlich, Thermal Analysis, Academic Press 1990, pp. 417-431 as quoted by R. L. Blaine, TA Instruments TN048, would have nothing to multiply) |
-| PTFE (unsintered) | virgin PTFE powder melts first far more crystalline than the sintered polymer (about twofold); only sintered PTFE has an open crystallinity measurement (39.5-43.1 % against 82 J/g, doi:10.3390/polym17101380) |
+| PTFE (unsintered) | virgin (nascent) PTFE powder pays a first-melt latent heat that its own melt never pays again: F. Christakopoulos et al., 'Melting Kinetics of Nascent Poly(tetrafluoroethylene) Powder', Polymers 12 (2020) 791, doi:10.3390/polym12040791, measure 81 wt.% crystallinity on first melting (first apparent melting 345 degrees Celsius) against 32 wt.% after melt-crystallisation (melting 327 degrees Celsius), both against 82 J/g, i.e. about 66.4 J/g first and 26.2 J/g thereafter; sintered PTFE is 39.5-43.1 % (doi:10.3390/polym17101380). A single grade latent heat would be wrong on every melt after the first, and PTFE is not in the registry |
 | PLA (unstated thermal history) | poly(lactic acid) crystallinity runs from about 0 to 26 % with moulding and annealing history (Ingeo-type PLA plaques 19-25.7 %, doi:10.1021/acsomega.6c03726; a PLA/PCL blend 0.4 %, Europe PMC PMC12473204), so no grade value can be chosen without the history |
 
 ## Blends of range materials
@@ -84,7 +84,8 @@ paid at one temperature, partial melts resolved by the energy balance).
 - Sourced but not in the registry (no row until the species exists): LDPE 30.58 % x 293 J/g
   (doi:10.3390/polym18202566), POM 44.3 % x 326.3 J/g (doi:10.3390/nano12050858), PCL Capa
   57.4-65.0 J/g (doi:10.3390/ma19204377), sintered PTFE 39.5-43.1 % x 82 J/g
-  (doi:10.3390/polym17101380), stearic acid 201.0-216.5 J/g (Europe PMC PMC7490278,
+  (doi:10.3390/polym17101380; nascent PTFE first melt 81 wt.% x 82 J/g, doi:10.3390/polym12040791,
+  kept refused as history-dependent), stearic acid 201.0-216.5 J/g (Europe PMC PMC7490278,
   PMC6515142), beeswax 137.6 J/g (doi:10.3390/ma18245521; other reports to 221 J/g, so
   range-only).
 - Hexadecane is a pure alkane with a sharp point: its 53.36 kJ/mol (235.6 J/g; Finke et al.
