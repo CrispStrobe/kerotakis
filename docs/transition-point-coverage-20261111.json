@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 136,
+    "boiling.no_data": 138,
     "boiling.reported": 61,
-    "melting.no_data": 97,
+    "melting.no_data": 99,
     "melting.range": 5,
     "melting.reported": 95
   },
@@ -1263,6 +1263,16 @@
       }
     },
     {
+      "species": "HS-",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "HSO3-",
       "standard_phase": "aqueous",
       "melting": {
@@ -1643,6 +1653,16 @@
         "outcome": "melting",
         "kelvin": 1127.0,
         "source": "literature/transition-points/Na2CO3"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na2S",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
       },
       "boiling": {
         "basis": "no_data"

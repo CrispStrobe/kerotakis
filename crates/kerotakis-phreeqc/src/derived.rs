@@ -297,6 +297,16 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // writes `S4O6-2`. No protonated form exists in any vendored database
     // (llnl.dat line 1306 defines only the dianion), so no split.
     ("Tetrathionate", "S4O6-2"),
+    // Reduced sulfur. wateq4f masters `S(-2)` as `H2S`, which is not a
+    // registry key (the gas is `hydrogen_sulfide`), and minteq.v4 as
+    // `HS-`; without this row the booking would depend on which database
+    // the derivation happens to read first. `HS-` is the aqueous-basis ion
+    // added with sodium sulfide. No protonation split yet, on the
+    // thiosulfate precedent: the solved element total is authoritative and
+    // the pH carries the H2S/HS- proportion. That is coarser than sulfite's
+    // split (pKa1 about 7 sits in the bench range), and naming the neutral
+    // H2S(aq) share needs its own aqueous registry key first.
+    ("S(-2)", "HS-"),
     // Sulfite's master species in the borrowed block is `Sulfite-2` for
     // the same PHREEQC reason; the registry writes `SO3-2`. UNLIKE
     // thiosulfate this row does NOT stand alone - there is a
@@ -2288,22 +2298,36 @@ mod tests {
         );
     }
 
-    /// The mapping alone changes no registry role: the shelf's only
-    /// oxygen-free sulfur formulas are elemental sulfur (refused), the
-    /// gas `hydrogen_sulfide` (no `EQUILIBRIUM_GASES` entry, so no role)
-    /// and thiocyanate (its own rule). No derived role books `S(-2)` until
-    /// a sulfide salt and its booking ion are added.
+    /// Sodium sulfide is the shelf's sulfide source: the anhydrous salt
+    /// books one S(-2) and two sodiums, the aqueous-basis ion `HS-` is the
+    /// S(-2) booking ion and books as S(-2) itself, and nothing else on the
+    /// shelf books reduced sulfur (elemental sulfur, sulfate, sulfite,
+    /// thiosulfate and the gas keep their own roles or none).
     #[test]
-    fn no_registry_role_books_sulfide_yet() {
+    fn sodium_sulfide_books_reduced_sulfur_and_nothing_else_does() {
+        match role("Na2S") {
+            Some(DerivedRole::Dissolves(c)) => {
+                assert_eq!(c, vec![("S(-2)".to_string(), 1.0), ("Na".to_string(), 2.0)])
+            }
+            other => panic!("Na2S role {other:?}"),
+        }
+        assert_eq!(booking_ion("S(-2)"), Some("HS-"));
+        match role("HS-") {
+            Some(DerivedRole::Dissolves(c)) => assert_eq!(c, vec![("S(-2)".to_string(), 1.0)]),
+            other => panic!("HS- role {other:?}"),
+        }
         assert!(!matches!(role("S"), Some(DerivedRole::Dissolves(_))));
         assert!(role("hydrogen_sulfide").is_none());
         for s in species::REGISTRY {
+            if matches!(s.key, "Na2S" | "HS-") {
+                continue;
+            }
             if let Some(DerivedRole::Dissolves(c))
             | Some(DerivedRole::Mineral { elements: c, .. }) = role(s.key)
             {
                 assert!(
                     !c.iter().any(|(el, _)| el == "S(-2)"),
-                    "{} books S(-2) without a sulfide booking ion",
+                    "{} books S(-2) unexpectedly",
                     s.key
                 );
             }

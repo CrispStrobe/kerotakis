@@ -97,6 +97,11 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      generic pending-gas parcel; CO2 endpoint is CO2-only plumbing), H2S film clock, NH3-style
      `S(-2)` gas-dose path. wateq4f/minteq.v4 carry native `H2S(g)`; pitzer has no S(-2). See
      `docs/sulfide-coverage-20261119.md` for validator expectations.
+     **Third pass (same branch, untested):** registry `Na2S` (anhydrous; CEA Cp, USCG/HSDB
+     density, PubChem identity) and booking ion `HS-` (aqueous basis) added with exporter,
+     legacy-diff, golden, locales, aliases, safety, coverage docs; the sulfide family is now
+     exercisable. Engine test `tests/sulfide_family.rs`. Open: acid+sulfide safety rule,
+     H2S/HS- protonation split, Na2S melting transition, `hydrogen_sulfide` gas-dose path.
    - SO2: SO2(g) is defined in none of the routed databases. The S(IV) extension also omits
      neutral dissolved SO2 and its first dissociation; adding only a gas PHASE would leave that
      ownership gap. Review Goldberg and Parker (1985), doi:10.6028/jres.090.024, NBS Table9,

@@ -234,6 +234,22 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // `Na2S2O3`, and a hazard that depended on which name the ledger
         // happened to be using would not be a hazard anybody could learn.
         "Na2S2O3" | "S2O3-2" => &[ReducingAgent],
+        // Sodium sulfide, after ILO/WHO ICSC 1047 (and its GHS H314
+        // causes severe skin burns, H311 toxic in contact with skin):
+        // a strongly alkaline, freely soluble, toxic reducing agent. The
+        // bottle and the ion a solved vessel books it as (`HS-`) both
+        // reduce; only the salt carries the strong-base row, because the
+        // alkalinity is the solution's and the vessel screen sees it through
+        // the salt, as `NaOH` is the bottle and not `OH-`.
+        //
+        // KNOWN GAP, NOT FILLED BY A WRONG ROW: the matrix has no
+        // acid + sulfide -> hydrogen sulfide rule (the analogue of
+        // `acid-carbonate-co2`), so a beaker of sodium sulfide and
+        // hydrochloric acid is screened as a corrosive base meeting an acid,
+        // not as a toxic-gas generator. Adding that rule needs its own
+        // metadata, real-world sentence and locales.
+        "Na2S" => &[BaseStrong, ReducingAgent, ToxicSoluble],
+        "HS-" => &[ReducingAgent, ToxicSoluble],
         // Iodide speciates since 2026-10-27; the bottle and its ion carry
         // the same screen, as hypo and `S2O3-2` do.
         "KI" | "I-" => &[ReducingAgent],
@@ -752,6 +768,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na2SO3",
     "SO3-2",
     "HSO3-",
+    "Na2S",
+    "HS-",
     "Na2SO4",
     "NaCl",
     "NaNO3",
@@ -1967,6 +1985,19 @@ mod tests {
         let (labels, assessed) = hazard_assessment("FeCl3");
         assert!(assessed);
         assert!(labels.contains(&"irritant"), "{labels:?}");
+    }
+
+    #[test]
+    fn sodium_sulfide_and_its_booking_ion_are_screened() {
+        assert!(COVERED_KEYS.contains(&"Na2S"));
+        assert!(COVERED_KEYS.contains(&"HS-"));
+        let (labels, assessed) = hazard_assessment("Na2S");
+        assert!(assessed);
+        for label in ["corrosive", "reducing_agent", "toxic"] {
+            assert!(labels.contains(&label), "{labels:?}");
+        }
+        assert!(groups("HS-").contains(&ReactiveGroup::ReducingAgent));
+        assert!(!groups("HS-").contains(&ReactiveGroup::BaseStrong));
     }
 
     #[test]

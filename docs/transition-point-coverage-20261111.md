@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 136, boiling.reported 61, melting.no_data 97, melting.range 5, melting.reported 95.
+Counts: boiling.no_data 138, boiling.reported 61, melting.no_data 99, melting.range 5, melting.reported 95.
 
 ## Melting ranges
 
@@ -104,6 +104,7 @@ Counts: boiling.no_data 136, boiling.reported 61, melting.no_data 97, melting.ra
 | HClO | aqueous | no_data | no_data | — |
 | HI | liquid | no_data | no_data | — |
 | HPO4-2 | aqueous | no_data | no_data | — |
+| HS- | aqueous | no_data | no_data | — |
 | HSO3- | aqueous | no_data | no_data | — |
 | I- | aqueous | no_data | no_data | — |
 | I2 | solid | melting 386.8 K | boiling 457.2 K | literature/transition-points/I2 |
@@ -136,6 +137,7 @@ Counts: boiling.no_data 136, boiling.reported 61, melting.no_data 97, melting.ra
 | Na+ | aqueous | no_data | no_data | — |
 | Na2B4O7 | solid | melting 1015 K | no_data | literature/transition-points/Na2B4O7 |
 | Na2CO3 | solid | melting 1127 K | no_data | literature/transition-points/Na2CO3 |
+| Na2S | solid | no_data | no_data | — |
 | Na2S2O3 | solid | no_data | no_data | — |
 | Na2SO3 | solid | no_data | no_data | — |
 | Na2SO4 | solid | melting 1163 K | no_data | literature/transition-points/Na2SO4 |

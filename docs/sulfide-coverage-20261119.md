@@ -96,20 +96,11 @@ master, so a sulfide solution cannot route there (route selection requires every
    in `Vessel` and adapter, which cannot be made correct without running the engine. Also,
    unlike CO2, no clock owns H2S, so timed open steps retain dissolved H2S (see item 1 above);
    a finite-time H2S film clock would be the correct owner and is not written.
-2. **Registry Na2S (not added).** Missing, exactly: (a) a booking ion for `S(-2)` (registry
-   `HS-` ion or a `BOOKING_OVERRIDES` row), without which `bookings_cover_every_derivable_element`
-   panics as soon as any role books `S(-2)`; (b) cited density, aqueous solubility and
-   appearance from a primary source (NBS Circular 500 carries none of them; CRC Handbook or a
-   Wikipedia-quoted primary not consulted in this lane, so no number written); molar mass
-   78.04 g/mol computes from 2 x 22.98977 + 32.06; (c) identity/InChIKey, composition,
-   phase_thermodynamics, safety row (corrosive, liberates toxic H2S with acid), locales
-   en/de/fr, `data/registry/registry-source-v1.json` rows in exporter order, golden
-   `crates/kerotakis-core/tests/golden/registry.json`, exporter legacy diff, solid coverage
-   docs; (d) the `no_registry_role_books_sulfide_yet` pin must then be replaced by positive
-   Na2S role assertions. Precedent commit 378761da (Cu2O) touched 21 files; hand-writing that
-   without the exporter is unsafe. Also `hydrogen_sulfide` still has no dissolution role
-   (adding it to `EQUILIBRIUM_GASES` would note bare `S`, which the isolated namespace maps to
-   the primary master, S(6) on wateq4f: it needs the NH3-style `S(-2)` special case first).
+2. **Registry Na2S: ADDED in the third pass (see below).** `hydrogen_sulfide` still has no
+   dissolution role: adding it to `EQUILIBRIUM_GASES` would note bare `S`, which the isolated
+   namespace maps to the primary master (S(6) on wateq4f); it needs an NH3-style `S(-2)` gas
+   path with its own readback key, which is not clearly analogous (NH3 is a liquid registry
+   row with an aqueous protonation split) and was not written.
 3. **Pitzer**: no S(-2); must refuse typed (`gas-phase-unavailable`) if ever reached.
 
 ## Validator expectations once Na2S exists (by reading, not run)
@@ -125,3 +116,40 @@ master, so a sulfide solution cannot route there (route selection requires every
   I about 1.5 shift this by a few percent).
 - 0.005 mol Na2S alone in 100 mL open beaker, add then wait 1 h: pH about 12.5-13, sulfide
   stays 0.005 mol as HS-/S-2 in both steps, sulfate 0, no gas event, note present.
+
+## Third pass: sodium sulfide on the shelf (2026-11-19, untested)
+
+Registry `Na2S` represents the ANHYDROUS salt (standard phase solid). Reason: every sourced
+number describes it (NASA CEA `Na2S(cr)`, density 1.856), and this registry keys hydrates only
+under their own names; the nonahydrate `Na2S.9H2O` that the trade sells (CAS 1313-84-4) is a
+different solid and is not added.
+
+| value | number | source |
+|---|---|---|
+| identity | InChIKey GRVFOGOEDUUMBP-UHFFFAOYSA-N, disodium;sulfide | PubChem PUG REST CID 14804, read 2026-11-19 |
+| molar mass | 78.0395 g/mol | 2 x 22.98976928 + 32.06, IUPAC/CIAAW 2021 (S conventional) |
+| Cp (scalar) | 82.80052821809429 J/(mol.K) | NASA CEA thermo.inp `Na2S(cr)` (Chase 1998, NIST-JANAF) at 298.15 K, R = 8.31446261815324 |
+| density | 1.856 g/mL at 68 F | USCG CHRIS (1999, US Government work) as quoted by PubChem HSDB; Merck Index 1996 p. 1483 gives 1.856 at 14 C |
+| appearance | colourless | Merck Index "cubic crystals or granules", NFPA 1978 "clear crystals" (both via HSDB); technical grades yellow/brick-red |
+| solubility (documented, NOT shipped) | 12.4 (0 C), 18.6 (20 C), 29.0 (40 C), 39.0 (50 C) g/100 g water | Merck Index via HSDB; not shipped because the saturating solid below about 48 C is a hydrate (the Na2SO4 hydrate trap) |
+| hazards | corrosive base, toxic (skin), reducing agent | ILO/WHO ICSC 1047 (GHS H314, H311) |
+| not claimed | melting point (NASA liquid boundary 1445 K), dissolution enthalpy, flame colour, tint, Cp curve | - |
+
+Booking: `S(-2)` books as a new aqueous-basis ion `HS-` ("hydrosulfide ion", 33.068 g/mol
+= 1.008 + 32.06, Cp 0, density placeholder 1.0, source `kerotakis/aqueous-basis-v1` as `SCN-`),
+via `BOOKING_OVERRIDES` `("S(-2)", "HS-")`. No protonation split (thiosulfate precedent); the
+acid-side H2S(aq) share is booked under `HS-` by element and its proportion is carried by pH.
+Dissolving Na2S has no reviewed enthalpy on any route, so a step that dissolves it emits
+`not-modeled.aqueous-heat-unpriced` (chemistry and pH stand; heat withheld), as Na2SO3 does.
+
+Safety: `Na2S` -> BaseStrong, ReducingAgent, ToxicSoluble; `HS-` -> ReducingAgent,
+ToxicSoluble. Known gap: there is no acid + sulfide -> H2S mixture rule (the analogue of
+`acid-carbonate-co2`); it needs its own rule metadata, real-world sentence and locales.
+
+Thermal: Na2S(cr)/Na2S(L) now enter CEA thermal pools for Na+S charges (the registry names
+them). No melting transition or fusion enthalpy was added, so a hot Na2S run may need the
+Cu2O-style transition and fusion-ledger work.
+
+Validator tests (not run): `crates/kerotakis-phreeqc/tests/sulfide_family.rs`, see the
+expectations above; `derived::tests::sodium_sulfide_books_reduced_sulfur_and_nothing_else_does`;
+`kerotakis-safety` `sodium_sulfide_and_its_booking_ion_are_screened`.

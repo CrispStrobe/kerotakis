@@ -118,6 +118,8 @@ fn every_legacy_field_is_present_and_unchanged() {
                         | "chalcanthite"
                         | "SiO2"
                         | "Cu2O"
+                        | "Na2S"
+                        | "HS-"
                         | "H+"
                         | "CO2(aq)"
                         | "CO3-2"
@@ -324,7 +326,7 @@ fn every_legacy_field_is_present_and_unchanged() {
 fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
     if matches!(
         species.key,
-        "H+" | "CO2(aq)" | "CO3-2" | "HPO4-2" | "PO4-3" | "NO2-" | "KSCN" | "SCN-"
+        "H+" | "CO2(aq)" | "CO3-2" | "HPO4-2" | "PO4-3" | "NO2-" | "KSCN" | "SCN-" | "HS-"
     ) {
         let identity = document
             .identities
@@ -363,6 +365,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "chalcanthite" => "us-federal/usgs-chalcanthite".to_string(),
         "SiO2" => "us-federal/pubchem-silica".to_string(),
         "Cu2O" => "kerotakis/cu2o-reviewed-properties-v1".to_string(),
+        "Na2S" => "kerotakis/na2s-reviewed-properties-v1".to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let source = document
@@ -410,6 +413,18 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             Some("data/registry/registry-source-v1.json")
         );
         assert_eq!(source.retrieved.as_deref(), Some("2026-11-14"));
+    } else if species.key == "Na2S" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "AGPL-3.0-or-later");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("data/registry/registry-source-v1.json")
+        );
+        assert_eq!(
+            source.revision.as_deref(),
+            Some("Na2S reviewed properties v1")
+        );
+        assert_eq!(source.retrieved.as_deref(), Some("2026-11-19"));
     } else if species.key == "SiO2" {
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
@@ -1199,7 +1214,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 197, "one molar mass per species");
+    assert_eq!(masses.len(), 199, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

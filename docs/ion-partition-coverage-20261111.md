@@ -15,7 +15,7 @@ ion hydration, hundreds of kJ/mol, not repaid in an alkane).
 
 Hydrocarbon solvents in the registry: dodecane, hexadecane, hexane.
 
-Ion classes: monatomic anion 3, monatomic cation 16, polyatomic inorganic ion 19, small organic ion 3.
+Ion classes: monatomic anion 3, monatomic cation 16, polyatomic inorganic ion 20, small organic ion 3.
 
 | ion | formula | class | against a hydrocarbon |
 |---|---|---|---|
@@ -37,6 +37,7 @@ Ion classes: monatomic anion 3, monatomic cation 16, polyatomic inorganic ion 19
 | H2PO4- | H2PO4- | polyatomic inorganic ion | retained in water |
 | HCO3- | HCO3- | polyatomic inorganic ion | retained in water |
 | HPO4-2 | HPO4-2 | polyatomic inorganic ion | retained in water |
+| HS- | HS- | polyatomic inorganic ion | retained in water |
 | HSO3- | HSO3- | polyatomic inorganic ion | retained in water |
 | I- | I- | monatomic anion | retained in water |
 | K+ | K+ | monatomic cation | retained in water |
