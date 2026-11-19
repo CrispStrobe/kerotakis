@@ -1411,14 +1411,8 @@
   {
     "gas": "SO2(g)",
     "route": "minteq.v4",
-    "status": "refused",
-    "attempts": [
-      {
-        "donor": "",
-        "refusal": "no-reviewed-donor-definition",
-        "links": []
-      }
-    ]
+    "status": "native",
+    "attempts": []
   },
   {
     "gas": "SO2(g)",

@@ -60,6 +60,37 @@ pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[("CO2(g)", "CO2", -3.408)];
 /// HBr's phase data and applicability are recorded with the gas data slice.
 pub const EQUILIBRIUM_GASES: &[(&str, &str)] = &[("CO2(g)", "CO2"), ("HBr(g)", "HBr")];
 
+/// Reviewed gas/liquid equilibria admitted ONLY against a finite owned
+/// headspace: never as an open-vessel dose and never as an atmospheric
+/// reservoir. SO2(g) is the Goldberg-Parker (1985) slice on minteq.v4's
+/// `Sulfite` pseudo-element (`aqueous_gases::sulfur_dioxide`). An open
+/// beaker keeps its dissolved S(IV): room air holds none at bench
+/// resolution and no reviewed escape rate exists, so no instantaneous
+/// sink is offered (docs/gas-phase-coverage-20261027.md).
+pub const FINITE_EQUILIBRIUM_GASES: &[(&str, &str)] = &[("SO2(g)", "SO2")];
+
+/// Every gas the native solve may equilibrate with a finite headspace.
+pub fn finite_headspace_gases() -> impl Iterator<Item = &'static (&'static str, &'static str)> {
+    EQUILIBRIUM_GASES.iter().chain(FINITE_EQUILIBRIUM_GASES)
+}
+
+/// Non-H/O analytical components a gas phase moves between headspace and
+/// solution, per mole of gas. Read from the phase name for ordinary gases;
+/// SO2(g) is the exception and the reason this exists: its sulfur is the
+/// `Sulfite` pseudo-element (decoupled from sulfur redox), never bare `S`,
+/// which the redox-coupled routes would speciate as sulfate or sulfide.
+/// The H2O its native formula `H2(Sulfite)` carries beyond physical SO2 is
+/// not an analytical component: `inventory::complete_basis` closes H/O
+/// from the conserved ledger, where the gas is booked as registry SO2.
+pub fn gas_component_elements(phase: &str) -> Option<BTreeMap<String, f64>> {
+    if phase == "SO2(g)" {
+        return Some(BTreeMap::from([("Sulfite".to_string(), 1.0)]));
+    }
+    let mut formula = parse_formula(phase.trim_end_matches("(g)"))?;
+    formula.retain(|element, _| element != "H" && element != "O");
+    Some(formula)
+}
+
 /// Oxyanion groups: the valence-carrying units formulas decompose into.
 /// (Element-count signatures; order matters — longest/most specific first.)
 fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
@@ -532,7 +563,14 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
     // in one vessel as well: 0.002 mol of HCl gives pH 7.04, 60/40.
     (
         "Sulfite",
-        &[("H(Sulfite)-", "HSO3-"), ("Sulfite-2", "SO3-2")],
+        &[
+            // Neutral S(IV), Goldberg-Parker slice: booked as the
+            // registry's SO2 (dissolved), the H2O of `H2(Sulfite)` closed
+            // by the H/O basis like MINTEQ's H2CO3 -> CO2(aq).
+            ("H2(Sulfite)", "SO2"),
+            ("H(Sulfite)-", "HSO3-"),
+            ("Sulfite-2", "SO3-2"),
+        ],
     ),
     // Boron, and this split is the borax buffer itself. `H3BO3 = H2BO3- +
     // H+` is log K −9.236 in minteq.v4 (line 4912) and −9.24 in wateq4f
@@ -927,9 +965,7 @@ impl Derived {
                 continue;
             }
             if s.standard_phase == Phase::Gas
-                && !EQUILIBRIUM_GASES
-                    .iter()
-                    .any(|(_, species)| *species == s.key)
+                && !finite_headspace_gases().any(|(_, species)| *species == s.key)
             {
                 continue;
             }
@@ -1375,8 +1411,8 @@ fn extract_tetrathionate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
 /// hydrogen here where the older rules permit only zero, and the hydrogen
 /// is consumed when it is there.
 ///
-/// **What it excludes, by name.** Sulfate and bisulfate (four oxygens),
-/// sulfur dioxide `SO2` (two), metabisulfite `S2O5`, dithionite `S2O4` and
+/// **What it excludes, by name.** Sulfate and bisulfate (four oxygens; bare `SO2` is admitted as the anhydride, below),
+/// metabisulfite `S2O5`, dithionite `S2O4` and
 /// thiosulfate itself (two sulfurs, rejected before the oxygen is looked
 /// at), and any formula carrying an element that is neither sulfur, oxygen,
 /// hydrogen nor a simple cation. That last clause is what stops it claiming
@@ -1391,6 +1427,16 @@ fn extract_sulfite(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     let sulfur = counts.get("S").copied().unwrap_or(0.0);
     let oxygen = counts.get("O").copied().unwrap_or(0.0);
     let hydrogen = counts.get("H").copied().unwrap_or(0.0);
+    // Sulfur dioxide is the anhydride of the same S(IV) (SO2 + H2O =
+    // H2SO3, Goldberg and Parker 1985 Table 10 note c), and since the
+    // reviewed neutral species `H2(Sulfite)` exists it books here too:
+    // bare SO2 only, no cation, no hydrogen. The H2O difference is closed
+    // by the H/O basis, exactly as CO2(aq) books against MINTEQ's H2CO3.
+    if sulfur == 1.0 && oxygen == 2.0 && hydrogen == 0.0 && counts.len() == 2 {
+        counts.remove("S");
+        counts.remove("O");
+        return Some(1.0);
+    }
     if sulfur != 1.0 || oxygen != 3.0 {
         return None;
     }
@@ -1970,9 +2016,10 @@ mod tests {
         }
         // 696 → 707 with OPT-8: the same eleven parser-dividend minerals,
         // counted here before polymorph dedupe.
-        // The reviewed HBr gas adds one phase, not a shelf mineral.
-        assert_eq!(every.len(), 708, "phases, gases included");
-        assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 25);
+        // The reviewed HBr gas adds one phase, not a shelf mineral; so
+        // does the Goldberg-Parker SO2(g) on minteq.v4 (708 -> 709).
+        assert_eq!(every.len(), 709, "phases, gases included");
+        assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 26);
         assert!(
             idx.iter().all(|i| i.has_phase("CO2(g)")),
             "CO2(g) is shared by all three, so it inflates the shared count"

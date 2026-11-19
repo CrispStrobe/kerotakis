@@ -463,6 +463,9 @@ fn dataset_sources(db_tag: &str) -> Vec<String> {
     if matches!(db_tag, "wateq4f" | "minteq.v4") {
         sources.push(crate::complexation::SOURCE_ID.into());
     }
+    if db_tag == "minteq.v4" {
+        sources.push(crate::aqueous_gases::sulfur_dioxide::SOURCE_ID.into());
+    }
     sources.push(crate::aqueous_gases::SOURCE_ID.into());
     sources
 }
@@ -3372,8 +3375,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 let gas_phase = if p.species.0 == "NH3" {
                     Some("NH3(g)")
                 } else {
-                    EQUILIBRIUM_GASES
-                        .iter()
+                    derived::finite_headspace_gases()
                         .find(|(_, species)| *species == p.species.0)
                         .map(|(phase, _)| *phase)
                 };
@@ -3396,13 +3398,9 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                     // Gas and aqueous ammonia share reduced nitrogen. Bare
                     // N would admit nitrate/redox conversion of the dose.
                     note_element("N(-3)");
-                } else if let Some(formula) =
-                    crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
-                {
-                    for element in formula
-                        .keys()
-                        .filter(|element| *element != "H" && *element != "O")
-                    {
+                } else if let Some(formula) = derived::gas_component_elements(phase) {
+                    // SO2(g) notes `Sulfite`, never bare S (see helper).
+                    for element in formula.keys() {
                         note_element(element);
                     }
                 }
@@ -3613,13 +3611,9 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     if vessel.owns_headspace_gas() {
         // A finite headspace must admit gases that can form from the
         // solution even when none was initially present.
-        for (phase, species) in EQUILIBRIUM_GASES {
-            let gas_formula = phase.trim_end_matches("(g)");
-            let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
-            let all_present = required
-                .keys()
-                .filter(|el| *el != "O" && *el != "H")
-                .all(|el| elements.iter().any(|e| e == el));
+        for (phase, species) in derived::finite_headspace_gases() {
+            let required = derived::gas_component_elements(phase).unwrap_or_default();
+            let all_present = required.keys().all(|el| elements.iter().any(|e| e == el));
             if all_present && !gases.iter().any(|(name, ..)| name == phase) {
                 gases.push((phase.to_string(), species.to_string(), 0.0));
             }
@@ -10863,13 +10857,12 @@ fn add_gas_component_transfer(
     phase: &str,
     dissolved_delta: f64,
 ) -> bool {
-    let Some(formula) = crate::dbindex::parse_formula(phase.trim_end_matches("(g)")) else {
+    // H/O are owned by the basis and gas-boundary certificate; SO2(g)
+    // moves the `Sulfite` component, not bare S.
+    let Some(formula) = derived::gas_component_elements(phase) else {
         return false;
     };
     for (element, count) in formula {
-        if element == "H" || element == "O" {
-            continue; // The H/O basis and gas-boundary certificate own these.
-        }
         let Some(key) = unique_keys.get(&element) else {
             return false;
         };

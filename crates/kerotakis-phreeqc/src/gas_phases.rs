@@ -687,10 +687,7 @@ pub fn coverage() -> Vec<CoverageRow> {
 /// aqueous adapter poses to the native solve (and so equilibrates with
 /// protonation in the same solve) versus carries as inert inventory.
 pub fn headspace_coupled(phase: &str) -> bool {
-    phase == "NH3(g)"
-        || crate::derived::EQUILIBRIUM_GASES
-            .iter()
-            .any(|(p, _)| *p == phase)
+    phase == "NH3(g)" || crate::derived::finite_headspace_gases().any(|(p, _)| *p == phase)
 }
 
 /// The volatile acids/bases audited for headspace coupling (#834 siblings).

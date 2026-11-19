@@ -21,15 +21,16 @@ pub fn append_to(database: &[u8]) -> Vec<u8> {
 }
 
 /// Reviewed neutral S(IV) + SO2(g) slice for minteq.v4's `Sulfite`
-/// pseudo-element (Goldberg and Parker 1985, Table 9). DATA ONLY: it is
-/// deliberately NOT appended to any route yet. Wiring it needs, in one
-/// change: `derived::PROTONATION_SPLITS` mapping `H2(Sulfite)` to the
-/// registry's aqueous `SO2`, an `EQUILIBRIUM_GASES`-style capability that
-/// books the `Sulfite` element (not bare `S`) and removes the one water
-/// per mole the gas formula carries, and a single owner decision between
-/// the native solve and `kerotakis-core::sulfur_iv`. Appending the species
-/// alone would let readback drop the neutral fraction of every acidified
-/// sulfite vessel. See docs/gas-phase-coverage-20261027.md.
+/// pseudo-element (Goldberg and Parker 1985, Table 9), appended to the
+/// minteq.v4 route only (`databases::minteq_v4`). Wiring:
+/// `derived::PROTONATION_SPLITS` books `H2(Sulfite)` as registry `SO2`
+/// (aqueous); `derived::FINITE_EQUILIBRIUM_GASES` poses SO2(g) against a
+/// finite headspace only and `derived::gas_component_elements` moves the
+/// `Sulfite` component, never bare S; the extra H2O of the `H2(Sulfite)`
+/// formula is closed by `inventory::complete_basis`. Ownership:
+/// `kerotakis_core::sulfur_iv::owner` (native solve = speciation and
+/// headspace; sulfur_iv = redox extents). wateq4f and pitzer define no
+/// S(IV) and refuse typed (`gas-phase-unavailable`).
 pub mod sulfur_dioxide {
     pub const SOURCE_ID: &str = "goldberg-parker-1985-so2";
     pub const EXTENSION: &[u8] =
@@ -41,8 +42,10 @@ pub mod sulfur_dioxide {
     pub const DG_GAS_TO_BISULFITE_KJ: f64 = 10.09;
     pub const DH_FIRST_DISSOCIATION_KJ: f64 = -17.80;
     pub const DH_HENRY_KJ: f64 = -26.97;
-    /// The registry route's existing second constant (llnl borrow).
+    /// The registry route's existing second constant (llnl borrow) and
+    /// its enthalpy, kJ/mol (`SULFITE_EXTENSION`).
     pub const ROUTED_LOG_K_BISULFITE: f64 = 7.2054;
+    pub const ROUTED_DH_BISULFITE_KJ: f64 = 9.33032;
 
     pub fn log_k(delta_g_kj: f64) -> f64 {
         let gas_constant = 8.31446261815324;
@@ -55,7 +58,8 @@ pub mod sulfur_dioxide {
         log_k(DG_HENRY_KJ) + 1.01325f64.log10()
     }
 
-    /// The slice inserted before `END` of an already-extended minteq.v4.
+    /// The slice inserted before `END` of minteq.v4 after its Sulfite
+    /// extension (the species is written on `Sulfite-2`).
     pub fn append_to(database: &[u8]) -> Vec<u8> {
         let at = crate::databases::find_last_end(database).unwrap_or(database.len());
         let mut bytes = Vec::with_capacity(database.len() + EXTENSION.len() + 1);
@@ -109,55 +113,74 @@ mod tests {
         assert!((second - 7.172377688196939).abs() < 1e-9);
         assert!((ROUTED_LOG_K_BISULFITE - second).abs() < log_k(-0.20));
 
-        let extended = append_to(crate::databases::minteq_v4());
-        let index = crate::dbindex::DbIndex::parse(&extended);
+        let index = crate::dbindex::DbIndex::parse(crate::databases::minteq_v4());
         let phase = &index.phases["SO2(g)"];
         assert!((phase.log_k.unwrap() - log_henry_atm()).abs() < 1e-12);
         assert!((phase.delta_h_kj.unwrap() - DH_HENRY_KJ).abs() < 1e-12);
-        assert!((index.species_delta_h_kj["H2(Sulfite)"] + DH_FIRST_DISSOCIATION_KJ).abs() < 1e-12);
+        // Written on the master, so the stated enthalpy is the basis sum.
+        let basis_dh = ROUTED_DH_BISULFITE_KJ - DH_FIRST_DISSOCIATION_KJ;
+        assert!((index.species_delta_h_kj["H2(Sulfite)"] - basis_dh).abs() < 1e-9);
         assert!(index.has_element("Sulfite"));
+        let basis_log_k = ROUTED_LOG_K_BISULFITE - first;
+        assert!((basis_log_k - 9.0624396554686752).abs() < 1e-12);
+        assert!(String::from_utf8_lossy(EXTENSION).contains("log_k 9.0624396554686752"));
     }
 
-    /// The reviewed SO2 slice ([`sulfur_dioxide`]) exists as data but no
-    /// route carries it yet: wateq4f and pitzer have no S(IV) at all (typed
-    /// refusal, permanently until a sulfur-redox-isolated S(IV) exists
-    /// there), and minteq.v4 waits for the readback/booking/ownership
-    /// wiring. Posing SO2 through `EQUILIBRIUM_GASES` today would book bare
-    /// `S`, which the redox-coupled routes turn into sulfate. Wiring the
-    /// slice must flip the minteq.v4 assertions here deliberately.
+    /// The routing truth after wiring: minteq.v4 carries SO2(g) and the
+    /// neutral species, coupled for finite headspaces only; wateq4f and
+    /// pitzer define no S(IV) and keep refusing (`gas-phase-unavailable`).
     #[test]
-    fn sulfur_dioxide_slice_is_not_routed_until_wired() {
-        for (route, database) in [
-            ("wateq4f", crate::databases::wateq4f()),
-            ("minteq.v4", crate::databases::minteq_v4()),
-            ("pitzer", crate::databases::pitzer()),
+    fn sulfur_dioxide_is_routed_on_minteq_only_and_finite_only() {
+        for (route, database, routed) in [
+            ("wateq4f", crate::databases::wateq4f(), false),
+            ("minteq.v4", crate::databases::minteq_v4(), true),
+            ("pitzer", crate::databases::pitzer(), false),
         ] {
             let index = crate::dbindex::DbIndex::parse(database);
-            assert!(!index.has_phase("SO2(g)"), "{route} gained SO2(g)");
+            assert_eq!(index.has_phase("SO2(g)"), routed, "{route}");
+            assert_eq!(index.has_element("Sulfite"), routed, "{route}");
             assert!(!index.has_element("S(4)"), "{route} gained S(4)");
             let text = String::from_utf8_lossy(database);
-            for token in text.split_whitespace() {
-                assert!(
-                    !matches!(token, "SO2" | "H2SO3" | "HSO3-" | "SO3-2" | "H2(Sulfite)"),
-                    "{route} now defines the S(IV) species {token}"
-                );
-            }
+            assert_eq!(
+                text.split_whitespace().any(|token| token == "H2(Sulfite)"),
+                routed,
+                "{route}"
+            );
         }
-        let minteq = crate::dbindex::DbIndex::parse(crate::databases::minteq_v4());
-        assert!(minteq.has_element("Sulfite"));
+        assert!(crate::derived::FINITE_EQUILIBRIUM_GASES.contains(&("SO2(g)", "SO2")));
         assert!(!crate::derived::EQUILIBRIUM_GASES
             .iter()
             .any(|(phase, species)| *phase == "SO2(g)" || *species == "SO2"));
         assert!(!crate::derived::ATMOSPHERIC
             .iter()
             .any(|(phase, species, _)| *phase == "SO2(g)" || *species == "SO2"));
-        assert!(!crate::gas_phases::headspace_coupled("SO2(g)"));
+        assert!(crate::gas_phases::headspace_coupled("SO2(g)"));
+        assert_eq!(
+            crate::derived::gas_component_elements("SO2(g)").unwrap(),
+            std::collections::BTreeMap::from([("Sulfite".to_string(), 1.0)])
+        );
+        assert_eq!(
+            crate::derived::gas_component_elements("CO2(g)").unwrap(),
+            std::collections::BTreeMap::from([("C".to_string(), 1.0)])
+        );
+        let split = crate::derived::protonation_split("Sulfite").unwrap();
+        assert!(split.contains(&("H2(Sulfite)", "SO2")));
+        assert_eq!(split.len(), 3);
+        match crate::derived::role("SO2") {
+            Some(crate::derived::DerivedRole::Dissolves(elements)) => {
+                assert_eq!(elements, &vec![("Sulfite".to_string(), 1.0)])
+            }
+            other => panic!("SO2 must book the Sulfite element, got {other:?}"),
+        }
         let rows = crate::gas_phases::coverage();
-        let so2: Vec<_> = rows.iter().filter(|row| row.gas == "SO2(g)").collect();
-        assert_eq!(so2.len(), 3);
-        assert!(so2
-            .iter()
-            .all(|row| row.status == crate::gas_phases::GasStatus::Refused));
+        for row in rows.iter().filter(|row| row.gas == "SO2(g)") {
+            let expected = if row.route == "minteq.v4" {
+                crate::gas_phases::GasStatus::Native
+            } else {
+                crate::gas_phases::GasStatus::Refused
+            };
+            assert_eq!(row.status, expected, "{}", row.route);
+        }
     }
 
     #[test]

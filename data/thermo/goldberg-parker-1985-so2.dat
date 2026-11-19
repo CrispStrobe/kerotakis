@@ -1,4 +1,5 @@
 # Neutral S(IV) and SO2(g) on the minteq.v4 `Sulfite` pseudo-element.
+# Appended to the minteq.v4 route only (after the Sulfite extension).
 # Source: R. N. Goldberg and V. B. Parker, "Thermodynamics of solution of
 # SO2(g) in water and of aqueous sulfur dioxide solutions", J. Res. Natl.
 # Bur. Stand. 90 (1985) 341-358, doi:10.6028/jres.090.024 (NBS, US
@@ -15,15 +16,20 @@
 # (D) converted from mol kg-1 bar-1 to mol kg-1 atm-1 (+log10 1.01325);
 # molality basis already, so no density conversion (contrast HBr).
 # The gas is written with formula H2(Sulfite), i.e. SO2.H2O in this
-# database's element accounting (the pseudo-element hides three O); a
-# caller posing n mol SO2(g) therefore adds n mol H2O that must be removed
-# from the solvent it hands the engine. Water activity is taken as 1 in
+# database's element accounting (the pseudo-element hides three O). The
+# engine never sees that water as solvent; the adapter books gas and
+# neutral species as registry SO2 and closes H/O from the conserved
+# ledger (inventory::complete_basis). Water activity is taken as 1 in
 # the gas reaction. Constant-enthalpy van't Hoff away from 298.15 K; the
 # paper's dCp terms are not carried.
+# The species is written on the master Sulfite-2 (as H(Sulfite)- is), so
+# its stated log K / enthalpy are basis values: the routed second step
+# (7.2054, 9.33032 kJ/mol) plus the reversed Table 9 (A) (1.8570396554686752,
+# +17.80 kJ/mol). The effective first dissociation is exactly (A).
 SOLUTION_SPECIES
-    H+ + H(Sulfite)- = H2(Sulfite)
-        log_k 1.8570396554686752
-        -delta_H 17.80 kJ/mol
+    Sulfite-2 + 2 H+ = H2(Sulfite)
+        log_k 9.0624396554686752
+        -delta_H 27.13032 kJ/mol
 PHASES
 SO2(g)
     H2(Sulfite) = H2(Sulfite)
