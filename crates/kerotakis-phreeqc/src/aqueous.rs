@@ -3676,12 +3676,15 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             } else {
                 target.unwrap_or(*target_si)
             };
-            let gas_formula = phase.trim_end_matches("(g)");
-            let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
-            let all_present = required
-                .keys()
-                .filter(|el| *el != "O" && *el != "H")
-                .all(|el| elements.iter().any(|e| e == el));
+            // Gas formulas name bare elements; a gated row (H2S(g) needs
+            // S(-2), not sulfate's S(6)) keys on the booked valence tag.
+            let all_present = derived::atmospheric_row_applies(phase, &elements)
+                // No clock owns hydrogen sulfide. On a timed open step the
+                // -12 sink would be an infinite-time strip (alkaline Na2S
+                // would lose essentially all its sulfide in one Wait), so a
+                // gated row only acts where its target is not that sink:
+                // zero-time effervescence and the inert sweep.
+                && (derived::atmospheric_gate(phase).is_none() || target.is_some());
             let listed = phases.iter().any(|(name, ..)| name == phase);
             // EXP-57: the gate STAYS, and the reason is worth recording
             // because the task that led here asked for it to go.
@@ -10363,6 +10366,27 @@ impl PhreeqcEquilibrator {
                     }
                 }
             }
+        }
+        // Reduced sulfur at an external boundary: the native namespace keeps
+        // S(-2) a separate conserved component, so the room's O2 does not
+        // turn it into sulfate inside a step (its slow kinetics are not
+        // modelled at all). Its escape is only the bubble/sweep endpoint of
+        // the posed boundary; slow diffusive loss over timed steps is not
+        // modelled either.
+        if matches!(vessel.headspace, Headspace::Open | Headspace::Swept { .. })
+            && problem
+                .totals
+                .iter()
+                .any(|(element, amount)| element == "S(-2)" && *amount > 0.0)
+        {
+            events.push(Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::RateNotModelled,
+                Phrase::bare(
+                    "not-modeled.sulfide-open-air",
+                    "Dissolved sulfide is held as sulfide: its oxidation by air is slow on bench time scales (hours to days) and its rate is not modelled, so none is converted here. Hydrogen sulfide leaves only as bubbles above saturation or into an inert sweep; its slow escape to room air over time is not modelled either",
+                ),
+            ));
         }
         for solid_solution in new_solid_solutions {
             let before = problem

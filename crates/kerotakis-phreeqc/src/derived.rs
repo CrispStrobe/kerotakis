@@ -53,7 +53,41 @@ pub struct DerivedPhase {
 /// Gas phases an open vessel exchanges, with registry identity and log10
 /// atmospheric partial pressure. Physical constants, not chemistry the
 /// databases know.
-pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[("CO2(g)", "CO2", -3.408)];
+pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[
+    ("CO2(g)", "CO2", -3.408),
+    // Room air holds no hydrogen sulfide at bench resolution. log10 p = -12
+    // atm is a numerical stand-in for "absent", not a measured abundance:
+    // it makes the open boundary a sink only. The row is admitted solely
+    // when the vessel holds reduced sulfur (`atmospheric_gate`), never for
+    // sulfate, sulfite or thiosulfate.
+    ("H2S(g)", "hydrogen_sulfide", -12.0),
+];
+
+/// The valence-tagged component an `ATMOSPHERIC` row requires, where its
+/// gas formula alone would name the wrong pool. `H2S` parses to bare S, but
+/// sulfate books `S(6)` and the native namespace keeps every sulfur state
+/// a separate conserved component (`redox_isolation`): a hydrogen sulfide
+/// sink offered to a sulfate solution could only ever see zero.
+pub fn atmospheric_gate(phase: &str) -> Option<&'static str> {
+    match phase {
+        "H2S(g)" => Some("S(-2)"),
+        _ => None,
+    }
+}
+
+/// Whether an `ATMOSPHERIC` row applies to a problem holding `elements`
+/// (the partition's component names, valence-tagged where booked so).
+pub fn atmospheric_row_applies(phase: &str, elements: &[String]) -> bool {
+    if let Some(tag) = atmospheric_gate(phase) {
+        return elements.iter().any(|e| e == tag);
+    }
+    let gas_formula = phase.trim_end_matches("(g)");
+    let required = parse_formula(gas_formula).unwrap_or_default();
+    required
+        .keys()
+        .filter(|el| *el != "O" && *el != "H")
+        .all(|el| elements.iter().any(|e| e == el))
+}
 
 /// Reviewed gas/liquid equilibrium capabilities, independent of an ambient
 /// reservoir. A finite supplied gas is not an infinite atmospheric source.
@@ -2273,6 +2307,40 @@ mod tests {
                     s.key
                 );
             }
+        }
+    }
+
+    /// The open-boundary hydrogen sulfide sink keys on reduced sulfur only.
+    /// Sulfate (`S(6)`), sulfite and thiosulfate never admit it; carbon
+    /// dioxide's ungated row is unchanged. Not executed in the authoring
+    /// lane (no compiler run); expected to pass by reading.
+    #[test]
+    fn hydrogen_sulfide_room_sink_is_gated_on_reduced_sulfur_only() {
+        let own = |names: &[&str]| names.iter().map(|n| n.to_string()).collect::<Vec<_>>();
+        let (_, key, log_p) = ATMOSPHERIC
+            .iter()
+            .find(|(phase, ..)| *phase == "H2S(g)")
+            .expect("H2S(g) row");
+        assert_eq!(*key, "hydrogen_sulfide");
+        assert_eq!(*log_p, -12.0);
+        let gas = species::lookup_key(key).expect("registry hydrogen sulfide");
+        assert_eq!(gas.formula, "H2S");
+        assert!(atmospheric_row_applies("H2S(g)", &own(&["Na", "S(-2)"])));
+        for other in [
+            own(&["Na", "S(6)"]),
+            own(&["Na", "Sulfite"]),
+            own(&["Na", "Thiosulfate"]),
+            own(&["S"]),
+            own(&[]),
+        ] {
+            assert!(!atmospheric_row_applies("H2S(g)", &other), "{other:?}");
+        }
+        assert!(atmospheric_row_applies("CO2(g)", &own(&["C"])));
+        assert!(!atmospheric_row_applies("CO2(g)", &own(&["Na"])));
+        assert_eq!(atmospheric_gate("CO2(g)"), None);
+        // Both sulfide routes carry the native phase the row names.
+        for tag in ["wateq4f", "minteq.v4"] {
+            assert!(index_for(tag).has_phase("H2S(g)"), "{tag}");
         }
     }
 }

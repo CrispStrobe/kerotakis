@@ -82,11 +82,21 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      in `derived.rs` books `S(-2)` only for charge-balanced monosulfides (H2S, NaHS, Na2S, FeS,
      ZnS, PbS, CuS); S, S8, FeS2, Na2S2 and Cu2S stay refused. Inert for every current registry
      role. Tests `monosulfides_map_to_s_minus_2_and_nothing_else_does`,
-     `no_registry_role_books_sulfide_yet` were written but not run. The real blocker is redox:
-     the open vessel's `pe 4 O2(g) -0.68` would oxidise S(-2) to sulfate, so registry Na2S, the
-     ATMOSPHERIC entry and H2S fizz wait on a redox-isolated S(-2) capability with an open-beaker
-     Na2S control. wateq4f/minteq.v4 already carry native `H2S(g)` (no Sander import needed);
-     pitzer has no S(-2). See `docs/sulfide-coverage-20261119.md`.
+     `no_registry_role_books_sulfide_yet` were written but not run. **Second pass (same branch,
+     untested):** the redox "blocker" was already solved: `run_raw` always poses through
+     `redox_isolation::transform`, which makes `S(-2)` its own conserved element (`Sredtwo`), so
+     `pe 4 O2(g) -0.68` cannot oxidise it (existing engine test
+     `isolated_totals_survive_native_batch_and_mix_at_arbitrary_pe`). Added: `ATMOSPHERIC`
+     `H2S(g)`/`hydrogen_sulfide`/-12 gated on `S(-2)` (`derived::atmospheric_row_applies`) and
+     offered only on zero-time (effervescence) and swept boundaries, since no clock owns H2S;
+     typed note `not-modeled.sulfide-open-air` (en/de/fr); tests
+     `hydrogen_sulfide_room_sink_is_gated_on_reduced_sulfur_only` and engine probe
+     `open_beaker_oxygen_does_not_oxidise_sulfide_and_the_room_sink_strips_only_h2s` (not run).
+     Dormant until a registry role books `S(-2)`. Still open: registry Na2S + `S(-2)` booking
+     ion (cited density/solubility/appearance needed), sub-saturation H2S fizz parcel (needs a
+     generic pending-gas parcel; CO2 endpoint is CO2-only plumbing), H2S film clock, NH3-style
+     `S(-2)` gas-dose path. wateq4f/minteq.v4 carry native `H2S(g)`; pitzer has no S(-2). See
+     `docs/sulfide-coverage-20261119.md` for validator expectations.
    - SO2: SO2(g) is defined in none of the routed databases. The S(IV) extension also omits
      neutral dissolved SO2 and its first dissociation; adding only a gas PHASE would leave that
      ownership gap. Review Goldberg and Parker (1985), doi:10.6028/jres.090.024, NBS Table9,
