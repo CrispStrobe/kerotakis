@@ -593,6 +593,40 @@ fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
     ))
 }
 
+/// The typed learner note for the SO2(g) slice, the analogue of
+/// [`reactive_gas_boundary`]'s HBr note: emitted whenever the native solve
+/// coupled SO2(g) to a finite owned headspace (`derived::
+/// FINITE_EQUILIBRIUM_GASES`; `aqueous_gases::sulfur_dioxide`). Only the
+/// minteq.v4 route defines the phase, and an open vessel never poses it,
+/// so `problem.gases` holding it is exactly the coupled case.
+fn sulfur_dioxide_headspace_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
+    if !problem.gases.iter().any(|(phase, ..)| phase == "SO2(g)") {
+        return None;
+    }
+    // Same constant-enthalpy van't Hoff convention as the HBr slice, so
+    // the two temperature clauses are shared rather than re-worded.
+    let temperature = if crate::aqueous_gases::temperature_covered(vessel.temperature.0) {
+        Phrase::bare(
+            "not-modeled.hbr-at-the-reference-temperature",
+            "This state is at the 25 °C reference temperature.",
+        )
+    } else {
+        Phrase::bare(
+            "not-modeled.hbr-away-from-the-reference-temperature",
+            "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+        )
+    };
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        Phrase::new(
+            "not-modeled.so2-finite-headspace",
+            "Sulfur dioxide in this sealed headspace is equilibrated with the solution using the Goldberg and Parker (1985) NBS values for its solubility and first dissociation, on the minteq.v4 route only. The solve speciates dissolved sulfur(IV) without turning it into sulfate or sulfide; those redox reactions are handled separately. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model, and an open vessel keeps its dissolved sulfur dioxide rather than losing it to the air.",
+            vec![("temperature".to_string(), Slot::phrase(temperature))],
+        ),
+    ))
+}
+
 fn redox_distribution(
     problem: &Problem,
     db_tag: &str,
@@ -10602,6 +10636,7 @@ impl PhreeqcEquilibrator {
         events.extend(reference_complex_boundary(vessel, &speciation));
         events.extend(silver_ammine_inventory_boundary(vessel, &speciation));
         events.extend(reactive_gas_boundary(vessel, problem));
+        events.extend(sulfur_dioxide_headspace_boundary(vessel, problem));
         // A pe nothing constrains is not a small pe, it is a number the
         // solver happened to leave behind.
         //
@@ -15301,5 +15336,62 @@ mod crystal_diagnostic_amount_contract {
                 format!("phreeqc-aqueous could not solve this state: mixed-crystal ownership: crystal-diagnostic-fixture: invalid amount {value}")
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod sulfur_dioxide_boundary_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    fn problem(gases: Vec<(String, String, f64)>) -> Problem {
+        Problem {
+            kgw: 0.1,
+            solvent_only: false,
+            clock_co2_applied_mol: 0.0,
+            totals: vec![("Sulfite".into(), 1e-3)],
+            phases: vec![],
+            gases,
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["Sulfite".into()],
+        }
+    }
+
+    fn reason_key(event: &Event) -> Option<&str> {
+        match event {
+            Event::NotYetModeled {
+                reason: Some(reason),
+                ..
+            } => Some(reason.key.as_str()),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn coupled_so2_headspace_emits_the_typed_learner_note() {
+        let vessel = Vessel::new(VesselId(0), "sealed");
+        let coupled = problem(vec![("SO2(g)".into(), "SO2".into(), 0.0)]);
+        let event = sulfur_dioxide_headspace_boundary(&vessel, &coupled)
+            .expect("a coupled SO2(g) headspace must carry its boundary note");
+        assert_eq!(reason_key(&event), Some("not-modeled.so2-finite-headspace"));
+        // HBr's note is not borrowed for SO2, and vice versa.
+        assert!(reactive_gas_boundary(&vessel, &coupled).is_none());
+        let english = match &event {
+            Event::NotYetModeled { what, .. } => what.clone(),
+            _ => unreachable!(),
+        };
+        assert!(english.contains("Goldberg and Parker"), "{english}");
+        assert!(!english.contains("{temperature}"), "{english}");
+    }
+
+    #[test]
+    fn no_so2_gas_component_means_no_note() {
+        let vessel = Vessel::new(VesselId(0), "open");
+        assert!(sulfur_dioxide_headspace_boundary(&vessel, &problem(vec![])).is_none());
+        let co2 = problem(vec![("CO2(g)".into(), "CO2".into(), 0.0)]);
+        assert!(sulfur_dioxide_headspace_boundary(&vessel, &co2).is_none());
     }
 }
