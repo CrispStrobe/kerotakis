@@ -1885,6 +1885,34 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
     Ok(events)
 }
 
+/// Book, on the step snapshot, the signed inventory change `after - before`
+/// whose heat this solver has already charged.
+fn book_paid_change(
+    start: &mut crate::vessel::StepStart,
+    before: &[crate::vessel::Portion],
+    after: &[crate::vessel::Portion],
+) {
+    let mut delta: Vec<(SpeciesId, Phase, f64)> = Vec::new();
+    let mut add = |species: &SpeciesId, phase: Phase, moles: f64| match delta
+        .iter_mut()
+        .find(|(s, p, _)| s == species && *p == phase)
+    {
+        Some((_, _, total)) => *total += moles,
+        None => delta.push((species.clone(), phase, moles)),
+    };
+    for portion in after {
+        add(&portion.species, portion.phase, portion.moles.0);
+    }
+    for portion in before {
+        add(&portion.species, portion.phase, -portion.moles.0);
+    }
+    for (species, phase, moles) in delta {
+        if moles != 0.0 && moles.is_finite() {
+            start.note_heat_paid(&species, phase, moles);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1944,33 +1972,5 @@ mod tests {
         assert!(!is_elemental_metal("S"));
         assert!(!is_elemental_metal("MgO"));
         assert!(!is_elemental_metal("Mg+2"));
-    }
-}
-
-/// Book, on the step snapshot, the signed inventory change `after - before`
-/// whose heat this solver has already charged.
-fn book_paid_change(
-    start: &mut crate::vessel::StepStart,
-    before: &[crate::vessel::Portion],
-    after: &[crate::vessel::Portion],
-) {
-    let mut delta: Vec<(SpeciesId, Phase, f64)> = Vec::new();
-    let mut add = |species: &SpeciesId, phase: Phase, moles: f64| match delta
-        .iter_mut()
-        .find(|(s, p, _)| s == species && *p == phase)
-    {
-        Some((_, _, total)) => *total += moles,
-        None => delta.push((species.clone(), phase, moles)),
-    };
-    for portion in after {
-        add(&portion.species, portion.phase, portion.moles.0);
-    }
-    for portion in before {
-        add(&portion.species, portion.phase, -portion.moles.0);
-    }
-    for (species, phase, moles) in delta {
-        if moles != 0.0 && moles.is_finite() {
-            start.note_heat_paid(&species, phase, moles);
-        }
     }
 }

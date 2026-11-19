@@ -2354,13 +2354,16 @@ mod tests {
     fn sodium_sulfide_books_reduced_sulfur_and_nothing_else_does() {
         match role("Na2S") {
             Some(DerivedRole::Dissolves(c)) => {
-                assert_eq!(c, vec![("S(-2)".to_string(), 1.0), ("Na".to_string(), 2.0)])
+                assert_eq!(
+                    *c,
+                    vec![("S(-2)".to_string(), 1.0), ("Na".to_string(), 2.0)]
+                )
             }
             other => panic!("Na2S role {other:?}"),
         }
         assert_eq!(booking_ion("S(-2)"), Some("HS-"));
         match role("HS-") {
-            Some(DerivedRole::Dissolves(c)) => assert_eq!(c, vec![("S(-2)".to_string(), 1.0)]),
+            Some(DerivedRole::Dissolves(c)) => assert_eq!(*c, vec![("S(-2)".to_string(), 1.0)]),
             other => panic!("HS- role {other:?}"),
         }
         assert!(!matches!(role("S"), Some(DerivedRole::Dissolves(_))));
