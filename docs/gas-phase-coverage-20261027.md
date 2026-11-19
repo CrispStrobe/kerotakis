@@ -100,8 +100,37 @@ Remaining gaps (not changed here; each needs reviewed data and closure controls)
   sulfur to pe (sulfate ⇄ sulfide) the same way unrestricted N2/O2 would nitrate room
   air; it needs a redox-isolated S(-2) capability before being added to
   `EQUILIBRIUM_GASES`. Pitzer has no reduced sulfur outside the uncoupled `H2Sg`.
-- `SO2(g)`, `HCl(g)`, `Cl2(g)`: no vendored USGS database defines the phase. They need a
+- `HCl(g)`, `Cl2(g)`: no vendored USGS database defines the phase. They need a
   reviewed Henry-law source (as HBr used Sander 2023) with an explicit standard-state
   conversion; `Cl2` also needs Cl(0)/hypochlorite redox ownership.
+- `SO2(g)` (reviewed 2026-11-19, refused on every route, pinned by
+  `aqueous_gases::tests::sulfur_dioxide_gas_is_refused_until_a_neutral_s_iv_slice_exists`).
+  A Henry constant alone is not sufficient, unlike the HBr case, because SO2 has nowhere
+  correct to dissolve:
+  - wateq4f.dat and minteq.v4.dat define sulfur only as `S(-2)` and `S(6)`; pitzer.dat
+    as sulfate. None defines `S(4)`, `SO2`, `H2SO3`, `HSO3-` or `SO3-2`.
+  - minteq.v4 carries the project's reviewed `Sulfite` pseudo-element (llnl borrow,
+    `Sulfite-2`, `H(Sulfite)-`, log K 7.2054), deliberately decoupled from sulfur redox.
+    It has no neutral dissolved SO2 and no first dissociation (the docstring states that
+    gap). A phase written `SO2 + H2O = H(Sulfite)- + H+` would need that missing pKa1 folded
+    into its log K, and its formula elements (S, O) would not balance the pseudo-element.
+  - Posing SO2 through `EQUILIBRIUM_GASES` makes the adapter note the bare element `S`
+    (`aqueous.rs`, supplied-gas branch), which on the redox-coupled routes speciates any
+    dissolved SO2 as sulfate/sulfide. That is the false conversion the `Sulfite`
+    pseudo-element exists to avoid.
+  - Ownership: `kerotakis-core::sulfur_iv` already owns SO2 (dissolved or in the vessel's
+    gas over liquid water) as a reductant pool; `volatility.rs` does not partition SO2.
+    A native SO2 phase must hand ownership over in one place, not add a second owner.
+  - **No `ATMOSPHERIC` SO2 entry.** Room air holds no SO2 at bench resolution (log p -12
+    would only add 1e-12-scale S(IV) to every open beaker), and an open-vessel reservoir
+    would pull SO2 out of the `sulfur_iv` pool with no rate. Open-vessel SO2 escape
+    belongs with the k_L seeping lane, not an infinite reservoir.
+  - Needed first (one reviewed slice, not a phase alone): a sourced neutral S(IV) species
+    and first dissociation coherent with the existing 7.2054 second constant (handoff
+    names Goldberg and Parker 1985, doi:10.6028/jres.090.024), then the Sander Henry
+    constant (Sander 2015 ACP 15:4399 or 2023 ACP 23:10901, SO2 entry, primary named there)
+    converted mol/(m3 Pa) -> mol/(kg atm) exactly as `sander-2023-hbr.dat`, with its own
+    temperature boundary event, then an `EQUILIBRIUM_GASES` entry keyed to the pseudo-element
+    and acid/base, sealed/open, sulfate and thiosulfate negative controls.
 - `NH3(g)` on pitzer: pitzer.dat carries no nitrogen; the refusal is moot because
   N(-3) never routes there.

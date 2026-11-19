@@ -47,6 +47,51 @@ mod tests {
         assert!(temperature_covered(298.15));
     }
 
+    /// SO2(g) is deliberately NOT part of this slice (2026-11-19 review,
+    /// docs/gas-phase-coverage-20261027.md "SO2(g)"). A Henry constant must
+    /// dissolve into the route's own neutral S(IV) species, and no routed
+    /// database has one: wateq4f, minteq.v4 and pitzer define sulfur only as
+    /// S(-2)/S(6), and minteq.v4's reviewed `Sulfite` pseudo-element carries
+    /// `Sulfite-2`/`H(Sulfite)-` but neither dissolved SO2 nor H2SO3. Posing
+    /// SO2 through `EQUILIBRIUM_GASES` would also book its sulfur as bare
+    /// `S`, which the redox-coupled routes would convert to sulfate. This
+    /// pins the typed boundary until a coherent gas/neutral/bisulfite slice
+    /// is reviewed; flipping any assertion here means that review happened.
+    #[test]
+    fn sulfur_dioxide_gas_is_refused_until_a_neutral_s_iv_slice_exists() {
+        for (route, database) in [
+            ("wateq4f", crate::databases::wateq4f()),
+            ("minteq.v4", crate::databases::minteq_v4()),
+            ("pitzer", crate::databases::pitzer()),
+        ] {
+            let index = crate::dbindex::DbIndex::parse(database);
+            assert!(!index.has_phase("SO2(g)"), "{route} gained SO2(g)");
+            assert!(!index.has_element("S(4)"), "{route} gained S(4)");
+            let text = String::from_utf8_lossy(database);
+            for token in text.split_whitespace() {
+                assert!(
+                    !matches!(token, "SO2" | "H2SO3" | "HSO3-" | "SO3-2" | "H2(Sulfite)"),
+                    "{route} now defines the S(IV) species {token}"
+                );
+            }
+        }
+        let minteq = crate::dbindex::DbIndex::parse(crate::databases::minteq_v4());
+        assert!(minteq.has_element("Sulfite"));
+        assert!(!crate::derived::EQUILIBRIUM_GASES
+            .iter()
+            .any(|(phase, species)| *phase == "SO2(g)" || *species == "SO2"));
+        assert!(!crate::derived::ATMOSPHERIC
+            .iter()
+            .any(|(phase, species, _)| *phase == "SO2(g)" || *species == "SO2"));
+        assert!(!crate::gas_phases::headspace_coupled("SO2(g)"));
+        let rows = crate::gas_phases::coverage();
+        let so2: Vec<_> = rows.iter().filter(|row| row.gas == "SO2(g)").collect();
+        assert_eq!(so2.len(), 3);
+        assert!(so2
+            .iter()
+            .all(|row| row.status == crate::gas_phases::GasStatus::Refused));
+    }
+
     #[test]
     fn every_routed_database_defines_the_same_ammonia_gas_phase() {
         let wateq = crate::dbindex::DbIndex::parse(crate::databases::wateq4f());

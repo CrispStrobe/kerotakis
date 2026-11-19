@@ -86,6 +86,12 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      compatibility and H/O/protonation reconstruction before import. Include acid/base, dose,
      temperature, sealed/open and sulfate/thiosulfate negative controls. No data import is yet
      accepted; numerical convergence alone earns no new original qualification.
+     2026-11-19 (branch fix/so2-gas-slice-20261119): reviewed again and REFUSED on all three
+     routes, now pinned by `aqueous_gases::tests::sulfur_dioxide_gas_is_refused_until_a_neutral_s_iv_slice_exists`
+     (not yet executed). No phase, no `EQUILIBRIUM_GASES` entry (would book bare `S` and let
+     redox routes turn SO2 into sulfate), no `ATMOSPHERIC` entry (justified in
+     docs/gas-phase-coverage-20261027.md). Next step is the neutral S(IV) + pKa1 slice on the
+     minteq `Sulfite` pseudo-element; only then the Sander Henry constant.
    - NH3: far too soluble to bubble, so no fizz rule applies; its open-vessel escape is lane 3's rate
      (`volatility.rs` is deliberately silent over an open vessel).
    The fizz test itself can then generalise from carbonic acid's pK1 to "the molecular gas is the
