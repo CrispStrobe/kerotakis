@@ -122,7 +122,7 @@ mod tests {
         assert!((index.species_delta_h_kj["H2(Sulfite)"] - basis_dh).abs() < 1e-9);
         assert!(index.has_element("Sulfite"));
         let basis_log_k = ROUTED_LOG_K_BISULFITE - first;
-        assert!((basis_log_k - 9.0624396554686752).abs() < 1e-12);
+        assert!((basis_log_k - 9.062_439_655_468_674).abs() < 1e-12);
         assert!(String::from_utf8_lossy(EXTENSION).contains("log_k 9.0624396554686752"));
     }
 

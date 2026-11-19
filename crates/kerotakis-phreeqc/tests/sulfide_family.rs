@@ -116,10 +116,20 @@ fn acidifying_concentrated_sulfide_vents_only_the_supersaturated_hydrogen_sulfid
         "add-step H2S vent {vented} mol, expected about 0.040\n{:#?}",
         steps[2]
     );
+    // The balance is against the sulfide actually added: 3.902 g at the
+    // registry molar mass is 0.0500003 mol, not the rounded 0.05.
+    let added: f64 = steps[1]
+        .iter()
+        .filter_map(|event| match event {
+            Event::Added { species, moles, .. } if species.0 == "Na2S" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    assert!((added - 0.05).abs() < 1e-5, "added {added} mol Na2S");
     let kept = moles(&bench, "HS-");
     assert!(
-        (kept + vented - 0.05).abs() < 1e-8,
-        "sulfur is conserved between solution and the vented gas: {kept} + {vented}"
+        (kept + vented - added).abs() < 1e-8,
+        "sulfur is conserved between solution and the vented gas: {kept} + {vented} vs {added}"
     );
     assert!(moles(&bench, "SO4-2") < 1e-12);
     assert!(noted(&steps[2], "not-modeled.sulfide-open-air"));

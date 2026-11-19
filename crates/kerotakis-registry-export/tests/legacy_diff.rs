@@ -290,10 +290,11 @@ fn every_legacy_field_is_present_and_unchanged() {
     assert_eq!(
         document.model_parameters.len(),
         REGISTRY.len()
-            // Eight source-authored analytical identities have no dissolution
+            // Nine source-authored analytical identities (the aqueous basis,
+            // now including the HS- sulfide booking ion) have no dissolution
             // observation. Export must not turn an absent parameter into a
             // fictitious legacy measurement of zero.
-            - 8
+            - 9
             + REGISTRY
                 .iter()
                 .filter(|species| species.colour.is_some())

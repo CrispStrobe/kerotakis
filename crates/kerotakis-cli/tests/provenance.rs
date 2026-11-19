@@ -41,8 +41,10 @@ fn repository_source_manifest_passes_the_live_gate() {
     // complexes, Sander HBr uptake, and USCG solvent properties. Keep this
     // independent approval count explicit rather than deriving it from the
     // manifest under test and accidentally approving lane changes.
-    assert!(stdout.contains("14 sources valid"), "{stdout}");
-    assert!(stdout.contains("11 distributed"), "{stdout}");
+    // Goldberg & Parker (1985, J. Res. NBS 90) adds the distributed S(IV)
+    // aqueous/SO2(g) slice: 15 sources, 12 distributed.
+    assert!(stdout.contains("15 sources valid"), "{stdout}");
+    assert!(stdout.contains("12 distributed"), "{stdout}");
 }
 
 #[test]

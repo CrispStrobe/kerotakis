@@ -2130,7 +2130,39 @@ impl PhreeqcEquilibrator {
                     solver: "phreeqc-aqueous".to_string(),
                     detail: format!("could not reset reused IPhreeqc state: {e}"),
                 })?;
-            engine.run(&native_input).map_err(|e| {
+            let mut outcome = engine.run(&native_input);
+            // `pH 7 charge` makes pH the charge-balancing unknown; 7 is only
+            // Newton's starting estimate. A strongly hydrolysing salt (Na2S:
+            // S2-/HS- at pH ~12.5) can leave that start outside the basin of
+            // convergence for the initial solution. The answer is still set
+            // by charge balance, so on that specific refusal retry the same
+            // question from alkaline and then acidic starting estimates.
+            // Converged inputs never reach this, so nothing else moves.
+            let initial_refused = outcome.as_ref().is_err_and(|first| {
+                first
+                    .to_string()
+                    .contains("Model failed to converge for initial solution")
+            });
+            if initial_refused && input.contains(INITIAL_PH_ESTIMATE_LINE) {
+                for start in ALTERNATE_INITIAL_PH_LINES {
+                    let retry = crate::native_namespace::input(
+                        namespace,
+                        &input.replacen(INITIAL_PH_ESTIMATE_LINE, start, 1),
+                    );
+                    engine
+                        .run(RESET_NUMBERED_REACTANTS)
+                        .map_err(|e| SolveError::NotConverged {
+                            reason: Some(Box::new(AqueousReason::ReusedEngineResetFailed.phrase())),
+                            solver: "phreeqc-aqueous".to_string(),
+                            detail: format!("could not reset reused IPhreeqc state: {e}"),
+                        })?;
+                    if engine.run(&retry).is_ok() {
+                        outcome = Ok(());
+                        break;
+                    }
+                }
+            }
+            outcome.map_err(|e| {
                 // The input is the whole question; when the engine refuses
                 // it, being able to see it is the difference between a
                 // diagnosis and a guess.
@@ -13105,6 +13137,15 @@ fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
     }
     out
 }
+
+/// The charge-balanced pH line every built `SOLUTION` carries; 7 is only
+/// the starting estimate for the charge-balance unknown.
+const INITIAL_PH_ESTIMATE_LINE: &str = "    pH        7  charge\n";
+/// Starting estimates tried, in order, when the initial solution refuses
+/// to converge from pH 7 (see `run_raw`).
+#[cfg(feature = "engine")]
+const ALTERNATE_INITIAL_PH_LINES: [&str; 2] =
+    ["    pH        11  charge\n", "    pH        3  charge\n"];
 
 fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     build_input_at(vessel, problem, db_tag, None)
