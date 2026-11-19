@@ -1312,6 +1312,14 @@ pub struct StepStart {
     pub free_hydroxide: f64,
     #[serde(default)]
     pub free_proton: f64,
+    /// Signed inventory changes (`after - before`, gas that left counted
+    /// as `Phase::Gas` out) whose reaction heat an earlier solver in this
+    /// step has ALREADY charged to the vessel — e.g. the displacement
+    /// solver's metal + acid swap. The aqueous tail's whole-step balance
+    /// uses this only to decide whether a decline is a real gap or a change
+    /// someone else already paid for; it never charges these again.
+    #[serde(default)]
+    pub heat_paid: Vec<(SpeciesId, Phase, Moles)>,
 }
 
 impl StepStart {
@@ -1323,7 +1331,34 @@ impl StepStart {
             gas_out: Vec::new(),
             free_hydroxide: vessel.free_hydroxide,
             free_proton: vessel.free_proton,
+            heat_paid: Vec::new(),
         }
+    }
+
+    /// Book a change whose heat an earlier owner in this step has charged.
+    pub fn note_heat_paid(&mut self, species: &SpeciesId, phase: Phase, moles: f64) {
+        match self
+            .heat_paid
+            .iter_mut()
+            .find(|(s, p, _)| s == species && *p == phase)
+        {
+            Some((_, _, total)) => total.0 += moles,
+            None => self.heat_paid.push((species.clone(), phase, Moles(moles))),
+        }
+    }
+
+    /// The snapshot's ledger with every already-paid change applied: the
+    /// state from which the REMAINING, unpaid part of the step begins.
+    pub fn contents_after_paid(&self) -> Vec<Portion> {
+        let mut contents = self.contents.clone();
+        for (species, phase, moles) in &self.heat_paid {
+            contents.push(Portion {
+                species: species.clone(),
+                moles: *moles,
+                phase: *phase,
+            });
+        }
+        contents
     }
 
     /// Book an outward gas transfer (negative moles for gas taken back in).
