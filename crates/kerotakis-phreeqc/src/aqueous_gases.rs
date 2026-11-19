@@ -20,6 +20,53 @@ pub fn append_to(database: &[u8]) -> Vec<u8> {
     bytes
 }
 
+/// Reviewed neutral S(IV) + SO2(g) slice for minteq.v4's `Sulfite`
+/// pseudo-element (Goldberg and Parker 1985, Table 9). DATA ONLY: it is
+/// deliberately NOT appended to any route yet. Wiring it needs, in one
+/// change: `derived::PROTONATION_SPLITS` mapping `H2(Sulfite)` to the
+/// registry's aqueous `SO2`, an `EQUILIBRIUM_GASES`-style capability that
+/// books the `Sulfite` element (not bare `S`) and removes the one water
+/// per mole the gas formula carries, and a single owner decision between
+/// the native solve and `kerotakis-core::sulfur_iv`. Appending the species
+/// alone would let readback drop the neutral fraction of every acidified
+/// sulfite vessel. See docs/gas-phase-coverage-20261027.md.
+pub mod sulfur_dioxide {
+    pub const SOURCE_ID: &str = "goldberg-parker-1985-so2";
+    pub const EXTENSION: &[u8] =
+        include_bytes!("../../../data/thermo/goldberg-parker-1985-so2.dat");
+    /// Table 9 Gibbs energies, kJ/mol, 298.15 K, 1 bar.
+    pub const DG_FIRST_DISSOCIATION_KJ: f64 = 10.60;
+    pub const DG_SECOND_DISSOCIATION_KJ: f64 = 40.94;
+    pub const DG_HENRY_KJ: f64 = -0.51;
+    pub const DG_GAS_TO_BISULFITE_KJ: f64 = 10.09;
+    pub const DH_FIRST_DISSOCIATION_KJ: f64 = -17.80;
+    pub const DH_HENRY_KJ: f64 = -26.97;
+    /// The registry route's existing second constant (llnl borrow).
+    pub const ROUTED_LOG_K_BISULFITE: f64 = 7.2054;
+
+    pub fn log_k(delta_g_kj: f64) -> f64 {
+        let gas_constant = 8.31446261815324;
+        -delta_g_kj * 1000.0
+            / (gas_constant * super::REFERENCE_TEMPERATURE_K * std::f64::consts::LN_10)
+    }
+
+    /// Henry constant, mol kg-1 atm-1 (source is per bar).
+    pub fn log_henry_atm() -> f64 {
+        log_k(DG_HENRY_KJ) + 1.01325f64.log10()
+    }
+
+    /// The slice inserted before `END` of an already-extended minteq.v4.
+    pub fn append_to(database: &[u8]) -> Vec<u8> {
+        let at = crate::databases::find_last_end(database).unwrap_or(database.len());
+        let mut bytes = Vec::with_capacity(database.len() + EXTENSION.len() + 1);
+        bytes.extend_from_slice(&database[..at]);
+        bytes.push(b'\n');
+        bytes.extend_from_slice(EXTENSION);
+        bytes.extend_from_slice(&database[at..]);
+        bytes
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -47,18 +94,39 @@ mod tests {
         assert!(temperature_covered(298.15));
     }
 
-    /// SO2(g) is deliberately NOT part of this slice (2026-11-19 review,
-    /// docs/gas-phase-coverage-20261027.md "SO2(g)"). A Henry constant must
-    /// dissolve into the route's own neutral S(IV) species, and no routed
-    /// database has one: wateq4f, minteq.v4 and pitzer define sulfur only as
-    /// S(-2)/S(6), and minteq.v4's reviewed `Sulfite` pseudo-element carries
-    /// `Sulfite-2`/`H(Sulfite)-` but neither dissolved SO2 nor H2SO3. Posing
-    /// SO2 through `EQUILIBRIUM_GASES` would also book its sulfur as bare
-    /// `S`, which the redox-coupled routes would convert to sulfate. This
-    /// pins the typed boundary until a coherent gas/neutral/bisulfite slice
-    /// is reviewed; flipping any assertion here means that review happened.
     #[test]
-    fn sulfur_dioxide_gas_is_refused_until_a_neutral_s_iv_slice_exists() {
+    fn sulfur_dioxide_slice_matches_goldberg_parker_table_9() {
+        use super::sulfur_dioxide::*;
+        let first = log_k(DG_FIRST_DISSOCIATION_KJ);
+        assert!((first + 1.8570396554686752).abs() < 1e-12);
+        assert!((log_henry_atm() - 0.09506474678061971).abs() < 1e-12);
+        // Process (E) is (A) + (D) in the paper's own table.
+        let gas_to_bisulfite = log_k(DG_GAS_TO_BISULFITE_KJ);
+        assert!((first + log_k(DG_HENRY_KJ) - gas_to_bisulfite).abs() < 1e-12);
+        // The routed second constant is consistent within Table 9's
+        // +-0.20 kJ/mol (0.035 log units), so it is kept, not replaced.
+        let second = -log_k(DG_SECOND_DISSOCIATION_KJ);
+        assert!((second - 7.172377688196939).abs() < 1e-9);
+        assert!((ROUTED_LOG_K_BISULFITE - second).abs() < log_k(-0.20));
+
+        let extended = append_to(crate::databases::minteq_v4());
+        let index = crate::dbindex::DbIndex::parse(&extended);
+        let phase = &index.phases["SO2(g)"];
+        assert!((phase.log_k.unwrap() - log_henry_atm()).abs() < 1e-12);
+        assert!((phase.delta_h_kj.unwrap() - DH_HENRY_KJ).abs() < 1e-12);
+        assert!((index.species_delta_h_kj["H2(Sulfite)"] + DH_FIRST_DISSOCIATION_KJ).abs() < 1e-12);
+        assert!(index.has_element("Sulfite"));
+    }
+
+    /// The reviewed SO2 slice ([`sulfur_dioxide`]) exists as data but no
+    /// route carries it yet: wateq4f and pitzer have no S(IV) at all (typed
+    /// refusal, permanently until a sulfur-redox-isolated S(IV) exists
+    /// there), and minteq.v4 waits for the readback/booking/ownership
+    /// wiring. Posing SO2 through `EQUILIBRIUM_GASES` today would book bare
+    /// `S`, which the redox-coupled routes turn into sulfate. Wiring the
+    /// slice must flip the minteq.v4 assertions here deliberately.
+    #[test]
+    fn sulfur_dioxide_slice_is_not_routed_until_wired() {
         for (route, database) in [
             ("wateq4f", crate::databases::wateq4f()),
             ("minteq.v4", crate::databases::minteq_v4()),

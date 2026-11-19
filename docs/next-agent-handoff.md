@@ -87,11 +87,18 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      temperature, sealed/open and sulfate/thiosulfate negative controls. No data import is yet
      accepted; numerical convergence alone earns no new original qualification.
      2026-11-19 (branch fix/so2-gas-slice-20261119): reviewed again and REFUSED on all three
-     routes, now pinned by `aqueous_gases::tests::sulfur_dioxide_gas_is_refused_until_a_neutral_s_iv_slice_exists`
+     routes, now pinned by `aqueous_gases::tests::sulfur_dioxide_slice_is_not_routed_until_wired`
      (not yet executed). No phase, no `EQUILIBRIUM_GASES` entry (would book bare `S` and let
      redox routes turn SO2 into sulfate), no `ATMOSPHERIC` entry (justified in
      docs/gas-phase-coverage-20261027.md). Next step is the neutral S(IV) + pKa1 slice on the
      minteq `Sulfite` pseudo-element; only then the Sander Henry constant.
+     Update same day: that slice is now reviewed as DATA from Goldberg and Parker (1985) Table 9
+     p. 353 (Henry constant taken from the same table instead of Sander, one coherent source),
+     `data/thermo/goldberg-parker-1985-so2.dat`, NOT appended to any route. Remaining: readback
+     split for `H2(Sulfite)`, Sulfite-booked gas capability with water correction, and the
+     native-vs-`sulfur_iv` owner decision (see gas-phase-coverage doc). Expected once wired:
+     0.01 mol Na2SO3 + 0.03 mol HCl in 0.1 kg water, sealed 0.5 L headspace, 25 C, ideal
+     activities: pSO2 ~0.062 atm, 1.27e-3 mol in gas, pH ~0.96.
    - NH3: far too soluble to bubble, so no fizz rule applies; its open-vessel escape is lane 3's rate
      (`volatility.rs` is deliberately silent over an open vessel).
    The fizz test itself can then generalise from carbonic acid's pK1 to "the molecular gas is the

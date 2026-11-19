@@ -104,7 +104,7 @@ Remaining gaps (not changed here; each needs reviewed data and closure controls)
   reviewed Henry-law source (as HBr used Sander 2023) with an explicit standard-state
   conversion; `Cl2` also needs Cl(0)/hypochlorite redox ownership.
 - `SO2(g)` (reviewed 2026-11-19, refused on every route, pinned by
-  `aqueous_gases::tests::sulfur_dioxide_gas_is_refused_until_a_neutral_s_iv_slice_exists`).
+  `aqueous_gases::tests::sulfur_dioxide_slice_is_not_routed_until_wired`).
   A Henry constant alone is not sufficient, unlike the HBr case, because SO2 has nowhere
   correct to dissolve:
   - wateq4f.dat and minteq.v4.dat define sulfur only as `S(-2)` and `S(6)`; pitzer.dat
@@ -125,6 +125,22 @@ Remaining gaps (not changed here; each needs reviewed data and closure controls)
     would only add 1e-12-scale S(IV) to every open beaker), and an open-vessel reservoir
     would pull SO2 out of the `sulfur_iv` pool with no rate. Open-vessel SO2 escape
     belongs with the k_L seeping lane, not an infinite reservoir.
+  - **Data slice reviewed 2026-11-19, NOT routed**: `data/thermo/goldberg-parker-1985-so2.dat`,
+    `aqueous_gases::sulfur_dioxide`, test `sulfur_dioxide_slice_matches_goldberg_parker_table_9`.
+    Goldberg and Parker, J. Res. NBS 90 (1985) 341, Table 9, p. 353 (298.15 K, 1 bar):
+    (A) SO2(aq)+H2O = H+ + HSO3-, dG 10.60, dH -17.80 kJ/mol -> log K -1.8570;
+    (D) SO2(g) = SO2(aq), dG -0.51, dH -26.97 -> log K 0.0893 per bar, 0.0951 per atm;
+    (B) dG 40.94 -> log K -7.1724, vs routed 7.2054: 0.033 apart, inside the +-0.20 kJ/mol
+    (0.035 log) uncertainty, so the routed constant is kept. (E) = (A)+(D) checks exactly.
+    Written as `H+ + H(Sulfite)- = H2(Sulfite)` (log K +1.8570, dH +17.80) and phase `SO2(g)`
+    with formula `H2(Sulfite)` (Table 10 footnote c: H2SO3 = SO2(aq)+H2O). Molal basis, so
+    no density conversion; bar->atm only.
+  - Remaining before routing (one change): `PROTONATION_SPLITS` third member `H2(Sulfite)` ->
+    registry aqueous `SO2` (otherwise readback drops the neutral fraction); the capability
+    must book `Sulfite`, not `S`, and remove the one H2O per mole that the `H2(Sulfite)` gas
+    formula carries; and a single owner decision between the native solve and
+    `sulfur_iv` (which today holds headspace SO2 over water as a reductant). That handover
+    could not be made unambiguous by reading alone, so it was not wired.
   - Needed first (one reviewed slice, not a phase alone): a sourced neutral S(IV) species
     and first dissociation coherent with the existing 7.2054 second constant (handoff
     names Goldberg and Parker 1985, doi:10.6028/jres.090.024), then the Sander Henry

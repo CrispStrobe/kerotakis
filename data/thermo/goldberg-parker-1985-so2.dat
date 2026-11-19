@@ -1,0 +1,31 @@
+# Neutral S(IV) and SO2(g) on the minteq.v4 `Sulfite` pseudo-element.
+# Source: R. N. Goldberg and V. B. Parker, "Thermodynamics of solution of
+# SO2(g) in water and of aqueous sulfur dioxide solutions", J. Res. Natl.
+# Bur. Stand. 90 (1985) 341-358, doi:10.6028/jres.090.024 (NBS, US
+# government work). Table 9, p. 353, "Recommended values for the processes
+# involving sulfur(IV)-oxygen species at 298.15 K", standard state 1 bar:
+#   (A) SO2(aq) + H2O(l) = H+ + HSO3-   dG 10.60+-0.10, dH -17.80+-0.40 kJ/mol
+#   (D) SO2(g) = SO2(aq)                dG -0.51+-0.10, dH -26.97+-0.30 kJ/mol
+#   (B) HSO3- = H+ + SO3-2              dG 40.94+-0.20 (log K -7.1724; NOT
+#       taken: the existing llnl 7.2054 differs by 0.033, inside the 0.035
+#       log-unit width of the +-0.20 kJ/mol uncertainty).
+# Changes: log K = -dG/(RT ln10), R 8.31446261815324, T 298.15 K.
+# (A) reversed onto the pseudo-element: H2(Sulfite) is H2SO3, which Table 10
+# footnote c defines as SO2(aq) + H2O(l), so (A) is H2SO3 = H+ + HSO3-.
+# (D) converted from mol kg-1 bar-1 to mol kg-1 atm-1 (+log10 1.01325);
+# molality basis already, so no density conversion (contrast HBr).
+# The gas is written with formula H2(Sulfite), i.e. SO2.H2O in this
+# database's element accounting (the pseudo-element hides three O); a
+# caller posing n mol SO2(g) therefore adds n mol H2O that must be removed
+# from the solvent it hands the engine. Water activity is taken as 1 in
+# the gas reaction. Constant-enthalpy van't Hoff away from 298.15 K; the
+# paper's dCp terms are not carried.
+SOLUTION_SPECIES
+    H+ + H(Sulfite)- = H2(Sulfite)
+        log_k 1.8570396554686752
+        -delta_H 17.80 kJ/mol
+PHASES
+SO2(g)
+    H2(Sulfite) = H2(Sulfite)
+    log_k 0.09506474678061971
+    delta_h -26.97 kJ/mol
