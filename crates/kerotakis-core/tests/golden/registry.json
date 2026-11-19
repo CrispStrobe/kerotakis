@@ -6624,5 +6624,45 @@
       "melting_k": 1516.7,
       "source": "Copper(I) oxide melting boundary 1516.7 K in the NASA thermochemical model documented by NASA TP-2002-211556 (a public domain United States Government report), from the unchanged vendored Apache-2.0 NASA CEA thermo.inp Cu2O(cr) and Cu2O(L) records (both cite King,1973 p60). The solid upper endpoint equals the liquid lower endpoint; their computed standard Gibbs energies agree to 0.001 J/mol at that temperature. This is the transition of the NASA thermochemical model, not a new measurement or validation of impure samples. Read 2026-11-14; no polynomial is extrapolated to select the transition."
     }
+  },
+  {
+    "appearance": "colourless",
+    "colour": null,
+    "density": 1.856,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "Na2S",
+    "heat_capacity": 82.80052821809429,
+    "heat_capacity_polys": [],
+    "inchikey": "GRVFOGOEDUUMBP-UHFFFAOYSA-N",
+    "key": "Na2S",
+    "magnetic": false,
+    "molar_mass": 78.0395,
+    "name": "sodium sulfide",
+    "provenance": "Sodium sulfide, Na2S, the ANHYDROUS salt. Identity verified 2026-11-19 through PubChem PUG REST CID 14804: InChIKey GRVFOGOEDUUMBP-UHFFFAOYSA-N, disodium;sulfide. WHY THE ANHYDROUS SALT AND NOT THE NONAHYDRATE THE TRADE SELLS: this registry keys a hydrate only under its own name (epsomite, chalcanthite), every number below describes the anhydrous solid (NASA CEA Na2S(cr), density 1.856), and Na2S.9H2O (CAS 1313-84-4, about 240.18 g/mol) is a different solid with its own density and solubility curve that is not added here. Molar mass 78.0395 g/mol = 2 x 22.98976928 + 32.06, IUPAC/CIAAW 2021 standard atomic weights (sulfur at its conventional value). Heat capacity 82.80052821809429 J/(mol.K) is the vendored Apache-2.0 NASA CEA thermo.inp Na2S(cr) record (first interval 298.15-700 K, reference Chase,1998 pp1667-9, the NIST-JANAF tables, 4th ed.) evaluated at 298.15 K with R = 8.31446261815324 J/(mol.K): arithmetic on that record, not a separate measurement. Density 1.856 g/mL at 68 F: U.S. Coast Guard, Chemical Hazard Response Information System (CHRIS), Commandant Instruction 16465.12C (1999), a United States Government work, as quoted by the PubChem HSDB record for CID 14804, read 2026-11-19; the same record quotes the Merck Index (12th ed., 1996, p. 1483) at 1.856 at 14 C. Appearance colourless: Merck Index 'cubic crystals or granules' and NFPA Fire Protection Guide on Hazardous Materials (7th ed., 1978) 'clear crystals', both as quoted by HSDB; technical grades are yellow or brick-red lumps or flakes (NFPA; Hawley's Condensed Chemical Dictionary, 12th ed., 1993) from polysulfide and oxidation impurities, which this pure-compound row does not represent. AQUEOUS SOLUBILITY IS RECORDED HERE AND DELIBERATELY NOT SHIPPED as a bounded-dissolution parameter: 8.1 (-9 C), 12.4 (0 C), 18.6 (20 C), 29.0 (40 C), 35.7 (48 C), 39.0 (50 C) g per 100 g water, Merck Index as quoted by HSDB. The solid in equilibrium with the saturated solution below about 48 C is a hydrate, so capping the anhydrous key with these figures would repeat the hydrate trap that keeps Na2SO4 unshipped; bench doses (0.05 mol is 3.9 g per 100 mL) lie well below them. Not claimed: melting point (the NASA model's liquid boundary is 1445 K), dissolution enthalpy, flame colour, tint. In water the salt books as sulfide, S(-2), which the native component namespace keeps as its own redox component; its slow air oxidation is not modelled. Hazards (corrosive base, toxic in contact with skin, a reducing agent, releases hydrogen sulfide with acid) are screened in kerotakis-safety after ILO/WHO ICSC 1047.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": null,
+    "colour": null,
+    "density": 1.0,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "HS-",
+    "heat_capacity": 0.0,
+    "heat_capacity_polys": [],
+    "inchikey": "",
+    "key": "HS-",
+    "magnetic": false,
+    "molar_mass": 33.068,
+    "name": "hydrosulfide ion",
+    "provenance": "Kerotakis analytical aqueous basis: formula stoichiometry and existing registry atomic mass basis. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. No equilibrium or kinetic constants introduced.",
+    "spectrum_bands": null,
+    "standard_phase": "aqueous"
   }
 ]

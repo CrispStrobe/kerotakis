@@ -53,7 +53,41 @@ pub struct DerivedPhase {
 /// Gas phases an open vessel exchanges, with registry identity and log10
 /// atmospheric partial pressure. Physical constants, not chemistry the
 /// databases know.
-pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[("CO2(g)", "CO2", -3.408)];
+pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[
+    ("CO2(g)", "CO2", -3.408),
+    // Room air holds no hydrogen sulfide at bench resolution. log10 p = -12
+    // atm is a numerical stand-in for "absent", not a measured abundance:
+    // it makes the open boundary a sink only. The row is admitted solely
+    // when the vessel holds reduced sulfur (`atmospheric_gate`), never for
+    // sulfate, sulfite or thiosulfate.
+    ("H2S(g)", "hydrogen_sulfide", -12.0),
+];
+
+/// The valence-tagged component an `ATMOSPHERIC` row requires, where its
+/// gas formula alone would name the wrong pool. `H2S` parses to bare S, but
+/// sulfate books `S(6)` and the native namespace keeps every sulfur state
+/// a separate conserved component (`redox_isolation`): a hydrogen sulfide
+/// sink offered to a sulfate solution could only ever see zero.
+pub fn atmospheric_gate(phase: &str) -> Option<&'static str> {
+    match phase {
+        "H2S(g)" => Some("S(-2)"),
+        _ => None,
+    }
+}
+
+/// Whether an `ATMOSPHERIC` row applies to a problem holding `elements`
+/// (the partition's component names, valence-tagged where booked so).
+pub fn atmospheric_row_applies(phase: &str, elements: &[String]) -> bool {
+    if let Some(tag) = atmospheric_gate(phase) {
+        return elements.iter().any(|e| e == tag);
+    }
+    let gas_formula = phase.trim_end_matches("(g)");
+    let required = parse_formula(gas_formula).unwrap_or_default();
+    required
+        .keys()
+        .filter(|el| *el != "O" && *el != "H")
+        .all(|el| elements.iter().any(|e| e == el))
+}
 
 /// Reviewed gas/liquid equilibrium capabilities, independent of an ambient
 /// reservoir. A finite supplied gas is not an infinite atmospheric source.
@@ -294,6 +328,16 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // writes `S4O6-2`. No protonated form exists in any vendored database
     // (llnl.dat line 1306 defines only the dianion), so no split.
     ("Tetrathionate", "S4O6-2"),
+    // Reduced sulfur. wateq4f masters `S(-2)` as `H2S`, which is not a
+    // registry key (the gas is `hydrogen_sulfide`), and minteq.v4 as
+    // `HS-`; without this row the booking would depend on which database
+    // the derivation happens to read first. `HS-` is the aqueous-basis ion
+    // added with sodium sulfide. No protonation split yet, on the
+    // thiosulfate precedent: the solved element total is authoritative and
+    // the pH carries the H2S/HS- proportion. That is coarser than sulfite's
+    // split (pKa1 about 7 sits in the bench range), and naming the neutral
+    // H2S(aq) share needs its own aqueous registry key first.
+    ("S(-2)", "HS-"),
     // Sulfite's master species in the borrowed block is `Sulfite-2` for
     // the same PHREEQC reason; the registry writes `SO3-2`. UNLIKE
     // thiosulfate this row does NOT stand alone - there is a
@@ -1467,6 +1511,72 @@ fn extract_sulfite(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     Some(1.0)
 }
 
+/// Reduced sulfur, S(-2), by an exact charge-balance rule - never by a
+/// residue rule.
+///
+/// The tempting rule "sulfur without oxygen is sulfide" is wrong twice on
+/// this bench's own shelf: elemental sulfur `S` would enter solution as
+/// sulfide out of nothing, and pyrite `FeS2` - a DISulfide, iron(II) with
+/// `S2-2` - would be booked as two sulfides against one ferrous iron, which
+/// is four negative charges against two positive ones. So bare `S` stays
+/// off `RESIDUE_OK` and `oxyanion_groups()` gains no `S` row.
+///
+/// What identifies a monosulfide is that its own formula pays for every
+/// sulfur's two negative charges: `sum(cation charge) + H == 2 * S`, with
+/// the cation charge being the charge this lab books that cation as
+/// (`cation_charge`, the same statement `BOOKING_OVERRIDES` makes for iron
+/// and copper). Accepted by that test, and by nothing looser:
+///
+/// - `H2S` (two protons, no cation), `NaHS` (one cation charge, one proton);
+/// - `Na2S`, `K2S`, `FeS`, `ZnS`, `CuS`, `PbS`, `MnS`, `Ag2S` and the
+///   database monosulfide minerals of the same shape.
+///
+/// Refused, by name: elemental `S` (no charge paid), `FeS2`/`Na2S2`
+/// polysulfides (half paid), `Cu2S` (the lab books copper as Cu(2), so
+/// two coppers would pay four: chalcocite is copper(I) and has no Cu(1)
+/// booking here), anything carrying oxygen (a sulfoxy anion, which the
+/// sulfite/thiosulfate/tetrathionate/`SO4` rules own), carbon, nitrogen
+/// (`SCN` is claimed earlier by its own rule) or a halide, and any route
+/// set that has no `S(-2)` master species at all. Ions are not counted
+/// here: the formula parser drops charge, so `S-2` and elemental `S` have
+/// the same counts; a registry ion reaches its element through the
+/// database-master branch in `build`, not through this rule.
+///
+/// The counts are consumed only on success; a refusal leaves them intact.
+fn extract_sulfide(counts: &mut BTreeMap<String, f64>, indexes: [&DbIndex; 3]) -> Option<f64> {
+    let sulfur = counts.get("S").copied().unwrap_or(0.0);
+    if sulfur <= 0.0 || sulfur.fract() != 0.0 {
+        return None;
+    }
+    if !indexes.iter().any(|idx| idx.has_element("S(-2)")) {
+        return None;
+    }
+    if counts
+        .keys()
+        .any(|el| el != "S" && el != "H" && !CATION_RESIDUE.contains(&el.as_str()))
+    {
+        return None;
+    }
+    let hydrogen = counts.get("H").copied().unwrap_or(0.0);
+    let mut paid = hydrogen;
+    for (el, n) in counts.iter() {
+        if el == "S" || el == "H" {
+            continue;
+        }
+        let q = cation_charge(el, indexes)?;
+        if q <= 0.0 {
+            return None;
+        }
+        paid += q * n;
+    }
+    if (paid - 2.0 * sulfur).abs() > 1e-9 {
+        return None;
+    }
+    counts.remove("S");
+    counts.remove("H");
+    Some(sulfur)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
@@ -1487,6 +1597,13 @@ fn contribution_from_counts(
 
     if let Some(n) = extract_sulfite(&mut counts) {
         contrib.push(("Sulfite".to_string(), n));
+    }
+
+    // Reduced sulfur, by charge balance (see `extract_sulfide`). Runs
+    // after the sulfoxy rules but cannot compete with them: it refuses any
+    // formula carrying oxygen.
+    if let Some(n) = extract_sulfide(&mut counts, indexes) {
+        contrib.push(("S(-2)".to_string(), n));
     }
 
     for (group_formula, element) in oxyanion_groups() {
@@ -2170,5 +2287,131 @@ mod tests {
             "10^{log_p} is {as_atm} atm but the gas-exchange clock drives \
              at {clock} atm; they are the same constant"
         );
+    }
+
+    fn sulfide_contribution(formula: &str) -> Option<Vec<(String, f64)>> {
+        let d = derived();
+        let indexes = [&d.wateq4f, &d.minteq, &d.pitzer];
+        derive_contribution(formula, indexes)
+    }
+
+    /// Reduced sulfur reaches solution only through an explicit,
+    /// charge-balanced monosulfide formula. Elemental sulfur, pyrite and
+    /// polysulfides stay refused, and the sulfoxy rules keep their own
+    /// formulas. See `extract_sulfide`.
+    #[test]
+    fn monosulfides_map_to_s_minus_2_and_nothing_else_does() {
+        assert!(index_for("wateq4f").has_element("S(-2)"));
+        assert!(index_for("minteq.v4").has_element("S(-2)"));
+        assert_eq!(
+            sulfide_contribution("H2S"),
+            Some(vec![("S(-2)".into(), 1.0)])
+        );
+        assert_eq!(
+            sulfide_contribution("Na2S"),
+            Some(vec![("S(-2)".into(), 1.0), ("Na".into(), 2.0)])
+        );
+        assert_eq!(
+            sulfide_contribution("NaHS"),
+            Some(vec![("S(-2)".into(), 1.0), ("Na".into(), 1.0)])
+        );
+        // Redox-active cations keep the state the lab books them as.
+        assert_eq!(
+            sulfide_contribution("FeS"),
+            Some(vec![("S(-2)".into(), 1.0), ("Fe(2)".into(), 1.0)])
+        );
+        for formula in ["ZnS", "PbS", "CuS"] {
+            let c = sulfide_contribution(formula).unwrap_or_else(|| panic!("{formula}"));
+            assert!(c.contains(&("S(-2)".into(), 1.0)), "{formula}: {c:?}");
+        }
+        // Refused: elemental sulfur, disulfides, a copper(I) sulfide the
+        // lab cannot book, and sulfoxy salts that other rules own.
+        for formula in ["S", "S8", "FeS2", "Na2S2", "Cu2S"] {
+            let c = sulfide_contribution(formula);
+            assert!(
+                !c.iter().flatten().any(|(el, _)| el == "S(-2)"),
+                "{formula} must not book sulfide: {c:?}"
+            );
+        }
+        assert_eq!(sulfide_contribution("S"), None);
+        assert_eq!(sulfide_contribution("FeS2"), None);
+        assert_eq!(
+            sulfide_contribution("Na2SO4"),
+            Some(vec![("S(6)".into(), 1.0), ("Na".into(), 2.0)])
+        );
+        assert_eq!(
+            sulfide_contribution("Na2SO3"),
+            Some(vec![("Sulfite".into(), 1.0), ("Na".into(), 2.0)])
+        );
+    }
+
+    /// Sodium sulfide is the shelf's sulfide source: the anhydrous salt
+    /// books one S(-2) and two sodiums, the aqueous-basis ion `HS-` is the
+    /// S(-2) booking ion and books as S(-2) itself, and nothing else on the
+    /// shelf books reduced sulfur (elemental sulfur, sulfate, sulfite,
+    /// thiosulfate and the gas keep their own roles or none).
+    #[test]
+    fn sodium_sulfide_books_reduced_sulfur_and_nothing_else_does() {
+        match role("Na2S") {
+            Some(DerivedRole::Dissolves(c)) => {
+                assert_eq!(c, vec![("S(-2)".to_string(), 1.0), ("Na".to_string(), 2.0)])
+            }
+            other => panic!("Na2S role {other:?}"),
+        }
+        assert_eq!(booking_ion("S(-2)"), Some("HS-"));
+        match role("HS-") {
+            Some(DerivedRole::Dissolves(c)) => assert_eq!(c, vec![("S(-2)".to_string(), 1.0)]),
+            other => panic!("HS- role {other:?}"),
+        }
+        assert!(!matches!(role("S"), Some(DerivedRole::Dissolves(_))));
+        assert!(role("hydrogen_sulfide").is_none());
+        for s in species::REGISTRY {
+            if matches!(s.key, "Na2S" | "HS-") {
+                continue;
+            }
+            if let Some(DerivedRole::Dissolves(c))
+            | Some(DerivedRole::Mineral { elements: c, .. }) = role(s.key)
+            {
+                assert!(
+                    !c.iter().any(|(el, _)| el == "S(-2)"),
+                    "{} books S(-2) unexpectedly",
+                    s.key
+                );
+            }
+        }
+    }
+
+    /// The open-boundary hydrogen sulfide sink keys on reduced sulfur only.
+    /// Sulfate (`S(6)`), sulfite and thiosulfate never admit it; carbon
+    /// dioxide's ungated row is unchanged. Not executed in the authoring
+    /// lane (no compiler run); expected to pass by reading.
+    #[test]
+    fn hydrogen_sulfide_room_sink_is_gated_on_reduced_sulfur_only() {
+        let own = |names: &[&str]| names.iter().map(|n| n.to_string()).collect::<Vec<_>>();
+        let (_, key, log_p) = ATMOSPHERIC
+            .iter()
+            .find(|(phase, ..)| *phase == "H2S(g)")
+            .expect("H2S(g) row");
+        assert_eq!(*key, "hydrogen_sulfide");
+        assert_eq!(*log_p, -12.0);
+        let gas = species::lookup_key(key).expect("registry hydrogen sulfide");
+        assert_eq!(gas.formula, "H2S");
+        assert!(atmospheric_row_applies("H2S(g)", &own(&["Na", "S(-2)"])));
+        for other in [
+            own(&["Na", "S(6)"]),
+            own(&["Na", "Sulfite"]),
+            own(&["Na", "Thiosulfate"]),
+            own(&["S"]),
+            own(&[]),
+        ] {
+            assert!(!atmospheric_row_applies("H2S(g)", &other), "{other:?}");
+        }
+        assert!(atmospheric_row_applies("CO2(g)", &own(&["C"])));
+        assert!(!atmospheric_row_applies("CO2(g)", &own(&["Na"])));
+        assert_eq!(atmospheric_gate("CO2(g)"), None);
+        // Both sulfide routes carry the native phase the row names.
+        for tag in ["wateq4f", "minteq.v4"] {
+            assert!(index_for(tag).has_phase("H2S(g)"), "{tag}");
+        }
     }
 }

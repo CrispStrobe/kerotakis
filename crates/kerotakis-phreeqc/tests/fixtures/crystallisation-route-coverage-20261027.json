@@ -966,6 +966,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "Na2S",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Na2S",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Na2S",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Na2S2O3",
     "route": "wateq4f",
     "class": "refused",

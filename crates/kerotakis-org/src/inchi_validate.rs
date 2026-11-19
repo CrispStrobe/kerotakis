@@ -114,6 +114,8 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("NaOCl", "[Na+].[O-]Cl"),
     ("NaHCO3", "[Na+].OC([O-])=O"),
     ("Na2CO3", "[Na+].[Na+].[O-]C([O-])=O"),
+    // Sodium sulfide: PubChem CID 14804, StdInChI 1S/2Na.S/q2*+1;-2.
+    ("Na2S", "[Na+].[Na+].[S-2]"),
     ("Na2SO3", "[Na+].[Na+].[O-]S([O-])=O"),
     ("Na2S2O3", "[Na+].[Na+].[O-]S(=O)(=O)[S-]"),
     // The anion the bench now books dissolved hypo as, and the

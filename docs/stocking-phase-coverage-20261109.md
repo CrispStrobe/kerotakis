@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 58, not_condensed 76.
+Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, not_condensed 77.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -102,6 +102,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 58, n
 | no_melting_point | MnO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NH3 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | NH4Cl | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Na2S | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Na2S2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Na2SO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NaHCO3 | solid | — | — | no | solid | solid | solid |
@@ -166,6 +167,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 58, n
 | not_condensed | HCO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HClO | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HPO4-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | HS- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HSO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | I- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | K+ | aqueous | — | — | no | aqueous | aqueous | aqueous |

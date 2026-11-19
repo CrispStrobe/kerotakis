@@ -2,8 +2,8 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 40,
-    "neutral-refused": 148,
+    "ion-stays-aqueous": 41,
+    "neutral-refused": 149,
     "partitions": 9
   },
   "cases": [
@@ -123,6 +123,11 @@
     },
     {
       "species": "HPO4-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "HS-",
       "class": "ion-stays-aqueous",
       "basis": null
     },
@@ -543,6 +548,11 @@
     },
     {
       "species": "Na2CO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na2S",
       "class": "neutral-refused",
       "basis": null
     },

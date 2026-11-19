@@ -671,6 +671,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Hydrogensulfid",
+      "canonical": "HS-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hydrogensulfid-Ion",
+      "canonical": "HS-",
+      "source": "name:de"
+    },
+    {
       "alias": "Hydrogensulfit",
       "canonical": "HSO3-",
       "source": "ion-name:de"
@@ -1053,6 +1063,11 @@
     {
       "alias": "Natriumsulfat",
       "canonical": "Na2SO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumsulfid",
+      "canonical": "Na2S",
       "source": "name:de"
     },
     {
@@ -2296,6 +2311,21 @@
       "source": "name:fr"
     },
     {
+      "alias": "hydrogénosulfure",
+      "canonical": "HS-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydrosulfide",
+      "canonical": "HS-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hydrosulfide ion",
+      "canonical": "HS-",
+      "source": "name:en"
+    },
+    {
       "alias": "hydroxide",
       "canonical": "OH-",
       "source": "ion-name:en"
@@ -2518,6 +2548,11 @@
     {
       "alias": "ion hydrogénosulfite",
       "canonical": "HSO3-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydrogénosulfure",
+      "canonical": "HS-",
       "source": "name:fr"
     },
     {
@@ -3311,6 +3346,11 @@
       "source": "name:en"
     },
     {
+      "alias": "sodium sulfide",
+      "canonical": "Na2S",
+      "source": "name:en"
+    },
+    {
       "alias": "sodium sulfite",
       "canonical": "Na2SO3",
       "source": "name:en"
@@ -3433,6 +3473,11 @@
     {
       "alias": "sulfure d'hydrogène",
       "canonical": "hydrogen_sulfide",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfure de sodium",
+      "canonical": "Na2S",
       "source": "name:fr"
     },
     {

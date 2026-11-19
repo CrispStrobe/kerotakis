@@ -24,10 +24,10 @@
   ],
   "counts": {
     "missing_absorptivity": 39,
-    "outside_method": 110,
+    "outside_method": 111,
     "parameterised": 7,
     "parameterised_ph": 4,
-    "unclassified": 37
+    "unclassified": 38
   },
   "species": [
     {
@@ -428,6 +428,11 @@
     {
       "species": "Na2CO3",
       "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na2S",
+      "appearance": "colourless",
       "class": "outside_method"
     },
     {
@@ -907,6 +912,11 @@
     },
     {
       "species": "HPO4-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "HS-",
       "appearance": null,
       "class": "unclassified"
     },

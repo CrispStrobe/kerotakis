@@ -1703,6 +1703,15 @@
       "retrieved": "2026-11-14"
     },
     {
+      "id": "kerotakis/na2s-reviewed-properties-v1",
+      "citation": "Sodium sulfide, Na2S, the ANHYDROUS salt. Identity verified 2026-11-19 through PubChem PUG REST CID 14804: InChIKey GRVFOGOEDUUMBP-UHFFFAOYSA-N, disodium;sulfide. WHY THE ANHYDROUS SALT AND NOT THE NONAHYDRATE THE TRADE SELLS: this registry keys a hydrate only under its own name (epsomite, chalcanthite), every number below describes the anhydrous solid (NASA CEA Na2S(cr), density 1.856), and Na2S.9H2O (CAS 1313-84-4, about 240.18 g/mol) is a different solid with its own density and solubility curve that is not added here. Molar mass 78.0395 g/mol = 2 x 22.98976928 + 32.06, IUPAC/CIAAW 2021 standard atomic weights (sulfur at its conventional value). Heat capacity 82.80052821809429 J/(mol.K) is the vendored Apache-2.0 NASA CEA thermo.inp Na2S(cr) record (first interval 298.15-700 K, reference Chase,1998 pp1667-9, the NIST-JANAF tables, 4th ed.) evaluated at 298.15 K with R = 8.31446261815324 J/(mol.K): arithmetic on that record, not a separate measurement. Density 1.856 g/mL at 68 F: U.S. Coast Guard, Chemical Hazard Response Information System (CHRIS), Commandant Instruction 16465.12C (1999), a United States Government work, as quoted by the PubChem HSDB record for CID 14804, read 2026-11-19; the same record quotes the Merck Index (12th ed., 1996, p. 1483) at 1.856 at 14 C. Appearance colourless: Merck Index 'cubic crystals or granules' and NFPA Fire Protection Guide on Hazardous Materials (7th ed., 1978) 'clear crystals', both as quoted by HSDB; technical grades are yellow or brick-red lumps or flakes (NFPA; Hawley's Condensed Chemical Dictionary, 12th ed., 1993) from polysulfide and oxidation impurities, which this pure-compound row does not represent. AQUEOUS SOLUBILITY IS RECORDED HERE AND DELIBERATELY NOT SHIPPED as a bounded-dissolution parameter: 8.1 (-9 C), 12.4 (0 C), 18.6 (20 C), 29.0 (40 C), 35.7 (48 C), 39.0 (50 C) g per 100 g water, Merck Index as quoted by HSDB. The solid in equilibrium with the saturated solution below about 48 C is a hydrate, so capping the anhydrous key with these figures would repeat the hydrate trap that keeps Na2SO4 unshipped; bench doses (0.05 mol is 3.9 g per 100 mL) lie well below them. Not claimed: melting point (the NASA model's liquid boundary is 1445 K), dissolution enthalpy, flame colour, tint. In water the salt books as sulfide, S(-2), which the native component namespace keeps as its own redox component; its slow air oxidation is not modelled. Hazards (corrosive base, toxic in contact with skin, a reducing agent, releases hydrogen sulfide with acid) are screened in kerotakis-safety after ILO/WHO ICSC 1047.",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "data/registry/registry-source-v1.json",
+      "revision": "Na2S reviewed properties v1",
+      "retrieved": "2026-11-19"
+    },
+    {
       "id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals.",
       "licence": "CC0-1.0",
@@ -5778,6 +5787,36 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Na2S",
+      "canonical_key": "GRVFOGOEDUUMBP-UHFFFAOYSA-N",
+      "name": "sodium sulfide",
+      "identifiers": {
+        "inchikey": "GRVFOGOEDUUMBP-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "HS-",
+      "canonical_key": "HS-",
+      "name": "hydrosulfide ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
         }
       }
     }
@@ -26361,6 +26400,190 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Na2S",
+      "species_id": "Na2S",
+      "formula": "Na2S",
+      "elements": [
+        {
+          "element": "Na",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/na2s-reviewed-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/na2s-reviewed-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/HS-",
+      "species_id": "HS-",
+      "formula": "HS-",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
         }
       }
     }
@@ -50403,6 +50626,186 @@
           "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
+    },
+    {
+      "id": "molar-mass/Na2S",
+      "species_id": "Na2S",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 78.0395,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Na2S",
+      "species_id": "Na2S",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 82.80052821809429,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Na2S",
+      "species_id": "Na2S",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.856,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/HS-",
+      "species_id": "HS-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 33.068,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HS-",
+      "species_id": "HS-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/HS-",
+      "species_id": "HS-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -60568,6 +60971,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Na2S",
+      "species_id": "Na2S",
+      "phase": "solid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -70761,6 +71180,39 @@
           "kind": "exact"
         },
         "source_id": "kerotakis/cu2o-reviewed-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Na2S",
+      "subject": {
+        "kind": "species",
+        "id": "Na2S"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/na2s-reviewed-properties-v1",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"

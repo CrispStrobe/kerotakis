@@ -89,7 +89,12 @@ fn the_tranche_only_grows_deliberately() {
         //
         // 115 -> 117 for `I-` and `S4O6-2`, the iodide/thiosulfate lane:
         // both keys fetched from PubChem (CID 30165, CID 4657547).
-        117,
+        //
+        // 117 -> 118 for `Na2S`, the reduced-sulfur lane: key
+        // GRVFOGOEDUUMBP-UHFFFAOYSA-N fetched from PubChem (CID 14804).
+        // Its booking ion `HS-` is an aqueous-basis row with no InChIKey,
+        // as `SCN-` is, so it joins no tranche.
+        118,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );
