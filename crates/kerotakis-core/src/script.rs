@@ -613,7 +613,7 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
         _ => return None,
     };
     let mut selected = None;
-    for &(alias, canonical) in species::CURATED_INPUT_ALIASES {
+    for (alias, canonical) in species::curated_input_aliases() {
         let tokens: Vec<&str> = alias.split_whitespace().collect();
         let end = position + tokens.len();
         if words.get(position..end) == Some(tokens.as_slice())
