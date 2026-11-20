@@ -145,6 +145,14 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
    it gives NaOH 1827, KCl 1748, CaCl2 2206, BaCl2 2299, CaO 4469, MgO 3781, SiO2 3655 K. Those
    disagree badly with handbook values for NaOH, BaCl2 and CaO, whose vapours are dimers or dissociate,
    so a monomer crossing is the wrong question. Boiling points still need a primary measurement.
+   PVC and unsintered PTFE latent heat are closed by policy, not missing: `melting_range::REFUSED_FUSION`
+   states why no single grade heat is honest (PVC degrades instead of melting; virgin PTFE pays a
+   first-melt heat its own melt never repays), and neither is a registry species.
+   Maltose/maltotriose split (searched again 2026-11-20): no percentage table found for salivary or
+   pancreatic amylase. Whelan (1960, 'The action patterns of alpha-amylases', via AGRIS) gives the
+   pattern only: maltose + maltotriose first, then maltotriose slowly to maltose + glucose, so any
+   split is time-dependent. A fixed split would be wrong; keep the typed maltose-equivalent note until
+   a time-resolved product series is sourced.
 5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
    packs, metals in acid, displacement, AgCl/BaSO4/PbI2, limewater, vinegar + soda, chalk + acid,
    permanganate colour, ethanol burning, boiling) and fix what is off, generically.
