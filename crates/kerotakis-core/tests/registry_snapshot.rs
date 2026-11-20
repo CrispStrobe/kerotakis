@@ -35,6 +35,22 @@ fn registry_matches_the_golden_snapshot() {
     if current.trim_end() != expected.trim_end() {
         let actual = golden.with_extension("actual.json");
         fs::write(&actual, &current).unwrap();
+        // Name the first drifted line, so a hosted run without the
+        // `.actual.json` artifact still says what changed.
+        let first = current
+            .lines()
+            .zip(expected.lines())
+            .enumerate()
+            .find(|(_, (a, b))| a != b)
+            .map(|(i, (a, b))| format!("line {}: actual {a:?}, golden {b:?}", i + 1))
+            .unwrap_or_else(|| {
+                format!(
+                    "lengths differ: actual {} lines, golden {}",
+                    current.lines().count(),
+                    expected.lines().count()
+                )
+            });
+        eprintln!("{first}");
         panic!(
             "registry drifted from the golden snapshot — diff {} against {}",
             golden.display(),

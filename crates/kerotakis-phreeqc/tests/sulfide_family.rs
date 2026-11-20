@@ -96,7 +96,12 @@ fn an_open_beaker_of_sodium_sulfide_keeps_its_sulfide() {
         moles(&bench, "H2S(aq)") < 0.01 * sulfide,
         "an alkaline sulfide solution holds almost no H2S(aq)"
     );
-    assert!(moles(&bench, "HS-") > 0.5 * sulfide, "mostly HS-");
+    let ion = moles(&bench, "HS-");
+    let bare = moles(&bench, "S-2");
+    assert!(
+        ion + bare > 0.99 * sulfide && ion > 0.0,
+        "alkaline sulfide is HS- and S-2: HS- {ion}, S-2 {bare} of {sulfide}"
+    );
     assert!(moles(&bench, "Na2S") < 1e-12, "the salt dissolves");
     assert!(
         moles(&bench, "SO4-2") < 1e-12,
