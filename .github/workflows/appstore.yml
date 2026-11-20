@@ -38,7 +38,10 @@ env:
 jobs:
   build:
     name: ${{ matrix.platform }}
-    runs-on: macos-latest
+    # ITMS-90725: from April 2027 App Store Connect only accepts builds made
+    # with the iOS 27 SDK (Xcode 27). macos-latest still ships Xcode 26.x, so
+    # the store builds run on GitHub's xcode-27 image (arm64, Xcode 27.x).
+    runs-on: xcode-27
     strategy:
       fail-fast: false
       matrix:
@@ -89,25 +92,21 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         run: python3 -m pip install --quiet --disable-pip-version-check cryptography
 
-      # Build with the newest Xcode on the runner, not the image default.
-      # App Store Connect flagged 0.1.6 (ITMS-90725) for the iOS 26.5 SDK:
-      # from April 2027 uploads must be built with the iOS 27 SDK (Xcode 27+).
-      # Warn rather than fail while no Xcode 27 is installed, so a release
-      # before the deadline is not blocked by the runner image.
-      - name: Select the newest installed Xcode
+      # Build with the newest Xcode 27, and fail before signing if the SDK
+      # is older. App Store Connect flagged 0.1.6 (ITMS-90725) for the iOS
+      # 26.5 SDK: from April 2027 uploads must be built with the 27 SDK.
+      - name: Select the newest Xcode 27 and require the 27 SDK
         if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
-          ls -d /Applications/Xcode*.app | sed 's/^/   /'
-          newest=$(ls -d /Applications/Xcode_*.app 2>/dev/null \
-            | grep -v -i beta | sort -V | tail -1 || true)
-          [ -n "$newest" ] || newest=$(xcode-select -p | sed 's#/Contents/Developer##')
-          sudo xcode-select -s "$newest/Contents/Developer"
+          XC=$(ls -d /Applications/Xcode_27*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC/Contents/Developer"
           xcodebuild -version
-          sdk=$(xcrun --sdk iphoneos --show-sdk-version)
-          echo "iOS SDK $sdk"
+          if [ "${{ matrix.platform }}" = "ios" ]; then sdkname=iphoneos; else sdkname=macosx; fi
+          sdk=$(xcrun --sdk "$sdkname" --show-sdk-version)
+          echo "$sdkname SDK $sdk"
           if [ "${sdk%%.*}" -lt 27 ]; then
-            echo "::warning::Built with iOS SDK $sdk; App Store Connect requires the iOS 27 SDK (Xcode 27) from April 2027 (ITMS-90725)."
+            echo "::error::$sdkname SDK $sdk < 27 (ITMS-90725)"; exit 1
           fi
 
       - name: Install the app's dependencies
@@ -133,7 +132,10 @@ jobs:
         run: |
           set -euo pipefail
           KEYCHAIN="$RUNNER_TEMP/kerotakis.keychain-db"
-          PASSWORD="$(uuidgen)"
+          # Empty password: on the xcode-27 image unlock-keychain rejects the
+          # password the keychain was just created with (runner-images#14837).
+          # The keychain lives in RUNNER_TEMP on a single-use VM.
+          PASSWORD=""
           security create-keychain -p "$PASSWORD" "$KEYCHAIN"
           security set-keychain-settings -lut 21600 "$KEYCHAIN"
           security unlock-keychain -p "$PASSWORD" "$KEYCHAIN"
