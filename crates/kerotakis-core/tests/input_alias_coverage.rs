@@ -357,3 +357,18 @@ fn no_shipped_mechanism_species_is_an_alias_or_rewritten() {
         }
     }
 }
+
+/// Every formula a shipped mechanism pack renames to a registry key is the
+/// textbook spelling of that species, and resolves to it: the pack already
+/// means exactly that substance by it.
+#[test]
+fn mechanism_formulas_resolve_to_the_species_the_packs_mean() {
+    for (formula, key) in kerotakis_core::kinetics::packs::REGISTRY_NAMES {
+        assert_eq!(
+            species::lookup_key(formula).map(|data| data.key),
+            Some(*key),
+            "{formula} should resolve to {key}"
+        );
+        assert_eq!(SpeciesId::new(*formula).0, *key, "{formula} canonicalises");
+    }
+}
