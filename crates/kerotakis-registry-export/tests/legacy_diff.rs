@@ -329,8 +329,16 @@ fn every_legacy_field_is_present_and_unchanged() {
 fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
     if matches!(
         species.key,
-        "H+" | "CO2(aq)" | "CO3-2" | "HPO4-2" | "PO4-3" | "NO2-" | "KSCN" | "SCN-" | "HS-"
-            | "S-2" | "H2S(aq)"
+        "H+" | "CO2(aq)"
+            | "CO3-2"
+            | "HPO4-2"
+            | "PO4-3"
+            | "NO2-"
+            | "KSCN"
+            | "SCN-"
+            | "HS-"
+            | "S-2"
+            | "H2S(aq)"
     ) {
         let identity = document
             .identities

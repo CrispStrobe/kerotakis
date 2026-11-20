@@ -179,6 +179,9 @@ fn reduced_sulfur_survives_a_second_step_in_every_split_member() {
     );
     let neutral = moles(&bench, "H2S(aq)");
     let ion = moles(&bench, "HS-");
-    assert!(neutral > 0.05 * total && ion > 0.05 * total, "{neutral} / {ion}");
+    assert!(
+        neutral > 0.05 * total && ion > 0.05 * total,
+        "{neutral} / {ion}"
+    );
     assert!(moles(&bench, "SO4-2") < 1e-12);
 }

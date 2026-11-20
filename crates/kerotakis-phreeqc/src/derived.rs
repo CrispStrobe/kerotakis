@@ -1068,7 +1068,10 @@ impl Derived {
             // entered twice and refuses outright.
             if let Some((_, element)) = ION_ELEMENT_STATES.iter().find(|(k, _)| *k == s.key) {
                 if indexes.iter().any(|idx| idx.has_element(element)) {
-                    roles.insert(s.key, DerivedRole::Dissolves(vec![(element.to_string(), 1.0)]));
+                    roles.insert(
+                        s.key,
+                        DerivedRole::Dissolves(vec![(element.to_string(), 1.0)]),
+                    );
                 }
                 continue;
             }
