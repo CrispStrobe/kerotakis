@@ -139,6 +139,12 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 4. **Unsourced data.** FeCl2+ absorptivity (figure-only), starch–iodine blue value, maltose/maltotriose
    split, PVC and unsintered PTFE latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2,
    BaCl2, KCl, CaO, MgO, SiO2, Pb(NO3)2, AgNO3; NBS Circular 500 page images).
+   Checked 2026-11-20: NIST-JANAF gives these salts' and oxides' melting points (NaOH 596, KCl 1044,
+   CaCl2 1045, BaCl2 1235, CaO 3200, MgO 3105, SiO2 1696 K) but no normal boiling point, and WebBook
+   has no phase-change data for NaOH. Deriving T_b from JANAF liquid vs monomer-gas ΔfG is NOT usable:
+   it gives NaOH 1827, KCl 1748, CaCl2 2206, BaCl2 2299, CaO 4469, MgO 3781, SiO2 3655 K. Those
+   disagree badly with handbook values for NaOH, BaCl2 and CaO, whose vapours are dimers or dissociate,
+   so a monomer crossing is the wrong question. Boiling points still need a primary measurement.
 5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
    packs, metals in acid, displacement, AgCl/BaSO4/PbI2, limewater, vinegar + soda, chalk + acid,
    permanganate colour, ethanol burning, boiling) and fix what is off, generically.
