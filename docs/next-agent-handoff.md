@@ -108,6 +108,13 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      pH 12.5 of an Na2S solution) while minteq.v4 has -17.3 (about 0.002 %). The two routes disagree by
      4.4 log units on the same equilibrium, so the split needs a registry `S-2` ion AND a reviewed
      decision on the second constant (route-dependent answer, or one sourced value) before landing.
+     Review 2026-11-20 ([h2s-split-and-fizz-design-20261120.md](h2s-split-and-fizz-design-20261120.md)):
+     the constant is NOT a blocker (each route speciates with its own, as every split does). Blockers:
+     (1) the neutral share has no re-posable key: `hydrogen_sulfide` has no dissolution role, and giving
+     it one re-opens the deferred gas-dose problem (no H2S clock, no S(-2) headspace admission); the
+     alternative is a new `H2S(aq)` key and a decision on its safety/strong-reserve relation;
+     (2) adding `S-2` touches generator-checked files (golden registry, coverage JSON/MD) that must be
+     regenerated, not hand-edited. Sub-saturation H2S fizz depends on (1); design in the same doc.
      **Fourth pass (branch fix/safety-notes-20261119, untested):** safety rule
      `acid-sulfide-h2s` (Danger; new `Sulfide` group on Na2S/HS-; ICSC 0165; en/de/fr) DONE.
      The `hydrogen_sulfide` -> S(-2) booking was evaluated and deliberately NOT added: it needs
@@ -159,6 +166,13 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
    pattern only: maltose + maltotriose first, then maltotriose slowly to maltose + glucose, so any
    split is time-dependent. A fixed split would be wrong; keep the typed maltose-equivalent note until
    a time-resolved product series is sourced.
+   FeCl2+ visible absorptivity (searched 2026-11-20): Liu et al. 2006 (Chem. Geol. 231, 326,
+   doi:10.1016/j.chemgeo.2006.02.005) covers 200-500 nm only, per-species spectra in Fig. 7, no table;
+   Byrne & Kester 1981 (doi:10.1007/BF00652780) is UV only. Open lead: Connick & Coppel 1959 report
+   (UNT digital library), molar extinction section, not yet read. No band value above 450 nm is sourced.
+   Starch-iodine (searched 2026-11-20): AMYLO.01 and ISO 6647-2 calibrate A(620 nm) per laboratory and
+   publish no absorptivity; Fonslick & Khan 1989 and Pesek & Silaghi-Dumitrescu 2024
+   (doi:10.3390/molecules29030641) give band position and stoichiometry, no epsilon.
 5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
    packs, metals in acid, displacement, AgCl/BaSO4/PbI2, limewater, vinegar + soda, chalk + acid,
    permanganate colour, ethanol burning, boiling) and fix what is off, generically.
