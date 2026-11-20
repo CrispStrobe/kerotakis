@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 42, neutral-refused 150, partitions 9.
+Counts: ion-stays-aqueous 42, neutral-refused 155, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -72,6 +72,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 150, partitions 9.
 | neutral-refused | AgI | — |
 | neutral-refused | AgNO3 | — |
 | neutral-refused | Al | — |
+| neutral-refused | Al2O3 | — |
 | neutral-refused | Ba(OH)2 | — |
 | neutral-refused | BaCO3 | — |
 | neutral-refused | BaCl2 | — |
@@ -88,6 +89,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 150, partitions 9.
 | neutral-refused | Cl2 | — |
 | neutral-refused | Cu | — |
 | neutral-refused | Cu(OH)2 | — |
+| neutral-refused | Cu2(OH)2CO3 | — |
 | neutral-refused | Cu2O | — |
 | neutral-refused | CuO | — |
 | neutral-refused | CuSO4 | — |
@@ -117,6 +119,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 150, partitions 9.
 | neutral-refused | KSCN | — |
 | neutral-refused | Mg | — |
 | neutral-refused | Mg(OH)2 | — |
+| neutral-refused | MgCO3 | — |
 | neutral-refused | MgO | — |
 | neutral-refused | MgSO4 | — |
 | neutral-refused | MnO2 | — |
@@ -156,6 +159,8 @@ Counts: ion-stays-aqueous 42, neutral-refused 150, partitions 9.
 | neutral-refused | SiO2 | — |
 | neutral-refused | Zn | — |
 | neutral-refused | Zn(OH)2 | — |
+| neutral-refused | ZnCO3 | — |
+| neutral-refused | ZnO | — |
 | neutral-refused | ZnSO4 | — |
 | neutral-refused | activated_charcoal | — |
 | neutral-refused | amylase | — |

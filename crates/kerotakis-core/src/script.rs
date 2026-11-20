@@ -939,6 +939,20 @@ const TITRATE_USAGE_FORM: &str = "titrate <vessel> <titrant> [<c>M] <step><mL|L>
 /// two halves; the message now names both, and offers the closest thing it
 /// actually holds.
 pub fn unknown_ingredient(name: &str) -> Refusal {
+    // "Copper carbonate" on a school shelf is basic copper carbonate,
+    // Cu2(OH)2CO3 (malachite). Neutral CuCO3 is not that powder: NBS
+    // NSRDS-NBS 30 (Stern & Weise 1969) records that its decomposition
+    // pressures have never been measured, and the bench has no data for it.
+    // Silently reading `CuCO3` as malachite would be wrong by a factor of
+    // two in copper for any amount given in moles, so the spelling is
+    // refused with the substance it almost certainly means named.
+    if name == "CuCO3" {
+        return Refusal::new(
+            "error.unknown-ingredient-basic-copper-carbonate",
+            "unknown species or material '{name}': the green 'copper carbonate' of a school shelf is basic copper carbonate, Cu2(OH)2CO3 (malachite), which this bench has as 'malachite' — one formula unit of it holds two copper atoms, so convert an amount in moles before using it",
+        )
+        .with("name", name);
+    }
     match nearest_ingredient(name) {
         Some(hit) => Refusal::new(
             "error.unknown-ingredient-did-you-mean",

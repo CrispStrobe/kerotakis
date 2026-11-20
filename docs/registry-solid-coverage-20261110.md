@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
+Counts: bookable-unclaimed 135, declined 12, registry-solid 50, unbookable 384.
 
 ## Matched registry solids
 
@@ -34,6 +34,7 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | `AgBr` | AgBr | minteq.v4:`Bromyrite`, wateq4f:`Bromyrite` |
 | `AgCl` | AgCl | minteq.v4:`Cerargyrite`, wateq4f:`Cerargyrite` |
 | `AgI` | AgI | minteq.v4:`Iodyrite`, wateq4f:`Iodyrite` |
+| `Al2O3` | Al2O3 | minteq.v4:`Al2O3` |
 | `BaCO3` | BaCO3 | minteq.v4:`Witherite`, wateq4f:`Witherite` |
 | `BaSO4` | BaSO4 | minteq.v4:`Barite`, pitzer:`Barite`, wateq4f:`Barite` |
 | `Ca(OH)2` | Ca(OH)2 | minteq.v4:`Portlandite`, pitzer:`Portlandite`, wateq4f:`Portlandite` |
@@ -42,6 +43,7 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | `CaO` | CaO | minteq.v4:`Lime` |
 | `Cu` | Cu | minteq.v4:`Cumetal`, wateq4f:`CuMetal` |
 | `Cu(OH)2` | Cu(OH)2 | minteq.v4:`Cu(OH)2`, wateq4f:`Cu(OH)2` |
+| `Cu2(OH)2CO3` | Cu2(OH)2CO3 | minteq.v4:`Malachite`, wateq4f:`Malachite` |
 | `Cu2O` | Cu2O | minteq.v4:`Cuprite`, wateq4f:`Cuprite` |
 | `CuO` | CuO | minteq.v4:`Tenorite`, wateq4f:`Tenorite` |
 | `CuSO4` | CuSO4 | minteq.v4:`CuSO4`, wateq4f:`CuSO4` |
@@ -50,6 +52,7 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | `Fe2O3` | Fe2O3 | minteq.v4:`Hematite`, minteq.v4:`Maghemite`, wateq4f:`Hematite`, wateq4f:`Maghemite` |
 | `KCl` | KCl | pitzer:`Sylvite` |
 | `Mg(OH)2` | Mg(OH)2 | minteq.v4:`Brucite`, minteq.v4:`Mg(OH)2(active)`, pitzer:`Brucite`, wateq4f:`Brucite` |
+| `MgCO3` | MgCO3 | minteq.v4:`Magnesite`, pitzer:`Magnesite`, wateq4f:`Magnesite` |
 | `MgO` | MgO | minteq.v4:`Periclase` |
 | `MnO2` | MnO2 | minteq.v4:`Birnessite`, minteq.v4:`Nsutite`, minteq.v4:`Pyrolusite`, wateq4f:`Birnessite`, wateq4f:`Nsutite`, wateq4f:`Pyrolusite` |
 | `Na2SO4` | Na2SO4 | minteq.v4:`Thenardite`, pitzer:`Thenardite`, wateq4f:`Thenardite` |
@@ -63,6 +66,8 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | `SiO2` | SiO2 | minteq.v4:`Chalcedony`, minteq.v4:`Cristobalite`, minteq.v4:`Quartz`, minteq.v4:`SiO2(am-gel)`, minteq.v4:`SiO2(am-ppt)`, pitzer:`Chalcedony`, pitzer:`Quartz`, pitzer:`SiO2(a)`, wateq4f:`Chalcedony`, wateq4f:`Cristobalite`, wateq4f:`Quartz`, wateq4f:`SiO2(a)`, wateq4f:`Silicagel` |
 | `Zn` | Zn | minteq.v4:`Znmetal`, wateq4f:`ZnMetal` |
 | `Zn(OH)2` | Zn(OH)2 | minteq.v4:`Zn(OH)2`, minteq.v4:`Zn(OH)2(am)`, minteq.v4:`Zn(OH)2(beta)`, minteq.v4:`Zn(OH)2(epsilon)`, minteq.v4:`Zn(OH)2(gamma)`, wateq4f:`Zn(OH)2-a`, wateq4f:`Zn(OH)2-b`, wateq4f:`Zn(OH)2-c`, wateq4f:`Zn(OH)2-e`, wateq4f:`Zn(OH)2-g` |
+| `ZnCO3` | ZnCO3 | minteq.v4:`Smithsonite`, wateq4f:`Smithsonite` |
+| `ZnO` | ZnO | minteq.v4:`Zincite`, minteq.v4:`ZnO(active)`, wateq4f:`Zincite(c)`, wateq4f:`ZnO(a)` |
 | `ZnSO4` | ZnSO4 | minteq.v4:`Zincosite`, wateq4f:`Zincosite` |
 | `antlerite` | Cu3(OH)4SO4 | minteq.v4:`Antlerite`, wateq4f:`Antlerite` |
 | `atacamite` | Cu2(OH)3Cl | minteq.v4:`Atacamite`, wateq4f:`Atacamite` |
@@ -82,9 +87,7 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | Ag2SO4 | minteq.v4:`Ag2SO4`, wateq4f:`Ag2SO4` | about 0.8 g/100 mL soluble; only a precipitate from concentrated mixtures, and an unverified addition could change existing silver/sulfate vessels |
 | CaHPO4:2H2O | minteq.v4:`CaHPO4:2H2O` | brushite competes with the calcium phosphate milk lane (octacalcium phosphate); needs the milk replay before it may be posed |
 | CaMg(CO3)2 | minteq.v4:`Dolomite(disordered)`, minteq.v4:`Dolomite(ordered)`, pitzer:`Dolomite`, wateq4f:`Dolomite`, wateq4f:`Dolomite(d)` | dolomite: same kinetic objection as magnesite |
-| Cu2(OH)2CO3 | minteq.v4:`Malachite`, wateq4f:`Malachite` | malachite: the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 and the copper hydroxy-sulfates; needs an engine run |
 | FeCO3 | minteq.v4:`Siderite`, wateq4f:`Siderite`, wateq4f:`Siderite(d)(3)` | siderite competes with the iron(II) hydroxide verdicts; needs an engine run |
-| MgCO3 | minteq.v4:`Magnesite`, pitzer:`Magnesite`, wateq4f:`Magnesite` | magnesite does not nucleate at bench temperature; needs a kinetic floor (as hydroxylapatite has) before it may be posed |
 | Mn(OH)2 | minteq.v4:`Pyrochroite`, wateq4f:`Pyrochroite` | pyrochroite: Mn(II) redox pinning is not reviewed for a new hydroxide |
 | MnCO3 | minteq.v4:`Rhodochrosite`, wateq4f:`Rhodochrosite`, wateq4f:`Rhodochrosite(d)` | rhodochrosite competes with manganese hydroxide/oxide routes; needs an engine run |
 | Pb(OH)2 | minteq.v4:`Pb(OH)2`, wateq4f:`Pb(OH)2` | competes with every lead-salt-plus-base verdict; needs an engine run |
@@ -92,7 +95,6 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | PbCl2 | minteq.v4:`Cotunnite`, wateq4f:`Cotunnite` | would precipitate in `qualitative.rs::lead_chloride_stays_dissolved_when_dilute` (0.1 mol/kgw Pb, 0.3 mol/kgw Cl) unless chloride complexation keeps it under; needs an engine run before the verdict can be pinned either way |
 | SrCO3 | minteq.v4:`Strontianite`, wateq4f:`Strontianite` | strontianite is already owned by the aragonite-strontianite SOLID_SOLUTIONS lane (`solid_solution.rs`); a pure phase would compete with it |
 | SrSO4 | minteq.v4:`Celestite`, pitzer:`Celestite`, wateq4f:`Celestite` | strontium sulfate joins with the strontium solid-solution lane, not here |
-| ZnCO3 | minteq.v4:`Smithsonite`, wateq4f:`Smithsonite` | a bench Zn2+ + carbonate mix gives a basic carbonate, not smithsonite; needs review |
 
 ## Bookable but unclaimed phases
 
@@ -229,7 +231,6 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | ZnCO3:H2O | minteq.v4:`ZnCO3:1H2O`, wateq4f:`ZnCO3:H2O` |
 | ZnCl2 | minteq.v4:`ZnCl2`, wateq4f:`ZnCl2` |
 | ZnI2 | minteq.v4:`ZnI2`, wateq4f:`ZnI2` |
-| ZnO | minteq.v4:`Zincite`, minteq.v4:`ZnO(active)`, wateq4f:`Zincite(c)`, wateq4f:`ZnO(a)` |
 | ZnS | minteq.v4:`Sphalerite`, minteq.v4:`Wurtzite`, minteq.v4:`ZnS(am)`, wateq4f:`Sphalerite`, wateq4f:`Wurtzite`, wateq4f:`ZnS(a)` |
 | ZnSO4:6H2O | minteq.v4:`Bianchite`, wateq4f:`Bianchite` |
 | ZnSO4:7H2O | minteq.v4:`Goslarite`, wateq4f:`Goslarite` |
@@ -270,7 +271,6 @@ Counts: bookable-unclaimed 136, declined 15, registry-solid 45, unbookable 385.
 | AgVO3 | minteq.v4:`AgVO3` |
 | Al(OH)3 | minteq.v4:`Al(OH)3(am)`, minteq.v4:`Gibbsite`, wateq4f:`Al(OH)3(a)`, wateq4f:`Gibbsite` |
 | Al2(MoO4)3 | minteq.v4:`Al2(MoO4)3` |
-| Al2O3 | minteq.v4:`Al2O3` |
 | Al2Si2O5(OH)4 | minteq.v4:`Halloysite`, minteq.v4:`Kaolinite`, wateq4f:`Halloysite`, wateq4f:`Kaolinite` |
 | Al2Si4O10(OH)2 | wateq4f:`Pyrophyllite` |
 | Al4(OH)10SO4 | minteq.v4:`Al4(OH)10SO4`, wateq4f:`Basaluminite` |

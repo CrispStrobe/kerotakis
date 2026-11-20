@@ -2718,6 +2718,51 @@
       "origin": "https://archive.org/details/bwb_S0-CBI-657",
       "revision": "ICT vol. 3 (1928) p. 59",
       "retrieved": "2026-11-11"
+    },
+    {
+      "id": "legacy/ZnO",
+      "citation": "zinc oxide, ZnO: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 3007857 on 2026-11-20 (PUG REST property record): InChIKey RNWHGQJWIACOKP-UHFFFAOYSA-N. Molar mass 81.379 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 65.38 + 1 x 15.999 = 81.379). DENSITY 5.675 g/mL: formula weight over the molar volume 14.34 cm3/mol tabulated for ZINCITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 40.42 J/(mol.K): Robie & Hemingway (1995), ZINCITE table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: zinc oxide is a white powder (it is the white of zinc-white paint); the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because a bench Zn2+ + hydroxide mix gives zinc hydroxide, the solid the existing zinc verdicts name, and zincite competing with it needs an engine run. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Al2O3",
+      "citation": "aluminium oxide (corundum), Al2O3: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 9989226 on 2026-11-20 (PUG REST property record): InChIKey PNEYBMLMFCGWSK-UHFFFAOYSA-N. Molar mass 101.961 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 26.982 + 3 x 15.999 = 101.961). DENSITY 3.986 g/mL: formula weight over the molar volume 25.58 cm3/mol tabulated for CORUNDUM by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 79.1 J/(mol.K): Robie & Hemingway (1995), CORUNDUM table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: powdered alumina is white; the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because aluminium salts plus base give the hydroxide at bench temperature; corundum is a high-temperature phase and does not precipitate from water. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/MgCO3",
+      "citation": "magnesium carbonate (magnesite), MgCO3: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 11029 on 2026-11-20 (PUG REST property record): InChIKey ZLNQQNXFFQJAID-UHFFFAOYSA-L. Molar mass 84.313 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 24.305 + 1 x 12.011 + 3 x 15.999 = 84.313). DENSITY 3.009 g/mL: formula weight over the molar volume 28.02 cm3/mol tabulated for MAGNESITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 76.09 J/(mol.K): Robie & Hemingway (1995), MAGNESITE table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: magnesite powder is white; the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because magnesite does not nucleate at bench temperature and needs a kinetic floor before it may be posed. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/ZnCO3",
+      "citation": "zinc carbonate (smithsonite), ZnCO3: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 19005 on 2026-11-20 (PUG REST property record): InChIKey FMRLDPWIRHBCCC-UHFFFAOYSA-L. Molar mass 125.388 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 65.38 + 1 x 12.011 + 3 x 15.999 = 125.388). DENSITY 4.434 g/mL: formula weight over the molar volume 28.28 cm3/mol tabulated for SMITHSONITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 80.05 J/(mol.K): Robie & Hemingway (1995), SMITHSONITE table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: precipitated zinc carbonate is white; the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because a bench Zn2+ + carbonate mix gives a basic zinc carbonate rather than smithsonite, and that competition needs review. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Cu2(OH)2CO3",
+      "citation": "malachite (basic copper carbonate), Cu2(OH)2CO3 (registry formula Cu2CH2O5, flat like the other hydroxides): added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 25503 on 2026-11-20 (PUG REST property record): InChIKey ZMMDPCMYTCRWFF-UHFFFAOYSA-J. Molar mass 221.114 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 63.546 + 5 x 15.999 + 2 x 1.008 + 1 x 12.011 = 221.114). DENSITY 4.031 g/mL: formula weight over the molar volume 54.86 cm3/mol tabulated for MALACHITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 162.2 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Robie & Hemingway (1995) tabulate malachite at 298.15 K only (S = 166.3 J/(mol.K), V = 54.86 cm3, dfH = -1054.0 kJ/mol, dfG = -890.2 kJ/mol) and give no Cp; Kopp's rule over the standard atomic contributions, 2 x 26.0 (Cu) + 1 x 7.5 (C) + 5 x 16.7 (O) + 2 x 9.6 (H) = 162.2, the same editorial method the lead carbonate and calcium phosphate rows use. Because there is no Cp(T) for malachite in that source, no thermal-route record is supplied and heating malachite is NOT modelled as a decomposition here. APPEARANCE `green`: malachite is green (the mineral and the school 'copper carbonate' powder alike); the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because malachite is the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 and the copper hydroxy-sulfates and that competition needs an engine run. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     }
   ],
   "identities": [
@@ -5854,6 +5899,86 @@
         "method": {
           "kind": "derived",
           "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "ZnO",
+      "canonical_key": "RNWHGQJWIACOKP-UHFFFAOYSA-N",
+      "name": "zinc oxide",
+      "identifiers": {
+        "inchikey": "RNWHGQJWIACOKP-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Al2O3",
+      "canonical_key": "PNEYBMLMFCGWSK-UHFFFAOYSA-N",
+      "name": "aluminium oxide (corundum)",
+      "identifiers": {
+        "inchikey": "PNEYBMLMFCGWSK-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "MgCO3",
+      "canonical_key": "ZLNQQNXFFQJAID-UHFFFAOYSA-L",
+      "name": "magnesium carbonate (magnesite)",
+      "identifiers": {
+        "inchikey": "ZLNQQNXFFQJAID-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "ZnCO3",
+      "canonical_key": "FMRLDPWIRHBCCC-UHFFFAOYSA-L",
+      "name": "zinc carbonate (smithsonite)",
+      "identifiers": {
+        "inchikey": "FMRLDPWIRHBCCC-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Cu2(OH)2CO3",
+      "canonical_key": "ZMMDPCMYTCRWFF-UHFFFAOYSA-J",
+      "name": "malachite (basic copper carbonate)",
+      "identifiers": {
+        "inchikey": "ZMMDPCMYTCRWFF-UHFFFAOYSA-J"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -26778,6 +26903,574 @@
         "method": {
           "kind": "derived",
           "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/ZnO",
+      "species_id": "ZnO",
+      "formula": "ZnO",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnO",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Zn",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnO",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Al2O3",
+      "species_id": "Al2O3",
+      "formula": "Al2O3",
+      "elements": [
+        {
+          "element": "Al",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al2O3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al2O3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/MgCO3",
+      "species_id": "MgCO3",
+      "formula": "MgCO3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/MgCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Mg",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/MgCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/MgCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/ZnCO3",
+      "species_id": "ZnCO3",
+      "formula": "ZnCO3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Zn",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnCO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Cu2(OH)2CO3",
+      "species_id": "Cu2(OH)2CO3",
+      "formula": "Cu2CH2O5",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu2(OH)2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Cu",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu2(OH)2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu2(OH)2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 5.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu2(OH)2CO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -51406,6 +52099,456 @@
           "detail": "formula stoichiometry and registry atomic mass basis"
         }
       }
+    },
+    {
+      "id": "molar-mass/ZnO",
+      "species_id": "ZnO",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 81.379,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/ZnO",
+      "species_id": "ZnO",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 40.42,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/ZnO",
+      "species_id": "ZnO",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 5.675,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Al2O3",
+      "species_id": "Al2O3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 101.961,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Al2O3",
+      "species_id": "Al2O3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 79.1,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Al2O3",
+      "species_id": "Al2O3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.986,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/MgCO3",
+      "species_id": "MgCO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 84.313,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/MgCO3",
+      "species_id": "MgCO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 76.09,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/MgCO3",
+      "species_id": "MgCO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.009,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/ZnCO3",
+      "species_id": "ZnCO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 125.388,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/ZnCO3",
+      "species_id": "ZnCO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 80.05,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/ZnCO3",
+      "species_id": "ZnCO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.434,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Cu2(OH)2CO3",
+      "species_id": "Cu2(OH)2CO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 221.114,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Cu2(OH)2CO3",
+      "species_id": "Cu2(OH)2CO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 162.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Cu2(OH)2CO3",
+      "species_id": "Cu2(OH)2CO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.031,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -61587,6 +62730,86 @@
       "spectrum": [],
       "evidence": {
         "source_id": "kerotakis/na2s-reviewed-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/ZnO",
+      "species_id": "ZnO",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F6F6F2",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Al2O3",
+      "species_id": "Al2O3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F4F4F0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/MgCO3",
+      "species_id": "MgCO3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F6F6F4",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/ZnCO3",
+      "species_id": "ZnCO3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F4F4F0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Cu2(OH)2CO3",
+      "species_id": "Cu2(OH)2CO3",
+      "phase": "solid",
+      "appearance": "green",
+      "flame_colour": null,
+      "reflective_srgb": "#2E8B57",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Cu2(OH)2CO3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -71816,6 +73039,501 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/ZnO",
+      "subject": {
+        "kind": "species",
+        "id": "ZnO"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/ZnO",
+      "subject": {
+        "kind": "species",
+        "id": "ZnO"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "forms-only-above/ZnO",
+      "subject": {
+        "kind": "species",
+        "id": "ZnO"
+      },
+      "model": "legacy-metastability",
+      "parameter": "forms-only-above",
+      "quantity": {
+        "value": 400.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Al2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Al2O3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Al2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Al2O3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "forms-only-above/Al2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Al2O3"
+      },
+      "model": "legacy-metastability",
+      "parameter": "forms-only-above",
+      "quantity": {
+        "value": 400.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2O3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/MgCO3",
+      "subject": {
+        "kind": "species",
+        "id": "MgCO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/MgCO3",
+      "subject": {
+        "kind": "species",
+        "id": "MgCO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "forms-only-above/MgCO3",
+      "subject": {
+        "kind": "species",
+        "id": "MgCO3"
+      },
+      "model": "legacy-metastability",
+      "parameter": "forms-only-above",
+      "quantity": {
+        "value": 400.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/MgCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/ZnCO3",
+      "subject": {
+        "kind": "species",
+        "id": "ZnCO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/ZnCO3",
+      "subject": {
+        "kind": "species",
+        "id": "ZnCO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "forms-only-above/ZnCO3",
+      "subject": {
+        "kind": "species",
+        "id": "ZnCO3"
+      },
+      "model": "legacy-metastability",
+      "parameter": "forms-only-above",
+      "quantity": {
+        "value": 400.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Cu2(OH)2CO3",
+      "subject": {
+        "kind": "species",
+        "id": "Cu2(OH)2CO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Cu2(OH)2CO3",
+      "subject": {
+        "kind": "species",
+        "id": "Cu2(OH)2CO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "forms-only-above/Cu2(OH)2CO3",
+      "subject": {
+        "kind": "species",
+        "id": "Cu2(OH)2CO3"
+      },
+      "model": "legacy-metastability",
+      "parameter": "forms-only-above",
+      "quantity": {
+        "value": 400.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }

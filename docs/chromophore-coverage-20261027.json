@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 39,
-    "outside_method": 111,
+    "missing_absorptivity": 40,
+    "outside_method": 115,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
@@ -73,6 +73,11 @@
     {
       "species": "Cu(OH)2",
       "appearance": "pale blue",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cu2(OH)2CO3",
+      "appearance": "green",
       "class": "missing_absorptivity"
     },
     {
@@ -241,6 +246,11 @@
       "class": "outside_method"
     },
     {
+      "species": "Al2O3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
       "species": "Ba(OH)2",
       "appearance": "white",
       "class": "outside_method"
@@ -382,6 +392,11 @@
     },
     {
       "species": "Mg(OH)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "MgCO3",
       "appearance": "white",
       "class": "outside_method"
     },
@@ -563,6 +578,16 @@
     {
       "species": "Zn+2",
       "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "ZnCO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "ZnO",
+      "appearance": "white",
       "class": "outside_method"
     },
     {

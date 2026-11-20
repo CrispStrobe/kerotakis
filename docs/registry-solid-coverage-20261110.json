@@ -6,10 +6,10 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 136,
-    "declined": 15,
-    "registry-solid": 45,
-    "unbookable": 385
+    "bookable-unclaimed": 135,
+    "declined": 12,
+    "registry-solid": 50,
+    "unbookable": 384
   },
   "registry_solids_matched": [
     "Ag",
@@ -18,6 +18,7 @@
     "AgBr",
     "AgCl",
     "AgI",
+    "Al2O3",
     "BaCO3",
     "BaSO4",
     "Ca(OH)2",
@@ -26,6 +27,7 @@
     "CaO",
     "Cu",
     "Cu(OH)2",
+    "Cu2(OH)2CO3",
     "Cu2O",
     "CuO",
     "CuSO4",
@@ -34,6 +36,7 @@
     "Fe2O3",
     "KCl",
     "Mg(OH)2",
+    "MgCO3",
     "MgO",
     "MnO2",
     "Na2SO4",
@@ -47,6 +50,8 @@
     "SiO2",
     "Zn",
     "Zn(OH)2",
+    "ZnCO3",
+    "ZnO",
     "ZnSO4",
     "antlerite",
     "atacamite",
@@ -151,6 +156,18 @@
         {
           "database": "wateq4f",
           "phase": "Iodyrite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Al2O3",
+      "registry_species": "Al2O3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al2O3"
         }
       ],
       "class": "registry-solid"
@@ -300,6 +317,22 @@
       "class": "registry-solid"
     },
     {
+      "formula": "Cu2(OH)2CO3",
+      "registry_species": "Cu2(OH)2CO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Malachite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Malachite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "Cu2O",
       "registry_species": "Cu2O",
       "reason": null,
@@ -431,6 +464,26 @@
         {
           "database": "wateq4f",
           "phase": "Brucite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "MgCO3",
+      "registry_species": "MgCO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Magnesite"
+        },
+        {
+          "database": "pitzer",
+          "phase": "Magnesite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Magnesite"
         }
       ],
       "class": "registry-solid"
@@ -740,6 +793,46 @@
       "class": "registry-solid"
     },
     {
+      "formula": "ZnCO3",
+      "registry_species": "ZnCO3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Smithsonite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Smithsonite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "ZnO",
+      "registry_species": "ZnO",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zincite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "ZnO(active)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Zincite(c)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnO(a)"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "ZnSO4",
       "registry_species": "ZnSO4",
       "reason": null,
@@ -976,22 +1069,6 @@
       "class": "declined"
     },
     {
-      "formula": "Cu2(OH)2CO3",
-      "registry_species": null,
-      "reason": "malachite: the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 and the copper hydroxy-sulfates; needs an engine run",
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Malachite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Malachite"
-        }
-      ],
-      "class": "declined"
-    },
-    {
       "formula": "FeCO3",
       "registry_species": null,
       "reason": "siderite competes with the iron(II) hydroxide verdicts; needs an engine run",
@@ -1007,26 +1084,6 @@
         {
           "database": "wateq4f",
           "phase": "Siderite(d)(3)"
-        }
-      ],
-      "class": "declined"
-    },
-    {
-      "formula": "MgCO3",
-      "registry_species": null,
-      "reason": "magnesite does not nucleate at bench temperature; needs a kinetic floor (as hydroxylapatite has) before it may be posed",
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Magnesite"
-        },
-        {
-          "database": "pitzer",
-          "phase": "Magnesite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Magnesite"
         }
       ],
       "class": "declined"
@@ -1147,22 +1204,6 @@
         {
           "database": "wateq4f",
           "phase": "Celestite"
-        }
-      ],
-      "class": "declined"
-    },
-    {
-      "formula": "ZnCO3",
-      "registry_species": null,
-      "reason": "a bench Zn2+ + carbonate mix gives a basic carbonate, not smithsonite; needs review",
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Smithsonite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Smithsonite"
         }
       ],
       "class": "declined"
@@ -3084,30 +3125,6 @@
       "class": "bookable-unclaimed"
     },
     {
-      "formula": "ZnO",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Zincite"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "ZnO(active)"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Zincite(c)"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "ZnO(a)"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
       "formula": "ZnS",
       "registry_species": null,
       "reason": null,
@@ -3575,18 +3592,6 @@
         {
           "database": "minteq.v4",
           "phase": "Al2(MoO4)3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Al2O3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Al2O3"
         }
       ],
       "class": "unbookable"

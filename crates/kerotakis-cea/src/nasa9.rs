@@ -142,9 +142,44 @@ pub struct ThermoDb {
 
 static DB: OnceLock<ThermoDb> = OnceLock::new();
 
-/// The embedded NASA CEA thermodynamic database (Apache-2.0, NASA).
+/// Supplementary records in the same format, each transformed from a cited
+/// primary source (see the file's own header). They extend the products set
+/// only where NASA's file has no record of that name; a name collision is a
+/// build-time contradiction, not a silent override.
+pub const SUPPLEMENT: &str = include_str!("../../../data/cea/robie-hemingway-1995-supplement.inp");
+
+static SUPPLEMENT_NAMES: OnceLock<Vec<String>> = OnceLock::new();
+
+/// The embedded NASA CEA thermodynamic database (Apache-2.0, NASA), plus the
+/// [`SUPPLEMENT`] records.
 pub fn db() -> &'static ThermoDb {
-    DB.get_or_init(|| ThermoDb::parse(include_str!("../../../vendor/nasa-cea/thermo.inp")))
+    DB.get_or_init(|| {
+        let mut db = ThermoDb::parse(include_str!("../../../vendor/nasa-cea/thermo.inp"));
+        let extra = ThermoDb::parse(SUPPLEMENT);
+        assert!(
+            extra.reactants.is_empty(),
+            "the supplement carries equilibrium products only"
+        );
+        let mut names = Vec::new();
+        for (name, record) in extra.species {
+            assert!(
+                !db.species.contains_key(&name) && !db.reactants.contains_key(&name),
+                "supplementary record {name} collides with a NASA CEA record"
+            );
+            names.push(name.clone());
+            db.species.insert(name, record);
+        }
+        let _ = SUPPLEMENT_NAMES.set(names);
+        db
+    })
+}
+
+/// Whether a product record came from [`SUPPLEMENT`] rather than NASA's file.
+pub fn is_supplement(name: &str) -> bool {
+    db();
+    SUPPLEMENT_NAMES
+        .get()
+        .is_some_and(|names| names.iter().any(|n| n == name))
 }
 
 /// CEA writes Fortran double-precision exponents as `D`.
@@ -357,6 +392,48 @@ mod tests {
         for name in ["CO2", "H2O", "O2", "N2", "CH4"] {
             assert!(db.get(name).is_some(), "{name} missing");
         }
+    }
+
+    #[test]
+    fn the_supplement_reproduces_its_source_tables() {
+        // Robie & Hemingway (1995), USGS Bulletin 2131: the printed Cp, S and
+        // (H - H298)/T for zincite and smithsonite, J/(mol K), with the
+        // printed formation enthalpy at 298.15 K.
+        let rows: [(&str, f64, [(f64, f64, f64, f64); 3]); 2] = [
+            (
+                "ZnO(cr)",
+                -350_500.0,
+                [
+                    (298.15, 40.42, 43.20, 0.0),
+                    (600.0, 48.22, 74.59, 22.80),
+                    (1800.0, 58.34, 132.52, 43.35),
+                ],
+            ),
+            (
+                "ZnCO3(cr)",
+                -817_000.0,
+                [
+                    (298.15, 80.05, 81.19, 0.0),
+                    (600.0, 108.79, 147.05, 48.21),
+                    (1200.0, 141.77, 233.47, 87.39),
+                ],
+            ),
+        ];
+        for (name, dfh, table) in rows {
+            assert!(is_supplement(name), "{name} is a supplementary record");
+            let s = db().get(name).expect("supplementary record parsed");
+            assert!((s.h(T_REF).unwrap() - dfh).abs() < 0.5, "{name} dfH");
+            for (t, cp, entropy, h_over_t) in table {
+                assert!((s.cp(t).unwrap() - cp).abs() < 0.01, "{name} Cp at {t}");
+                assert!((s.s(t).unwrap() - entropy).abs() < 0.01, "{name} S at {t}");
+                let h = (s.h(t).unwrap() - s.h(T_REF).unwrap()) / t;
+                assert!((h - h_over_t).abs() < 0.01, "{name} (H-H298)/T at {t}");
+            }
+        }
+        assert!(
+            !is_supplement("CaCO3(cr)"),
+            "NASA's own records stay NASA's"
+        );
     }
 
     /// The reactants walk must land only on real record headers.
