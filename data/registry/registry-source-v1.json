@@ -27514,7 +27514,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "silver nitrate decomposes well below any boiling point; no boiling point is claimed"
+          "notes": "qualitative onset: appreciable 30-40 K above the 483 K melting point (Stern 1972); lower end taken; not a boiling point"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -29678,7 +29678,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": null
+          "notes": "single erratic data set (Kelley 1935); vapour written as monomer although it holds (NaOH)2, so an effective value"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -31605,7 +31605,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "potassium chloride sublimes appreciably before it boils; no boiling point is claimed"
+          "notes": "Kelley 1935 vapour-pressure fit, extrapolated about 300 K above the data; monomer vapour assumed"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -31799,7 +31799,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": null
+          "notes": "UNCERTAIN: bracketed (extrapolated) in Maier 1925; no vapour pressure was measured above 1137 C"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -43115,7 +43115,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": null
+          "notes": "UNCERTAIN: bracketed (extrapolated) in Maier 1925 from data the author calls probably not dependable"
         },
         "uncertainty": {
           "kind": "unestablished"
