@@ -120,6 +120,8 @@ fn every_legacy_field_is_present_and_unchanged() {
                         | "Cu2O"
                         | "Na2S"
                         | "HS-"
+                        | "S-2"
+                        | "H2S(aq)"
                         | "H+"
                         | "CO2(aq)"
                         | "CO3-2"
@@ -290,11 +292,11 @@ fn every_legacy_field_is_present_and_unchanged() {
     assert_eq!(
         document.model_parameters.len(),
         REGISTRY.len()
-            // Nine source-authored analytical identities (the aqueous basis,
-            // now including the HS- sulfide booking ion) have no dissolution
+            // Eleven source-authored analytical identities (the aqueous basis,
+            // now including the HS-, S-2 and H2S(aq) sulfide split) have no dissolution
             // observation. Export must not turn an absent parameter into a
             // fictitious legacy measurement of zero.
-            - 9
+            - 11
             + REGISTRY
                 .iter()
                 .filter(|species| species.colour.is_some())
@@ -327,7 +329,16 @@ fn every_legacy_field_is_present_and_unchanged() {
 fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
     if matches!(
         species.key,
-        "H+" | "CO2(aq)" | "CO3-2" | "HPO4-2" | "PO4-3" | "NO2-" | "KSCN" | "SCN-" | "HS-"
+        "H+" | "CO2(aq)"
+            | "CO3-2"
+            | "HPO4-2"
+            | "PO4-3"
+            | "NO2-"
+            | "KSCN"
+            | "SCN-"
+            | "HS-"
+            | "S-2"
+            | "H2S(aq)"
     ) {
         let identity = document
             .identities
@@ -1215,7 +1226,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 199, "one molar mass per species");
+    assert_eq!(masses.len(), 201, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

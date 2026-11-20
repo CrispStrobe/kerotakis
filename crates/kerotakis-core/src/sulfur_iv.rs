@@ -127,6 +127,12 @@ pub enum SivOwner {
 /// order without pricing the same mole twice. An open vessel has no S(IV)
 /// sink in either owner: there is no reviewed escape rate and room air
 /// holds no SO2, so dissolved S(IV) is not lost instantly.
+///
+/// One stoichiometric debit sits outside both: when a metal spends a
+/// titratable proton, `displacement::consume_acidity` turns that much
+/// SO2(aq) (+ H2O) into HSO3-, exactly as it turns acetic acid into
+/// acetate. That is the metal's reaction, not a speciation answer; the next
+/// native solve re-divides the S(IV) it leaves.
 pub const fn owner(aspect: SivAspect) -> SivOwner {
     match aspect {
         SivAspect::RedoxExtent => SivOwner::SulfurIv,

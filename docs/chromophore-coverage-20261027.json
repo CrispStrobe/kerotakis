@@ -27,7 +27,7 @@
     "outside_method": 111,
     "parameterised": 7,
     "parameterised_ph": 4,
-    "unclassified": 38
+    "unclassified": 40
   },
   "species": [
     {
@@ -896,6 +896,11 @@
       "class": "unclassified"
     },
     {
+      "species": "H2S(aq)",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
       "species": "H3BO3",
       "appearance": null,
       "class": "unclassified"
@@ -972,6 +977,11 @@
     },
     {
       "species": "PO4-3",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "S-2",
       "appearance": null,
       "class": "unclassified"
     },

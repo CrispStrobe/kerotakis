@@ -9,7 +9,7 @@
     "derived": 21,
     "melting_point_without_latent_heat": 42,
     "no_melting_point": 59,
-    "not_condensed": 77
+    "not_condensed": 79
   },
   "species": [
     {
@@ -94,7 +94,7 @@
       "species": "KCl",
       "standard_phase": "solid",
       "melting_k": 1044.0,
-      "boiling_k": null,
+      "boiling_k": 1680.0,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -367,7 +367,7 @@
       "species": "BaCl2",
       "standard_phase": "solid",
       "melting_k": 1235.0,
-      "boiling_k": null,
+      "boiling_k": 1835.15,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {
@@ -406,7 +406,7 @@
       "species": "CaCl2",
       "standard_phase": "solid",
       "melting_k": 1055.0,
-      "boiling_k": null,
+      "boiling_k": 1873.15,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {
@@ -666,7 +666,7 @@
       "species": "NaOH",
       "standard_phase": "solid",
       "melting_k": 593.0,
-      "boiling_k": null,
+      "boiling_k": 1651.0,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {
@@ -1872,6 +1872,19 @@
       }
     },
     {
+      "species": "H2S(aq)",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
       "species": "H3BO3",
       "standard_phase": "aqueous",
       "melting_k": null,
@@ -2198,6 +2211,19 @@
     },
     {
       "species": "Pb+2",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "S-2",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

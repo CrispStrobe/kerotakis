@@ -247,7 +247,17 @@ fn build_input_alias_table() -> InputAliasTable {
                 candidates.push((stem.to_string(), data.key, alias_source("ion-name", lang)));
             }
         }
-        if data.formula != data.key {
+        // A dissolved-share basis key (`H2S(aq)`) must not take its gas's
+        // formula: `H2S` names the bottle a learner adds, which is the gas
+        // `hydrogen_sulfide`, and a shared formula would refuse it as
+        // ambiguous.
+        let dissolved_twin_of_gas = data.key.ends_with("(aq)")
+            && registry.iter().any(|gas| {
+                gas.standard_phase == Phase::Gas
+                    && gas.formula == data.formula
+                    && gas.key != gas.formula
+            });
+        if data.formula != data.key && !dissolved_twin_of_gas {
             candidates.push((data.formula.to_string(), data.key, "formula"));
         }
         if data.formula.contains('·') {

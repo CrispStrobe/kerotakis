@@ -102,6 +102,19 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      legacy-diff, golden, locales, aliases, safety, coverage docs; the sulfide family is now
      exercisable. Engine test `tests/sulfide_family.rs`. Open: H2S/HS- protonation split,
      Na2S melting transition, `hydrogen_sulfide` gas-dose path.
+     H2S/HS- split prerequisite (checked 2026-11-20): the readback normalises a split over the
+     species it lists, so an `S(-2)` split must list `S-2` too or its share is silently given to
+     H2S/HS-. That matters here: wateq4f has HS- = S-2 + H+ at log K -12.918 (about 28 % S-2 at the
+     pH 12.5 of an Na2S solution) while minteq.v4 has -17.3 (about 0.002 %). The two routes disagree by
+     4.4 log units on the same equilibrium, so the split needs a registry `S-2` ion AND a reviewed
+     decision on the second constant (route-dependent answer, or one sourced value) before landing.
+     Review 2026-11-20 ([h2s-split-and-fizz-design-20261120.md](h2s-split-and-fizz-design-20261120.md)):
+     the constant is NOT a blocker (each route speciates with its own, as every split does). Blockers:
+     (1) the neutral share has no re-posable key: `hydrogen_sulfide` has no dissolution role, and giving
+     it one re-opens the deferred gas-dose problem (no H2S clock, no S(-2) headspace admission); the
+     alternative is a new `H2S(aq)` key and a decision on its safety/strong-reserve relation;
+     (2) adding `S-2` touches generator-checked files (golden registry, coverage JSON/MD) that must be
+     regenerated, not hand-edited. Sub-saturation H2S fizz depends on (1); design in the same doc.
      **Fourth pass (branch fix/safety-notes-20261119, untested):** safety rule
      `acid-sulfide-h2s` (Danger; new `Sulfide` group on Na2S/HS-; ICSC 0165; en/de/fr) DONE.
      The `hydrogen_sulfide` -> S(-2) booking was evaluated and deliberately NOT added: it needs
@@ -139,6 +152,32 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 4. **Unsourced data.** FeCl2+ absorptivity (figure-only; Connick & Coppel 1959 tabulates only 300-390 nm, see [search note](fecl2-visible-absorptivity-search-20261120.md)), starch–iodine blue value, maltose/maltotriose
    split, PVC and unsintered PTFE latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2,
    BaCl2, KCl, CaO, MgO, SiO2, Pb(NO3)2, AgNO3; NBS Circular 500 page images).
+   Checked 2026-11-20: NIST-JANAF gives these salts' and oxides' melting points (NaOH 596, KCl 1044,
+   CaCl2 1045, BaCl2 1235, CaO 3200, MgO 3105, SiO2 1696 K) but no normal boiling point, and WebBook
+   has no phase-change data for NaOH. Deriving T_b from JANAF liquid vs monomer-gas ΔfG is NOT usable:
+   it gives NaOH 1827, KCl 1748, CaCl2 2206, BaCl2 2299, CaO 4469, MgO 3781, SiO2 3655 K. Those
+   disagree badly with handbook values for NaOH, BaCl2 and CaO, whose vapours are dimers or dissociate,
+   so a monomer crossing is the wrong question. Primary candidates found 2026-11-20 (public-domain US
+   Bureau of Mines / NIST; [salt-boiling-point-candidates-20261120.md](salt-boiling-point-candidates-20261120.md)):
+   KCl 1680 K and NaOH 1651 K (Kelley, USBM Bull. 383, 1935; NaOH from one "erratic" data set),
+   CaCl2 1873 K and BaCl2 1835 K (Maier, USBM TP 360, 1925, bracketed as extrapolated/uncertain),
+   Pb(NO3)2 and AgNO3 decomposition (Stern, JPCRD 1, 747, 1972). Not landed yet (needs regenerated
+   golden files). CaO, MgO, SiO2: no usable primary boiling point; do not set one.
+   PVC and unsintered PTFE latent heat are closed by policy, not missing: `melting_range::REFUSED_FUSION`
+   states why no single grade heat is honest (PVC degrades instead of melting; virgin PTFE pays a
+   first-melt heat its own melt never repays), and neither is a registry species.
+   Maltose/maltotriose split (searched again 2026-11-20): no percentage table found for salivary or
+   pancreatic amylase. Whelan (1960, 'The action patterns of alpha-amylases', via AGRIS) gives the
+   pattern only: maltose + maltotriose first, then maltotriose slowly to maltose + glucose, so any
+   split is time-dependent. A fixed split would be wrong; keep the typed maltose-equivalent note until
+   a time-resolved product series is sourced.
+   FeCl2+ visible absorptivity (searched 2026-11-20): Liu et al. 2006 (Chem. Geol. 231, 326,
+   doi:10.1016/j.chemgeo.2006.02.005) covers 200-500 nm only, per-species spectra in Fig. 7, no table;
+   Byrne & Kester 1981 (doi:10.1007/BF00652780) is UV only. Open lead: Connick & Coppel 1959 report
+   (UNT digital library), molar extinction section, not yet read. No band value above 450 nm is sourced.
+   Starch-iodine (searched 2026-11-20): AMYLO.01 and ISO 6647-2 calibrate A(620 nm) per laboratory and
+   publish no absorptivity; Fonslick & Khan 1989 and Pesek & Silaghi-Dumitrescu 2024
+   (doi:10.3390/molecules29030641) give band position and stoichiometry, no epsilon.
 5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
    packs, metals in acid, displacement, AgCl/BaSO4/PbI2, limewater, vinegar + soda, chalk + acid,
    permanganate colour, ethanol burning, boiling) and fix what is off, generically.

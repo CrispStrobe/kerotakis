@@ -203,6 +203,8 @@ pub const WEAK_BUFFERS: &[(&str, &str)] = &[
     // the ion it books as are pH-dependent bases, never a strong reserve.
     ("Na2S", "sulfide"),
     ("HS-", "sulfide"),
+    ("S-2", "sulfide"),
+    ("H2S(aq)", "sulfide"),
     ("H2C2O4", "organic acid"),
     ("citric_acid", "organic acid"),
     ("C6H5O7-3", "organic acid"),

@@ -99,7 +99,20 @@ const HYDROGEN_ION: &str = "H+";
 /// rate. Adding it here would dissolve the metal completely and promptly,
 /// which is a claim about speed that nothing in this file is entitled to
 /// make. It wants the rate model, not a table row.
-const LEDGER_ACIDS: &[(&str, &str)] = &[("CH3COOH", "CH3COO-")];
+///
+/// **Dissolved SO2 is here; bisulfite is not.** Neutral S(IV) is carried
+/// as registry `SO2` (Goldberg and Parker 1985 slice), and its first
+/// dissociation, SO2 + H2O = HSO3- + H+, has pKa 1.86 (ΔG 10.60 kJ/mol):
+/// stronger than acetic acid, so the instant-ledger argument that admits
+/// vinegar admits it a fortiori. The second proton (HSO3-, pKa 7.20) is
+/// the ammonium case and stays out. Spending SO2's proton also spends the
+/// water it came from; [`LEDGER_ACID_WATER`] records that.
+const LEDGER_ACIDS: &[(&str, &str)] = &[("CH3COOH", "CH3COO-"), ("SO2", "HSO3-")];
+
+/// Water a ledger acid consumes per proton it gives up, for acids whose
+/// proton comes from the solvent rather than the acid formula
+/// (SO2 + H2O → HSO3- + H+). Absent rows consume none.
+const LEDGER_ACID_WATER: &[(&str, f64)] = &[("SO2", 1.0)];
 
 /// The ledger acids, for the cross-crate check that they are species the
 /// aqueous readback actually puts in the inventory. An acid counted here
@@ -411,7 +424,33 @@ pub(crate) fn consume_acidity(vessel: &mut Vessel, moles: f64) {
         }
         let spent = remaining.min(vessel.moles_of(&SpeciesId::new(acid)).0);
         if spent > TRACE {
+            let water_per = LEDGER_ACID_WATER
+                .iter()
+                .find(|(key, _)| key == acid)
+                .map_or(0.0, |(_, w)| *w);
+            // Never spend more of the acid than its water can pay for.
+            let spent = if water_per > 0.0 {
+                let liquid: f64 = vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                spent.min(liquid / water_per)
+            } else {
+                spent
+            };
+            if spent <= TRACE {
+                continue;
+            }
             vessel.withdraw(&SpeciesId::new(acid), Moles(spent));
+            if water_per > 0.0 {
+                vessel.withdraw_phase(
+                    &SpeciesId::new("water"),
+                    Moles(spent * water_per),
+                    Phase::Liquid,
+                );
+            }
             vessel.deposit(SpeciesId::new(base), Moles(spent), Phase::Aqueous);
             remaining -= spent;
         }
@@ -1963,6 +2002,27 @@ mod tests {
             heat_joules: 0.0,
         };
         assert_eq!(d.equation(), "Zn + 2 H+ → Zn+2 + H2");
+    }
+
+    #[test]
+    fn spending_dissolved_so2_spends_its_water_and_keeps_atoms() {
+        use crate::vessel::VesselId;
+        let mut v = Vessel::new(VesselId(0), "beaker");
+        v.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        v.deposit(SpeciesId::new("SO2"), Moles(0.01), Phase::Aqueous);
+        assert!((bound_protons(&v) - 0.01).abs() < 1e-15);
+        consume_acidity(&mut v, 0.004);
+        let n = |k: &str| v.moles_of(&SpeciesId::new(k)).0;
+        assert!((n("SO2") - 0.006).abs() < 1e-15);
+        assert!((n("HSO3-") - 0.004).abs() < 1e-15);
+        assert!((n("water") - 4.996).abs() < 1e-12);
+        // S and O unchanged; H down by exactly the 0.004 mol spent.
+        let s = n("SO2") + n("HSO3-");
+        let o = 2.0 * n("SO2") + 3.0 * n("HSO3-") + n("water");
+        let h = n("HSO3-") + 2.0 * n("water");
+        assert!((s - 0.01).abs() < 1e-15);
+        assert!((o - (0.02 + 5.0)).abs() < 1e-12);
+        assert!((h - (10.0 - 0.004)).abs() < 1e-12);
     }
 
     #[test]

@@ -256,6 +256,15 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // than being screened only as a corrosive base meeting an acid.
         "Na2S" => &[BaseStrong, ReducingAgent, ToxicSoluble, Sulfide],
         "HS-" => &[ReducingAgent, ToxicSoluble, Sulfide],
+        // The other two members of the solved S(-2) split. `S-2` is the
+        // same reduced sulfur at high pH. `H2S(aq)` is the dissolved
+        // NEUTRAL share, the form strong acid has already produced: it is
+        // what leaves as the gas, but the gas row `hydrogen_sulfide`
+        // (flammable, toxic by inhalation) stays the gas's own and is not
+        // given to the solute, which neither burns nor fills a room until
+        // it has left the liquid. It keeps `Sulfide` so further acid still
+        // raises `acid-sulfide-h2s`.
+        "S-2" | "H2S(aq)" => &[ReducingAgent, ToxicSoluble, Sulfide],
         // Iodide speciates since 2026-10-27; the bottle and its ion carry
         // the same screen, as hypo and `S2O3-2` do.
         "KI" | "I-" => &[ReducingAgent],
@@ -776,6 +785,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "HSO3-",
     "Na2S",
     "HS-",
+    "S-2",
+    "H2S(aq)",
     "Na2SO4",
     "NaCl",
     "NaNO3",
@@ -2062,6 +2073,11 @@ mod tests {
         }
         assert!(groups("HS-").contains(&ReactiveGroup::ReducingAgent));
         assert!(!groups("HS-").contains(&ReactiveGroup::BaseStrong));
+        for key in ["S-2", "H2S(aq)"] {
+            assert!(COVERED_KEYS.contains(&key));
+            assert!(groups(key).contains(&ReactiveGroup::Sulfide), "{key}");
+            assert!(!groups(key).contains(&ReactiveGroup::FlammableGas), "{key}");
+        }
     }
 
     #[test]

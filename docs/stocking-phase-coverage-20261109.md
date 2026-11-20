@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, not_condensed 77.
+Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, not_condensed 79.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -25,7 +25,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | derived | Cu | solid | 1357.77 | 2868 | yes | solid | solid | solid |
 | derived | Cu2O | solid | 1516.7 | — | yes | solid | solid | solid |
 | derived | Fe | solid | 1811 | 3273 | yes | solid | solid | solid |
-| derived | KCl | solid | 1044 | — | yes | solid | solid | solid |
+| derived | KCl | solid | 1044 | 1680 | yes | solid | solid | solid |
 | derived | Mg | solid | 922 | 1383 | yes | solid | solid | solid |
 | derived | NaCl | solid | 1073.8 | 1738 | yes | solid | solid | solid |
 | derived | Pb | solid | 600.65 | 2017 | yes | solid | solid | solid |
@@ -46,10 +46,10 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | melting_point_without_latent_heat | AgI | solid | 831 | 1777 | no | solid | solid | solid |
 | melting_point_without_latent_heat | AgNO3 | solid | 483 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | Ba(OH)2 | solid | 681 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | BaCl2 | solid | 1235 | — | no | solid | solid | solid |
+| melting_point_without_latent_heat | BaCl2 | solid | 1235 | 1835.15 | no | solid | solid | solid |
 | melting_point_without_latent_heat | BaSO4 | solid | 1623 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | Ca3(PO4)2 | solid | 2003 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | CaCl2 | solid | 1055 | — | no | solid | solid | solid |
+| melting_point_without_latent_heat | CaCl2 | solid | 1055 | 1873.15 | no | solid | solid | solid |
 | melting_point_without_latent_heat | CaO | solid | 2873 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | FeCl3 | solid | 577 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | H2C2O4 | solid | 464.45 | — | no | solid | solid | solid |
@@ -69,7 +69,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | melting_point_without_latent_heat | NaBr | solid | 1023 | 1665 | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaHSO4 | solid | 455 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaNO3 | solid | 583 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | NaOH | solid | 593 | — | no | solid | solid | solid |
+| melting_point_without_latent_heat | NaOH | solid | 593 | 1651 | no | solid | solid | solid |
 | melting_point_without_latent_heat | PbI2 | solid | 685 | 1145 | no | solid | solid | solid |
 | melting_point_without_latent_heat | PbSO4 | solid | 1360 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | S | solid | 392 | 718.2 | no | solid | solid | solid |
@@ -162,6 +162,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | not_condensed | H2 | gas | 13.96 | 20.39 | no | gas | gas | gas |
 | not_condensed | H2BO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | H2PO4- | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | H2S(aq) | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | H3BO3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HBr | gas | 186.28 | 206.43 | no | gas | gas | gas |
 | not_condensed | HCO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
@@ -188,6 +189,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | not_condensed | PE | solid | — | — | no | solid | solid | solid |
 | not_condensed | PO4-3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Pb+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | S-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | S2O3-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | S4O6-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | SCN- | aqueous | — | — | no | aqueous | aqueous | aqueous |
