@@ -1188,6 +1188,58 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
     events
 }
 
+/// An elemental metal the activity series does not list, standing in a
+/// characterised solution.
+///
+/// `SERIES` holds six couples. Every other metal — aluminium, tin, nickel,
+/// chromium — used to sit in acid or alkali with no event at all: the
+/// aqueous engine leaves elemental metals to this module, and this module
+/// only spoke about metals it has a couple for. Aluminium foil in sodium
+/// hydroxide stayed foil, made no hydrogen and said nothing, which reads
+/// as a computed "nothing happens". It is not computed; say so, by name,
+/// once, and only where no other route is already consuming the metal.
+pub fn metals_outside_the_series(vessel: &mut Vessel) -> Vec<Event> {
+    let mut events = Vec::new();
+    if kgw(vessel) <= 0.0 || vessel.solution.is_none() {
+        return events;
+    }
+    let metals: Vec<SpeciesId> = vessel
+        .contents
+        .iter()
+        .filter(|p| {
+            p.phase == Phase::Solid
+                && p.moles.0 > crate::OBSERVABLE_MOLES
+                && is_elemental_metal(&p.species.0)
+                && couple_of_metal(&p.species.0).is_none()
+        })
+        .map(|p| p.species.clone())
+        .collect();
+    for metal in metals {
+        if crate::curated::consumes(vessel, &metal) || crate::kinetics::consumes(vessel, &metal) {
+            continue;
+        }
+        let name = species::lookup(&metal)
+            .map(|d| d.name)
+            .unwrap_or(metal.0.as_str());
+        let reason = Phrase::new(
+            "not-modeled.metal-outside-series",
+            "{name} is a metal this lab's activity series does not list, so whether it dissolves here — in acid, in alkali as aluminium and zinc can, or not at all — is not computed. It is left as the metal, and no hydrogen is made for it",
+            vec![("name".to_string(), Slot::term("species", name))],
+        );
+        let shape = reason.shape();
+        if vessel.honesty_said.contains(&shape) {
+            continue;
+        }
+        vessel.honesty_said.push(shape);
+        events.push(Event::not_modeled(
+            vessel.id,
+            crate::ops::NotModelledCause::NoSolver,
+            reason,
+        ));
+    }
+    events
+}
+
 /// A metal in contact with its own ion is an electrode, and it — not the
 /// air above the beaker — sets the potential. Pin pe from the Nernst
 /// equation over the computed activity, and say so in the provenance.
@@ -1872,6 +1924,7 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
             events.push(crate::acid_endpoint::outside_domain(vessel));
         }
     }
+    events.extend(metals_outside_the_series(vessel));
     if !DisplacementEquilibrator::has_series_metal(vessel) {
         return Ok(events);
     }

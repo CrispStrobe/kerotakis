@@ -1832,6 +1832,7 @@ titration-needs-an-aqueous-solver = "die Titration braucht einen wässrigen Lös
 kinetic-outcome-needs-a-time-model = "Ein kinetisches Ergebnis erfordert ein zugeordnetes Zeitmodell; ein Umsatz von null weist kein Gleichgewicht nach"
 fizz-rate-near-barrier = "wie schnell {name} sprudelt: die Triebkraft übersteigt die Wasserstoff-Überspannung an {name} nur um {margin} V, und eine Geschwindigkeit so dicht an ihrer Barriere berechnet dieses Labor nicht — es reagiert, langsam"
 stays-as-the-metal = "{name} bleibt als Metall liegen: nichts Gelöstes steht hier in der Spannungsreihe unter ihm. Seine langsame Reaktion mit dem Wasser selbst — Wasserstoff über Stunden, eine passivierende Hydroxidhaut — ist eine Geschwindigkeit, die dieses Labor nicht modelliert"
+metal-outside-series = "{name} ist ein Metall, das die Spannungsreihe dieses Labors nicht führt. Ob es sich hier löst — in Säure, in Lauge wie Aluminium und Zink, oder gar nicht —, wird deshalb nicht berechnet. Es bleibt als Metall liegen, und es entsteht kein Wasserstoff dafür"
 no-haloalkane = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
 no-nucleophile = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
 # The two classes go in brackets beside the noun rather than in front of
