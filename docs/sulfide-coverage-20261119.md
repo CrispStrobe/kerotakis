@@ -193,3 +193,20 @@ precedent and found not clearly correct:
 Prerequisites, in order: neutral aqueous H2S key + split; S(-2)-gated finite headspace
 admission with readback to `hydrogen_sulfide`; engine tests for sealed partition and
 conservation (pattern: `tests/reactive_gas.rs`) on wateq4f and minteq.v4; pitzer refusal.
+
+## 2026-11-20: the S(-2) protonation split
+
+Reduced sulfur now books three ways, the split being the solve's own
+(`derived::PROTONATION_SPLITS`): `H2S(aq)` (new aqueous-basis key, the
+dissolved neutral share), `HS-`, and `S-2` (new aqueous-basis key). Both new
+keys follow the aqueous-basis convention of `HS-` and `SCN-`: CIAAW masses
+(S 32.06, H2S 34.076 g/mol), Cp 0 and density placeholder, no constants
+introduced. The neutral share is deliberately not booked under the gas key
+`hydrogen_sulfide`, which has no derived role; the gas keeps its own safety
+row (flammable, toxic by inhalation) and `H2S(aq)` carries the solute row
+(reducing, toxic, sulfide).
+
+The HS-/S-2 constant is route-dependent and is left so: wateq4f log K
+-12.918, minteq.v4 -17.3 (LMa1987). A strongly alkaline sulfide therefore
+reports tens of percent S-2 on wateq4f and a trace on minteq.v4. pitzer has
+no S(-2); the readback falls back to the booking ion `HS-`.

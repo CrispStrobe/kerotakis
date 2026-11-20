@@ -1758,7 +1758,7 @@
     },
     {
       "id": "literature/transition-points/KCl",
-      "citation": "Melting point 1044 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES.",
+      "citation": "Melting point 1044 K: D. R. Stull and H. Prophet, Thermochemical Tables, 2nd ed., National Standard Reference Data Series NSRDS-NBS 37 (1971), doi:10.6028/NBS.NSRDS.37, a United States Government work in the public domain, as already cited for this salt's enthalpy of fusion in phase_route::FUSION_ENTHALPIES. Normal boiling point 1680 K: K. K. Kelley, 'Contributions to the Data on Theoretical Metallurgy. III. The Free Energies of Vaporization and Vapor Pressures of Inorganic Substances', U.S. Bureau of Mines Bulletin 383 (1935), a United States Government work in the public domain (no doi); https://archive.org/details/DTIC_ADB184291, read from the page image. Kelley's B.P. is in kelvin (checked: dH/dS = 38,840/23.1 = 1,681 K on the KCl line). Page 86, 'Potassium, Chloride', Liquid -> Gas (KCl): B.P. = 1,680, from the Fiock & Rodebush vapour-pressure fit (1,179-1,378 K) extrapolated about 300 K, monomer vapour assumed.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://doi.org/10.6028/NBS.NSRDS.37",
@@ -1965,7 +1965,7 @@
     },
     {
       "id": "literature/transition-points/AgNO3",
-      "citation": "Melting point 483 K (210 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-3, printed page 679. Boiling point: AgNO3 decomposes; none is claimed.",
+      "citation": "Melting point 483 K (210 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 35-3, printed page 679. Boiling point: AgNO3 decomposes; none is claimed. Decomposition 513 K: K. H. Stern, 'High Temperature Properties and Decomposition of Inorganic Salts. Part 3. Nitrates and Nitrites', J. Phys. Chem. Ref. Data 1 (1972) 747-772, doi:10.1063/1.3253104, free NIST reprint https://srd.nist.gov/jpcrdreprint/1.3253104.pdf (c) 1972 the U.S. Secretary of Commerce on behalf of the United States. Section \"Silver\", pp. 766-768: decomposition \"becomes appreciable 30-40 degrees above the melting point\" (483 K), after Centnerszwer & Blumenthal (1936); 513 K is the lower end of that qualitative statement, to Ag(s), NO2 and O2.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
@@ -1983,7 +1983,7 @@
     },
     {
       "id": "literature/transition-points/NaOH",
-      "citation": "Melting point 593 K (320 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-1, printed page 796. Boiling point: the table gives none and none is claimed.",
+      "citation": "Melting point 593 K (320 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 92-1, printed page 796. Boiling point: the table gives none. Normal boiling point 1651 K: K. K. Kelley, 'Contributions to the Data on Theoretical Metallurgy. III. The Free Energies of Vaporization and Vapor Pressures of Inorganic Substances', U.S. Bureau of Mines Bulletin 383 (1935), a United States Government work in the public domain (no doi); https://archive.org/details/DTIC_ADB184291, read from the page image. Kelley's B.P. is in kelvin (checked: dH/dS = 38,840/23.1 = 1,681 K on the KCl line). Page 97, 'Sodium, Hydroxide', Liquid -> Gas (NaOH): B.P. = 1,651, from one data set (Von Wartenberg & Albrecht, Z. Elektrochem. 27 (1921) 162, 1,283-1,675 K) that Kelley calls erratic.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
@@ -2001,7 +2001,7 @@
     },
     {
       "id": "literature/transition-points/CaCl2",
-      "citation": "Melting point 1055 K (782 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 87-1, printed page 778. Boiling point: the table gives only a sublimation at 0.018 mm Hg, no normal boiling point, and none is claimed.",
+      "citation": "Melting point 1055 K (782 degrees Celsius): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 87-1, printed page 778. Boiling point: the table gives only a sublimation at 0.018 mm Hg, no normal boiling point,. Normal boiling point 1873.15 K (1600 degrees Celsius): C. G. Maier, 'Vapor Pressures of the Common Metallic Chlorides and a Static Method for High Temperatures', U.S. Bureau of Mines Technical Paper 360 (1925), Table 31 'Normal boiling points', p. 51, a United States Government work in the public domain (no doi); https://archive.org/details/pub_usgov-bmines-technical-paper_0360, read from the page image. The value is printed in square brackets, which the Bureau's tables use for extrapolated or uncertain values. Maier measured no CaCl2 vapour pressure above 1,137 degrees Celsius, so this is an extrapolation.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
@@ -2100,7 +2100,7 @@
     },
     {
       "id": "literature/transition-points/BaCl2",
-      "citation": "Melting point 1235 K (962 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 89-1, printed page 787. Boiling point: the table gives vaporization only at 6.3 mm Hg, no normal boiling point, and none is claimed.",
+      "citation": "Melting point 1235 K (962 degrees Celsius; fusion of crystal I): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II, 'Heat, temperature, and entropy of transition, fusion, and vaporization'; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf (archived copy read 2026-11-11: https://web.archive.org/web/20250131204324/https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, sha256 9e50354a5f1b44d5db68f2c0b98028bef51c90c89f06040d86530150a14e6cb4), a United States Government work in the public domain (no doi). Read from the page image (formula column and the K column), not the scanned text layer: Table 89-1, printed page 787. Boiling point: the table gives vaporization only at 6.3 mm Hg, no normal boiling point,. Normal boiling point 1835.15 K (1562 degrees Celsius): C. G. Maier, 'Vapor Pressures of the Common Metallic Chlorides and a Static Method for High Temperatures', U.S. Bureau of Mines Technical Paper 360 (1925), Table 31 'Normal boiling points', p. 51, a United States Government work in the public domain (no doi); https://archive.org/details/pub_usgov-bmines-technical-paper_0360, read from the page image. The value is printed in square brackets, which the Bureau's tables use for extrapolated or uncertain values. Maier's own BaCl2 data (about 1,329-1,487 K) are called 'probably not dependable'.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
@@ -2565,6 +2565,15 @@
       "origin": "vendor/nasa-cea/thermo.inp",
       "revision": "NASA CEA Cu2O(cr), Cu2O(L); King,1973 p60",
       "retrieved": "2026-11-14"
+    },
+    {
+      "id": "literature/transition-points/Pb(NO3)2",
+      "citation": "Decomposition 539 K: K. H. Stern, 'High Temperature Properties and Decomposition of Inorganic Salts. Part 3. Nitrates and Nitrites', J. Phys. Chem. Ref. Data 1 (1972) 747-772, doi:10.1063/1.3253104, free NIST reprint https://srd.nist.gov/jpcrdreprint/1.3253104.pdf (c) 1972 the U.S. Secretary of Commerce on behalf of the United States. Section \"Lead\", pp. 758-759, after Neumann & Sonntag, Z. Elektrochem. 39 (1933) 799: the first step 3 Pb(NO3)2 = Pb(NO3)2.2PbO + 4 NO2 + O2 was measured as an equilibrium over 539-632 K; 539 K is the lower end of that measured range, not a thermogravimetric onset. The salt decomposes before it melts or boils; overall products PbO, NO2 and O2.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1063/1.3253104",
+      "revision": "J. Phys. Chem. Ref. Data 1 (1972) 747, Lead section",
+      "retrieved": "2026-11-20"
     },
     {
       "id": "kerotakis/dissolution-enthalpies-v1",
@@ -5810,6 +5819,34 @@
       "id": "HS-",
       "canonical_key": "HS-",
       "name": "hydrosulfide ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "S-2",
+      "canonical_key": "S-2",
+      "name": "sulfide ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "H2S(aq)",
+      "canonical_key": "H2S(aq)",
+      "name": "dissolved hydrogen sulfide",
       "identifiers": {},
       "synonyms": [],
       "evidence": {
@@ -26586,6 +26623,163 @@
           "detail": "formula stoichiometry and registry atomic mass basis"
         }
       }
+    },
+    {
+      "id": "composition/S-2",
+      "species_id": "S-2",
+      "formula": "S-2",
+      "elements": [
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/H2S(aq)",
+      "species_id": "H2S(aq)",
+      "formula": "H2S",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -27321,6 +27515,45 @@
           "medium": null,
           "phase": "solid",
           "notes": "silver nitrate decomposes well below any boiling point; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/AgNO3",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/AgNO3",
+      "species_id": "AgNO3",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 513.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "qualitative onset: appreciable 30-40 K above the 483 K melting point (Stern 1972); lower end taken; not a boiling point"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -29458,6 +29691,43 @@
       }
     },
     {
+      "id": "boiling-point/NaOH",
+      "species_id": "NaOH",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1651.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "single erratic data set (Kelley 1935); vapour written as monomer although it holds (NaOH)2, so an effective value"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/NaOH",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/NaOH",
       "species_id": "NaOH",
       "phase": "solid",
@@ -31348,6 +31618,43 @@
       }
     },
     {
+      "id": "boiling-point/KCl",
+      "species_id": "KCl",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1680.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "Kelley 1935 vapour-pressure fit, extrapolated about 300 K above the data; monomer vapour assumed"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/KCl",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/KCl",
       "species_id": "KCl",
       "phase": "solid",
@@ -31493,6 +31800,43 @@
           "medium": null,
           "phase": "solid",
           "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/CaCl2",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/CaCl2",
+      "species_id": "CaCl2",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1873.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "UNCERTAIN: bracketed (extrapolated) in Maier 1925; no vapour pressure was measured above 1137 C"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -36263,6 +36607,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/Pb(NO3)2",
+      "species_id": "Pb(NO3)2",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 539.0,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "lower end of the 539-632 K equilibrium range of the first decomposition step (Stern 1972); not a boiling point"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/Pb(NO3)2",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
         }
       }
     },
@@ -42733,6 +43116,43 @@
           "medium": null,
           "phase": "solid",
           "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/BaCl2",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/BaCl2",
+      "species_id": "BaCl2",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1835.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "UNCERTAIN: bracketed (extrapolated) in Maier 1925 from data the author calls probably not dependable"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -50780,6 +51200,186 @@
     {
       "id": "density/HS-",
       "species_id": "HS-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/S-2",
+      "species_id": "S-2",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 32.06,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/S-2",
+      "species_id": "S-2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/S-2",
+      "species_id": "S-2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/H2S(aq)",
+      "species_id": "H2S(aq)",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 34.076,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/H2S(aq)",
+      "species_id": "H2S(aq)",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/H2S(aq)",
+      "species_id": "H2S(aq)",
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {

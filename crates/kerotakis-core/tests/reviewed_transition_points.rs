@@ -234,9 +234,9 @@ fn restored_circular_500_points_carry_their_table_values() {
         ("NaCl", Some(1073.8), Some(1738.0)),
         ("AgNO3", Some(483.0), None),
         ("AgCl", Some(728.0), Some(1830.0)),
-        ("NaOH", Some(593.0), None),
+        ("NaOH", Some(593.0), Some(1651.0)),
         ("Na2CO3", Some(1127.0), None),
-        ("CaCl2", Some(1055.0), None),
+        ("CaCl2", Some(1055.0), Some(1873.15)),
         ("MgSO4", Some(1400.0), None),
         ("CaO", Some(2873.0), None),
         ("MgO", Some(3173.0), None),
@@ -247,7 +247,7 @@ fn restored_circular_500_points_carry_their_table_values() {
         ("NaBr", Some(1023.0), Some(1665.0)),
         ("FeCl3", Some(577.0), None),
         ("Na2SO4", Some(1163.0), None),
-        ("BaCl2", Some(1235.0), None),
+        ("BaCl2", Some(1235.0), Some(1835.15)),
         ("BaSO4", Some(1623.0), None),
     ];
     for (key, melting, boiling) in rows {
@@ -279,18 +279,28 @@ fn dry_ice_is_reviewed_against_span_and_wagner() {
 }
 
 #[test]
-fn unsourced_decompositions_and_boils_stay_absent() {
-    // Negative: no value is invented where no primary was read.
-    let key = "Pb(NO3)2";
-    let dec = species::lookup(&SpeciesId::new(key))
-        .and_then(|d| d.transitions)
-        .and_then(|t| t.decomposition_k);
-    assert!(dec.is_none(), "{key} decomposition must stay no_data");
-    for key in ["NaOH", "CaCl2", "BaCl2"] {
-        assert!(
-            transitions(key).boiling_k.is_none(),
-            "{key} boiling must stay no_data"
-        );
+fn bureau_of_mines_boils_and_stern_decompositions_carry_their_flags() {
+    // 2026-11-20: values read from page images of public-domain primaries
+    // (Kelley 1935, Maier 1925, Stern 1972). Maier's two are bracketed in
+    // his table (extrapolated), and the uncertainty travels with them.
+    let kcl = transitions("KCl");
+    assert_eq!(kcl.boiling_k, Some(1680.0));
+    assert!(kcl.source.contains("Bulletin 383"), "{}", kcl.source);
+    for (key, k) in [("CaCl2", 1873.15), ("BaCl2", 1835.15)] {
+        let t = transitions(key);
+        assert_eq!(t.boiling_k, Some(k), "{key}");
+        assert!(t.source.contains("Technical Paper 360"), "{}", t.source);
+        assert!(t.source.contains("extrapolated"), "{}", t.source);
+    }
+    // Decomposition, never a boiling point.
+    let lead = transitions("Pb(NO3)2");
+    assert_eq!(lead.decomposition_k, Some(539.0));
+    assert!(lead.boiling_k.is_none());
+    let silver = transitions("AgNO3");
+    assert_eq!(silver.decomposition_k, Some(513.0));
+    assert!(silver.boiling_k.is_none());
+    for t in [&lead, &silver] {
+        assert!(t.source.contains("doi:10.1063/1.3253104"), "{}", t.source);
     }
 }
 

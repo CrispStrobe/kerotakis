@@ -55,6 +55,15 @@ fn moles(bench: &Bench, key: &str) -> f64 {
         .0
 }
 
+/// Reduced sulfur in the vessel, whichever member of the S(-2) split books
+/// it: `H2S(aq)`, `HS-` or `S-2` (since 2026-11-20).
+fn reduced(bench: &Bench) -> f64 {
+    ["H2S(aq)", "HS-", "S-2"]
+        .iter()
+        .map(|key| moles(bench, key))
+        .sum()
+}
+
 fn evolved(events: &[Event], key: &str) -> f64 {
     events
         .iter()
@@ -75,11 +84,19 @@ fn noted(events: &[Event], key: &str) -> bool {
 fn an_open_beaker_of_sodium_sulfide_keeps_its_sulfide() {
     // 0.005 mol x 78.0395 g/mol = 0.390 g.
     let (bench, steps) = run(&["add v1 water 100mL", "add v1 Na2S 0.3902g", "wait 600s"]);
-    let sulfide = moles(&bench, "HS-");
+    let sulfide = reduced(&bench);
     assert!(
         (sulfide - 0.005).abs() < 1e-6,
-        "sulfide must be kept as HS-: {sulfide}\n{steps:#?}"
+        "sulfide must be kept as reduced sulfur: {sulfide}\n{steps:#?}"
     );
+    // At pH 12-13 the split is HS- and S-2; the neutral share is a trace.
+    // How much is S-2 depends on the route's HS-/S-2 constant (wateq4f
+    // -12.918, minteq.v4 -17.3), so only its sign is pinned here.
+    assert!(
+        moles(&bench, "H2S(aq)") < 0.01 * sulfide,
+        "an alkaline sulfide solution holds almost no H2S(aq)"
+    );
+    assert!(moles(&bench, "HS-") > 0.5 * sulfide, "mostly HS-");
     assert!(moles(&bench, "Na2S") < 1e-12, "the salt dissolves");
     assert!(
         moles(&bench, "SO4-2") < 1e-12,
@@ -126,11 +143,42 @@ fn acidifying_concentrated_sulfide_vents_only_the_supersaturated_hydrogen_sulfid
         })
         .sum();
     assert!((added - 0.05).abs() < 1e-5, "added {added} mol Na2S");
-    let kept = moles(&bench, "HS-");
+    let kept = reduced(&bench);
+    // 0.2 mol HCl on 0.05 mol sulfide leaves strong acid in excess: what
+    // stays dissolved is the neutral H2S(aq), not HS-.
+    assert!(
+        moles(&bench, "H2S(aq)") > 0.95 * kept,
+        "acidified sulfide books as H2S(aq): {} of {kept}",
+        moles(&bench, "H2S(aq)")
+    );
+    assert!(moles(&bench, "S-2") < 1e-12 * kept.max(1.0));
     assert!(
         (kept + vented - added).abs() < 1e-8,
         "sulfur is conserved between solution and the vented gas: {kept} + {vented} vs {added}"
     );
     assert!(moles(&bench, "SO4-2") < 1e-12);
     assert!(noted(&steps[2], "not-modeled.sulfide-open-air"));
+}
+
+#[test]
+fn reduced_sulfur_survives_a_second_step_in_every_split_member() {
+    // The round trip the split used to block: a neutral share booked on
+    // step one must re-enter the solve on step two. Half-neutralised
+    // sulfide (pH near pKa1, about 7) holds real H2S(aq) and real HS-.
+    let (bench, steps) = run(&[
+        "add v1 water 100mL",
+        "add v1 Na2S 0.3902g",
+        "add v1 HCl 0.0075mol",
+        "wait 60s",
+        "wait 60s",
+    ]);
+    let total = reduced(&bench);
+    assert!(
+        (total - 0.005).abs() < 1e-6,
+        "S(-2) conserved across steps: {total}\n{steps:#?}"
+    );
+    let neutral = moles(&bench, "H2S(aq)");
+    let ion = moles(&bench, "HS-");
+    assert!(neutral > 0.05 * total && ion > 0.05 * total, "{neutral} / {ion}");
+    assert!(moles(&bench, "SO4-2") < 1e-12);
 }

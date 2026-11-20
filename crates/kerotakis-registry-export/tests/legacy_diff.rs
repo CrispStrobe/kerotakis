@@ -120,6 +120,8 @@ fn every_legacy_field_is_present_and_unchanged() {
                         | "Cu2O"
                         | "Na2S"
                         | "HS-"
+                        | "S-2"
+                        | "H2S(aq)"
                         | "H+"
                         | "CO2(aq)"
                         | "CO3-2"
@@ -328,6 +330,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
     if matches!(
         species.key,
         "H+" | "CO2(aq)" | "CO3-2" | "HPO4-2" | "PO4-3" | "NO2-" | "KSCN" | "SCN-" | "HS-"
+            | "S-2" | "H2S(aq)"
     ) {
         let identity = document
             .identities
@@ -1215,7 +1218,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 199, "one molar mass per species");
+    assert_eq!(masses.len(), 201, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

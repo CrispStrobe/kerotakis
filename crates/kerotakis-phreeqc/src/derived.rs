@@ -332,11 +332,10 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // registry key (the gas is `hydrogen_sulfide`), and minteq.v4 as
     // `HS-`; without this row the booking would depend on which database
     // the derivation happens to read first. `HS-` is the aqueous-basis ion
-    // added with sodium sulfide. No protonation split yet, on the
-    // thiosulfate precedent: the solved element total is authoritative and
-    // the pH carries the H2S/HS- proportion. That is coarser than sulfite's
-    // split (pKa1 about 7 sits in the bench range), and naming the neutral
-    // H2S(aq) share needs its own aqueous registry key first.
+    // added with sodium sulfide. It stays the booking ion whenever the
+    // `PROTONATION_SPLITS` columns are absent (pitzer has no S(-2)); where
+    // they are present the split below divides the total between H2S(aq),
+    // HS- and S-2.
     ("S(-2)", "HS-"),
     // Sulfite's master species in the borrowed block is `Sulfite-2` for
     // the same PHREEQC reason; the registry writes `SO3-2`. UNLIKE
@@ -633,7 +632,30 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
     // handles by falling back to the single booking ion, exactly as it
     // does for pitzer's missing nitrogen.
     ("B", &[("H3BO3", "H3BO3"), ("H2BO3-", "H2BO3-")]),
+    // Reduced sulfur. pKa1 about 7 sits in the bench range, so a sodium
+    // sulfide solution (mostly HS-) and the same solution acidified (mostly
+    // dissolved H2S) are different substances in one ledger. The neutral
+    // share books under its own aqueous-basis key `H2S(aq)`, not under the
+    // gas key `hydrogen_sulfide`: the gas has no derived role, so booking
+    // the dissolved share there would lose the element on the next step.
+    //
+    // The second constant is route-dependent and stays so: wateq4f writes
+    // `HS- = S-2 + H+` log K -12.918, minteq.v4 -17.3. The split is the
+    // solve's own, so each route reports its own S-2 share (tens of percent
+    // near pH 12.5 on wateq4f, a trace on minteq.v4). That disagreement is
+    // documented in docs/sulfide-coverage-20261119.md, not reconciled here.
+    // pitzer carries no S(-2): all-or-nothing falls back to `HS-`.
+    (
+        "S(-2)",
+        &[("H2S", "H2S(aq)"), ("HS-", "HS-"), ("S-2", "S-2")],
+    ),
 ];
+
+/// Registry ions that are neither a database master species nor derivable
+/// from their formula: the formula parser drops charge, so `S-2` parses as
+/// elemental sulfur, which `extract_sulfide` rightly refuses. The element
+/// state is stated here instead.
+const ION_ELEMENT_STATES: &[(&str, &str)] = &[("S-2", "S(-2)")];
 
 /// The protonation split for an element state, if it has one.
 pub fn protonation_split(element: &str) -> Option<&'static [(&'static str, &'static str)]> {
@@ -1044,6 +1066,12 @@ impl Derived {
             // permanganate and manganese(II) writes `Mn(7)` and `Mn` into
             // the same input — which PHREEQC reads as the same element
             // entered twice and refuses outright.
+            if let Some((_, element)) = ION_ELEMENT_STATES.iter().find(|(k, _)| *k == s.key) {
+                if indexes.iter().any(|idx| idx.has_element(element)) {
+                    roles.insert(s.key, DerivedRole::Dissolves(vec![(element.to_string(), 1.0)]));
+                }
+                continue;
+            }
             let as_master = indexes
                 .iter()
                 .find_map(|idx| idx.species_element.get(s.key))
@@ -2368,8 +2396,20 @@ mod tests {
         }
         assert!(!matches!(role("S"), Some(DerivedRole::Dissolves(_))));
         assert!(role("hydrogen_sulfide").is_none());
+        for key in ["H2S(aq)", "S-2"] {
+            match role(key) {
+                Some(DerivedRole::Dissolves(c)) => {
+                    assert_eq!(*c, vec![("S(-2)".to_string(), 1.0)], "{key}")
+                }
+                other => panic!("{key} role {other:?}"),
+            }
+        }
+        assert_eq!(
+            protonation_split("S(-2)"),
+            Some(&[("H2S", "H2S(aq)"), ("HS-", "HS-"), ("S-2", "S-2")][..])
+        );
         for s in species::REGISTRY {
-            if matches!(s.key, "Na2S" | "HS-") {
+            if matches!(s.key, "Na2S" | "HS-" | "H2S(aq)" | "S-2") {
                 continue;
             }
             if let Some(DerivedRole::Dissolves(c))
