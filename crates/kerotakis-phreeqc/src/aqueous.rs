@@ -4635,8 +4635,14 @@ impl Equilibrator for PhreeqcEquilibrator {
         };
         *vessel = solved;
         // The final state, posed canonically, before the last word on it.
-        if !physical_canonical_closed {
-            match self.recharacterise_canonically(vessel, &mut events) {
+        // A strictly closed pose keeps its own pH and ionic strength, but
+        // its auxiliary solvent diagnostics are re-asked of the settled
+        // contents exactly as the open branch does, so a zero-time
+        // addition and its zero-time repeat answer the same question
+        // (docs/zero-time-determinism-20261119.md).
+        let activity_only = physical_canonical_closed;
+        {
+            match self.recharacterise_canonically(vessel, &mut events, activity_only) {
                 Ok(()) => {}
                 Err(error) => {
                     *vessel = start;
@@ -7928,6 +7934,7 @@ impl PhreeqcEquilibrator {
         &mut self,
         vessel: &mut Vessel,
         events: &mut [Event],
+        activity_only: bool,
     ) -> Result<(), SolveError> {
         let Some(scope) = vessel.solution.as_ref().map(|info| info.scope) else {
             return Ok(());
@@ -8013,6 +8020,12 @@ impl PhreeqcEquilibrator {
             }
             None => None,
         };
+        if activity_only {
+            if let (Some(fresh), Some(info)) = (refreshed_activity, vessel.solution.as_mut()) {
+                info.solvent_activity = Some(fresh);
+            }
+            return Ok(());
+        }
         refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kg)?;
         let Some(info) = vessel.solution.as_mut() else {
             return Ok(());
