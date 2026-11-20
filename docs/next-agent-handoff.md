@@ -102,6 +102,12 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      legacy-diff, golden, locales, aliases, safety, coverage docs; the sulfide family is now
      exercisable. Engine test `tests/sulfide_family.rs`. Open: H2S/HS- protonation split,
      Na2S melting transition, `hydrogen_sulfide` gas-dose path.
+     H2S/HS- split prerequisite (checked 2026-11-20): the readback normalises a split over the
+     species it lists, so an `S(-2)` split must list `S-2` too or its share is silently given to
+     H2S/HS-. That matters here: wateq4f has HS- = S-2 + H+ at log K -12.918 (about 28 % S-2 at the
+     pH 12.5 of an Na2S solution) while minteq.v4 has -17.3 (about 0.002 %). The two routes disagree by
+     4.4 log units on the same equilibrium, so the split needs a registry `S-2` ion AND a reviewed
+     decision on the second constant (route-dependent answer, or one sourced value) before landing.
      **Fourth pass (branch fix/safety-notes-20261119, untested):** safety rule
      `acid-sulfide-h2s` (Danger; new `Sulfide` group on Na2S/HS-; ICSC 0165; en/de/fr) DONE.
      The `hydrogen_sulfide` -> S(-2) booking was evaluated and deliberately NOT added: it needs
