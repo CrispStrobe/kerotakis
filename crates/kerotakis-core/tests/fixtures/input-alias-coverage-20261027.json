@@ -1196,6 +1196,11 @@
       "source": "name:de"
     },
     {
+      "alias": "S2-",
+      "canonical": "S-2",
+      "source": "charge-notation"
+    },
+    {
       "alias": "Saccharose",
       "canonical": "sucrose",
       "source": "name:de"
@@ -1308,6 +1313,16 @@
     {
       "alias": "Sulfat-Ion",
       "canonical": "SO4-2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Sulfid",
+      "canonical": "S-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Sulfid-Ion",
+      "canonical": "S-2",
       "source": "name:de"
     },
     {
@@ -2176,6 +2191,11 @@
       "source": "name:en"
     },
     {
+      "alias": "dissolved hydrogen sulfide",
+      "canonical": "H2S(aq)",
+      "source": "name:en"
+    },
+    {
       "alias": "dry ice",
       "canonical": "dry_ice",
       "source": "name:en"
@@ -2208,6 +2228,11 @@
     {
       "alias": "gebleichtes Haarpigment (oxidiert)",
       "canonical": "hair_pigment_ox",
+      "source": "name:de"
+    },
+    {
+      "alias": "gelöster Schwefelwasserstoff",
+      "canonical": "H2S(aq)",
       "source": "name:de"
     },
     {
@@ -2643,6 +2668,11 @@
     {
       "alias": "ion sulfite",
       "canonical": "SO3-2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion sulfure",
+      "canonical": "S-2",
       "source": "name:fr"
     },
     {
@@ -3446,6 +3476,16 @@
       "source": "name:en"
     },
     {
+      "alias": "sulfide",
+      "canonical": "S-2",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "sulfide ion",
+      "canonical": "S-2",
+      "source": "name:en"
+    },
+    {
       "alias": "sulfite",
       "canonical": "SO3-2",
       "source": "ion-name:en"
@@ -3471,8 +3511,18 @@
       "source": "name:en"
     },
     {
+      "alias": "sulfure",
+      "canonical": "S-2",
+      "source": "ion-name:fr"
+    },
+    {
       "alias": "sulfure d'hydrogène",
       "canonical": "hydrogen_sulfide",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfure d'hydrogène dissous",
+      "canonical": "H2S(aq)",
       "source": "name:fr"
     },
     {

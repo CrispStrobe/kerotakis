@@ -430,7 +430,13 @@ pub(crate) fn consume_acidity(vessel: &mut Vessel, moles: f64) {
                 .map_or(0.0, |(_, w)| *w);
             // Never spend more of the acid than its water can pay for.
             let spent = if water_per > 0.0 {
-                spent.min(vessel.moles_of(&SpeciesId::new("water")).0 / water_per)
+                let liquid: f64 = vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                spent.min(liquid / water_per)
             } else {
                 spent
             };
@@ -439,7 +445,11 @@ pub(crate) fn consume_acidity(vessel: &mut Vessel, moles: f64) {
             }
             vessel.withdraw(&SpeciesId::new(acid), Moles(spent));
             if water_per > 0.0 {
-                vessel.withdraw(&SpeciesId::new("water"), Moles(spent * water_per));
+                vessel.withdraw_phase(
+                    &SpeciesId::new("water"),
+                    Moles(spent * water_per),
+                    Phase::Liquid,
+                );
             }
             vessel.deposit(SpeciesId::new(base), Moles(spent), Phase::Aqueous);
             remaining -= spent;
