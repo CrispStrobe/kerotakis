@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 41, neutral-refused 149, partitions 9.
+Counts: ion-stays-aqueous 42, neutral-refused 150, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -56,6 +56,7 @@ Counts: ion-stays-aqueous 41, neutral-refused 149, partitions 9.
 | ion-stays-aqueous | OH- | — |
 | ion-stays-aqueous | PO4-3 | — |
 | ion-stays-aqueous | Pb+2 | — |
+| ion-stays-aqueous | S-2 | — |
 | ion-stays-aqueous | S2O3-2 | — |
 | ion-stays-aqueous | S4O6-2 | — |
 | ion-stays-aqueous | SCN- | — |
@@ -99,6 +100,7 @@ Counts: ion-stays-aqueous 41, neutral-refused 149, partitions 9.
 | neutral-refused | H2 | — |
 | neutral-refused | H2C2O4 | — |
 | neutral-refused | H2O2 | — |
+| neutral-refused | H2S(aq) | — |
 | neutral-refused | H2SO4 | — |
 | neutral-refused | H3BO3 | — |
 | neutral-refused | H3PO4 | — |
