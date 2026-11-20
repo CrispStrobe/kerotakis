@@ -157,6 +157,26 @@ pub struct DbIndex {
     /// no engine accessor at all.
     #[serde(default)]
     pub species_delta_h_kj: BTreeMap<String, f64>,
+    /// Aqueous species name → its enthalpy relative to the PRIMARY master
+    /// basis, kJ/mol: the defining reaction's `delta_h` plus the basis
+    /// enthalpies of every other species in that reaction, followed back
+    /// until only primary masters, `H+`, `H2O` and `e-` remain.
+    ///
+    /// `species_delta_h_kj` alone is relative to whatever the reaction's
+    /// left-hand side is, and that is a master only sometimes. wateq4f and
+    /// phreeqc.dat define `NH4+` from `NO3-` by an eight-electron reduction
+    /// (−782.6 kJ/mol) and then `NH3` from `NH4+` (+52.2). Reading both
+    /// raw puts the two members of one acid–base pair 835 kJ/mol apart
+    /// instead of 52, and `NH4Cl + NaOH` froze the beaker. The same split
+    /// sits under every `Fe+3` complex (defined from `Fe+3`, itself defined
+    /// from `Fe+2`) and every sulfide (defined from `HS-`, itself defined
+    /// from `SO4-2`).
+    ///
+    /// A species whose chain reaches a non-master that states no enthalpy
+    /// is ABSENT here even when its own reaction has one: half a chain is
+    /// not a smaller error, it is the same error, so it declines by name.
+    #[serde(default)]
+    pub species_basis_h_kj: BTreeMap<String, f64>,
     /// Activity model, derived from the file's own declarations.
     pub activity_model: ActivityModel,
     /// Literature citations found in the file's comments, in file order.
@@ -207,6 +227,10 @@ impl DbIndex {
         let mut analytic_species: BTreeMap<String, f64> = BTreeMap::new();
         let mut analytic_phases: BTreeMap<String, f64> = BTreeMap::new();
         let mut last_inserted: Option<String> = None;
+        // Each species' defining reaction: (left-hand terms, right-hand
+        // terms other than the species defined). Latest definition wins,
+        // as it does in PHREEQC.
+        let mut reactions: BTreeMap<String, SpeciesReaction> = BTreeMap::new();
 
         // Activity model: derived from what the file declares about itself.
         idx.activity_model = if text.contains("\nPITZER") {
@@ -325,6 +349,13 @@ impl DbIndex {
                         if let Some(name) = &pending_species {
                             idx.species_delta_h_kj.remove(name);
                             analytic_species.remove(name);
+                            if let Some((lhs, rhs)) = line.split_once('=') {
+                                let mut right = reaction_terms(rhs);
+                                if !right.is_empty() {
+                                    right.remove(0);
+                                }
+                                reactions.insert(name.clone(), (reaction_terms(lhs), right));
+                            }
                         }
                     } else if let Some(name) = &pending_species {
                         let tokens: Vec<&str> = line.split_whitespace().collect();
@@ -409,6 +440,7 @@ impl DbIndex {
         for (name, kj) in analytic_species {
             idx.species_delta_h_kj.entry(name).or_insert(kj);
         }
+        idx.species_basis_h_kj = basis_enthalpies(&reactions, &idx);
         for (name, kj) in analytic_phases {
             if let Some(phase) = idx.phases.get_mut(&name) {
                 if phase.delta_h_kj.is_none() {
@@ -444,6 +476,99 @@ impl DbIndex {
     pub fn has_phase(&self, name: &str) -> bool {
         self.phases.contains_key(name)
     }
+}
+
+/// A `SOLUTION_SPECIES` reaction as parsed: left-hand terms and the
+/// right-hand terms other than the species it defines.
+type SpeciesReaction = (Vec<(f64, String)>, Vec<(f64, String)>);
+
+/// One side of a PHREEQC reaction as `(coefficient, species)` terms.
+/// Terms are joined by `" + "` (a bare `+` would split `Na+`); the
+/// coefficient may stand apart (`10 H+`) or be written onto the name
+/// (`2H2O`).
+fn reaction_terms(side: &str) -> Vec<(f64, String)> {
+    let mut out = Vec::new();
+    for term in side.split(" + ") {
+        let mut parts = term.split_whitespace();
+        let (Some(a), b) = (parts.next(), parts.next()) else {
+            continue;
+        };
+        let (coeff, name) = match b {
+            Some(name) => match a.parse::<f64>() {
+                Ok(n) => (n, name.to_string()),
+                Err(_) => (1.0, a.to_string()),
+            },
+            None => {
+                let digits = a
+                    .find(|c: char| !(c.is_ascii_digit() || c == '.'))
+                    .unwrap_or(0);
+                match a[..digits].parse::<f64>() {
+                    Ok(n) if digits > 0 => (n, a[digits..].to_string()),
+                    _ => (1.0, a.to_string()),
+                }
+            }
+        };
+        out.push((coeff, name));
+    }
+    out
+}
+
+/// Every species' enthalpy relative to the primary master basis — see
+/// [`DbIndex::species_basis_h_kj`]. `H+`, `H2O` and `e-` are the zero of
+/// PHREEQC's own convention; a species defined by an identity reaction is
+/// a primary master; a listed master with no reaction of its own is too.
+fn basis_enthalpies(
+    reactions: &BTreeMap<String, SpeciesReaction>,
+    idx: &DbIndex,
+) -> BTreeMap<String, f64> {
+    fn resolve(
+        name: &str,
+        reactions: &BTreeMap<String, SpeciesReaction>,
+        idx: &DbIndex,
+        memo: &mut BTreeMap<String, Option<f64>>,
+        depth: usize,
+    ) -> Option<f64> {
+        if matches!(name, "H+" | "H2O" | "e-") {
+            return Some(0.0);
+        }
+        if let Some(known) = memo.get(name) {
+            return *known;
+        }
+        // A cycle or an absurd chain is not a basis.
+        if depth > 32 {
+            return None;
+        }
+        let value = match reactions.get(name) {
+            None => idx.species_element.contains_key(name).then_some(0.0),
+            Some((lhs, rhs)) if rhs.is_empty() && lhs.len() == 1 && lhs[0].1 == name => Some(0.0),
+            // A listed (secondary) master whose reaction states no
+            // enthalpy is the zero `aqueous_enthalpy` already treats it as;
+            // this keeps its family priced exactly as before.
+            Some(_)
+                if !idx.species_delta_h_kj.contains_key(name)
+                    && idx.species_element.contains_key(name) =>
+            {
+                Some(0.0)
+            }
+            Some((lhs, rhs)) => idx.species_delta_h_kj.get(name).copied().and_then(|dh| {
+                let mut h = dh;
+                for (n, term) in lhs {
+                    h += n * resolve(term, reactions, idx, memo, depth + 1)?;
+                }
+                for (n, term) in rhs {
+                    h -= n * resolve(term, reactions, idx, memo, depth + 1)?;
+                }
+                h.is_finite().then_some(h)
+            }),
+        };
+        memo.insert(name.to_string(), value);
+        value
+    }
+    let mut memo = BTreeMap::new();
+    reactions
+        .keys()
+        .filter_map(|name| resolve(name, reactions, idx, &mut memo, 0).map(|h| (name.clone(), h)))
+        .collect()
 }
 
 /// A PHREEQC `delta_h` line's value in kJ/mol.
