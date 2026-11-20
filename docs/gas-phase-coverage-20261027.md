@@ -136,7 +136,16 @@ Remaining gaps (not changed here; each needs reviewed data and closure controls)
     S(IV) instantly with no rate. Open-vessel SO2 escape belongs with the k_L seeping lane.
   - Not covered: temperature away from 298.15 K is constant-enthalpy van't Hoff (the
     paper's dCp terms are not carried); water activity 1 in the gas reaction; no
-    pyrosulfite (S2O5-2, Table 9 (C)); no typed boundary event for SO2 yet (HBr has one).
+    pyrosulfite; no typed boundary event for SO2 yet (HBr has one).
+  - Pyrosulfite, value in hand, not wired: Table 9 (C), 2 HSO3- = S2O5-2 + H2O(l),
+    dG 8.53+-0.80, dH -4.6+-4.0 kJ/mol per mole S2O5-2 (log K -1.494; Table 10
+    formation energies give 8.529, consistent). Blocker is the basis, not the datum:
+    minteq.v4's `Sulfite` pseudo-element is SO3 with its oxygen hidden, and
+    S2O5 = 2 SO3 - O needs a negative explicit O count the database's element
+    accounting cannot write. Size of the omission (ideal, molality): at 0.1 M S(IV) as
+    bisulfite about 0.6 % is S2O5-2, at 1 M about 5.7 %; negligible dilute, real
+    for a sodium metabisulfite stock. Needs a true S/O basis for S(IV) (see the
+    SO2 basis note in the handoff), and a registry Na2S2O5 entry, before it can land.
   - Tests: `aqueous_gases::tests::sulfur_dioxide_*`, `sulfur_iv::tests::s_iv_aspects_have_exactly_one_owner`,
     `tests/sulfur_dioxide_gas.rs`.
 - `NH3(g)` on pitzer: pitzer.dat carries no nitrogen; the refusal is moot because
