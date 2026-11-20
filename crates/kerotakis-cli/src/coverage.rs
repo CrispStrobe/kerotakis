@@ -565,12 +565,15 @@ fn curated_event_routes(events: &[Event]) -> Vec<SolverRoute> {
             ..
         } = event
         {
-            if reason.key == "not-modeled.carbonate-fast-endpoint"
-                && events.iter().any(|candidate| {
-                    matches!(candidate, Event::GasEvolved { vessel: owner, species, moles }
-                        if owner == vessel && species.0 == "CO2" && moles.0.is_finite() && moles.0 > 0.0)
-                })
-            {
+            let gas = match reason.key.as_str() {
+                "not-modeled.carbonate-fast-endpoint" => "CO2",
+                "not-modeled.sulfide-fast-endpoint" => "hydrogen_sulfide",
+                _ => continue,
+            };
+            if events.iter().any(|candidate| {
+                matches!(candidate, Event::GasEvolved { vessel: owner, species, moles }
+                    if owner == vessel && species.0 == gas && moles.0.is_finite() && moles.0 > 0.0)
+            }) {
                 owners.insert(vessel.0);
             }
         }

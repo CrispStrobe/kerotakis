@@ -1,6 +1,8 @@
 //! Sodium sulfide on the bench: reduced sulfur stays reduced beside room
 //! air, books as `HS-`, and acidification vents only the hydrogen sulfide
-//! above saturation in the zero-time add step.
+//! above saturation in the zero-time add step, and (since 2026-11-20) the
+//! bounded acid/sulfide endpoint vents newly formed H2S(aq) below it in a
+//! dilute open beaker.
 //!
 //! Written 2026-11-19 without running the engine (the authoring lane runs
 //! no compiler). The expected numbers are estimates by reading, stated
@@ -121,6 +123,10 @@ fn an_open_beaker_of_sodium_sulfide_keeps_its_sulfide() {
     for events in &steps[1..] {
         assert!(evolved(events, "hydrogen_sulfide") < 1e-9, "{events:#?}");
         assert!(noted(events, "not-modeled.sulfide-open-air"), "{events:#?}");
+        assert!(
+            !noted(events, "not-modeled.sulfide-fast-endpoint"),
+            "alkaline sulfide does not fizz: {events:#?}"
+        );
     }
 }
 
@@ -170,9 +176,13 @@ fn reduced_sulfur_survives_a_second_step_in_every_split_member() {
     // The round trip the split used to block: a neutral share booked on
     // step one must re-enter the solve on step two. Half-neutralised
     // sulfide (pH near pKa1, about 7) holds real H2S(aq) and real HS-.
+    // Sealed since 2026-11-20: in an open beaker the newly formed H2S(aq)
+    // now leaves through the acid/sulfide endpoint, and this test is about
+    // the split's round trip, not about the gas boundary.
     let (bench, steps) = run(&[
         "add v1 water 100mL",
         "add v1 Na2S 0.3902g",
+        "seal v1 500mL",
         "add v1 HCl 0.0075mol",
         "wait 60s",
         "wait 60s",
@@ -189,4 +199,76 @@ fn reduced_sulfur_survives_a_second_step_in_every_split_member() {
         "{neutral} / {ion}"
     );
     assert!(moles(&bench, "SO4-2") < 1e-12);
+}
+
+fn failed(events: &[Event]) -> bool {
+    events
+        .iter()
+        .any(|event| matches!(event, Event::SolverFailed { .. }))
+}
+
+#[test]
+fn acidified_dilute_sulfide_in_an_open_beaker_vents_its_hydrogen_sulfide() {
+    // 0.005 mol Na2S and 0.02 mol HCl in 100 mL: strong acid in excess, so
+    // essentially all 0.005 mol S(-2) becomes H2S(aq), 0.05 mol/kgw against
+    // a saturation near 0.1 mol/kgw. No bubbles form, so before the endpoint
+    // nothing left; the bounded endpoint now vents the newly formed neutral
+    // share (the smell of an acidified sulfide), capped by acid and sulfide.
+    let (bench, steps) = run(&[
+        "add v1 water 100mL",
+        "add v1 Na2S 0.3902g",
+        "add v1 HCl 0.02mol",
+    ]);
+    let added: f64 = steps[1]
+        .iter()
+        .filter_map(|event| match event {
+            Event::Added { species, moles, .. } if species.0 == "Na2S" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    assert!(!failed(&steps[2]), "{:#?}", steps[2]);
+    let vented = evolved(&steps[2], "hydrogen_sulfide");
+    assert!(
+        vented > 0.9 * added && vented <= added + 1e-9,
+        "acidified sulfide vents its H2S: {vented} of {added}\n{:#?}",
+        steps[2]
+    );
+    assert!(
+        noted(&steps[2], "not-modeled.sulfide-fast-endpoint"),
+        "{:#?}",
+        steps[2]
+    );
+    let kept = reduced(&bench);
+    assert!(kept < 0.1 * added, "S(-2) left the solution: kept {kept}");
+    assert!(
+        (kept + vented - added).abs() < 1e-8,
+        "sulfur is conserved between solution and the vented gas: {kept} + {vented} vs {added}"
+    );
+    assert!(moles(&bench, "SO4-2") < 1e-12);
+    // The carbon endpoint is not involved.
+    assert!(evolved(&steps[2], "CO2") < 1e-9);
+    assert!(!noted(&steps[2], "not-modeled.carbonate-fast-endpoint"));
+}
+
+#[test]
+fn acidified_sulfide_in_a_sealed_vessel_keeps_its_reduced_sulfur() {
+    let (bench, steps) = run(&[
+        "add v1 water 100mL",
+        "add v1 Na2S 0.3902g",
+        "seal v1 500mL",
+        "add v1 HCl 0.02mol",
+    ]);
+    assert!(!failed(&steps[3]), "{:#?}", steps[3]);
+    assert!(
+        evolved(&steps[3], "hydrogen_sulfide") < 1e-9,
+        "{:#?}",
+        steps[3]
+    );
+    assert!(!noted(&steps[3], "not-modeled.sulfide-fast-endpoint"));
+    // Whatever share a finite headspace holds stays in the vessel.
+    let total = reduced(&bench) + moles(&bench, "hydrogen_sulfide");
+    assert!(
+        (total - 0.005).abs() < 1e-5,
+        "a sealed vessel keeps its sulfide: {total}\n{steps:#?}"
+    );
 }

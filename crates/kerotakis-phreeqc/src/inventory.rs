@@ -34,6 +34,10 @@ use crate::derived;
 pub(crate) struct ClockCo2Boundary {
     pub(crate) vessel: VesselId,
     pub(crate) applied_mol: f64,
+    /// The reduced-sulfur sibling: hydrogen sulfide already posed in the
+    /// native S(-2) total by the bounded acid/sulfide endpoint. Same
+    /// virtual-boundary contract as the carbon parcel; no clock writes it.
+    pub(crate) h2s_applied_mol: f64,
 }
 
 impl ClockCo2Boundary {
@@ -41,6 +45,7 @@ impl ClockCo2Boundary {
         Self {
             vessel,
             applied_mol: 0.0,
+            h2s_applied_mol: 0.0,
         }
     }
 }
@@ -464,28 +469,39 @@ fn inventory_error(reason: InventoryReason, detail: impl Into<String>) -> SolveE
     }
 }
 
+/// Every virtual parcel the boundary carries, as (formula, signed moles).
 fn clock_formula(
     clock: ClockCo2Boundary,
     vessel: VesselId,
-) -> Result<Option<kerotakis_core::stoich::Formula>, SolveError> {
-    if clock.vessel != vessel || !clock.applied_mol.is_finite() {
+) -> Result<Vec<(kerotakis_core::stoich::Formula, f64)>, SolveError> {
+    if clock.vessel != vessel
+        || !clock.applied_mol.is_finite()
+        || !clock.h2s_applied_mol.is_finite()
+    {
         return Err(inventory_error(
             InventoryReason::ClockBoundaryInvalid,
             "invalid clock CO2 boundary owner or amount",
         ));
     }
-    if clock.applied_mol == 0.0 {
-        return Ok(None);
+    let mut parcels = Vec::new();
+    for (key, amount) in [
+        ("CO2", clock.applied_mol),
+        ("hydrogen_sulfide", clock.h2s_applied_mol),
+    ] {
+        if amount == 0.0 {
+            continue;
+        }
+        let formula = species::lookup_key(key)
+            .and_then(|row| kerotakis_core::stoich::parse_formula(row.formula).ok())
+            .ok_or_else(|| {
+                inventory_error(
+                    InventoryReason::ClockFormulaUnknown,
+                    "clock CO2 has no known physical formula",
+                )
+            })?;
+        parcels.push((formula, amount));
     }
-    let formula = species::lookup_key("CO2")
-        .and_then(|row| kerotakis_core::stoich::parse_formula(row.formula).ok())
-        .ok_or_else(|| {
-            inventory_error(
-                InventoryReason::ClockFormulaUnknown,
-                "clock CO2 has no known physical formula",
-            )
-        })?;
-    Ok(Some(formula))
+    Ok(parcels)
 }
 
 /// A portion that is a coordinate of the acid/base/water basis rather than
@@ -546,12 +562,12 @@ pub(crate) fn complete_basis(
             }
         }
     }
-    if let Some(formula) = clock_formula(clock, before.id)? {
+    for (formula, applied) in clock_formula(clock, before.id)? {
         let h = formula.counts.get("H").copied().unwrap_or(0.0);
         let o = formula.counts.get("O").copied().unwrap_or(0.0);
-        gas_excess += clock.applied_mol * (h - 2.0 * o);
+        gas_excess += applied * (h - 2.0 * o);
         for (element, count) in formula.counts {
-            *target.entry(element).or_default() += clock.applied_mol * count;
+            *target.entry(element).or_default() += applied * count;
         }
     }
     // The before vessel, split the same way the after vessel is about to
@@ -678,6 +694,8 @@ pub(crate) fn certify_reservoir_opaque_inventory(
         || after.unresolved_materials.is_empty()
         || before.pending_co2_transfer_mol != 0.0
         || after.pending_co2_transfer_mol != 0.0
+        || before.pending_h2s_transfer_mol != 0.0
+        || after.pending_h2s_transfer_mol != 0.0
         || !matches!(&before.headspace, kerotakis_core::Headspace::Open)
         || !matches!(&after.headspace, kerotakis_core::Headspace::Open)
         || before.owns_headspace_gas()
@@ -812,11 +830,11 @@ fn certify_component_inventory(
         }
         expected.charge += formula.charge * signed_moles;
     }
-    if let Some(formula) = clock_formula(clock, before.id)? {
+    for (formula, applied) in clock_formula(clock, before.id)? {
         for (element, count) in formula.counts {
-            *expected.elements.entry(element).or_default() += count * clock.applied_mol;
+            *expected.elements.entry(element).or_default() += count * applied;
         }
-        expected.charge += formula.charge * clock.applied_mol;
+        expected.charge += formula.charge * applied;
     }
     let actual = clock_known_component_ledger(after, exclude_opaque_catalyst);
     let elements: BTreeSet<_> = expected
@@ -1244,6 +1262,7 @@ mod gas_aware_certificate_tests {
         let inlet = ClockCo2Boundary {
             vessel: before.id,
             applied_mol: 2e-6,
+            h2s_applied_mol: 0.0,
         };
         assert!(certify_gas_aware_inventory(&before, &after, &[], &[], inlet).is_ok());
         let outlet = ClockCo2Boundary {
@@ -1271,6 +1290,42 @@ mod gas_aware_certificate_tests {
             ClockCo2Boundary {
                 applied_mol: f64::NAN,
                 ..inlet
+            },
+        )
+        .is_err());
+    }
+
+    #[test]
+    fn virtual_hydrogen_sulfide_parcel_closes_the_sulfur_ledger_only_when_spent() {
+        let mut after = Vessel::new(VesselId(7), "sulfide boundary");
+        after.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        let mut before = after.clone();
+        before.deposit(SpeciesId::new("H2S(aq)"), Moles(2e-4), Phase::Aqueous);
+        let outlet = ClockCo2Boundary {
+            vessel: before.id,
+            applied_mol: 0.0,
+            h2s_applied_mol: -2e-4,
+        };
+        assert!(certify_gas_aware_inventory(&before, &after, &[], &[], outlet).is_ok());
+        // Unspent: the sulfur is still in the vessel, so the parcel cannot
+        // also have left it.
+        assert!(certify_gas_aware_inventory(&before, &before, &[], &[], outlet).is_err());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[],
+            &[],
+            ClockCo2Boundary::none(before.id),
+        )
+        .is_err());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[],
+            &[],
+            ClockCo2Boundary {
+                h2s_applied_mol: f64::NAN,
+                ..outlet
             },
         )
         .is_err());

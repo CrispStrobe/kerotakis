@@ -37,6 +37,7 @@ fn capacity(v: &Vessel) -> Result<Capacity, String> {
         || !v.adsorbed.is_empty()
         || !v.solid_solutions.is_empty()
         || v.pending_co2_transfer_mol != 0.0
+        || v.pending_h2s_transfer_mol != 0.0
     {
         return Err("strong-base capacity is not established for unresolved, bound or pending material reservoirs".into());
     }
