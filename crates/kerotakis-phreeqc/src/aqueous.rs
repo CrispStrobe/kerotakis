@@ -13140,6 +13140,7 @@ fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
 
 /// The charge-balanced pH line every built `SOLUTION` carries; 7 is only
 /// the starting estimate for the charge-balance unknown.
+#[cfg(feature = "engine")]
 const INITIAL_PH_ESTIMATE_LINE: &str = "    pH        7  charge\n";
 /// Starting estimates tried, in order, when the initial solution refuses
 /// to converge from pH 7 (see `run_raw`).

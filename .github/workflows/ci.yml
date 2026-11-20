@@ -18,7 +18,7 @@ env:
 jobs:
   changes:
     name: Classify complete change range
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       mode: ${{ steps.classify.outputs.mode }}
     steps:
@@ -41,7 +41,7 @@ jobs:
     name: Full preflight gate
     needs: [changes, preflight-build]
     if: ${{ always() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Require classifier and the appropriate preflight outcome
         env:
@@ -60,7 +60,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: GPU release tools (deterministic)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -75,7 +75,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: BRD-080 viewer decision spike
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: spikes/brd080
@@ -96,7 +96,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: Theme contrast tokens
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -109,7 +109,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: Presentation authority adapters
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: web/app
@@ -141,7 +141,7 @@ jobs:
     name: Full preflight execution
     needs: changes
     if: needs.changes.outputs.mode == 'full'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -179,7 +179,7 @@ jobs:
     needs: changes
     if: ${{ always() }}
     name: Test (native)
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os == 'ubuntu-latest' && 'ubuntu-24.04' || matrix.os }}
     strategy:
       # The same reason `--no-fail-fast` is passed to cargo below: a macOS-only
       # failure must not hide whatever ubuntu would have said, and vice versa.
@@ -251,7 +251,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: MY-BASIC preview (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os == 'ubuntu-latest' && 'ubuntu-24.04' || matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -278,7 +278,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: Legacy BASIC oracle (development only)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -302,7 +302,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: Core and data schemas compile to wasm32
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -322,7 +322,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: feos adapter (${{ matrix.target }})
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os == 'ubuntu-latest' && 'ubuntu-24.04' || matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -354,7 +354,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: Current registry source export
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -465,7 +465,7 @@ jobs:
     # the single step that needs a compiler, which is what keeps this cheap
     # enough for every pull request: no submodules, no SUNDIALS, no C++.
     name: Shell payload (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os == 'ubuntu-latest' && 'ubuntu-24.04' || matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -565,7 +565,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: The bench in WebAssembly
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -601,7 +601,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: IPhreeqc wasm gate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       IPHREEQC_BASIC_MODE: my-basic
     steps:
@@ -621,7 +621,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: The two wasm halves, together
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       IPHREEQC_BASIC_MODE: my-basic
     steps:
@@ -662,7 +662,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.mode == 'full'
     name: The demo page, in a real browser
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       # Publish the same reviewed live interpreter as the required bridge
       # gates and Vercel; the builder's standalone default disables BASIC.
@@ -725,7 +725,7 @@ jobs:
     name: Publish the demo
     needs: [changes, demo]
     if: github.ref == 'refs/heads/main' && needs.changes.outputs.mode == 'full'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # One Pages deployment at a time, queued not cancelled — two racing
     # deployers is exactly the 400 "in progress deployment" failure.
     concurrency:

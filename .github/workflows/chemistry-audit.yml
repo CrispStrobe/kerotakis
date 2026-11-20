@@ -22,7 +22,7 @@ env:
 jobs:
   build-cli:
     name: Build audited CLI once
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -48,7 +48,7 @@ jobs:
   sixth-fleet:
     name: Frozen fleet 195-218
     needs: build-cli
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -92,7 +92,7 @@ jobs:
   seventh-fleet:
     name: Frozen fleet 459-488
     needs: build-cli
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -136,7 +136,7 @@ jobs:
   source-fleets:
     name: Source fleet ${{ matrix.family }}
     needs: build-cli
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -190,7 +190,7 @@ jobs:
     # Collect failed-family evidence too, but release superseded run groups.
     if: ${{ !cancelled() }}
     needs: source-fleets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v7
@@ -202,7 +202,7 @@ jobs:
   source-fleets-v2:
     name: Source fleet v2 ${{ matrix.family }}
     needs: build-cli
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -275,7 +275,7 @@ jobs:
     name: All 288 source-informed v2 cases
     if: ${{ !cancelled() }}
     needs: source-fleets-v2
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v7
@@ -287,7 +287,7 @@ jobs:
   source-fleets-v3:
     name: Source fleet v3 ${{ matrix.family }}
     needs: build-cli
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -344,7 +344,7 @@ jobs:
     name: All 120 source-informed v3 cases
     if: ${{ !cancelled() }}
     needs: source-fleets-v3
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v7

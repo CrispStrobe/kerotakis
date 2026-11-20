@@ -22,7 +22,7 @@ on:
 jobs:
   deploy:
     name: Deploy the web payload (${{ inputs.target }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     # Without a token this job cannot do anything, and saying so here is
     # better than a 401 forty lines into a build.
