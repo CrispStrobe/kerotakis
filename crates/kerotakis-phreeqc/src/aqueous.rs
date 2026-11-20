@@ -4641,6 +4641,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         // addition and its zero-time repeat answer the same question
         // (docs/zero-time-determinism-20261119.md).
         let activity_only = physical_canonical_closed;
+        // Pose it at the temperature the step ends on: a zero-time repeat
+        // starts from that temperature, so asking the addition's last
+        // question at the last trial temperature instead left the two
+        // 8.7e-10 apart in particle molality.
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+            vessel.temperature = Kelvin(t_final.max(0.0));
+        }
         {
             match self.recharacterise_canonically(vessel, &mut events, activity_only) {
                 Ok(()) => {}
