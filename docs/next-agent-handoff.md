@@ -157,7 +157,12 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
    has no phase-change data for NaOH. Deriving T_b from JANAF liquid vs monomer-gas ΔfG is NOT usable:
    it gives NaOH 1827, KCl 1748, CaCl2 2206, BaCl2 2299, CaO 4469, MgO 3781, SiO2 3655 K. Those
    disagree badly with handbook values for NaOH, BaCl2 and CaO, whose vapours are dimers or dissociate,
-   so a monomer crossing is the wrong question. Boiling points still need a primary measurement.
+   so a monomer crossing is the wrong question. Primary candidates found 2026-11-20 (public-domain US
+   Bureau of Mines / NIST; [salt-boiling-point-candidates-20261120.md](salt-boiling-point-candidates-20261120.md)):
+   KCl 1680 K and NaOH 1651 K (Kelley, USBM Bull. 383, 1935; NaOH from one "erratic" data set),
+   CaCl2 1873 K and BaCl2 1835 K (Maier, USBM TP 360, 1925, bracketed as extrapolated/uncertain),
+   Pb(NO3)2 and AgNO3 decomposition (Stern, JPCRD 1, 747, 1972). Not landed yet (needs regenerated
+   golden files). CaO, MgO, SiO2: no usable primary boiling point; do not set one.
    PVC and unsintered PTFE latent heat are closed by policy, not missing: `melting_range::REFUSED_FUSION`
    states why no single grade heat is honest (PVC degrades instead of melting; virgin PTFE pays a
    first-melt heat its own melt never repays), and neither is a registry species.
