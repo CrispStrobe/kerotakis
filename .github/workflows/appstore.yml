@@ -66,6 +66,14 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         with:
           targets: ${{ matrix.platform == 'ios' && 'aarch64-apple-ios' || 'aarch64-apple-darwin,x86_64-apple-darwin' }}
+          # Xcode 27's SwiftPM emits @_cdecl exports as LOCAL symbols in a
+          # static product. swift-rs (which builds Tauri's Swift half for iOS)
+          # re-globalizes them with rustup's llvm-objcopy — and when that tool
+          # is absent it only prints a dependency build-script warning cargo
+          # never shows, so the link dies on `_log_stdout`,
+          # `_on_webview_created`, `_run_plugin_command`. Run 44795450857.
+          # tools/build-ios-appstore.sh refuses to start without it.
+          components: llvm-tools
       - uses: Swatinem/rust-cache@v2
         if: steps.gate.outputs.run == 'true'
         with:

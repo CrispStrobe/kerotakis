@@ -51,6 +51,17 @@ mkdir -p "$PROFDIR"
 cp "$PROF" "$PROFDIR/$UUID.mobileprovision"
 echo "   installed $UUID.mobileprovision"
 
+# Xcode 27's SwiftPM internalizes the @_cdecl exports of Tauri's Swift
+# package; swift-rs promotes them back to global with rustup's
+# llvm-objcopy, and without it only emits a build-script warning cargo
+# hides. The failure then surfaces ten minutes later as "Undefined symbols:
+# _log_stdout, _on_webview_created, _run_plugin_command". Say it here.
+XCODE_MAJOR="$(xcodebuild -version | sed -n 's/^Xcode \([0-9]*\).*/\1/p')"
+if [ "${XCODE_MAJOR:-0}" -ge 27 ]; then
+    OBJCOPY="$(rustc --print sysroot)/lib/rustlib/$(uname -m | sed 's/arm64/aarch64/')-apple-darwin/bin/llvm-objcopy"
+    [ -x "$OBJCOPY" ] || { echo "Xcode $XCODE_MAJOR needs llvm-objcopy: rustup component add llvm-tools"; exit 1; }
+fi
+
 # xcodegen is not preinstalled on a clean macOS runner; `tauri ios init`
 # brew-installs it silently, which is a dependency worth making explicit.
 command -v xcodegen >/dev/null || brew install xcodegen
