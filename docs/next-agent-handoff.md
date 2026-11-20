@@ -136,7 +136,7 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
    colourless. Open: NO2 at 730-750 nm (outside the 16 bands), N2O4 and NO2 are not registry species.
 3. **Open-vessel seeping over `wait`.** The two-film lane was withdrawn (it removed fizz). Re-add a sourced
    k_L seeping rate *under* the zero-time/fizz rule; carbonate, foam and codex tests must stay green.
-4. **Unsourced data.** FeCl2+ absorptivity (figure-only), starch–iodine blue value, maltose/maltotriose
+4. **Unsourced data.** FeCl2+ absorptivity (figure-only; Connick & Coppel 1959 tabulates only 300-390 nm, see [search note](fecl2-visible-absorptivity-search-20261120.md)), starch–iodine blue value, maltose/maltotriose
    split, PVC and unsintered PTFE latent heat, salt/oxide boiling and decomposition points (NaOH, CaCl2,
    BaCl2, KCl, CaO, MgO, SiO2, Pb(NO3)2, AgNO3; NBS Circular 500 page images).
 5. **Typical-experiment sweep.** Run classroom reactions through `kero run` (neutralisation heat, hot/cold
