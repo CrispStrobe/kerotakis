@@ -151,7 +151,13 @@ question is at most one auxiliary solve per re-posed equilibration (often
 a cache hit).
 
 Tests: `order_invariance.rs` compares the zero-time auxiliary diagnostics
-at 1e-10 absolute again; the bit-identity test stays. Risk to watch on the
+at 1e-8 relative (was 1e-4). The hosted run showed the gap closed from
+7.3e-5 to 1.7e-9 relative in particle molality (water activity and ionic
+strength within 1e-10): the repeat re-converges the Pitzer fixed point
+from a different start, which is solver precision. Two follow-up attempts
+to reach 1e-10 absolute (re-asking on the strictly closed pose; re-posing
+at the final adiabatic temperature) left the output bit-identical and
+were reverted; the bit-identity test stays. Risk to watch on the
 hosted run: `the_canonical_pose_costs_at_most_one_solve_per_equilibration`
 (budget 12 engine calls) if the auxiliary re-ask misses the cache, and
 any test pinning an exact pre-fix auxiliary value of a zero-time addition.
