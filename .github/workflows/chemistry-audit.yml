@@ -1,7 +1,22 @@
 name: Chemistry audit fleets
 
 on:
+  # The 33-job fleet is heavy. On a pull request it runs only when the PR
+  # carries the `ci:full` label (adding the label starts it); every push to
+  # main that touches chemistry runs it once, so merged code is always audited.
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - ".github/workflows/chemistry-audit.yml"
+      - "tools/chemistry-audit/**"
+      - ".github/actions/sundials-source/**"
+      - "tools/fetch-sundials.sh"
+      - "crates/kerotakis-*/**"
+      - "data/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  push:
+    branches: [main]
     paths:
       - ".github/workflows/chemistry-audit.yml"
       - "tools/chemistry-audit/**"
@@ -13,6 +28,8 @@ on:
       - "Cargo.lock"
   workflow_dispatch:
 
+# One fleet per ref: a newer push (or a newer main merge) folds the older
+# queued/running fleet into itself, so main audits only its latest commit.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref_type != 'tag' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
@@ -22,6 +39,10 @@ env:
 jobs:
   build-cli:
     name: Build audited CLI once
+    if: >-
+      ${{ github.event_name != 'pull_request'
+          || (github.event.action == 'labeled' && github.event.label.name == 'ci:full')
+          || (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, 'ci:full')) }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
@@ -188,7 +209,7 @@ jobs:
   source-fleet-aggregate:
     name: All 240 source-informed cases
     # Collect failed-family evidence too, but release superseded run groups.
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.source-fleets.result != 'skipped' }}
     needs: source-fleets
     runs-on: ubuntu-24.04
     steps:
@@ -273,7 +294,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.source-fleets-v2.result != 'skipped' }}
     needs: source-fleets-v2
     runs-on: ubuntu-24.04
     steps:
@@ -342,7 +363,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.source-fleets-v3.result != 'skipped' }}
     needs: source-fleets-v3
     runs-on: ubuntu-24.04
     steps:

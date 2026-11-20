@@ -139,7 +139,7 @@ class ChangesTest(unittest.TestCase):
             if 'Reviewed documentation needs no native build' in step:
                 self.assertIn("needs.changes.result == 'success' && needs.changes.outputs.mode == 'docs'",step)
             else:
-                self.assertIn("needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs'",step)
+                self.assertIn("needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none')",step)
         artifact=next(step for step in steps if 'actions/upload-artifact' in step)
         self.assertIn('always() &&',artifact)
 
