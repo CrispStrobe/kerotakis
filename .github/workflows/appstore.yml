@@ -89,6 +89,27 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         run: python3 -m pip install --quiet --disable-pip-version-check cryptography
 
+      # Build with the newest Xcode on the runner, not the image default.
+      # App Store Connect flagged 0.1.6 (ITMS-90725) for the iOS 26.5 SDK:
+      # from April 2027 uploads must be built with the iOS 27 SDK (Xcode 27+).
+      # Warn rather than fail while no Xcode 27 is installed, so a release
+      # before the deadline is not blocked by the runner image.
+      - name: Select the newest installed Xcode
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          set -euo pipefail
+          ls -d /Applications/Xcode*.app | sed 's/^/   /'
+          newest=$(ls -d /Applications/Xcode_*.app 2>/dev/null \
+            | grep -v -i beta | sort -V | tail -1 || true)
+          [ -n "$newest" ] || newest=$(xcode-select -p | sed 's#/Contents/Developer##')
+          sudo xcode-select -s "$newest/Contents/Developer"
+          xcodebuild -version
+          sdk=$(xcrun --sdk iphoneos --show-sdk-version)
+          echo "iOS SDK $sdk"
+          if [ "${sdk%%.*}" -lt 27 ]; then
+            echo "::warning::Built with iOS SDK $sdk; App Store Connect requires the iOS 27 SDK (Xcode 27) from April 2027 (ITMS-90725)."
+          fi
+
       - name: Install the app's dependencies
         if: steps.gate.outputs.run == 'true'
         working-directory: web/app
