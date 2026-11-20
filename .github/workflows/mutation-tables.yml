@@ -55,7 +55,7 @@ env:
 jobs:
   tables:
     name: Rebuild-per-mutant over the const tables
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # A table mutant is a rebuild. Twenty-three of them at the measured 164 s
     # of build plus a ladder run is a couple of hours; the ceiling input stops
     # the script cleanly before the runner stops it rudely.

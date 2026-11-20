@@ -346,7 +346,7 @@ pub const TABLE: &[CitedAbsorptivity] = &[
 /// presence blocks every cited reading (reason in the coverage doc).
 pub const NO_DATA: &[(&str, &str)] = &[(
     "FeCl+2",
-    "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure",
+    "335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure. Tabulated values (Byrne and Kester, J. Solution Chem. 10 (1981), 220-400 nm; Stefansson et al.; Gamlen and Jordan) are not open access and no open paper or Wikipedia/NIST page quoting a number was found (searched 2026-11-19)",
 )];
 
 /// Registry carriers whose dissolved split between cited species is a pH

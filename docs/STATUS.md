@@ -5,6 +5,13 @@ counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-
 
 ## Production and qualification
 
+**Round 7 / v0.1.6 (2026-11-20):** app 0.1.6 (macOS build 5, iOS build 6) from
+`integrate/round7-20261119`. Zero-time repeats of an addition now read the same native solvent
+diagnostics to solver precision (1e-8 relative, was 1e-4; see
+[zero-time-determinism-20261119.md](zero-time-determinism-20261119.md)). Hosted validation (Kaggle `dh`)
+passed lints, clippy, curiosity, codex and all named original runs; tr-006 keeps its known
+finite-feed refusal.
+
 Production is `731931f090e3bc41059d0aef98ae64ca0223138b`. The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/working-experiments-20261114-pr881-reviewed-fo002.json)
 has **414 entries and 414 distinct catalog IDs**, representing **410 unique originals out of the fixed
 468**; **58 remain**. Four entries are from the separate supplied-reactions corpus and are outside

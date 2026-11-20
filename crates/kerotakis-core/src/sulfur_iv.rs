@@ -95,6 +95,45 @@ use crate::SpeciesId;
 
 const TRACE: f64 = 1e-12;
 
+/// What can happen to a vessel's S(IV).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SivAspect {
+    /// Oxidation to sulfate by an oxidant (iodine, peroxide, the
+    /// [`OXIDANT_TABLE`] rows): how much S(IV) is consumed.
+    RedoxExtent,
+    /// How S(IV) divides between SO2(aq), HSO3- and SO3-2.
+    AcidBaseSpeciation,
+    /// How SO2 divides between solution and a finite headspace.
+    HeadspacePartition,
+}
+
+/// Who prices an S(IV) aspect.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SivOwner {
+    /// This module's reductant writers.
+    SulfurIv,
+    /// The native aqueous solve: minteq.v4's `Sulfite` pseudo-element with
+    /// the reviewed Goldberg-Parker neutral S(IV) / SO2(g) slice
+    /// (kerotakis-phreeqc `aqueous_gases::sulfur_dioxide`).
+    NativeAqueous,
+}
+
+/// The single S(IV) ownership rule. This module owns REDOX EXTENTS only:
+/// it withdraws S(IV) in whatever forms and phases it finds them (see
+/// [`pool`]) and deposits sulfate; it never moves S(IV) between forms or
+/// between solution and headspace. The native solve owns speciation and
+/// the finite-headspace partition and never oxidises S(IV) (the pseudo-
+/// element has no redox partner). The two therefore compose in either
+/// order without pricing the same mole twice. An open vessel has no S(IV)
+/// sink in either owner: there is no reviewed escape rate and room air
+/// holds no SO2, so dissolved S(IV) is not lost instantly.
+pub const fn owner(aspect: SivAspect) -> SivOwner {
+    match aspect {
+        SivAspect::RedoxExtent => SivOwner::SulfurIv,
+        SivAspect::AcidBaseSpeciation | SivAspect::HeadspacePartition => SivOwner::NativeAqueous,
+    }
+}
+
 /// Yiin & Margerum 1990 (Yiin dissertation abstract), 25.0 °C, μ = 0.50
 /// M (M⁻¹ s⁻¹): I₂ + HSO₃⁻.
 pub const K_I2_HSO3: f64 = 1.8e9;
@@ -1185,6 +1224,20 @@ pub fn other_notes(vessel: &Vessel) -> Vec<Event> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn s_iv_aspects_have_exactly_one_owner() {
+        use super::{owner, SivAspect, SivOwner};
+        assert_eq!(owner(SivAspect::RedoxExtent), SivOwner::SulfurIv);
+        assert_eq!(
+            owner(SivAspect::AcidBaseSpeciation),
+            SivOwner::NativeAqueous
+        );
+        assert_eq!(
+            owner(SivAspect::HeadspacePartition),
+            SivOwner::NativeAqueous
+        );
+    }
+
     use super::*;
 
     fn formula(key: &str) -> crate::stoich::Formula {

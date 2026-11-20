@@ -807,6 +807,10 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         // so the balance below is an enthalpy balance rather than a pair of
         // rectangles that only agree while Cp is flat.
         let held_before = vessel.energy_between(t_ref, vessel.temperature.0);
+        // The inventory before the swap, so the change this solver prices
+        // can be booked as paid on the step snapshot (see below).
+        let contents_before_swap = vessel.contents.clone();
+        let mut gas_evolved_mol = 0.0;
 
         // Reductant: metal out, its ion in.
         let metal_gone = xi / red.electrons;
@@ -839,6 +843,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                     moles,
                 });
             } else {
+                gas_evolved_mol += moles.0;
                 events.push(Event::GasEvolved {
                     vessel: vessel.id,
                     species,
@@ -870,6 +875,18 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0 {
             let t_new = vessel.temperature_after_from(t_ref, held_before + heat_joules);
             vessel.temperature = Kelvin(t_new.max(0.0));
+        }
+        // This solver has just charged the formation-enthalpy heat of the
+        // swap. The aqueous tail later prices the WHOLE step from the step
+        // snapshot, so it sees the same metal leave and the same ion/gas
+        // arrive. Book that change as already paid, so the tail can tell a
+        // change another owner priced from one nobody priced, instead of
+        // declaring the step's heat unmodelled (Zn/Mg + HCl, 2026-11-19).
+        if let Some(start) = vessel.step_start.as_mut() {
+            book_paid_change(start, &contents_before_swap, &vessel.contents);
+            if gas_evolved_mol > 0.0 && ox.oxidised == HYDROGEN_ION {
+                start.note_heat_paid(&SpeciesId::new(ox.reduced), Phase::Gas, gas_evolved_mol);
+            }
         }
 
         let record = Displacement {
@@ -1866,6 +1883,34 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
         }
     }
     Ok(events)
+}
+
+/// Book, on the step snapshot, the signed inventory change `after - before`
+/// whose heat this solver has already charged.
+fn book_paid_change(
+    start: &mut crate::vessel::StepStart,
+    before: &[crate::vessel::Portion],
+    after: &[crate::vessel::Portion],
+) {
+    let mut delta: Vec<(SpeciesId, Phase, f64)> = Vec::new();
+    let mut add = |species: &SpeciesId, phase: Phase, moles: f64| match delta
+        .iter_mut()
+        .find(|(s, p, _)| s == species && *p == phase)
+    {
+        Some((_, _, total)) => *total += moles,
+        None => delta.push((species.clone(), phase, moles)),
+    };
+    for portion in after {
+        add(&portion.species, portion.phase, portion.moles.0);
+    }
+    for portion in before {
+        add(&portion.species, portion.phase, -portion.moles.0);
+    }
+    for (species, phase, moles) in delta {
+        if moles != 0.0 && moles.is_finite() {
+            start.note_heat_paid(&species, phase, moles);
+        }
+    }
 }
 
 #[cfg(test)]

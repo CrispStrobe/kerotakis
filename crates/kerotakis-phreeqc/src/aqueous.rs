@@ -463,6 +463,9 @@ fn dataset_sources(db_tag: &str) -> Vec<String> {
     if matches!(db_tag, "wateq4f" | "minteq.v4") {
         sources.push(crate::complexation::SOURCE_ID.into());
     }
+    if db_tag == "minteq.v4" {
+        sources.push(crate::aqueous_gases::sulfur_dioxide::SOURCE_ID.into());
+    }
     sources.push(crate::aqueous_gases::SOURCE_ID.into());
     sources
 }
@@ -585,6 +588,40 @@ fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
         Phrase::new(
             "not-modeled.hbr-gas-uptake",
             "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+            vec![("temperature".to_string(), Slot::phrase(temperature))],
+        ),
+    ))
+}
+
+/// The typed learner note for the SO2(g) slice, the analogue of
+/// [`reactive_gas_boundary`]'s HBr note: emitted whenever the native solve
+/// coupled SO2(g) to a finite owned headspace (`derived::
+/// FINITE_EQUILIBRIUM_GASES`; `aqueous_gases::sulfur_dioxide`). Only the
+/// minteq.v4 route defines the phase, and an open vessel never poses it,
+/// so `problem.gases` holding it is exactly the coupled case.
+fn sulfur_dioxide_headspace_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
+    if !problem.gases.iter().any(|(phase, ..)| phase == "SO2(g)") {
+        return None;
+    }
+    // Same constant-enthalpy van't Hoff convention as the HBr slice, so
+    // the two temperature clauses are shared rather than re-worded.
+    let temperature = if crate::aqueous_gases::temperature_covered(vessel.temperature.0) {
+        Phrase::bare(
+            "not-modeled.hbr-at-the-reference-temperature",
+            "This state is at the 25 °C reference temperature.",
+        )
+    } else {
+        Phrase::bare(
+            "not-modeled.hbr-away-from-the-reference-temperature",
+            "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+        )
+    };
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        Phrase::new(
+            "not-modeled.so2-finite-headspace",
+            "Sulfur dioxide in this sealed headspace is equilibrated with the solution using the Goldberg and Parker (1985) NBS values for its solubility and first dissociation, on the minteq.v4 route only. The solve speciates dissolved sulfur(IV) without turning it into sulfate or sulfide; those redox reactions are handled separately. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model, and an open vessel keeps its dissolved sulfur dioxide rather than losing it to the air.",
             vec![("temperature".to_string(), Slot::phrase(temperature))],
         ),
     ))
@@ -962,6 +999,12 @@ pub struct PhreeqcEquilibrator {
     /// heat ledger is incomplete is characterised at its supplied
     /// temperature and says so, rather than applying a partial ledger.
     last_heat_unpriced: Option<enthalpy::Unpriced>,
+    /// The most recent decline was entirely inside changes an earlier
+    /// solver of this step already charged (`StepStart::heat_paid`): the
+    /// remainder of the step prices. The heat mode is unchanged — no extra
+    /// heat is charged on top of the earlier owner — but the "not modelled"
+    /// refusal would be false and is not emitted.
+    last_heat_paid_elsewhere: bool,
     /// Set once a pass of the current thermal fixed point found its
     /// unpriced movers too large to bound away. The decision is then held
     /// for every later pass of the same step: a threshold that flipped with
@@ -2087,7 +2130,39 @@ impl PhreeqcEquilibrator {
                     solver: "phreeqc-aqueous".to_string(),
                     detail: format!("could not reset reused IPhreeqc state: {e}"),
                 })?;
-            engine.run(&native_input).map_err(|e| {
+            let mut outcome = engine.run(&native_input);
+            // `pH 7 charge` makes pH the charge-balancing unknown; 7 is only
+            // Newton's starting estimate. A strongly hydrolysing salt (Na2S:
+            // S2-/HS- at pH ~12.5) can leave that start outside the basin of
+            // convergence for the initial solution. The answer is still set
+            // by charge balance, so on that specific refusal retry the same
+            // question from alkaline and then acidic starting estimates.
+            // Converged inputs never reach this, so nothing else moves.
+            let initial_refused = outcome.as_ref().is_err_and(|first| {
+                first
+                    .to_string()
+                    .contains("Model failed to converge for initial solution")
+            });
+            if initial_refused && input.contains(INITIAL_PH_ESTIMATE_LINE) {
+                for start in ALTERNATE_INITIAL_PH_LINES {
+                    let retry = crate::native_namespace::input(
+                        namespace,
+                        &input.replacen(INITIAL_PH_ESTIMATE_LINE, start, 1),
+                    );
+                    engine
+                        .run(RESET_NUMBERED_REACTANTS)
+                        .map_err(|e| SolveError::NotConverged {
+                            reason: Some(Box::new(AqueousReason::ReusedEngineResetFailed.phrase())),
+                            solver: "phreeqc-aqueous".to_string(),
+                            detail: format!("could not reset reused IPhreeqc state: {e}"),
+                        })?;
+                    if engine.run(&retry).is_ok() {
+                        outcome = Ok(());
+                        break;
+                    }
+                }
+            }
+            outcome.map_err(|e| {
                 // The input is the whole question; when the engine refuses
                 // it, being able to see it is the difference between a
                 // diagnosis and a guess.
@@ -2410,6 +2485,7 @@ impl PhreeqcEquilibrator {
             hook: None,
             neutralisation,
             last_heat_unpriced: None,
+            last_heat_paid_elsewhere: false,
             unpriced_bound_refused: false,
         })
     }
@@ -2435,6 +2511,7 @@ impl PhreeqcEquilibrator {
             hook: None,
             neutralisation: std::collections::HashMap::new(),
             last_heat_unpriced: None,
+            last_heat_paid_elsewhere: false,
             unpriced_bound_refused: false,
         })
     }
@@ -3372,8 +3449,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 let gas_phase = if p.species.0 == "NH3" {
                     Some("NH3(g)")
                 } else {
-                    EQUILIBRIUM_GASES
-                        .iter()
+                    derived::finite_headspace_gases()
                         .find(|(_, species)| *species == p.species.0)
                         .map(|(phase, _)| *phase)
                 };
@@ -3396,13 +3472,9 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                     // Gas and aqueous ammonia share reduced nitrogen. Bare
                     // N would admit nitrate/redox conversion of the dose.
                     note_element("N(-3)");
-                } else if let Some(formula) =
-                    crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
-                {
-                    for element in formula
-                        .keys()
-                        .filter(|element| *element != "H" && *element != "O")
-                    {
+                } else if let Some(formula) = derived::gas_component_elements(phase) {
+                    // SO2(g) notes `Sulfite`, never bare S (see helper).
+                    for element in formula.keys() {
                         note_element(element);
                     }
                 }
@@ -3613,13 +3685,9 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     if vessel.owns_headspace_gas() {
         // A finite headspace must admit gases that can form from the
         // solution even when none was initially present.
-        for (phase, species) in EQUILIBRIUM_GASES {
-            let gas_formula = phase.trim_end_matches("(g)");
-            let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
-            let all_present = required
-                .keys()
-                .filter(|el| *el != "O" && *el != "H")
-                .all(|el| elements.iter().any(|e| e == el));
+        for (phase, species) in derived::finite_headspace_gases() {
+            let required = derived::gas_component_elements(phase).unwrap_or_default();
+            let all_present = required.keys().all(|el| elements.iter().any(|e| e == el));
             if all_present && !gases.iter().any(|(name, ..)| name == phase) {
                 gases.push((phase.to_string(), species.to_string(), 0.0));
             }
@@ -3676,12 +3744,15 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             } else {
                 target.unwrap_or(*target_si)
             };
-            let gas_formula = phase.trim_end_matches("(g)");
-            let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
-            let all_present = required
-                .keys()
-                .filter(|el| *el != "O" && *el != "H")
-                .all(|el| elements.iter().any(|e| e == el));
+            // Gas formulas name bare elements; a gated row (H2S(g) needs
+            // S(-2), not sulfate's S(6)) keys on the booked valence tag.
+            let all_present = derived::atmospheric_row_applies(phase, &elements)
+                // No clock owns hydrogen sulfide. On a timed open step the
+                // -12 sink would be an infinite-time strip (alkaline Na2S
+                // would lose essentially all its sulfide in one Wait), so a
+                // gated row only acts where its target is not that sink:
+                // zero-time effervescence and the inert sweep.
+                && (derived::atmospheric_gate(phase).is_none() || target.is_some());
             let listed = phases.iter().any(|(name, ..)| name == phase);
             // EXP-57: the gate STAYS, and the reason is worth recording
             // because the task that led here asked for it to go.
@@ -4384,6 +4455,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut volume_guess = start.headspace_volume();
         let mut settled: Option<(Vessel, Vec<Event>, f64, bool, f64)> = None;
         let mut settled_unpriced: Option<enthalpy::Unpriced> = None;
+        let mut settled_paid_elsewhere = false;
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
@@ -4401,6 +4473,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
             let mut deferred_seed = None;
             self.last_heat_unpriced = None;
+            self.last_heat_paid_elsewhere = false;
             let (mut events, q_joules, mut physical_canonical_closed, mut clock_applied) =
                 if full_strict_thermal {
                     self.solve_at_temperature(&mut trial)?
@@ -4460,6 +4533,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             // temperature, not an adiabatic prediction. Even a Cp/water basis
             // change must not reconstruct omitted endpoint heat indirectly.
             let mut heat_unpriced = self.last_heat_unpriced.clone();
+            let mut heat_paid_elsewhere = self.last_heat_paid_elsewhere;
             let mut next =
                 aqueous_temperature_target(&start, &trial, q_joules, heat_unpriced.is_none());
             let mut next_volume = trial.headspace_volume();
@@ -4488,6 +4562,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                     physical_canonical_closed = strict_closed;
                     clock_applied = strict_clock;
                     heat_unpriced = self.last_heat_unpriced.clone();
+                    heat_paid_elsewhere = self.last_heat_paid_elsewhere;
                     next = aqueous_temperature_target(
                         &start,
                         &trial,
@@ -4525,6 +4600,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 clock_applied,
             ));
             settled_unpriced = heat_unpriced;
+            settled_paid_elsewhere = heat_paid_elsewhere;
             previous_guess = if reset_thermal_history {
                 None
             } else {
@@ -4571,8 +4647,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         events.extend(component_charge_note);
+        // A decline that lies wholly inside a change another solver of this
+        // step already charged is not a missing heat: the refusal would
+        // tell the reader the temperature stayed put while it visibly rose
+        // by exactly that owner's heat. Temperature handling is unchanged.
         if let Some(unpriced) = settled_unpriced.filter(|_| {
-            matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+            !settled_paid_elsewhere
+                && matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
                 && kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
         }) {
             events.push(unpriced_heat_note(vessel.id, &unpriced));
@@ -7897,10 +7978,48 @@ impl PhreeqcEquilibrator {
         else {
             return Ok(());
         };
+        // The auxiliary solvent diagnostics belong to the same pose as the
+        // pH and ionic strength rewritten below. Left alone they keep the
+        // value from the last `solve_once`, posed from "previous contents
+        // + reagent", which is what made a zero-time addition and its
+        // zero-time repeat disagree by 7.3e-5 in particle molality
+        // (docs/zero-time-determinism-20261119.md). Re-ask the same
+        // question of the settled contents; accept the answer only when it
+        // comes from the same dataset and model the record already names,
+        // so the routing prose stays true. Anything else (a decline, a
+        // different model) leaves the field exactly as it was, like every
+        // other decline in this pass.
+        let refreshed_activity = match vessel
+            .solution
+            .as_ref()
+            .and_then(|info| info.solvent_activity.as_ref())
+        {
+            Some(previous) => {
+                let previous_route = (previous.dataset.clone(), previous.model.clone());
+                let value_fn: &dyn Fn(&str) -> Option<f64> = &value;
+                let answer = self.solvent_activity_second_opinion(
+                    vessel,
+                    &setup.problem,
+                    setup.db_tag,
+                    value_fn,
+                    SecondaryFirstHint::Auto,
+                );
+                answer.provenance.filter(|fresh| {
+                    (fresh.dataset.clone(), fresh.model.clone()) == previous_route
+                        && fresh.water_activity.is_finite()
+                        && fresh.particle_molality.is_finite()
+                        && fresh.ionic_strength.is_finite()
+                })
+            }
+            None => None,
+        };
         refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kg)?;
         let Some(info) = vessel.solution.as_mut() else {
             return Ok(());
         };
+        if let Some(fresh) = refreshed_activity {
+            info.solvent_activity = Some(fresh);
+        }
         info.solvent_kg = Some(solvent_kg);
         info.particle_molality = value("particle_molality");
         info.ph = ph;
@@ -7937,6 +8056,7 @@ impl PhreeqcEquilibrator {
         auxiliary_policy: AuxiliaryPolicy,
     ) -> Result<AqueousPass, SolveError> {
         self.last_heat_unpriced = None;
+        self.last_heat_paid_elsewhere = false;
         if hint.primary_route.is_some() {
             // A provisional answer on another database must not reuse an
             // electron-search guess from the abandoned model.
@@ -8430,6 +8550,25 @@ impl PhreeqcEquilibrator {
                     heat_mode = HeatMode::Unpriced;
                     q_joules = 0.0;
                     let _ = prior_physical_events;
+                    // Was the decline only about a change an earlier owner
+                    // in this step already priced (the displacement
+                    // solver's metal + acid swap)? Re-quote the remainder:
+                    // from the snapshot with those paid changes applied.
+                    // Only a fully priced remainder clears the refusal; the
+                    // heat mode — and so the temperature — is untouched.
+                    self.last_heat_paid_elsewhere =
+                        vessel.step_start.as_ref().is_some_and(|start| {
+                            !start.heat_paid.is_empty()
+                                && enthalpy::heat_quote(
+                                    &start.contents_after_paid(),
+                                    before_oh,
+                                    &vessel.contents,
+                                    measured_oh,
+                                    &gas_out,
+                                    db_tag,
+                                )
+                                .is_ok_and(|remainder| remainder.unpriced.is_none())
+                        });
                     self.last_heat_unpriced = Some(unpriced);
                 }
             }
@@ -10364,6 +10503,27 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        // Reduced sulfur at an external boundary: the native namespace keeps
+        // S(-2) a separate conserved component, so the room's O2 does not
+        // turn it into sulfate inside a step (its slow kinetics are not
+        // modelled at all). Its escape is only the bubble/sweep endpoint of
+        // the posed boundary; slow diffusive loss over timed steps is not
+        // modelled either.
+        if matches!(vessel.headspace, Headspace::Open | Headspace::Swept { .. })
+            && problem
+                .totals
+                .iter()
+                .any(|(element, amount)| element == "S(-2)" && *amount > 0.0)
+        {
+            events.push(Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::RateNotModelled,
+                Phrase::bare(
+                    "not-modeled.sulfide-open-air",
+                    "Dissolved sulfide is held as sulfide: its oxidation by air is slow on bench time scales (hours to days) and its rate is not modelled, so none is converted here. Hydrogen sulfide leaves only as bubbles above saturation or into an inert sweep; its slow escape to room air over time is not modelled either",
+                ),
+            ));
+        }
         for solid_solution in new_solid_solutions {
             let before = problem
                 .solid_solutions
@@ -10546,6 +10706,7 @@ impl PhreeqcEquilibrator {
         events.extend(reference_complex_boundary(vessel, &speciation));
         events.extend(silver_ammine_inventory_boundary(vessel, &speciation));
         events.extend(reactive_gas_boundary(vessel, problem));
+        events.extend(sulfur_dioxide_headspace_boundary(vessel, problem));
         // A pe nothing constrains is not a small pe, it is a number the
         // solver happened to leave behind.
         //
@@ -10863,13 +11024,12 @@ fn add_gas_component_transfer(
     phase: &str,
     dissolved_delta: f64,
 ) -> bool {
-    let Some(formula) = crate::dbindex::parse_formula(phase.trim_end_matches("(g)")) else {
+    // H/O are owned by the basis and gas-boundary certificate; SO2(g)
+    // moves the `Sulfite` component, not bare S.
+    let Some(formula) = derived::gas_component_elements(phase) else {
         return false;
     };
     for (element, count) in formula {
-        if element == "H" || element == "O" {
-            continue; // The H/O basis and gas-boundary certificate own these.
-        }
         let Some(key) = unique_keys.get(&element) else {
             return false;
         };
@@ -12977,6 +13137,16 @@ fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
     }
     out
 }
+
+/// The charge-balanced pH line every built `SOLUTION` carries; 7 is only
+/// the starting estimate for the charge-balance unknown.
+#[cfg(feature = "engine")]
+const INITIAL_PH_ESTIMATE_LINE: &str = "    pH        7  charge\n";
+/// Starting estimates tried, in order, when the initial solution refuses
+/// to converge from pH 7 (see `run_raw`).
+#[cfg(feature = "engine")]
+const ALTERNATE_INITIAL_PH_LINES: [&str; 2] =
+    ["    pH        11  charge\n", "    pH        3  charge\n"];
 
 fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     build_input_at(vessel, problem, db_tag, None)
@@ -15246,5 +15416,62 @@ mod crystal_diagnostic_amount_contract {
                 format!("phreeqc-aqueous could not solve this state: mixed-crystal ownership: crystal-diagnostic-fixture: invalid amount {value}")
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod sulfur_dioxide_boundary_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    fn problem(gases: Vec<(String, String, f64)>) -> Problem {
+        Problem {
+            kgw: 0.1,
+            solvent_only: false,
+            clock_co2_applied_mol: 0.0,
+            totals: vec![("Sulfite".into(), 1e-3)],
+            phases: vec![],
+            gases,
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["Sulfite".into()],
+        }
+    }
+
+    fn reason_key(event: &Event) -> Option<&str> {
+        match event {
+            Event::NotYetModeled {
+                reason: Some(reason),
+                ..
+            } => Some(reason.key.as_str()),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn coupled_so2_headspace_emits_the_typed_learner_note() {
+        let vessel = Vessel::new(VesselId(0), "sealed");
+        let coupled = problem(vec![("SO2(g)".into(), "SO2".into(), 0.0)]);
+        let event = sulfur_dioxide_headspace_boundary(&vessel, &coupled)
+            .expect("a coupled SO2(g) headspace must carry its boundary note");
+        assert_eq!(reason_key(&event), Some("not-modeled.so2-finite-headspace"));
+        // HBr's note is not borrowed for SO2, and vice versa.
+        assert!(reactive_gas_boundary(&vessel, &coupled).is_none());
+        let english = match &event {
+            Event::NotYetModeled { what, .. } => what.clone(),
+            _ => unreachable!(),
+        };
+        assert!(english.contains("Goldberg and Parker"), "{english}");
+        assert!(!english.contains("{temperature}"), "{english}");
+    }
+
+    #[test]
+    fn no_so2_gas_component_means_no_note() {
+        let vessel = Vessel::new(VesselId(0), "open");
+        assert!(sulfur_dioxide_headspace_boundary(&vessel, &problem(vec![])).is_none());
+        let co2 = problem(vec![("CO2(g)".into(), "CO2".into(), 0.0)]);
+        assert!(sulfur_dioxide_headspace_boundary(&vessel, &co2).is_none());
     }
 }

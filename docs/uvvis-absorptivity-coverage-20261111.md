@@ -49,10 +49,12 @@ Confidence: `read` = number read in the cited document; `quoted` = read in a sec
 
 | species | reason |
 |---|---|
-| FeCl+2 | 335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure |
+| FeCl+2 | 335 nm band (Liu et al., Chem. Geol. 231 (2006) 326); epsilon only in a figure. Tabulated values (Byrne and Kester, J. Solution Chem. 10 (1981), 220-400 nm; Stefansson et al.; Gamlen and Jordan) are not open access and no open paper or Wikipedia/NIST page quoting a number was found (searched 2026-11-19) |
 
-The starch–iodine complex is refused as before (no reliable ε exists; see
-docs/starch-amylase-coverage-20261111.md).
+The starch–iodine complex is refused as before: "reliable extinction coefficients for the
+amylose-iodine-iodide complex are not known" (poly-iodide chains of different length absorb
+differently; Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, Europe PMC PMC9784209).
+See docs/starch-amylase-coverage-20261111.md.
 
 MnO4⁻: the registry's 16-band colour spectrum is scaled to the same 3340 at 525 nm
 (shape kept), so the band-peak reading and the cited 525 nm reading agree

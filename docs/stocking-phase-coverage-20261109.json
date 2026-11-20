@@ -8,8 +8,8 @@
   "counts": {
     "derived": 21,
     "melting_point_without_latent_heat": 42,
-    "no_melting_point": 58,
-    "not_condensed": 76
+    "no_melting_point": 59,
+    "not_condensed": 77
   },
   "species": [
     {
@@ -1092,6 +1092,19 @@
       }
     },
     {
+      "species": "Na2S",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Na2S2O3",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1912,6 +1925,19 @@
     },
     {
       "species": "HPO4-2",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "HS-",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

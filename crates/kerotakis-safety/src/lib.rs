@@ -37,6 +37,14 @@ pub enum ReactiveGroup {
     WaterReactive,
     AmmoniaAmines,
     Carbonate,
+    /// A sulfide that strong acid turns into hydrogen sulfide gas: sodium
+    /// sulfide and the ion a solved vessel books it as (`HS-`). The group
+    /// exists for one rule, `acid-sulfide-h2s`, the analogue of
+    /// `acid-carbonate-co2`; the gas it is about is toxic and flammable
+    /// (ILO/WHO ICSC 0165, hydrogen sulfide). Hydrogen sulfide itself is
+    /// not a member: it is the product, not something acid releases a gas
+    /// from.
+    Sulfide,
     /// A salt whose solution is acidic by hydrolysis rather than by
     /// dissociation: iron(III) chloride reaches about pH 2 at 0.1 mol/L
     /// and etches metals, but it is not a strong acid and does not carry
@@ -123,6 +131,7 @@ pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
             ReactiveGroup::WaterReactive => "water_reactive",
             ReactiveGroup::AmmoniaAmines => "toxic",
             ReactiveGroup::Carbonate => "irritant",
+            ReactiveGroup::Sulfide => "toxic",
             ReactiveGroup::AcidicSalt => "irritant",
             // No species key carries this one — it is a property of a
             // vessel, not of a bottle on the shelf, so this arm exists to
@@ -234,6 +243,19 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // `Na2S2O3`, and a hazard that depended on which name the ledger
         // happened to be using would not be a hazard anybody could learn.
         "Na2S2O3" | "S2O3-2" => &[ReducingAgent],
+        // Sodium sulfide, after ILO/WHO ICSC 1047 (and its GHS H314
+        // causes severe skin burns, H311 toxic in contact with skin):
+        // a strongly alkaline, freely soluble, toxic reducing agent. The
+        // bottle and the ion a solved vessel books it as (`HS-`) both
+        // reduce; only the salt carries the strong-base row, because the
+        // alkalinity is the solution's and the vessel screen sees it through
+        // the salt, as `NaOH` is the bottle and not `OH-`.
+        //
+        // Both also carry `Sulfide`, so strong acid on either raises
+        // `acid-sulfide-h2s` (toxic, flammable hydrogen sulfide) rather
+        // than being screened only as a corrosive base meeting an acid.
+        "Na2S" => &[BaseStrong, ReducingAgent, ToxicSoluble, Sulfide],
+        "HS-" => &[ReducingAgent, ToxicSoluble, Sulfide],
         // Iodide speciates since 2026-10-27; the bottle and its ion carry
         // the same screen, as hypo and `S2O3-2` do.
         "KI" | "I-" => &[ReducingAgent],
@@ -752,6 +774,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na2SO3",
     "SO3-2",
     "HSO3-",
+    "Na2S",
+    "HS-",
     "Na2SO4",
     "NaCl",
     "NaNO3",
@@ -1262,6 +1286,25 @@ const INCOMPATIBLE: &[Incompatibility] = &[
                      in enclosed spaces.",
         final_screen: FinalScreen::Screened,
     },
+    // ── acid + sulfide → H₂S ──────────────────────────────────────
+    // The analogue of `acid-carbonate-co2`, but the gas is the hazard
+    // rather than the froth: hydrogen sulfide is acutely toxic by
+    // inhalation, deadens the sense of smell at harmful concentrations,
+    // and is extremely flammable (ILO/WHO ICSC 0165; GHS H220, H330).
+    // Danger, as the other toxic-gas row `bleach-acid-chlorine` is.
+    Incompatibility {
+        a: ReactiveGroup::AcidStrong,
+        b: ReactiveGroup::Sulfide,
+        severity: Severity::Danger,
+        rule: "acid-sulfide-h2s",
+        hazard: "strong acid and a sulfide release hydrogen sulfide, \
+                 a toxic and flammable gas",
+        real_world: "Hydrogen sulfide smells of rotten eggs at low levels, \
+                     but at harmful levels it deadens the sense of smell, \
+                     so the smell is no warning. It is also highly \
+                     flammable.",
+        final_screen: FinalScreen::Screened,
+    },
     // ── water-reactive ────────────────────────────────────────────
     Incompatibility {
         a: ReactiveGroup::WaterReactive,
@@ -1299,7 +1342,10 @@ fn same_final_finding(before: &ExposureFinding, after: &ExposureFinding) -> bool
             && is_registry_strong_acid(prior_species)
             && matches!(
                 before.rule.as_str(),
-                "bleach-acid-chlorine" | "acid-metal-hydrogen" | "acid-carbonate-co2"
+                "bleach-acid-chlorine"
+                    | "acid-metal-hydrogen"
+                    | "acid-carbonate-co2"
+                    | "acid-sulfide-h2s"
             );
         (final_species_identity(prior_species) == final_species_identity(final_species)
             || strong_acid_projection)
@@ -1775,6 +1821,41 @@ mod tests {
     }
 
     #[test]
+    fn acid_and_sulfide_warns_of_hydrogen_sulfide() {
+        let v = vessel_with(&["water", "Na2S", "HCl"]);
+        match ReactiveGroupScreen.assess(&v) {
+            SafetyVerdict::Warn {
+                severity,
+                rule,
+                hazard,
+                ..
+            } => {
+                assert_eq!(rule, "acid-sulfide-h2s");
+                assert_eq!(severity, Severity::Danger);
+                assert!(hazard.contains("hydrogen sulfide"));
+            }
+            other => panic!("expected Danger, got {other:?}"),
+        }
+        // The booking ion carries the same row as the bottle.
+        assert!(groups("HS-").contains(&ReactiveGroup::Sulfide));
+    }
+
+    #[test]
+    fn sulfide_alone_or_sulfate_with_acid_does_not_raise_h2s() {
+        let raised = |keys: &[&str]| {
+            assess_exposures([("vessel", &vessel_with(keys))])
+                .iter()
+                .any(|finding| finding.rule == "acid-sulfide-h2s")
+        };
+        assert!(!raised(&["water", "Na2S"]), "sulfide alone");
+        assert!(
+            !raised(&["water", "Na2SO4", "HCl"]),
+            "sulfate is not sulfide"
+        );
+        assert!(raised(&["water", "Na2S", "HCl"]));
+    }
+
+    #[test]
     fn quicklime_and_water_warns() {
         let v = vessel_with(&["CaO", "water"]);
         match ReactiveGroupScreen.assess(&v) {
@@ -1950,6 +2031,7 @@ mod tests {
             (&["KMnO4", "ethanol"], "oxidizer-flammable-liquid"),
             (&["HCl", "Mg"], "acid-metal-hydrogen"),
             (&["HCl", "CaCO3"], "acid-carbonate-co2"),
+            (&["HCl", "Na2S"], "acid-sulfide-h2s"),
             (&["CaO", "water"], "water-reactive-slaking"),
         ];
         for (keys, expected) in cases {
@@ -1967,6 +2049,19 @@ mod tests {
         let (labels, assessed) = hazard_assessment("FeCl3");
         assert!(assessed);
         assert!(labels.contains(&"irritant"), "{labels:?}");
+    }
+
+    #[test]
+    fn sodium_sulfide_and_its_booking_ion_are_screened() {
+        assert!(COVERED_KEYS.contains(&"Na2S"));
+        assert!(COVERED_KEYS.contains(&"HS-"));
+        let (labels, assessed) = hazard_assessment("Na2S");
+        assert!(assessed);
+        for label in ["corrosive", "reducing_agent", "toxic"] {
+            assert!(labels.contains(&label), "{labels:?}");
+        }
+        assert!(groups("HS-").contains(&ReactiveGroup::ReducingAgent));
+        assert!(!groups("HS-").contains(&ReactiveGroup::BaseStrong));
     }
 
     #[test]

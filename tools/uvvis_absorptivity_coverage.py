@@ -97,8 +97,10 @@ def render(rows, no_data):
                   f"{r['source']} |")
     md += ["", "## Refused (no sourced ε)", "", "| species | reason |", "|---|---|"]
     md += [f"| {d['species']} | {d['reason']} |" for d in no_data]
-    md += ["", "The starch–iodine complex is refused as before (no reliable ε exists; see",
-           "docs/starch-amylase-coverage-20261111.md).", "",
+    md += ["", "The starch–iodine complex is refused as before: \"reliable extinction coefficients for the",
+           "amylose-iodine-iodide complex are not known\" (poly-iodide chains of different length absorb",
+           "differently; Molecules 27 (2022) 8974, doi:10.3390/molecules27248974, Europe PMC PMC9784209).",
+           "See docs/starch-amylase-coverage-20261111.md.", "",
            "MnO4⁻: the registry's 16-band colour spectrum is scaled to the same 3340 at 525 nm",
            "(shape kept), so the band-peak reading and the cited 525 nm reading agree",
            "(`permanganate_band_peak_and_cited_525_reading_agree`). At 545 nm the scaled band gives",

@@ -418,7 +418,8 @@ SOLUTION_SPECIES
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
     /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`],
     /// [`TETRATHIONATE_EXTENSION`], the reviewed reference-temperature
-    /// ligand slice and the gas phases imported by
+    /// ligand slice, the Goldberg-Parker neutral S(IV)/SO2(g) slice
+    /// (`aqueous_gases::sulfur_dioxide`) and the gas phases imported by
     /// [`crate::gas_phases::reconcile`] (NH3(g), H2(g) from wateq4f).
     ///
     /// Everything that loads or PARSES the database goes through here, so
@@ -459,7 +460,11 @@ SOLUTION_SPECIES
             bytes.extend_from_slice(SULFITE_EXTENSION);
             bytes.extend_from_slice(TETRATHIONATE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
-            super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
+            // The reviewed neutral S(IV)/SO2(g) slice extends the Sulfite
+            // pseudo-element defined above, so it goes on this route only.
+            super::aqueous_gases::append_to(&super::aqueous_gases::sulfur_dioxide::append_to(
+                &super::complexation::append_to(&bytes),
+            ))
         })
     }
 

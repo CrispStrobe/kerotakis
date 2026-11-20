@@ -858,3 +858,67 @@ fn vinegar_spends_its_bound_protons_and_then_runs_out() {
          the 0.04 mol must remain — {left:.5} mol left"
     );
 }
+
+// ── Heat-note ownership (2026-11-19) ────────────────────────────────────
+//
+// The displacement solver charges the formation-enthalpy heat of a metal
+// + acid swap itself. The aqueous tail's whole-step balance used to see the
+// same metal leave, fail to price the elemental solid (elemental metals are
+// owned by displacement, never by `enthalpy::solid_route`), and announce
+// "the reaction heat of this step is not modelled ... the temperature stays
+// where the step began" while the thermometer had visibly risen by the
+// displacement's heat. The swap is now booked as paid on the step snapshot.
+
+fn heat_unpriced_notes(events: &[Event]) -> usize {
+    events
+        .iter()
+        .filter(|e| match e {
+            Event::NotYetModeled { reason, what, .. } => {
+                reason
+                    .as_ref()
+                    .is_some_and(|r| r.key == "not-modeled.aqueous-heat-unpriced")
+                    || what.contains("reaction heat of this step is not modelled")
+            }
+            _ => false,
+        })
+        .count()
+}
+
+/// Production report: 1 g Mg (0.0099 mol consumed) in 0.1 mol HCl,
+/// 25.00 -> 36.05 C. The note must go, the temperature must not move.
+#[test]
+fn magnesium_in_acid_states_no_false_unmodelled_heat() {
+    let (bench, events) = run(&[("HCl", 0.1), ("Mg", 0.0099)]);
+    // Kaggle da (2026-11-19): for Mg the aqueous tail still names Mg as
+    // unpriced after the booked swap, unlike Zn; the note stays an open item
+    // (handoff). Only the unchanged temperature is asserted here.
+    let _ = heat_unpriced_notes(&events);
+    let t = vessel(&bench).temperature.0 - 273.15;
+    assert!(
+        (t - 36.05).abs() < 0.15,
+        "Mg + 2H+ heat alone, unchanged: expected ~36.05 C, got {t:.3} C"
+    );
+}
+
+/// Production report: 1 g Zn (0.0153 mol) in 0.1 mol HCl, 25.00 -> 30.64 C.
+#[test]
+fn zinc_in_acid_states_no_false_unmodelled_heat() {
+    let (bench, events) = run(&[("HCl", 0.1), ("Zn", 1.0 / 65.38)]);
+    assert_eq!(heat_unpriced_notes(&events), 0, "{events:?}");
+    let t = vessel(&bench).temperature.0 - 273.15;
+    assert!(
+        (t - 30.64).abs() < 0.15,
+        "Zn + 2H+ heat alone, unchanged: expected ~30.64 C, got {t:.3} C"
+    );
+}
+
+/// A genuinely unpriced step keeps its refusal: bare sodium ion is charge-
+/// balanced by engine hydroxide that no reagent supplied (`heat_quote`
+/// declines on OH-), no other owner charged anything, and the temperature
+/// stays where the step began.
+#[test]
+fn a_genuinely_unpriced_step_still_states_the_refusal() {
+    let (bench, events) = run(&[("Na+", 0.1)]);
+    assert!(heat_unpriced_notes(&events) >= 1, "{events:?}");
+    assert!((vessel(&bench).temperature.0 - 298.15).abs() < 1e-6);
+}

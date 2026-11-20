@@ -229,6 +229,11 @@
     "pitzer": "curated",
     "wateq4f": "curated"
   },
+  "Na2S": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
   "Na2S2O3": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
     "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",

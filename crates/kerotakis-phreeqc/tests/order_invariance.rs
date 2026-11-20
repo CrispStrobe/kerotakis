@@ -227,18 +227,16 @@ fn aq_023(second: &str, third: &str) -> Read {
         ),
     ] {
         assert!(
-            // Relative 1e-7: since an `add` keeps its sub-bubble CO2
-            // (2026-11-11), the repeat re-solves a supersaturated carbonate
-            // state against a zero-mole CO2(g) phase, and lands 1.6e-10 away
-            // in water activity and 1.9e-8 (relative) in particle molality,
-            // and up to 6e-7 when the earlier step re-solved (Kaggle cv/cw).
-            // Kaggle cx saw 7.3e-5 in particle molality, with the value
-            // BEFORE the repeat differing run to run while the repeat lands
-            // stable: the zero-time material addition is not reproducible
-            // to better than ~1e-4. Open item in the handoff (root cause).
+            // Relative 1e-8, native solver precision. The final canonical
+            // re-pose re-derives these diagnostics from the settled
+            // contents, which closed the old 7.3e-5 gap; the repeat still
+            // re-converges Pitzer from another starting point and lands
+            // 1.7e-9 (relative) away in particle molality (Kaggle dh), so
+            // 1e-10 absolute is tighter than the solver, not a defect
+            // (docs/zero-time-determinism-20261119.md).
             before.is_finite()
                 && after.is_finite()
-                && (after - before).abs() <= 1e-4 * before.abs().max(1.0),
+                && (after - before).abs() <= 1e-8 * before.abs().max(1.0),
             "native auxiliary {coordinate} changed at zero time: {before:.15e} -> {after:.15e}"
         );
     }
@@ -399,4 +397,53 @@ fn the_canonical_pose_costs_at_most_one_solve_per_equilibration() {
          pose and 9 after, and the budget is there so a second re-pose \
          cannot be added without someone noticing"
     );
+}
+
+/// Pre-repeat readings of one fresh salt-first aq-023 build, as bits.
+fn aq_023_salt_first_bits() -> [u64; 6] {
+    let mut bench = Bench::new();
+    let mut solvers = stack();
+    for line in ["add v1 water 100mL", SALT_FIRST.0, SALT_FIRST.1] {
+        let op = kerotakis_core::script::parse_op(line)
+            .expect("the corpus script parses")
+            .expect("a known verb");
+        bench
+            .step_with(op, &mut solvers, &PermissiveScreen)
+            .expect("the step runs");
+    }
+    let info = bench
+        .vessel(VesselId(0))
+        .expect("the beaker")
+        .solution
+        .clone()
+        .expect("a characterised solution");
+    let aux = info
+        .solvent_activity
+        .expect("the supported final mixture has native solvent diagnostics");
+    [
+        info.ph.to_bits(),
+        info.ionic_strength.to_bits(),
+        info.solvent_kg.expect("a solvent mass").to_bits(),
+        aux.water_activity.to_bits(),
+        aux.particle_molality.to_bits(),
+        aux.ionic_strength.to_bits(),
+    ]
+}
+
+/// The addition itself is deterministic: fresh benches and fresh engines,
+/// in one process, read the same bits. Hosted logs already showed this
+/// across processes (each run executed the order test twice, identically);
+/// this pins it in-process, where shared caches or hash-order iteration
+/// would show up. If it ever fails, the 2026-11-19 analysis is wrong and
+/// the zero-time comparison above may be failing for a different reason.
+#[test]
+fn repeated_fresh_benches_read_bit_identically() {
+    let first = aq_023_salt_first_bits();
+    for repeat in 1..3 {
+        let again = aq_023_salt_first_bits();
+        assert_eq!(
+            first, again,
+            "fresh bench {repeat} read different bits (pH, I, solvent kg, aux a_w, aux m, aux I)"
+        );
+    }
 }

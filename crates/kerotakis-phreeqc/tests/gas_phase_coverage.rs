@@ -145,7 +145,13 @@ fn negatives_stay_refused_with_their_reason() {
     // Pitzer has no reduced nitrogen at all.
     assert_eq!(row("NH3(g)", "pitzer").status, GasStatus::Refused);
     // Bench gases no vendored database defines.
-    for gas in ["Cl2(g)", "SO2(g)", "CO(g)", "He(g)"] {
+    // SO2(g) is native on minteq.v4 through the Goldberg-Parker slice
+    // (2026-11-19) and refused on the routes without an S(IV) basis.
+    assert_ne!(row("SO2(g)", "minteq.v4").status, GasStatus::Refused);
+    for route in ["wateq4f", "pitzer"] {
+        assert_eq!(row("SO2(g)", route).status, GasStatus::Refused, "{route}");
+    }
+    for gas in ["Cl2(g)", "CO(g)", "He(g)"] {
         for route in gas_phases::ROUTES {
             let r = row(gas, route);
             assert_eq!(
@@ -251,11 +257,12 @@ fn constant_k_donor_is_refused() {
 
 #[test]
 fn only_reviewed_exchange_gases_are_coupled_to_the_solve() {
-    for gas in ["NH3(g)", "CO2(g)", "HBr(g)"] {
+    // SO2(g): finite headspaces on minteq.v4 (Goldberg-Parker slice).
+    for gas in ["NH3(g)", "CO2(g)", "HBr(g)", "SO2(g)"] {
         assert!(gas_phases::headspace_coupled(gas), "{gas}");
     }
     // #834 siblings: carried as inert headspace inventory, not equilibrated.
-    for gas in ["H2S(g)", "SO2(g)", "HCl(g)", "Cl2(g)"] {
+    for gas in ["H2S(g)", "HCl(g)", "Cl2(g)"] {
         assert!(!gas_phases::headspace_coupled(gas), "{gas}");
     }
 }

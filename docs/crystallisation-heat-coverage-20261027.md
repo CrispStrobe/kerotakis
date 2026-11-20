@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 14 | 1 | 87 |
-| minteq.v4 | 16 | 1 | 85 |
-| pitzer | 8 | 2 | 92 |
+| wateq4f | 14 | 1 | 88 |
+| minteq.v4 | 16 | 1 | 86 |
+| pitzer | 8 | 2 | 93 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -213,6 +213,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Na2CO3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Na2CO3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Na2CO3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Na2S` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Na2S` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `Na2S` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Na2S2O3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Na2S2O3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Na2S2O3` | pitzer | refused | - | the routed database defines no phase for this solid |

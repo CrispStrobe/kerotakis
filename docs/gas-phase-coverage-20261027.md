@@ -76,12 +76,12 @@ both from wateq4f; NH3 link Δlog K 2.2e-4, ΔΔH 0.21 kJ/mol; H2 link identical
 | `Ntg(g)` | refused (phreeqc: linking-species-absent `Ntg`; pitzer: linking-species-absent `Ntg`) | refused (phreeqc: linking-species-absent `Ntg`; pitzer: linking-species-absent `Ntg`) | native |
 | `O2(g)` | native | native | refused (wateq4f: linking-species-absent `O2`; phreeqc: linking-species-absent `O2`; minteq.v4: no-linking-aqueous-species) |
 | `Oxg(g)` | refused (phreeqc: linking-species-absent `Oxg`; pitzer: linking-species-absent `Oxg`) | refused (phreeqc: linking-species-absent `Oxg`; pitzer: linking-species-absent `Oxg`) | native |
-| `SO2(g)` | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) |
+| `SO2(g)` | refused (no-reviewed-donor-definition) | native | refused (no-reviewed-donor-definition) |
 
 ## Finite headspace coupling to aqueous acid/base (#834 siblings)
 
-Only gases posed to the native solve (`EQUILIBRIUM_GASES` plus the NH3 coupling of
-#834) equilibrate with protonation in the same solve. The others are carried as inert
+Only gases posed to the native solve (`EQUILIBRIUM_GASES`, the finite-only
+`FINITE_EQUILIBRIUM_GASES` (SO2) and the NH3 coupling of #834) equilibrate with protonation in the same solve. The others are carried as inert
 headspace inventory: no Henry exchange and no acid/base suppression.
 
 | gas | coupled to aqueous acid/base in finite headspace | wateq4f | minteq.v4 | pitzer |
@@ -90,7 +90,7 @@ headspace inventory: no Henry exchange and no acid/base suppression.
 | `CO2(g)` | yes | coupled | coupled | coupled |
 | `HBr(g)` | yes | coupled | coupled | coupled |
 | `H2S(g)` | no (inert inventory) | phase defined, not posed | phase defined, not posed | no phase |
-| `SO2(g)` | no (inert inventory) | no phase | no phase | no phase |
+| `SO2(g)` | yes | refused (gas-phase-unavailable) | coupled | refused (gas-phase-unavailable) |
 | `HCl(g)` | no (inert inventory) | no phase | no phase | no phase |
 | `Cl2(g)` | no (inert inventory) | no phase | no phase | no phase |
 
@@ -100,8 +100,44 @@ Remaining gaps (not changed here; each needs reviewed data and closure controls)
   sulfur to pe (sulfate ⇄ sulfide) the same way unrestricted N2/O2 would nitrate room
   air; it needs a redox-isolated S(-2) capability before being added to
   `EQUILIBRIUM_GASES`. Pitzer has no reduced sulfur outside the uncoupled `H2Sg`.
-- `SO2(g)`, `HCl(g)`, `Cl2(g)`: no vendored USGS database defines the phase. They need a
+- `HCl(g)`, `Cl2(g)`: no vendored USGS database defines the phase. They need a
   reviewed Henry-law source (as HBr used Sander 2023) with an explicit standard-state
   conversion; `Cl2` also needs Cl(0)/hypochlorite redox ownership.
+- `SO2(g)` (2026-11-19, branch fix/so2-gas-slice-20261119): **native on minteq.v4 only,
+  finite headspaces only; refused typed on wateq4f and pitzer** (`gas-phase-unavailable`;
+  neither defines S(IV), and any Sulfite vessel routes to minteq.v4 anyway).
+  - Data: `data/thermo/goldberg-parker-1985-so2.dat`, Goldberg and Parker, J. Res. NBS 90
+    (1985) 341, Table 9, p. 353 (298.15 K, 1 bar). (A) SO2(aq)+H2O = H+ + HSO3-:
+    dG 10.60, dH -17.80 kJ/mol, log K -1.85704. (D) SO2(g) = SO2(aq): dG -0.51,
+    dH -26.97, log K 0.08935 per bar = 0.09506 per atm (molal already; bar->atm only).
+    (B) dG 40.94 -> 7.1724 vs routed 7.2054: 0.033 apart, inside +-0.20 kJ/mol
+    (0.035 log), so the routed constant is kept. (E) = (A)+(D) exactly.
+  - Written on the minteq.v4 `Sulfite` pseudo-element (decoupled from sulfur redox):
+    `Sulfite-2 + 2 H+ = H2(Sulfite)`, log K 9.06244 = 7.2054 + 1.85704, dH 27.13032 =
+    9.33032 + 17.80 (basis values; the effective first dissociation is exactly (A)), and
+    phase `SO2(g)` = `H2(Sulfite)`, log K 0.09506, dH -26.97. `H2(Sulfite)` is H2SO3 =
+    SO2(aq)+H2O (Table 10 note c).
+  - Readback: `PROTONATION_SPLITS` Sulfite gains `H2(Sulfite)` -> registry `SO2`
+    (aqueous), all-or-nothing like every split, so the neutral fraction is never dropped.
+    Registry SO2 books the `Sulfite` element (`extract_sulfite` admits bare SO2).
+  - Gas link: `derived::FINITE_EQUILIBRIUM_GASES` (not `EQUILIBRIUM_GASES`, which also
+    serves open-vessel doses) and `derived::gas_component_elements`, which moves
+    `Sulfite`, never bare `S` (bare S would be speciated as sulfate/sulfide on the
+    redox-coupled routes). The H2O that `H2(Sulfite)` carries beyond physical SO2 is not
+    an analytical component: gas and neutral species are booked as registry SO2 and
+    `inventory::complete_basis` closes H and O from the conserved ledger, exactly as
+    MINTEQ's H2CO3 books as CO2(aq).
+  - Ownership (`kerotakis_core::sulfur_iv::owner`): the native solve owns acid/base
+    speciation and the finite-headspace partition; `sulfur_iv` owns redox extents
+    (iodine, peroxide, oxidant table) and withdraws S(IV) from whatever forms and phases
+    hold it. Neither does the other's job, so they compose without double pricing.
+  - **No `ATMOSPHERIC` SO2 entry and no open-vessel dose.** Room air holds no SO2 at bench
+    resolution (log p -12 adds nothing), and an infinite reservoir would remove dissolved
+    S(IV) instantly with no rate. Open-vessel SO2 escape belongs with the k_L seeping lane.
+  - Not covered: temperature away from 298.15 K is constant-enthalpy van't Hoff (the
+    paper's dCp terms are not carried); water activity 1 in the gas reaction; no
+    pyrosulfite (S2O5-2, Table 9 (C)); no typed boundary event for SO2 yet (HBr has one).
+  - Tests: `aqueous_gases::tests::sulfur_dioxide_*`, `sulfur_iv::tests::s_iv_aspects_have_exactly_one_owner`,
+    `tests/sulfur_dioxide_gas.rs`.
 - `NH3(g)` on pitzer: pitzer.dat carries no nitrogen; the refusal is moot because
   N(-3) never routes there.

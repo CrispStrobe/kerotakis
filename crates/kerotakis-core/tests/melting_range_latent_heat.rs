@@ -268,7 +268,7 @@ fn policy_refused_materials_have_no_payable_row() {
         .any(|r| r.material == "PVC"));
     assert!(melting_range::REFUSED_FUSION
         .iter()
-        .any(|r| r.material.starts_with("PTFE")));
+        .any(|r| r.material.starts_with("PTFE") && r.reason.contains("doi:10.3390/polym12040791")));
     for refused in melting_range::REFUSED_FUSION {
         assert!(melting_range::range(refused.material).is_none());
         assert!(melting_range::fusion_j_per_mol(refused.material).is_none());

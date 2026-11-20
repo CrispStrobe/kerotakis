@@ -199,6 +199,10 @@ pub const WEAK_BUFFERS: &[(&str, &str)] = &[
     ("HClO", "hypochlorite"),
     ("NaOCl", "hypochlorite"),
     ("hydrogen_sulfide", "sulfide"),
+    // H2S/HS- (pKa1 about 7) and HS-/S2- (about 13): sodium sulfide and
+    // the ion it books as are pH-dependent bases, never a strong reserve.
+    ("Na2S", "sulfide"),
+    ("HS-", "sulfide"),
     ("H2C2O4", "organic acid"),
     ("citric_acid", "organic acid"),
     ("C6H5O7-3", "organic acid"),

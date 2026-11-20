@@ -20,6 +20,57 @@ pub fn append_to(database: &[u8]) -> Vec<u8> {
     bytes
 }
 
+/// Reviewed neutral S(IV) + SO2(g) slice for minteq.v4's `Sulfite`
+/// pseudo-element (Goldberg and Parker 1985, Table 9), appended to the
+/// minteq.v4 route only (`databases::minteq_v4`). Wiring:
+/// `derived::PROTONATION_SPLITS` books `H2(Sulfite)` as registry `SO2`
+/// (aqueous); `derived::FINITE_EQUILIBRIUM_GASES` poses SO2(g) against a
+/// finite headspace only and `derived::gas_component_elements` moves the
+/// `Sulfite` component, never bare S; the extra H2O of the `H2(Sulfite)`
+/// formula is closed by `inventory::complete_basis`. Ownership:
+/// `kerotakis_core::sulfur_iv::owner` (native solve = speciation and
+/// headspace; sulfur_iv = redox extents). wateq4f and pitzer define no
+/// S(IV) and refuse typed (`gas-phase-unavailable`).
+pub mod sulfur_dioxide {
+    pub const SOURCE_ID: &str = "goldberg-parker-1985-so2";
+    pub const EXTENSION: &[u8] =
+        include_bytes!("../../../data/thermo/goldberg-parker-1985-so2.dat");
+    /// Table 9 Gibbs energies, kJ/mol, 298.15 K, 1 bar.
+    pub const DG_FIRST_DISSOCIATION_KJ: f64 = 10.60;
+    pub const DG_SECOND_DISSOCIATION_KJ: f64 = 40.94;
+    pub const DG_HENRY_KJ: f64 = -0.51;
+    pub const DG_GAS_TO_BISULFITE_KJ: f64 = 10.09;
+    pub const DH_FIRST_DISSOCIATION_KJ: f64 = -17.80;
+    pub const DH_HENRY_KJ: f64 = -26.97;
+    /// The registry route's existing second constant (llnl borrow) and
+    /// its enthalpy, kJ/mol (`SULFITE_EXTENSION`).
+    pub const ROUTED_LOG_K_BISULFITE: f64 = 7.2054;
+    pub const ROUTED_DH_BISULFITE_KJ: f64 = 9.33032;
+
+    pub fn log_k(delta_g_kj: f64) -> f64 {
+        let gas_constant = 8.31446261815324;
+        -delta_g_kj * 1000.0
+            / (gas_constant * super::REFERENCE_TEMPERATURE_K * std::f64::consts::LN_10)
+    }
+
+    /// Henry constant, mol kg-1 atm-1 (source is per bar).
+    pub fn log_henry_atm() -> f64 {
+        log_k(DG_HENRY_KJ) + 1.01325f64.log10()
+    }
+
+    /// The slice inserted before `END` of minteq.v4 after its Sulfite
+    /// extension (the species is written on `Sulfite-2`).
+    pub fn append_to(database: &[u8]) -> Vec<u8> {
+        let at = crate::databases::find_last_end(database).unwrap_or(database.len());
+        let mut bytes = Vec::with_capacity(database.len() + EXTENSION.len() + 1);
+        bytes.extend_from_slice(&database[..at]);
+        bytes.push(b'\n');
+        bytes.extend_from_slice(EXTENSION);
+        bytes.extend_from_slice(&database[at..]);
+        bytes
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,6 +96,91 @@ mod tests {
             assert!(index.has_element("Br"));
         }
         assert!(temperature_covered(298.15));
+    }
+
+    #[test]
+    fn sulfur_dioxide_slice_matches_goldberg_parker_table_9() {
+        use super::sulfur_dioxide::*;
+        let first = log_k(DG_FIRST_DISSOCIATION_KJ);
+        assert!((first + 1.8570396554686752).abs() < 1e-12);
+        assert!((log_henry_atm() - 0.09506474678061971).abs() < 1e-12);
+        // Process (E) is (A) + (D) in the paper's own table.
+        let gas_to_bisulfite = log_k(DG_GAS_TO_BISULFITE_KJ);
+        assert!((first + log_k(DG_HENRY_KJ) - gas_to_bisulfite).abs() < 1e-12);
+        // The routed second constant is consistent within Table 9's
+        // +-0.20 kJ/mol (0.035 log units), so it is kept, not replaced.
+        let second = -log_k(DG_SECOND_DISSOCIATION_KJ);
+        assert!((second - 7.172377688196939).abs() < 1e-9);
+        assert!((ROUTED_LOG_K_BISULFITE - second).abs() < log_k(-0.20));
+
+        let index = crate::dbindex::DbIndex::parse(crate::databases::minteq_v4());
+        let phase = &index.phases["SO2(g)"];
+        assert!((phase.log_k.unwrap() - log_henry_atm()).abs() < 1e-12);
+        assert!((phase.delta_h_kj.unwrap() - DH_HENRY_KJ).abs() < 1e-12);
+        // Written on the master, so the stated enthalpy is the basis sum.
+        let basis_dh = ROUTED_DH_BISULFITE_KJ - DH_FIRST_DISSOCIATION_KJ;
+        assert!((index.species_delta_h_kj["H2(Sulfite)"] - basis_dh).abs() < 1e-9);
+        assert!(index.has_element("Sulfite"));
+        let basis_log_k = ROUTED_LOG_K_BISULFITE - first;
+        assert!((basis_log_k - 9.062_439_655_468_674).abs() < 1e-12);
+        assert!(String::from_utf8_lossy(EXTENSION).contains("log_k 9.0624396554686752"));
+    }
+
+    /// The routing truth after wiring: minteq.v4 carries SO2(g) and the
+    /// neutral species, coupled for finite headspaces only; wateq4f and
+    /// pitzer define no S(IV) and keep refusing (`gas-phase-unavailable`).
+    #[test]
+    fn sulfur_dioxide_is_routed_on_minteq_only_and_finite_only() {
+        for (route, database, routed) in [
+            ("wateq4f", crate::databases::wateq4f(), false),
+            ("minteq.v4", crate::databases::minteq_v4(), true),
+            ("pitzer", crate::databases::pitzer(), false),
+        ] {
+            let index = crate::dbindex::DbIndex::parse(database);
+            assert_eq!(index.has_phase("SO2(g)"), routed, "{route}");
+            assert_eq!(index.has_element("Sulfite"), routed, "{route}");
+            assert!(!index.has_element("S(4)"), "{route} gained S(4)");
+            let text = String::from_utf8_lossy(database);
+            assert_eq!(
+                text.split_whitespace().any(|token| token == "H2(Sulfite)"),
+                routed,
+                "{route}"
+            );
+        }
+        assert!(crate::derived::FINITE_EQUILIBRIUM_GASES.contains(&("SO2(g)", "SO2")));
+        assert!(!crate::derived::EQUILIBRIUM_GASES
+            .iter()
+            .any(|(phase, species)| *phase == "SO2(g)" || *species == "SO2"));
+        assert!(!crate::derived::ATMOSPHERIC
+            .iter()
+            .any(|(phase, species, _)| *phase == "SO2(g)" || *species == "SO2"));
+        assert!(crate::gas_phases::headspace_coupled("SO2(g)"));
+        assert_eq!(
+            crate::derived::gas_component_elements("SO2(g)").unwrap(),
+            std::collections::BTreeMap::from([("Sulfite".to_string(), 1.0)])
+        );
+        assert_eq!(
+            crate::derived::gas_component_elements("CO2(g)").unwrap(),
+            std::collections::BTreeMap::from([("C".to_string(), 1.0)])
+        );
+        let split = crate::derived::protonation_split("Sulfite").unwrap();
+        assert!(split.contains(&("H2(Sulfite)", "SO2")));
+        assert_eq!(split.len(), 3);
+        match crate::derived::role("SO2") {
+            Some(crate::derived::DerivedRole::Dissolves(elements)) => {
+                assert_eq!(elements, &vec![("Sulfite".to_string(), 1.0)])
+            }
+            other => panic!("SO2 must book the Sulfite element, got {other:?}"),
+        }
+        let rows = crate::gas_phases::coverage();
+        for row in rows.iter().filter(|row| row.gas == "SO2(g)") {
+            let expected = if row.route == "minteq.v4" {
+                crate::gas_phases::GasStatus::Native
+            } else {
+                crate::gas_phases::GasStatus::Refused
+            };
+            assert_eq!(row.status, expected, "{}", row.route);
+        }
     }
 
     #[test]

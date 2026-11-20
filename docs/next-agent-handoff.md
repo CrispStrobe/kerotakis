@@ -78,6 +78,35 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      constant), then an `ATMOSPHERIC` H2S(g) entry offered only where `S(-2)` is present (never to
      sulfate, `S(6)`), log p -12 (room air holds none at bench resolution; registry key
      `hydrogen_sulfide`). Pitzer names the phase `H2Sg(g)`; the gas-coverage importer must cover it.
+     **2026-11-19 (branch fix/sulfide-family-20261119): step 1 done, untested.** `extract_sulfide`
+     in `derived.rs` books `S(-2)` only for charge-balanced monosulfides (H2S, NaHS, Na2S, FeS,
+     ZnS, PbS, CuS); S, S8, FeS2, Na2S2 and Cu2S stay refused. Inert for every current registry
+     role. Tests `monosulfides_map_to_s_minus_2_and_nothing_else_does`,
+     `no_registry_role_books_sulfide_yet` were written but not run. **Second pass (same branch,
+     untested):** the redox "blocker" was already solved: `run_raw` always poses through
+     `redox_isolation::transform`, which makes `S(-2)` its own conserved element (`Sredtwo`), so
+     `pe 4 O2(g) -0.68` cannot oxidise it (existing engine test
+     `isolated_totals_survive_native_batch_and_mix_at_arbitrary_pe`). Added: `ATMOSPHERIC`
+     `H2S(g)`/`hydrogen_sulfide`/-12 gated on `S(-2)` (`derived::atmospheric_row_applies`) and
+     offered only on zero-time (effervescence) and swept boundaries, since no clock owns H2S;
+     typed note `not-modeled.sulfide-open-air` (en/de/fr); tests
+     `hydrogen_sulfide_room_sink_is_gated_on_reduced_sulfur_only` and engine probe
+     `open_beaker_oxygen_does_not_oxidise_sulfide_and_the_room_sink_strips_only_h2s` (not run).
+     Dormant until a registry role books `S(-2)`. Still open: registry Na2S + `S(-2)` booking
+     ion (cited density/solubility/appearance needed), sub-saturation H2S fizz parcel (needs a
+     generic pending-gas parcel; CO2 endpoint is CO2-only plumbing), H2S film clock, NH3-style
+     `S(-2)` gas-dose path. wateq4f/minteq.v4 carry native `H2S(g)`; pitzer has no S(-2). See
+     `docs/sulfide-coverage-20261119.md` for validator expectations.
+     **Third pass (same branch, untested):** registry `Na2S` (anhydrous; CEA Cp, USCG/HSDB
+     density, PubChem identity) and booking ion `HS-` (aqueous basis) added with exporter,
+     legacy-diff, golden, locales, aliases, safety, coverage docs; the sulfide family is now
+     exercisable. Engine test `tests/sulfide_family.rs`. Open: H2S/HS- protonation split,
+     Na2S melting transition, `hydrogen_sulfide` gas-dose path.
+     **Fourth pass (branch fix/safety-notes-20261119, untested):** safety rule
+     `acid-sulfide-h2s` (Danger; new `Sulfide` group on Na2S/HS-; ICSC 0165; en/de/fr) DONE.
+     The `hydrogen_sulfide` -> S(-2) booking was evaluated and deliberately NOT added: it needs
+     a neutral aqueous H2S key + S(-2) split first and an S(-2)-gated finite-headspace path
+     (reasons and prerequisites in `docs/sulfide-coverage-20261119.md`, fourth pass).
    - SO2: SO2(g) is defined in none of the routed databases. The S(IV) extension also omits
      neutral dissolved SO2 and its first dissociation; adding only a gas PHASE would leave that
      ownership gap. Review Goldberg and Parker (1985), doi:10.6028/jres.090.024, NBS Table9,
@@ -86,6 +115,18 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
      compatibility and H/O/protonation reconstruction before import. Include acid/base, dose,
      temperature, sealed/open and sulfate/thiosulfate negative controls. No data import is yet
      accepted; numerical convergence alone earns no new original qualification.
+     2026-11-19 (branch fix/so2-gas-slice-20261119): WIRED, not yet compiled or run.
+     Goldberg and Parker (1985) Table 9 p. 353 neutral S(IV) + SO2(g) on the minteq.v4
+     `Sulfite` pseudo-element; finite headspaces only (`FINITE_EQUILIBRIUM_GASES`), no
+     ATMOSPHERIC entry; wateq4f/pitzer refuse typed. Readback splits `H2(Sulfite)` -> SO2.
+     Owner rule `sulfur_iv::owner`: native = speciation + headspace, sulfur_iv = redox.
+     Validator: `tests/sulfur_dioxide_gas.rs` (0.01 mol Na2SO3 + 0.03 mol HCl, 0.1 kg
+     water, sealed 0.5 L: pSO2 0.0622 atm ideal / 0.0579 with Davies, gas 1.27e-3 /
+     1.18e-3 mol), gas coverage stale check, sulfite_speciation, sulfur_iv_coupling and
+     the curated/kinetic reactants-survive tests. Details: docs/gas-phase-coverage-20261027.md.
+     Learner note `not-modeled.so2-finite-headspace` (en/de/fr) is emitted whenever SO2(g) is
+     coupled to a finite headspace (branch fix/safety-notes-20261119, untested; unit tests
+     `sulfur_dioxide_boundary_tests`); validator should also see it in `sulfur_dioxide_gas.rs`.
    - NH3: far too soluble to bubble, so no fizz rule applies; its open-vessel escape is lane 3's rate
      (`volatility.rs` is deliberately silent over an open vessel).
    The fizz test itself can then generalise from carbonic acid's pK1 to "the molecular gas is the
@@ -122,3 +163,9 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
 7. TR-006's verbatim script asks a 20 mL feed for 60 mL and is correctly refused; leave it.
 
 Earlier handoffs (2026-10-27 successor lanes 1–8) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
+
+- Heat note (2026-11-19): the false "reaction heat ... not modelled" note is suppressed for Zn + HCl
+  (displacement books its swap as paid), but Kaggle da showed it still emitted for Mg + HCl, where the
+  aqueous tail names Mg as unpriced after the booked change. Trace the Mg route (`book_paid_change` in
+  displacement.rs vs `contents_after_paid`) and restore the note assertion in
+  `magnesium_in_acid_states_no_false_unmodelled_heat`. Temperatures are correct either way.

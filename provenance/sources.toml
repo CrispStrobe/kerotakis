@@ -419,6 +419,28 @@ path = "data/thermo/sander-2023-hbr.dat"
 sha256 = "1183a5a9e0d247bcff832b02aadf1d76d67bb89ea0b4f2f65ec04ab8c5effa05"
 
 [[source]]
+id = "goldberg-parker-1985-so2"
+name = "Goldberg and Parker 1985 aqueous sulfur dioxide first dissociation and SO2(g) solubility"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-NBS-Public-Domain"
+origin = "https://nvlpubs.nist.gov/nistpubs/jres/090/jresv90n5p341_A1b.pdf"
+terms = "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications"
+copyright = "U.S. Government work (National Bureau of Standards authors), not subject to copyright in the United States"
+retrieved = "2026-11-19"
+attribution = "R. N. Goldberg and V. B. Parker (1985), Thermodynamics of solution of SO2(g) in water and of aqueous sulfur dioxide solutions, J. Res. Natl. Bur. Stand. 90, 341-358, doi:10.6028/jres.090.024; Table 9 p. 353 processes (A) and (D). Converted dG to log K, per-bar to per-atm, and written on the minteq.v4 Sulfite pseudo-element."
+paths = ["data/thermo/goldberg-parker-1985-so2.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis chemistry audit; per-field review provenance/goldberg-parker-1985-so2-review.md"
+notes = "Four Table 9 fields only (dG and dH of processes A and D at 298.15 K, 1 bar), read from the page image. Process B checked against, not replacing, the routed llnl 7.2054. No dCp, pyrosulfite or activity data imported. Original PDF SHA-256 b8904c624e19e8dc15cdc555fe648a72b4f8dec0bd6c63fc0ec511d184ebacd1."
+
+[[source.checksum]]
+path = "data/thermo/goldberg-parker-1985-so2.dat"
+sha256 = "014c61394d662dbd267bfeb529cdbbf02d100cfe135c74c04ec5ab98fb8f5677"
+
+[[source]]
 id = "uscg-chris-still-reference"
 name = "USCG CHRIS methanol and isopropanol boiling and latent reference fields"
 kind = "data"
