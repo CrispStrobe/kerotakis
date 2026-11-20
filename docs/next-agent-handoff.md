@@ -158,8 +158,12 @@ CC BY 4.0 (Zenodo doi:10.5281/zenodo.6951) and may be used with attribution.
    fuel at or above its autoignition row with air available must burn, not boil, and liquid fuels
    need curated rows (ΔcH from Circular 500 formation enthalpies) for an open dish. (c) A 1 h `wait`
    relaxes an open bicarbonate to room air at once (pH 9.7); that is lane 3's seeping rate.
-   (d) The zero-time material addition in aq-023 is not reproducible run to run beyond ~1e-4
-   (particle molality); find the source of the non-determinism.
+   (d) Closed 2026-11-20 (v0.1.6). aq-023 was never non-deterministic: eight fresh same-binary
+   processes give bit-identical values, and `repeated_fresh_benches_read_bit_identically` guards it.
+   The 7.3e-5 was a deterministic non-idempotence: `recharacterise_canonically` left the auxiliary
+   solvent activity from the pre-canonical pose. It now re-asks it; the zero-time repeat agrees to
+   1.7e-9 relative (Pitzer fixed-point precision), checked at 1e-8 in `order_invariance.rs`. See
+   [zero-time determinism](zero-time-determinism-20261119.md).
 7. TR-006's verbatim script asks a 20 mL feed for 60 mL and is correctly refused; leave it.
 
 Earlier handoffs (2026-10-27 successor lanes 1–8) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
