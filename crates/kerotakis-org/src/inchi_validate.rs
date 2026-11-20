@@ -94,6 +94,9 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // methane and hydrogen sulfide.
     ("Al", "[Al]"),
     ("Mg", "[Mg]"),
+    ("Na", "[Na]"),
+    ("K", "[K]"),
+    ("Ca", "[Ca]"),
     ("Pb", "[Pb]"),
     ("C", "[C]"),
     ("S", "[S]"),

@@ -922,3 +922,59 @@ fn a_genuinely_unpriced_step_still_states_the_refusal() {
     assert!(heat_unpriced_notes(&events) >= 1, "{events:?}");
     assert!((vessel(&bench).temperature.0 - 298.15).abs() < 1e-6);
 }
+
+/// Sodium, potassium and calcium reduce water itself, completely, to their
+/// hydroxide and hydrogen — the class this lab used to refuse as unknown
+/// species. Heat from formation enthalpies (NBS 1982): per mole of metal,
+/// Na −184.28, K −196.54, Ca −431.15 kJ.
+#[test]
+fn water_reducing_metals_make_hydroxide_hydrogen_and_heat() {
+    for (metal, ion, electrons, dh_kj) in [
+        ("Na", "Na+", 1.0, -184.28),
+        ("K", "K+", 1.0, -196.54),
+        ("Ca", "Ca+2", 2.0, -431.15),
+    ] {
+        let n = 0.01;
+        let (bench, events) = run(&[(metal, n)]);
+        assert!(
+            moles_of(&bench, metal, Phase::Solid) < 1e-12,
+            "{metal} reacted completely: {events:?}"
+        );
+        let hydrogen: f64 = events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasEvolved { species, moles, .. } if species.0 == "H2" => Some(moles.0),
+                _ => None,
+            })
+            .sum();
+        assert!(
+            (hydrogen - n * electrons / 2.0).abs() < 1e-9,
+            "{metal}: {hydrogen} mol H2"
+        );
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::ReactionOccurred { equation, .. } if equation.contains("OH-"))),
+            "{metal}: the equation names the hydroxide"
+        );
+        // The metal's ion is in solution, alkaline.
+        let v = vessel(&bench);
+        assert!(
+            v.contents
+                .iter()
+                .any(|p| p.species.0 == ion && p.moles.0 > 0.5 * n)
+                || v.solution.as_ref().is_some_and(|s| s.ph > 11.0),
+            "{metal}: no {ion} or alkalinity left"
+        );
+        let ph = v.solution.as_ref().expect("solution").ph;
+        assert!(ph > 11.0, "{metal}: pH {ph}");
+        // Heat: |ΔH| n into ~100 g of water (418 J/K). Order of magnitude
+        // and sign, not a calorimetry claim.
+        let expected = -dh_kj * 1000.0 * n / 418.0;
+        let rise = v.temperature.0 - 298.15;
+        assert!(
+            rise > 0.5 * expected && rise < 1.5 * expected,
+            "{metal}: rose {rise:.2} K, expected about {expected:.2}"
+        );
+    }
+}

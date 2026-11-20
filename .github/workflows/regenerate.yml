@@ -1,0 +1,99 @@
+# Regenerate generated files, once, on demand.
+#
+# Adding a registry species (or anything else that moves a generated
+# fixture) used to cost one CI round per stale file: CI checks each
+# generated document and golden separately, and only the golden snapshots
+# were uploaded for review. This workflow builds once, runs EVERY
+# generator in its write/bless mode, and uploads one artifact holding
+# every file that changed plus a patch of the whole diff.
+#
+# It never commits. Download the artifact, review the diff (only the
+# changes the source edit should cause), then commit the files you
+# accept. A regenerated file is a claim someone has to explain, not a
+# number to wave through.
+#
+# Dispatch: gh workflow run regenerate.yml --ref <branch>, or push to regenerate/<name>.
+name: Regenerate generated files
+
+# A dispatchable workflow must already exist on the default branch, so it
+# also runs on a push to any `regenerate/**` branch: push the work branch
+# there (`git push origin HEAD:regenerate/<name>`) to regenerate a change
+# that is not on main yet, without touching its pull request.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "regenerate/**"
+
+permissions:
+  contents: read
+
+jobs:
+  regenerate:
+    name: Run every generator and upload the results
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        uses: ./.github/actions/sundials-source
+
+      # The source registry document is the exporter's output over the
+      # compiled registry; regenerate it in place first, because several
+      # generators below read it.
+      - name: Registry source export
+        run: cargo run -p kerotakis-registry-export -- data/registry/registry-source-v1.json
+
+      # Every Rust-side fixture, golden and coverage document, written by
+      # its own test in bless mode. `|| true` because the job's purpose is
+      # the files, not the verdict; a failure that is not a stale fixture
+      # stays visible in the log and in the uploaded test output.
+      - name: Rust generators (bless mode)
+        env:
+          KEROTAKIS_BLESS_GOLDEN: "1"
+          KERO_BLESS_COVERAGE: "1"
+          KEROTAKIS_BLESS_ALIAS_COVERAGE: "1"
+          KEROTAKIS_BLESS_GAS_COVERAGE: "1"
+          KERO_BLESS_PERTURBATION_CENSUS: "1"
+        run: |
+          cargo test --workspace --no-fail-fast 2>&1 | tee "$RUNNER_TEMP/bless-tests.log" || true
+
+      - name: Curiosity baseline
+        run: |
+          cargo run -q -p kerotakis-cli -- coverage curiosity --emit-baseline \
+            > "$RUNNER_TEMP/baseline.toml"
+          mv "$RUNNER_TEMP/baseline.toml" tests/coverage/curiosity-v1/baseline.toml
+
+      # The Python coverage documents write themselves when run without
+      # `--check`. Each runs on its own so one failure does not hide the
+      # rest.
+      - name: Python coverage generators
+        run: |
+          for tool in tools/*_coverage.py; do
+            echo "::group::$tool"
+            python3 "$tool" || echo "::warning::$tool exited non-zero"
+            echo "::endgroup::"
+          done
+
+      - name: Collect every regenerated file
+        run: |
+          mkdir -p "$RUNNER_TEMP/regenerated"
+          git add -A -N .
+          git diff --binary > "$RUNNER_TEMP/regenerated/regenerated.patch"
+          git status --porcelain > "$RUNNER_TEMP/regenerated/changed-files.txt"
+          cp "$RUNNER_TEMP/bless-tests.log" "$RUNNER_TEMP/regenerated/"
+          git diff --name-only | while read -r path; do
+            [ -f "$path" ] || continue
+            mkdir -p "$RUNNER_TEMP/regenerated/files/$(dirname "$path")"
+            cp "$path" "$RUNNER_TEMP/regenerated/files/$path"
+          done
+          cat "$RUNNER_TEMP/regenerated/changed-files.txt"
+      - uses: actions/upload-artifact@v6
+        with:
+          name: regenerated-${{ github.sha }}
+          path: ${{ runner.temp }}/regenerated
+          retention-days: 14

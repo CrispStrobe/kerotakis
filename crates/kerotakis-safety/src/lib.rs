@@ -356,6 +356,12 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 
         // ── water-reactive ────────────────────────────────────────
         "CaO" => &[WaterReactive],
+        // Sodium, potassium and calcium: each carries GHS H260 ("in contact
+        // with water releases flammable gases"), so they are both active
+        // metals (above hydrogen, they dissolve in acid) and water-reactive
+        // (they reduce water itself to hydrogen, sodium and potassium
+        // violently enough to ignite it).
+        "Na" | "K" | "Ca" => &[ActiveMetal, WaterReactive],
 
         // ── ammonia / amines ──────────────────────────────────────
         "NH3" => &[AmmoniaAmines],
@@ -759,6 +765,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "KMnO4",
     "KNO3",
     "Mg",
+    "Na",
+    "K",
+    "Ca",
     "Mg+2",
     "Mg(OH)2",
     "MgO",
@@ -2060,6 +2069,16 @@ mod tests {
         let (labels, assessed) = hazard_assessment("FeCl3");
         assert!(assessed);
         assert!(labels.contains(&"irritant"), "{labels:?}");
+    }
+
+    #[test]
+    fn alkali_and_alkaline_earth_metals_are_water_reactive_active_metals() {
+        for metal in ["Na", "K", "Ca"] {
+            assert!(COVERED_KEYS.contains(&metal), "{metal}");
+            let g = groups(metal);
+            assert!(g.contains(&ReactiveGroup::ActiveMetal), "{metal}");
+            assert!(g.contains(&ReactiveGroup::WaterReactive), "{metal}");
+        }
     }
 
     #[test]

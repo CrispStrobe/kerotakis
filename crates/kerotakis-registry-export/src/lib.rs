@@ -5900,6 +5900,10 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         "SiO2" => SILICA_SOURCE.to_string(),
         "Cu2O" => "kerotakis/cu2o-reviewed-properties-v1".to_string(),
         "Na2S" => "kerotakis/na2s-reviewed-properties-v1".to_string(),
+        "Na" | "K" | "Ca" => format!(
+            "kerotakis/{}-metal-reviewed-properties-v1",
+            species.key.to_ascii_lowercase()
+        ),
         _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
@@ -5915,13 +5919,14 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         || curated_chalcanthite
         || curated_silica
         || species.key == "Cu2O"
-        || species.key == "Na2S";
+        || species.key == "Na2S"
+        || matches!(species.key, "Na" | "K" | "Ca");
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
         licence: match species.key {
             "isopropanol" => "LicenseRef-US-Public-Domain",
-            "sucrose" | "Cu2O" | "Na2S" => "AGPL-3.0-or-later",
+            "sucrose" | "Cu2O" | "Na2S" | "Na" | "K" | "Ca" => "AGPL-3.0-or-later",
             "Fe2O3" => "LicenseRef-US-Public-Domain",
             "epsomite" => "LicenseRef-US-Public-Domain",
             "chalcanthite" => "LicenseRef-US-Public-Domain",
@@ -5941,7 +5946,9 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "epsomite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "chalcanthite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "SiO2" => "https://pubchem.ncbi.nlm.nih.gov/compound/24261".to_string(),
-            "Cu2O" | "Na2S" => "data/registry/registry-source-v1.json".to_string(),
+            "Cu2O" | "Na2S" | "Na" | "K" | "Ca" => {
+                "data/registry/registry-source-v1.json".to_string()
+            }
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
         revision: match species.key {
@@ -5953,6 +5960,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "SiO2" => Some("PubChem CID 24261".to_string()),
             "Cu2O" => Some("Cu2O reviewed properties v1".to_string()),
             "Na2S" => Some("Na2S reviewed properties v1".to_string()),
+            "Na" | "K" | "Ca" => Some(format!("{} metal reviewed properties v1", species.key)),
             _ => None,
         },
         retrieved: runtime_source.then(|| {
@@ -5960,6 +5968,8 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                 "2026-11-14".to_string()
             } else if species.key == "Na2S" {
                 "2026-11-19".to_string()
+            } else if matches!(species.key, "Na" | "K" | "Ca") {
+                "2026-11-20".to_string()
             } else if curated_chalcanthite {
                 "2026-08-29".to_string()
             } else {

@@ -119,6 +119,9 @@ fn every_legacy_field_is_present_and_unchanged() {
                         | "SiO2"
                         | "Cu2O"
                         | "Na2S"
+                        | "Na"
+                        | "K"
+                        | "Ca"
                         | "HS-"
                         | "S-2"
                         | "H2S(aq)"
@@ -378,6 +381,10 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "SiO2" => "us-federal/pubchem-silica".to_string(),
         "Cu2O" => "kerotakis/cu2o-reviewed-properties-v1".to_string(),
         "Na2S" => "kerotakis/na2s-reviewed-properties-v1".to_string(),
+        "Na" | "K" | "Ca" => format!(
+            "kerotakis/{}-metal-reviewed-properties-v1",
+            species.key.to_ascii_lowercase()
+        ),
         _ => format!("legacy/{}", species.key),
     };
     let source = document
@@ -437,6 +444,16 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             Some("Na2S reviewed properties v1")
         );
         assert_eq!(source.retrieved.as_deref(), Some("2026-11-19"));
+    } else if matches!(species.key, "Na" | "K" | "Ca") {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "AGPL-3.0-or-later");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("data/registry/registry-source-v1.json")
+        );
+        let revision = format!("{} metal reviewed properties v1", species.key);
+        assert_eq!(source.revision.as_deref(), Some(revision.as_str()));
+        assert_eq!(source.retrieved.as_deref(), Some("2026-11-20"));
     } else if species.key == "SiO2" {
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
@@ -1226,7 +1243,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 201, "one molar mass per species");
+    assert_eq!(masses.len(), 204, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

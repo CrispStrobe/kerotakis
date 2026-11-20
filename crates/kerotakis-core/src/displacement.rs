@@ -227,7 +227,72 @@ pub const SERIES: &[Couple] = &[
         dfh_oxidised_kj: -466.85,
         source: CRC,
     },
+    // The metals that reduce water itself. Below magnesium, in the order
+    // the electrochemical series gives them.
+    Couple {
+        oxidised: "Na+",
+        oxidised_per_reduced: 1.0,
+        reduced: "Na",
+        reduced_phase: Phase::Solid,
+        electrons: 1.0,
+        e0_volts: -2.71,
+        dfh_oxidised_kj: -240.12,
+        source: CRC,
+    },
+    Couple {
+        oxidised: "Ca+2",
+        oxidised_per_reduced: 1.0,
+        reduced: "Ca",
+        reduced_phase: Phase::Solid,
+        electrons: 2.0,
+        e0_volts: -2.868,
+        dfh_oxidised_kj: -542.83,
+        source: CRC,
+    },
+    Couple {
+        oxidised: "K+",
+        oxidised_per_reduced: 1.0,
+        reduced: "K",
+        reduced_phase: Phase::Solid,
+        electrons: 1.0,
+        e0_volts: -2.931,
+        dfh_oxidised_kj: -252.38,
+        source: CRC,
+    },
 ];
+
+/// Water as the oxidant: `2 H₂O + 2 e⁻ → H₂ + 2 OH⁻`, E° = −0.828 V.
+///
+/// `oxidised` names the water a metal consumes; the hydroxide it leaves is
+/// booked as the vessel's base equivalents, the way dissolved NaOH is.
+/// `dfh_oxidised_kj` is ΔfH°(H₂O, l); the hydroxide's own −229.99 kJ/mol is
+/// charged by [`reduce_water`], which is the only place this couple runs.
+pub static WATER_COUPLE: Couple = Couple {
+    oxidised: "water",
+    oxidised_per_reduced: 2.0,
+    reduced: HYDROGEN_GAS,
+    reduced_phase: Phase::Gas,
+    electrons: 2.0,
+    e0_volts: -0.828,
+    dfh_oxidised_kj: -285.83,
+    source: CRC,
+};
+
+/// ΔfH°(OH⁻, aq), kJ/mol: NBS Tables (Wagman et al., 1982).
+const DFH_HYDROXIDE_KJ: f64 = -229.99;
+
+/// Metals that reduce liquid water promptly at room temperature, all the
+/// way, because their hydroxide dissolves (or, for calcium, comes off as a
+/// loose suspension) instead of sealing the surface.
+///
+/// The membership is a claim about RATES and is stated as one. Every metal
+/// below the water couple can reduce water by thermodynamics; magnesium,
+/// zinc and iron do not do it on the timescale of a lesson because their
+/// hydroxides passivate them, and they stay on the `stays-as-the-metal`
+/// sentence. The alkali metals and calcium are the school demonstration
+/// of the opposite: a pea of sodium skating on water, potassium lighting
+/// its own hydrogen, calcium fizzing steadily at the bottom.
+pub const WATER_REDUCING_METALS: &[&str] = &["Na", "K", "Ca"];
 
 /// Hydrogen overpotential on each metal, V — the extra push hydrogen gas
 /// needs before it will form on that surface, at a bench-scale current
@@ -603,6 +668,20 @@ impl Displacement {
         let nu_r = r.oxidised_per_reduced as u64;
         let nu_o = o.oxidised_per_reduced as u64;
         let arrow = if self.equilibrium { "⇌" } else { "→" };
+        if o.oxidised == WATER_COUPLE.oxidised {
+            // 2 M + 2n H2O -> 2 M^n+ + 2n OH- + n H2, smallest integers.
+            let water = l / no * nu_o;
+            return format!(
+                "{}{} + {}H2O {arrow} {}{} + {}OH- + {}H2",
+                coefficient(red_units),
+                r.reduced,
+                coefficient(water),
+                coefficient(red_units * nu_r),
+                r.oxidised,
+                coefficient(water),
+                coefficient(ox_units),
+            );
+        }
         format!(
             "{}{} + {}{} {arrow} {}{} + {}{}",
             coefficient(red_units),
@@ -953,8 +1032,102 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         );
         done.push(record);
     }
+    reduce_water(vessel, &mut events, &mut done);
 
     (events, done)
+}
+
+/// The water-reducing metals ([`WATER_REDUCING_METALS`]) left after every
+/// series displacement has run react with the water itself, to completion
+/// or until the water runs out:
+/// `M + n H₂O → Mⁿ⁺ + n OH⁻ + n/2 H₂`.
+///
+/// Heat from formation enthalpies, products minus reactants (metal and H₂
+/// zero): for sodium `−240.12 − 229.99 + 285.83 = −184.28` kJ/mol, the
+/// textbook figure. The hydroxide is booked as base equivalents, exactly as
+/// dissolving sodium hydroxide books it, so the next aqueous solve sees a
+/// sodium hydroxide solution and nothing else.
+fn reduce_water(vessel: &mut Vessel, events: &mut Vec<Event>, done: &mut Vec<Displacement>) {
+    for key in WATER_REDUCING_METALS {
+        let Some(red) = couple_of_metal(key) else {
+            continue;
+        };
+        let metal = moles_in(vessel, red.reduced, Phase::Solid);
+        let water = moles_in(vessel, "water", Phase::Liquid);
+        if metal <= TRACE || water <= TRACE {
+            continue;
+        }
+        let n = red.electrons;
+        let reacted = metal.min(water / n);
+        if reacted <= crate::OBSERVABLE_MOLES {
+            continue;
+        }
+        let dh_kj_per_metal = red.dfh_oxidised_kj * red.oxidised_per_reduced + n * DFH_HYDROXIDE_KJ
+            - n * WATER_COUPLE.dfh_oxidised_kj;
+        let heat_joules = -dh_kj_per_metal * 1000.0 * reacted;
+        let t_ref = Kelvin::STANDARD.0;
+        let held_before = vessel.energy_between(t_ref, vessel.temperature.0);
+        let contents_before_swap = vessel.contents.clone();
+
+        vessel.withdraw(&SpeciesId::new(red.reduced), Moles(reacted));
+        vessel.withdraw_phase(&SpeciesId::new("water"), Moles(reacted * n), Phase::Liquid);
+        vessel.deposit(
+            SpeciesId::new(red.oxidised),
+            Moles(reacted * red.oxidised_per_reduced),
+            Phase::Aqueous,
+        );
+        vessel.deposit(
+            SpeciesId::new(species::BASE_EQUIVALENTS),
+            Moles(reacted * n),
+            Phase::Aqueous,
+        );
+        let hydrogen = SpeciesId::new(HYDROGEN_GAS);
+        let h2 = Moles(reacted * n / 2.0);
+        let mut gas_evolved_mol = 0.0;
+        if vessel.retain_gas(hydrogen.clone(), h2) {
+            events.push(Event::GasContained {
+                vessel: vessel.id,
+                species: hydrogen.clone(),
+                moles: h2,
+            });
+        } else {
+            gas_evolved_mol = h2.0;
+            events.push(Event::GasEvolved {
+                vessel: vessel.id,
+                species: hydrogen.clone(),
+                moles: h2,
+            });
+        }
+        vessel.solute_charge = solute_charge(vessel);
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0 {
+            let t_new = vessel.temperature_after_from(t_ref, held_before + heat_joules);
+            vessel.temperature = Kelvin(t_new.max(0.0));
+        }
+        if let Some(start) = vessel.step_start.as_mut() {
+            book_paid_change(start, &contents_before_swap, &vessel.contents);
+            if gas_evolved_mol > 0.0 {
+                start.note_heat_paid(&hydrogen, Phase::Gas, gas_evolved_mol);
+            }
+        }
+        let record = Displacement {
+            reductant: red,
+            oxidant: &WATER_COUPLE,
+            electrons: reacted * n,
+            equilibrium: false,
+            heat_joules,
+        };
+        events.push(Event::ReactionOccurred {
+            vessel: vessel.id,
+            equation: record.equation(),
+        });
+        events.push(Event::Consumed {
+            vessel: vessel.id,
+            species: SpeciesId::new(red.reduced),
+            moles: Moles(reacted),
+            remaining: Some(Moles(moles_in(vessel, red.reduced, Phase::Solid))),
+        });
+        done.push(record);
+    }
 }
 
 /// What the series has to say about metals that did *not* react.
