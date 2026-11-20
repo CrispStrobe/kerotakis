@@ -20,7 +20,7 @@ jobs:
     name: Classify complete change range
     runs-on: ubuntu-24.04
     outputs:
-      mode: ${{ steps.classify.outputs.mode }}
+      mode: ${{ steps.label.outputs.mode || steps.classify.outputs.mode }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -35,6 +35,14 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
         run: python3 tools/ci_changes.py --event-name "$EVENT_NAME" --event-path "$GITHUB_EVENT_PATH" --output "$GITHUB_OUTPUT"
+      # `ci:none` on a pull request: skip every heavy job for this push (to
+      # batch several pushes without queueing ~28 jobs each). The required
+      # gate then FAILS on purpose, so nothing merges untested: remove the
+      # label and push (or re-run) to validate.
+      - name: Honour the ci:none label
+        id: label
+        if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci:none') }}
+        run: echo "mode=none" >> "$GITHUB_OUTPUT"
 
   preflight-gate:
     # Keep the required context reporting even when heavy jobs are skipped.
@@ -52,6 +60,7 @@ jobs:
           test "$CHANGES_RESULT" = success
           case "$CHANGE_MODE:$BUILD_RESULT" in
             docs:skipped) echo "Reviewed documentation only; full preflight explicitly skipped." ;;
+            none:skipped) echo "::error::ci:none label set: heavy CI skipped, so this revision is NOT validated. Remove the label and push or re-run."; exit 1 ;;
             full:success) echo "Full preflight passed." ;;
             *) echo "Classifier/preflight failed, was cancelled, or returned an unknown result."; exit 1 ;;
           esac
@@ -188,21 +197,21 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v6
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         with:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
       - uses: Swatinem/rust-cache@v2
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         uses: ./.github/actions/sundials-source
       - name: Format
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         run: cargo fmt --check
       - name: Clippy
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         run: cargo clippy --workspace --all-targets -- -D warnings
       # `--no-fail-fast` because cargo's fail-fast is per test BINARY, not
       # per workspace: without it the first crate whose suite fails ends
@@ -212,15 +221,15 @@ jobs:
       # rebuild. It cannot turn a red run green — it only makes a red one
       # say everything it knows in one go.
       - name: Test
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         run: cargo test --workspace --no-fail-fast
       - name: Aqueous continuation cache-only adapter
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         # Native builds do not dispatch through SolveHook. Exercise the
         # browser's no-engine adapter configuration as a separate test binary.
         run: cargo test -p kerotakis-phreeqc --no-default-features --test aqueous_continuation_cache_only --test acid_permanganate_cache_only
       - name: Codex — every claim must still compute
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         run: cargo run -p kerotakis-cli -- codex lint
       # The curiosity baseline records the route every prompt actually takes.
       # It existed as a manual tool and drifted on four rows unnoticed,
@@ -229,13 +238,13 @@ jobs:
       # step above it, and a drift is a scientific claim someone has to
       # explain rather than a number someone regenerates.
       - name: Curiosity coverage — the recorded route is still the route
-        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
+        if: ${{ needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none') }}
         run: cargo run -p kerotakis-cli -- coverage curiosity --check
       # A snapshot test that fails prints a diff, but the whole regenerated
       # file is what someone actually needs to judge whether the new value is
       # right. The suites already write it beside the golden; keep it.
       - name: Preserve regenerated snapshots for review
-        if: ${{ always() && (needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs') }}
+        if: ${{ always() && (needs.changes.result != 'success' || (needs.changes.outputs.mode != 'docs' && needs.changes.outputs.mode != 'none')) }}
         uses: actions/upload-artifact@v6
         with:
           name: snapshot-differences-${{ runner.os }}-${{ github.sha }}
