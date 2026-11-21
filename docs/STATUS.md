@@ -1,9 +1,22 @@
-# Kerotakis current state — 2026-11-12
+# Kerotakis current state — 2026-11-21
 
 Older checkpoints (2026-10-27/28 delivery, release acceptance, snapshot cleanup, earlier coverage
 counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
 
 ## Production and qualification
+
+**2026-11-21:** `main` is at `5e0d5897` (integration PR #897, folding #890, #893 and #894):
+- hydrogen sulfide now fizzes from the sulfide fast endpoint, as one `GasEvolved hydrogen_sulfide`
+  event, with a `not-modeled.sulfide-fast-endpoint` note in EN/DE/FR (#890);
+- typed formulas such as CH4, C3H8 and C4H10 resolve to registry species, while engine-internal
+  names stay exact so hydrocarbon combustion networks keep working (#893);
+- carbonate and hydroxide solids such as MgCO3 and Mg(OH)2 now decompose on heating; MgCO3 has a
+  sourced NASA Cp record and regenerated goldens (#894).
+
+The full local gate passed once on the final head; see [PR-WORKFLOW.md](PR-WORKFLOW.md) for the
+local-gate merge policy that replaced waiting on hosted CI queues. Not yet deployed to production.
+v0.1.6 (macOS build 5, iOS build 6) is on TestFlight for internal testers and is waiting for
+public-beta review.
 
 **Round 7 / v0.1.6 (2026-11-20):** app 0.1.6 (macOS build 5, iOS build 6) from
 `integrate/round7-20261119`. Zero-time repeats of an addition now read the same native solvent

@@ -9,12 +9,13 @@ instructions take priority. Private host details belong only in the private
 operating handoff; keep public documentation to repository/public paths.
 
 - Complete authorized work, including validation, commits, pushes and integration.
-  Default to auto-merge for every review-ready PR using an exact reviewed head.
+  Default: run the full local gate on the final head and admin-squash-merge
+  (see PR-WORKFLOW); do not wait on hosted CI queues. Batch related PRs.
   Keep a PR draft only while named review/non-protected acceptance work remains.
   Never leave fully accepted work waiting for another user confirmation.
 - Preserve branch protection and all applicable acceptance, including product
-  own-fleet checks outside protected contexts. Never use admin bypass, force
-  pushes or weakened tests. Documentation-only PRs follow the narrower policy.
+  own-fleet checks outside protected contexts. Admin merge only after the
+  full local gate passes; never force pushes or weakened tests. Documentation-only PRs follow the narrower policy.
 - Use narrow branches from actual main. Never merge broad audit or isolated
   infrastructure branches. Sign commits under CONTRIBUTING.
 - Preserve original forecasts, first failures, raw evidence and exact source,

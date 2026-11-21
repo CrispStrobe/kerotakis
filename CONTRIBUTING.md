@@ -186,6 +186,6 @@ column is a shadow as much as it is a to-do list.
 
 ## PR delivery
 
-Use [auto-merge by default](docs/PR-WORKFLOW.md) for review-ready PRs after
-applicable non-protected acceptance is complete. Required branch checks still
-gate integration. Preserve first failures and verify merged parents/tree.
+Validate with the full local gate and merge, as described in
+[PR delivery](docs/PR-WORKFLOW.md); hosted CI runs on `main` afterwards instead
+of blocking merges in a shared runner queue. Preserve first failures and verify merged parents/tree.
