@@ -369,6 +369,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // metal's own toxicity is not a mixture rule, as `Pb(NO3)2` below.
         "Ag2CO3" => &[Carbonate],
         "PbCO3" => &[Carbonate],
+        // The decomposition-class lane's carbonates (G4): acid releases CO2
+        // from magnesite, smithsonite and malachite exactly as from chalk.
+        "MgCO3" => &[Carbonate],
+        "ZnCO3" => &[Carbonate],
+        "Cu2(OH)2CO3" => &[Carbonate],
         // Witherite gets the carbonate row only. `ToxicSoluble`'s stated
         // membership test is free solubility in water, which witherite
         // fails as barite does; that stomach acid dissolves it to Ba2+ is a
@@ -413,6 +418,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Mg(OH)2"
         | "Zn(OH)2"
         | "CuO"
+        // The decomposition-class lane's two oxides read as CuO and MgO do:
+        // nothing in this mixture screen's matrix is about them.
+        | "ZnO"
+        | "Al2O3"
         | "Na+"
         | "Br-"
         | "Cl-"
@@ -821,6 +830,11 @@ pub const COVERED_KEYS: &[&str] = &[
     "Zn",
     "Zn(OH)2",
     "Zn+2",
+    "ZnO",
+    "ZnCO3",
+    "MgCO3",
+    "Al2O3",
+    "Cu2(OH)2CO3",
     "ZnSO4",
     "amylase",
     "antlerite",

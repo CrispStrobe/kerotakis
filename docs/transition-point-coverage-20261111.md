@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 134, boiling.reported 67, melting.no_data 100, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 139, boiling.reported 67, melting.no_data 105, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -51,6 +51,7 @@ Counts: boiling.no_data 134, boiling.reported 67, melting.no_data 100, melting.r
 | AgI | solid | melting 831 K | boiling 1777 K | literature/transition-points/AgI |
 | AgNO3 | solid | melting 483 K | decomposition 513 K | literature/transition-points/AgNO3 |
 | Al | solid | melting 933.473 K | boiling 2743 K | literature/transition-points/Al |
+| Al2O3 | solid | no_data | no_data | — |
 | Ba(OH)2 | solid | melting 681 K | no_data | literature/transition-points/Ba(OH)2 |
 | Ba+2 | aqueous | no_data | no_data | — |
 | BaCO3 | solid | no_data | no_data | — |
@@ -78,6 +79,7 @@ Counts: boiling.no_data 134, boiling.reported 67, melting.no_data 100, melting.r
 | Cu(OH)2 | solid | no_data | no_data | — |
 | Cu+1 | aqueous | no_data | no_data | — |
 | Cu+2 | aqueous | no_data | no_data | — |
+| Cu2(OH)2CO3 | solid | no_data | no_data | — |
 | Cu2O | solid | melting 1516.7 K | no_data | literature/transition-points/Cu2O |
 | CuO | solid | no_data | no_data | — |
 | CuSO4 | solid | decomposition 873.15 K | decomposition 873.15 K | literature/transition-points/CuSO4 |
@@ -120,6 +122,7 @@ Counts: boiling.no_data 134, boiling.reported 67, melting.no_data 100, melting.r
 | Mg | solid | melting 922 K | boiling 1383 K | literature/transition-points/Mg |
 | Mg(OH)2 | solid | no_data | no_data | — |
 | Mg+2 | aqueous | no_data | no_data | — |
+| MgCO3 | solid | no_data | no_data | — |
 | MgO | solid | melting 3173 K | no_data | literature/transition-points/MgO |
 | MgSO4 | solid | melting 1400 K | no_data | literature/transition-points/MgSO4 |
 | Mn+2 | aqueous | no_data | no_data | — |
@@ -178,6 +181,8 @@ Counts: boiling.no_data 134, boiling.reported 67, melting.no_data 100, melting.r
 | Zn | solid | melting 692.677 K | boiling 1180 K | literature/transition-points/Zn |
 | Zn(OH)2 | solid | no_data | no_data | — |
 | Zn+2 | aqueous | no_data | no_data | — |
+| ZnCO3 | solid | no_data | no_data | — |
+| ZnO | solid | no_data | no_data | — |
 | ZnSO4 | solid | decomposition 863.15 K | decomposition 863.15 K | literature/transition-points/ZnSO4 |
 | activated_charcoal | solid | no_data | no_data | — |
 | amylase | aqueous | no_data | no_data | — |

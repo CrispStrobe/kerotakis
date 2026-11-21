@@ -114,13 +114,18 @@ fn the_cell_names_its_own_discharge() {
         .any(|event| matches!(event, Event::Reacted { .. } | Event::Precipitated { .. })));
 }
 
-/// The reaction is honest about being prose: neither product exists as a
-/// species here, which is exactly why it is not run. A test that only
-/// checked the sentence would not notice if someone later wired it up
+/// The reaction is honest about being prose: its manganese product does not
+/// exist as a species here, which is exactly why it is not run. A test that
+/// only checked the sentence would not notice if someone later wired it up
 /// against species that were never installed.
+///
+/// Zinc oxide joined the registry on 2026-11-20 (zinc carbonate needs an
+/// oxide to decompose to), so it is now the one installed product; the
+/// cell stays prose because Mn2O3 still is not, and the sealed-cell test
+/// above still sees no reaction or precipitate in the ledger.
 #[test]
-fn neither_discharge_product_is_an_installed_species() {
-    assert!(kerotakis_core::species::lookup_key("ZnO").is_none());
+fn the_manganese_discharge_product_is_not_an_installed_species() {
+    assert!(kerotakis_core::species::lookup_key("ZnO").is_some());
     assert!(kerotakis_core::species::lookup_key("Mn2O3").is_none());
     // The reactants ARE installed, which is what makes the equation
     // checkable rather than decorative.

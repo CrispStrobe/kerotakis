@@ -8,7 +8,7 @@
   "counts": {
     "derived": 21,
     "melting_point_without_latent_heat": 42,
-    "no_melting_point": 59,
+    "no_melting_point": 64,
     "not_condensed": 79
   },
   "species": [
@@ -845,6 +845,19 @@
       }
     },
     {
+      "species": "Al2O3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "BaCO3",
       "standard_phase": "solid",
       "melting_k": null,
@@ -898,6 +911,19 @@
     },
     {
       "species": "Cu(OH)2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Cu2(OH)2CO3",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1041,6 +1067,19 @@
     },
     {
       "species": "Mg(OH)2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "MgCO3",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1262,6 +1301,32 @@
     },
     {
       "species": "Zn(OH)2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "ZnCO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "ZnO",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,

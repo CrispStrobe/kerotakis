@@ -607,6 +607,41 @@ fn formula_composition(formula: &str) -> Option<BTreeMap<String, f64>> {
     (!counts.is_empty()).then_some(counts)
 }
 
+/// Oxides this route reaches only through a compound of their metal.
+///
+/// Zinc oxide and corundum entered the registry (2026-11-20): zinc oxide so
+/// that zinc carbonate has an oxide to decompose to, corundum as a reagent a
+/// learner can put on the bench. Admitting
+/// either as a product of EVERY hot charge would also open a route the solver
+/// never had: a bare lump of zinc or a sheet of aluminium foil burning away
+/// to oxide the moment it passes 500 K in room air. Whether a metal does that
+/// is a question of oxidation kinetics — molten zinc and hot foil keep an
+/// oxide skin and do not burn through, finely divided aluminium does — and
+/// these records make no claim about it. So each such oxide is a candidate
+/// product only when the charge already holds a compound of its metal (its
+/// carbonate, hydroxide, or the oxide itself); for the bare metal alone the
+/// pool is exactly what it was before these rows existed.
+const COMPOUND_ONLY_OXIDES: &[(&str, &str)] = &[("ZnO", "Zn"), ("Al2O3", "Al")];
+
+/// Element compositions of the [`COMPOUND_ONLY_OXIDES`] this charge may not
+/// form.
+fn withheld_oxides(mapped: &[(SpeciesId, f64)]) -> Vec<BTreeMap<String, f64>> {
+    COMPOUND_ONLY_OXIDES
+        .iter()
+        .filter(|(_, metal)| {
+            !mapped.iter().any(|(id, _)| {
+                id.0 != *metal
+                    && species::lookup_key(&id.0)
+                        .and_then(|data| formula_composition(data.formula))
+                        .is_some_and(|composition| composition.contains_key(*metal))
+            })
+        })
+        .filter_map(|(oxide, _)| {
+            species::lookup_key(oxide).and_then(|data| formula_composition(data.formula))
+        })
+        .collect()
+}
+
 /// The species a mixture of these elements may resolve into: exactly those
 /// the registry can name, plus the atmosphere.
 ///
@@ -616,7 +651,7 @@ fn formula_composition(formula: &str) -> Option<BTreeMap<String, f64>> {
 /// (losing mass) or showing the user a formula with no story attached.
 /// Widening what the lab can discover is therefore a deliberate act:
 /// name the substance in the registry, and the solver can find it.
-fn pool_for(elements: &[String]) -> Vec<&'static Species> {
+fn pool_for(elements: &[String], withheld: &[BTreeMap<String, f64>]) -> Vec<&'static Species> {
     let mut names: Vec<&'static str> = species::REGISTRY
         .iter()
         .filter_map(|r| cea_name(r.key))
@@ -680,6 +715,7 @@ fn pool_for(elements: &[String]) -> Vec<&'static Species> {
         })
         .collect();
     pool.extend(siblings);
+    pool.retain(|s| !withheld.contains(&s.composition));
     pool.sort_by(|a, b| a.name.cmp(&b.name));
     pool.dedup_by(|a, b| a.name == b.name);
     pool
@@ -963,7 +999,7 @@ impl Equilibrator for ThermalEquilibrator {
             )]);
         }
         let elements: Vec<String> = charge.budget.keys().cloned().collect();
-        let mut pool = pool_for(&elements);
+        let mut pool = pool_for(&elements, &withheld_oxides(&charge.mapped));
         if charge.used_feed_thermo {
             let feed_stems = charge
                 .mapped
@@ -1720,7 +1756,10 @@ mod phase_feed_tests {
             .map(|(_, n, h)| n * h.unwrap())
             .sum::<f64>()
             + air_enthalpy(&charge, 1200.0);
-        let pool = pool_for(&charge.budget.keys().cloned().collect::<Vec<_>>());
+        let pool = pool_for(
+            &charge.budget.keys().cloned().collect::<Vec<_>>(),
+            &withheld_oxides(&charge.mapped),
+        );
         assert!(pool.iter().any(|s| s.name == "Cu2O(cr)"));
         assert!(pool.iter().any(|s| s.name == "Cu2O(L)"));
         let atmosphere = OpenAtmosphere {
@@ -1922,7 +1961,10 @@ mod phase_feed_tests {
 
             vessel.thermal_mode = ThermalMode::Adiabatic;
             let target = 0.1 * feed.2.unwrap() + air_enthalpy(&charge, t);
-            let pool = pool_for(&charge.budget.keys().cloned().collect::<Vec<_>>());
+            let pool = pool_for(
+                &charge.budget.keys().cloned().collect::<Vec<_>>(),
+                &withheld_oxides(&charge.mapped),
+            );
             let atmosphere = OpenAtmosphere {
                 admitted: charge.air.clone(),
                 inlet_k: t,

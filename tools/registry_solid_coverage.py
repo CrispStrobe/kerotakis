@@ -43,6 +43,9 @@ DATABASES = [("wateq4f", "wateq4f.dat"), ("minteq.v4", "minteq.v4.dat"), ("pitze
 OUT_JS = ROOT / "docs/registry-solid-coverage-20261110.json"
 OUT_MD = ROOT / "docs/registry-solid-coverage-20261110.md"
 
+# Magnesite, smithsonite and malachite left this list on 2026-11-20 when the
+# decomposition-class lane registered them for the dry thermal route; each carries a
+# 400 K forms-only-above posing gate, so the aqueous route still does not pose them.
 # Common laboratory precipitates the databases define that this lane did NOT
 # add, keyed by the database formula. Each reason names what would have to be
 # settled first; none is a claim that the solid is unimportant.
@@ -59,14 +62,9 @@ DECLINED = {
     "SrCO3": "strontianite is already owned by the aragonite-strontianite SOLID_SOLUTIONS "
              "lane (`solid_solution.rs`); a pure phase would compete with it",
     "SrSO4": "strontium sulfate joins with the strontium solid-solution lane, not here",
-    "MgCO3": "magnesite does not nucleate at bench temperature; needs a kinetic floor "
-             "(as hydroxylapatite has) before it may be posed",
     "CaMg(CO3)2": "dolomite: same kinetic objection as magnesite",
     "FeCO3": "siderite competes with the iron(II) hydroxide verdicts; needs an engine run",
     "MnCO3": "rhodochrosite competes with manganese hydroxide/oxide routes; needs an engine run",
-    "ZnCO3": "a bench Zn2+ + carbonate mix gives a basic carbonate, not smithsonite; needs review",
-    "Cu2(OH)2CO3": "malachite: the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 "
-                   "and the copper hydroxy-sulfates; needs an engine run",
     "Pb(OH)2": "competes with every lead-salt-plus-base verdict; needs an engine run",
     "Mn(OH)2": "pyrochroite: Mn(II) redox pinning is not reviewed for a new hydroxide",
     "CaHPO4:2H2O": "brushite competes with the calcium phosphate milk lane (octacalcium "

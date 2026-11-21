@@ -743,7 +743,23 @@ pub fn equilibrate_hp_open(
     // stiff side. This extends the existing convention — "colder than the
     // data supports; honest floor" — from data range to convergence range.
     let dbg = std::env::var("KERO_CEA_DEBUG").is_ok();
-    let (mut lo, mut hi) = (250.0f64, 6000.0f64);
+    // The floor also has to be a temperature the condensed records cover.
+    // NASA's magnesium solids (MgO, MgCO3, Mg(OH)2) start at 300 K; evaluated
+    // at 250 K their polynomials are extrapolated, and the extrapolated
+    // enthalpy sat ABOVE a heated magnesite's true target, so the floor check
+    // below refused an ordinary calcination as unsolvable. Start at the
+    // highest lower bound among the crystalline candidates that start at or
+    // below 400 K, the step the stiff-floor ladder reaches next anyway. Liquids are left
+    // out: their records begin near their melting points by design.
+    let solid_floor = candidates
+        .iter()
+        .filter(|s| !s.is_gas() && !s.name.contains("(L)"))
+        .filter_map(|s| s.t_range().map(|(low, _)| low))
+        // A high-temperature polymorph (beta-quartz from 848 K) is not a
+        // room-temperature phase at all; its start is no floor.
+        .filter(|low| *low <= 400.0)
+        .fold(250.0f64, f64::max);
+    let (mut lo, mut hi) = (solid_floor, 6000.0f64);
     let mut last = loop {
         match equilibrate_tp(budget, candidates, lo, pressure_bar) {
             Ok(eq) => {

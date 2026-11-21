@@ -39,6 +39,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "Al2O3": {
+    "minteq.v4": "reference:minteq.v4:Al2O3",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:minteq.v4:Al2O3"
+  },
   "Ba(OH)2": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
     "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
@@ -98,6 +103,11 @@
     "minteq.v4": "reference:minteq.v4:Cu(OH)2",
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "reference:wateq4f:Cu(OH)2"
+  },
+  "Cu2(OH)2CO3": {
+    "minteq.v4": "reference:minteq.v4:Malachite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Malachite"
   },
   "Cu2O": {
     "minteq.v4": "reference:minteq.v4:Cuprite",
@@ -193,6 +203,11 @@
     "minteq.v4": "reference:minteq.v4:Brucite",
     "pitzer": "routed",
     "wateq4f": "reference:wateq4f:Brucite"
+  },
+  "MgCO3": {
+    "minteq.v4": "routed",
+    "pitzer": "routed",
+    "wateq4f": "routed"
   },
   "MgO": {
     "minteq.v4": "hydration:minteq.v4:Mg(OH)2",
@@ -358,6 +373,16 @@
     "minteq.v4": "reference:minteq.v4:Zn(OH)2(epsilon)",
     "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
     "wateq4f": "reference:minteq.v4:Zn(OH)2(epsilon)"
+  },
+  "ZnCO3": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "routed"
+  },
+  "ZnO": {
+    "minteq.v4": "hydration:minteq.v4:Zn(OH)2",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "hydration:minteq.v4:Zn(OH)2"
   },
   "ZnSO4": {
     "minteq.v4": "curated",
