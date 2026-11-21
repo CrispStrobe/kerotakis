@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 58, refused 46.
+Registry species carrying a metal: emits 61, refused 46.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -29,6 +29,7 @@ Registry species carrying a metal: emits 58, refused 46.
 | emits | BaCO3 | Ba | — |
 | emits | BaCl2 | Ba | apple green |
 | emits | BaSO4 | Ba | — |
+| emits | Ca | Ca | orange-red |
 | emits | Ca(OH)2 | Ca | brick red |
 | emits | Ca+2 | Ca | orange-red |
 | emits | Ca3(PO4)2 | Ca | brick red |
@@ -44,6 +45,7 @@ Registry species carrying a metal: emits 58, refused 46.
 | emits | CuCl2 | Cu | blue-green |
 | emits | CuO | Cu | — |
 | emits | CuSO4 | Cu | blue-green |
+| emits | K | K | lilac |
 | emits | K+ | K | lilac |
 | emits | KBr | K | lilac |
 | emits | KCl | K | lilac |
@@ -53,6 +55,7 @@ Registry species carrying a metal: emits 58, refused 46.
 | emits | KOH | K | — |
 | emits | KSCN | K | — |
 | emits | Mg | Mg | a blinding white |
+| emits | Na | Na | bright yellow |
 | emits | Na+ | Na | bright yellow |
 | emits | Na2B4O7 | Na | — |
 | emits | Na2CO3 | Na | — |

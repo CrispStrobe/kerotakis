@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 144,
+    "boiling.no_data": 147,
     "boiling.reported": 67,
-    "melting.no_data": 110,
+    "melting.no_data": 113,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -811,6 +811,16 @@
       }
     },
     {
+      "species": "Ca",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Ca(OH)2",
       "standard_phase": "solid",
       "melting": {
@@ -1355,6 +1365,16 @@
       }
     },
     {
+      "species": "K",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "K+",
       "standard_phase": "aqueous",
       "melting": {
@@ -1684,6 +1704,16 @@
     {
       "species": "NO3-",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },

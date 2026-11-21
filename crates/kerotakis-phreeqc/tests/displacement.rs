@@ -977,9 +977,7 @@ fn hydrogen_out(events: &[Event]) -> (f64, f64) {
     for e in events {
         match e {
             Event::GasEvolved { species, moles, .. } if species.0 == "H2" => evolved += moles.0,
-            Event::GasContained { species, moles, .. } if species.0 == "H2" => {
-                contained += moles.0
-            }
+            Event::GasContained { species, moles, .. } if species.0 == "H2" => contained += moles.0,
             _ => {}
         }
     }

@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 68, not_condensed 80.
+Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 71, not_condensed 80.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -87,6 +87,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 68, n
 | no_melting_point | Al2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | C | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Ca | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu(OH)2 | solid | — | — | no | solid | solid | solid |
@@ -101,6 +102,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 68, n
 | no_melting_point | H3PO4 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | HCl | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | HI | liquid | — | — | no | liquid | liquid | liquid |
+| no_melting_point | K | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KBr | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KMnO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Mg(OH)2 | solid | — | — | no | solid | solid | solid |
@@ -108,6 +110,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 68, n
 | no_melting_point | MnO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NH3 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | NH4Cl | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Na | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Na2S | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Na2S2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Na2SO3 | solid | — | — | no | solid | solid | solid |
