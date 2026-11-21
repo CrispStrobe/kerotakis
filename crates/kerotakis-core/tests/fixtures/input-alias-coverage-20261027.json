@@ -66,8 +66,18 @@
       "source": "name:de"
     },
     {
+      "alias": "Al3+",
+      "canonical": "Al+3",
+      "source": "charge-notation"
+    },
+    {
       "alias": "Aluminium",
       "canonical": "Al",
+      "source": "name:de"
+    },
+    {
+      "alias": "Aluminium-Ion",
+      "canonical": "Al+3",
       "source": "name:de"
     },
     {
@@ -78,6 +88,11 @@
     {
       "alias": "Aluminiumoxid (Korund)",
       "canonical": "Al2O3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Aluminiumsulfat",
+      "canonical": "Al2(SO4)3",
       "source": "name:de"
     },
     {
@@ -781,6 +796,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Kaliumbromid",
+      "canonical": "KBr",
+      "source": "name:de"
+    },
+    {
       "alias": "Kaliumchlorid",
       "canonical": "KCl",
       "source": "name:de"
@@ -868,6 +888,11 @@
     {
       "alias": "Kupfer(II)-Ion",
       "canonical": "Cu+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-chlorid",
+      "canonical": "CuCl2",
       "source": "name:de"
     },
     {
@@ -1416,6 +1441,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Trinatriumphosphat",
+      "canonical": "Na3PO4",
+      "source": "name:de"
+    },
+    {
       "alias": "Trockeneis",
       "canonical": "dry_ice",
       "source": "name:de"
@@ -1611,6 +1641,11 @@
       "source": "name:en"
     },
     {
+      "alias": "aluminium ion",
+      "canonical": "Al+3",
+      "source": "name:en"
+    },
+    {
       "alias": "aluminium oxide",
       "canonical": "Al2O3",
       "source": "name-prefix:en"
@@ -1618,6 +1653,11 @@
     {
       "alias": "aluminium oxide (corundum)",
       "canonical": "Al2O3",
+      "source": "name:en"
+    },
+    {
+      "alias": "aluminium sulfate",
+      "canonical": "Al2(SO4)3",
       "source": "name:en"
     },
     {
@@ -1846,6 +1886,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "bromure de potassium",
+      "canonical": "KBr",
+      "source": "name:fr"
+    },
+    {
       "alias": "bromure de sodium",
       "canonical": "NaBr",
       "source": "name:fr"
@@ -2071,6 +2116,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "chlorure de cuivre(II)",
+      "canonical": "CuCl2",
+      "source": "name:fr"
+    },
+    {
       "alias": "chlorure de fer(III)",
       "canonical": "FeCl3",
       "source": "name:fr"
@@ -2118,6 +2168,11 @@
     {
       "alias": "copper(I) oxide",
       "canonical": "Cu2O",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) chloride",
+      "canonical": "CuCl2",
       "source": "name:en"
     },
     {
@@ -2583,6 +2638,11 @@
     {
       "alias": "ion acétate",
       "canonical": "CH3COO-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion aluminium",
+      "canonical": "Al+3",
       "source": "name:fr"
     },
     {
@@ -3261,6 +3321,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "phosphate trisodique",
+      "canonical": "Na3PO4",
+      "source": "name:fr"
+    },
+    {
       "alias": "phosphoric acid",
       "canonical": "H3PO4",
       "source": "name:en"
@@ -3344,6 +3409,11 @@
       "alias": "polyéthylène téréphtalate",
       "canonical": "PET",
       "source": "name:fr"
+    },
+    {
+      "alias": "potassium bromide",
+      "canonical": "KBr",
+      "source": "name:en"
     },
     {
       "alias": "potassium chloride",
@@ -3551,6 +3621,11 @@
       "source": "ion-name:en"
     },
     {
+      "alias": "sulfate d'aluminium",
+      "canonical": "Al2(SO4)3",
+      "source": "name:fr"
+    },
+    {
       "alias": "sulfate de baryum",
       "canonical": "BaSO4",
       "source": "name:fr"
@@ -3713,6 +3788,11 @@
     {
       "alias": "thiosulfate ion",
       "canonical": "S2O3-2",
+      "source": "name:en"
+    },
+    {
+      "alias": "trisodium phosphate",
+      "canonical": "Na3PO4",
       "source": "name:en"
     },
     {

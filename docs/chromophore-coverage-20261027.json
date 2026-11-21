@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 40,
-    "outside_method": 115,
+    "missing_absorptivity": 41,
+    "outside_method": 119,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
@@ -83,6 +83,11 @@
     {
       "species": "Cu2O",
       "appearance": "red",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "CuCl2",
+      "appearance": "yellow-brown powder",
       "class": "missing_absorptivity"
     },
     {
@@ -246,6 +251,16 @@
       "class": "outside_method"
     },
     {
+      "species": "Al+3",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "Al2(SO4)3",
+      "appearance": "white powder",
+      "class": "outside_method"
+    },
+    {
       "species": "Al2O3",
       "appearance": "white",
       "class": "outside_method"
@@ -366,6 +381,11 @@
       "class": "outside_method"
     },
     {
+      "species": "KBr",
+      "appearance": "white crystals",
+      "class": "outside_method"
+    },
+    {
       "species": "KCl",
       "appearance": "white",
       "class": "outside_method"
@@ -463,6 +483,11 @@
     {
       "species": "Na2SO4",
       "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na3PO4",
+      "appearance": "white crystals",
       "class": "outside_method"
     },
     {

@@ -39,6 +39,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "Al2(SO4)3": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
   "Al2O3": {
     "minteq.v4": "reference:minteq.v4:Al2O3",
     "pitzer": "refused: a reaction species is not defined on the routed database",
@@ -114,6 +119,11 @@
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "reference:wateq4f:Cuprite"
   },
+  "CuCl2": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
   "CuO": {
     "minteq.v4": "hydration:wateq4f:Cu(OH)2",
     "pitzer": "refused: a reaction species is not defined on the routed database",
@@ -163,6 +173,11 @@
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "KBr": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
   },
   "KCl": {
     "minteq.v4": "curated",
@@ -262,6 +277,11 @@
   "Na2SO4": {
     "minteq.v4": "curated",
     "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "Na3PO4": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
     "wateq4f": "curated"
   },
   "NaBr": {

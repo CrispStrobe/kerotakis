@@ -24,6 +24,23 @@
       "delta_h_kj": 0.0
     },
     {
+      "phase": "Al2(SO4)3",
+      "formula": "Al2(SO4)3",
+      "lhs": [],
+      "rhs": [
+        [
+          "Al+3",
+          2.0
+        ],
+        [
+          "SO4-2",
+          3.0
+        ]
+      ],
+      "log_k": 19.0535,
+      "delta_h_kj": -364.566
+    },
+    {
       "phase": "Anglesite",
       "formula": "PbSO4",
       "lhs": [],
@@ -344,6 +361,23 @@
       "delta_h_kj": 24.6856
     },
     {
+      "phase": "CuCl2",
+      "formula": "CuCl2",
+      "lhs": [],
+      "rhs": [
+        [
+          "Cu+2",
+          1.0
+        ],
+        [
+          "Cl-",
+          2.0
+        ]
+      ],
+      "log_k": 3.7308,
+      "delta_h_kj": -48.5965
+    },
+    {
       "phase": "Cuprite",
       "formula": "Cu2O",
       "lhs": [
@@ -549,6 +583,23 @@
       ],
       "log_k": -3.0746,
       "delta_h_kj": -191.982
+    },
+    {
+      "phase": "KBr",
+      "formula": "KBr",
+      "lhs": [],
+      "rhs": [
+        [
+          "Br-",
+          1.0
+        ],
+        [
+          "K+",
+          1.0
+        ]
+      ],
+      "log_k": 1.0691,
+      "delta_h_kj": 20.125
     },
     {
       "phase": "Lime",

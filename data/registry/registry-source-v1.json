@@ -1757,6 +1757,51 @@
       "retrieved": null
     },
     {
+      "id": "legacy/Al+3",
+      "citation": "Kerotakis analytical aqueous basis ion for aluminium, added with aluminium sulfate (A2, 2026-11-21); identity PubChem CID 104727 (aluminum(3+)), InChIKey REDXJYDRNCIFBQ-UHFFFAOYSA-N. Molar mass 26.9815384 g/mol, IUPAC/CIAAW 2021. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. Al+3 is the master species of Al in wateq4f.dat and minteq.v4.dat, so its hydrolysis (AlOH+2, Al(OH)2+, ...) is the database's own; no equilibrium or kinetic constant is introduced here.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/KBr",
+      "citation": "potassium bromide, KBr, the ANHYDROUS salt: added by the soluble-salt class lane (A2, 2026-11-21). IDENTITY VERIFIED against PubChem CID 253877: InChIKey IOLCXVTUBQKXJR-UHFFFAOYSA-M on 2026-11-21 (PUG REST property record). Molar mass 119.0023 g/mol from IUPAC/CIAAW 2021 standard atomic weights (39.0983 + 79.904). HEAT CAPACITY 52.30 J/(mol.K): Cp at 298.15 K of the crystal, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 100:K, KBr cr. DENSITY 2.75 g/mL: 2.75 at 77 F, National Toxicology Program Chemical Repository Database (1992), a United States Government work, as quoted by CAMEO Chemicals in PubChem CID 253877, read 2026-11-21. APPEARANCE `white crystals`: Merck Index 'colorless crystals or white granules or powder', as quoted by HSDB. The flame colour lilac is potassium's, as for KCl. In water the salt books as its ions through the existing formula-derived roles; hydrolysis and pH are the routed PHREEQC database's own. Its enthalpy of dissolution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards are screened in kerotakis-safety. NOT CLAIMED: aqueous solubility limit, melting point, tint.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/CuCl2",
+      "citation": "copper(II) chloride, CuCl2, the ANHYDROUS salt: added by the soluble-salt class lane (A2, 2026-11-21). IDENTITY VERIFIED against PubChem CID 24014: InChIKey ORTQZVOHEJQUHG-UHFFFAOYSA-L on 2026-11-21 (PUG REST property record). Molar mass 134.446 g/mol from IUPAC/CIAAW 2021 standard atomic weights (63.546 + 2 x 35.45). HEAT CAPACITY 71.88 J/(mol.K): Cp at 298.15 K of the crystal, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 36:Cu, CuCl2 cr (the vendored NASA CEA CuCl2(cr) record gives 71.87 at 298.15 K). DENSITY 3.39 g/mL: 3.39 at 25 C/4 C for the anhydrous salt, Merck Index (12th ed., 1996, p. 445) as quoted by the PubChem HSDB record for CID 24014, read 2026-11-21; the 2.54 quoted from USCG CHRIS belongs to the trade's blue-green dihydrate, CuCl2.2H2O, which is not this row. APPEARANCE `yellow-brown powder`: Merck Index 'yellow to brown, microcrystalline powder', as quoted by HSDB. Dissolved, the solution takes the existing Cu+2 tint. The dihydrate is a different solid and is not added. In water the salt books as its ions through the existing formula-derived roles; hydrolysis and pH are the routed PHREEQC database's own. Its enthalpy of dissolution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards are screened in kerotakis-safety. NOT CLAIMED: aqueous solubility limit, melting point, tint.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Na3PO4",
+      "citation": "trisodium phosphate, Na3PO4, the ANHYDROUS salt: added by the soluble-salt class lane (A2, 2026-11-21). IDENTITY VERIFIED against PubChem CID 24243: InChIKey RYFMWSXOAZQYPI-UHFFFAOYSA-K on 2026-11-21 (PUG REST property record). Molar mass 163.9391 g/mol from IUPAC/CIAAW 2021 standard atomic weights (3 x 22.98976928 + 30.973761998 + 4 x 15.999). HEAT CAPACITY 153.47 J/(mol.K): Cp at 298.15 K of the crystal, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 99:Na, Na3PO4 cr. DENSITY 2.52 g/mL: 2.52 for the anhydrous salt, U.S. Coast Guard CHRIS (Commandant Instruction 16465.12C, 1999), a United States Government work, as quoted by CAMEO Chemicals in PubChem CID 24243, read 2026-11-21 (the same record's 1.62 is the dodecahydrate). APPEARANCE `white crystals`: HSDB 'colorless crystals'. The phosphate's strong basicity (PO4-3 + H2O = HPO4-2 + OH-) is the database's own phosphate speciation. In water the salt books as its ions through the existing formula-derived roles; hydrolysis and pH are the routed PHREEQC database's own. Its enthalpy of dissolution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards are screened in kerotakis-safety. NOT CLAIMED: aqueous solubility limit, melting point, tint.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Al2(SO4)3",
+      "citation": "aluminium sulfate, Al2(SO4)3, the ANHYDROUS salt: added by the soluble-salt class lane (A2, 2026-11-21). IDENTITY VERIFIED against PubChem CID 24850: InChIKey DIZPMCHEQGEION-UHFFFAOYSA-H on 2026-11-21 (PUG REST property record). Molar mass 342.1311 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 26.9815384 + 3 x 32.06 + 12 x 15.999). HEAT CAPACITY 259.41 J/(mol.K): Cp at 298.15 K of the crystal, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 29:Al, Al2(SO4)3 cr. DENSITY 2.71 g/mL: 2.71 for the anhydrous salt, ILO-WHO International Chemical Safety Card and U.S. Coast Guard CHRIS (1999, 2.71 at 68 F), as quoted in PubChem CID 24850, read 2026-11-21 (Merck's 1.61 and CHRIS's 1.7 belong to hydrated commercial grades). APPEARANCE `white powder`: Merck Index 'white, lustrous crystals, pieces, granules, or powder', as quoted by HSDB. The aluminium books as the new basis ion Al+3, whose hydrolysis makes the solution acidic. In water the salt books as its ions through the existing formula-derived roles; hydrolysis and pH are the routed PHREEQC database's own. Its enthalpy of dissolution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards are screened in kerotakis-safety. NOT CLAIMED: aqueous solubility limit, melting point, tint.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals.",
       "licence": "CC0-1.0",
@@ -2763,6 +2808,15 @@
       "origin": "https://archive.org/details/bwb_S0-CBI-657",
       "revision": "ICT vol. 3 (1928) p. 59",
       "retrieved": "2026-11-11"
+    },
+    {
+      "id": "literature/nbs-wagman-1982-dissolution",
+      "citation": "D. D. Wagman, W. H. Evans, V. B. Parker, R. H. Schumm, I. Halow, S. M. Bailey, K. L. Churney and R. L. Nuttall, The NBS tables of chemical thermodynamic properties: selected values for inorganic and C1 and C2 organic substances in SI units, J. Phys. Chem. Ref. Data 11 (1982) Supplement No. 2, a United States Government work (National Bureau of Standards). Read 2026-11-21 from the NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf (SHA-256 65249690c25a3c98275279863264b870e9a955f51651ff3845ac3bc47f32de59), each value checked against the page image. Enthalpies of dissolution at 298.15 K to the infinitely dilute, fully ionised standard state are the difference of the tabulated standard formation enthalpies of the `ai` (aqueous, ionised) row or the sum of the `ao` ion rows, and the `cr` row of the same table; each row's note states its arithmetic. No uncertainty is printed by the source, so none is claimed.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf",
+      "revision": "J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2",
+      "retrieved": "2026-11-21"
     }
   ],
   "identities": [
@@ -5976,6 +6030,86 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Al+3",
+      "canonical_key": "REDXJYDRNCIFBQ-UHFFFAOYSA-N",
+      "name": "aluminium ion",
+      "identifiers": {
+        "inchikey": "REDXJYDRNCIFBQ-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "KBr",
+      "canonical_key": "IOLCXVTUBQKXJR-UHFFFAOYSA-M",
+      "name": "potassium bromide",
+      "identifiers": {
+        "inchikey": "IOLCXVTUBQKXJR-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "CuCl2",
+      "canonical_key": "ORTQZVOHEJQUHG-UHFFFAOYSA-L",
+      "name": "copper(II) chloride",
+      "identifiers": {
+        "inchikey": "ORTQZVOHEJQUHG-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Na3PO4",
+      "canonical_key": "RYFMWSXOAZQYPI-UHFFFAOYSA-K",
+      "name": "trisodium phosphate",
+      "identifiers": {
+        "inchikey": "RYFMWSXOAZQYPI-UHFFFAOYSA-K"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Al2(SO4)3",
+      "canonical_key": "DIZPMCHEQGEION-UHFFFAOYSA-H",
+      "name": "aluminium sulfate",
+      "identifiers": {
+        "inchikey": "DIZPMCHEQGEION-UHFFFAOYSA-H"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Al2(SO4)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -27468,6 +27602,493 @@
       },
       "evidence": {
         "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Al+3",
+      "species_id": "Al+3",
+      "formula": "Al+3",
+      "elements": [
+        {
+          "element": "Al",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al+3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 3.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/KBr",
+      "species_id": "KBr",
+      "formula": "KBr",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "K",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/CuCl2",
+      "species_id": "CuCl2",
+      "formula": "CuCl2",
+      "elements": [
+        {
+          "element": "Cl",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CuCl2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Cu",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CuCl2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Na3PO4",
+      "species_id": "Na3PO4",
+      "formula": "Na3PO4",
+      "elements": [
+        {
+          "element": "Na",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na3PO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na3PO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "P",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na3PO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Al2(SO4)3",
+      "species_id": "Al2(SO4)3",
+      "formula": "Al2(SO4)3",
+      "elements": [
+        {
+          "element": "Al",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al2(SO4)3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al2(SO4)3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al2(SO4)3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Al2(SO4)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -52549,6 +53170,604 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/Al+3",
+      "species_id": "Al+3",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 26.9815384,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Al+3",
+      "species_id": "Al+3",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Al+3",
+      "species_id": "Al+3",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/KBr",
+      "species_id": "KBr",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 119.0023,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/KBr",
+      "species_id": "KBr",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 52.3,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/KBr",
+      "species_id": "KBr",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.75,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/KBr",
+      "species_id": "KBr",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": 19.88,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "KBr(cr) -> K+(aq) + Br-(aq). Table 100:K (p. 2-331): dfH KBr cr -393.798, KBr ai -373.92 kJ/mol; -373.92 - (-393.798) = +19.878."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/CuCl2",
+      "species_id": "CuCl2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 134.446,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/CuCl2",
+      "species_id": "CuCl2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 71.88,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/CuCl2",
+      "species_id": "CuCl2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.39,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/CuCl2",
+      "species_id": "CuCl2",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -49.45,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "CuCl2(cr) -> Cu+2(aq) + 2 Cl-(aq). Table 36:Cu (p. 2-154): dfH CuCl2 cr -220.1, Cu+2 ao 64.77; Table 10:Cl (p. 2-47): Cl- ao -167.159 kJ/mol; 64.77 + 2(-167.159) - (-220.1) = -49.448."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Na3PO4",
+      "species_id": "Na3PO4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 163.9391,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Na3PO4",
+      "species_id": "Na3PO4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 153.47,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Na3PO4",
+      "species_id": "Na3PO4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.52,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/Na3PO4",
+      "species_id": "Na3PO4",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -80.5,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "Na3PO4(cr) -> 3 Na+(aq) + PO4-3(aq), fully ionised reference; hydrolysis of the phosphate is priced separately from the routed database. Table 99:Na (p. 2-311): dfH Na3PO4 cr -1917.40, ai -1997.9 kJ/mol; difference -80.50."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Al2(SO4)3",
+      "species_id": "Al2(SO4)3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 342.1311,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Al2(SO4)3",
+      "species_id": "Al2(SO4)3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 259.41,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Al2(SO4)3",
+      "species_id": "Al2(SO4)3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.71,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/Al2(SO4)3",
+      "species_id": "Al2(SO4)3",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -350.16,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "Al2(SO4)3(cr) -> 2 Al+3(aq) + 3 SO4-2(aq), fully ionised reference; hydrolysis of Al+3 is priced separately from the routed database. Table 29:Al (p. 2-129): dfH Al2(SO4)3 cr -3440.84, ai -3791. kJ/mol; difference -350.16."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -62858,6 +64077,86 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/Cu2(OH)2CO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Al+3",
+      "species_id": "Al+3",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/KBr",
+      "species_id": "KBr",
+      "phase": "solid",
+      "appearance": "white crystals",
+      "flame_colour": "lilac",
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/CuCl2",
+      "species_id": "CuCl2",
+      "phase": "solid",
+      "appearance": "yellow-brown powder",
+      "flame_colour": "blue-green",
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Na3PO4",
+      "species_id": "Na3PO4",
+      "phase": "solid",
+      "appearance": "white crystals",
+      "flame_colour": "bright yellow",
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Al2(SO4)3",
+      "species_id": "Al2(SO4)3",
+      "phase": "solid",
+      "appearance": "white powder",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Al2(SO4)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -73582,6 +74881,171 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Al+3",
+      "subject": {
+        "kind": "species",
+        "id": "Al+3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/KBr",
+      "subject": {
+        "kind": "species",
+        "id": "KBr"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/CuCl2",
+      "subject": {
+        "kind": "species",
+        "id": "CuCl2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CuCl2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Na3PO4",
+      "subject": {
+        "kind": "species",
+        "id": "Na3PO4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na3PO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Al2(SO4)3",
+      "subject": {
+        "kind": "species",
+        "id": "Al2(SO4)3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     }

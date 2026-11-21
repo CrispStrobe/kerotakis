@@ -6,10 +6,10 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 135,
+    "bookable-unclaimed": 144,
     "declined": 12,
-    "registry-solid": 50,
-    "unbookable": 384
+    "registry-solid": 51,
+    "unbookable": 374
   },
   "registry_solids_matched": [
     "Ag",
@@ -29,6 +29,7 @@
     "Cu(OH)2",
     "Cu2(OH)2CO3",
     "Cu2O",
+    "CuCl2",
     "CuO",
     "CuSO4",
     "Fe(OH)2",
@@ -344,6 +345,22 @@
         {
           "database": "wateq4f",
           "phase": "Cuprite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "CuCl2",
+      "registry_species": "CuCl2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Melanothallite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Melanothallite"
         }
       ],
       "class": "registry-solid"
@@ -1253,6 +1270,86 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "Al(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al(OH)3(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Gibbsite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Al(OH)3(a)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Gibbsite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Al4(OH)10SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al4(OH)10SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Basaluminite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "AlOHSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "AlOHSO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Jurbanite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "AlOOH",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Boehmite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Diaspore"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Boehmite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Diaspore"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "B(OH)3",
       "registry_species": null,
       "reason": null,
@@ -1585,22 +1682,6 @@
       "class": "bookable-unclaimed"
     },
     {
-      "formula": "CuCl2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Melanothallite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Melanothallite"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
       "formula": "CuFe2O4",
       "registry_species": null,
       "reason": null,
@@ -1805,6 +1886,18 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "FeAl2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hercynite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "FeOOH",
       "registry_species": null,
       "reason": null,
@@ -1993,6 +2086,38 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "KAl(SO4)2:12H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K-Alum"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "AlumK"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "KAl3(SO4)2(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Alunite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Alunite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "KB5O8:4H2O",
       "registry_species": null,
       "reason": null,
@@ -2092,6 +2217,18 @@
         {
           "database": "wateq4f",
           "phase": "Hydromagnesite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgAl2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Spinel"
         }
       ],
       "class": "bookable-unclaimed"
@@ -2816,6 +2953,38 @@
         {
           "database": "wateq4f",
           "phase": "Hxypyromorphite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbAl3(PO4)2(OH)5:H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Plumbgummite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Plumbogummite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "PbAl3PO4SO4(OH)6",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Hinsdalite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Hinsdalite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3561,30 +3730,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "Al(OH)3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Al(OH)3(am)"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "Gibbsite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Al(OH)3(a)"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Gibbsite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "Al2(MoO4)3",
       "registry_species": null,
       "reason": null,
@@ -3633,22 +3778,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "Al4(OH)10SO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Al4(OH)10SO4"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Basaluminite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "AlAsO4:2H2O",
       "registry_species": null,
       "reason": null,
@@ -3660,46 +3789,6 @@
         {
           "database": "wateq4f",
           "phase": "AlAsO4:2H2O"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "AlOHSO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "AlOHSO4"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Jurbanite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "AlOOH",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Boehmite"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "Diaspore"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Boehmite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Diaspore"
         }
       ],
       "class": "unbookable"
@@ -5457,18 +5546,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "FeAl2O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Hercynite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "FeAsO4:2H2O",
       "registry_species": null,
       "reason": null,
@@ -5921,38 +5998,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "KAl(SO4)2:12H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "K-Alum"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "AlumK"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "KAl3(SO4)2(OH)6",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Alunite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Alunite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "KAl3Si3O10(OH)2",
       "registry_species": null,
       "reason": null,
@@ -6196,18 +6241,6 @@
         {
           "database": "pitzer",
           "phase": "Anthophyllite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "MgAl2O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Spinel"
         }
       ],
       "class": "unbookable"
@@ -6944,38 +6977,6 @@
         {
           "database": "minteq.v4",
           "phase": "Pb3(VO4)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "PbAl3(PO4)2(OH)5:H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Plumbgummite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Plumbogummite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "PbAl3PO4SO4(OH)6",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Hinsdalite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Hinsdalite"
         }
       ],
       "class": "unbookable"

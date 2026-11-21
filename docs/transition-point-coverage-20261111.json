@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 139,
+    "boiling.no_data": 144,
     "boiling.reported": 67,
-    "melting.no_data": 105,
+    "melting.no_data": 110,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -605,6 +605,26 @@
       }
     },
     {
+      "species": "Al+3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Al2(SO4)3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Al2O3",
       "standard_phase": "solid",
       "melting": {
@@ -974,6 +994,16 @@
       }
     },
     {
+      "species": "CuCl2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "CuO",
       "standard_phase": "solid",
       "melting": {
@@ -1327,6 +1357,16 @@
     {
       "species": "K+",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "KBr",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },
@@ -1725,6 +1765,16 @@
         "outcome": "melting",
         "kelvin": 1163.0,
         "source": "literature/transition-points/Na2SO4"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Na3PO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
       },
       "boiling": {
         "basis": "no_data"

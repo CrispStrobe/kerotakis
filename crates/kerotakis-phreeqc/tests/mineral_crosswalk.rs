@@ -36,6 +36,10 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// eight rows, eight phase names leave the unmatched count, and none of the
 /// eight carries a reviewed solubility: the gap grows from 24 to 32.
 ///
+/// 2026-11-21: the soluble-salt class (A2) adds KBr, CuCl2, Na3PO4 and
+/// Al2(SO4)3. Only CuCl2 is a database phase (Melanothallite), so the gap
+/// grows by one and the other three join the non-database solids.
+///
 /// The gap was 24 before that. Nine of the 33 have been sourced to papers that were
 /// read in full rather than to a handbook — four on the morning of
 /// 2026-09-21 and five more the same day, once `saturation_moves` stopped
@@ -48,12 +52,12 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 108,
-            database_phases: 50,
+            registry_solids: 112,
+            database_phases: 51,
             with_reviewed_solubility: 12,
-            without_reviewed_solubility: 38,
-            not_a_database_phase: 58,
-            phases_without_a_registry_solid: 604,
+            without_reviewed_solubility: 39,
+            not_a_database_phase: 61,
+            phases_without_a_registry_solid: 603,
             several_phase_names: 13,
             not_posable: 11,
         },
@@ -122,6 +126,9 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "Cu(OH)2",
             "Cu2(OH)2CO3",
             "Cu2O",
+            // A2 (2026-11-21): anhydrous CuCl2 is Melanothallite in both
+            // routed databases; no reviewed solubility is claimed.
+            "CuCl2",
             "CuSO4",
             "Fe(OH)2",
             "Fe2O3",

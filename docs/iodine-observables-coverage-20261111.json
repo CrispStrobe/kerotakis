@@ -2,8 +2,8 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 42,
-    "neutral-refused": 155,
+    "ion-stays-aqueous": 43,
+    "neutral-refused": 159,
     "partitions": 9
   },
   "cases": [
@@ -38,6 +38,11 @@
   "species": [
     {
       "species": "Ag+",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Al+3",
       "class": "ion-stays-aqueous",
       "basis": null
     },
@@ -287,6 +292,11 @@
       "basis": null
     },
     {
+      "species": "Al2(SO4)3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Al2O3",
       "class": "neutral-refused",
       "basis": null
@@ -382,6 +392,11 @@
       "basis": null
     },
     {
+      "species": "CuCl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "CuO",
       "class": "neutral-refused",
       "basis": null
@@ -473,6 +488,11 @@
     },
     {
       "species": "HI",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KBr",
       "class": "neutral-refused",
       "basis": null
     },
@@ -593,6 +613,11 @@
     },
     {
       "species": "Na2SO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na3PO4",
       "class": "neutral-refused",
       "basis": null
     },
