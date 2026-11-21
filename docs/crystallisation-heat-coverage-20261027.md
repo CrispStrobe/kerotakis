@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 14 | 1 | 88 |
-| minteq.v4 | 16 | 1 | 86 |
-| pitzer | 8 | 2 | 93 |
+| wateq4f | 16 | 1 | 91 |
+| minteq.v4 | 18 | 1 | 89 |
+| pitzer | 9 | 2 | 97 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -99,6 +99,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Al` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Al` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Al` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Al2O3` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Al2O3` | minteq.v4 | refused | Al2O3 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `Al2O3` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Ba(OH)2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Ba(OH)2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Ba(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -135,6 +138,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Cu(OH)2` | wateq4f | refused | Cu(OH)2 | the phase saturates at ionic strength >= 873031664.48 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Cu(OH)2` | minteq.v4 | refused | Cu(OH)2 | the phase saturates at ionic strength >= 944126082.53 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Cu(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Cu2(OH)2CO3` | wateq4f | refused | Malachite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `Cu2(OH)2CO3` | minteq.v4 | refused | Malachite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `Cu2(OH)2CO3` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Cu2O` | wateq4f | refused | Cuprite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2O` | minteq.v4 | refused | Cuprite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2O` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -192,6 +198,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Mg(OH)2` | wateq4f | refused | Brucite | the phase saturates at ionic strength >= 138366194183787648.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Mg(OH)2` | minteq.v4 | refused | Brucite | the phase saturates at ionic strength >= 139646480815435024.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Mg(OH)2` | pitzer | crystallises-with-priced-heat | Brucite | PHREEQC phase saturation, delta_h 20.292 kJ/mol; solid priced |
+| `MgCO3` | wateq4f | crystallises-with-priced-heat | Magnesite | PHREEQC phase saturation, delta_h -25.811 kJ/mol; solid priced |
+| `MgCO3` | minteq.v4 | crystallises-with-priced-heat | Magnesite | PHREEQC phase saturation, delta_h 20.000 kJ/mol; solid priced |
+| `MgCO3` | pitzer | crystallises-with-priced-heat | Magnesite | PHREEQC phase saturation, delta_h -6.169 kJ/mol; solid priced |
 | `MgO` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `MgO` | minteq.v4 | refused | Periclase | the phase saturates at ionic strength >= 7675912150465959165952.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `MgO` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -291,6 +300,12 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Zn(OH)2` | wateq4f | refused | Zn(OH)2-e | the phase saturates at ionic strength >= 632455532033.68 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Zn(OH)2` | minteq.v4 | refused | Zn(OH)2(epsilon) | the phase saturates at ionic strength >= 683958885027.42 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Zn(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `ZnCO3` | wateq4f | crystallises-with-priced-heat | Smithsonite | PHREEQC phase saturation, delta_h -18.242 kJ/mol; solid priced |
+| `ZnCO3` | minteq.v4 | crystallises-with-priced-heat | Smithsonite | PHREEQC phase saturation, delta_h -15.840 kJ/mol; solid priced |
+| `ZnCO3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `ZnO` | wateq4f | refused | Zincite(c) | the phase saturates at ionic strength >= 276076852920.58 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `ZnO` | minteq.v4 | refused | ZnO(active) | the phase saturates at ionic strength >= 308624213131.56 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `ZnO` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `ZnSO4` | wateq4f | refused | Zincosite | the phase saturates at ionic strength >= 127.96 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `ZnSO4` | minteq.v4 | refused | Zincosite | the phase saturates at ionic strength >= 368.90 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `ZnSO4` | pitzer | refused | - | the routed database defines no phase for this solid |

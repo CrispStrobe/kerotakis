@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, not_condensed 79.
+Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 64, not_condensed 79.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -83,11 +83,13 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | melting_point_without_latent_heat | tert_butyl_bromide | liquid | 256.95 | 346.4 | no | liquid | liquid | liquid |
 | melting_point_without_latent_heat | uranium | solid | 1405 | — | no | solid | solid | solid |
 | no_melting_point | Ag2CO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Al2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | C | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu(OH)2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Cu2(OH)2CO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuO | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Fe(OH)2 | solid | — | — | no | solid | solid | solid |
@@ -99,6 +101,7 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | no_melting_point | HI | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | KMnO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Mg(OH)2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | MgCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | MnO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NH3 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | NH4Cl | solid | — | — | no | solid | solid | solid |
@@ -116,6 +119,8 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 59, n
 | no_melting_point | Pb(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PbCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Zn(OH)2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | ZnCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | ZnO | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | activated_charcoal | solid | — | — | no | solid | solid | solid |
 | no_melting_point | antlerite | solid | — | — | no | solid | solid | solid |

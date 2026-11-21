@@ -1,0 +1,40 @@
+! Supplementary NASA-9 records for the open-air thermal route (kerotakis_cea).
+!
+! SOURCE: R. A. Robie and B. S. Hemingway (1995), Thermodynamic properties of
+! minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure
+! and at higher temperatures, U.S. Geological Survey Bulletin 2131 -- a U.S.
+! Government work in the public domain (https://pubs.usgs.gov/bul/2131/report.pdf,
+! read 2026-11-20). Used: the Cp(T) polynomial Cp = A1 + A2 T + A3 T^-2 +
+! A4 T^-0.5 + A5 T^2 from the table of coefficients, S(298.15) and dfH(298.15).
+!   ZINCITE ZnO        A = 43.50, 7.658E-03, -7.573E+05, 54.56, 0     298-1800 K
+!                      S = 43.20 J/(mol K), dfH = -350.5 kJ/mol
+!   SMITHSONITE ZnCO3  A = 148.38, 2.835E-02, 4.796E+05, -1419, 0    298-1200 K
+!                      S = 81.19 J/(mol K), dfH = -817.0 kJ/mol
+!
+! METHOD (Kerotakis): the T^-0.5 term has no NASA-9 counterpart, so the seven
+! NASA-9 Cp coefficients are a least-squares fit to Cp/R of the source
+! polynomial on 600 points over the source's own range (R = 8.31446261815324);
+! b1 and b2 then make H(298.15) = dfH and S(298.15) = S exactly. Worst relative
+! Cp deviation from the source polynomial: 4.7e-6 (ZnO), 1.1e-5 (ZnCO3). Checked
+! against the source's printed tables at 298.15/400/600/1000/1400/1800 K (ZnO)
+! and 298.15/400/600/800/1000/1200 K (ZnCO3): Cp, S and (H-H298)/T agree to the
+! printed 0.01 J/(mol K). tools/robie_hemingway_cea_fit.py regenerates the
+! records below (--check verifies them); nothing here is anything but that
+! transform of the source.
+!
+! NOT here: malachite. The same bulletin tabulates it at 298.15 K only (no Cp(T)),
+! so it has no record and its decomposition is not computed.
+thermo
+    200.00   1000.00   6000.00  20000.   9/09/04
+ZnO(cr)           Robie & Hemingway 1995 USGS Bull 2131 Cp(T),S,dfH; NASA-9 fit (Kerotakis)
+ 1 rh1995 ZN  1.00O   1.00    0.00    0.00    0.00 1   81.3890000    -350500.000
+    298.150  1800.00007 -2.0 -1.0  0.0  1.0  2.0  3.0  4.0  0.0            0.000
+-9.355859541D+04 6.498110110D+01 5.453980352D+00 7.944268965D-04 6.869919807D-08
+-2.233682699D-11 3.125170349D-15                -4.450147179D+04-2.642682805D+01
+ZnCO3(cr)         Robie & Hemingway 1995 USGS Bull 2131 Cp(T),S,dfH; NASA-9 fit (Kerotakis)
+ 1 rh1995 ZN  1.00C   1.00O   3.00    0.00    0.00 1  125.3990000    -817000.000
+    298.150  1200.00007 -2.0 -1.0  0.0  1.0  2.0  3.0  4.0  0.0            0.000
+ 1.066707929D+05-1.532747772D+03 1.143385479D+01 8.000661973D-03-3.206476937D-06
+ 1.371976172D-09-2.574858233D-13                -9.291062805D+04-6.217594171D+01
+END PRODUCTS
+END REACTANTS

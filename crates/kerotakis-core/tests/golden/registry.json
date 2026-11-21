@@ -6717,5 +6717,169 @@
     "provenance": "Kerotakis analytical aqueous basis: formula stoichiometry and existing registry atomic mass basis. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. No equilibrium or kinetic constants introduced.",
     "spectrum_bands": null,
     "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 242,
+      "g": 246,
+      "r": 246,
+      "strength": 0.0
+    },
+    "density": 5.675,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": 400.0,
+    "formula": "ZnO",
+    "heat_capacity": 40.42,
+    "heat_capacity_polys": [],
+    "inchikey": "RNWHGQJWIACOKP-UHFFFAOYSA-N",
+    "key": "ZnO",
+    "magnetic": false,
+    "molar_mass": 81.379,
+    "name": "zinc oxide",
+    "provenance": "zinc oxide, ZnO: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 3007857 on 2026-11-20 (PUG REST property record): InChIKey RNWHGQJWIACOKP-UHFFFAOYSA-N. Molar mass 81.379 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 65.38 + 1 x 15.999 = 81.379). DENSITY 5.675 g/mL: formula weight over the molar volume 14.34 cm3/mol tabulated for ZINCITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 40.42 J/(mol.K): Robie & Hemingway (1995), ZINCITE table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: zinc oxide is a white powder (it is the white of zinc-white paint); the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because a bench Zn2+ + hydroxide mix gives zinc hydroxide, the solid the existing zinc verdicts name, and zincite competing with it needs an engine run. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 240,
+      "g": 244,
+      "r": 244,
+      "strength": 0.0
+    },
+    "density": 3.986,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": 400.0,
+    "formula": "Al2O3",
+    "heat_capacity": 79.1,
+    "heat_capacity_polys": [],
+    "inchikey": "PNEYBMLMFCGWSK-UHFFFAOYSA-N",
+    "key": "Al2O3",
+    "magnetic": false,
+    "molar_mass": 101.961,
+    "name": "aluminium oxide (corundum)",
+    "provenance": "aluminium oxide (corundum), Al2O3: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 9989226 on 2026-11-20 (PUG REST property record): InChIKey PNEYBMLMFCGWSK-UHFFFAOYSA-N. Molar mass 101.961 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 26.982 + 3 x 15.999 = 101.961). DENSITY 3.986 g/mL: formula weight over the molar volume 25.58 cm3/mol tabulated for CORUNDUM by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 79.1 J/(mol.K): Robie & Hemingway (1995), CORUNDUM table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: powdered alumina is white; the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because aluminium salts plus base give the hydroxide at bench temperature; corundum is a high-temperature phase and does not precipitate from water. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 244,
+      "g": 246,
+      "r": 246,
+      "strength": 0.0
+    },
+    "density": 3.009,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": 400.0,
+    "formula": "MgCO3",
+    "heat_capacity": 76.09,
+    "heat_capacity_polys": [
+      {
+        "boundary": "Tabulated for 300 to 1263 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+        "intervals": [
+          {
+            "coefficients": [
+              -5649471.92,
+              105980.934,
+              -809.595381,
+              3.26799268,
+              -0.00711163994,
+              8.08824734e-6,
+              -3.75863992e-9
+            ],
+            "form": "nasa9",
+            "reference": "MgCO3(cr): Hexagonal. Gurvich,1996a pt1 p429 pt2 p341.",
+            "t_max": 500.0,
+            "t_min": 300.0
+          },
+          {
+            "coefficients": [
+              -174333.7852,
+              0.0,
+              8.820122894,
+              0.007696184141,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "form": "nasa9",
+            "reference": "MgCO3(cr): Hexagonal. Gurvich,1996a pt1 p429 pt2 p341.",
+            "t_max": 1263.0,
+            "t_min": 500.0
+          }
+        ],
+        "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records MgCO3(cr) (2 temperature intervals), unchanged in value and in order",
+        "phase": "solid",
+        "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+      }
+    ],
+    "inchikey": "ZLNQQNXFFQJAID-UHFFFAOYSA-L",
+    "key": "MgCO3",
+    "magnetic": false,
+    "molar_mass": 84.313,
+    "name": "magnesium carbonate (magnesite)",
+    "provenance": "magnesium carbonate (magnesite), MgCO3: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 11029 on 2026-11-20 (PUG REST property record): InChIKey ZLNQQNXFFQJAID-UHFFFAOYSA-L. Molar mass 84.313 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 24.305 + 1 x 12.011 + 3 x 15.999 = 84.313). DENSITY 3.009 g/mL: formula weight over the molar volume 28.02 cm3/mol tabulated for MAGNESITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 76.09 J/(mol.K): Robie & Hemingway (1995), MAGNESITE table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: magnesite powder is white; the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because magnesite does not nucleate at bench temperature and needs a kinetic floor before it may be posed. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 240,
+      "g": 244,
+      "r": 244,
+      "strength": 0.0
+    },
+    "density": 4.434,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": 400.0,
+    "formula": "ZnCO3",
+    "heat_capacity": 80.05,
+    "heat_capacity_polys": [],
+    "inchikey": "FMRLDPWIRHBCCC-UHFFFAOYSA-L",
+    "key": "ZnCO3",
+    "magnetic": false,
+    "molar_mass": 125.388,
+    "name": "zinc carbonate (smithsonite)",
+    "provenance": "zinc carbonate (smithsonite), ZnCO3: added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 19005 on 2026-11-20 (PUG REST property record): InChIKey FMRLDPWIRHBCCC-UHFFFAOYSA-L. Molar mass 125.388 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 65.38 + 1 x 12.011 + 3 x 15.999 = 125.388). DENSITY 4.434 g/mL: formula weight over the molar volume 28.28 cm3/mol tabulated for SMITHSONITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 80.05 J/(mol.K): Robie & Hemingway (1995), SMITHSONITE table, Cp at 298.15 K. The same source's Cp(T) polynomial, S and dfH are what the thermal route's supplementary NASA-9 record is fitted from where one is supplied (data/cea/robie-hemingway-1995-supplement.inp). APPEARANCE `white`: precipitated zinc carbonate is white; the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because a bench Zn2+ + carbonate mix gives a basic zinc carbonate rather than smithsonite, and that competition needs review. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "green",
+    "colour": {
+      "b": 87,
+      "g": 139,
+      "r": 46,
+      "strength": 0.0
+    },
+    "density": 4.031,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": 400.0,
+    "formula": "Cu2CH2O5",
+    "heat_capacity": 162.2,
+    "heat_capacity_polys": [],
+    "inchikey": "ZMMDPCMYTCRWFF-UHFFFAOYSA-J",
+    "key": "Cu2(OH)2CO3",
+    "magnetic": false,
+    "molar_mass": 221.114,
+    "name": "malachite (basic copper carbonate)",
+    "provenance": "malachite (basic copper carbonate), Cu2(OH)2CO3 (registry formula Cu2CH2O5, flat like the other hydroxides): added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 25503 on 2026-11-20 (PUG REST property record): InChIKey ZMMDPCMYTCRWFF-UHFFFAOYSA-J. Molar mass 221.114 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 63.546 + 5 x 15.999 + 2 x 1.008 + 1 x 12.011 = 221.114). DENSITY 4.031 g/mL: formula weight over the molar volume 54.86 cm3/mol tabulated for MALACHITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 162.2 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Robie & Hemingway (1995) tabulate malachite at 298.15 K only (S = 166.3 J/(mol.K), V = 54.86 cm3, dfH = -1054.0 kJ/mol, dfG = -890.2 kJ/mol) and give no Cp; Kopp's rule over the standard atomic contributions, 2 x 26.0 (Cu) + 1 x 7.5 (C) + 5 x 16.7 (O) + 2 x 9.6 (H) = 162.2, the same editorial method the lead carbonate and calcium phosphate rows use. Because there is no Cp(T) for malachite in that source, no thermal-route record is supplied and heating malachite is NOT modelled as a decomposition here. APPEARANCE `green`: malachite is green (the mineral and the school 'copper carbonate' powder alike); the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because malachite is the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 and the copper hydroxy-sulfates and that competition needs an engine run. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

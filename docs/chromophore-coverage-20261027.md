@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 39, outside_method 111, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 40, outside_method 115, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -27,6 +27,7 @@ Counts: missing_absorptivity 39, outside_method 111, parameterised 7, parameteri
 | missing_absorptivity | Cl2 | yellow-green, toxic |
 | missing_absorptivity | Cu | reddish-brown |
 | missing_absorptivity | Cu(OH)2 | pale blue |
+| missing_absorptivity | Cu2(OH)2CO3 | green |
 | missing_absorptivity | Cu2O | red |
 | missing_absorptivity | CuO | black |
 | missing_absorptivity | Fe | grey |
@@ -60,6 +61,7 @@ Counts: missing_absorptivity 39, outside_method 111, parameterised 7, parameteri
 | outside_method | Ag | silvery-white |
 | outside_method | AgCl | white |
 | outside_method | AgNO3 | white |
+| outside_method | Al2O3 | white |
 | outside_method | Ba(OH)2 | white |
 | outside_method | Ba+2 | colourless |
 | outside_method | BaCO3 | white |
@@ -89,6 +91,7 @@ Counts: missing_absorptivity 39, outside_method 111, parameterised 7, parameteri
 | outside_method | KNO3 | white |
 | outside_method | KOH | white |
 | outside_method | Mg(OH)2 | white |
+| outside_method | MgCO3 | white |
 | outside_method | MgO | brilliant white |
 | outside_method | MgSO4 | white |
 | outside_method | N2 | colourless |
@@ -125,6 +128,8 @@ Counts: missing_absorptivity 39, outside_method 111, parameterised 7, parameteri
 | outside_method | Sr+2 | colourless |
 | outside_method | Zn(OH)2 | white |
 | outside_method | Zn+2 | colourless |
+| outside_method | ZnCO3 | white |
+| outside_method | ZnO | white |
 | outside_method | ZnSO4 | white |
 | outside_method | amylase | colorless solution |
 | outside_method | ascorbic_acid | white crystalline powder |

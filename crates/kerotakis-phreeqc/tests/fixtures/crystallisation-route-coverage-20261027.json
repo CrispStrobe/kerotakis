@@ -168,6 +168,27 @@
     "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
+    "solid": "Al2O3",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Al2O3",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Al2O3",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Al2O3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Ba(OH)2",
     "route": "wateq4f",
     "class": "refused",
@@ -414,6 +435,27 @@
   },
   {
     "solid": "Cu(OH)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Cu2(OH)2CO3",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Malachite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Cu2(OH)2CO3",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Malachite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Cu2(OH)2CO3",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -817,6 +859,27 @@
     "class": "crystallises-with-priced-heat",
     "phase": "Brucite",
     "reason": "PHREEQC phase saturation, delta_h 20.292 kJ/mol; solid priced"
+  },
+  {
+    "solid": "MgCO3",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Magnesite",
+    "reason": "PHREEQC phase saturation, delta_h -25.811 kJ/mol; solid priced"
+  },
+  {
+    "solid": "MgCO3",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Magnesite",
+    "reason": "PHREEQC phase saturation, delta_h 20.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "MgCO3",
+    "route": "pitzer",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Magnesite",
+    "reason": "PHREEQC phase saturation, delta_h -6.169 kJ/mol; solid priced"
   },
   {
     "solid": "MgO",
@@ -1506,6 +1569,48 @@
   },
   {
     "solid": "Zn(OH)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "ZnCO3",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Smithsonite",
+    "reason": "PHREEQC phase saturation, delta_h -18.242 kJ/mol; solid priced"
+  },
+  {
+    "solid": "ZnCO3",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Smithsonite",
+    "reason": "PHREEQC phase saturation, delta_h -15.840 kJ/mol; solid priced"
+  },
+  {
+    "solid": "ZnCO3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "ZnO",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Zincite(c)",
+    "reason": "the phase saturates at ionic strength >= 276076852920.58 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "ZnO",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "ZnO(active)",
+    "reason": "the phase saturates at ionic strength >= 308624213131.56 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "ZnO",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

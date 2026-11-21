@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 134,
+    "boiling.no_data": 139,
     "boiling.reported": 67,
-    "melting.no_data": 100,
+    "melting.no_data": 105,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -605,6 +605,16 @@
       }
     },
     {
+      "species": "Al2O3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Ba(OH)2",
       "standard_phase": "solid",
       "melting": {
@@ -933,6 +943,16 @@
     {
       "species": "Cu+2",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Cu2(OH)2CO3",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },
@@ -1443,6 +1463,16 @@
     {
       "species": "Mg+2",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MgCO3",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },
@@ -2143,6 +2173,26 @@
     {
       "species": "Zn+2",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ZnCO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ZnO",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },

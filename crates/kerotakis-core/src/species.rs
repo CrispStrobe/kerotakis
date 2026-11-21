@@ -29,6 +29,25 @@ pub(crate) const CURATED_INPUT_ALIASES: &[(&str, &str)] = &[
     ("acetate", "CH3COO-"),
 ];
 
+/// The reviewed aliases: the hand list above, plus every formula a shipped
+/// mechanism pack renames to a registry key (`CH4 -> methane`,
+/// `C3H8 -> propane`, `C4H10 -> butane`, `H2O -> water`).
+///
+/// The packs already treat those formulas as exactly that registry
+/// species, so a learner typing `CH4` means what the mechanism means. Left
+/// out, the guard that stops generated aliases rewriting a mechanism
+/// identifier refused the one spelling every textbook uses, and
+/// `add v1 CH4 0.01mol` was an unknown species beside a methane the bench
+/// could burn.
+pub(crate) fn curated_input_aliases() -> impl Iterator<Item = (&'static str, &'static str)> {
+    CURATED_INPUT_ALIASES.iter().copied().chain(
+        crate::kinetics::packs::REGISTRY_NAMES
+            .iter()
+            .copied()
+            .filter(|(from, _)| !CURATED_INPUT_ALIASES.iter().any(|(a, _)| a == from)),
+    )
+}
+
 /// Where an accepted alias came from, in priority order: when one spelling
 /// of one identity is produced by several rules, the earliest is recorded.
 pub const INPUT_ALIAS_SOURCES: &[&str] = &[
@@ -222,9 +241,8 @@ fn build_input_alias_table() -> InputAliasTable {
     let de = crate::i18n::Locale::parse("de");
     let fr = crate::i18n::Locale::parse("fr");
 
-    let mut candidates: Vec<(String, &'static str, &'static str)> = CURATED_INPUT_ALIASES
-        .iter()
-        .map(|(alias, key)| (alias.to_string(), *key, "curated"))
+    let mut candidates: Vec<(String, &'static str, &'static str)> = curated_input_aliases()
+        .map(|(alias, key)| (alias.to_string(), key, "curated"))
         .collect();
     for data in registry {
         let translated =
@@ -305,9 +323,8 @@ fn build_input_alias_table() -> InputAliasTable {
         )
         .map(|name| normalized_alias(&name))
         .collect();
-    let curated: BTreeMap<String, &str> = CURATED_INPUT_ALIASES
-        .iter()
-        .map(|(alias, key)| (normalized_alias(alias), *key))
+    let curated: BTreeMap<String, &str> = curated_input_aliases()
+        .map(|(alias, key)| (normalized_alias(alias), key))
         .collect();
     let formula_of = |key: &str| {
         registry
@@ -481,10 +498,23 @@ pub fn resolve_input_alias(text: &str) -> Option<&'static str> {
 /// Resolve the curated spellings at every species identity boundary.
 /// Generated spellings are deliberately NOT applied here; see
 /// [`resolve_input_alias`].
+///
+/// Only the hand list applies here. The pack formulas (`CH4`, `C3H8`,
+/// `C4H10`) stay exact identities inside the engine, because an unrenamed
+/// mechanism network names its species by them; they become registry keys
+/// where a learner types them, through [`typed_input_key`].
 pub(crate) fn canonical_input_key(key: &str) -> &str {
     CURATED_INPUT_ALIASES
         .iter()
         .find_map(|(alias, canonical)| (*alias == key).then_some(*canonical))
+        .unwrap_or(key)
+}
+
+/// Resolve every reviewed spelling (the hand list plus the pack formulas)
+/// where a learner TYPES a species, and at registry lookup.
+pub(crate) fn typed_input_key(key: &str) -> &str {
+    curated_input_aliases()
+        .find_map(|(alias, canonical)| (alias == key).then_some(canonical))
         .unwrap_or(key)
 }
 
@@ -494,9 +524,7 @@ pub(crate) fn canonical_input_key(key: &str) -> &str {
 /// keys win over them at resolution instead.
 fn reserved_input_alias(key: &str) -> bool {
     let normalized = key.split_whitespace().collect::<Vec<_>>().join(" ");
-    CURATED_INPUT_ALIASES
-        .iter()
-        .any(|(alias, _)| alias.eq_ignore_ascii_case(&normalized))
+    curated_input_aliases().any(|(alias, _)| alias.eq_ignore_ascii_case(&normalized))
 }
 
 pub(crate) fn serialize_input_key<S: serde::Serializer>(
@@ -538,6 +566,14 @@ impl SpeciesId {
 
     pub(crate) fn canonicalize(&mut self) {
         let canonical = canonical_input_key(&self.0);
+        if canonical != self.0.as_str() {
+            self.0 = canonical.to_string();
+        }
+    }
+
+    /// Canonicalize a typed species: the reviewed pack formulas too.
+    pub(crate) fn canonicalize_typed(&mut self) {
+        let canonical = typed_input_key(&self.0);
         if canonical != self.0.as_str() {
             self.0 = canonical.to_string();
         }
@@ -1158,7 +1194,7 @@ pub fn english_name(key: &str) -> &str {
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
-    lookup_resolved_key(canonical_input_key(key))
+    lookup_resolved_key(typed_input_key(key))
 }
 
 fn lookup_resolved_key(key: &str) -> Option<&'static SpeciesData> {

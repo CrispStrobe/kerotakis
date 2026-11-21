@@ -1113,8 +1113,9 @@ fn assert_imported_evidence(source_id: &str, method: &Method, expected_source: &
 /// under test agrees with that code however wrong it is.
 const CURVE_KEYS: &[&str] = &[
     "Ag", "Al", "C", "CO", "CO2", "Ca(OH)2", "CaCO3", "CaO", "Cl2", "Cu", "Cu2O", "CuO", "Fe",
-    "Fe(OH)2", "Fe(OH)3", "Fe2O3", "H2", "KCl", "Mg", "Mg(OH)2", "MgO", "N2", "Na2CO3", "Na2SO4",
-    "NaCl", "NaOH", "O2", "Pb", "S", "SO2", "SiO2", "Zn", "butane", "methane", "propane", "water",
+    "Fe(OH)2", "Fe(OH)3", "Fe2O3", "H2", "KCl", "Mg", "Mg(OH)2", "MgCO3", "MgO", "N2", "Na2CO3",
+    "Na2SO4", "NaCl", "NaOH", "O2", "Pb", "S", "SO2", "SiO2", "Zn", "butane", "methane", "propane",
+    "water",
 ];
 
 #[test]
@@ -1226,7 +1227,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 201, "one molar mass per species");
+    assert_eq!(masses.len(), 206, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

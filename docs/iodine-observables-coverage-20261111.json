@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 42,
-    "neutral-refused": 150,
+    "neutral-refused": 155,
     "partitions": 9
   },
   "cases": [
@@ -287,6 +287,11 @@
       "basis": null
     },
     {
+      "species": "Al2O3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Ba(OH)2",
       "class": "neutral-refused",
       "basis": null
@@ -363,6 +368,11 @@
     },
     {
       "species": "Cu(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Cu2(OH)2CO3",
       "class": "neutral-refused",
       "basis": null
     },
@@ -508,6 +518,11 @@
     },
     {
       "species": "Mg(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "MgCO3",
       "class": "neutral-refused",
       "basis": null
     },
@@ -703,6 +718,16 @@
     },
     {
       "species": "Zn(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "ZnCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "ZnO",
       "class": "neutral-refused",
       "basis": null
     },

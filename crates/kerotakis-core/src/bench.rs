@@ -1008,7 +1008,7 @@ impl Bench {
         // touch at most two). A touched vessel's previous solution
         // characterisation is stale by definition; the solver stack either
         // recomputes it or the honesty pass reports the gap.
-        let mut committed_carbonate_endpoint = false;
+        let mut committed_gas_endpoint = false;
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
             let carbonate_dose = dose_before
@@ -1064,7 +1064,7 @@ impl Bench {
                         match crate::carbonate_endpoint::run(vessel, dose, aqueous, more) {
                             Ok(Some(mut endpoint)) => {
                                 more.append(&mut endpoint);
-                                committed_carbonate_endpoint = true;
+                                committed_gas_endpoint = true;
                             }
                             Ok(None) => {}
                             Err(error) => more.push(Event::SolverFailed {
@@ -1104,7 +1104,7 @@ impl Bench {
             self.vent_if_burst(id, &mut events);
         }
 
-        if committed_carbonate_endpoint {
+        if committed_gas_endpoint {
             coalesce_external_gas_crossings(&mut events);
         }
 
