@@ -399,7 +399,9 @@ mod tests {
         // Robie & Hemingway (1995), USGS Bulletin 2131: the printed Cp, S and
         // (H - H298)/T for zincite and smithsonite, J/(mol K), with the
         // printed formation enthalpy at 298.15 K.
-        let rows: [(&str, f64, [(f64, f64, f64, f64); 3]); 2] = [
+        // (T, Cp, S, (H - H298)/T) as printed.
+        type Printed = [(f64, f64, f64, f64); 3];
+        let rows: [(&str, f64, Printed); 2] = [
             (
                 "ZnO(cr)",
                 -350_500.0,

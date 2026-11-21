@@ -71,6 +71,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Aluminiumoxid",
+      "canonical": "Al2O3",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Aluminiumoxid (Korund)",
+      "canonical": "Al2O3",
+      "source": "name:de"
+    },
+    {
       "alias": "Ammoniaklösung",
       "canonical": "NH3",
       "source": "name:de"
@@ -414,6 +424,11 @@
       "alias": "Cu2+",
       "canonical": "Cu+2",
       "source": "charge-notation"
+    },
+    {
+      "alias": "Cu2CH2O5",
+      "canonical": "Cu2(OH)2CO3",
+      "source": "formula"
     },
     {
       "alias": "Cu2ClH3O3",
@@ -906,6 +921,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Magnesiumcarbonat",
+      "canonical": "MgCO3",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Magnesiumcarbonat (Magnesit)",
+      "canonical": "MgCO3",
+      "source": "name:de"
+    },
+    {
       "alias": "Magnesiumhydroxid",
       "canonical": "Mg(OH)2",
       "source": "name:de"
@@ -923,6 +948,16 @@
     {
       "alias": "Magnesiumsulfat-Heptahydrat (Epsomit)",
       "canonical": "epsomite",
+      "source": "name:de"
+    },
+    {
+      "alias": "Malachit",
+      "canonical": "Cu2(OH)2CO3",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Malachit (basisches Kupfercarbonat)",
+      "canonical": "Cu2(OH)2CO3",
       "source": "name:de"
     },
     {
@@ -1416,8 +1451,23 @@
       "source": "name:de"
     },
     {
+      "alias": "Zinkcarbonat",
+      "canonical": "ZnCO3",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Zinkcarbonat (Smithsonit)",
+      "canonical": "ZnCO3",
+      "source": "name:de"
+    },
+    {
       "alias": "Zinkhydroxid",
       "canonical": "Zn(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zinkoxid",
+      "canonical": "ZnO",
       "source": "name:de"
     },
     {
@@ -1543,6 +1593,16 @@
     {
       "alias": "aluminium",
       "canonical": "Al",
+      "source": "name:en"
+    },
+    {
+      "alias": "aluminium oxide",
+      "canonical": "Al2O3",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "aluminium oxide (corundum)",
+      "canonical": "Al2O3",
       "source": "name:en"
     },
     {
@@ -1841,8 +1901,28 @@
       "source": "name:fr"
     },
     {
+      "alias": "carbonate de magnésium",
+      "canonical": "MgCO3",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "carbonate de magnésium (magnésite)",
+      "canonical": "MgCO3",
+      "source": "name:fr"
+    },
+    {
       "alias": "carbonate de plomb(II)",
       "canonical": "PbCO3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "carbonate de zinc",
+      "canonical": "ZnCO3",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "carbonate de zinc (smithsonite)",
+      "canonical": "ZnCO3",
       "source": "name:fr"
     },
     {
@@ -2801,6 +2881,16 @@
       "source": "name:en"
     },
     {
+      "alias": "magnesium carbonate",
+      "canonical": "MgCO3",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "magnesium carbonate (magnesite)",
+      "canonical": "MgCO3",
+      "source": "name:en"
+    },
+    {
       "alias": "magnesium hydroxide",
       "canonical": "Mg(OH)2",
       "source": "name:en"
@@ -2828,6 +2918,21 @@
     {
       "alias": "magnésium",
       "canonical": "Mg",
+      "source": "name:fr"
+    },
+    {
+      "alias": "malachite",
+      "canonical": "Cu2(OH)2CO3",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "malachite (basic copper carbonate)",
+      "canonical": "Cu2(OH)2CO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "malachite (carbonate basique de cuivre)",
+      "canonical": "Cu2(OH)2CO3",
       "source": "name:fr"
     },
     {
@@ -3056,6 +3161,16 @@
       "source": "name:en"
     },
     {
+      "alias": "oxyde d'aluminium",
+      "canonical": "Al2O3",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "oxyde d'aluminium (corindon)",
+      "canonical": "Al2O3",
+      "source": "name:fr"
+    },
+    {
       "alias": "oxyde de cuivre(I)",
       "canonical": "Cu2O",
       "source": "name:fr"
@@ -3078,6 +3193,11 @@
     {
       "alias": "oxyde de magnésium",
       "canonical": "MgO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "oxyde de zinc",
+      "canonical": "ZnO",
       "source": "name:fr"
     },
     {
@@ -3601,6 +3721,16 @@
       "source": "name:en"
     },
     {
+      "alias": "zinc carbonate",
+      "canonical": "ZnCO3",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "zinc carbonate (smithsonite)",
+      "canonical": "ZnCO3",
+      "source": "name:en"
+    },
+    {
       "alias": "zinc hydroxide",
       "canonical": "Zn(OH)2",
       "source": "name:en"
@@ -3608,6 +3738,11 @@
     {
       "alias": "zinc ion",
       "canonical": "Zn+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc oxide",
+      "canonical": "ZnO",
       "source": "name:en"
     },
     {

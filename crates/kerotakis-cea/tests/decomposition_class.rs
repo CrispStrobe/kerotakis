@@ -164,6 +164,9 @@ fn each_member_stays_put_at_room_temperature() {
 
 #[test]
 fn heating_each_member_leaves_its_oxide_and_drives_off_its_gas() {
+    // Every member is run before anything is asserted, so one failing row
+    // reports the whole class rather than hiding the rows after it.
+    let mut failures = Vec::new();
     for m in CLASS {
         let mut bench = Bench::new();
         let mut stack = stack();
@@ -172,35 +175,30 @@ fn heating_each_member_leaves_its_oxide_and_drives_off_its_gas() {
         let vessel = bench.vessel(VesselId(0)).unwrap();
         let parent = vessel.moles_of(&SpeciesId::new(m.parent)).0;
         let oxide = vessel.moles_of(&SpeciesId::new(m.oxide)).0;
-        let summary = format!(
-            "{} → {}: T = {:.0} K, contents {:?}",
-            m.parent, m.oxide, vessel.temperature.0, vessel.contents
-        );
-        assert!(
-            oxide > 0.9 * m.moles * m.metal_per_parent / m.metal_per_oxide,
-            "{summary}"
-        );
-        assert!(parent < 0.1 * m.moles, "{summary}");
         let metal = parent * m.metal_per_parent + oxide * m.metal_per_oxide;
-        assert!(
-            (metal - m.moles * m.metal_per_parent).abs() < 1e-9,
-            "the metal is all accounted for: {summary}"
-        );
-        assert!(
-            events.iter().any(|e| matches!(
+        let gas = events.iter().any(|e| {
+            matches!(
                 e,
                 Event::GasEvolved { species, .. } if species.0 == m.gas
-            )),
-            "{} leaves as gas: {summary}; events {events:?}",
-            m.gas
-        );
-        assert!(
-            events
-                .iter()
-                .any(|e| matches!(e, Event::ThermalEquilibrium { .. })),
-            "the thermal route reported itself: {summary}"
-        );
+            )
+        });
+        let thermal = events
+            .iter()
+            .any(|e| matches!(e, Event::ThermalEquilibrium { .. }));
+        let ok = oxide > 0.9 * m.moles * m.metal_per_parent / m.metal_per_oxide
+            && parent < 0.1 * m.moles
+            && (metal - m.moles * m.metal_per_parent).abs() < 1e-9
+            && gas
+            && thermal;
+        if !ok {
+            failures.push(format!(
+                "{} → {} + {}: T = {:.0} K, oxide {oxide:.6}, parent {parent:.6}, \
+                 gas {gas}, thermal {thermal}, contents {:?}, events {events:?}",
+                m.parent, m.oxide, m.gas, vessel.temperature.0, vessel.contents
+            ));
+        }
     }
+    assert!(failures.is_empty(), "{}", failures.join("\n\n"));
 }
 
 #[test]

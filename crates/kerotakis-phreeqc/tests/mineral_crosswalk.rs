@@ -48,14 +48,14 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 103,
-            database_phases: 45,
+            registry_solids: 108,
+            database_phases: 50,
             with_reviewed_solubility: 12,
-            without_reviewed_solubility: 33,
+            without_reviewed_solubility: 38,
             not_a_database_phase: 58,
-            phases_without_a_registry_solid: 612,
-            several_phase_names: 12,
-            not_posable: 9,
+            phases_without_a_registry_solid: 604,
+            several_phase_names: 13,
+            not_posable: 11,
         },
         "the crosswalk has drifted from the shipped databases or registry"
     );
@@ -114,15 +114,18 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "Ag3PO4",
             "AgBr",
             "AgI",
+            "Al2O3",
             "BaCO3",
             "Ca3(PO4)2",
             "CaO",
             "Cu",
             "Cu(OH)2",
+            "Cu2(OH)2CO3",
             "Cu2O",
             "CuSO4",
             "Fe(OH)2",
             "Fe2O3",
+            "MgCO3",
             "MgO",
             "MnO2",
             "Na2SO4",
@@ -133,6 +136,8 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "PbSO4",
             "Zn",
             "Zn(OH)2",
+            "ZnCO3",
+            "ZnO",
             "ZnSO4",
             "antlerite",
             "atacamite",
@@ -233,7 +238,19 @@ fn unbookable_database_phases_are_never_posed() {
         .collect();
     assert_eq!(
         not_posable,
-        vec!["Ag", "Cu", "Cu2O", "Fe2O3", "MnO2", "Pb", "S", "SiO2", "Zn"]
+        vec![
+            "Ag",
+            "Al2O3",
+            "Cu",
+            "Cu2(OH)2CO3",
+            "Cu2O",
+            "Fe2O3",
+            "MnO2",
+            "Pb",
+            "S",
+            "SiO2",
+            "Zn"
+        ]
     );
     for key in &not_posable {
         assert!(
