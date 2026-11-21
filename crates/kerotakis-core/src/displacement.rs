@@ -1188,6 +1188,10 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
     events
 }
 
+/// The phrase key of [`metals_outside_the_series`], which the honesty pass
+/// carries across steps so the sentence is said once.
+pub const METAL_OUTSIDE_SERIES_KEY: &str = "not-modeled.metal-outside-series";
+
 /// An elemental metal the activity series does not list, standing in a
 /// characterised solution.
 ///
@@ -1197,7 +1201,8 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
 /// only spoke about metals it has a couple for. Aluminium foil in sodium
 /// hydroxide stayed foil, made no hydrogen and said nothing, which reads
 /// as a computed "nothing happens". It is not computed; say so, by name,
-/// once, and only where no other route is already consuming the metal.
+/// once while it stands there, and only where no other route is already
+/// consuming the metal.
 pub fn metals_outside_the_series(vessel: &mut Vessel) -> Vec<Event> {
     let mut events = Vec::new();
     if kgw(vessel) <= 0.0 || vessel.solution.is_none() {
@@ -1214,6 +1219,11 @@ pub fn metals_outside_the_series(vessel: &mut Vessel) -> Vec<Event> {
         })
         .map(|p| p.species.clone())
         .collect();
+    if metals.is_empty() {
+        vessel
+            .honesty_said
+            .retain(|shape| !shape.starts_with(METAL_OUTSIDE_SERIES_KEY));
+    }
     for metal in metals {
         if crate::curated::consumes(vessel, &metal) || crate::kinetics::consumes(vessel, &metal) {
             continue;
