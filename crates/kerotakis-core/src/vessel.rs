@@ -1611,6 +1611,15 @@ pub struct Vessel {
     /// defect, not a second one.
     #[serde(default)]
     pub pending_co2_transfer_mol: f64,
+    /// Signed moles of hydrogen sulfide the aqueous tail must move across
+    /// the surface this step: the reduced-sulfur sibling of
+    /// [`Vessel::pending_co2_transfer_mol`]. Negative is outward. No clock
+    /// writes it; only the bounded acid/sulfide endpoint
+    /// (`carbonate_endpoint`, sulfide dose) does, and the aqueous adapter
+    /// spends it against the vessel's S(-2) total and announces it as a
+    /// `hydrogen_sulfide` gas crossing. Omitted from saved state while zero.
+    #[serde(default, skip_serializing_if = "is_zero_mol")]
+    pub pending_h2s_transfer_mol: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
@@ -1772,6 +1781,7 @@ impl Vessel {
             free_proton: 0.0,
             co2_partial_pressure_atm: None,
             pending_co2_transfer_mol: 0.0,
+            pending_h2s_transfer_mol: 0.0,
             solution: None,
             lots: Vec::new(),
             resolved: ResolvedState::default(),
@@ -2366,4 +2376,8 @@ impl Vessel {
         self.refresh_pressure();
         true
     }
+}
+
+fn is_zero_mol(value: &f64) -> bool {
+    *value == 0.0
 }

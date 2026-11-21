@@ -6,12 +6,67 @@
 //! rate or a claim that the whole supersaturated inventory escapes instantly.
 //! Native speciation establishes newly formed neutral CO2; only that parcel
 //! may be offered to the already conservative external-carbon owner.
+//!
+//! Acidified sulfide is the reduced-sulfur sibling: a strong acid on
+//! sodium sulfide forms neutral dissolved hydrogen sulfide, which escapes an
+//! open beaker well below its bubble threshold (the familiar smell). The same
+//! bounded endpoint offers only the newly formed `H2S(aq)` to the aqueous
+//! owner through [`Vessel::pending_h2s_transfer_mol`]. Admission never uses
+//! a pK gate: the native solve's own split decides how much is neutral.
 
 use crate::vessel::SolutionScope;
 use crate::{Event, Phase, Vessel};
 
+/// Which neutral gas the endpoint offers. Each has its own parcel field so
+/// the carbon path stays byte-identical to the reviewed CO2 contract.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum EndpointGas {
+    Co2,
+    H2s,
+}
+
+impl EndpointGas {
+    /// The aqueous key that books the dissolved neutral share.
+    fn neutral(self) -> &'static str {
+        match self {
+            Self::Co2 => "CO2(aq)",
+            Self::H2s => "H2S(aq)",
+        }
+    }
+
+    /// The registry key a crossing of this gas is announced under.
+    fn gas(self) -> &'static str {
+        match self {
+            Self::Co2 => "CO2",
+            Self::H2s => "hydrogen_sulfide",
+        }
+    }
+
+    fn pending(self, v: &Vessel) -> f64 {
+        match self {
+            Self::Co2 => v.pending_co2_transfer_mol,
+            Self::H2s => v.pending_h2s_transfer_mol,
+        }
+    }
+
+    fn set_pending(self, v: &mut Vessel, amount: f64) {
+        match self {
+            Self::Co2 => v.pending_co2_transfer_mol = amount,
+            Self::H2s => v.pending_h2s_transfer_mol = amount,
+        }
+    }
+
+    fn medium(self, v: &Vessel) -> bool {
+        match self {
+            Self::Co2 => medium(v),
+            Self::H2s => sulfide_medium(v),
+        }
+    }
+}
+
 #[derive(Clone, Copy)]
 pub(crate) struct Dose {
+    gas: EndpointGas,
     neutral_before: f64,
     capacity: f64,
 }
@@ -51,6 +106,68 @@ fn carbonate(v: &Vessel) -> f64 {
     .sum()
 }
 
+fn no_parcel(v: &Vessel) -> bool {
+    v.pending_co2_transfer_mol == 0.0 && v.pending_h2s_transfer_mol == 0.0
+}
+
+/// Strong acids whose anion is a spectator beside reduced sulfur. Nitric
+/// acid is an oxidant of sulfide and stays outside this acid/base endpoint.
+fn sulfide_acid(v: &Vessel) -> f64 {
+    crate::strong_reserve::CARRIERS
+        .iter()
+        .filter(|carrier| carrier.conjugate.is_some() && carrier.key != "HNO3")
+        .map(|carrier| {
+            v.contents
+                .iter()
+                .filter(|p| p.species.0 == carrier.key && carrier.admit.admits(p.phase))
+                .map(|p| p.moles.0)
+                .sum::<f64>()
+        })
+        .sum::<f64>()
+}
+
+/// Reduced sulfur in every member of the S(-2) split, plus the salt.
+fn sulfide(v: &Vessel) -> f64 {
+    ["Na2S", "HS-", "S-2", "H2S(aq)"]
+        .iter()
+        .map(|key| pool(v, key))
+        .sum()
+}
+
+/// Sodium sulfide, its split and strong non-oxidising acids only. No
+/// carbonate (one endpoint gas per step), no nitrate or other oxidant (a
+/// redox problem with S(-2), not this acid/base endpoint), no weak buffer.
+fn sulfide_medium(v: &Vessel) -> bool {
+    v.unresolved_materials.is_empty()
+        && v.material_objects.is_empty()
+        && v.surfaces.is_empty()
+        && v.exchanges.is_empty()
+        && v.solid_solutions.is_empty()
+        && v.electrodes.is_empty()
+        && v.contents.iter().all(|p| {
+            p.phase != Phase::Gas
+                && matches!(
+                    p.species.0.as_str(),
+                    "water"
+                        | "Na+"
+                        | "K+"
+                        | "H+"
+                        | "OH-"
+                        | "base_equivalents"
+                        | "Cl-"
+                        | "Br-"
+                        | "I-"
+                        | "HCl"
+                        | "HBr"
+                        | "HI"
+                        | "Na2S"
+                        | "HS-"
+                        | "S-2"
+                        | "H2S(aq)"
+                )
+        })
+}
+
 fn medium(v: &Vessel) -> bool {
     v.unresolved_materials.is_empty() && v.material_objects.is_empty()
         && v.surfaces.is_empty() && v.exchanges.is_empty()
@@ -69,11 +186,46 @@ fn medium(v: &Vessel) -> bool {
 }
 
 pub(crate) fn prepare(before: &Vessel, supplied: &Vessel) -> Option<Dose> {
+    prepare_carbonate(before, supplied).or_else(|| prepare_sulfide(before, supplied))
+}
+
+fn prepare_sulfide(before: &Vessel, supplied: &Vessel) -> Option<Dose> {
+    if !matches!(supplied.headspace, crate::vessel::Headspace::Open)
+        || !sulfide_medium(before)
+        || !sulfide_medium(supplied)
+        || !no_parcel(before)
+        || !no_parcel(supplied)
+        || before.solution.as_ref()?.scope != SolutionScope::Complete
+    {
+        return None;
+    }
+    let acid_added = (sulfide_acid(supplied) - sulfide_acid(before)).max(0.0);
+    let sulfide_added = (sulfide(supplied) - sulfide(before)).max(0.0);
+    // Acid already in the beaker is what remains of its literal portions
+    // plus the solved free proton; no pK threshold decides it.
+    let prior_capacity = sulfide_acid(before) + before.free_proton;
+    let capacity = if acid_added > 0.0 && sulfide(before) > 0.0 {
+        acid_added.min(sulfide(before))
+    } else if sulfide_added > 0.0 && prior_capacity > crate::OBSERVABLE_MOLES {
+        sulfide_added.min(prior_capacity)
+    } else {
+        return None;
+    };
+    Some(Dose {
+        gas: EndpointGas::H2s,
+        neutral_before: pool(before, "H2S(aq)"),
+        capacity,
+    })
+}
+
+fn prepare_carbonate(before: &Vessel, supplied: &Vessel) -> Option<Dose> {
     if !matches!(supplied.headspace, crate::vessel::Headspace::Open)
         || !medium(before)
         || !medium(supplied)
         || before.pending_co2_transfer_mol != 0.0
         || supplied.pending_co2_transfer_mol != 0.0
+        || before.pending_h2s_transfer_mol != 0.0
+        || supplied.pending_h2s_transfer_mol != 0.0
         || before.solution.as_ref()?.scope != SolutionScope::Complete
     {
         return None;
@@ -94,6 +246,7 @@ pub(crate) fn prepare(before: &Vessel, supplied: &Vessel) -> Option<Dose> {
         return None;
     };
     Some(Dose {
+        gas: EndpointGas::Co2,
         neutral_before: pool(before, "CO2(aq)"),
         capacity,
     })
@@ -102,29 +255,65 @@ pub(crate) fn prepare(before: &Vessel, supplied: &Vessel) -> Option<Dose> {
 impl Dose {
     pub(crate) fn extent(self, solved: &Vessel, events: &[Event]) -> Option<f64> {
         let info = solved.solution.as_ref()?;
+        // Room air holds no hydrogen sulfide to speak of (the reservoir row
+        // is log p = -12), so any newly formed neutral share is above it.
+        let above_room = match self.gas {
+            EndpointGas::Co2 => {
+                solved.co2_partial_pressure_atm? > crate::clock::ATMOSPHERIC_CO2_ATM
+            }
+            EndpointGas::H2s => true,
+        };
         if info.scope != SolutionScope::Complete
-            || !medium(solved)
+            || !self.gas.medium(solved)
             || !info.ionic_strength.is_finite()
             || info.ionic_strength > 1.0
-            || solved.pending_co2_transfer_mol != 0.0
-            || solved.co2_partial_pressure_atm? <= crate::clock::ATMOSPHERIC_CO2_ATM
-            || events
-                .iter()
-                .any(|e| matches!(e, Event::SolverFailed { .. } | Event::NotYetModeled { .. }))
+            || !no_parcel(solved)
+            || !above_room
+            || events.iter().any(|e| blocking(self.gas, e))
         {
             return None;
         }
         let already_exported: f64 = events
             .iter()
             .filter_map(|e| match e {
-                Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+                Event::GasEvolved { species, moles, .. } if species.0 == self.gas.gas() => {
+                    Some(moles.0)
+                }
                 _ => None,
             })
             .sum();
-        let amount = (pool(solved, "CO2(aq)") - self.neutral_before)
+        let amount = (pool(solved, self.gas.neutral()) - self.neutral_before)
             .max(0.0)
             .min((self.capacity - already_exported).max(0.0));
         (amount.is_finite() && amount > crate::OBSERVABLE_MOLES).then_some(amount)
+    }
+}
+
+/// Events that stop the endpoint. Every reduced-sulfur solve carries two
+/// standing boundary notes that are not about this acid/base question: air
+/// oxidation of sulfide is not modelled, and (S being redox-isolated) the
+/// elemental-sulfur saturation index is reported but sulfur is not offered.
+/// In the admitted sulfide medium those are the only notes that solve emits;
+/// they do not block the H2S parcel. Nor does the honest heat refusal for
+/// the vented hydrogen sulfide itself (no reviewed gas enthalpy on these
+/// routes): no heat is charged and the temperature stays put, while the
+/// material parcel is still certified. Any other limitation, or any for
+/// CO2, still blocks.
+fn blocking(gas: EndpointGas, event: &Event) -> bool {
+    match event {
+        Event::SolverFailed { .. } => true,
+        Event::NotYetModeled { reason, .. } => {
+            !(gas == EndpointGas::H2s
+                && reason.as_ref().is_some_and(|reason| {
+                    matches!(
+                        reason.key.as_str(),
+                        "not-modeled.sulfide-open-air"
+                            | "not-modeled.supersaturated-solid-not-offered"
+                            | "not-modeled.aqueous-heat-unpriced"
+                    )
+                }))
+        }
+        _ => false,
     }
 }
 
@@ -140,6 +329,7 @@ fn refused(detail: &str) -> crate::SolveError {
 }
 
 fn fresh_readback(
+    gas: EndpointGas,
     vessel: &mut Vessel,
     aqueous: &mut dyn crate::aqueous_continuation::TrustedAqueousReadback,
 ) -> Result<Vec<Event>, crate::SolveError> {
@@ -160,17 +350,12 @@ fn fresh_readback(
         || question.aqueous_heat != vessel.aqueous_heat
         || question.zero_time_dose != vessel.zero_time_dose
         || question.co2_film_boundary != vessel.co2_film_boundary
-        || !medium(vessel)
+        || !gas.medium(vessel)
         || !vessel
             .solution
             .as_ref()
             .is_some_and(|info| info.scope == SolutionScope::Complete && info.provenance.is_some())
-        || events.iter().any(|event| {
-            matches!(
-                event,
-                Event::SolverFailed { .. } | Event::NotYetModeled { .. }
-            )
-        })
+        || events.iter().any(|event| blocking(gas, event))
         || !crate::delta::StateDelta::validate_state(vessel).is_empty()
         || !crate::delta::StateDelta::validate_conservation(&question, vessel, &events, 1e-10)
             .is_empty()
@@ -179,9 +364,10 @@ fn fresh_readback(
             .abs()
             > 1e-10
     {
-        return Err(refused(
-            "carbonate endpoint lacked a fresh complete conservative readback",
-        ));
+        return Err(refused(match gas {
+            EndpointGas::Co2 => "carbonate endpoint lacked a fresh complete conservative readback",
+            EndpointGas::H2s => "sulfide endpoint lacked a fresh complete conservative readback",
+        }));
     }
     Ok(events)
 }
@@ -200,38 +386,48 @@ pub(crate) fn run(
     let mut candidate = vessel.clone();
     candidate.step_start = Some(crate::vessel::StepStart::capture(vessel));
     candidate.heat_input = None;
-    let mut events = fresh_readback(&mut candidate, aqueous)?;
+    let gas = dose.gas;
+    let mut events = fresh_readback(gas, &mut candidate, aqueous)?;
     let mut observed = first_events.to_vec();
     observed.extend(events.iter().cloned());
     let Some(amount) = dose.extent(&candidate, &observed) else {
         return Ok(None);
     };
     candidate.step_start = Some(crate::vessel::StepStart::capture(&candidate));
-    candidate.pending_co2_transfer_mol = -amount;
+    gas.set_pending(&mut candidate, -amount);
     candidate.zero_time_dose = true;
     candidate.co2_film_boundary = true;
-    let mut transferred = fresh_readback(&mut candidate, aqueous)?;
+    let mut transferred = fresh_readback(gas, &mut candidate, aqueous)?;
     let exported: f64 = transferred
         .iter()
         .filter_map(|event| match event {
-            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            Event::GasEvolved { species, moles, .. } if species.0 == gas.gas() => Some(moles.0),
             _ => None,
         })
         .sum();
-    if candidate.pending_co2_transfer_mol != 0.0
+    if gas.pending(&candidate) != 0.0
+        || !no_parcel(&candidate)
         || !exported.is_finite()
         || (exported - amount).abs() > 1e-12
         || transferred.iter().any(|event| {
             matches!(event,
-            Event::GasAbsorbed { species, .. } if species.0 == "CO2")
+            Event::GasAbsorbed { species, .. } if species.0 == gas.gas())
         })
     {
-        return Err(refused(
-            "carbonate endpoint did not spend and announce its exact owned parcel",
-        ));
+        return Err(refused(match gas {
+            EndpointGas::Co2 => {
+                "carbonate endpoint did not spend and announce its exact owned parcel"
+            }
+            EndpointGas::H2s => {
+                "sulfide endpoint did not spend and announce its exact owned parcel"
+            }
+        }));
     }
     events.append(&mut transferred);
-    events.push(notice(vessel.id));
+    events.push(match gas {
+        EndpointGas::Co2 => notice(vessel.id),
+        EndpointGas::H2s => sulfide_notice(vessel.id),
+    });
     *vessel = candidate;
     Ok(Some(events))
 }
@@ -240,6 +436,12 @@ pub(crate) fn notice(vessel: crate::VesselId) -> Event {
     Event::not_modeled(vessel, crate::ops::NotModelledCause::ModelBoundary,
         crate::phrase::Phrase::bare("not-modeled.carbonate-fast-endpoint",
             "this acid/carbonate gas parcel is a bounded curated endpoint from newly formed dissolved CO2. Acid-front nucleation and escape times are not modelled; this is not a calibrated instantaneous gas yield"))
+}
+
+pub(crate) fn sulfide_notice(vessel: crate::VesselId) -> Event {
+    Event::not_modeled(vessel, crate::ops::NotModelledCause::ModelBoundary,
+        crate::phrase::Phrase::bare("not-modeled.sulfide-fast-endpoint",
+            "this acid/sulfide gas parcel is a bounded curated endpoint from newly formed dissolved hydrogen sulfide. Its escape time from an open beaker is not modelled; this is not a calibrated instantaneous gas yield"))
 }
 
 #[cfg(test)]
@@ -374,6 +576,7 @@ mod tests {
             let mut v = boundary_fixture();
             let original = format!("{v:?}");
             let dose = Dose {
+                gas: EndpointGas::Co2,
                 neutral_before: 0.0,
                 capacity: 0.001,
             };
@@ -382,6 +585,105 @@ mod tests {
                 format!("{v:?}"),
                 original,
                 "a rejected readback changed the original vessel"
+            );
+        }
+    }
+
+    // Sulfide sibling. Arbitrary test-double coordinates, never a prediction.
+    fn sulfide_fixture() -> Vessel {
+        let mut v = Vessel::new(VesselId(0), "sulfide fixture");
+        v.deposit(SpeciesId::new("water"), Moles(10.0), Phase::Liquid);
+        v.deposit(SpeciesId::new("Na+"), Moles(0.01), Phase::Aqueous);
+        v.deposit(SpeciesId::new("HS-"), Moles(0.005), Phase::Aqueous);
+        v.solution = boundary_fixture().solution;
+        v
+    }
+
+    #[test]
+    fn acid_on_sulfide_is_a_hydrogen_sulfide_dose_and_carbonate_is_unchanged() {
+        let before = sulfide_fixture();
+        let mut supplied = before.clone();
+        supplied.deposit(SpeciesId::new("HCl"), Moles(0.002), Phase::Aqueous);
+        let dose = prepare(&before, &supplied).expect("acidified sulfide admitted");
+        assert_eq!(dose.gas, EndpointGas::H2s);
+        assert!((dose.capacity - 0.002).abs() < 1e-15);
+        let mut solved = before.clone();
+        solved.deposit(SpeciesId::new("H2S(aq)"), Moles(0.0015), Phase::Aqueous);
+        assert!((dose.extent(&solved, &[]).unwrap() - 0.0015).abs() < 1e-12);
+        // An earlier H2S crossing in the same step counts against capacity.
+        let vented = [Event::GasEvolved {
+            vessel: VesselId(0),
+            species: SpeciesId::new("hydrogen_sulfide"),
+            moles: Moles(0.0018),
+        }];
+        assert!((dose.extent(&solved, &vented).unwrap() - 0.0002).abs() < 1e-12);
+        // A CO2 crossing does not.
+        let co2 = [Event::GasEvolved {
+            vessel: VesselId(0),
+            species: SpeciesId::new("CO2"),
+            moles: Moles(0.0018),
+        }];
+        assert!((dose.extent(&solved, &co2).unwrap() - 0.0015).abs() < 1e-12);
+        // The carbonate admission is untouched by the sulfide sibling.
+        let mut carbonate = boundary_fixture();
+        carbonate.deposit(SpeciesId::new("NaHCO3"), Moles(0.001), Phase::Aqueous);
+        let mut acidified = carbonate.clone();
+        acidified.deposit(SpeciesId::new("HCl"), Moles(0.001), Phase::Aqueous);
+        assert_eq!(
+            prepare(&carbonate, &acidified).unwrap().gas,
+            EndpointGas::Co2
+        );
+    }
+
+    #[test]
+    fn sulfide_alone_sealed_oxidised_or_parked_is_not_a_dose() {
+        let before = sulfide_fixture();
+        assert!(prepare(&before, &before).is_none(), "no acid, no fizz");
+        let mut base = before.clone();
+        base.deposit(SpeciesId::new("NaOH"), Moles(0.002), Phase::Aqueous);
+        assert!(prepare(&before, &base).is_none(), "a base is not an acid");
+        let mut sealed = before.clone();
+        sealed.headspace = crate::vessel::Headspace::Sealed {
+            volume: crate::Liters(0.5),
+        };
+        sealed.deposit(SpeciesId::new("HCl"), Moles(0.002), Phase::Aqueous);
+        assert!(
+            prepare(&before, &sealed).is_none(),
+            "a sealed vessel keeps it"
+        );
+        for oxidant in ["HNO3", "NO3-"] {
+            let mut redox = before.clone();
+            redox.deposit(SpeciesId::new(oxidant), Moles(0.002), Phase::Aqueous);
+            assert!(!sulfide_medium(&redox), "{oxidant}");
+            assert!(prepare(&before, &redox).is_none(), "{oxidant}");
+        }
+        let mut parked = before.clone();
+        parked.pending_co2_transfer_mol = -1e-6;
+        let mut acid = parked.clone();
+        acid.deposit(SpeciesId::new("HCl"), Moles(0.002), Phase::Aqueous);
+        assert!(prepare(&parked, &acid).is_none(), "a parked parcel blocks");
+    }
+
+    #[test]
+    fn rejected_sulfide_readbacks_never_commit() {
+        for mut adapter in [
+            BrokenReadback::NoOp,
+            BrokenReadback::Partial,
+            BrokenReadback::StaleReceipt,
+        ] {
+            let mut v = sulfide_fixture();
+            v.deposit(SpeciesId::new("H2S(aq)"), Moles(0.001), Phase::Aqueous);
+            let original = format!("{v:?}");
+            let dose = Dose {
+                gas: EndpointGas::H2s,
+                neutral_before: 0.0,
+                capacity: 0.001,
+            };
+            assert!(run(&mut v, dose, &mut adapter, &[]).is_err());
+            assert_eq!(
+                format!("{v:?}"),
+                original,
+                "rejected readback changed the vessel"
             );
         }
     }

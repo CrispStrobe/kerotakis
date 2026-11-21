@@ -90,3 +90,18 @@ branch (and as regression set for any later A/B change):
   solver_transactions.rs, solver_snapshot_contracts.rs, ordinary_delta_state_contracts.rs,
   composed_locale.rs, golden registry tests, registry_loader_* contracts.
 - kerotakis-safety (sulfide tests), kerotakis-registry-export legacy_diff, kerotakis-org native_identity.
+
+## Status of B (2026-11-20)
+
+Implemented as the preferred sibling, keeping the CO2 path unchanged:
+`Vessel::pending_h2s_transfer_mol` (omitted from saved state while zero) is
+written only by the acid/sulfide arm of `carbonate_endpoint` (`EndpointGas::H2s`)
+and spent by the PHREEQC adapter against the S(-2) total, beside the clock CO2
+parcel: `Problem::h2s_parcel_applied_mol`, `ClockCo2Boundary::h2s_applied_mol`
+in the inventory certificates, the whole-step heat gas ledger, the canonical
+candidate (spent once, announced once as `GasEvolved hydrogen_sulfide`), MIX and
+continuation exclusions, and `validate_clock_boundary`. The domain is sodium
+sulfide with HCl/HBr/HI only (no nitrate or other oxidant, no carbonate, no weak
+buffer), ionic strength at most 1, no pK gate. Typed note
+`not-modeled.sulfide-fast-endpoint` (en/de/fr). The half-neutralised round-trip
+test now seals its vessel, since an open beaker vents the newly formed H2S(aq).
