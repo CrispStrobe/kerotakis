@@ -67,6 +67,85 @@ pub struct BubbleRide {
     pub lift_gas_fraction: f64,
 }
 
+/// Density of a sodium-chloride solution computed by native USGS Pitzer
+/// volumetric parameters. kg/L equals g/mL. It is not a calibrated datum.
+/// The exact represented liquid state travels with the scalar: adding a
+/// solute, heating or changing pressure withdraws this answer immediately.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct NativeLiquidDensity {
+    pub kg_per_l: f64,
+    pub dataset: String,
+    pub temperature: crate::Kelvin,
+    pub pressure: crate::Pascal,
+    pub liquid_contents: Vec<crate::vessel::Portion>,
+}
+
+impl NativeLiquidDensity {
+    /// Narrow volume capability: water, Na+, Cl-, H+ and OH- only.
+    /// Held solids are excluded from the liquid, not assigned an ion volume.
+    pub fn capture(vessel: &Vessel, kg_per_l: f64, dataset: String) -> Option<Self> {
+        if !kg_per_l.is_finite()
+            || kg_per_l <= 0.0
+            || !vessel.unresolved_materials.is_empty()
+            || vessel.activity_range_refusal.is_some()
+        {
+            return None;
+        }
+        let liquid_contents: Vec<_> = vessel
+            .contents
+            .iter()
+            .filter(|p| {
+                matches!(
+                    p.phase,
+                    crate::species::Phase::Liquid | crate::species::Phase::Aqueous
+                )
+            })
+            .cloned()
+            .collect();
+        if !liquid_contents.iter().all(|p| {
+            p.moles.0.is_finite()
+                && p.moles.0 >= 0.0
+                && match p.phase {
+                    crate::species::Phase::Liquid => p.species.0 == "water",
+                    crate::species::Phase::Aqueous => {
+                        matches!(p.species.0.as_str(), "Na+" | "Cl-" | "H+" | "OH-")
+                    }
+                    _ => false,
+                }
+        }) || !liquid_contents
+            .iter()
+            .any(|p| p.species.0 == "water" && p.moles.0 > 0.0)
+            || !liquid_contents
+                .iter()
+                .any(|p| p.species.0 == "Na+" && p.moles.0 > 0.0)
+            || !liquid_contents
+                .iter()
+                .any(|p| p.species.0 == "Cl-" && p.moles.0 > 0.0)
+        {
+            return None;
+        }
+        Some(Self {
+            kg_per_l,
+            dataset,
+            temperature: vessel.temperature,
+            pressure: vessel.pressure,
+            liquid_contents,
+        })
+    }
+
+    pub fn matches(&self, vessel: &Vessel) -> bool {
+        Self::capture(vessel, self.kg_per_l, self.dataset.clone()).as_ref() == Some(self)
+    }
+}
+
+/// A source-bound volume answer, never a structural ion-density default.
+pub fn native_liquid_density(vessel: &Vessel) -> Option<&NativeLiquidDensity> {
+    let info = vessel.solution.as_ref()?;
+    let witness = info.native_density.as_ref()?;
+    (info.scope == crate::vessel::SolutionScope::Complete && witness.matches(vessel))
+        .then_some(witness)
+}
+
 /// The density of the liquid the object is sitting in, g/mL: everything
 /// dissolved in it counts, which is why sugar syrup lifts a raisin that
 /// water does not.
@@ -81,6 +160,9 @@ pub struct BubbleRide {
 /// the same additive-volume assumption the rest of the bench uses and
 /// gives 1.33 g/mL for that syrup — the number a hydrometer would read.
 pub fn liquid_density_g_per_ml(vessel: &Vessel) -> Option<f64> {
+    if let Some(native) = native_liquid_density(vessel) {
+        return Some(native.kg_per_l);
+    }
     let mut volume_ml = vessel.liquid_volume().0 * 1000.0;
     if volume_ml <= 0.0 {
         return None;
@@ -129,6 +211,9 @@ pub fn liquid_density_g_per_ml(vessel: &Vessel) -> Option<f64> {
 /// for a molecular solute the whole answer is. What must not happen is the
 /// bench claiming a brine is as light as water without saying why.
 pub fn ionic_volume_unaccounted(vessel: &Vessel) -> bool {
+    if native_liquid_density(vessel).is_some() {
+        return false;
+    }
     vessel.contents.iter().any(|portion| {
         portion.phase == crate::species::Phase::Aqueous
             && portion.moles.0 > crate::OBSERVABLE_MOLES

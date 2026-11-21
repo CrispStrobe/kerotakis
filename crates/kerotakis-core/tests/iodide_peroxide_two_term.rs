@@ -18,6 +18,7 @@ const K1_25C: f64 = 10.5 / 60.0; // L2 mol-2 s-1
 
 fn solution(ph: f64) -> SolutionInfo {
     SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,

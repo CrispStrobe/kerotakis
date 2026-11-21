@@ -2668,7 +2668,7 @@ impl PhreeqcEquilibrator {
             let census = e
                 .key
                 .lines()
-                .any(|line| line.trim() == "-headings particle_molality")
+                .any(|line| line.trim().starts_with("-headings particle_molality"))
                 || e.rows
                     .first()
                     .is_some_and(|header| header.iter().any(|name| name == "particle_molality"));
@@ -3016,6 +3016,7 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
     vessel.free_hydroxide = activity * solvent_kg.unwrap_or(0.0);
     vessel.activity_range_refusal = None;
     vessel.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: SolutionScope::SolventOnly,
         solvent_kg,
@@ -5201,6 +5202,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             None
         };
         vessel.solution = Some(SolutionInfo {
+            native_density: None,
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
@@ -6627,6 +6629,7 @@ mod canonical_physical_closure_tests {
         vessel.solute_charge = -0.01;
         vessel.co2_partial_pressure_atm = Some(0.0004);
         vessel.solution = Some(SolutionInfo {
+            native_density: None,
             scope: SolutionScope::Complete,
             solvent_kg: Some(0.09998),
             particle_molality: Some(0.1),
@@ -11018,7 +11021,24 @@ impl PhreeqcEquilibrator {
         } else {
             None
         };
+        let native_density = if db_tag == "pitzer"
+            && problem
+                .elements
+                .iter()
+                .all(|el| matches!(el.as_str(), "Na" | "Cl"))
+        {
+            value("solution_density").and_then(|rho| {
+                kerotakis_core::buoyancy::NativeLiquidDensity::capture(
+                    vessel,
+                    rho,
+                    dataset_phrase(db_tag).render(Locale::EN),
+                )
+            })
+        } else {
+            None
+        };
         let info = SolutionInfo {
+            native_density,
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
             particle_molality: value("particle_molality"),
@@ -14185,7 +14205,13 @@ fn build_input_at(
 /// surface/exchange species and held solids (pinned IPhreeqc system_total_aq).
 /// A scalar avoids using rounded report molalities or a second engine solve.
 fn append_particle_census(input: &mut String) {
-    input.push_str("USER_PUNCH 1\n    -headings particle_molality\n    -start\n10 particles = SYS(\"aq\", count, names$, types$, amounts)\n20 PUNCH particles / TOT(\"water\")\n    -end\n");
+    // RHO is PHREEQC's computed solution density (kg/L), not the input
+    // SOLUTION -density default. Only the committed Na/Cl Pitzer route
+    // below grants it authority: wateq4f lacks reviewed ion volumes.
+    // Native implementation: IPhreeqc basicsubs.cpp::calc_dens, Millero
+    // (2000), using the already vendored pitzer.dat -Vm parameters.
+    // https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqc3-html/phreeqc3-61.htm
+    input.push_str("USER_PUNCH 1\n    -headings particle_molality solution_density\n    -start\n10 particles = SYS(\"aq\", count, names$, types$, amounts)\n20 PUNCH particles / TOT(\"water\"), RHO\n    -end\n");
 }
 
 /// Require one finite nonnegative numerical particle census from a new solve.

@@ -14,6 +14,7 @@ fn indicator(phase: Phase, n: f64) -> Vessel {
 }
 fn solved(v: &mut Vessel, ph: f64) {
     v.solution = Some(SolutionInfo {
+        native_density: None,
         scope: Default::default(),
         solvent_kg: Some(0.1),
         particle_molality: None,

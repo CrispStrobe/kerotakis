@@ -144,6 +144,7 @@ fn check(salt_moles: f64, temperature: f64, freezing: bool) {
     if salt_moles > 0.0 {
         let molality = salt_moles / 0.018_015;
         vessel.solution = Some(kerotakis_core::vessel::SolutionInfo {
+            native_density: None,
             scope: Default::default(),
             solvent_kg: Some(0.018_015),
             particle_molality: None,

@@ -26,6 +26,7 @@ fn bench_with(commands: &[&str]) -> Bench {
 fn ph_vessel() -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "beaker");
     vessel.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,

@@ -211,6 +211,7 @@ fn resolve_copper_activity(bench: &mut Bench, water_moles: f64) {
     // Existing electrode admission requires a measured aqueous activity.
     // This fixture supplies that admission state, not a new activity model.
     bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
+        native_density: None,
         scope: Default::default(),
         solvent_kg: Some(water_moles * 18.015 / 1000.0),
         particle_molality: None,

@@ -13,6 +13,7 @@ fn endpoint() -> &'static CuratedReaction {
 }
 fn solution(v: &mut Vessel, ph: f64) {
     v.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: SolutionScope::Complete,
         solvent_kg: Some(v.moles_of(&SpeciesId::new("water")).0 * 0.018015),

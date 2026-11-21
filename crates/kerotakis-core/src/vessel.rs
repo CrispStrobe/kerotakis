@@ -1032,6 +1032,9 @@ impl SolutionScope {
 /// What an aqueous solver last computed about this vessel's solution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolutionInfo {
+    /// Native density with exact liquid-state and dataset binding. Historical records omit it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub native_density: Option<crate::buoyancy::NativeLiquidDensity>,
     /// Whether the numbers cover the represented solution or only the
     /// solvent. Omitted on the wire for the historical complete case.
     #[serde(default, skip_serializing_if = "SolutionScope::is_complete")]

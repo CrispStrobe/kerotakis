@@ -1,0 +1,6 @@
+# Unsupported density authority control, not an original qualification.
+register lv3
+add v1 water 50mL
+add v1 KCl 8g
+measure v1 density
+inspect

@@ -55,6 +55,7 @@ fn aq(v: &mut Vessel, key: &str, n: f64) {
 fn native(v: &mut Vessel, species: &[(&str, f64)]) {
     let kg = v.moles_of(&SpeciesId::new("water")).0 * 0.018015;
     v.solution = Some(SolutionInfo {
+        native_density: None,
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: Some(kg),
