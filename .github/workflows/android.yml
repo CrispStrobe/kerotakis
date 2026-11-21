@@ -141,6 +141,35 @@ jobs:
           keyAlias=$KEY_ALIAS
           password=$KEY_PASSWORD
           EOF
+          # `tauri android init` generates a build.gradle.kts that never reads
+          # keystore.properties, so without this the "signed" build ships
+          # app-universal-release-unsigned.apk and an unsigned AAB — which is
+          # exactly what v0.1.7's first signed dispatch produced. Gradle's
+          # Kotlin DSL accepts a second `android {}` block, so appending one
+          # does not depend on the generated template's layout.
+          GRADLE=web/app/src-tauri/gen/android/app/build.gradle.kts
+          test -f "$GRADLE"
+          cat >> "$GRADLE" <<'KTS'
+
+          // Added by .github/workflows/android.yml: release signing.
+          android {
+              signingConfigs {
+                  create("release") {
+                      val props = java.util.Properties()
+                      java.io.FileInputStream(rootProject.file("keystore.properties")).use { props.load(it) }
+                      storeFile = file(props.getProperty("storeFile"))
+                      storePassword = props.getProperty("storePassword")
+                      keyAlias = props.getProperty("keyAlias")
+                      keyPassword = props.getProperty("password")
+                  }
+              }
+              buildTypes {
+                  getByName("release") {
+                      signingConfig = signingConfigs.getByName("release")
+                  }
+              }
+          }
+          KTS
           echo "signed=true" >> "$GITHUB_OUTPUT"
 
       - name: Build
@@ -161,6 +190,44 @@ jobs:
           find web/app/src-tauri/gen/android -name '*.apk' -o -name '*.aab' \
             | grep -v intermediates | while read -r f; do cp "$f" out/; done
           ls -lh out
+
+      # A signed build must be signed by the Kerotakis release key and by
+      # nothing else; an `-unsigned` file name or a different certificate is
+      # a failure, not a warning. The expected SHA-256 lives in the
+      # repository variable ANDROID_RELEASE_CERT_SHA256 (not secret).
+      - name: Verify the release signature
+        if: steps.signing.outputs.signed == 'true'
+        env:
+          EXPECTED: ${{ vars.ANDROID_RELEASE_CERT_SHA256 }}
+        run: |
+          set -euo pipefail
+          if [ -z "$EXPECTED" ]; then
+            echo "::error::ANDROID_RELEASE_CERT_SHA256 is not set"; exit 1
+          fi
+          want=$(printf %s "$EXPECTED" | tr -d ': ' | tr 'A-F' 'a-f')
+          APKSIGNER="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner"
+          shopt -s nullglob
+          apks=(out/*.apk); aabs=(out/*.aab)
+          if [ ${#apks[@]} -eq 0 ] || [ ${#aabs[@]} -eq 0 ]; then
+            echo "::error::expected both an APK and an AAB"; exit 1
+          fi
+          for f in "${apks[@]}" "${aabs[@]}"; do
+            case "$f" in *unsigned*) echo "::error::$f is unsigned"; exit 1;; esac
+          done
+          for f in "${apks[@]}"; do
+            "$APKSIGNER" verify --verbose "$f" > /dev/null
+            got=$("$APKSIGNER" verify --print-certs "$f" \
+                  | sed -n 's/.*certificate SHA-256 digest: //p' | sort -u)
+            [ "$got" = "$want" ] || { echo "::error::$f signed by $got"; exit 1; }
+            echo "   $f: $got"
+          done
+          for f in "${aabs[@]}"; do
+            jarsigner -verify "$f" > /dev/null
+            got=$(keytool -printcert -jarfile "$f" \
+                  | sed -n 's/.*SHA256: //p' | tr -d ': ' | tr 'A-F' 'a-f' | sort -u)
+            [ "$got" = "$want" ] || { echo "::error::$f signed by $got"; exit 1; }
+            echo "   $f: $got"
+          done
 
       - uses: actions/upload-artifact@v6
         with:
