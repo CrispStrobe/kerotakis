@@ -2651,7 +2651,7 @@
     "metal": "Cr",
     "ligand": "Acetate",
     "family": "acetate",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2669,7 +2669,7 @@
     "metal": "Cr",
     "ligand": "Br",
     "family": "background (Br)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2683,7 +2683,7 @@
     "metal": "Cr",
     "ligand": "Cl",
     "family": "background (Cl)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2700,7 +2700,7 @@
     "metal": "Cr",
     "ligand": "Edta",
     "family": "EDTA",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2718,7 +2718,7 @@
     "metal": "Cr",
     "ligand": "Ethylenediamine",
     "family": "background (Ethylenediamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2733,7 +2733,7 @@
     "metal": "Cr",
     "ligand": "F",
     "family": "background (F)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2747,7 +2747,7 @@
     "metal": "Cr",
     "ligand": "Formate",
     "family": "background (Formate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2761,7 +2761,7 @@
     "metal": "Cr",
     "ligand": "Glutamate",
     "family": "background (Glutamate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2777,7 +2777,7 @@
     "metal": "Cr",
     "ligand": "Glycine",
     "family": "background (Glycine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2793,7 +2793,7 @@
     "metal": "Cr",
     "ligand": "I",
     "family": "background (I)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2807,7 +2807,7 @@
     "metal": "Cr",
     "ligand": "N(-3)",
     "family": "ammine",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2822,7 +2822,7 @@
     "metal": "Cr",
     "ligand": "N(5)",
     "family": "background (N(5))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2836,7 +2836,7 @@
     "metal": "Cr",
     "ligand": "Nta",
     "family": "background (Nta)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2851,7 +2851,7 @@
     "metal": "Cr",
     "ligand": "OH",
     "family": "hydroxide",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2866,7 +2866,7 @@
     "metal": "Cr",
     "ligand": "P",
     "family": "background (P)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2882,7 +2882,7 @@
     "metal": "Cr",
     "ligand": "Phthalate",
     "family": "background (Phthalate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2898,7 +2898,7 @@
     "metal": "Cr",
     "ligand": "Propionate",
     "family": "background (Propionate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2914,7 +2914,7 @@
     "metal": "Cr",
     "ligand": "S(6)",
     "family": "background (S(6))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [

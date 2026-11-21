@@ -50,7 +50,7 @@ DATABASES = ["phreeqc.dat", "wateq4f.dat", "pitzer.dat", "llnl.dat", "minteq.v4.
 # The gases `properties::HENRY_COEFFICIENTS` carries. Kept by hand: a gas
 # added there without a line here fails the reverse check in
 # `crates/kerotakis-core/tests/henry_oracle.rs`, which is the point.
-GASES = {"CO2": "CO2(g)", "O2": "O2(g)", "N2": "N2(g)", "H2": "H2(g)", "Cl2": "Cl2(g)", "NH3": "NH3(g)"}
+GASES = {"CO2": "CO2(g)", "O2": "O2(g)", "N2": "N2(g)", "H2": "H2(g)", "Cl2": "Cl2(g)", "NH3": "NH3(g)", "SO2": "SO2(g)"}
 
 KCAL_J = 4184.0
 KJ_J = 1000.0
@@ -101,8 +101,15 @@ def parse(path):
             i += 1
             reaction, log_k, delta_h = None, None, None
             while i < len(block) and (block[i][:1] in (" ", "\t") or not block[i].strip()):
-                body = block[i].split("#", 1)[0].strip()
+                raw = block[i]
+                body = raw.split("#", 1)[0].strip()
                 i += 1
+                # llnl.dat writes `-delta_H 0 # Not possible to calculate
+                # enthalpy of reaction ...` where it HAS no enthalpy (SO2(g)
+                # is the case). That zero is a placeholder, not a measured
+                # enthalpy of solution, so it is read as absent.
+                if "not possible to calculate" in raw.lower() and "delta_h" in body.lower():
+                    continue
                 if not body:
                     continue
                 for part in body.split(";"):

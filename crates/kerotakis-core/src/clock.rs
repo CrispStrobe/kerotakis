@@ -386,12 +386,22 @@ impl Clock for CuratedKineticsClock {
                 }
             }
         }
+        // H6: every gas a rate law writes is collected here, before any
+        // narration branch can `continue`, and resolved at the open
+        // boundary after the reactions are told.
+        let mut gas_made: Vec<(SpeciesId, f64)> = Vec::new();
         for (reaction, moles) in crate::kinetics::advance_with_context_excluding(
             vessel,
             seconds,
             ctx.kinetic,
             &ctx.excluded_kinetic_reactions,
         )? {
+            for gas in reaction
+                .products()
+                .filter(|term| term.phase == crate::species::Phase::Gas)
+            {
+                gas_made.push((SpeciesId::new(gas.species), gas.coefficient * moles.0));
+            }
             // Reference heats are owned per declared basis by
             // `reaction_heat`, which derives the per-extent heat from the
             // coefficient this integrator advanced (PR #850, generalised).
@@ -516,6 +526,7 @@ impl Clock for CuratedKineticsClock {
                 activation_energy: ea,
             });
         }
+        events.extend(crate::volatility::settle_open_vessel_gas(vessel, &gas_made));
         Ok(())
     }
 }

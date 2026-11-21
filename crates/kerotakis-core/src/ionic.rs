@@ -442,6 +442,56 @@ fn from_precipitate(vessel: &Vessel, solid_id: &SpeciesId, locale: Locale) -> Op
     ))
 }
 
+// ── acid dissolution of a basic oxide or hydroxide ──────────────────
+
+/// Elements that make a solid something other than a basic oxide or
+/// hydroxide when they sit beside its metal: carbonates, sulfates, halides,
+/// nitrates, phosphates, silicates and the rest are not this rule's.
+const NOT_A_METAL: &[&str] = &[
+    "B", "C", "N", "F", "Si", "P", "S", "Cl", "Se", "Br", "Te", "I", "As", "At",
+];
+
+/// H7: the net ionic equation for a basic oxide or hydroxide that an acid
+/// has just taken into solution — `CuO(s) + 2 H⁺(aq) → Cu²⁺(aq) + H₂O(l)`.
+///
+/// Not a table. It is the precipitation derivation above run backwards:
+/// the metal's partner is the ion the solver actually reports carrying it,
+/// the balancing end of the water axis is whichever of H⁺/OH⁻ the solution
+/// holds more of, and the coefficients are solved and verified by the same
+/// balance. Read in the dissolving direction, the equation is only told
+/// when H⁺ is a reactant — an acid did the dissolving — and when the solid
+/// is made of metal, oxygen and hydrogen and nothing else, so a carbonate,
+/// sulfide or salt dissolving is not described as one. `None` wherever any
+/// of that cannot be established, rather than a plausible-looking line.
+pub fn acid_dissolution_equation(vessel: &Vessel, solid_id: &SpeciesId) -> Option<String> {
+    let formula = species::lookup(solid_id)
+        .and_then(|d| stoich::parse_formula(d.formula).ok())
+        .or_else(|| stoich::parse_formula(&solid_id.0).ok())?;
+    if formula.charge != 0.0 || !formula.counts.contains_key("O") {
+        return None;
+    }
+    let mut metals = formula.counts.keys().filter(|e| *e != "H" && *e != "O");
+    if metals.clone().next().is_none() || metals.any(|e| NOT_A_METAL.contains(&e.as_str())) {
+        return None;
+    }
+    let forward = from_precipitate(vessel, solid_id, Locale::EN)?;
+    // Precipitation wrote `ions (+ H2O) → solid (+ H+)`; dissolving is the
+    // same balance read the other way.
+    let reactants = forward.products;
+    let products = forward.reactants;
+    if !reactants.iter().any(|t| t.species == "H+") {
+        return None;
+    }
+    let side = |terms: &[IonTerm]| {
+        terms
+            .iter()
+            .map(IonTerm::written)
+            .collect::<Vec<_>>()
+            .join(" + ")
+    };
+    Some(format!("{} → {}", side(&reactants), side(&products)))
+}
+
 // ── neutralisation ──────────────────────────────────────────────────
 
 fn from_neutralisation(vessel: &Vessel, locale: Locale) -> Option<NetIonic> {

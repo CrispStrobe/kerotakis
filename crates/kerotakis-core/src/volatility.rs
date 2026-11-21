@@ -485,6 +485,113 @@ impl Equilibrator for HeadspacePartitionEquilibrator {
     }
 }
 
+/// Gases that a kinetic product in an OPEN vessel takes up into the liquid
+/// below its bubble threshold, rather than losing to the room.
+///
+/// Sulfur dioxide is the case (H6): thiosulfate + acid made 2.9 mmol of
+/// SO2 that sat in an open beaker as a Gas portion — neither escaping nor
+/// dissolving, although SO2 is very soluble (about 1.2 mol per litre of
+/// water per atmosphere). Its dissolved form has an aqueous owner: the
+/// S(IV) pool in `sulfur_iv.rs` and the SO2/HSO3- acid pair in
+/// `displacement.rs` both read `SO2` held as Aqueous.
+///
+/// The other tabulated gases are deliberately NOT here. O2, H2, N2, CO2 and
+/// Cl2 are registry gases whose dissolution belongs to the aqueous solver's
+/// own gas phase (see the module notes above). Their kinetic parcels are
+/// left exactly as before by this pass: peroxide's oxygen over an open
+/// beaker is read by the foam, heat-basis and perturbation contracts as a
+/// Gas portion, and moving it is a separate, reviewed change (it is named
+/// as an open gap rather than folded in here).
+pub const OPEN_BOUNDARY_UPTAKE: &[&str] = &["SO2"];
+
+/// H6: send the gas a curated rate law just made in an open vessel through
+/// the open boundary.
+///
+/// `made` lists each gas product and the moles of it this interval wrote as
+/// a Gas portion. Over an [`crate::vessel::Headspace::Open`] vessel nothing
+/// owns a headspace inventory, so a Gas portion left there is neither in
+/// the room nor in the liquid. Each parcel is resolved here:
+///
+/// * a gas in [`OPEN_BOUNDARY_UPTAKE`] with a reviewed Henry coefficient,
+///   over liquid, dissolves up to its bubble threshold — the amount the
+///   liquid holds at one atmosphere of that gas, `H(T) · V_liq · 1 atm`,
+///   less what is already dissolved — because below that threshold no
+///   bubble can form. Only the excess escapes; with no liquid water, all
+///   of it escapes;
+/// * every other gas is left as it was (see [`OPEN_BOUNDARY_UPTAKE`]).
+///
+/// Escape is reported as [`Event::GasEvolved`], the same event the open
+/// boundary uses everywhere else; dissolution is a phase relabel of the
+/// same moles, so atoms are conserved exactly either way. Sealed, swept
+/// and pressure-controlled vessels are untouched: their boundary already
+/// owns the gas.
+pub fn settle_open_vessel_gas(vessel: &mut Vessel, made: &[(SpeciesId, f64)]) -> Vec<Event> {
+    let mut events = Vec::new();
+    if !matches!(vessel.headspace, crate::vessel::Headspace::Open) {
+        return events;
+    }
+    let mut merged: Vec<(SpeciesId, f64)> = Vec::new();
+    for (species, moles) in made {
+        if !(moles.is_finite() && *moles > 0.0) {
+            continue;
+        }
+        match merged.iter_mut().find(|(s, _)| s == species) {
+            Some((_, m)) => *m += moles,
+            None => merged.push((species.clone(), *moles)),
+        }
+    }
+    let water_present = vessel
+        .contents
+        .iter()
+        .any(|p| p.species.0 == "water" && p.phase == Phase::Liquid && p.moles.0 > 0.0);
+    let v_liq = vessel.liquid_volume().0;
+    for (species, moles) in merged {
+        if !OPEN_BOUNDARY_UPTAKE.contains(&species.0.as_str()) {
+            continue;
+        }
+        let held: f64 = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == species && p.phase == Phase::Gas)
+            .map(|p| p.moles.0)
+            .sum();
+        let parcel = moles.min(held);
+        if parcel <= 0.0 {
+            continue;
+        }
+        let mut dissolve = 0.0;
+        if water_present && v_liq > 0.0 {
+            if let Some(coeff) = henry_lookup(&species.0) {
+                let h = henry_at_t(coeff, vessel.temperature.0).value;
+                let dissolved: f64 = vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.species == species && p.phase == Phase::Aqueous)
+                    .map(|p| p.moles.0)
+                    .sum();
+                dissolve = (h * v_liq - dissolved).clamp(0.0, parcel);
+            }
+        }
+        let taken = vessel.withdraw_phase(&species, Moles(parcel), Phase::Gas).0;
+        let dissolve = dissolve.min(taken);
+        if dissolve > 0.0 {
+            vessel.deposit(species.clone(), Moles(dissolve), Phase::Aqueous);
+        }
+        let escaped = taken - dissolve;
+        if escaped > 0.0 {
+            events.push(Event::GasEvolved {
+                vessel: vessel.id,
+                species,
+                moles: Moles(escaped),
+            });
+        }
+    }
+    if !events.is_empty() {
+        vessel.refresh_pressure();
+    }
+    events
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -603,5 +710,84 @@ mod tests {
         v.deposit(SpeciesId::new("NH3"), Moles(0.01), Phase::Liquid);
         assert!(partitions(&v).is_empty());
         assert!(settle(&mut v).is_empty());
+    }
+
+    fn open_water_beaker() -> Vessel {
+        let mut v = Vessel::new(VesselId(0), "beaker");
+        v.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+        v
+    }
+
+    #[test]
+    fn h6_open_vessel_sulfur_dioxide_dissolves_below_its_bubble_threshold() {
+        let mut v = open_water_beaker();
+        v.deposit(SpeciesId::new("SO2"), Moles(0.003), Phase::Gas);
+        let events = settle_open_vessel_gas(&mut v, &[(SpeciesId::new("SO2"), 0.003)]);
+        assert!(events.is_empty(), "{events:?}");
+        let aq: f64 = v
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == "SO2" && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum();
+        assert!((aq - 0.003).abs() < 1e-15);
+        assert!(!v.contents.iter().any(|p| p.phase == Phase::Gas));
+    }
+
+    #[test]
+    fn h6_only_the_excess_over_the_threshold_escapes() {
+        let mut v = open_water_beaker();
+        let litres = v.liquid_volume().0;
+        let capacity = henry_at_t(henry_lookup("SO2").unwrap(), v.temperature.0).value * litres;
+        let made = capacity + 0.05;
+        v.deposit(SpeciesId::new("SO2"), Moles(made), Phase::Gas);
+        let events = settle_open_vessel_gas(&mut v, &[(SpeciesId::new("SO2"), made)]);
+        let escaped: f64 = events
+            .iter()
+            .map(|e| match e {
+                Event::GasEvolved { moles, .. } => moles.0,
+                _ => 0.0,
+            })
+            .sum();
+        assert!((escaped - 0.05).abs() < 1e-9, "{escaped}");
+        let total: f64 = v
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == "SO2")
+            .map(|p| p.moles.0)
+            .sum();
+        assert!((total - capacity).abs() < 1e-9);
+    }
+
+    #[test]
+    fn h6_gases_outside_the_uptake_list_are_untouched_and_dry_vessels_vent() {
+        let mut v = open_water_beaker();
+        v.deposit(SpeciesId::new("O2"), Moles(0.001), Phase::Gas);
+        let events = settle_open_vessel_gas(&mut v, &[(SpeciesId::new("O2"), 0.001)]);
+        assert!(events.is_empty(), "{events:?}");
+        assert!(v.contents.iter().any(|p| p.species.0 == "O2"
+            && p.phase == Phase::Gas
+            && (p.moles.0 - 0.001).abs() < 1e-15));
+
+        let mut dry = Vessel::new(VesselId(0), "crucible");
+        dry.deposit(SpeciesId::new("SO2"), Moles(0.002), Phase::Gas);
+        let events = settle_open_vessel_gas(&mut dry, &[(SpeciesId::new("SO2"), 0.002)]);
+        assert_eq!(events.len(), 1);
+        assert!(dry.contents.is_empty());
+    }
+
+    #[test]
+    fn h6_a_closed_boundary_keeps_what_it_makes() {
+        let mut v = open_water_beaker();
+        v.headspace = crate::vessel::Headspace::Sealed {
+            volume: crate::units::Liters(0.5),
+        };
+        v.deposit(SpeciesId::new("SO2"), Moles(0.003), Phase::Gas);
+        let events = settle_open_vessel_gas(&mut v, &[(SpeciesId::new("SO2"), 0.003)]);
+        assert!(events.is_empty());
+        assert!(v
+            .contents
+            .iter()
+            .any(|p| p.species.0 == "SO2" && p.phase == Phase::Gas));
     }
 }

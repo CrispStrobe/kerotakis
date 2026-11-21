@@ -202,6 +202,25 @@ pub const HENRY_COEFFICIENTS: &[HenryCoefficient] = &[
         c_kelvin: 4200.0,
         provenance: HENRY_PROV,
     },
+    // SO2 (H6, 2026-11-21). NIST Chemistry WebBook (SRD 69) Henry's-law
+    // table for sulfur dioxide (CAS 7446-09-5), read 2026-11-21: of its
+    // seventeen compiled rows, twelve give k°H = 1.2 mol/(kg·bar) and the
+    // modal temperature dependence is 3100 K (range 1.1-1.5 and
+    // 2800-3200 K). 1.2 mol/(kg·bar) × 1.01325 bar/atm = 1.216
+    // mol/(L·atm), taking 1 kg of dilute water as 1 L. This is the
+    // PHYSICAL (neutral SO2·H2O) solubility; the bisulfite that forms
+    // from it is the aqueous solver's, not this row's.
+    HenryCoefficient {
+        gas: "sulfur dioxide",
+        formula: "SO2",
+        hcp_298: 1.216,
+        c_kelvin: 3100.0,
+        provenance: "NIST Chemistry WebBook, NIST Standard Reference Database 69, \
+                     sulfur dioxide (CAS 7446-09-5) Henry's law data: modal \
+                     k°H 1.2 mol/(kg·bar), d(ln kH)/d(1/T) 3100 K (compiled \
+                     from Sander's Henry's-law compilation); converted to \
+                     1.216 mol/(L·atm); read 2026-11-21",
+    },
 ];
 
 /// Henry's constant at temperature T (Kelvin), mol/(L·atm).

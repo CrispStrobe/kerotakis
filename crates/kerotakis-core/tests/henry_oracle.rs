@@ -2,7 +2,8 @@
 //! come from — and against the databases the solver beside it runs on.
 //!
 //! `properties::HENRY_COEFFICIENTS` carries six gases from Sander (2015),
-//! an atmospheric-chemistry compilation. The aqueous solver runs on the USGS
+//! an atmospheric-chemistry compilation, and sulfur dioxide from the NIST
+//! WebBook's compiled rows. The aqueous solver runs on the USGS
 //! PHREEQC databases, a different lineage, and four of those vendored files
 //! tabulate the same gas dissolutions. `tools/gen-henry-oracle.py` reads them
 //! out into `fixtures/henry_databases.tsv`.
@@ -21,11 +22,11 @@
 //! `henry_lookup("CO2")` for a solubility while solving a speciation on a
 //! database that states its own. So a disagreement on this fixture is not a
 //! remote discrepancy: it is the bench holding two answers to "how much of
-//! this gas dissolves", and the six gases below are consumed by the fizz in
+//! this gas dissolves", and the gases below are consumed by the fizz in
 //! `displacement.rs`, the carbonate clock in `clock.rs` and the outgassing in
-//! `volatility.rs`.
+//! `volatility.rs`, and sulfur dioxide by the open-vessel gas boundary.
 //!
-//! Two of the twelve rows DISAGREE, materially, and they are pinned rather
+//! Two of the thirteen rows DISAGREE, materially, and they are pinned rather
 //! than banded away. See `TEMPERATURE_DISAGREEMENTS`.
 
 use kerotakis_core::properties::{henry_lookup, HENRY_COEFFICIENTS};
@@ -113,6 +114,19 @@ const SOLUBILITY_BANDS: &[(&str, f64, &str)] = &[
          6.3% apart; our 5.7e1 is 9.8% from the first pair and 3.3% from the \
          second. The band admits both references. EXCLUDES: 6.0e1 or 5.0e1 for \
          our 5.7e1, both further out than any reference sits.",
+    ),
+    (
+        "SO2",
+        0.20,
+        "20%. llnl.dat is the only vendored file that writes `SO2 = SO2` \
+         (log_k 0.17, i.e. 1.48 mol/(kg atm)); our 1.216 mol/(L atm) is the \
+         modal 1.2 mol/(kg bar) of the NIST WebBook's seventeen compiled rows, \
+         which themselves span 1.1 to 1.5, so the compilations disagree by \
+         about a third among themselves and llnl.dat sits at their upper \
+         edge, 17.8% from us. The band is that spread, not a tighter claim. \
+         llnl.dat states no enthalpy for this phase (its `-delta_H 0` is \
+         marked `Not possible to calculate`), so the 3100 K is uncorroborated \
+         here. EXCLUDES: 1.2e-1 or 1.2e1, a decimal slip.",
     ),
 ];
 
@@ -399,13 +413,13 @@ fn every_shipped_gas_is_either_corroborated_or_named_unreachable() {
         .collect();
     assert_eq!(
         solubility.len(),
-        5,
-        "five of the six shipped gases have a corroborated solubility: {solubility:?}"
+        6,
+        "six of the seven shipped gases have a corroborated solubility: {solubility:?}"
     );
     assert_eq!(
         temperature.len(),
         3,
-        "three of the six have a corroborated temperature coefficient: {temperature:?}"
+        "three of the seven have a corroborated temperature coefficient: {temperature:?}"
     );
     eprintln!(
         "henry oracle: solubility corroborated for {} of {} gases, temperature \
@@ -498,5 +512,5 @@ fn the_fixture_still_matches_the_vendored_databases() {
         );
         rederived += 1;
     }
-    assert_eq!(rederived, 12, "every fixture row must be re-derivable");
+    assert_eq!(rederived, 13, "every fixture row must be re-derivable");
 }

@@ -437,10 +437,22 @@ fn dissolved_oxygen_autoxidation_is_refused_typed() {
 fn rated_oxidants_without_a_registry_form_never_fire() {
     // Ozone, HOBr and OBr- carry cited constants but no registry form;
     // the table keeps them so that a registry addition is priced at once.
-    for key in ["O3", "HBrO", "BrO-", "Br2", "Cr2O7-2", "HCrO4-"] {
+    for key in ["O3", "HBrO", "BrO-", "Br2", "HCrO4-"] {
         let o = sulfur_iv::oxidant(key).unwrap();
         assert!(halogen_redox::registry_forms(o.key).is_empty(), "{key}");
     }
+    // Dichromate has a registry form since potassium dichromate joined the
+    // shelf (H3), but its product Cr+3 does not, so it still never fires.
+    assert_eq!(
+        halogen_redox::registry_forms("Cr2O7-2"),
+        vec!["K2Cr2O7".to_string()]
+    );
+    let mut v = water();
+    aq(&mut v, "K2Cr2O7", 1e-4);
+    aq(&mut v, "HSO3-", 1e-4);
+    aq(&mut v, "H+", 1e-2);
+    aq(&mut v, "Na+", 1e-4);
+    assert!(sulfur_iv::other_plan(&v).is_none_or(|plan| plan.run.is_none()));
     let o3 = sulfur_iv::oxidant("O3").unwrap();
     assert_eq!(o3.k, [Some(2.4e4), Some(3.7e5), Some(1.5e9)]);
     assert_eq!(o3.pricing, sulfur_iv::Pricing::Rated);

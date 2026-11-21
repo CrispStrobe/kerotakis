@@ -1748,6 +1748,33 @@
       "retrieved": null
     },
     {
+      "id": "legacy/NaNO2",
+      "citation": "sodium nitrite, NaNO2: added by the reaction-sweep species lane (H3, 2026-11-21). IDENTITY VERIFIED against PubChem CID 23668193 on 2026-11-21 (PUG REST property record): InChIKey LPXPTNMVRIOKMN-UHFFFAOYSA-M. Molar mass 68.9948 g/mol from IUPAC/CIAAW 2021 standard atomic weights. DENSITY 2.17 g/mL at 20 C from the U.S. Coast Guard Chemical Hazard Response Information System (CHRIS), Commandant Instruction 16465.12C (1999), a U.S. Government work in the public domain, as reproduced in PubChem (read 2026-11-21); the Merck Index (2013) and the U.S. DOE PAC database agree to 0.01 g/mL. HEAT CAPACITY 85.3 J/(mol.K) is an explicit editorial estimate by Kopp's rule (contributions O 16.7, every other element here 25.9 J/(mol.K)), not a measurement. Aqueous solubility 84.8 g/100 g water at 25 C (CRC Handbook, 86th ed., p. 4-87) is provenance only: the salt dissolves through the speciated route as Na+ and the registry's nitrite ion NO2-, which the vendored databases define. APPEARANCE `white` and flame colour `bright yellow` are standard descriptive values; the reflective sRGB is an editorial rendering of that word, not a measured colour. Dissolution enthalpy is not claimed; nitrous acid and the nitrite/acid decomposition are not added by this record.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/K2CrO4",
+      "citation": "potassium chromate, K2CrO4: added by the reaction-sweep species lane (H3, 2026-11-21). IDENTITY VERIFIED against PubChem CID 24597 on 2026-11-21 (PUG REST property record): InChIKey XMXNVYPJWBTAHN-UHFFFAOYSA-N. Molar mass 194.1887 g/mol from IUPAC/CIAAW 2021 standard atomic weights. DENSITY 2.73 g/mL at 18 C from the U.S. Coast Guard Chemical Hazard Response Information System (CHRIS), Commandant Instruction 16465.12C (1999), a U.S. Government work in the public domain, as reproduced in PubChem (read 2026-11-21); the Merck Index (2013) and the U.S. DOE PAC database agree to 0.01 g/mL. HEAT CAPACITY 144.5 J/(mol.K) is an explicit editorial estimate by Kopp's rule (contributions O 16.7, every other element here 25.9 J/(mol.K)), not a measurement. AQUEOUS SOLUBILITY 62.9 g/100 mL at 20 C and 79.2 g/100 mL at 100 C: CRC Handbook of Chemistry and Physics, 66th ed. (1985), p. B-127, as quoted by HSDB. APPEARANCE `yellow crystals` and flame colour `violet` are standard descriptive values; the reflective sRGB is an editorial rendering of that word, not a measured colour. NOT SPECIATED, for the same reason and with the same limits as potassium dichromate: the chromate/dichromate equilibrium is not computed. Dissolution enthalpy is not claimed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/K2Cr2O7",
+      "citation": "potassium dichromate, K2Cr2O7: added by the reaction-sweep species lane (H3, 2026-11-21). IDENTITY VERIFIED against PubChem CID 24502 on 2026-11-21 (PUG REST property record): InChIKey KMUONIBRACKNSN-UHFFFAOYSA-N. Molar mass 294.1818 g/mol from IUPAC/CIAAW 2021 standard atomic weights. DENSITY 2.676 g/mL at 25 C from the U.S. Coast Guard Chemical Hazard Response Information System (CHRIS), Commandant Instruction 16465.12C (1999), a U.S. Government work in the public domain, as reproduced in PubChem (read 2026-11-21); the Merck Index (2013) and the U.S. DOE PAC database agree to 0.01 g/mL. HEAT CAPACITY 228.9 J/(mol.K) is the MEASURED mean specific heat 0.186 cal/(g.K) over 16-98 C (The Merck Index, 15th ed., Royal Society of Chemistry 2013, p. 1419, as quoted by HSDB in PubChem CID 24502) times 4.184 J/cal times 294.18 g/mol; it is a 16-98 C mean, not a 298.15 K point value. AQUEOUS SOLUBILITY 13.2 g/100 mL at 20 C: the Merck Index (2013) saturated solution of 11.7 % w/w at 20 C, i.e. 11.7/88.3 x 100 = 13.25 g per 100 g water, taken as per 100 mL; 102 g/100 mL at 100 C: CRC Handbook of Chemistry and Physics, 66th ed. (1985), p. B-127, both as quoted by HSDB. APPEARANCE `orange-red crystals` and flame colour `violet` are standard descriptive values; the reflective sRGB is an editorial rendering of that word, not a measured colour. NOT SPECIATED: no registry species carries dissolved chromium(VI), so the salt dissolves as a bounded finite solute (the uvvis_absorptivity table already counts one Cr2O7 per formula unit of this carrier) and contributes nothing to pH or ionic strength; the dichromate/chromate equilibrium and its acid-base and redox chemistry are NOT computed. Dissolution enthalpy is not claimed. Toxic and carcinogenic (Cr(VI)); the safety screen, not this record, owns that.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/Cu2(OH)2CO3",
       "citation": "malachite (basic copper carbonate), Cu2(OH)2CO3 (registry formula Cu2CH2O5, flat like the other hydroxides): added by the carbonate/hydroxide decomposition class lane (G4, 2026-11-20). IDENTITY VERIFIED against PubChem CID 25503 on 2026-11-20 (PUG REST property record): InChIKey ZMMDPCMYTCRWFF-UHFFFAOYSA-J. Molar mass 221.114 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 63.546 + 5 x 15.999 + 2 x 1.008 + 1 x 12.011 = 221.114). DENSITY 4.031 g/mL: formula weight over the molar volume 54.86 cm3/mol tabulated for MALACHITE by Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a U.S. Government work in the public domain; https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-20). HEAT CAPACITY 162.2 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Robie & Hemingway (1995) tabulate malachite at 298.15 K only (S = 166.3 J/(mol.K), V = 54.86 cm3, dfH = -1054.0 kJ/mol, dfG = -890.2 kJ/mol) and give no Cp; Kopp's rule over the standard atomic contributions, 2 x 26.0 (Cu) + 1 x 7.5 (C) + 5 x 16.7 (O) + 2 x 9.6 (H) = 162.2, the same editorial method the lead carbonate and calcium phosphate rows use. Because there is no Cp(T) for malachite in that source, no thermal-route record is supplied and heating malachite is NOT modelled as a decomposition here. APPEARANCE `green`: malachite is green (the mineral and the school 'copper carbonate' powder alike); the reflective sRGB is an editorial rendering of that word, not a measured colour. FORMS-ONLY-ABOVE 400 K IS A POSING GATE, Editorial judgement (Kerotakis), not a measured nucleation temperature: the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) declined this solid for the aqueous route because malachite is the real CuSO4 + Na2CO3 product, but it competes with Cu(OH)2 and the copper hydroxy-sulfates and that competition needs an engine run. Withholding it below 400 K keeps every room-temperature aqueous verdict exactly as it was, while the dry thermal route (kerotakis_cea, which does not read this gate) can carry the solid when it is added or formed hot. Lifting the gate is that lane's review, not this row's. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy and no aqueous solubility figure.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -6014,6 +6041,54 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "NaNO2",
+      "canonical_key": "LPXPTNMVRIOKMN-UHFFFAOYSA-M",
+      "name": "sodium nitrite",
+      "identifiers": {
+        "inchikey": "LPXPTNMVRIOKMN-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "K2CrO4",
+      "canonical_key": "XMXNVYPJWBTAHN-UHFFFAOYSA-N",
+      "name": "potassium chromate",
+      "identifiers": {
+        "inchikey": "XMXNVYPJWBTAHN-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "K2Cr2O7",
+      "canonical_key": "KMUONIBRACKNSN-UHFFFAOYSA-N",
+      "name": "potassium dichromate",
+      "identifiers": {
+        "inchikey": "KMUONIBRACKNSN-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/K2Cr2O7",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -27456,6 +27531,363 @@
       },
       "evidence": {
         "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/NaNO2",
+      "species_id": "NaNO2",
+      "formula": "NaNO2",
+      "elements": [
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaNO2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaNO2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaNO2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/K2CrO4",
+      "species_id": "K2CrO4",
+      "formula": "K2CrO4",
+      "elements": [
+        {
+          "element": "Cr",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2CrO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "K",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2CrO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2CrO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/K2Cr2O7",
+      "species_id": "K2Cr2O7",
+      "formula": "K2Cr2O7",
+      "elements": [
+        {
+          "element": "Cr",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2Cr2O7",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "K",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2Cr2O7",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 7.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2Cr2O7",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/K2Cr2O7",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -53082,6 +53514,276 @@
       }
     },
     {
+      "id": "molar-mass/NaNO2",
+      "species_id": "NaNO2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 68.9948,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/NaNO2",
+      "species_id": "NaNO2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 85.3,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/NaNO2",
+      "species_id": "NaNO2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.17,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/K2CrO4",
+      "species_id": "K2CrO4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 194.1887,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/K2CrO4",
+      "species_id": "K2CrO4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 144.5,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/K2CrO4",
+      "species_id": "K2CrO4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.73,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/K2Cr2O7",
+      "species_id": "K2Cr2O7",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 294.1818,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/K2Cr2O7",
+      "species_id": "K2Cr2O7",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 228.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/K2Cr2O7",
+      "species_id": "K2Cr2O7",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.676,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Cu2(OH)2CO3",
       "species_id": "Cu2(OH)2CO3",
       "phase": "solid",
@@ -64068,6 +64770,54 @@
       }
     },
     {
+      "id": "optical/NaNO2",
+      "species_id": "NaNO2",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": "bright yellow",
+      "reflective_srgb": "#F8F6EC",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/K2CrO4",
+      "species_id": "K2CrO4",
+      "phase": "solid",
+      "appearance": "yellow crystals",
+      "flame_colour": "violet",
+      "reflective_srgb": "#F2D01E",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/K2Cr2O7",
+      "species_id": "K2Cr2O7",
+      "phase": "solid",
+      "appearance": "orange-red crystals",
+      "flame_colour": "violet",
+      "reflective_srgb": "#E0521B",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "optical/Cu2(OH)2CO3",
       "species_id": "Cu2(OH)2CO3",
       "phase": "solid",
@@ -74779,6 +75529,336 @@
           "kind": "unestablished"
         },
         "source_id": "legacy/ZnCO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/NaNO2",
+      "subject": {
+        "kind": "species",
+        "id": "NaNO2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/NaNO2",
+      "subject": {
+        "kind": "species",
+        "id": "NaNO2"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NaNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/K2CrO4",
+      "subject": {
+        "kind": "species",
+        "id": "K2CrO4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/K2CrO4",
+      "subject": {
+        "kind": "species",
+        "id": "K2CrO4"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 62.9,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/K2CrO4",
+      "subject": {
+        "kind": "species",
+        "id": "K2CrO4"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 79.2,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/K2CrO4",
+      "subject": {
+        "kind": "species",
+        "id": "K2CrO4"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2CrO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/K2Cr2O7",
+      "subject": {
+        "kind": "species",
+        "id": "K2Cr2O7"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/K2Cr2O7",
+      "subject": {
+        "kind": "species",
+        "id": "K2Cr2O7"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 13.2,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/K2Cr2O7",
+      "subject": {
+        "kind": "species",
+        "id": "K2Cr2O7"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 102.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2Cr2O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/K2Cr2O7",
+      "subject": {
+        "kind": "species",
+        "id": "K2Cr2O7"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2Cr2O7",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
