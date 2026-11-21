@@ -110,6 +110,14 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     ("AgNO3", &[("Ag+", 1.0), ("NO3-", 1.0)]),
     ("AgCl", &[("Ag+", 1.0), ("Cl-", 1.0)]),
     ("Pb(NO3)2", &[("Pb+2", 1.0), ("NO3-", 2.0)]),
+    // Soluble-salt class (A2): NBS/Wagman 1982 standard dissolution
+    // enthalpies to the fully ionised state. Hydrolysis of PO4-3 and Al+3
+    // after dissolution is the routed database's own delta_h, so it is not
+    // folded into these numbers and is not counted twice.
+    ("KBr", &[("K+", 1.0), ("Br-", 1.0)]),
+    ("CuCl2", &[("Cu+2", 1.0), ("Cl-", 2.0)]),
+    ("Na3PO4", &[("Na+", 3.0), ("PO4-3", 1.0)]),
+    ("Al2(SO4)3", &[("Al+3", 2.0), ("SO4-2", 3.0)]),
     // SUSPECT VALUE, kept rather than dropped. kerotakis-59's registry
     // agent could not reproduce the registry's +16.2 kJ/mol against a
     // commonly tabulated ~+43.6, and the gap is not a sign, a unit or a

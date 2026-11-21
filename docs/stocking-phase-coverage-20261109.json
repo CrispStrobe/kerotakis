@@ -8,8 +8,8 @@
   "counts": {
     "derived": 21,
     "melting_point_without_latent_heat": 42,
-    "no_melting_point": 64,
-    "not_condensed": 79
+    "no_melting_point": 68,
+    "not_condensed": 80
   },
   "species": [
     {
@@ -845,6 +845,19 @@
       }
     },
     {
+      "species": "Al2(SO4)3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Al2O3",
       "standard_phase": "solid",
       "melting_k": null,
@@ -924,6 +937,19 @@
     },
     {
       "species": "Cu2(OH)2CO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "CuCl2",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1053,6 +1079,19 @@
       }
     },
     {
+      "species": "KBr",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "KMnO4",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1158,6 +1197,19 @@
     },
     {
       "species": "Na2SO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Na3PO4",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1665,6 +1717,19 @@
     },
     {
       "species": "Ag+",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "Al+3",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

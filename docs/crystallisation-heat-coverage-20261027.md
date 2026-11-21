@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 16 | 1 | 91 |
-| minteq.v4 | 18 | 1 | 89 |
-| pitzer | 9 | 2 | 97 |
+| wateq4f | 16 | 1 | 95 |
+| minteq.v4 | 18 | 1 | 93 |
+| pitzer | 9 | 2 | 101 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -99,6 +99,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Al` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Al` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Al` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Al2(SO4)3` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Al2(SO4)3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `Al2(SO4)3` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Al2O3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Al2O3` | minteq.v4 | refused | Al2O3 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Al2O3` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -144,6 +147,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Cu2O` | wateq4f | refused | Cuprite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2O` | minteq.v4 | refused | Cuprite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2O` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `CuCl2` | wateq4f | refused | Melanothallite | the phase saturates at ionic strength >= 33.10 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `CuCl2` | minteq.v4 | refused | Melanothallite | the phase saturates at ionic strength >= 230.23 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `CuCl2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `CuO` | wateq4f | refused | Tenorite | the phase saturates at ionic strength >= 83373876.69 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `CuO` | minteq.v4 | refused | Tenorite | the phase saturates at ionic strength >= 88110972.70 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `CuO` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -174,6 +180,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `I2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `I2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `I2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `KBr` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `KBr` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `KBr` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `KCl` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `KCl` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `KCl` | pitzer | crystallises-with-priced-heat | Sylvite | PHREEQC phase saturation, delta_h 18.310 kJ/mol; solid priced |
@@ -234,6 +243,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Na2SO4` | wateq4f | refused | Thenardite | the phase saturates at ionic strength >= 1.65 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Na2SO4` | minteq.v4 | refused | Thenardite | the phase saturates at ionic strength >= 2.42 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Na2SO4` | pitzer | crystallises-with-priced-heat | Thenardite | PHREEQC phase saturation, delta_h -8.081 kJ/mol; solid priced |
+| `Na3PO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Na3PO4` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `Na3PO4` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `NaBr` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `NaBr` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `NaBr` | pitzer | refused | - | the routed database defines no phase for this solid |

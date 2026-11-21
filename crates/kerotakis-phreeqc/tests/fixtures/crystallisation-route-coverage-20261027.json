@@ -168,6 +168,27 @@
     "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
+    "solid": "Al2(SO4)3",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Al2(SO4)3",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Al2(SO4)3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Al2O3",
     "route": "wateq4f",
     "class": "refused",
@@ -483,6 +504,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "CuCl2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Melanothallite",
+    "reason": "the phase saturates at ionic strength >= 33.10 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "CuCl2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Melanothallite",
+    "reason": "the phase saturates at ionic strength >= 230.23 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "CuCl2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "CuO",
     "route": "wateq4f",
     "class": "refused",
@@ -687,6 +729,27 @@
   },
   {
     "solid": "I2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "KBr",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "KBr",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "KBr",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -1111,6 +1174,27 @@
     "class": "crystallises-with-priced-heat",
     "phase": "Thenardite",
     "reason": "PHREEQC phase saturation, delta_h -8.081 kJ/mol; solid priced"
+  },
+  {
+    "solid": "Na3PO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Na3PO4",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Na3PO4",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
   },
   {
     "solid": "NaBr",

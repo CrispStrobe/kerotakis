@@ -18,11 +18,12 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 42, neutral-refused 155, partitions 9.
+Counts: ion-stays-aqueous 43, neutral-refused 159, partitions 9.
 
 | class | species | basis |
 |---|---|---|
 | ion-stays-aqueous | Ag+ | — |
+| ion-stays-aqueous | Al+3 | — |
 | ion-stays-aqueous | Ba+2 | — |
 | ion-stays-aqueous | Br- | — |
 | ion-stays-aqueous | C6H5O7-3 | — |
@@ -72,6 +73,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 155, partitions 9.
 | neutral-refused | AgI | — |
 | neutral-refused | AgNO3 | — |
 | neutral-refused | Al | — |
+| neutral-refused | Al2(SO4)3 | — |
 | neutral-refused | Al2O3 | — |
 | neutral-refused | Ba(OH)2 | — |
 | neutral-refused | BaCO3 | — |
@@ -91,6 +93,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 155, partitions 9.
 | neutral-refused | Cu(OH)2 | — |
 | neutral-refused | Cu2(OH)2CO3 | — |
 | neutral-refused | Cu2O | — |
+| neutral-refused | CuCl2 | — |
 | neutral-refused | CuO | — |
 | neutral-refused | CuSO4 | — |
 | neutral-refused | Fe | — |
@@ -110,6 +113,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 155, partitions 9.
 | neutral-refused | HCl | — |
 | neutral-refused | HClO | — |
 | neutral-refused | HI | — |
+| neutral-refused | KBr | — |
 | neutral-refused | KCl | — |
 | neutral-refused | KI | — |
 | neutral-refused | KIO3 | — |
@@ -134,6 +138,7 @@ Counts: ion-stays-aqueous 42, neutral-refused 155, partitions 9.
 | neutral-refused | Na2S2O3 | — |
 | neutral-refused | Na2SO3 | — |
 | neutral-refused | Na2SO4 | — |
+| neutral-refused | Na3PO4 | — |
 | neutral-refused | NaBr | — |
 | neutral-refused | NaCl | — |
 | neutral-refused | NaHCO3 | — |

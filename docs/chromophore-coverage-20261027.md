@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 40, outside_method 115, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 41, outside_method 119, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -29,6 +29,7 @@ Counts: missing_absorptivity 40, outside_method 115, parameterised 7, parameteri
 | missing_absorptivity | Cu(OH)2 | pale blue |
 | missing_absorptivity | Cu2(OH)2CO3 | green |
 | missing_absorptivity | Cu2O | red |
+| missing_absorptivity | CuCl2 | yellow-brown powder |
 | missing_absorptivity | CuO | black |
 | missing_absorptivity | Fe | grey |
 | missing_absorptivity | Fe(OH)2 | pale green |
@@ -61,6 +62,8 @@ Counts: missing_absorptivity 40, outside_method 115, parameterised 7, parameteri
 | outside_method | Ag | silvery-white |
 | outside_method | AgCl | white |
 | outside_method | AgNO3 | white |
+| outside_method | Al+3 | colourless |
+| outside_method | Al2(SO4)3 | white powder |
 | outside_method | Al2O3 | white |
 | outside_method | Ba(OH)2 | white |
 | outside_method | Ba+2 | colourless |
@@ -85,6 +88,7 @@ Counts: missing_absorptivity 40, outside_method 115, parameterised 7, parameteri
 | outside_method | HBr | colourless |
 | outside_method | HCl | colourless |
 | outside_method | HI | fuming colorless liquid |
+| outside_method | KBr | white crystals |
 | outside_method | KCl | white |
 | outside_method | KI | white crystalline solid |
 | outside_method | KIO3 | white crystalline powder |
@@ -105,6 +109,7 @@ Counts: missing_absorptivity 40, outside_method 115, parameterised 7, parameteri
 | outside_method | Na2S2O3 | white |
 | outside_method | Na2SO3 | white |
 | outside_method | Na2SO4 | white |
+| outside_method | Na3PO4 | white crystals |
 | outside_method | NaBr | white |
 | outside_method | NaCl | white |
 | outside_method | NaHCO3 | white |

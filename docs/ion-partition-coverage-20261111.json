@@ -6,7 +6,7 @@
     "hexane"
   ],
   "classes": {
-    "monatomic cation": 16,
+    "monatomic cation": 17,
     "monatomic anion": 4,
     "small organic ion": 3,
     "polyatomic inorganic ion": 20
@@ -15,6 +15,12 @@
     {
       "species": "Ag+",
       "formula": "Ag+",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Al+3",
+      "formula": "Al+3",
       "ion_class": "monatomic cation",
       "hydrocarbon_rule": "retained in water"
     },

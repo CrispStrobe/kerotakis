@@ -279,7 +279,13 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         REGISTRY
             .iter()
-            .filter(|species| species.dissolution_enthalpy_kj.is_some() && species.key != "Na2CO3")
+            .filter(|species| species.dissolution_enthalpy_kj.is_some()
+                && !matches!(
+                    species.key,
+                    // Their own reviewed sources: Berg & Vanderzee, and the
+                    // NBS/Wagman 1982 soluble-salt rows (A2, 2026-11-21).
+                    "Na2CO3" | "KBr" | "CuCl2" | "Na3PO4" | "Al2(SO4)3"
+                ))
             .count()
     );
     assert_eq!(
@@ -1227,7 +1233,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 206, "one molar mass per species");
+    assert_eq!(masses.len(), 211, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

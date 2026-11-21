@@ -383,6 +383,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 
         // ── acidic salts (hydrolysis, not dissociation) ───────────
         "FeCl3" => &[AcidicSalt],
+        // Aluminium sulfate hydrolyses the same way (Al+3 + H2O = AlOH+2 +
+        // H+): its solution is acidic, which is what the alum in water
+        // treatment and the old "acid" fire extinguishers relied on.
+        "Al2(SO4)3" => &[AcidicSalt],
 
         // ── soluble barium: acutely toxic by ingestion ────────────
         // BRD-012's P2 gate. These are virtual-lab reagents; nothing in
@@ -481,6 +485,16 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "bromothymol_blue"
         | "Zn+2"
         | "ZnSO4"
+        // Soluble-salt class (A2). Potassium bromide and copper(II)
+        // chloride read as KCl and CuSO4 already do. Trisodium phosphate's
+        // alkalinity (pH about 12 at bench strength) is a property of the
+        // solution, which the contextual pH screen reads; no reactive group
+        // in this matrix is claimed for the bottle. The aluminium ion is
+        // the dissolved form of the acidic salt above.
+        | "KBr"
+        | "CuCl2"
+        | "Na3PO4"
+        | "Al+3"
         | "Pb+2"
         | "Pb(NO3)2"
         | "PE"
@@ -708,6 +722,11 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ba+2",
     "Ba(OH)2",
     "BaCl2",
+    "KBr",
+    "CuCl2",
+    "Na3PO4",
+    "Al2(SO4)3",
+    "Al+3",
     "BaSO4",
     "BaCO3",
     "Br-",

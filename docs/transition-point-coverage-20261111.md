@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 139, boiling.reported 67, melting.no_data 105, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 144, boiling.reported 67, melting.no_data 110, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -51,6 +51,8 @@ Counts: boiling.no_data 139, boiling.reported 67, melting.no_data 105, melting.r
 | AgI | solid | melting 831 K | boiling 1777 K | literature/transition-points/AgI |
 | AgNO3 | solid | melting 483 K | decomposition 513 K | literature/transition-points/AgNO3 |
 | Al | solid | melting 933.473 K | boiling 2743 K | literature/transition-points/Al |
+| Al+3 | aqueous | no_data | no_data | — |
+| Al2(SO4)3 | solid | no_data | no_data | — |
 | Al2O3 | solid | no_data | no_data | — |
 | Ba(OH)2 | solid | melting 681 K | no_data | literature/transition-points/Ba(OH)2 |
 | Ba+2 | aqueous | no_data | no_data | — |
@@ -81,6 +83,7 @@ Counts: boiling.no_data 139, boiling.reported 67, melting.no_data 105, melting.r
 | Cu+2 | aqueous | no_data | no_data | — |
 | Cu2(OH)2CO3 | solid | no_data | no_data | — |
 | Cu2O | solid | melting 1516.7 K | no_data | literature/transition-points/Cu2O |
+| CuCl2 | solid | no_data | no_data | — |
 | CuO | solid | no_data | no_data | — |
 | CuSO4 | solid | decomposition 873.15 K | decomposition 873.15 K | literature/transition-points/CuSO4 |
 | Fe | solid | melting 1811 K | boiling 3273 K | literature/transition-points/Fe |
@@ -112,6 +115,7 @@ Counts: boiling.no_data 139, boiling.reported 67, melting.no_data 105, melting.r
 | I- | aqueous | no_data | no_data | — |
 | I2 | solid | melting 386.8 K | boiling 457.2 K | literature/transition-points/I2 |
 | K+ | aqueous | no_data | no_data | — |
+| KBr | solid | no_data | no_data | — |
 | KCl | solid | melting 1044 K | boiling 1680 K | literature/transition-points/KCl |
 | KI | solid | melting 958 K | boiling 1597 K | literature/transition-points/KI |
 | KIO3 | solid | melting 833 K | no_data | literature/transition-points/KIO3 |
@@ -145,6 +149,7 @@ Counts: boiling.no_data 139, boiling.reported 67, melting.no_data 105, melting.r
 | Na2S2O3 | solid | no_data | no_data | — |
 | Na2SO3 | solid | no_data | no_data | — |
 | Na2SO4 | solid | melting 1163 K | no_data | literature/transition-points/Na2SO4 |
+| Na3PO4 | solid | no_data | no_data | — |
 | NaBr | solid | melting 1023 K | boiling 1665 K | literature/transition-points/NaBr |
 | NaCl | solid | melting 1073.8 K | boiling 1738 K | literature/transition-points/NaCl |
 | NaHCO3 | solid | decomposition 323.15 K | decomposition 323.15 K | literature/transition-points/NaHCO3 |

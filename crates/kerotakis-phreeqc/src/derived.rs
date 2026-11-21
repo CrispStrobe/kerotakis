@@ -189,9 +189,18 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// aqueous component mapping" and every iodide rate law matched only a
 /// bottle name. pitzer.dat has no iodine, so `has_element` keeps an iodide
 /// vessel off that route automatically.
+///
+/// Aluminium joined 2026-11-21 (soluble-salt class A2): wateq4f.dat and
+/// minteq.v4.dat both master `Al` as `Al+3` with no other oxidation state,
+/// so a bare aluminium residue is the trivalent cation, and its hydrolysis
+/// (AlOH+2, Al(OH)2+, ...) is the database's own. pitzer.dat has no
+/// aluminium, so `has_element` keeps such a vessel off that route.
+/// Aluminium is deliberately NOT in `CATION_RESIDUE`: its oxide and
+/// hydroxides are insoluble at bench pH, and the oxide-as-water rule
+/// below would dissolve corundum whole.
 const RESIDUE_OK: &[&str] = &[
     "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "I", "F", "Cu", "Mn", "Fe", "Zn",
-    "Pb",
+    "Pb", "Al",
 ];
 
 /// The subset of `RESIDUE_OK` that forms simple cations.

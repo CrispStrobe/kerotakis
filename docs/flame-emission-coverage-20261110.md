@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 55, refused 44.
+Registry species carrying a metal: emits 58, refused 46.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -41,9 +41,11 @@ Registry species carrying a metal: emits 55, refused 44.
 | emits | Cu+2 | Cu | blue-green |
 | emits | Cu2(OH)2CO3 | Cu | — |
 | emits | Cu2O | Cu | — |
+| emits | CuCl2 | Cu | blue-green |
 | emits | CuO | Cu | — |
 | emits | CuSO4 | Cu | blue-green |
 | emits | K+ | K | lilac |
+| emits | KBr | K | lilac |
 | emits | KCl | K | lilac |
 | emits | KI | K | — |
 | emits | KIO3 | K | — |
@@ -58,6 +60,7 @@ Registry species carrying a metal: emits 55, refused 44.
 | emits | Na2S2O3 | Na | bright yellow |
 | emits | Na2SO3 | Na | bright yellow |
 | emits | Na2SO4 | Na | bright yellow |
+| emits | Na3PO4 | Na | bright yellow |
 | emits | NaBr | Na | — |
 | emits | NaCl | Na | bright yellow |
 | emits | NaHCO3 | Na | — |
@@ -88,6 +91,8 @@ Registry species carrying a metal: emits 55, refused 44.
 | refused | AgI | Ag | — |
 | refused | AgNO3 | Ag | — |
 | refused | Al | Al | — |
+| refused | Al+3 | Al | — |
+| refused | Al2(SO4)3 | Al | — |
 | refused | Al2O3 | Al | — |
 | refused | Fe | Fe | — |
 | refused | Fe(OH)2 | Fe | — |
