@@ -26,6 +26,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  ANDROID_NDK_VERSION: "27.1.12297006"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,7 +48,7 @@ jobs:
 
       - uses: android-actions/setup-android@v3
         with:
-          packages: "platform-tools platforms;android-34 build-tools;34.0.0 ndk;27.1.12297006"
+          packages: "platform-tools platforms;android-34 build-tools;34.0.0 ndk;${{ env.ANDROID_NDK_VERSION }}"
 
       - uses: dtolnay/rust-toolchain@stable
         with:
@@ -58,6 +59,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: web/app/src-tauri
+          key: ndk-${{ env.ANDROID_NDK_VERSION }}
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
@@ -81,9 +83,17 @@ jobs:
           # pipefail: a failing `ls` leaves NDK empty while the pipe still
           # exits 0, pointing the build at nothing.
           set -o pipefail
-          NDK="$(ls -d "$ANDROID_HOME"/ndk/* | sort -V | tail -1)"
+          # Pin the NDK this job installs instead of "newest on the image":
+          # the runner also preinstalls 27.3 and 30.x and points
+          # ANDROID_NDK_ROOT at one of them, and a toolchain file and compiler
+          # from different NDKs broke the cached iphreeqc CMake build
+          # (run 44940860924). One NDK, named in every variable and the cache key.
+          NDK="$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION"
+          test -d "$NDK"
           echo "NDK_HOME=$NDK" >> "$GITHUB_ENV"
           echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$NDK" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK=$NDK" >> "$GITHUB_ENV"
           echo "   $NDK"
 
       - name: Generate the Android project
