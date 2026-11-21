@@ -269,9 +269,7 @@ impl Dose {
             || info.ionic_strength > 1.0
             || !no_parcel(solved)
             || !above_room
-            || events
-                .iter()
-                .any(|e| matches!(e, Event::SolverFailed { .. } | Event::NotYetModeled { .. }))
+            || events.iter().any(|e| blocking(self.gas, e))
         {
             return None;
         }
@@ -288,6 +286,34 @@ impl Dose {
             .max(0.0)
             .min((self.capacity - already_exported).max(0.0));
         (amount.is_finite() && amount > crate::OBSERVABLE_MOLES).then_some(amount)
+    }
+}
+
+/// Events that stop the endpoint. Every reduced-sulfur solve carries two
+/// standing boundary notes that are not about this acid/base question: air
+/// oxidation of sulfide is not modelled, and (S being redox-isolated) the
+/// elemental-sulfur saturation index is reported but sulfur is not offered.
+/// In the admitted sulfide medium those are the only notes that solve emits;
+/// they do not block the H2S parcel. Nor does the honest heat refusal for
+/// the vented hydrogen sulfide itself (no reviewed gas enthalpy on these
+/// routes): no heat is charged and the temperature stays put, while the
+/// material parcel is still certified. Any other limitation, or any for
+/// CO2, still blocks.
+fn blocking(gas: EndpointGas, event: &Event) -> bool {
+    match event {
+        Event::SolverFailed { .. } => true,
+        Event::NotYetModeled { reason, .. } => {
+            !(gas == EndpointGas::H2s
+                && reason.as_ref().is_some_and(|reason| {
+                    matches!(
+                        reason.key.as_str(),
+                        "not-modeled.sulfide-open-air"
+                            | "not-modeled.supersaturated-solid-not-offered"
+                            | "not-modeled.aqueous-heat-unpriced"
+                    )
+                }))
+        }
+        _ => false,
     }
 }
 
@@ -329,12 +355,7 @@ fn fresh_readback(
             .solution
             .as_ref()
             .is_some_and(|info| info.scope == SolutionScope::Complete && info.provenance.is_some())
-        || events.iter().any(|event| {
-            matches!(
-                event,
-                Event::SolverFailed { .. } | Event::NotYetModeled { .. }
-            )
-        })
+        || events.iter().any(|event| blocking(gas, event))
         || !crate::delta::StateDelta::validate_state(vessel).is_empty()
         || !crate::delta::StateDelta::validate_conservation(&question, vessel, &events, 1e-10)
             .is_empty()
