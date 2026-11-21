@@ -2648,6 +2648,7 @@ impl Bench {
                                 source: Some("legacy vessel state".to_string()),
                                 particle_size_um: None,
                                 suspended_fraction: Some(resuspended_fraction),
+                                heat_denatured: false,
                             });
                         }
                     }
@@ -5754,6 +5755,7 @@ impl Bench {
                         source: Some("legacy vessel state".to_string()),
                         particle_size_um: Some(*diameter_um),
                         suspended_fraction: Some(if has_liquid { 1.0 } else { 0.0 }),
+                        heat_denatured: false,
                     });
                 }
                 v.resolved.invalidate();
@@ -5877,6 +5879,7 @@ impl Bench {
                             source: Some("solver-created solid".to_string()),
                             particle_size_um: Some(separation.particle_diameter_um),
                             suspended_fraction: Some(remaining),
+                            heat_denatured: false,
                         });
                     }
                 }

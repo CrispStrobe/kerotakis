@@ -104,6 +104,12 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         crate::vessel::path_cm_for(&vessel.label),
         &mut absorbance,
     );
+    let biuret_complex_moles = crate::biuret::add_absorbance(
+        vessel,
+        litres,
+        crate::vessel::path_cm_for(&vessel.label),
+        &mut absorbance,
+    );
     let has_liquid = vessel
         .contents
         .iter()
@@ -174,6 +180,11 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     let liquid_density = crate::buoyancy::liquid_density_g_per_ml(vessel);
     for p in &vessel.contents {
         if p.phase != Phase::Solid {
+            continue;
+        }
+        // Copper(II) hydroxide the biuret chelate has taken back into
+        // solution is not at the bottom of the tube.
+        if biuret_complex_moles > 0.0 && crate::biuret::covers_solid(vessel, &p.species) {
             continue;
         }
         let rises = liquid_density
@@ -335,6 +346,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             )],
         )]
     };
+    if biuret_complex_moles > 0.0 {
+        notes.push(crate::biuret::note());
+    }
     if !coverage.missing_ph.is_empty() {
         notes.push(Phrase::new(
             "look.indicator-optics-missing-ph",

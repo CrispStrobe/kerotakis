@@ -67,6 +67,7 @@ gas = "gasförmig"
 # translated; anything absent reads in English inside a German line, which
 # is better than a formula nobody asked for.
 [species]
+"gluconic acid" = "Gluconsäure"
 "hydrogen ion" = "Wasserstoff-Ion"
 "dissolved carbon dioxide" = "gelöstes Kohlenstoffdioxid"
 "carbonate ion" = "Carbonat-Ion"
@@ -1449,6 +1450,7 @@ piece-floats = "ein Stück {what} schwimmt obenauf"
 piece-bottom = "ein Stück {what} liegt am Boden"
 piece-here = "ein Stück {what} liegt im Becher"
 spectral-gap = "Die Farbe ist unvollständig: für {species} liegt kein Absorptionsspektrum vor."
+biuret-surrogate = "Das Violett ist die Biuret-Farbe des Kupfer-Peptid-Komplexes, als reine Augen-Ersatzbande gezeichnet: Es ist kein kalibrierter Proteinnachweis, und das Kupfer bleibt im Bestand so verbucht, wie der Löser es hinterlassen hat."
 # The list grammar, as two entries rather than a hardcoded " and ": a
 # language that uses no final conjunction writes "{head}{last}" here and
 # gets what it wants.
@@ -1735,6 +1737,7 @@ PVA = "PVA"
 [not-modeled]
 cea-solid-feed-cp-continuation = "Der feste Ausgangsstoff {species} liegt bei {temperature} K über seinem thermochemischen Datenbereich bis {high} K; sein vorhandenes Modell mit am Randwert gehaltener Wärmekapazität führt die fühlbare Energie in die Berechnung. Dieser überhitzte Ausgangszustand ist modellbegrenzt und außerhalb des Tabellenbereichs nicht thermochemisch validiert."
 carbonate-fast-endpoint = "Dieses Säure-Carbonat-Gaspaket ist ein begrenzter kuratierter Endpunkt aus neu gebildetem gelöstem CO2. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert; dies ist keine kalibrierte Vorhersage einer augenblicklichen Gasausbeute"
+reducing-sugar-qualitative = "Dieser Nachweis reduzierender Zucker ist ein qualitativer kuratierter Weg, nicht kalibriert: Der Zucker wird als zu Gluconsäure oxidiert verbucht, molekular statt als Gluconat gehalten, obwohl das wirkliche Produkt ein Gemisch ist; der Einsatzpunkt ist eine redaktionelle Wasserbad-Schwelle, und weder eine Geschwindigkeit noch eine Reaktionswärme oder eine gemessene Ausbeute wird behauptet"
 sulfide-fast-endpoint = "Dieses Säure-Sulfid-Gaspaket ist ein begrenzter kuratierter Endpunkt aus neu gebildetem gelöstem Schwefelwasserstoff. Seine Entweichzeit aus einem offenen Becherglas ist nicht modelliert; dies ist keine kalibrierte Vorhersage einer augenblicklichen Gasausbeute"
 ammonia-open-film = "Dieses Ammoniak, das das offene Becherglas verlässt, ist eine obere Schranke über den Flüssigkeitsfilm aus gelöstem neutralem NH3; der Widerstand auf der Gasseite und das schnellere Entweichen von einer heißen Oberfläche sind nicht modelliert, daher ist dies keine kalibrierte Entweichrate"
 redox-pair-unpriced = "{pairs}: Ein Oxidationsmittel und ein Reduktionsmittel sind hier zusammen, aber kein geprüfter schneller Reaktionsschreiber, keine kuratierte Reaktion und kein Geschwindigkeitsgesetz bepreist dieses Paar, daher bleibt es unreagiert. Das ist eine Lücke im Modell, kein Beleg dafür, dass nichts geschieht"

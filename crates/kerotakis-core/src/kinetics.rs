@@ -697,7 +697,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                     thermal_activity_midpoint_k: 318.15,
                     thermal_activity_width_k: 2.0,
                 },
-                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies explicitly editorial, bounded hydration and high-temperature activity envelopes rather than claiming universal yeast activity or irreversible denaturation history",
+                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies explicitly editorial, bounded hydration and high-temperature activity envelopes rather than claiming universal yeast activity; a catalase lot heated past the editorial catalase denaturation temperature in enzyme::FAMILIES (55 °C) is held irreversibly inactive, a qualitative threshold rather than a measured inactivation rate",
             },
             // Bottle and ion siblings, the `MnO4-`/`KMnO4` pattern. KI now
             // speciates (2026-10-27), so a solved vessel holds `K+` and
@@ -1653,8 +1653,18 @@ fn hydrated_enzyme_amount(vessel: &Vessel, species: &str, total_amount: f64) -> 
         (6.0 * 2_f64.powf((298.15 - vessel.temperature.0) / 10.0)).clamp(2.0, 30.0);
     let mut tracked = 0.0;
     let mut active = 0.0;
+    // A lot heated past its denaturation temperature is tracked and dead,
+    // whatever its source (`protein::record_heat_history`).
+    for lot in vessel
+        .lots
+        .iter()
+        .filter(|lot| lot.species.0 == species && lot.heat_denatured)
+    {
+        tracked += lot.moles.0;
+    }
     for lot in vessel.lots.iter().filter(|lot| {
-        lot.species.0 == species
+        !lot.heat_denatured
+            && lot.species.0 == species
             && lot.source.as_deref() == Some(crate::vessel::DRY_YEAST_RECIPE_SOURCE)
     }) {
         tracked += lot.moles.0;
@@ -3051,6 +3061,7 @@ mod tests {
             source: Some(crate::vessel::DRY_YEAST_RECIPE_SOURCE.to_string()),
             particle_size_um: None,
             suspended_fraction: None,
+            heat_denatured: false,
         });
         vessel
     }

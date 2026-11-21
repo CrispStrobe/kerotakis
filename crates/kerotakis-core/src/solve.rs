@@ -3171,11 +3171,12 @@ impl Equilibrator for PhaseEquilibrator {
 }
 
 fn curated_solid_product(species: &SpeciesId) -> bool {
-    crate::curated::REACTIONS.iter().any(|r| {
-        r.products
-            .iter()
-            .any(|(key, _, phase)| *key == species.0 && *phase == Phase::Solid)
-    })
+    crate::reducing_sugar::solid_product(species)
+        || crate::curated::REACTIONS.iter().any(|r| {
+            r.products
+                .iter()
+                .any(|(key, _, phase)| *key == species.0 && *phase == Phase::Solid)
+        })
 }
 
 /// The honesty pass, last in every stack: any state no chemistry solver has
@@ -3730,6 +3731,9 @@ impl Equilibrator for HonestyEquilibrator {
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
                     continue;
                 }
+                if crate::biuret::covers_solid(vessel, &p.species) {
+                    continue;
+                }
                 // Starch that amylase is digesting over bench time
                 // (`starch_amylase`, 2026-11-11) is wired, not unmodelled.
                 if crate::starch_amylase::consumes(vessel, &p.species) {
@@ -3887,6 +3891,9 @@ impl Equilibrator for HonestyEquilibrator {
                     continue;
                 }
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
+                    continue;
+                }
+                if crate::biuret::covers_solid(vessel, &p.species) {
                     continue;
                 }
                 // Starch that amylase is digesting over bench time
