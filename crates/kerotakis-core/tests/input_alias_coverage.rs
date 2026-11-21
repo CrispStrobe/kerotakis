@@ -372,6 +372,6 @@ fn mechanism_formulas_resolve_to_the_species_the_packs_mean() {
             Some(*key),
             "{formula} should resolve to {key}"
         );
-        assert_eq!(SpeciesId::new(*formula).0, *key, "{formula} canonicalises");
+        assert_eq!(SpeciesId::new(formula).0, *key, "{formula} canonicalises");
     }
 }
