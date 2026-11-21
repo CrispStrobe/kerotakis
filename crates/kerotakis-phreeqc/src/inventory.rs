@@ -38,6 +38,9 @@ pub(crate) struct ClockCo2Boundary {
     /// native S(-2) total by the bounded acid/sulfide endpoint. Same
     /// virtual-boundary contract as the carbon parcel; no clock writes it.
     pub(crate) h2s_applied_mol: f64,
+    /// The ammonia sibling: NH3 the open-boundary film clock moved out of
+    /// the native N(-3) total. Same virtual-boundary contract.
+    pub(crate) nh3_applied_mol: f64,
 }
 
 impl ClockCo2Boundary {
@@ -46,6 +49,7 @@ impl ClockCo2Boundary {
             vessel,
             applied_mol: 0.0,
             h2s_applied_mol: 0.0,
+            nh3_applied_mol: 0.0,
         }
     }
 }
@@ -477,6 +481,7 @@ fn clock_formula(
     if clock.vessel != vessel
         || !clock.applied_mol.is_finite()
         || !clock.h2s_applied_mol.is_finite()
+        || !clock.nh3_applied_mol.is_finite()
     {
         return Err(inventory_error(
             InventoryReason::ClockBoundaryInvalid,
@@ -487,6 +492,7 @@ fn clock_formula(
     for (key, amount) in [
         ("CO2", clock.applied_mol),
         ("hydrogen_sulfide", clock.h2s_applied_mol),
+        ("NH3", clock.nh3_applied_mol),
     ] {
         if amount == 0.0 {
             continue;
@@ -696,6 +702,8 @@ pub(crate) fn certify_reservoir_opaque_inventory(
         || after.pending_co2_transfer_mol != 0.0
         || before.pending_h2s_transfer_mol != 0.0
         || after.pending_h2s_transfer_mol != 0.0
+        || before.pending_nh3_transfer_mol != 0.0
+        || after.pending_nh3_transfer_mol != 0.0
         || !matches!(&before.headspace, kerotakis_core::Headspace::Open)
         || !matches!(&after.headspace, kerotakis_core::Headspace::Open)
         || before.owns_headspace_gas()
@@ -1263,6 +1271,7 @@ mod gas_aware_certificate_tests {
             vessel: before.id,
             applied_mol: 2e-6,
             h2s_applied_mol: 0.0,
+            nh3_applied_mol: 0.0,
         };
         assert!(certify_gas_aware_inventory(&before, &after, &[], &[], inlet).is_ok());
         let outlet = ClockCo2Boundary {
@@ -1305,6 +1314,7 @@ mod gas_aware_certificate_tests {
             vessel: before.id,
             applied_mol: 0.0,
             h2s_applied_mol: -2e-4,
+            nh3_applied_mol: 0.0,
         };
         assert!(certify_gas_aware_inventory(&before, &after, &[], &[], outlet).is_ok());
         // Unspent: the sulfur is still in the vessel, so the parcel cannot
