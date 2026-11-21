@@ -265,6 +265,19 @@ pub struct Unpriced {
     pub why: &'static str,
 }
 
+/// A species' enthalpy against the primary basis (`species_basis_h_kj`).
+/// A parsed chain that could not be closed declines; a stated enthalpy
+/// with no parsed reaction behind it is all the index knows, and is read.
+fn basis_enthalpy(idx: &dbindex::DbIndex, key: &str) -> Option<f64> {
+    if idx.species_basis_declined.contains(key) {
+        return None;
+    }
+    idx.species_basis_h_kj
+        .get(key)
+        .or_else(|| idx.species_delta_h_kj.get(key))
+        .copied()
+}
+
 /// The enthalpy of one aqueous species relative to the master basis.
 pub(crate) fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     let idx = derived::index_for(db_tag);
@@ -278,16 +291,19 @@ pub(crate) fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     if key == "water" || key == "H2O" {
         return Some(0.0);
     }
-    if let Some(dh) = idx.species_delta_h_kj.get(key) {
-        return Some(*dh);
+    // Relative to the primary basis, never to whatever the defining
+    // reaction happened to start from (see `species_basis_h_kj`). A
+    // species with an enthalpy whose chain cannot be closed declines.
+    if idx.species_delta_h_kj.contains_key(key) {
+        return basis_enthalpy(idx, key);
     }
     // The registry and the database do not always spell the same substance
     // the same way — `CH3COOH` is `H(Acetate)` in minteq.v4.
     for (_, pairs) in derived::PROTONATION_SPLITS {
         for (db_name, registry_name) in *pairs {
             if *registry_name == key {
-                if let Some(dh) = idx.species_delta_h_kj.get(*db_name) {
-                    return Some(*dh);
+                if idx.species_delta_h_kj.contains_key(*db_name) {
+                    return basis_enthalpy(idx, db_name);
                 }
                 if idx.species_element.contains_key(*db_name) {
                     return Some(0.0);
@@ -309,8 +325,8 @@ fn mineral_product_reference(product: &str, idx: &dbindex::DbIndex) -> Option<(f
     let water = product == "H2O";
     let heat = if water {
         0.0
-    } else if let Some(explicit) = idx.species_delta_h_kj.get(product) {
-        *explicit
+    } else if idx.species_delta_h_kj.contains_key(product) {
+        basis_enthalpy(idx, product)?
     } else if genuine_master {
         0.0
     } else {
@@ -868,6 +884,75 @@ mod tests {
     }
 
     const DB: &str = "minteq.v4";
+
+    /// A species is priced against the PRIMARY master basis, not against
+    /// whatever its defining reaction happens to start from.
+    ///
+    /// wateq4f defines `NH4+` from `NO3-` by an eight-electron reduction
+    /// (-782.6 kJ/mol) and `NH3` from `NH4+` (+52.2). Reading the two raw
+    /// put an acid-base pair 835 kJ/mol apart: `NH4Cl + NaOH` cooled 50 mL
+    /// of water by 26 K and froze it, and `NH3 + HCl` heated it by 40 K.
+    /// The same split sits under ferric complexes (`Fe+3` from `Fe+2`) and
+    /// sulfides (`HS-` from `SO4-2`), so the check covers all three
+    /// families on every routed database that defines them.
+    ///
+    /// Literature (NBS/NIST standard enthalpies of formation, aqueous,
+    /// 298.15 K): NH4+ -132.51, NH3 -80.29, OH- -229.99, H2O(l) -285.83
+    /// kJ/mol, so `NH4+ + OH- -> NH3 + H2O` is -3.62 and
+    /// `NH3 + H+ -> NH4+` is -52.22 kJ/mol.
+    #[test]
+    fn derived_species_are_priced_against_the_primary_basis() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let n = 0.01;
+            // NH4+ + OH- -> NH3 + H2O: nearly thermoneutral.
+            let ions = |nh: &str| {
+                vec![
+                    portion(nh, n, Phase::Aqueous),
+                    portion("Na+", n, Phase::Aqueous),
+                    portion("Cl-", n, Phase::Aqueous),
+                ]
+            };
+            let released = heat_released_j(&ions("NH4+"), n, &ions("NH3"), 0.0, &[], db)
+                .expect("ammonium/ammonia priced");
+            let dh = -released / n / 1e3;
+            assert!(
+                (dh + 3.62).abs() < 0.6,
+                "{db}: NH4+ + OH- -> NH3 + H2O came out {dh:.2} kJ/mol, literature -3.62"
+            );
+            // NH3 + H+ -> NH4+ (free acid H+ is the basis zero).
+            let protonation =
+                aqueous_enthalpy("NH4+", db).unwrap() - aqueous_enthalpy("NH3", db).unwrap();
+            assert!(
+                (protonation + 52.22).abs() < 1.0,
+                "{db}: NH3 + H+ -> NH4+ came out {protonation:.2} kJ/mol, literature -52.22"
+            );
+        }
+        // Within every family, a defining reaction's own enthalpy is
+        // recovered exactly from the basis: pricing a step against the
+        // basis never changes a heat the database states directly.
+        let idx = derived::index_for("wateq4f");
+        for (species, parent, extra) in [
+            ("NH3", "NH4+", 0.0),
+            ("FeOH+2", "Fe+3", 0.0),
+            (
+                "FeCl+2",
+                "Fe+3",
+                aqueous_enthalpy("Cl-", "wateq4f").unwrap(),
+            ),
+            ("HS-", "H2S", 0.0),
+        ] {
+            let stated = idx.species_delta_h_kj[species];
+            let basis = aqueous_enthalpy(species, "wateq4f").unwrap()
+                - aqueous_enthalpy(parent, "wateq4f").unwrap()
+                - extra;
+            assert!(
+                (basis - stated).abs() < 1e-9,
+                "{species} from {parent}: basis gives {basis}, database states {stated}"
+            );
+        }
+        // And the cross-family member is genuinely chained, not left raw.
+        assert!(aqueous_enthalpy("NH3", "wateq4f").unwrap() < -700.0);
+    }
 
     #[test]
     fn aqueous_thiocyanate_relabelling_preserves_known_heat_not_unknown_properties() {
