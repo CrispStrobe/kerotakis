@@ -177,6 +177,12 @@ pub struct DbIndex {
     /// not a smaller error, it is the same error, so it declines by name.
     #[serde(default)]
     pub species_basis_h_kj: BTreeMap<String, f64>,
+    /// Species with a stated enthalpy whose chain to the basis could not be
+    /// closed. Kept apart from "no chain recorded" so a hand-built index
+    /// (or a species defined outside a parsed reaction) still reads its
+    /// stated value, while a parsed half-chain declines.
+    #[serde(default)]
+    pub species_basis_declined: std::collections::BTreeSet<String>,
     /// Activity model, derived from the file's own declarations.
     pub activity_model: ActivityModel,
     /// Literature citations found in the file's comments, in file order.
@@ -441,6 +447,14 @@ impl DbIndex {
             idx.species_delta_h_kj.entry(name).or_insert(kj);
         }
         idx.species_basis_h_kj = basis_enthalpies(&reactions, &idx);
+        idx.species_basis_declined = idx
+            .species_delta_h_kj
+            .keys()
+            .filter(|name| {
+                reactions.contains_key(*name) && !idx.species_basis_h_kj.contains_key(*name)
+            })
+            .cloned()
+            .collect();
         for (name, kj) in analytic_phases {
             if let Some(phase) = idx.phases.get_mut(&name) {
                 if phase.delta_h_kj.is_none() {

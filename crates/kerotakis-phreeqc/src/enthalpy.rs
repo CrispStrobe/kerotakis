@@ -265,6 +265,19 @@ pub struct Unpriced {
     pub why: &'static str,
 }
 
+/// A species' enthalpy against the primary basis (`species_basis_h_kj`).
+/// A parsed chain that could not be closed declines; a stated enthalpy
+/// with no parsed reaction behind it is all the index knows, and is read.
+fn basis_enthalpy(idx: &dbindex::DbIndex, key: &str) -> Option<f64> {
+    if idx.species_basis_declined.contains(key) {
+        return None;
+    }
+    idx.species_basis_h_kj
+        .get(key)
+        .or_else(|| idx.species_delta_h_kj.get(key))
+        .copied()
+}
+
 /// The enthalpy of one aqueous species relative to the master basis.
 pub(crate) fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     let idx = derived::index_for(db_tag);
@@ -282,7 +295,7 @@ pub(crate) fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     // reaction happened to start from (see `species_basis_h_kj`). A
     // species with an enthalpy whose chain cannot be closed declines.
     if idx.species_delta_h_kj.contains_key(key) {
-        return idx.species_basis_h_kj.get(key).copied();
+        return basis_enthalpy(idx, key);
     }
     // The registry and the database do not always spell the same substance
     // the same way — `CH3COOH` is `H(Acetate)` in minteq.v4.
@@ -290,7 +303,7 @@ pub(crate) fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
         for (db_name, registry_name) in *pairs {
             if *registry_name == key {
                 if idx.species_delta_h_kj.contains_key(*db_name) {
-                    return idx.species_basis_h_kj.get(*db_name).copied();
+                    return basis_enthalpy(idx, db_name);
                 }
                 if idx.species_element.contains_key(*db_name) {
                     return Some(0.0);
@@ -313,7 +326,7 @@ fn mineral_product_reference(product: &str, idx: &dbindex::DbIndex) -> Option<(f
     let heat = if water {
         0.0
     } else if idx.species_delta_h_kj.contains_key(product) {
-        *idx.species_basis_h_kj.get(product)?
+        basis_enthalpy(idx, product)?
     } else if genuine_master {
         0.0
     } else {
