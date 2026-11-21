@@ -64,6 +64,14 @@ jobs:
           cache: npm
           cache-dependency-path: web/app/package-lock.json
 
+      # `tauri android build` runs beforeBuildCommand (`npm run build:shell`),
+      # whose payload tools import `tomllib` — Python 3.11+. ubuntu-22.04's
+      # system python3 is 3.10; v0.1.7's first Android release died on exactly
+      # that. tools/payload-toolchain-lint.py now follows the mobile builds too.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install the app's dependencies
         working-directory: web/app
         run: npm ci --no-audit --no-fund

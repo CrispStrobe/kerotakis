@@ -94,6 +94,9 @@ def npm_scripts_reaching(tokens: set[str]) -> set[str]:
     return reaching
 
 
+TAURI_BUILDS = ("tauri build", "tauri android build", "tauri ios build")
+
+
 def reaching_tokens() -> list[str]:
     """Anything whose presence in a workflow means a >=3.11 Python is needed.
 
@@ -124,10 +127,14 @@ def reaching_tokens() -> list[str]:
                 tokens.add(f"npm run {name}")
                 grew = True
             # tauri runs beforeBuildCommand itself, so `tauri build` reaches
-            # whichever npm script that config names.
-            if name in before and "tauri build" not in tokens:
-                tokens.add("tauri build")
-                grew = True
+            # whichever npm script that config names — and so do the mobile
+            # builds. v0.1.7's Android job died on `tomllib` because only the
+            # desktop spelling was listed here, so android.yml was never checked.
+            if name in before:
+                for tauri in TAURI_BUILDS:
+                    if tauri not in tokens:
+                        tokens.add(tauri)
+                        grew = True
 
         if not grew:
             return sorted(tokens)
