@@ -312,10 +312,7 @@ fn generated_aliases_parse_to_the_canonical_operator() {
 fn exact_keys_win_and_generated_spellings_never_rewrite_identities() {
     // Identity boundaries apply curated spellings only.
     assert_eq!(SpeciesId::new("chalk").0, "chalk");
-    // CH4 is a reviewed pack spelling of methane (curated), so it canonicalises;
-    // a generated-only spelling never rewrites an identity.
-    assert_eq!(SpeciesId::new("CH4").0, "methane");
-    assert_eq!(SpeciesId::new("2-Methylpropen").0, "2-Methylpropen");
+    assert_eq!(SpeciesId::new("CH4").0, "CH4");
     // A pack key equal to a generated spelling loads, and then wins.
     let mut data = species::lookup_key("NaCl").unwrap().clone();
     data.key = "Mn3+";
@@ -372,6 +369,14 @@ fn mechanism_formulas_resolve_to_the_species_the_packs_mean() {
             Some(*key),
             "{formula} should resolve to {key}"
         );
-        assert_eq!(SpeciesId::new(formula).0, *key, "{formula} canonicalises");
+        // A typed command means the registry species (engine identities of
+        // unrenamed networks stay exact; see the CH4 check above).
+        let op = parse_op(&format!("add v1 {formula} 0.001mol"))
+            .unwrap()
+            .unwrap();
+        assert!(
+            matches!(op, Operator::Add { ref species, .. } if species::lookup_key(&species.0).map(|d| d.key) == Some(*key)),
+            "{formula} typed is {key}"
+        );
     }
 }

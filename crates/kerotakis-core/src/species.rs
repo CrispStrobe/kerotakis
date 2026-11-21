@@ -498,7 +498,21 @@ pub fn resolve_input_alias(text: &str) -> Option<&'static str> {
 /// Resolve the curated spellings at every species identity boundary.
 /// Generated spellings are deliberately NOT applied here; see
 /// [`resolve_input_alias`].
+///
+/// Only the hand list applies here. The pack formulas (`CH4`, `C3H8`,
+/// `C4H10`) stay exact identities inside the engine, because an unrenamed
+/// mechanism network names its species by them; they become registry keys
+/// where a learner types them, through [`typed_input_key`].
 pub(crate) fn canonical_input_key(key: &str) -> &str {
+    CURATED_INPUT_ALIASES
+        .iter()
+        .find_map(|(alias, canonical)| (*alias == key).then_some(*canonical))
+        .unwrap_or(key)
+}
+
+/// Resolve every reviewed spelling (the hand list plus the pack formulas)
+/// where a learner TYPES a species, and at registry lookup.
+pub(crate) fn typed_input_key(key: &str) -> &str {
     curated_input_aliases()
         .find_map(|(alias, canonical)| (alias == key).then_some(canonical))
         .unwrap_or(key)
@@ -552,6 +566,14 @@ impl SpeciesId {
 
     pub(crate) fn canonicalize(&mut self) {
         let canonical = canonical_input_key(&self.0);
+        if canonical != self.0.as_str() {
+            self.0 = canonical.to_string();
+        }
+    }
+
+    /// Canonicalize a typed species: the reviewed pack formulas too.
+    pub(crate) fn canonicalize_typed(&mut self) {
+        let canonical = typed_input_key(&self.0);
         if canonical != self.0.as_str() {
             self.0 = canonical.to_string();
         }
@@ -1172,7 +1194,7 @@ pub fn english_name(key: &str) -> &str {
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
-    lookup_resolved_key(canonical_input_key(key))
+    lookup_resolved_key(typed_input_key(key))
 }
 
 fn lookup_resolved_key(key: &str) -> Option<&'static SpeciesData> {

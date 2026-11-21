@@ -466,12 +466,12 @@ impl Operator {
     pub(crate) fn canonicalize_inputs(&mut self) {
         match self {
             Self::Add { species, .. } | Self::Grind { species, .. } => {
-                species.canonicalize();
+                species.canonicalize_typed();
             }
-            Self::Extract { solvent, .. } => solvent.canonicalize(),
-            Self::Titrate { titrant, .. } => titrant.canonicalize(),
+            Self::Extract { solvent, .. } => solvent.canonicalize_typed(),
+            Self::Titrate { titrant, .. } => titrant.canonicalize_typed(),
             Self::StockShelf { key, .. } => {
-                let canonical = crate::species::canonical_input_key(key);
+                let canonical = crate::species::typed_input_key(key);
                 if canonical != key.as_str() {
                     *key = canonical.to_string();
                 }
