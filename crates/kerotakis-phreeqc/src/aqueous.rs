@@ -160,6 +160,7 @@ struct AuxiliaryPoseWitness {
     co2_partial_pressure_atm: Option<f64>,
     pending_co2_transfer_mol: f64,
     pending_h2s_transfer_mol: f64,
+    pending_nh3_transfer_mol: f64,
     zero_time_dose: bool,
     co2_film_boundary: bool,
     elapsed_seconds: f64,
@@ -191,6 +192,7 @@ impl AuxiliaryPoseWitness {
             co2_partial_pressure_atm: vessel.co2_partial_pressure_atm,
             pending_co2_transfer_mol: vessel.pending_co2_transfer_mol,
             pending_h2s_transfer_mol: vessel.pending_h2s_transfer_mol,
+            pending_nh3_transfer_mol: vessel.pending_nh3_transfer_mol,
             zero_time_dose: vessel.zero_time_dose,
             co2_film_boundary: vessel.co2_film_boundary,
             elapsed_seconds: vessel.elapsed_seconds,
@@ -1787,6 +1789,7 @@ impl PhreeqcEquilibrator {
             {
                 if first.clock_co2_applied_mol != 0.0
                     || first.h2s_parcel_applied_mol != 0.0
+                    || first.nh3_parcel_applied_mol != 0.0
                     || first_hint != FirstPoseHint::default()
                 {
                     return Err(canonical_closure_error(
@@ -1827,10 +1830,20 @@ impl PhreeqcEquilibrator {
                     "hydrogen sulfide parcel did not match its typed input",
                 ));
             }
+            let nh3_applied = first.nh3_parcel_applied_mol;
+            if !nh3_applied.is_finite()
+                || (nh3_applied != 0.0 && owner_start.pending_nh3_transfer_mol != nh3_applied)
+            {
+                return Err(canonical_closure_error(
+                    AqueousReason::ClockParcelMismatch,
+                    "ammonia parcel did not match its typed input",
+                ));
+            }
             let clock = crate::inventory::ClockCo2Boundary {
                 vessel: trial.id,
                 applied_mol: clock_applied,
                 h2s_applied_mol: h2s_applied,
+                nh3_applied_mol: nh3_applied,
             };
             // Only this private candidate spends the clock parcel. Every outer
             // temperature guess still starts from the original pending input.
@@ -1839,6 +1852,9 @@ impl PhreeqcEquilibrator {
             }
             if h2s_applied != 0.0 {
                 trial.pending_h2s_transfer_mol = 0.0;
+            }
+            if nh3_applied != 0.0 {
+                trial.pending_nh3_transfer_mol = 0.0;
             }
             let mut reservoirs = first.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
             // Earlier native crossings retain their original reservoir owner
@@ -1885,6 +1901,9 @@ impl PhreeqcEquilibrator {
                     private_snapshot
                         .note_gas_out(&SpeciesId::new("hydrogen_sulfide"), -h2s_applied);
                 }
+                if nh3_applied != 0.0 {
+                    private_snapshot.note_gas_out(&SpeciesId::new("NH3"), -nh3_applied);
+                }
                 trial.step_start = Some(private_snapshot);
                 calls += 1;
                 let mut pass = perform(AqueousWork::Pose {
@@ -1898,6 +1917,7 @@ impl PhreeqcEquilibrator {
                     || pass.component_certificate != component_owner
                     || pass.clock_co2_applied_mol != 0.0
                     || pass.h2s_parcel_applied_mol != 0.0
+                    || pass.nh3_parcel_applied_mol != 0.0
                     || pass
                         .events
                         .iter()
@@ -2815,6 +2835,9 @@ struct Problem {
     /// It is a clock boundary, not a native gas phase or a cached answer.
     clock_co2_applied_mol: f64,
     h2s_parcel_applied_mol: f64,
+    /// Exact outward ammonia parcel (open-boundary film transfer) taken
+    /// off `totals[N(-3)]` by this pose.
+    nh3_parcel_applied_mol: f64,
     /// Element totals in solution, mol.
     totals: Vec<(String, f64)>,
     /// Phases: (name, initial moles, target saturation index).
@@ -3433,6 +3456,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut solutes = 0;
     let mut clock_co2_applied_mol = 0.0;
     let mut h2s_parcel_applied_mol = 0.0;
+    let mut nh3_parcel_applied_mol = 0.0;
 
     let mut add_total = |el: &str, moles: f64| {
         if let Some(entry) = totals.iter_mut().find(|(e, _)| e == el) {
@@ -3718,6 +3742,29 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
+    // The ammonia sibling: neutral NH3 the open-boundary film clock moved
+    // out of the beaker, applied to the N(-3) total. Neutral, so the pose
+    // re-speciates the rest without inventing a proton. Outward only and
+    // clamped to the ammonia nitrogen present; a clamp makes
+    // `validate_clock_boundary` refuse rather than spend a partial parcel.
+    // Like the CO2 parcel, a sub-floor amount stays parked until enough
+    // has crossed to be worth posing (and announcing).
+    if vessel.pending_nh3_transfer_mol.abs() > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL {
+        let ammonia_now: f64 = totals
+            .iter()
+            .filter(|(el, _)| el == "N(-3)")
+            .map(|(_, moles)| *moles)
+            .sum();
+        let outward = vessel.pending_nh3_transfer_mol.min(0.0);
+        let applied = outward.max(-ammonia_now);
+        nh3_parcel_applied_mol = applied;
+        if applied != 0.0 {
+            if let Some(entry) = totals.iter_mut().find(|(el, _)| el == "N(-3)") {
+                entry.1 += applied;
+            }
+        }
+    }
+
     // Unrepresented acids and ionic solutes must never inherit pure water's
     // pH. Neutral spectators may: they do not contribute to the acid/base
     // balance, and the solvent's autoionisation is still a real solution
@@ -3856,6 +3903,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         solvent_only,
         clock_co2_applied_mol,
         h2s_parcel_applied_mol,
+        nh3_parcel_applied_mol,
         totals,
         phases,
         gases,
@@ -4779,6 +4827,24 @@ impl Equilibrator for PhreeqcEquilibrator {
                 moles: Moles(-h2s_parcel),
             });
         }
+        // Ammonia moved across the open surface by the film clock: same
+        // contract, announced once, with its typed rate boundary.
+        let nh3_parcel = start.pending_nh3_transfer_mol;
+        if nh3_parcel.abs() > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL {
+            if vessel.pending_nh3_transfer_mol != 0.0 {
+                *vessel = start;
+                return Err(canonical_closure_error(
+                    AqueousReason::ClockParcelMismatch,
+                    "ammonia parcel was not spent by a certified answer",
+                ));
+            }
+            events.push(Event::GasEvolved {
+                vessel: vessel.id,
+                species: SpeciesId::new("NH3"),
+                moles: Moles(-nh3_parcel),
+            });
+            events.push(kerotakis_core::clock::ammonia_film_notice(vessel.id));
+        }
         Ok(events)
     }
 
@@ -4803,6 +4869,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 || source.pending_co2_transfer_mol != 0.0
                 || !source.pending_co2_transfer_mol.is_finite()
                 || source.pending_h2s_transfer_mol != 0.0
+                || source.pending_nh3_transfer_mol != 0.0
         }) {
             return None;
         }
@@ -4911,6 +4978,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             solvent_only: false,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: {
                 let mut t: Vec<(String, f64)> = Vec::new();
                 for (el, moles) in &problem_a.totals {
@@ -5309,6 +5377,9 @@ struct AqueousPass {
     /// Native reservoir events remain separate.
     clock_co2_applied_mol: f64,
     h2s_parcel_applied_mol: f64,
+    /// Exact outward ammonia parcel (open-boundary film transfer) taken
+    /// off `totals[N(-3)]` by this pose.
+    nh3_parcel_applied_mol: f64,
     secondary_disposition: SecondaryDisposition,
     pending_secondary: Option<Box<ExactAuxiliaryQuestion>>,
 }
@@ -5402,6 +5473,29 @@ fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result
         return Err(canonical_closure_error(
             AqueousReason::ClockBoundaryInvalid,
             "pending hydrogen sulfide parcel is unsupported or exceeds available reduced sulfur",
+        ));
+    }
+    let nh3 = vessel.pending_nh3_transfer_mol;
+    let nh3_applied = problem.map_or(0.0, |problem| problem.nh3_parcel_applied_mol);
+    let nh3_spendable = nh3.abs() > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL;
+    if !nh3.is_finite()
+        || nh3 > 0.0
+        || !nh3_applied.is_finite()
+        || (nh3_spendable && nh3_applied != nh3)
+        || (!nh3_spendable && nh3_applied != 0.0)
+        || (nh3_spendable
+            && problem.is_none_or(|problem| {
+                problem
+                    .totals
+                    .iter()
+                    .filter(|(element, _)| element == "N(-3)")
+                    .count()
+                    != 1
+            }))
+    {
+        return Err(canonical_closure_error(
+            AqueousReason::ClockBoundaryInvalid,
+            "pending ammonia parcel is unsupported or exceeds available ammonia nitrogen",
         ));
     }
     Ok(())
@@ -6079,6 +6173,7 @@ fn canonical_physical_delta(
     if before.id != after.id
         || before.pending_co2_transfer_mol != after.pending_co2_transfer_mol
         || before.pending_h2s_transfer_mol != after.pending_h2s_transfer_mol
+        || before.pending_nh3_transfer_mol != after.pending_nh3_transfer_mol
         || !before.surfaces.is_empty()
         || !after.surfaces.is_empty()
         || !before.exchanges.is_empty()
@@ -6566,6 +6661,7 @@ mod canonical_physical_closure_tests {
             reservoirs: vec!["CO2".into()],
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             secondary_disposition: SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
             pending_secondary: None,
         }
@@ -8176,6 +8272,7 @@ impl PhreeqcEquilibrator {
                 reservoirs: Vec::new(),
                 clock_co2_applied_mol: 0.0,
                 h2s_parcel_applied_mol: 0.0,
+                nh3_parcel_applied_mol: 0.0,
                 secondary_disposition: SecondaryDisposition::Declined(
                     SecondaryDecline::Unsupported,
                 ),
@@ -8254,7 +8351,10 @@ impl PhreeqcEquilibrator {
 
         if gas_components_certified {
             certify_projected_protonation(&new_ions, &protonation)?;
-        } else if problem.clock_co2_applied_mol != 0.0 || problem.h2s_parcel_applied_mol != 0.0 {
+        } else if problem.clock_co2_applied_mol != 0.0
+            || problem.h2s_parcel_applied_mol != 0.0
+            || problem.nh3_parcel_applied_mol != 0.0
+        {
             return Err(canonical_closure_error(
                 AqueousReason::ClockProjectionMissing,
                 "clock CO2 parcel lacks a certified native component projection",
@@ -8400,6 +8500,7 @@ impl PhreeqcEquilibrator {
             vessel: vessel.id,
             applied_mol: problem.clock_co2_applied_mol,
             h2s_applied_mol: problem.h2s_parcel_applied_mol,
+            nh3_applied_mol: problem.nh3_parcel_applied_mol,
         };
         crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs, clock)?;
         if gas_components_certified {
@@ -8606,6 +8707,12 @@ impl PhreeqcEquilibrator {
                     }
                 }
             }
+            if problem.nh3_parcel_applied_mol != 0.0 {
+                match gas_out.iter_mut().find(|(key, _)| key == "NH3") {
+                    Some((_, amount)) => *amount -= problem.nh3_parcel_applied_mol,
+                    None => gas_out.push(("NH3".into(), -problem.nh3_parcel_applied_mol)),
+                }
+            }
             // An unpriced mover whose worst-case heat would move this
             // vessel by less than the bench thermometer can resolve cannot
             // change any reading; a larger one refuses the step's heat.
@@ -8711,6 +8818,7 @@ impl PhreeqcEquilibrator {
             reservoirs: reservoirs.into_iter().map(str::to_string).collect(),
             clock_co2_applied_mol: problem.clock_co2_applied_mol,
             h2s_parcel_applied_mol: problem.h2s_parcel_applied_mol,
+            nh3_parcel_applied_mol: problem.nh3_parcel_applied_mol,
             secondary_disposition: secondary.disposition,
             pending_secondary,
         };
@@ -11163,6 +11271,7 @@ fn exhausted_reservoir_endpoint_correction(
         || new_phases.len() != 1
         || problem.clock_co2_applied_mol != 0.0
         || problem.h2s_parcel_applied_mol != 0.0
+        || problem.nh3_parcel_applied_mol != 0.0
         || vessel.owns_headspace_gas()
         || vessel
             .contents
@@ -11280,10 +11389,12 @@ fn reservoir_opaque_component_owner(
         ComponentCertificate::Uncertified | ComponentCertificate::ReservoirWithOpaque
     ) && problem.clock_co2_applied_mol == 0.0
         && problem.h2s_parcel_applied_mol == 0.0
+        && problem.nh3_parcel_applied_mol == 0.0
         && !problem.solvent_only
         && !vessel.unresolved_materials.is_empty()
         && vessel.pending_co2_transfer_mol == 0.0
         && vessel.pending_h2s_transfer_mol == 0.0
+        && vessel.pending_nh3_transfer_mol == 0.0
         && matches!(&vessel.headspace, Headspace::Open)
         && !vessel.owns_headspace_gas()
         && !vessel
@@ -11425,6 +11536,7 @@ fn project_gas_aware_components(
         && problem.gases.is_empty()
         && problem.clock_co2_applied_mol == 0.0
         && problem.h2s_parcel_applied_mol == 0.0
+        && problem.nh3_parcel_applied_mol == 0.0
         && !owner.is_certified()
     {
         return Ok(false);
@@ -11664,6 +11776,7 @@ mod gas_component_projection_tests {
             solvent_only: false,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: vec![
                 ("Na".into(), 0.02),
                 ("Acetate".into(), 0.005),
@@ -11698,6 +11811,7 @@ mod gas_component_projection_tests {
             solvent_only: false,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: vec![("C".into(), input_carbon)],
             phases: vec![("CO2(g)".into(), 0.0, -12.0)],
             gases: vec![],
@@ -11744,6 +11858,7 @@ mod gas_component_projection_tests {
             solvent_only: false,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: vec![("C".into(), 0.03774), ("Na".into(), 0.07548)],
             phases: vec![("CO2(g)".into(), 0.0, -3.408)],
             gases: vec![],
@@ -14488,6 +14603,7 @@ mod numerical_water_activity_tests {
             solvent_only: true,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: vec![],
             phases: vec![],
             gases: vec![],
@@ -14580,6 +14696,7 @@ mod numerical_water_activity_tests {
             solvent_only: false,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: vec![("N(-3)".into(), total_n), ("Cl".into(), total_n)],
             phases: vec![],
             gases: vec![],
@@ -15549,6 +15666,7 @@ mod sulfur_dioxide_boundary_tests {
             solvent_only: false,
             clock_co2_applied_mol: 0.0,
             h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: 0.0,
             totals: vec![("Sulfite".into(), 1e-3)],
             phases: vec![],
             gases,

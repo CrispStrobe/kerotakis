@@ -107,7 +107,9 @@ fn carbonate(v: &Vessel) -> f64 {
 }
 
 fn no_parcel(v: &Vessel) -> bool {
-    v.pending_co2_transfer_mol == 0.0 && v.pending_h2s_transfer_mol == 0.0
+    v.pending_co2_transfer_mol == 0.0
+        && v.pending_h2s_transfer_mol == 0.0
+        && v.pending_nh3_transfer_mol == 0.0
 }
 
 /// Strong acids whose anion is a spectator beside reduced sulfur. Nitric
@@ -226,6 +228,8 @@ fn prepare_carbonate(before: &Vessel, supplied: &Vessel) -> Option<Dose> {
         || supplied.pending_co2_transfer_mol != 0.0
         || before.pending_h2s_transfer_mol != 0.0
         || supplied.pending_h2s_transfer_mol != 0.0
+        || before.pending_nh3_transfer_mol != 0.0
+        || supplied.pending_nh3_transfer_mol != 0.0
         || before.solution.as_ref()?.scope != SolutionScope::Complete
     {
         return None;

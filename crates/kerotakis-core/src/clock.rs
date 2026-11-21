@@ -1343,6 +1343,7 @@ impl Clock for GasExchangeClock {
         if !matches!(vessel.headspace, crate::vessel::Headspace::Open) {
             return Ok(());
         }
+        ammonia_film_outflux(vessel, seconds);
         // Nothing has characterised this solution, so there is no measured
         // pressure to drive anything. A vessel nobody has solved is not
         // yet carbonating: the first solve measures it, and the next wait
@@ -1467,6 +1468,67 @@ impl Clock for GasExchangeClock {
         vessel.pending_co2_transfer_mol += transfer;
         Ok(())
     }
+}
+
+/// Dissolved neutral ammonia leaving an open beaker for room air.
+///
+/// Room air holds no ammonia to speak of, so the equilibrium dissolved
+/// concentration at the surface is zero and every mole of NH3(aq) the
+/// aqueous solver measured is driving force. Spent in the same closed form
+/// as the CO2 outgassing branch above — `n(t) = n0 (1 - exp(-t/tau))`,
+/// `tau = V / (k_L A)` — using the same Cole & Caraco still-surface
+/// [`STILL_SURFACE_K_L_M_PER_S`] and mouth area. Only the measured
+/// NH3(aq) pool is offered; the ammonium buffer re-equilibrates through the
+/// aqueous owner between intervals and is not invented as extra gas. Warmth
+/// acts through that speciation: a warmer solution holds more of its
+/// ammonia as neutral NH3, and Sander's Henry constant (`henry_lookup`)
+/// gates the whole clock on the gas being a reviewed volatile.
+///
+/// **This is a liquid-film upper bound, not a calibrated rate.** Ammonia is
+/// so soluble that real transfer is gas-film limited, and the gas-side
+/// coefficient is not a reviewed number on this bench; nor is the extra
+/// speed of a heated surface. The aqueous adapter that spends the parcel
+/// says so with [`ammonia_film_notice`]. Parked in
+/// [`Vessel::pending_nh3_transfer_mol`]; no event is emitted here.
+fn ammonia_film_outflux(vessel: &mut Vessel, seconds: f64) {
+    if crate::properties::henry_lookup("NH3").is_none() {
+        return;
+    }
+    let volume_l = vessel.liquid_volume().0;
+    let available = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == "NH3" && p.phase == Phase::Aqueous)
+        .map(|p| p.moles.0)
+        .sum::<f64>()
+        + vessel.pending_nh3_transfer_mol.min(0.0);
+    let area = free_surface_area_m2(&vessel.label);
+    let tau_s = volume_l / (STILL_SURFACE_K_L_M_PER_S * area * 1000.0);
+    if !(available > 0.0 && available.is_finite() && tau_s > 0.0 && tau_s.is_finite()) {
+        return;
+    }
+    let transfer = available * (-(-seconds / tau_s).exp_m1());
+    // Unlike CO2, a sub-floor ammonia parcel is not parked: a parked parcel
+    // holds every other boundary owner (MIX, the acid/gas endpoints) shut,
+    // and the trace of free base over a neutral ammonium salt would keep
+    // one parked for ever. Below the floor nothing observable left.
+    if transfer.is_finite() && (transfer - vessel.pending_nh3_transfer_mol) > CO2_TRANSFER_FLOOR_MOL
+    {
+        vessel.pending_nh3_transfer_mol -= transfer;
+    }
+}
+
+/// The typed boundary on an ammonia film parcel, emitted by the aqueous
+/// owner that spends it.
+pub fn ammonia_film_notice(vessel: crate::VesselId) -> Event {
+    Event::not_modeled(
+        vessel,
+        crate::ops::NotModelledCause::ModelBoundary,
+        crate::phrase::Phrase::bare(
+            "not-modeled.ammonia-open-film",
+            "this ammonia leaving the open beaker is a liquid-film upper bound from dissolved neutral NH3; the gas-side resistance and the faster escape from a hot surface are not modelled, so this is not a calibrated escape rate",
+        ),
+    )
 }
 
 /// The room, at last.

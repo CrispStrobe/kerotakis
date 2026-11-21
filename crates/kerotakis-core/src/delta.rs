@@ -309,6 +309,7 @@ impl StateDelta {
             ("excess enthalpy", candidate.excess_enthalpy_j),
             ("pending CO2 transfer", candidate.pending_co2_transfer_mol),
             ("pending H2S transfer", candidate.pending_h2s_transfer_mol),
+            ("pending NH3 transfer", candidate.pending_nh3_transfer_mol),
         ] {
             if !value.is_finite() {
                 errors.push(DeltaError::InvalidState {

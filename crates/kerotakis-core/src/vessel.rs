@@ -1620,6 +1620,14 @@ pub struct Vessel {
     /// `hydrogen_sulfide` gas crossing. Omitted from saved state while zero.
     #[serde(default, skip_serializing_if = "is_zero_mol")]
     pub pending_h2s_transfer_mol: f64,
+    /// Signed moles of ammonia the aqueous tail must move across the open
+    /// surface this step; negative is outward. Written only by
+    /// [`crate::clock::GasExchangeClock`] (film transfer of dissolved
+    /// neutral NH3 to ammonia-free room air) and spent by the aqueous
+    /// adapter against the N(-3) total, which announces it as an `NH3` gas
+    /// crossing. Omitted from saved state while zero.
+    #[serde(default, skip_serializing_if = "is_zero_mol")]
+    pub pending_nh3_transfer_mol: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
@@ -1782,6 +1790,7 @@ impl Vessel {
             co2_partial_pressure_atm: None,
             pending_co2_transfer_mol: 0.0,
             pending_h2s_transfer_mol: 0.0,
+            pending_nh3_transfer_mol: 0.0,
             solution: None,
             lots: Vec::new(),
             resolved: ResolvedState::default(),

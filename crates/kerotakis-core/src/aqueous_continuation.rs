@@ -311,6 +311,7 @@ fn validate_change(before: &Vessel, after: &Vessel, events: &[Event]) -> Result<
         || before.headspace != after.headspace
         || before.pending_co2_transfer_mol != after.pending_co2_transfer_mol
         || before.pending_h2s_transfer_mol != after.pending_h2s_transfer_mol
+        || before.pending_nh3_transfer_mol != after.pending_nh3_transfer_mol
     {
         return Err(refused(
             ContinuationRefusal::BoundaryConfiguration,
