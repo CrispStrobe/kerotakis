@@ -6,14 +6,14 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 
 - Registry species: 206
 - Species reachable by at least one alias: 202
-- Accepted aliases: 752
-- Refused alias spellings: 79
+- Accepted aliases: 755
+- Refused alias spellings: 76
 
 ## Accepted aliases by source
 
 | source | count |
 |---|---|
-| curated | 7 |
+| curated | 10 |
 | name:en | 176 |
 | name-prefix:en | 21 |
 | ion-name:en | 23 |
@@ -64,9 +64,7 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | `C3H5O3-` | `lactate` | isomer-ambiguous-formula |
 | `C3H6` | `PP` | isomer-ambiguous-formula |
 | `C3H6O3` | `lactic_acid` | isomer-ambiguous-formula |
-| `C3H8` | `propane` | mechanism-species |
 | `C3H8O` | `isopropanol` | isomer-ambiguous-formula |
-| `C4H10` | `butane` | mechanism-species |
 | `C4H10O` | `tert_butanol` | isomer-ambiguous-formula |
 | `C4H6O5` | `malic_acid` | isomer-ambiguous-formula |
 | `C4H8` | `isobutylene` | isomer-ambiguous-formula |
@@ -84,7 +82,6 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | `carbon` | `C` | qualifier-required |
 | `carbone` | `C` | qualifier-required |
 | `Cellulose` | `cellulose` | registry-key |
-| `CH4` | `methane` | mechanism-species |
 | `CO2` | `CO2(aq)`, `dry_ice` | registry-key |
 | `cristaux de soude` | `Na2CO3` | material-name |
 | `Curcumin` | `curcumin` | registry-key |
@@ -180,10 +177,13 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | `Bromwasserstoff` | `HBr` | name:de |
 | `Butan` | `butane` | name:de |
 | `C2H5OH` | `ethanol` | formula |
+| `C3H8` | `propane` | curated |
+| `C4H10` | `butane` | curated |
 | `CH3COCH3` | `propanone` | formula |
 | `CH3COOC2H5` | `ethyl_acetate` | formula |
 | `CH3COONa` | `NaOAc` | formula |
 | `CH3OH` | `methanol` | formula |
+| `CH4` | `methane` | curated |
 | `Ca2+` | `Ca+2` | charge-notation |
 | `Ca4H(PO4)3*3H2O` | `octacalcium_phosphate` | hydrate-notation |
 | `Ca4H(PO4)3.3H2O` | `octacalcium_phosphate` | hydrate-notation |

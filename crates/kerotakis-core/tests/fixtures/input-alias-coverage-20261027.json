@@ -286,6 +286,16 @@
       "source": "formula"
     },
     {
+      "alias": "C3H8",
+      "canonical": "propane",
+      "source": "curated"
+    },
+    {
+      "alias": "C4H10",
+      "canonical": "butane",
+      "source": "curated"
+    },
+    {
       "alias": "CH3COCH3",
       "canonical": "propanone",
       "source": "formula"
@@ -304,6 +314,11 @@
       "alias": "CH3OH",
       "canonical": "methanol",
       "source": "formula"
+    },
+    {
+      "alias": "CH4",
+      "canonical": "methane",
+      "source": "curated"
     },
     {
       "alias": "Ca2+",
@@ -4089,16 +4104,6 @@
       "reason": "isomer-ambiguous-formula"
     },
     {
-      "alias": "c3h8",
-      "spellings": [
-        "C3H8"
-      ],
-      "candidates": [
-        "propane"
-      ],
-      "reason": "mechanism-species"
-    },
-    {
       "alias": "c3h8o",
       "spellings": [
         "C3H8O"
@@ -4107,16 +4112,6 @@
         "isopropanol"
       ],
       "reason": "isomer-ambiguous-formula"
-    },
-    {
-      "alias": "c4h10",
-      "spellings": [
-        "C4H10"
-      ],
-      "candidates": [
-        "butane"
-      ],
-      "reason": "mechanism-species"
     },
     {
       "alias": "c4h10o",
@@ -4289,16 +4284,6 @@
         "cellulose"
       ],
       "reason": "registry-key"
-    },
-    {
-      "alias": "ch4",
-      "spellings": [
-        "CH4"
-      ],
-      "candidates": [
-        "methane"
-      ],
-      "reason": "mechanism-species"
     },
     {
       "alias": "co2",

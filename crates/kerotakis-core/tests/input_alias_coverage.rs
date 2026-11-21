@@ -312,7 +312,10 @@ fn generated_aliases_parse_to_the_canonical_operator() {
 fn exact_keys_win_and_generated_spellings_never_rewrite_identities() {
     // Identity boundaries apply curated spellings only.
     assert_eq!(SpeciesId::new("chalk").0, "chalk");
-    assert_eq!(SpeciesId::new("CH4").0, "CH4");
+    // CH4 is a reviewed pack spelling of methane (curated), so it canonicalises;
+    // a generated-only spelling never rewrites an identity.
+    assert_eq!(SpeciesId::new("CH4").0, "methane");
+    assert_eq!(SpeciesId::new("2-Methylpropen").0, "2-Methylpropen");
     // A pack key equal to a generated spelling loads, and then wins.
     let mut data = species::lookup_key("NaCl").unwrap().clone();
     data.key = "Mn3+";
@@ -355,5 +358,20 @@ fn no_shipped_mechanism_species_is_an_alias_or_rewritten() {
         if !curated {
             assert_eq!(&SpeciesId::new(name).0, name, "{name} rewritten");
         }
+    }
+}
+
+/// Every formula a shipped mechanism pack renames to a registry key is the
+/// textbook spelling of that species, and resolves to it: the pack already
+/// means exactly that substance by it.
+#[test]
+fn mechanism_formulas_resolve_to_the_species_the_packs_mean() {
+    for (formula, key) in kerotakis_core::kinetics::packs::REGISTRY_NAMES {
+        assert_eq!(
+            species::lookup_key(formula).map(|data| data.key),
+            Some(*key),
+            "{formula} should resolve to {key}"
+        );
+        assert_eq!(SpeciesId::new(*formula).0, *key, "{formula} canonicalises");
     }
 }

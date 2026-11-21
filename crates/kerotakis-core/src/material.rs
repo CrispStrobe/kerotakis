@@ -587,9 +587,8 @@ pub fn register_loaded(recipes: Vec<MaterialRecipe>) -> (usize, usize) {
     let mut added = 0;
     let mut skipped = 0;
     for recipe in recipes {
-        let reserved_alias = crate::species::CURATED_INPUT_ALIASES
-            .iter()
-            .any(|(alias, _)| recipe.matches(alias, None));
+        let reserved_alias =
+            crate::species::curated_input_aliases().any(|(alias, _)| recipe.matches(alias, None));
         let conflicts = reserved_alias
             || builtins()
                 .iter()
