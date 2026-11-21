@@ -922,3 +922,49 @@ fn a_genuinely_unpriced_step_still_states_the_refusal() {
     assert!(heat_unpriced_notes(&events) >= 1, "{events:?}");
     assert!((vessel(&bench).temperature.0 - 298.15).abs() < 1e-6);
 }
+
+/// Every elemental metal the series does not list — aluminium in alkali,
+/// aluminium in acid, and whichever others the registry holds — says by
+/// name that its dissolution is not computed, once, instead of sitting in
+/// the beaker as a silent "nothing happens".
+#[test]
+fn metals_outside_the_series_say_so_once() {
+    let unlisted: Vec<&str> = kerotakis_core::species::registry()
+        .iter()
+        .map(|d| d.key)
+        .filter(|k| {
+            displacement::is_elemental_metal(k) && displacement::couple_of_metal(k).is_none()
+        })
+        // Alkali and alkaline-earth metals react with the water itself on
+        // their own routes; the class here is the quiet metals.
+        .filter(|k| !["Li", "Na", "K", "Rb", "Cs", "Ca", "Sr", "Ba"].contains(k))
+        .collect();
+    assert!(
+        unlisted.contains(&"Al"),
+        "aluminium is the class's anchor case"
+    );
+    let said = |events: &[Event]| {
+        events
+            .iter()
+            .filter(|e| {
+                matches!(e, Event::NotYetModeled { reason: Some(r), .. }
+                if r.key == "not-modeled.metal-outside-series")
+            })
+            .count()
+    };
+    for medium in ["NaOH", "HCl"] {
+        for metal in unlisted.iter().take(4) {
+            let mut stack = stack();
+            let mut bench = Bench::new();
+            add(&mut bench, &mut stack, "water", 5.55);
+            add(&mut bench, &mut stack, medium, 0.05);
+            let first = add(&mut bench, &mut stack, metal, 0.005);
+            assert_eq!(said(&first), 1, "{metal} in {medium}: {first:?}");
+            // An echo is not news.
+            let again = add(&mut bench, &mut stack, "water", 0.5);
+            assert_eq!(said(&again), 0, "{metal} in {medium} repeated: {again:?}");
+            // And no reaction is invented for it.
+            assert!((moles_of(&bench, metal, Phase::Solid) - 0.005).abs() < 1e-12);
+        }
+    }
+}

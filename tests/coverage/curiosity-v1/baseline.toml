@@ -1556,11 +1556,14 @@ owning_task = "BRD-023"
 outcome = "computed"
 reason_code = "typed-engine-event"
 
+# mat-010: aluminium in strong base was graded "computed" only because the
+# NaOH solution was computed; the metal itself sat silently unreacted. It now
+# says by name that a metal outside the activity series is not computed.
 [[observation]]
 id = "mat-010"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "missing"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-011"

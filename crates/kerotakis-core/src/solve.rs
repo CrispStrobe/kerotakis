@@ -3557,7 +3557,16 @@ impl Equilibrator for HonestyEquilibrator {
         // boundary is not standing over any solid, so the next pass that
         // does reach the loop says its sentences again.
         let previously_said = std::mem::take(&mut vessel.honesty_said);
-        let mut standing: Vec<String> = Vec::new();
+        // A sentence another pass owns (the displacement wrapper's
+        // `metal-outside-series`) is not this pass's to forget: carry it
+        // through every return below, or it is news again every step.
+        let carried: Vec<String> = previously_said
+            .iter()
+            .filter(|shape| shape.starts_with(crate::displacement::METAL_OUTSIDE_SERIES_KEY))
+            .cloned()
+            .collect();
+        vessel.honesty_said.clone_from(&carried);
+        let mut standing: Vec<String> = carried;
         // The solvent's own state is asked FIRST, before the "a solution
         // was characterised, so there is no gap" early return below.
         //

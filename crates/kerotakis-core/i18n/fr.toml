@@ -1624,6 +1624,7 @@ titration-needs-an-aqueous-solver = "le titrage demande un solveur aqueux pour c
 kinetic-outcome-needs-a-time-model = "Un résultat cinétique exige un modèle de temps routé ; un avancement nul n'établit pas l'équilibre"
 fizz-rate-near-barrier = "la vitesse à laquelle {name} pétille : la force motrice ne dépasse la surtension de l'hydrogène sur {name} que de {margin} V, et une vitesse aussi proche de sa barrière n'est pas quelque chose que ce laboratoire calcule — il réagit, lentement"
 stays-as-the-metal = "{name} reste à l'état métallique : rien de ce qui est dissous ici ne se situe en dessous de lui dans la série d'activité. Sa réaction lente avec l'eau elle-même — de l'hydrogène au fil des heures, une peau d'hydroxyde passivante — est une vitesse que ce laboratoire ne modélise pas"
+metal-outside-series = "{name} est un métal que la série d'activité de ce laboratoire ne répertorie pas : qu'il se dissolve ici — dans l'acide, dans une base comme l'aluminium et le zinc peuvent le faire, ou pas du tout — n'est donc pas calculé. Il reste à l'état métallique, et aucun hydrogène n'est produit pour lui"
 no-haloalkane = "aucun substrat halogénoalcane dans le récipient — la table de sélectivité couvre le bromoéthane (primaire) et le bromure de tert-butyle (tertiaire)"
 no-nucleophile = "aucun nucléophile reconnu dans le récipient — la table de sélectivité couvre NaOH (fort) et l'eau (faible)"
 # The two classes go in brackets beside the noun rather than in front of
