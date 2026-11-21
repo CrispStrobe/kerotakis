@@ -87,6 +87,7 @@ const COMPOSERS: &[(&str, &str)] = &[
         "aqueous_continuation.rs",
         include_str!("../src/aqueous_continuation.rs"),
     ),
+    ("amphoteric.rs", include_str!("../src/amphoteric.rs")),
     ("displacement.rs", include_str!("../src/displacement.rs")),
     ("solve.rs", include_str!("../src/solve.rs")),
     ("nonaqueous.rs", include_str!("../src/nonaqueous.rs")),

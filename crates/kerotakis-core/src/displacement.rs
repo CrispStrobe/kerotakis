@@ -739,6 +739,17 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
             let name = species::lookup_key(red.reduced)
                 .map(|d| d.name)
                 .unwrap_or(red.reduced);
+            // A metal that has just displaced another metal's ion in this
+            // very pass is not "not reacting": the trace of acid the
+            // displacement left behind (copper's hydroxy-sulfates release
+            // protons as they form) only failing to clear the hydrogen
+            // barrier is not worth a sentence that reads as contradicting
+            // the plating printed above it.
+            let already_reacted = done.iter().any(|d| d.reductant.reduced == red.reduced);
+            if driving <= eta && already_reacted {
+                settled.push((red.reduced, ox.oxidised));
+                continue;
+            }
             if driving <= eta {
                 // Blocked by rate, not by thermodynamics — a different
                 // sentence, because a learner needs to know which. The
@@ -1161,6 +1172,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
         } else if !acid
             && c.e0_volts < 0.0
             && !crate::corrosion::kinetics_corrodes(vessel, c.reduced)
+            && !crate::amphoteric::owns(vessel, c.reduced)
         {
             // Nothing below it to displace, no acid to dissolve in: the
             // remaining question is water itself.
@@ -1225,7 +1237,10 @@ pub fn metals_outside_the_series(vessel: &mut Vessel) -> Vec<Event> {
             .retain(|shape| !shape.starts_with(METAL_OUTSIDE_SERIES_KEY));
     }
     for metal in metals {
-        if crate::curated::consumes(vessel, &metal) || crate::kinetics::consumes(vessel, &metal) {
+        if crate::curated::consumes(vessel, &metal)
+            || crate::kinetics::consumes(vessel, &metal)
+            || crate::amphoteric::owns(vessel, &metal.0)
+        {
             continue;
         }
         let name = species::lookup(&metal)
@@ -1866,6 +1881,17 @@ impl DisplacementEquilibrator {
     }
 }
 
+impl DisplacementEquilibrator {
+    /// A metal that dissolves in alkali (see [`crate::amphoteric`]).
+    pub fn has_amphoteric_metal(vessel: &Vessel) -> bool {
+        vessel.contents.iter().any(|p| {
+            p.phase == Phase::Solid
+                && p.moles.0 > TRACE
+                && crate::amphoteric::of_metal(&p.species.0).is_some()
+        })
+    }
+}
+
 impl Equilibrator for DisplacementEquilibrator {
     fn name(&self) -> &'static str {
         self.inner.name()
@@ -1883,7 +1909,8 @@ impl Equilibrator for DisplacementEquilibrator {
 
     fn chemistry_applies(&self, vessel: &Vessel) -> bool {
         self.inner.chemistry_applies(vessel)
-            || (Self::has_series_metal(vessel) && kgw(vessel) > 0.0)
+            || ((Self::has_series_metal(vessel) || Self::has_amphoteric_metal(vessel))
+                && kgw(vessel) > 0.0)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -1934,12 +1961,21 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
             events.push(crate::acid_endpoint::outside_domain(vessel));
         }
     }
+    // Aluminium and zinc in alkali: their own route, ahead of the series
+    // and of the "not listed" honesty note, which must not speak for a
+    // metal this pass has just dissolved.
+    let amphoteric = crate::amphoteric::dissolve(vessel);
+    let dissolved_in_alkali = amphoteric
+        .iter()
+        .any(|e| matches!(e, Event::ReactionOccurred { .. }));
     events.extend(metals_outside_the_series(vessel));
-    if !DisplacementEquilibrator::has_series_metal(vessel) {
+    if !DisplacementEquilibrator::has_series_metal(vessel) && !dissolved_in_alkali {
+        events.extend(amphoteric);
         return Ok(events);
     }
     let (more, reacted) = displace(vessel);
-    if !reacted.is_empty() {
+    let any_reacted = !reacted.is_empty() || dissolved_in_alkali;
+    if any_reacted {
         // The first solve described a state the step has now moved past:
         // its "this solution is supersaturated against …" notes are about
         // copper that is no longer in solution. What it *did* — salts
@@ -1947,8 +1983,9 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
         let id = vessel.id;
         events.retain(|e| !matches!(e, Event::NotYetModeled { vessel, .. } if *vessel == id));
     }
+    events.extend(amphoteric);
     events.extend(more);
-    if !reacted.is_empty() {
+    if any_reacted {
         events.extend(inner.equilibrate(vessel)?);
     }
     let plated: Vec<&str> = reacted.iter().map(|d| d.oxidant.reduced).collect();
@@ -1958,7 +1995,7 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
     // One step, one temperature story and one pH story. Two solves in a
     // row each announce theirs; collapse them to the vessel's actual path
     // from where the step began to where it ended.
-    if !reacted.is_empty() {
+    if any_reacted {
         let id = vessel.id;
         let last_solution = events.iter().rposition(
             |e| matches!(e, Event::SolutionCharacterized { vessel, .. } if *vessel == id),
@@ -1989,7 +2026,7 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
 
 /// Book, on the step snapshot, the signed inventory change `after - before`
 /// whose heat this solver has already charged.
-fn book_paid_change(
+pub(crate) fn book_paid_change(
     start: &mut crate::vessel::StepStart,
     before: &[crate::vessel::Portion],
     after: &[crate::vessel::Portion],

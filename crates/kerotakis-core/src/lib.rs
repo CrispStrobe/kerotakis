@@ -17,6 +17,7 @@ pub const OBSERVABLE_MOLES: f64 = 1e-6;
 pub mod acid_endpoint;
 pub mod adsorption;
 pub mod amount;
+pub mod amphoteric;
 pub mod apparatus;
 pub mod appearance;
 pub mod aqueous_continuation;
