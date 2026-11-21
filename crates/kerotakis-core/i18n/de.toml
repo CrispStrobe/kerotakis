@@ -301,6 +301,9 @@ hydroxylapatite = "Hydroxylapatit"
 "dry ice" = "Trockeneis"
 "activated charcoal" = "Aktivkohle"
 "liquid nitrogen" = "flüssiger Stickstoff"
+sodium = "Natrium"
+potassium = "Kalium"
+calcium = "Calcium"
 
 [material]
 # Display names for the 132 named materials. NOT new translation work: each
@@ -1847,6 +1850,7 @@ kinetic-outcome-needs-a-time-model = "Ein kinetisches Ergebnis erfordert ein zug
 fizz-rate-near-barrier = "wie schnell {name} sprudelt: die Triebkraft übersteigt die Wasserstoff-Überspannung an {name} nur um {margin} V, und eine Geschwindigkeit so dicht an ihrer Barriere berechnet dieses Labor nicht — es reagiert, langsam"
 stays-as-the-metal = "{name} bleibt als Metall liegen: nichts Gelöstes steht hier in der Spannungsreihe unter ihm. Seine langsame Reaktion mit dem Wasser selbst — Wasserstoff über Stunden, eine passivierende Hydroxidhaut — ist eine Geschwindigkeit, die dieses Labor nicht modelliert"
 metal-outside-series = "{name} ist ein Metall, das die Spannungsreihe dieses Labors nicht führt. Ob es sich hier löst — in Säure, in Lauge wie Aluminium und Zink, oder gar nicht —, wird deshalb nicht berechnet. Es bleibt als Metall liegen, und es entsteht kein Wasserstoff dafür"
+water-metal-rate = "wie schnell und wie heftig {name} mit dem Wasser reagiert: Es steht in der Spannungsreihe weit unter Wasserstoff (E° {e_self} V gegenüber {e_water} V für Wasser selbst), und sein Hydroxid geht in Lösung, statt das Metall zu überziehen. Dieses Labor rechnet die Reaktion deshalb bis zum Ende und bepreist ihre Wärme. Das Tempo — das Metall, das über das Wasser flitzt, schmilzt, der Wasserstoff, der Feuer fängt — ist eine Geschwindigkeit, die es nicht berechnet"
 no-haloalkane = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
 no-nucleophile = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
 # The two classes go in brackets beside the noun rather than in front of
