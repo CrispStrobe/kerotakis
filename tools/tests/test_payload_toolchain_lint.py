@@ -46,6 +46,14 @@ class PayloadToolchainLintTests(unittest.TestCase):
                       "the fixed point did not interleave: `tauri build` became "
                       "a token after the shell scripts had already been grown")
 
+    def test_mobile_tauri_builds_count_as_reaching(self):
+        """android.yml runs `npx tauri android build`, which runs the same
+        beforeBuildCommand; v0.1.7's Android release died on tomllib because
+        only the desktop spelling was a reaching token."""
+        tokens = MODULE.reaching_tokens()
+        self.assertIn("tauri android build", tokens)
+        self.assertIn("tauri ios build", tokens)
+
     def test_every_workflow_that_reaches_it_pins_python(self):
         bad, rows = MODULE.offenders(MODULE.reaching_tokens())
         self.assertEqual(bad, [], f"unpinned: {bad}")
