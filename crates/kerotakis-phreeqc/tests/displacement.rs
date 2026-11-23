@@ -923,8 +923,8 @@ fn a_genuinely_unpriced_step_still_states_the_refusal() {
     assert!((vessel(&bench).temperature.0 - 298.15).abs() < 1e-6);
 }
 
-/// Every elemental metal the series does not list — aluminium in alkali,
-/// aluminium in acid, and whichever others the registry holds — says by
+/// Every elemental metal the series does not list — aluminium in acid
+/// (in alkali it now dissolves), and whichever others the registry holds — says by
 /// name that its dissolution is not computed, once, instead of sitting in
 /// the beaker as a silent "nothing happens".
 #[test]
@@ -953,7 +953,12 @@ fn metals_outside_the_series_say_so_once() {
             .count()
     };
     for medium in ["NaOH", "HCl"] {
-        for metal in unlisted.iter().take(4) {
+        // Aluminium in sodium hydroxide is no longer outside the model:
+        // `amphoteric` dissolves it (pinned in `metal_reactivity.rs`).
+        let quiet = unlisted
+            .iter()
+            .filter(|m| !(medium == "NaOH" && kerotakis_core::amphoteric::of_metal(m).is_some()));
+        for metal in quiet.take(4) {
             let mut stack = stack();
             let mut bench = Bench::new();
             add(&mut bench, &mut stack, "water", 5.55);

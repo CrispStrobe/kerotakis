@@ -1470,6 +1470,7 @@ full-stop = "."
 # pre-formatted numbers, so there is one sentence and not two.
 [inert]
 hydrogen-overpotential = "{name} müsste sich nach der Spannungsreihe in dieser Säure lösen (Triebkraft {driving} V), aber der Wasserstoff muss sich auf {name} bilden, und auf dieser Oberfläche kostet das eine Überspannung von etwa {eta} V. Kinetisch gehemmt auf der Zeitskala einer Unterrichtsstunde, nicht thermodynamisch inert — das ist der Unterschied zwischen einem Labortisch und einer Batterie"
+amphoteric-overpotential = "{name} müsste sich in dieser Lauge als Hydroxokomplex lösen (Triebkraft {driving} V gegen Wasser), aber der Wasserstoff muss sich auf {name} bilden, und auf dieser Oberfläche kostet das eine Überspannung von etwa {eta} V. Kinetisch gehemmt auf der Zeitskala einer Unterrichtsstunde — im Labor nimmt man dafür warme, konzentrierte Lauge oder bringt das Metall in Kontakt mit einem edleren Metall"
 couple-spent = "das gesamte {other} ist abgeschieden; das übrige {name} hat nichts mehr zu verdrängen. Das Redoxpaar läuft weiterhin bergab (E° {e_self} V für {name} gegen {e_other} V für {other}) — es sind schlicht keine {other}-Ionen mehr da"
 couple-spent-trace = "bis auf eine Spur ist das gesamte {other} abgeschieden ({left} mol Ion übrig, dort hat die Nernst-Wurzel das Gleichgewicht gelegt); das übrige {name} hat nichts mehr zu verdrängen. Das Redoxpaar läuft weiterhin bergab (E° {e_self} V für {name} gegen {e_other} V für {other})"
 uphill-in-series = "{name} steht in der Spannungsreihe über {other} (E° {e_self} V gegen {e_other} V), die Elektronen müssten also bergauf fließen: das weniger reaktive Metall verdrängt das reaktivere nicht"
@@ -1847,6 +1848,7 @@ kinetic-outcome-needs-a-time-model = "Ein kinetisches Ergebnis erfordert ein zug
 fizz-rate-near-barrier = "wie schnell {name} sprudelt: die Triebkraft übersteigt die Wasserstoff-Überspannung an {name} nur um {margin} V, und eine Geschwindigkeit so dicht an ihrer Barriere berechnet dieses Labor nicht — es reagiert, langsam"
 stays-as-the-metal = "{name} bleibt als Metall liegen: nichts Gelöstes steht hier in der Spannungsreihe unter ihm. Seine langsame Reaktion mit dem Wasser selbst — Wasserstoff über Stunden, eine passivierende Hydroxidhaut — ist eine Geschwindigkeit, die dieses Labor nicht modelliert"
 metal-outside-series = "{name} ist ein Metall, das die Spannungsreihe dieses Labors nicht führt. Ob es sich hier löst — in Säure, in Lauge wie Aluminium und Zink, oder gar nicht —, wird deshalb nicht berechnet. Es bleibt als Metall liegen, und es entsteht kein Wasserstoff dafür"
+amphoteric-heat = "die Wärme, mit der sich {name} in Lauge löst: die Bildungsenthalpie von {complex} steht nicht in den belegten Daten dieses Labors, daher wird dafür keine Wärme verbucht und die Temperatur bleibt, wo der Schritt begann"
 no-haloalkane = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
 no-nucleophile = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
 # The two classes go in brackets beside the noun rather than in front of
