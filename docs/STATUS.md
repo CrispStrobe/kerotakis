@@ -3,6 +3,13 @@
 Older checkpoints (2026-10-27/28 delivery, release acceptance, snapshot cleanup, earlier coverage
 counts) moved to [HISTORY.md](../HISTORY.md#archived-status-and-handoff-entries-moved-2026-11-12).
 
+## Release v0.1.7 (2026-11-23)
+
+- GitHub release [v0.1.7](https://github.com/CrispStrobe/kerotakis/releases/tag/v0.1.7) published (latest): AppImage, deb, universal dmg, x64 setup.exe, msi (tag `0f4ebc1b`), plus signed Android `Kerotakis_0.1.7_universal.apk` / `.aab` built from main `52de0b69` (version 0.1.7). APK (v2) and AAB certificate SHA-256 `55940a57…d345` = `ANDROID_RELEASE_CERT_SHA256`, checked in the workflow and independently.
+- Android pipeline fixes: #902 Python 3.12 + lint follows `tauri android/ios build`; #903 release signingConfig + certificate verification step; #904 one pinned NDK + cache key; #905 Gradle script fix.
+- Production `/api/health` revision `0f4ebc1b` (= tag). GitHub Pages deployed from `0f4ebc1b`.
+- TestFlight: iOS build 7 / macOS build 6 (0.1.7) VALID, assigned to Internal Testers and Public Beta; external beta review WAITING_FOR_REVIEW for both.
+
 ## Production and qualification
 
 **2026-11-21:** `main` is at `5e0d5897` (integration PR #897, folding #890, #893 and #894):
