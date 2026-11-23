@@ -53381,10 +53381,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "source_id": "literature/nbs-wagman-1982-dissolution",
         "method": {
           "kind": "curated",
-          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
         }
       }
     },
@@ -53508,10 +53508,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "source_id": "literature/nbs-wagman-1982-dissolution",
         "method": {
           "kind": "curated",
-          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
         }
       }
     },
@@ -53635,10 +53635,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "source_id": "literature/nbs-wagman-1982-dissolution",
         "method": {
           "kind": "curated",
-          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
         }
       }
     },
@@ -53762,10 +53762,10 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "source_id": "literature/nbs-wagman-1982-dissolution",
         "method": {
           "kind": "curated",
-          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
         }
       }
     }

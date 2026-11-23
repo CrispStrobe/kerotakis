@@ -44,6 +44,9 @@ const MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION: &[&str] =
 /// reader can see rather than moving silently.
 const MOLAR_MASSES_WITH_A_BAND: usize = 66;
 
+/// Dissolution enthalpies computed from the NBS/Wagman 1982 tables.
+const NBS_WAGMAN_DISSOLUTION: &[&str] = &["KBr", "CuCl2", "Na3PO4", "Al2(SO4)3"];
+
 fn reaches_the_atomic_weight_table(species: &SpeciesData) -> bool {
     let formula = parse_formula(species.formula).expect("formula parses");
     !formula.counts.is_empty()
@@ -646,6 +649,38 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
                 assert!(sources[0]
                     .citation
                     .contains("primary paper was not directly accessible"));
+            } else if NBS_WAGMAN_DISSOLUTION.contains(&species.key) {
+                // NBS/Wagman 1982 formation-enthalpy differences: the soluble
+                // salt class (#900). Each row states
+                // its 298.15 K standard state and its arithmetic, and cites
+                // the one reviewed public-domain source.
+                assert_eq!(
+                    record.quantity.source_id, "literature/nbs-wagman-1982-dissolution",
+                    "{} dissolution enthalpy must cite NBS/Wagman 1982",
+                    species.key
+                );
+                assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
+                let temperature = record
+                    .quantity
+                    .conditions
+                    .temperature
+                    .as_ref()
+                    .expect("reviewed dissolution reference temperature");
+                assert_eq!(temperature.lower, 298.15);
+                assert_eq!(temperature.upper, 298.15);
+                assert!(record
+                    .quantity
+                    .conditions
+                    .notes
+                    .as_deref()
+                    .is_some_and(|notes| notes.contains("Table") && notes.contains("dfH")));
+                let sources: Vec<_> = document
+                    .sources
+                    .iter()
+                    .filter(|source| source.id == record.quantity.source_id)
+                    .collect();
+                assert_eq!(sources.len(), 1, "one reviewed source");
+                assert_eq!(sources[0].licence, "LicenseRef-US-Public-Domain");
             } else {
                 assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
                 assert_eq!(

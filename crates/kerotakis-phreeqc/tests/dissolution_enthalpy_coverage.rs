@@ -160,9 +160,6 @@ fn every_registry_solid_has_a_current_ownership_row() {
             );
         }
     }
-    for line in table.lines() {
-        assert!(DOC.contains(line), "docs table is stale at: {line}");
-    }
     let total = fresh.len();
     let counts: Vec<String> = DB_TAGS
         .iter()
@@ -175,7 +172,51 @@ fn every_registry_solid_has_a_current_ownership_row() {
         })
         .collect();
     let line = format!("Priced after this change: {}.", counts.join(", "));
+    // The docs table is generated too. Blessing used to rewrite only the
+    // JSON fixture and print the table, so a new solid left the doc stale
+    // and main red (#900's four salts). Blessing now writes both.
+    if bless() {
+        let doc = regenerate_doc(DOC, &table, &line);
+        if doc != DOC {
+            std::fs::write(
+                manifest("../../docs/dissolution-enthalpy-coverage-20261027.md"),
+                doc,
+            )
+            .unwrap();
+        }
+        return;
+    }
+    for row in table.lines() {
+        assert!(DOC.contains(row), "docs table is stale at: {row}");
+    }
     assert!(DOC.contains(&line), "docs counts are stale: {line}");
+}
+
+/// The doc with its generated parts replaced: the contiguous block of
+/// `` | `key` | `` rows becomes `table`, and the one "Priced after this
+/// change:" line becomes `counts`. Everything else is kept verbatim.
+fn regenerate_doc(doc: &str, table: &str, counts: &str) -> String {
+    let lines: Vec<&str> = doc.split('\n').collect();
+    let first = lines
+        .iter()
+        .position(|l| l.starts_with("| `"))
+        .expect("the doc has a coverage table");
+    let last = first
+        + lines[first..]
+            .iter()
+            .take_while(|l| l.starts_with("| `"))
+            .count();
+    let mut out: Vec<String> = lines[..first].iter().map(|l| l.to_string()).collect();
+    out.extend(table.lines().map(str::to_string));
+    out.extend(lines[last..].iter().map(|l| l.to_string()));
+    let joined = out.join("\n");
+    let start = joined
+        .find("Priced after this change:")
+        .expect("the doc states its counts");
+    // The sentence is its own line ("minteq.v4" holds a dot, so the line
+    // end, not the first full stop, bounds it).
+    let end = start + joined[start..].find('\n').unwrap_or(joined.len() - start);
+    format!("{}{}{}", &joined[..start], counts, &joined[end..])
 }
 
 #[test]
