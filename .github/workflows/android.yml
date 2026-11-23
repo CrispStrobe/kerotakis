@@ -162,15 +162,20 @@ jobs:
           cat >> "$GRADLE" <<'KTS'
 
           // Added by .github/workflows/android.yml: release signing.
+          // Inside `android {}` the name `java` is the Java extension, not the
+          // package (run 44941875543: "Unresolved reference: util"), so read
+          // the key=value file with Kotlin's stdlib at the top level instead.
+          val releaseKeystore: Map<String, String> = rootProject.file("keystore.properties")
+              .readLines()
+              .filter { "=" in it }
+              .associate { it.substringBefore("=").trim() to it.substringAfter("=").trim() }
           android {
               signingConfigs {
                   create("release") {
-                      val props = java.util.Properties()
-                      java.io.FileInputStream(rootProject.file("keystore.properties")).use { props.load(it) }
-                      storeFile = file(props.getProperty("storeFile"))
-                      storePassword = props.getProperty("storePassword")
-                      keyAlias = props.getProperty("keyAlias")
-                      keyPassword = props.getProperty("password")
+                      storeFile = file(releaseKeystore.getValue("storeFile"))
+                      storePassword = releaseKeystore.getValue("storePassword")
+                      keyAlias = releaseKeystore.getValue("keyAlias")
+                      keyPassword = releaseKeystore.getValue("password")
                   }
               }
               buildTypes {
