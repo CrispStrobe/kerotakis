@@ -308,6 +308,7 @@ fn addition_lots_are_provenance_not_a_second_owned_inventory() {
         source: Some("audit bottle".into()),
         particle_size_um: None,
         suspended_fraction: None,
+        heat_denatured: false,
     });
     // Removing a historical lot is not a physical debit that can finance new water.
     refused(v, Action::CreateWaterAndDropLots);

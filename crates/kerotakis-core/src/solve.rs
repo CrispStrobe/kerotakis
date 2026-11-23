@@ -3730,6 +3730,12 @@ impl Equilibrator for HonestyEquilibrator {
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
                     continue;
                 }
+                if crate::biuret::covers_solid(vessel, &p.species) {
+                    continue;
+                }
+                if crate::reducing_sugar::produced_solid(vessel, &p.species) {
+                    continue;
+                }
                 // Starch that amylase is digesting over bench time
                 // (`starch_amylase`, 2026-11-11) is wired, not unmodelled.
                 if crate::starch_amylase::consumes(vessel, &p.species) {
@@ -3887,6 +3893,12 @@ impl Equilibrator for HonestyEquilibrator {
                     continue;
                 }
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
+                    continue;
+                }
+                if crate::biuret::covers_solid(vessel, &p.species) {
+                    continue;
+                }
+                if crate::reducing_sugar::produced_solid(vessel, &p.species) {
                     continue;
                 }
                 // Starch that amylase is digesting over bench time

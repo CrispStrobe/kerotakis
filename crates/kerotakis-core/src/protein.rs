@@ -50,6 +50,18 @@ const PROFILES: &[ProteinProfile] = &[
         denaturation_full_c: Some(85.0),
         coagulates: false,
     },
+    // Whole milk: 3.15 g protein per 100 g (USDA FoodData Central, SR Legacy
+    // NDB 01077, milk, whole, 3.25 % milkfat), out of the recipe's 12.20 %
+    // unresolved remainder. Casein does not heat-set; the whey proteins
+    // denature over the same window as cream's, and milk does not coagulate
+    // on heating alone.
+    ProteinProfile {
+        recipe_id: "household/whole-milk-surrogate",
+        protein_share_of_unresolved: 0.0315 / 0.122_014_9,
+        denaturation_onset_c: Some(70.0),
+        denaturation_full_c: Some(85.0),
+        coagulates: false,
+    },
     ProteinProfile {
         recipe_id: "food/albumin",
         protein_share_of_unresolved: 1.0,
@@ -73,14 +85,76 @@ pub fn record_heat_history(vessel: &mut Vessel) {
     if !celsius.is_finite() {
         return;
     }
+    // Enzyme lots (the catalase in dry yeast, a weighed-out protease) are
+    // proteins too: past their profile's denaturation temperature they are
+    // marked dead for good, which the kinetic catalyst reads.
+    let kelvin = vessel.temperature.0;
+    for lot in &mut vessel.lots {
+        if crate::enzyme::profile(&lot.species.0)
+            .is_some_and(|profile| kelvin > profile.denatures_above_k)
+        {
+            lot.heat_denatured = true;
+        }
+    }
+    let chemical = chemical_fraction(vessel);
     for portion in &mut vessel.unresolved_materials {
         if let Some(profile) = PROFILES.iter().find(|p| p.recipe_id == portion.recipe_id) {
             portion.protein_denatured_fraction = portion
                 .protein_denatured_fraction
                 .max(temperature_fraction(profile, celsius))
+                .max(chemical)
                 .clamp(0.0, 1.0);
         }
     }
+}
+
+/// Ethanol volume fraction of the liquid at which dissolved protein is
+/// treated as precipitated. EDITORIAL: cold-ethanol fractionation of plasma
+/// proteins (Cohn et al., J. Am. Chem. Soc. 68 (1946) 459) precipitates
+/// most protein between about 8 and 40 % ethanol depending on pH and
+/// temperature; one threshold inside that range stands in for all of it.
+const ETHANOL_PRECIPITATES: f64 = 0.25;
+
+/// Heavy-metal cations that denature and precipitate protein by binding to
+/// its side chains (the reason egg white is a first-aid antidote for them).
+const HEAVY_METAL_IONS: &[&str] = &["Cu+2", "Ag+", "Pb+2", "Zn+2"];
+
+/// Protein denatured by the solution itself rather than by heat: a
+/// qualitative history like the heat envelope, not a rate law.
+fn chemical_fraction(vessel: &Vessel) -> f64 {
+    use crate::species::Phase;
+    let litres = vessel.liquid_volume().0;
+    if litres <= 0.0 {
+        return 0.0;
+    }
+    let ethanol_litres: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == "ethanol" && p.phase == Phase::Liquid)
+        .filter_map(|p| {
+            crate::species::lookup(&p.species)
+                .map(|d| p.moles.0 * d.molar_mass / d.density / 1000.0)
+        })
+        .sum();
+    if ethanol_litres / litres >= ETHANOL_PRECIPITATES {
+        return 1.0;
+    }
+    // In strong alkali copper is held by the biuret chelate instead, which
+    // leaves the solution clear and violet.
+    if crate::reducing_sugar::alkaline(vessel) {
+        return 0.0;
+    }
+    let metal: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Aqueous && HEAVY_METAL_IONS.contains(&p.species.0.as_str()))
+        .map(|p| p.moles.0)
+        .sum();
+    let sites = crate::biuret::peptide_sites(vessel);
+    if metal <= 0.0 || sites <= 0.0 {
+        return 0.0;
+    }
+    (metal / sites).clamp(0.0, 1.0)
 }
 
 fn temperature_fraction(profile: &ProteinProfile, celsius: f64) -> f64 {

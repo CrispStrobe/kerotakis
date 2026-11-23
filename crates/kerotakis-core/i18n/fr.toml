@@ -47,6 +47,7 @@ solid = "solide"
 gas = "gazeux"
 
 [species]
+"gluconic acid" = "acide gluconique"
 "hydrogen ion" = "ion hydrogène"
 "dissolved carbon dioxide" = "dioxyde de carbone dissous"
 "carbonate ion" = "ion carbonate"
@@ -1327,6 +1328,7 @@ piece-floats = "un morceau de {what} flotte à la surface"
 piece-bottom = "un morceau de {what} repose au fond"
 piece-here = "un morceau de {what} se trouve dans le bécher"
 spectral-gap = "La couleur est incomplète : aucun spectre d'absorption pour {species}."
+biuret-surrogate = "Le violet est la couleur du biuret, le complexe cuivre–peptide, dessinée comme une bande de substitution pour l'œil seulement : ce n'est pas un dosage de protéines étalonné, et le cuivre reste comptabilisé dans l'inventaire tel que le solveur l'a laissé."
 # The list grammar, as two entries rather than a hardcoded " and ": a
 # language that uses no final conjunction writes "{head}{last}" here and
 # gets what it wants.
@@ -1527,6 +1529,7 @@ PVA = "PVA"
 [not-modeled]
 cea-solid-feed-cp-continuation = "Le solide initial {species}, à {temperature} K, dépasse sa plage de données thermochimiques qui s’arrête à {high} K ; son modèle existant maintient la capacité calorifique à sa valeur limite pour porter l’énergie sensible dans le calcul. Cet état surchauffé est une approximation du modèle, non validée thermochimiquement hors de la plage tabulée."
 carbonate-fast-endpoint = "Cette quantité de gaz acide-carbonate est un état final pédagogique borné à partir du CO2 dissous nouvellement formé. La nucléation au front acide et les temps de dégagement ne sont pas modélisés ; ce résultat ne constitue pas une prévision étalonnée du rendement gazeux instantané"
+reducing-sugar-qualitative = "Ce test des sucres réducteurs est une voie qualitative curée, non étalonnée : le sucre est comptabilisé comme oxydé en acide gluconique, gardé sous forme moléculaire plutôt que de gluconate, bien que le produit réel soit un mélange ; le seuil de déclenchement est un seuil éditorial de bain-marie, et aucune vitesse, aucune chaleur de réaction ni aucun rendement mesuré n'est revendiqué"
 sulfide-fast-endpoint = "Cette quantité de gaz acide-sulfure est un état final pédagogique borné à partir du sulfure d'hydrogène dissous nouvellement formé. Son temps de dégagement d'un bécher ouvert n'est pas modélisé ; ce résultat ne constitue pas une prévision étalonnée du rendement gazeux instantané"
 ammonia-open-film = "Cet ammoniac qui quitte le bécher ouvert est une borne supérieure par le film liquide à partir du NH3 neutre dissous ; la résistance côté gaz et le dégagement plus rapide d'une surface chaude ne sont pas modélisés, ce n'est donc pas une vitesse de dégagement étalonnée"
 redox-pair-unpriced = "{pairs} : un oxydant et un réducteur sont ici ensemble, mais aucune écriture rapide vérifiée, aucune réaction répertoriée et aucune loi de vitesse ne chiffre ce couple ; il reste donc sans réaction. C'est une lacune du modèle, pas la preuve que rien ne se passe"

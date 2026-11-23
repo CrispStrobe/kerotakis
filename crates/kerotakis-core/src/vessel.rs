@@ -1255,6 +1255,11 @@ pub struct MaterialLot {
     /// `None` preserves legacy state whose suspension was never tracked.
     #[serde(default)]
     pub suspended_fraction: Option<f64>,
+    /// An enzyme lot that has been heated past its profile's
+    /// `denatures_above_k` ([`crate::enzyme::FAMILIES`]). Irreversible:
+    /// cooling it again does not restore the catalyst.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub heat_denatured: bool,
 }
 
 // ── ARCH-005: ResolvedState ───────────────────────────────────────
@@ -1924,6 +1929,7 @@ impl Vessel {
             source,
             particle_size_um,
             suspended_fraction,
+            heat_denatured: false,
         });
         self.mark_liquid_contact();
         self.resolved.invalidate();

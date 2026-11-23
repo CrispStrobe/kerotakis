@@ -986,6 +986,7 @@ impl Equilibrator for CuratedEquilibrator {
         }) || crate::sulfur_iv::fires(vessel)
             || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
+            || crate::reducing_sugar::fires(vessel)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -1126,6 +1127,10 @@ impl Equilibrator for CuratedEquilibrator {
             // Fe³⁺/I⁻ is an equilibrium (ΔE° 0.15 V to aqueous iodine), so
             // it is solved to its constant rather than run to completion.
             if crate::iodine_chemistry::ferric_iodide_apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Fehling/Benedict and Tollens reducing-sugar tests.
+            if crate::reducing_sugar::apply(vessel, &mut events) {
                 progressed = true;
             }
             if !progressed {

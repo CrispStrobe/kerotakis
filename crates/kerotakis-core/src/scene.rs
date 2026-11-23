@@ -2062,6 +2062,7 @@ mod tests {
             source: None,
             particle_size_um: None,
             suspended_fraction: None,
+            heat_denatured: false,
         });
         v.temperature = crate::Kelvin(293.15);
         v.elapsed_seconds = 60.0;
