@@ -78,9 +78,14 @@ pub(crate) fn species_data(key: &str) -> Option<&'static SpeciesData> {
     PRODUCT_SPECIES.iter().find(|species| species.key == key)
 }
 
-/// Solids this route puts at the bottom of the tube.
-pub fn solid_product(species: &SpeciesId) -> bool {
+/// A solid this route put at the bottom of the tube: Cu₂O or silver in a
+/// vessel that holds its booked oxidation product.
+pub fn produced_solid(vessel: &Vessel, species: &SpeciesId) -> bool {
     matches!(species.0.as_str(), "Cu2O" | "Ag")
+        && vessel
+            .contents
+            .iter()
+            .any(|p| p.species.0 == GLUCONIC_ACID && p.moles.0 > TRACE)
 }
 
 fn phase_moles(vessel: &Vessel, key: &str, phase: Phase) -> f64 {

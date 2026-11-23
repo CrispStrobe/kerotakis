@@ -83,6 +83,11 @@ const COMPOSERS: &[(&str, &str)] = &[
     ),
     ("acid_endpoint.rs", include_str!("../src/acid_endpoint.rs")),
     ("appearance.rs", include_str!("../src/appearance.rs")),
+    ("biuret.rs", include_str!("../src/biuret.rs")),
+    (
+        "reducing_sugar.rs",
+        include_str!("../src/reducing_sugar.rs"),
+    ),
     (
         "aqueous_continuation.rs",
         include_str!("../src/aqueous_continuation.rs"),

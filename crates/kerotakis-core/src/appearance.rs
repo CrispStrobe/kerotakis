@@ -218,12 +218,17 @@ pub fn observe(vessel: &Vessel) -> Appearance {
                 strength: 0.0,
             }
         } else {
-            data.and_then(|d| d.colour).unwrap_or(Colour {
-                r: 220,
-                g: 220,
-                b: 220,
-                strength: 0.0,
-            })
+            data.and_then(|d| d.colour)
+                .or_else(|| {
+                    data.and_then(|d| d.appearance)
+                        .and_then(appearance_word_colour)
+                })
+                .unwrap_or(Colour {
+                    r: 220,
+                    g: 220,
+                    b: 220,
+                    strength: 0.0,
+                })
         };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
         // Nothing is SUSPENDED in a beaker with no liquid in it.
@@ -458,6 +463,24 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
 
 /// A bright scattering liquid is visibly white rather than "colourless".
 /// Transmission-only liquids retain the ordinary colour vocabulary.
+/// A species with a curated one-word appearance but no reflectance
+/// measurement (cuprous oxide is recorded as "red") is drawn in that named
+/// colour rather than the default off-white. The RGB is the CSS Color
+/// Module named colour for the word, a rendering convention and not a
+/// measured reflectance.
+fn appearance_word_colour(word: &str) -> Option<Colour> {
+    let (r, g, b) = match word {
+        "red" => (178, 34, 34),
+        _ => return None,
+    };
+    Some(Colour {
+        r,
+        g,
+        b,
+        strength: 0.0,
+    })
+}
+
 pub(crate) fn liquid_colour_word(c: &Colour, cloudiness: f64) -> &'static str {
     let max = c.r.max(c.g).max(c.b);
     let min = c.r.min(c.g).min(c.b);
