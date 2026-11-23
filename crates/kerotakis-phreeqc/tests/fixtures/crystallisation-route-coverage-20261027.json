@@ -735,6 +735,48 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "K2Cr2O7",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K2Cr2O7",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "K2Cr2O7",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "K2Cr2O7",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K2CrO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K2CrO4",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "K2CrO4",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "K2CrO4",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "KBr",
     "route": "wateq4f",
     "class": "refused",
@@ -1296,6 +1338,27 @@
   },
   {
     "solid": "NaHSO4",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "NaNO2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "NaNO2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "NaNO2",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

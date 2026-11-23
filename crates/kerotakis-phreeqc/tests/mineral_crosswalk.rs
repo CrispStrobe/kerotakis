@@ -40,6 +40,12 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// Al2(SO4)3. Only CuCl2 is a database phase (Melanothallite), so the gap
 /// grows by one and the other three join the non-database solids.
 ///
+/// 2026-11-21 (H3): potassium dichromate and potassium chromate join the
+/// registry; minteq.v4 spells both as phases and both carry a reviewed
+/// solubility (CRC/Merck via HSDB), so two rows join the crosswalk with a
+/// solubility. Both are unbookable (no registry chromium ion) and are never
+/// posed. Sodium nitrite joins too and is not a database phase.
+///
 /// The gap was 24 before that. Nine of the 33 have been sourced to papers that were
 /// read in full rather than to a handbook — four on the morning of
 /// 2026-09-21 and five more the same day, once `saturation_moves` stopped
@@ -52,14 +58,14 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 112,
-            database_phases: 51,
-            with_reviewed_solubility: 12,
+            registry_solids: 115,
+            database_phases: 53,
+            with_reviewed_solubility: 14,
             without_reviewed_solubility: 39,
-            not_a_database_phase: 61,
-            phases_without_a_registry_solid: 603,
+            not_a_database_phase: 62,
+            phases_without_a_registry_solid: 601,
             several_phase_names: 13,
-            not_posable: 11,
+            not_posable: 13,
         },
         "the crosswalk has drifted from the shipped databases or registry"
     );
@@ -99,8 +105,8 @@ fn which_database_phases_have_a_reviewed_solubility() {
     assert_eq!(
         with,
         vec![
-            "AgCl", "BaSO4", "Ca(OH)2", "CaCO3", "CuO", "Fe(OH)3", "KCl", "Mg(OH)2", "NaCl", "S",
-            "SiO2", "gypsum",
+            "AgCl", "BaSO4", "Ca(OH)2", "CaCO3", "CuO", "Fe(OH)3", "K2Cr2O7", "K2CrO4", "KCl",
+            "Mg(OH)2", "NaCl", "S", "SiO2", "gypsum",
         ],
         "solids that are database phases AND carry a reviewed solubility"
     );
@@ -252,6 +258,8 @@ fn unbookable_database_phases_are_never_posed() {
             "Cu2(OH)2CO3",
             "Cu2O",
             "Fe2O3",
+            "K2Cr2O7",
+            "K2CrO4",
             "MnO2",
             "Pb",
             "S",

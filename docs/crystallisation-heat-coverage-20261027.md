@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 16 | 1 | 95 |
-| minteq.v4 | 18 | 1 | 93 |
-| pitzer | 9 | 2 | 101 |
+| wateq4f | 16 | 1 | 98 |
+| minteq.v4 | 18 | 1 | 96 |
+| pitzer | 9 | 2 | 104 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -180,6 +180,12 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `I2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `I2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `I2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `K2Cr2O7` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `K2Cr2O7` | minteq.v4 | refused | K2Cr2O7 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `K2Cr2O7` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `K2CrO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `K2CrO4` | minteq.v4 | refused | K2CrO4 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `K2CrO4` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `KBr` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `KBr` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `KBr` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -261,6 +267,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `NaHSO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `NaHSO4` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `NaHSO4` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `NaNO2` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `NaNO2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `NaNO2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `NaNO3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `NaNO3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `NaNO3` | pitzer | refused | - | the routed database defines no phase for this solid |
