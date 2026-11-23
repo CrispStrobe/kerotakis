@@ -111,7 +111,7 @@ def inline_offences(path: pathlib.Path) -> list[tuple[int, str]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("roots", nargs="*", default=["tools"], type=pathlib.Path,
+    ap.add_argument("roots", nargs="*", default=[pathlib.Path("tools")], type=pathlib.Path,
                     help="directories to scan; .py is parsed, .sh and .yml are "
                          "scanned textually for embedded python")
     ap.add_argument("--check", action="store_true",
