@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 54/108, minteq.v4 56/108, pitzer 24/108.
+Priced after this change: wateq4f 58/112, minteq.v4 60/112, pitzer 25/112.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -37,6 +37,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `AgI` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `AgNO3` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Al` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Al2(SO4)3` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Al2O3` | reference:minteq.v4:Al2O3 | reference:minteq.v4:Al2O3 | refused: a reaction species is not defined on the routed database |
 | `Ba(OH)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `BaCO3` | routed | routed | reference:wateq4f:Witherite |
@@ -52,6 +53,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `Cu2(OH)2CO3` | reference:wateq4f:Malachite | reference:minteq.v4:Malachite | refused: a reaction species is not defined on the routed database |
 | `Cu2O` | reference:wateq4f:Cuprite | reference:minteq.v4:Cuprite | refused: a reaction species is not defined on the routed database |
+| `CuCl2` | curated | curated | refused: a dissociation product the routed database does not define |
 | `CuO` | hydration:wateq4f:Cu(OH)2 | hydration:wateq4f:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `CuSO4` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Fe` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
@@ -62,6 +64,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `FeSO4` | reference:llnl.dat:FeSO4 | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:FeSO4 |
 | `H2C2O4` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `I2` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `KBr` | curated | curated | curated |
 | `KCl` | curated | curated | curated |
 | `KI` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `KIO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
@@ -82,6 +85,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Na2S2O3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Na2SO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Na2SO4` | curated | curated | curated |
+| `Na3PO4` | curated | curated | refused: a dissociation product the routed database does not define |
 | `NaBr` | reference:llnl.dat:NaBr | reference:llnl.dat:NaBr | reference:llnl.dat:NaBr |
 | `NaCl` | curated | curated | curated |
 | `NaHCO3` | curated | curated | curated |
