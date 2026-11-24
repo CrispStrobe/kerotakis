@@ -3799,6 +3799,31 @@
   {
     "appearance": "colourless",
     "colour": {
+      "b": 240,
+      "g": 255,
+      "r": 255,
+      "strength": 0.0
+    },
+    "density": 1.5,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C21H20O12",
+    "heat_capacity": 700.0,
+    "heat_capacity_polys": [],
+    "inchikey": "",
+    "key": "anthocyanin_ox",
+    "magnetic": false,
+    "molar_mass": 464.38,
+    "name": "oxidised anthocyanin (colourless)",
+    "provenance": "Bleaching product of red-cabbage anthocyanin by chlorine, hypochlorous acid or hypochlorite; simplified stoichiometry (one O addition), as the curated betanin, curcumin and indigo carmine bleaching products",
+    "spectrum_bands": null,
+    "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "colourless",
+    "colour": {
       "b": 255,
       "g": 240,
       "r": 240,

@@ -1021,7 +1021,11 @@ impl Equilibrator for CuratedEquilibrator {
                 // vessel holds molecular chlorine: it solves the hydrolysis
                 // to its constant, where these rows would run it to
                 // completion and the two would undo each other.
-                if reaction.reactants.iter().any(|(k, _)| *k == "HClO")
+                if reaction
+                    .reactants
+                    .iter()
+                    .any(|(k, _)| matches!(*k, "HClO" | "ClO-"))
+                    && reaction.acid_protons.is_some()
                     && reaction.products.iter().any(|(k, _, _)| *k == "Cl2")
                     && crate::chlorine::owns_hypochlorous_equilibrium(vessel)
                 {

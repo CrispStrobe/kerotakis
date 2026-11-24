@@ -9,7 +9,7 @@
     "derived": 25,
     "melting_point_without_latent_heat": 38,
     "no_melting_point": 74,
-    "not_condensed": 80
+    "not_condensed": 81
   },
   "species": [
     {
@@ -2562,6 +2562,19 @@
     },
     {
       "species": "anthocyanin",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "anthocyanin_ox",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

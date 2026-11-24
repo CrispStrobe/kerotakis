@@ -157,7 +157,11 @@ fn kgw(vessel: &Vessel) -> f64 {
 
 fn aqueous_ok(vessel: &Vessel) -> bool {
     liquid_water(vessel) > 0.0
-        && (AQUEOUS_DOMAIN_K.0..=AQUEOUS_DOMAIN_K.1).contains(&vessel.temperature.0)
+}
+
+/// The hydrolysis constant's continuation range (see [`AQUEOUS_DOMAIN_K`]).
+fn hydrolysis_domain(vessel: &Vessel) -> bool {
+    aqueous_ok(vessel) && (AQUEOUS_DOMAIN_K.0..=AQUEOUS_DOMAIN_K.1).contains(&vessel.temperature.0)
 }
 
 /// Molecular chlorine pool (headspace + dissolved; see module notes).
@@ -291,7 +295,30 @@ fn chloride_available(vessel: &Vessel) -> f64 {
     chloride_forms()
         .iter()
         .map(|f| amount(vessel, f, DISSOLVED_THEN_SOLID))
-        .sum()
+        .sum::<f64>()
+        + literal_hcl(vessel)
+}
+
+/// Hydrochloric acid still booked as the molecule (poured in, not yet
+/// solved): it is the chloride AND the acid of the preparation.
+fn literal_hcl(vessel: &Vessel) -> f64 {
+    amount(vessel, "HCl", &[Phase::Aqueous, Phase::Liquid])
+}
+
+/// Book literal hydrochloric acid as the ions a solve would, so the
+/// preparation can spend its chloride and its proton separately.
+fn ionise_literal_hcl(vessel: &mut Vessel) {
+    let n = take(
+        vessel,
+        "HCl",
+        literal_hcl(vessel),
+        &[Phase::Aqueous, Phase::Liquid],
+    );
+    if n > 0.0 {
+        vessel.deposit(SpeciesId::new("H+"), Moles(n), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new(CHLORIDE), Moles(n), Phase::Aqueous);
+        refresh_charge(vessel);
+    }
 }
 
 fn take_ion(vessel: &mut Vessel, ion: &str, forms: &[String], n: f64) -> f64 {
@@ -391,6 +418,8 @@ fn prepare(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
             continue;
         }
         progressed = true;
+        ionise_literal_hcl(vessel);
+        let x = x.min(preparation_extent(vessel, ox));
         spend_acid(vessel, x * ox.protons);
         let mut left = x;
         for (form, cation) in ox.forms {
@@ -399,7 +428,7 @@ fn prepare(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
             }
             let got = take(vessel, form, left, DISSOLVED_THEN_SOLID);
             if let Some(c) = cation {
-                vessel.deposit(SpeciesId::new(*c), Moles(got), Phase::Aqueous);
+                vessel.deposit(SpeciesId::new(c), Moles(got), Phase::Aqueous);
             }
             left -= got;
         }
@@ -459,7 +488,7 @@ fn absorb_in_alkali(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         }
         let got = take(vessel, key, need / per, CONDENSED);
         if let Some(c) = cation {
-            vessel.deposit(SpeciesId::new(*c), Moles(got), Phase::Aqueous);
+            vessel.deposit(SpeciesId::new(c), Moles(got), Phase::Aqueous);
         }
         need -= got * per;
     }
@@ -541,7 +570,7 @@ fn reduce(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         progressed = true;
         take_chlorine(vessel, x);
         take_ion(vessel, ion, &forms, x * per);
-        vessel.deposit(SpeciesId::new(*product), Moles(x * per), *phase);
+        vessel.deposit(SpeciesId::new(product), Moles(x * per), *phase);
         vessel.deposit(SpeciesId::new(CHLORIDE), Moles(2.0 * x), Phase::Aqueous);
         reaction(events, vessel, equation);
         vessel.refresh_pressure();
@@ -645,7 +674,7 @@ fn bleach(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
             continue;
         }
         take(vessel, dye, spent, CONDENSED);
-        vessel.deposit(SpeciesId::new(*product), Moles(spent), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new(product), Moles(spent), Phase::Aqueous);
         progressed = true;
         bleached.push(pretty_dye(dye));
     }
@@ -696,7 +725,7 @@ fn dissolved_share(vessel: &Vessel) -> (f64, Option<f64>) {
 /// Equilibrium HClO amount (mol) for the vessel's current pool, or
 /// `None` when the rule does not apply.
 fn hydrolysis_target(vessel: &Vessel) -> Option<(f64, f64)> {
-    if !aqueous_ok(vessel) {
+    if !hydrolysis_domain(vessel) {
         return None;
     }
     let z0 = chlorine_pool(vessel);
@@ -773,7 +802,9 @@ fn chlorine_water(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
                 vessel.deposit(SpeciesId::new("HClO"), Moles(dy), Phase::Aqueous);
                 vessel.deposit(SpeciesId::new(CHLORIDE), Moles(dy), Phase::Aqueous);
                 vessel.deposit(SpeciesId::new("H+"), Moles(dy), Phase::Aqueous);
-                reaction(events, vessel, "Cl₂ + H₂O ⇌ HClO + H⁺ + Cl⁻");
+                if dy > crate::OBSERVABLE_MOLES {
+                    reaction(events, vessel, "Cl₂ + H₂O ⇌ HClO + H⁺ + Cl⁻");
+                }
             } else {
                 let back = -dy;
                 take(vessel, "HClO", back, &[Phase::Aqueous]);
@@ -782,20 +813,24 @@ fn chlorine_water(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
                 crate::displacement::consume_acidity(vessel, back);
                 vessel.deposit(SpeciesId::new(CHLORINE), Moles(back), Phase::Gas);
                 vessel.deposit(SpeciesId::new("water"), Moles(back), Phase::Liquid);
-                reaction(events, vessel, "HClO + H⁺ + Cl⁻ ⇌ Cl₂ + H₂O");
+                if back > crate::OBSERVABLE_MOLES {
+                    reaction(events, vessel, "HClO + H⁺ + Cl⁻ ⇌ Cl₂ + H₂O");
+                }
             }
             refresh_charge(vessel);
             let (f, _) = dissolved_share(vessel);
-            note(
-                events,
-                vessel,
-                NotModelledCause::ModelBoundary,
-                Phrase::new(
-                    "not-modeled.chlorine-water-pool",
-                    "chlorine water: dissolved molecular chlorine is held with the headspace chlorine as one pool ({share} of it in solution by Henry's law); hydrolysis Cl₂ + H₂O ⇌ HClO + H⁺ + Cl⁻ is solved to its NBS constant with molality standing in for activity, and the shown headspace pressure counts the dissolved share",
-                    vec![("share".to_string(), Slot::number(format!("{:.0} %", f * 100.0)))],
-                ),
-            );
+            if dy.abs() > crate::OBSERVABLE_MOLES {
+                note(
+                    events,
+                    vessel,
+                    NotModelledCause::ModelBoundary,
+                    Phrase::new(
+                        "not-modeled.chlorine-water-pool",
+                        "chlorine water: dissolved molecular chlorine is held with the headspace chlorine as one pool ({share} of it in solution by Henry's law); hydrolysis Cl₂ + H₂O ⇌ HClO + H⁺ + Cl⁻ is solved to its NBS constant with molality standing in for activity, and the shown headspace pressure counts the dissolved share",
+                        vec![("share".to_string(), Slot::number(format!("{:.0} %", f * 100.0)))],
+                    ),
+                );
+            }
         }
     }
     let excess = open_excess(vessel);
@@ -815,7 +850,7 @@ fn chlorine_water(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
 /// Whether the hydrolysis is this module's in this vessel (so the curated
 /// `HClO + H⁺ + Cl⁻ → Cl₂` rows must not also run it to completion).
 pub fn owns_hypochlorous_equilibrium(vessel: &Vessel) -> bool {
-    aqueous_ok(vessel) && chlorine_pool(vessel) > TRACE
+    hydrolysis_domain(vessel) && chlorine_pool(vessel) > TRACE
 }
 
 // ── 6. dry chlorination ──────────────────────────────────────────────
@@ -897,7 +932,7 @@ fn dry_chlorination(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         }
         take(vessel, metal, n, &[Phase::Solid, Phase::Liquid]);
         take(vessel, CHLORINE, n * cl / 2.0, &[Phase::Gas]);
-        vessel.deposit(SpeciesId::new(*chloride), Moles(n), Phase::Solid);
+        vessel.deposit(SpeciesId::new(chloride), Moles(n), Phase::Solid);
         reaction(events, vessel, &metal_equation(metal, chloride, *cl));
         burned.push(metal.to_string());
         progressed = true;

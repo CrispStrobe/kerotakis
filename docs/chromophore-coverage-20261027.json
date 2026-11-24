@@ -24,7 +24,7 @@
   ],
   "counts": {
     "missing_absorptivity": 47,
-    "outside_method": 119,
+    "outside_method": 120,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
@@ -653,6 +653,11 @@
     {
       "species": "amylase",
       "appearance": "colorless solution",
+      "class": "outside_method"
+    },
+    {
+      "species": "anthocyanin_ox",
+      "appearance": "colourless",
       "class": "outside_method"
     },
     {

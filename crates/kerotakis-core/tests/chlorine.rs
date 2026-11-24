@@ -232,8 +232,14 @@ fn chlorine_displaces_iodine_from_potassium_iodide() {
     put(&mut v, "KI", 0.002, Phase::Aqueous);
     put(&mut v, "Cl2", 0.0005, Phase::Gas);
     run(&mut v);
-    assert!((all(&v, "I2") - 0.0005).abs() < 1e-12);
+    // One Cl₂ takes two electrons from iodide: two chlorides, one iodine
+    // (free or held as triiodide by the iodide left over).
+    assert!(all(&v, "Cl2") < 1e-15);
+    assert!((m(&v, "Cl-", Phase::Aqueous) - 0.001).abs() < 1e-12);
     assert!((m(&v, "K+", Phase::Aqueous) - 0.001).abs() < 1e-12);
+    let iodine = 2.0 * all(&v, "I2") + 3.0 * all(&v, "I3-") + all(&v, "I-") + all(&v, "KI");
+    assert!((iodine - 0.002).abs() < 1e-12, "{iodine}");
+    assert!(all(&v, "I2") + all(&v, "I3-") > 0.0004, "{}", all(&v, "I2"));
 }
 
 #[test]
