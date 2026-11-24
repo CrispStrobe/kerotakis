@@ -1494,6 +1494,17 @@ impl Bench {
                     // the thermal solver never engages — and reporting that
                     // silence as "it does not burn" would be a false
                     // observation dressed as a result.
+                    // The spark route already said which absence this
+                    // is (a fuel gas outside its flammability limits).
+                    // A smothered flame (`FlameStarved`) has said so too,
+                    // and the spark route resolves it at room temperature,
+                    // where no solver would claim to have examined it.
+                    true if events.iter().any(|event| {
+                        matches!(
+                            event,
+                            Event::DidNotIgnite { .. } | Event::FlameStarved { .. }
+                        )
+                    }) => {}
                     true if !examined => events.push(Event::not_modeled(
                                                          *vessel,
                                                          crate::ops::NotModelledCause::NoSolver,
@@ -3550,6 +3561,15 @@ impl Bench {
                     events.extend(lit);
                     events.extend(refused);
                     *disposition = ApplyDisposition::Unchanged;
+                } else if let Some(flame) = combustion::flame_at_spark(v) {
+                    // The spark resolved where it is held — in the
+                    // headspace gas, on a candle over water, on magnesium
+                    // in a closed jar — without raising the whole vessel
+                    // to flame temperature (`combustion::flame_at_spark`).
+                    if !flame.iter().any(|e| matches!(e, Event::Ignited { .. })) {
+                        *disposition = ApplyDisposition::Unchanged;
+                    }
+                    events.extend(flame);
                 } else {
                     // A match brings a small volume to flame temperature.
                     // Whether anything catches is for the solvers to say;
