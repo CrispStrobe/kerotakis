@@ -2,6 +2,7 @@
 
 Read [current state](docs/STATUS.md), the [ordered agenda](docs/improvement-agenda-20261014.md)
 and [PR delivery policy](docs/PR-WORKFLOW.md) before choosing work.
+Experiment audits against real manuals/kits follow [EXPERIMENT-PROTOCOL](docs/EXPERIMENT-PROTOCOL.md).
 Use [fresh-agent task scopes](docs/next-agent-handoff.md) for current prerequisites
 and acceptance. Read ignored `CLAUDE.local.md` when available; never
 commit its contents. Explicit user

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "demo-1-E001",
+    "source": {"kit": "Demo kit", "edition": "1", "section": "Carbon dioxide"},
+    "title": "Vinegar and baking soda release a gas",
+    "components": {
+      "reagents": [
+        {"name": "sodium hydrogen carbonate", "formula": "NaHCO3", "amount": 1, "unit": "g", "form": "solid"},
+        {"name": "vinegar", "formula": "CH3COOH", "amount": 10, "unit": "mL", "form": "solution", "concentration": "5 %"}
+      ],
+      "devices": ["test tube"]
+    },
+    "procedure": ["put the powder in the tube", "add the vinegar", "wait 60 s", "observe"],
+    "expectations": [
+      {"id": "X1", "kind": "observation", "text": "a colourless gas bubbles out"},
+      {"id": "X2", "kind": "observation", "text": "the tube feels slightly cooler"}
+    ],
+    "kero": {"support": "partial", "library_match": null, "script": "scripts/demo-1-E001.lab", "binary": "0.1.5+sha256:0000", "run_log": "runs/demo-1-E001.log", "exit": 0},
+    "verdicts": [
+      {"expectation": "X1", "verdict": "MATCH", "evidence": "CO2 leaves the vessel"},
+      {"expectation": "X2", "verdict": "ENGINE_DISCREPANCY", "evidence": "thermometer unchanged"}
+    ],
+    "gaps": [
+      {"class": "wrong-observation", "expectation": "X2", "detail": "endothermic dissolution not shown", "gap_list_id": null}
+    ]
+  }
+]

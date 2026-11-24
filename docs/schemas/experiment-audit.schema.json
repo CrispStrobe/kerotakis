@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CrispStrobe/kerotakis/docs/schemas/experiment-audit.schema.json",
+  "title": "Kerotakis experiment audit records",
+  "type": "array",
+  "items": { "$ref": "#/$defs/record" },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": ["id", "source", "title", "components", "procedure", "expectations"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+-[A-Za-z0-9]+-[A-Za-z0-9]+$" },
+        "source": {
+          "type": "object", "required": ["kit", "edition"], "additionalProperties": false,
+          "properties": {
+            "kit": { "type": "string" }, "edition": { "type": "string" },
+            "section": { "type": "string" }, "url": { "type": "string" },
+            "linked_files": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "components": {
+          "type": "object", "required": ["reagents", "devices"], "additionalProperties": false,
+          "properties": {
+            "reagents": { "type": "array", "items": { "$ref": "#/$defs/reagent" } },
+            "devices": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "procedure": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "expectations": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/expectation" } },
+        "kero": { "$ref": "#/$defs/kero" },
+        "verdicts": { "type": "array", "items": { "$ref": "#/$defs/verdict" } },
+        "gaps": { "type": "array", "items": { "$ref": "#/$defs/gap" } }
+      }
+    },
+    "reagent": {
+      "type": "object", "required": ["name"], "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" }, "formula": { "type": ["string", "null"] },
+        "amount": { "type": ["number", "null"] },
+        "unit": { "enum": ["g", "mL", "mol", "drops", "pinch", "piece", null] },
+        "form": { "enum": ["solid", "solution", "gas", "liquid", null] },
+        "concentration": { "type": ["string", "null"] }
+      }
+    },
+    "expectation": {
+      "type": "object", "required": ["id", "kind", "text"], "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^X[0-9]+$" },
+        "kind": { "enum": ["observation", "quantity", "absence", "equation"] },
+        "text": { "type": "string", "minLength": 1 },
+        "tolerance": { "type": ["string", "number", "null"] }
+      }
+    },
+    "kero": {
+      "type": "object", "required": ["support"], "additionalProperties": false,
+      "properties": {
+        "support": { "enum": ["full", "partial", "none"] },
+        "library_match": { "type": ["string", "null"] },
+        "script": { "type": ["string", "null"] },
+        "binary": { "type": ["string", "null"] },
+        "run_log": { "type": ["string", "null"] },
+        "exit": { "type": ["integer", "null"] }
+      }
+    },
+    "verdict": {
+      "type": "object", "required": ["expectation", "verdict", "evidence"], "additionalProperties": false,
+      "properties": {
+        "expectation": { "type": "string", "pattern": "^X[0-9]+$" },
+        "verdict": { "enum": ["MATCH", "ENGINE_DISCREPANCY", "SCRIPT_DISCREPANCY", "NOT_APPLICABLE", "UNSUPPORTED"] },
+        "evidence": { "type": "string" },
+        "binary": { "type": "string" }
+      }
+    },
+    "gap": {
+      "type": "object", "required": ["class", "detail"], "additionalProperties": false,
+      "properties": {
+        "class": { "enum": ["missing-species", "missing-device", "missing-reaction", "wrong-observation", "wrong-quantity", "crash", "syntax"] },
+        "detail": { "type": "string", "minLength": 1 },
+        "expectation": { "type": "string" },
+        "gap_list_id": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

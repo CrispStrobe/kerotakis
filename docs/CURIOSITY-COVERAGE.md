@@ -79,3 +79,5 @@ cargo run -p kerotakis-cli -- coverage curiosity --check
 
 The chemistry-audit workflow separately runs frozen process-isolated fleets and
 retains raw stdout, stderr, scripts, final benches, hashes, and law-check reports.
+
+External experiment audits (manuals, kits, curricula) use the clean-room record and verdict vocabulary in [EXPERIMENT-PROTOCOL](EXPERIMENT-PROTOCOL.md).
