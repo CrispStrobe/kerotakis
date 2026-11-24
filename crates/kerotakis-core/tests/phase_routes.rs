@@ -546,10 +546,11 @@ fn a_lone_dewar_of_liquid_nitrogen_settles_on_its_boiling_point() {
 /// The tables are no longer short, and the invariant that replaced
 /// "ethanol must not appear" is sharper than the one it retired: a
 /// vaporisation row commits the bench to a boil, and the boil is only
-/// reversible for a species the registry carries as a liquid, because
-/// `condensation_partner` searches for a liquid. A solid with a
-/// vaporisation row would let a sealed flask lose its contents to a
-/// headspace they can never come back from.
+/// reversible for a species whose vapour has somewhere to go back to.
+/// `condensation_partner` searches every non-gas species with a boil, so a
+/// room-temperature solid with a vaporisation row condenses to its liquid
+/// and must then carry a fusion row to freeze; without one a sealed flask
+/// would hold a liquid it can never turn back into the solid it was.
 #[test]
 fn every_boil_this_bench_pays_for_can_be_undone() {
     use kerotakis_core::phase_route::{
@@ -565,14 +566,24 @@ fn every_boil_this_bench_pays_for_can_be_undone() {
     for row in VAPORISATION_ENTHALPIES {
         let data = kerotakis_core::species::lookup(&SpeciesId::new(row.species))
             .unwrap_or_else(|| panic!("{} is not in the registry", row.species));
-        assert_eq!(
+        // A room-temperature SOLID may boil on this bench (iodine,
+        // naphthalene, 2026-11-24): its vapour condenses to the liquid and
+        // that liquid freezes through its own fusion row, so the round
+        // trip needs both rows. A gas never carries one.
+        assert_ne!(
             data.standard_phase,
-            Phase::Liquid,
-            "{} carries an enthalpy of vaporisation but the registry calls it a {:?}: \
-             the vapour would have no liquid to condense back to",
-            row.species,
-            data.standard_phase
+            Phase::Gas,
+            "{} carries an enthalpy of vaporisation but the registry calls it a gas",
+            row.species
         );
+        if data.standard_phase == Phase::Solid {
+            assert!(
+                fusion_enthalpy(row.species).is_some(),
+                "{} is a solid at room conditions with a boil and no fusion row: \
+                 its condensed vapour could never freeze back",
+                row.species
+            );
+        }
         assert!(
             data.transitions.and_then(|t| t.boiling_k).is_some(),
             "{} has a latent heat of boiling and no temperature to boil at",

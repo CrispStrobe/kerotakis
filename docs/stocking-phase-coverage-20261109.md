@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 71, not_condensed 80.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 71, not_condensed 80.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -25,10 +25,14 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 71, n
 | derived | Cu | solid | 1357.77 | 2868 | yes | solid | solid | solid |
 | derived | Cu2O | solid | 1516.7 | — | yes | solid | solid | solid |
 | derived | Fe | solid | 1811 | 3273 | yes | solid | solid | solid |
+| derived | I2 | solid | 386.8 | 457.2 | yes | solid | solid | solid |
 | derived | KCl | solid | 1044 | 1680 | yes | solid | solid | solid |
 | derived | Mg | solid | 922 | 1383 | yes | solid | solid | solid |
+| derived | Na2B4O7 | solid | 1015 | — | yes | solid | solid | solid |
 | derived | NaCl | solid | 1073.8 | 1738 | yes | solid | solid | solid |
+| derived | NaOH | solid | 593 | 1651 | yes | solid | solid | solid |
 | derived | Pb | solid | 600.65 | 2017 | yes | solid | solid | solid |
+| derived | S | solid | 392 | 718.2 | yes | solid | solid | solid |
 | derived | Zn | solid | 692.677 | 1180 | yes | solid | solid | solid |
 | derived | ethanol | liquid | 159 | 351.7 | yes | liquid | liquid | liquid |
 | derived | ethyl_acetate | liquid | 189.3 | 350.26 | yes | liquid | liquid | liquid |
@@ -55,7 +59,6 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 71, n
 | melting_point_without_latent_heat | H2C2O4 | solid | 464.45 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | H2O2 | liquid | 271.2 | 423.35 | no | liquid | liquid | liquid |
 | melting_point_without_latent_heat | H2SO4 | liquid | 283.51 | — | no | liquid | liquid | liquid |
-| melting_point_without_latent_heat | I2 | solid | 386.8 | 457.2 | no | solid | solid | solid |
 | melting_point_without_latent_heat | KI | solid | 958 | 1597 | no | solid | solid | solid |
 | melting_point_without_latent_heat | KIO3 | solid | 833 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | KNO3 | solid | 610 | — | no | solid | solid | solid |
@@ -63,16 +66,13 @@ Counts: derived 21, melting_point_without_latent_heat 42, no_melting_point 71, n
 | melting_point_without_latent_heat | MgO | solid | 3173 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | MgSO4 | solid | 1400 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | NH4NO3 | solid | 442.8 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | Na2B4O7 | solid | 1015 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | Na2CO3 | solid | 1127 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | Na2SO4 | solid | 1163 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaBr | solid | 1023 | 1665 | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaHSO4 | solid | 455 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | NaNO3 | solid | 583 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | NaOH | solid | 593 | 1651 | no | solid | solid | solid |
 | melting_point_without_latent_heat | PbI2 | solid | 685 | 1145 | no | solid | solid | solid |
 | melting_point_without_latent_heat | PbSO4 | solid | 1360 | — | no | solid | solid | solid |
-| melting_point_without_latent_heat | S | solid | 392 | 718.2 | no | solid | solid | solid |
 | melting_point_without_latent_heat | SiO2 | solid | 1883 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | bromoethane | liquid | 155 | 311.5 | no | liquid | liquid | liquid |
 | melting_point_without_latent_heat | citric_acid | solid | 427.15 | — | no | solid | solid | solid |

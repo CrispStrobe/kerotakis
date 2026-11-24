@@ -594,6 +594,63 @@ pub fn unmodelled_melts(vessel: &Vessel) -> Vec<Event> {
     events
 }
 
+/// One typed refusal per LIQUID species (not the solvent) standing above
+/// its registry boiling point with no enthalpy of vaporisation for the
+/// boiling route to pay (C1 audit, 2026-11-24).
+///
+/// [`crate::phase_route`] reaches its vaporisation table through a
+/// `filter_map`, so a liquid with a boiling point and no latent heat is
+/// skipped, and the vessel went on holding it as a liquid at any
+/// temperature — molten naphthalene at 1500 degrees Celsius, before that
+/// row was sourced. This is the boiling twin of [`unmodelled_melts`]:
+/// the absence of a model said, never returned as an observation.
+pub fn unmodelled_boils(vessel: &Vessel) -> Vec<Event> {
+    let now = vessel.temperature.0;
+    let mut seen: Vec<&str> = Vec::new();
+    let mut events = Vec::new();
+    for portion in &vessel.contents {
+        if portion.phase != Phase::Liquid || portion.moles.0 <= 1e-12 {
+            continue;
+        }
+        let key = portion.species.0.as_str();
+        if key == "water"
+            || seen.contains(&key)
+            || crate::phase_route::vaporisation_enthalpy(key).is_some()
+        {
+            continue;
+        }
+        let Some(boiling) = species::lookup(&SpeciesId::new(key))
+            .and_then(|data| data.transitions)
+            .and_then(|t| t.boiling_k)
+        else {
+            continue;
+        };
+        if now <= boiling {
+            continue;
+        }
+        seen.push(key);
+        events.push(Event::not_modeled(
+            vessel.id,
+            NotModelledCause::NoReviewedDatum,
+            Phrase::new(
+                "not-modeled.boiling-not-modelled",
+                "{name} heated above its boiling point ({boiling} °C): its enthalpy of vaporisation is not sourced here, so it is not boiled off — the liquid shown is not a prediction that it stays liquid, and the temperature shown overstates the warming",
+                vec![
+                    (
+                        "name".to_string(),
+                        Slot::term("species", species::english_name(key)),
+                    ),
+                    (
+                        "boiling".to_string(),
+                        Slot::number(format!("{:.0}", boiling - 273.15)),
+                    ),
+                ],
+            ),
+        ));
+    }
+    events
+}
+
 /// The inline qualifier a thermometer reading carries when the vessel's
 /// heat accounting skipped a latent heat (po-009, 2026-11-11).
 ///
