@@ -1779,7 +1779,7 @@ impl Bench {
             return;
         };
 
-        let mut delivered = first;
+        let mut delivered = first - self.hold_at_source_ceiling(id, ceiling, events);
         let mut passes = 1u32;
         let mut capped = false;
         loop {
@@ -1845,6 +1845,7 @@ impl Bench {
                     }
                 }
             }
+            delivered -= self.hold_at_source_ceiling(id, ceiling, events);
             if let Ok(vessel) = self.vessel_mut(id) {
                 vessel.step_start = None;
                 vessel.heat_input = None;
@@ -1865,6 +1866,42 @@ impl Bench {
             *reported = passes;
             *hit_cap = capped;
         }
+    }
+
+    /// A heat source cannot make anything hotter than itself.
+    ///
+    /// `apply` and each later pass only ever offer what fits below the
+    /// flame, but the solver may then spend that offer on a phase change
+    /// and hand the leftover to whatever remains. When the remainder is a
+    /// vessel boiled dry, its heat capacity can be almost nothing (stranded
+    /// solutes the bench cannot crystallise carry little or no tabulated
+    /// Cp), and a few kilojoules over a fraction of a millijoule per kelvin
+    /// read as millions of degrees. Physically the flame stops heating at
+    /// its own temperature: the part of the dose that would lift the
+    /// vessel past the ceiling never left the burner. So the vessel is put
+    /// back at the ceiling and exactly that energy — the integral of the
+    /// residue's heat capacity between the ceiling and where the solver put
+    /// it — is returned as undelivered. Returns the joules taken back.
+    fn hold_at_source_ceiling(&mut self, id: VesselId, ceiling: f64, events: &mut [Event]) -> f64 {
+        let Ok(vessel) = self.vessel_mut(id) else {
+            return 0.0;
+        };
+        let overshot = vessel.temperature.0;
+        if overshot.is_nan() || overshot <= ceiling || !ceiling.is_finite() {
+            return 0.0;
+        }
+        let excess = vessel.energy_between(ceiling, overshot).max(0.0);
+        vessel.temperature = Kelvin(ceiling);
+        vessel.solution = None;
+        vessel.refresh_pressure();
+        for event in events.iter_mut() {
+            if let Event::TemperatureChanged { vessel, to, .. } = event {
+                if *vessel == id && to.0 == overshot {
+                    *to = Kelvin(ceiling);
+                }
+            }
+        }
+        excess
     }
 
     /// CAP-25: sealed glass has a limit, and exceeding it is an event, not
