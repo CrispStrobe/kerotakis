@@ -96,6 +96,7 @@ step "curiosity prose"; gated python3 tools/curiosity-prose.py --check
 step "curiosity prose self-test"; gated python3 -m unittest tools.tests.test_curiosity_prose
 step "kids experiment catalog self-test"; gated python3 -m unittest tools.tests.test_kids_catalog
 step "per-step prose self-test"; gated python3 -m unittest tools.tests.test_step_prose
+step "experiment audit schema self-test"; gated python3 tools/experiment-audit.py --self-test docs/schemas/experiment-audit.example.json
 # I18N-9. In the --light block with the curiosity prose gate and for the
 # same reason: a lesson whose German is missing is a content hole a reader
 # meets, not a build failure a compiler finds — and it costs milliseconds.
