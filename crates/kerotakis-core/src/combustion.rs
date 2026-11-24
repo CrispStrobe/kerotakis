@@ -998,10 +998,13 @@ fn gas_moles_of(vessel: &Vessel, species: &str) -> f64 {
         .sum()
 }
 
+/// The dataset id the spark route's `ThermalEquilibrium` carries.
+pub const SPARK_FLAME_DATASET: &str = "kerotakis:combustion:spark-flame-v1";
+
 fn spark_provenance() -> Provenance {
     Provenance::new(
         "spark flame (Kerotakis)",
-        "kerotakis:combustion:spark-flame-v1",
+        SPARK_FLAME_DATASET,
         crate::phrase::Phrase::bare(
             "provenance.model.spark-flame",
             "a spark lights only what is flammable where it is held: fuel gas inside its flammability limits burns to completion of the scarcer reactant, condensed fuels burn until a closed gas falls to the limiting oxygen fraction, and magnesium burns the oxygen it is given; heats from standard enthalpies of formation",

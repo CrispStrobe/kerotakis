@@ -1447,6 +1447,33 @@ impl Bench {
                 } => *reaction_energy_j,
                 _ => None,
             });
+            // The spark route (`combustion::flame_at_spark`) committed the
+            // burn itself. A later equilibrium solver that declines the
+            // closed boundary ("no thermal chemistry has been committed")
+            // is then describing its own abstention, and printed beside a
+            // committed burn it contradicts the ledger. Drop it.
+            let spark_burned = events.iter().any(|e| {
+                matches!(
+                    e,
+                    Event::ThermalEquilibrium {
+                        reaction_energy_j: Some(released),
+                        provenance,
+                        ..
+                    } if *released > 0.0
+                        && provenance.dataset == combustion::SPARK_FLAME_DATASET
+                )
+            });
+            if spark_burned {
+                events.retain(|e| {
+                    !matches!(
+                        e,
+                        Event::NotYetModeled {
+                            reason: Some(reason),
+                            ..
+                        } if reason.key == "not-modeled.cea-open-atmosphere-required"
+                    )
+                });
+            }
             if caught {
                 if let Some(Event::Ignited { energy_j, .. }) = events
                     .iter_mut()
