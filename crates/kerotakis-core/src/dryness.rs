@@ -26,7 +26,8 @@
 //!    and not a condensed gas. The formula is matched by element counts
 //!    parsed from the registry, never by name.
 //! 3. Everything else — a reciprocal system, an ion with no solid in the
-//!    registry (H⁺ beside chloride is hydrochloric acid, not a salt), a
+//!    registry, the acid/base basis (H⁺, OH⁻ and base equivalents, which
+//!    are analytical coordinates and not free acid or hydroxide), a
 //!    dissolved liquid or gas — stays where it was and is named by the
 //!    existing stranded-solutes sentence. Nothing is guessed.
 //!
@@ -150,6 +151,12 @@ pub fn crystallise_to_dryness(vessel: &mut Vessel) -> DryResidue {
     let mut cations: Vec<(String, f64)> = Vec::new();
     let mut anions: Vec<(String, f64)> = Vec::new();
     for (key, n) in &aqueous {
+        // The acid/base basis (H+, OH-, base equivalents) is an analytical
+        // coordinate, not an amount of free acid or base: pairing it would
+        // invent a hydroxide or an acid salt. It is left stranded.
+        if species::is_acid_base_basis(key) {
+            continue;
+        }
         let Some(f) = formula_of(key) else { continue };
         if f.charge > 0.0 {
             cations.push((key.clone(), *n));
@@ -247,7 +254,7 @@ pub fn crystallise_to_dryness(vessel: &mut Vessel) -> DryResidue {
 pub fn dry_residue_note(names: &[&str]) -> Phrase {
     Phrase::new(
         "not-modeled.dry-residue-anhydrous",
-        "the dry residue is booked as {names}, the only solids the ions left behind can form with their common partner; it is booked anhydrous, so any water of crystallisation a real dish keeps and the heat of crystallisation at dryness are not modelled",
+        "the dry residue is booked as {names}: a dissolved molecule dries to its own solid, and ions that share one common partner can form only these salts; the residue is booked anhydrous, so any water of crystallisation a real dish keeps and the heat of crystallisation at dryness are not modelled",
         vec![(
             "names".to_string(),
             Slot::terms("species", names.iter().copied()),

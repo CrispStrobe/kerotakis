@@ -352,3 +352,20 @@ fn a_solid_with_no_sourced_fusion_still_says_so() {
         "{events:#?}"
     );
 }
+
+#[test]
+fn boiling_brine_dry_books_sodium_chloride() {
+    // The boiling branch of the state solver takes the water away; it books
+    // the same residue `evaporate` does.
+    let mut bench = Bench::new();
+    let mut s = stack();
+    add(&mut bench, &mut s, "water", 0.5);
+    add(&mut bench, &mut s, "Na+", 0.01);
+    add(&mut bench, &mut s, "Cl-", 0.01);
+    let events = heat(&mut bench, &mut s, 30_000.0);
+    assert!(total(&bench, "water", Phase::Liquid) < 1e-9);
+    let salt = total(&bench, "NaCl", Phase::Solid) + total(&bench, "NaCl", Phase::Liquid);
+    assert!((salt - 0.01).abs() < 1e-9, "{events:#?}");
+    assert!(total(&bench, "Na+", Phase::Aqueous) < 1e-12);
+    assert!(total(&bench, "Cl-", Phase::Aqueous) < 1e-12);
+}
