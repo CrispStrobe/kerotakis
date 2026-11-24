@@ -9315,8 +9315,8 @@
           "question_fr": "Avant que l'un ou l'autre mélange ne réagisse, doubler le thiosulfate à activité protonique égale change la vitesse initiale de quel facteur ?"
         },
         "ph": {
-          "min": 1.95,
-          "max": 2.01
+          "min": 1.92,
+          "max": 1.98
         },
         "temperature_c": null
       },
@@ -9566,8 +9566,8 @@
           "question_fr": "Chaque becher contient 2 mmol d'acide fort, et former 1 mmol de soufre consomme 2 mmol d'acide. Attendre plus longtemps peut-il garantir l'ancien point final de 1 mmol de soufre ?"
         },
         "ph": {
-          "min": 2.83,
-          "max": 2.89
+          "min": 1.99,
+          "max": 2.05
         },
         "temperature_c": null
       },
@@ -9688,8 +9688,8 @@
           "question_fr": "Une hausse de température de dix degrés garantit-elle exactement deux fois plus de soufre après une attente fixe ?"
         },
         "ph": {
-          "min": 1.95,
-          "max": 2.01
+          "min": 1.92,
+          "max": 1.98
         },
         "temperature_c": {
           "min": 24.5,
@@ -10514,8 +10514,8 @@
           "question_fr": "Quand le banc partagé attend dix secondes, quels récipients préparés avancent ?"
         },
         "ph": {
-          "min": 2.22,
-          "max": 2.28
+          "min": 1.97,
+          "max": 2.03
         },
         "temperature_c": {
           "min": 24.5,
@@ -10789,8 +10789,8 @@
           "question_fr": "Avec 5 mmol de thiosulfate et 2 mmol d'acide fort représenté, quelle quantité de soufre cette réaction consommatrice de protons peut-elle former sans nouvelle source d'acide ?"
         },
         "ph": {
-          "min": 6.45,
-          "max": 6.65
+          "min": 2.25,
+          "max": 2.31
         },
         "temperature_c": null
       },
@@ -10798,9 +10798,9 @@
         "lv1": "The acid is now spent as the reaction runs. Waiting cannot pour in more of it.",
         "lv1_de": "Die Säure wird während der Reaktion nun verbraucht. Warten kann keine zusätzliche Säure eingießen.",
         "lv1_fr": "L'acide est désormais consommé à mesure que la réaction avance. Attendre ne peut pas en verser davantage.",
-        "lv2": "The balanced kinetic step consumes two represented H+ equivalents per sulfur, so the initial 2 mmol acid limits its extent to 1 mmol. Subsequent gas exchange and aqueous speciation determine the displayed pH; the stoichiometric bound alone does not predict that pH.",
-        "lv2_de": "Der ausgeglichene kinetische Schritt verbraucht zwei dargestellte H+-Äquivalente pro Schwefel; die anfänglichen 2 mmol Säure begrenzen seinen Fortschritt somit auf 1 mmol. Anschließender Gasaustausch und wässrige Speziation bestimmen den angezeigten pH; die stöchiometrische Grenze allein sagt ihn nicht voraus.",
-        "lv2_fr": "L'étape cinétique équilibrée consomme deux équivalents H+ représentés par soufre, si bien que les 2 mmol d'acide initiaux limitent son avancement à 1 mmol. L'échange gazeux et la spéciation aqueuse ultérieurs déterminent le pH affiché ; la seule limite stœchiométrique ne le prédit pas.",
+        "lv2": "The balanced kinetic step consumes two represented H+ equivalents per sulfur, so the initial 2 mmol acid limits its extent to 1 mmol. The strong acid is then gone, but the beaker does not turn neutral: the 1 mmol of sulfur dioxide the reaction made stays dissolved, because that little SO2 is far below what water holds at one atmosphere, and dissolved SO2 is itself a weak acid. The displayed pH is that weak acid speaking, not leftover hydrochloric acid; the stoichiometric bound alone does not predict it.",
+        "lv2_de": "Der ausgeglichene kinetische Schritt verbraucht zwei dargestellte H+-Äquivalente pro Schwefel; die anfänglichen 2 mmol Säure begrenzen seinen Fortschritt somit auf 1 mmol. Die starke Säure ist dann verbraucht, doch das Becherglas wird nicht neutral: Das 1 mmol Schwefeldioxid aus der Reaktion bleibt gelöst, weil so wenig SO2 weit unter dem liegt, was Wasser bei einer Atmosphäre aufnimmt, und gelöstes SO2 ist selbst eine schwache Säure. Der angezeigte pH stammt von dieser schwachen Säure, nicht von übrig gebliebener Salzsäure; die stöchiometrische Grenze allein sagt ihn nicht voraus.",
+        "lv2_fr": "L'étape cinétique équilibrée consomme deux équivalents H+ représentés par soufre, si bien que les 2 mmol d'acide initiaux limitent son avancement à 1 mmol. L'acide fort est alors épuisé, mais le bécher ne devient pas neutre : la 1 mmol de dioxyde de soufre formée reste dissoute, car si peu de SO2 est bien en dessous de ce que l'eau retient sous une atmosphère, et le SO2 dissous est lui-même un acide faible. Le pH affiché est celui de cet acide faible, et non d'un reste d'acide chlorhydrique ; la seule limite stœchiométrique ne le prédit pas.",
         "lv3": "The historical catalog ID is retained for links, but the earlier constant-acid approximation is no longer the implemented behavior. The bounded network spends acid inventory and changes its activity locally; independent conservation and integrated-rate tests cover scale, acid ratio, and time partition. Missing weak-acid coupling remains an explicit boundary.",
         "lv3_de": "Die historische Katalog-ID bleibt für Verweise erhalten, aber die frühere Näherung konstanter Säure ist nicht mehr das implementierte Verhalten. Das begrenzte Netzwerk verbraucht Säureinventar und verändert lokal dessen Aktivität; unabhängige Erhaltungs- und integrierte Geschwindigkeitstests prüfen Maßstab, Säureverhältnis und Zeitaufteilung. Fehlende Kopplung schwacher Säuren bleibt eine ausdrückliche Modellgrenze.",
         "lv3_fr": "L'identifiant historique du catalogue est conservé pour les liens, mais l'ancienne approximation à acide constant n'est plus le comportement implémenté. Le réseau borné dépense l'inventaire d'acide et modifie localement son activité ; des tests indépendants de conservation et de vitesse intégrée couvrent l'échelle, le rapport d'acide et le partage temporel. Le couplage manquant avec les acides faibles reste une limite explicite."

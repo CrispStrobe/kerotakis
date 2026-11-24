@@ -70,7 +70,7 @@ wait 10s
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "not_yet_modelled"]
 absent = ["solver_failed"]
-ph = { min = 1.95, max = 2.01 }
+ph = { min = 1.92, max = 1.98 }
 
 [reaction.expect.predict]
 question = "Before either mixture reacts, doubling thiosulfate at the same proton activity changes the initial rate by what factor?"
@@ -214,7 +214,7 @@ look v3
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "observed"]
 absent = ["solver_failed"]
-ph = { min = 2.83, max = 2.89 }
+ph = { min = 1.99, max = 2.05 }
 
 [reaction.expect.predict]
 question = "Each beaker contains 2 mmol of strong acid, and making 1 mmol of sulfur consumes 2 mmol of acid. Can waiting longer guarantee the old 1 mmol sulfur endpoint?"
@@ -281,7 +281,7 @@ wait 10s
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "temperature_changed"]
 absent = ["solver_failed"]
-ph = { min = 1.95, max = 2.01 }
+ph = { min = 1.92, max = 1.98 }
 temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
@@ -738,7 +738,7 @@ look v2
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "observed", "temperature_changed"]
 absent = ["solver_failed"]
-ph = { min = 2.22, max = 2.28 }
+ph = { min = 1.97, max = 2.03 }
 temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
@@ -879,7 +879,7 @@ look v1
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "measured", "observed"]
 absent = ["solver_failed"]
-ph = { min = 6.45, max = 6.65 }
+ph = { min = 2.25, max = 2.31 }
 
 [reaction.expect.predict]
 question = "With 5 mmol thiosulfate and 2 mmol represented strong acid, how much sulfur can this proton-consuming reaction form without a new acid source?"
@@ -899,7 +899,7 @@ next = "A longer wait changes extent only within the reagent bounds; inspect the
 
 [reaction.registers]
 lv1 = "The acid is now spent as the reaction runs. Waiting cannot pour in more of it."
-lv2 = "The balanced kinetic step consumes two represented H+ equivalents per sulfur, so the initial 2 mmol acid limits its extent to 1 mmol. Subsequent gas exchange and aqueous speciation determine the displayed pH; the stoichiometric bound alone does not predict that pH."
+lv2 = "The balanced kinetic step consumes two represented H+ equivalents per sulfur, so the initial 2 mmol acid limits its extent to 1 mmol. The strong acid is then gone, but the beaker does not turn neutral: the 1 mmol of sulfur dioxide the reaction made stays dissolved, because that little SO2 is far below what water holds at one atmosphere, and dissolved SO2 is itself a weak acid. The displayed pH is that weak acid speaking, not leftover hydrochloric acid; the stoichiometric bound alone does not predict it."
 lv3 = "The historical catalog ID is retained for links, but the earlier constant-acid approximation is no longer the implemented behavior. The bounded network spends acid inventory and changes its activity locally; independent conservation and integrated-rate tests cover scale, acid ratio, and time partition. Missing weak-acid coupling remains an explicit boundary."
 
 [reaction.provenance]
