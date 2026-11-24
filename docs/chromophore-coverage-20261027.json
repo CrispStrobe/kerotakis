@@ -23,13 +23,18 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 43,
-    "outside_method": 120,
+    "missing_absorptivity": 47,
+    "outside_method": 119,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
   },
   "species": [
+    {
+      "species": "Ag",
+      "appearance": "silvery",
+      "class": "missing_absorptivity"
+    },
     {
       "species": "Ag2CO3",
       "appearance": "pale yellow",
@@ -58,6 +63,11 @@
     {
       "species": "C",
       "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Ca",
+      "appearance": "silvery",
       "class": "missing_absorptivity"
     },
     {
@@ -131,6 +141,11 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "K",
+      "appearance": "silvery",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "K2Cr2O7",
       "appearance": "orange-red crystals",
       "class": "missing_absorptivity"
@@ -168,6 +183,11 @@
     {
       "species": "MnO4-2",
       "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Na",
+      "appearance": "silvery",
       "class": "missing_absorptivity"
     },
     {
@@ -244,11 +264,6 @@
       "species": "uranium",
       "appearance": "dull silvery grey",
       "class": "missing_absorptivity"
-    },
-    {
-      "species": "Ag",
-      "appearance": "silvery-white",
-      "class": "outside_method"
     },
     {
       "species": "AgCl",

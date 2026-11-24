@@ -973,3 +973,151 @@ fn metals_outside_the_series_say_so_once() {
         }
     }
 }
+
+// ── A3: metals that react with cold water itself ──────────────────────
+
+fn hydrogen_out(events: &[Event]) -> (f64, f64) {
+    let mut evolved = 0.0;
+    let mut contained = 0.0;
+    for e in events {
+        match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "H2" => evolved += moles.0,
+            Event::GasContained { species, moles, .. } if species.0 == "H2" => contained += moles.0,
+            _ => {}
+        }
+    }
+    (evolved, contained)
+}
+
+/// Sodium, potassium and calcium dropped into plain water: the metal is
+/// gone, its cation is in the glass (or, for calcium, partly as slaked
+/// lime), half a mole of hydrogen per electron leaves as a gas event, the
+/// water turns strongly alkaline, and the beaker warms by the Hess-sum
+/// heat the module prices — with nothing left unpriced.
+#[test]
+fn water_reactive_metals_dissolve_in_plain_water() {
+    for c in displacement::WATER_REACTIVE {
+        let n0 = 0.01;
+        let (bench, events) = run(&[(c.reduced, n0)]);
+        let v = vessel(&bench);
+        assert!(
+            moles_of(&bench, c.reduced, Phase::Solid) < 1e-12,
+            "{}: metal left {events:?}",
+            c.reduced
+        );
+        let cation_total = moles_of(&bench, c.oxidised, Phase::Aqueous)
+            + if c.reduced == "Ca" {
+                moles_of(&bench, "Ca(OH)2", Phase::Solid)
+            } else {
+                0.0
+            };
+        assert!(
+            (cation_total - n0).abs() < 1e-6,
+            "{}: cation {cation_total}",
+            c.reduced
+        );
+        let (evolved, contained) = hydrogen_out(&events);
+        assert!(contained.abs() < 1e-15);
+        assert!(
+            (evolved - n0 * c.electrons / 2.0).abs() < 1e-9,
+            "{}: hydrogen {evolved}",
+            c.reduced
+        );
+        assert!(events.iter().any(|e| matches!(e,
+            Event::ReactionOccurred { equation, .. } if equation.contains("H2O") && equation.contains("OH-"))));
+        let ph = events
+            .iter()
+            .rev()
+            .find_map(|e| match e {
+                Event::SolutionCharacterized { ph, .. } => Some(*ph),
+                _ => None,
+            })
+            .expect("solution characterised");
+        assert!(ph > 11.5, "{}: pH {ph}", c.reduced);
+        // The heat: q = -ΔH·n into ~100 g of water. Ca(OH)2 precipitating
+        // afterwards moves it a little, so the bound is loose but signed.
+        let q = -displacement::WaterReaction::enthalpy_kj_per_mol(c) * 1000.0 * n0;
+        assert!(q > 0.0, "{} must be exothermic", c.reduced);
+        let expected = q / (5.55 * 75.3);
+        let rise = v.temperature.0 - 298.15;
+        assert!(
+            (rise - expected).abs() < 0.15 * expected,
+            "{}: rose {rise} K, expected about {expected} K",
+            c.reduced
+        );
+        assert_eq!(heat_unpriced_notes(&events), 0, "{events:?}");
+    }
+}
+
+/// The Hess sums are the textbook ones: sodium in water is −184 kJ per
+/// mole of sodium (Wagman 1982 formation enthalpies).
+#[test]
+fn sodium_in_water_releases_the_tabulated_enthalpy() {
+    let na = displacement::water_couple_of_metal("Na").unwrap();
+    let dh = displacement::WaterReaction::enthalpy_kj_per_mol(na);
+    assert!((dh - -184.284).abs() < 0.01, "{dh}");
+}
+
+/// Every water-reactive couple sits below the water line, and nothing in
+/// the acid series is listed twice.
+#[test]
+fn water_reactive_couples_sit_below_the_water_line() {
+    for c in displacement::WATER_REACTIVE {
+        assert!(c.e0_volts < displacement::WATER_REDUCTION_E0_VOLTS);
+        assert!(displacement::couple_of_metal(c.reduced).is_none());
+        assert!(kerotakis_core::species::lookup_key(c.reduced).is_some());
+        assert!(kerotakis_core::species::lookup_key(c.oxidised).is_some());
+    }
+}
+
+/// With acid already present the hydroxide is neutralised as it forms,
+/// and the step's heat is the metal-in-acid sum: hotter than in water.
+#[test]
+fn sodium_in_acid_neutralises_and_warms_more_than_in_water() {
+    let (water, _) = run(&[("Na", 0.01)]);
+    let (acid, events) = run(&[("HCl", 0.05), ("Na", 0.01)]);
+    assert!(moles_of(&acid, "Na", Phase::Solid) < 1e-12);
+    assert!((hydrogen_out(&events).0 - 0.005).abs() < 1e-9);
+    assert!(vessel(&acid).temperature.0 > vessel(&water).temperature.0 + 0.5);
+    assert_eq!(heat_unpriced_notes(&events), 0, "{events:?}");
+}
+
+/// No water, no reaction: a lump of sodium on its own stays sodium.
+#[test]
+fn sodium_without_water_stays_sodium() {
+    let mut stack = stack();
+    let mut bench = Bench::new();
+    let events = add(&mut bench, &mut stack, "Na", 0.01);
+    assert!((moles_of(&bench, "Na", Phase::Solid) - 0.01).abs() < 1e-12);
+    assert_eq!(hydrogen_out(&events), (0.0, 0.0));
+}
+
+/// A sealed vessel keeps the hydrogen in its headspace.
+#[test]
+fn potassium_in_a_sealed_vessel_keeps_its_hydrogen() {
+    let mut stack = stack();
+    let mut bench = Bench::new();
+    add(&mut bench, &mut stack, "water", 5.55);
+    bench
+        .step_with(
+            Operator::Seal {
+                vessel: VesselId(0),
+                headspace_volume: Liters(1.0),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("seal");
+    let events = add(&mut bench, &mut stack, "K", 0.01);
+    let (evolved, contained) = hydrogen_out(&events);
+    assert_eq!(evolved, 0.0, "{events:?}");
+    assert!((contained - 0.005).abs() < 1e-9, "{events:?}");
+}
+
+/// Magnesium is NOT in the class: its hydroxide coats the ribbon, so cold
+/// water leaves it standing and says that rate is not modelled.
+#[test]
+fn magnesium_in_cold_water_still_stands() {
+    let (bench, _) = run(&[("Mg", 0.01)]);
+    assert!((moles_of(&bench, "Mg", Phase::Solid) - 0.01).abs() < 1e-12);
+}

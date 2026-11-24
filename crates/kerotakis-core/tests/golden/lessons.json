@@ -4065,7 +4065,7 @@
     ]
   },
   "invisible-ink-boundary": {
-    "event_count": 24,
+    "event_count": 27,
     "events_sample": [
       "v1: +2.000 g paper (1 known ingredient(s))",
       "v1: +2.060 g lemon juice surrogate (5 known ingredient(s))",
@@ -4081,12 +4081,12 @@
       "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
       "v1: 0.104 mol water evaporated",
       "v1: the lemon mark is dry and still faint",
-      "v1: not yet modelled — the last of the water is gone and D-fructose (fruit sugar), D-glucose (dextrose) and sucrose are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
+      "v1: 114 µmol D-fructose (fruit sugar) precipitated ↓",
+      "v1: 114 µmol D-glucose (dextrose) precipitated ↓",
+      "v1: 30.1 µmol sucrose precipitated ↓",
+      "v1: not yet modelled — the dry residue is booked as D-fructose (fruit sugar), D-glucose (dextrose) and sucrose: a dissolved molecule dries to its own solid, and ions that share one common partner can form only these salts; the residue is booked anhydrous, so any water of crystallisation a real dish keeps and the heat of crystallisation at dryness are not modelled",
       "v1: 217.7 °C → 1065.1 °C",
-      "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
-      "v1: the dry lemon mark is 100% brown at 1338.2 K",
-      "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper is in the beaker.",
-      "v2: new vessel"
+      "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled"
     ],
     "lesson": "invisible-ink-boundary.lab",
     "vessels": [
@@ -4104,17 +4104,17 @@
           },
           {
             "moles": 0.00011435,
-            "phase": "Aqueous",
+            "phase": "Solid",
             "species": "fructose"
           },
           {
             "moles": 0.00011435,
-            "phase": "Aqueous",
+            "phase": "Solid",
             "species": "glucose"
           },
           {
             "moles": 0.00003009,
-            "phase": "Aqueous",
+            "phase": "Solid",
             "species": "sucrose"
           }
         ],

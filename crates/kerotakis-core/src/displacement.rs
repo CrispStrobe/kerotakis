@@ -229,6 +229,246 @@ pub const SERIES: &[Couple] = &[
     },
 ];
 
+/// The water couple, `2 H₂O + 2 e⁻ → H₂ + 2 OH⁻`, V vs SHE at 25 °C:
+/// the hydrogen line at pH 14. A metal whose own couple sits below it can
+/// take electrons' worth of hydrogen out of neutral water itself, with no
+/// acid in the glass at all.
+pub const WATER_REDUCTION_E0_VOLTS: f64 = -0.8277;
+
+/// ΔfH° of liquid water and of the aqueous hydroxide ion, kJ/mol, from the
+/// same NBS tables (Wagman et al., 1982) the couples' ion enthalpies come
+/// from, so the heat of a metal in water is one consistent Hess sum.
+const DFH_WATER_LIQUID_KJ: f64 = -285.830;
+const DFH_HYDROXIDE_AQ_KJ: f64 = -229.994;
+
+/// Metals that react with cold water itself, fast, to completion:
+/// `M + n H₂O → Mⁿ⁺ + n OH⁻ + n/2 H₂`.
+///
+/// Two conditions and both are needed. The first is thermodynamic and
+/// checked by a test: the couple sits below [`WATER_REDUCTION_E0_VOLTS`],
+/// so even neutral water is an oxidant for it (K ≥ 10³⁰ for every row).
+/// The second is kinetic and CURATED: the metal's hydroxide carries itself
+/// away into the water instead of skinning the surface over. The alkali
+/// hydroxides are very soluble and the metals race across the water;
+/// calcium hydroxide is sparingly soluble and calcium fizzes steadily
+/// rather than violently. Magnesium passes the first test (−2.37 V) and
+/// fails the second — Mg(OH)₂ is practically insoluble and coats the
+/// ribbon, so cold water makes only a few bubbles over hours — and that is
+/// why it is NOT here, and why [`bystanders`] still says its slow reaction
+/// with water is not modelled.
+///
+/// E°: CRC Handbook 'Electrochemical Series' (Vanýsek), as [`SERIES`].
+/// ΔfH°(aq ion): Wagman et al. 1982 (NBS tables), as [`SERIES`].
+pub const WATER_REACTIVE: &[Couple] = &[
+    Couple {
+        oxidised: "K+",
+        oxidised_per_reduced: 1.0,
+        reduced: "K",
+        reduced_phase: Phase::Solid,
+        electrons: 1.0,
+        e0_volts: -2.931,
+        dfh_oxidised_kj: -252.38,
+        source: CRC,
+    },
+    Couple {
+        oxidised: "Ca+2",
+        oxidised_per_reduced: 1.0,
+        reduced: "Ca",
+        reduced_phase: Phase::Solid,
+        electrons: 2.0,
+        e0_volts: -2.868,
+        dfh_oxidised_kj: -542.83,
+        source: CRC,
+    },
+    Couple {
+        oxidised: "Na+",
+        oxidised_per_reduced: 1.0,
+        reduced: "Na",
+        reduced_phase: Phase::Solid,
+        electrons: 1.0,
+        e0_volts: -2.71,
+        dfh_oxidised_kj: -240.12,
+        source: CRC,
+    },
+];
+
+/// The water-reactive couple a metal is the reduced member of.
+pub fn water_couple_of_metal(key: &str) -> Option<&'static Couple> {
+    WATER_REACTIVE.iter().find(|c| c.reduced == key)
+}
+
+/// One metal that reacted with water, for the record and the equation.
+#[derive(Debug, Clone, PartialEq)]
+pub struct WaterReaction {
+    pub metal: &'static Couple,
+    /// Moles of metal consumed.
+    pub metal_moles: f64,
+    /// Moles of hydrogen made.
+    pub hydrogen_moles: f64,
+    /// Heat released into the vessel, J (positive = exothermic).
+    pub heat_joules: f64,
+}
+
+impl WaterReaction {
+    /// Standard reaction enthalpy per mole of metal, kJ/mol, by Hess's law
+    /// over formation enthalpies (the metal and H₂ at zero by definition).
+    pub fn enthalpy_kj_per_mol(c: &Couple) -> f64 {
+        c.dfh_oxidised_kj * c.oxidised_per_reduced + c.electrons * DFH_HYDROXIDE_AQ_KJ
+            - c.electrons * DFH_WATER_LIQUID_KJ
+    }
+
+    /// The balanced equation in whole numbers: `2 Na + 2 H2O → 2 Na+ + 2 OH- + H2`.
+    pub fn equation(&self) -> String {
+        let n = self.metal.electrons as u64;
+        // n/2 H₂ per metal: double everything for an odd charge.
+        let k = if n % 2 == 1 { 2 } else { 1 };
+        let m = k;
+        let water = n * k;
+        let hydrogen = n * k / 2;
+        format!(
+            "{}{} + {}H2O → {}{} + {}OH- + {}H2",
+            coefficient(m),
+            self.metal.reduced,
+            coefficient(water),
+            coefficient(m),
+            self.metal.oxidised,
+            coefficient(water),
+            coefficient(hydrogen),
+        )
+    }
+}
+
+/// React every water-reactive metal in the vessel with the liquid water,
+/// to completion or until the water runs out.
+///
+/// The equilibrium constant is astronomically large for every row of
+/// [`WATER_REACTIVE`], so the end point is exhaustion, not a Nernst root.
+/// The hydroxide is booked as an `OH-` portion beside the cation, exactly
+/// as the chloralkali cell books the caustic soda it makes; the next
+/// aqueous solve folds it into the acid-base basis and neutralises any
+/// acid that was already there. Hydrogen goes out as a gas event, or
+/// stays in a sealed headspace. The heat is the Hess sum of
+/// [`WaterReaction::enthalpy_kj_per_mol`], charged here and booked as
+/// paid on the step snapshot so the aqueous tail does not price it twice.
+pub fn react_with_water(vessel: &mut Vessel) -> (Vec<Event>, Vec<WaterReaction>) {
+    let mut events = Vec::new();
+    let mut done = Vec::new();
+    if kgw(vessel) <= crate::OBSERVABLE_MOLES * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL {
+        return (events, done);
+    }
+    for c in WATER_REACTIVE {
+        let metal = moles_in(vessel, c.reduced, Phase::Solid);
+        if metal <= TRACE {
+            continue;
+        }
+        let water = moles_in(vessel, "water", Phase::Liquid);
+        let reacted = metal.min(water / c.electrons);
+        if reacted <= TRACE {
+            continue;
+        }
+        let t_ref = Kelvin::STANDARD.0;
+        let held_before = vessel.energy_between(t_ref, vessel.temperature.0);
+        let contents_before = vessel.contents.clone();
+        let made = reacted * c.electrons;
+        let hydrogen = reacted * c.electrons / 2.0;
+        // Acid already in the glass takes the hydroxide as it forms:
+        // H⁺ + OH⁻ → H₂O, which hands the water back. Pricing it here keeps
+        // the whole step's heat in one owner — the aqueous tail does not
+        // add heat to a step another solver has already priced — and the
+        // sum is the metal-in-acid enthalpy by Hess's law.
+        let neutralised = made.min(oxidant_available(vessel, &SERIES[2]));
+        let hydroxide = made - neutralised;
+        let heat_joules = (-WaterReaction::enthalpy_kj_per_mol(c) * reacted
+            - (DFH_WATER_LIQUID_KJ - DFH_HYDROXIDE_AQ_KJ) * neutralised)
+            * 1000.0;
+
+        vessel.withdraw_phase(&SpeciesId::new(c.reduced), Moles(reacted), Phase::Solid);
+        if neutralised > 0.0 {
+            consume_acidity(vessel, neutralised);
+        }
+        if hydroxide > 0.0 {
+            vessel.withdraw_phase(&SpeciesId::new("water"), Moles(hydroxide), Phase::Liquid);
+            vessel.deposit(SpeciesId::new("OH-"), Moles(hydroxide), Phase::Aqueous);
+        }
+        vessel.deposit(
+            SpeciesId::new(c.oxidised),
+            Moles(reacted * c.oxidised_per_reduced),
+            Phase::Aqueous,
+        );
+        let record = WaterReaction {
+            metal: c,
+            metal_moles: reacted,
+            hydrogen_moles: hydrogen,
+            heat_joules,
+        };
+        events.push(Event::ReactionOccurred {
+            vessel: vessel.id,
+            equation: record.equation(),
+        });
+        events.push(Event::Consumed {
+            vessel: vessel.id,
+            species: SpeciesId::new(c.reduced),
+            moles: Moles(reacted),
+            remaining: Some(Moles(moles_in(vessel, c.reduced, Phase::Solid))),
+        });
+        let h2 = SpeciesId::new(HYDROGEN_GAS);
+        let mut evolved = 0.0;
+        if vessel.retain_gas(h2.clone(), Moles(hydrogen)) {
+            events.push(Event::GasContained {
+                vessel: vessel.id,
+                species: h2,
+                moles: Moles(hydrogen),
+            });
+        } else {
+            evolved = hydrogen;
+            events.push(Event::GasEvolved {
+                vessel: vessel.id,
+                species: h2,
+                moles: Moles(hydrogen),
+            });
+        }
+        vessel.solute_charge = solute_charge(vessel);
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0 {
+            let t_new = vessel.temperature_after_from(t_ref, held_before + heat_joules);
+            vessel.temperature = Kelvin(t_new.max(0.0));
+        }
+        if let Some(start) = vessel.step_start.as_mut() {
+            book_paid_change(start, &contents_before, &vessel.contents);
+            // The hydroxide portion is analytical basis, which the heat
+            // balance does not tally; it reads free hydroxide from the
+            // speciation against this baseline instead. Its heat was
+            // charged above, so move the baseline with it — otherwise the
+            // tail sees hydroxide appear from nowhere and refuses the step.
+            start.free_hydroxide += hydroxide;
+            if evolved > 0.0 {
+                start.note_heat_paid(&SpeciesId::new(HYDROGEN_GAS), Phase::Gas, evolved);
+            }
+        }
+        let name = species::lookup_key(c.reduced)
+            .map(|d| d.name)
+            .unwrap_or(c.reduced);
+        let reason = Phrase::new(
+            "not-modeled.water-metal-rate",
+            "how fast and how violently {name} reacts with the water: it sits far below hydrogen in the activity series (E° {e_self} V against {e_water} V for water itself) and its hydroxide carries itself away instead of coating the metal, so this lab takes the reaction to completion and prices its heat. The pace — skating, melting, the hydrogen catching fire — is a rate it does not compute",
+            vec![
+                ("name".to_string(), Slot::term("species", name)),
+                ("e_self".to_string(), Slot::number(format!("{:+.3}", c.e0_volts))),
+                (
+                    "e_water".to_string(),
+                    Slot::number(format!("{WATER_REDUCTION_E0_VOLTS:+.3}")),
+                ),
+            ],
+        );
+        events.push(Event::not_modeled(
+            vessel.id,
+            crate::ops::NotModelledCause::RateNotModelled,
+            reason,
+        ));
+        done.push(record);
+    }
+    (events, done)
+}
+
 /// Hydrogen overpotential on each metal, V — the extra push hydrogen gas
 /// needs before it will form on that surface, at a bench-scale current
 /// density (~1 mA/cm²).
@@ -1228,6 +1468,7 @@ pub fn metals_outside_the_series(vessel: &mut Vessel) -> Vec<Event> {
                 && p.moles.0 > crate::OBSERVABLE_MOLES
                 && is_elemental_metal(&p.species.0)
                 && couple_of_metal(&p.species.0).is_none()
+                && water_couple_of_metal(&p.species.0).is_none()
         })
         .map(|p| p.species.clone())
         .collect();
@@ -1969,12 +2210,16 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
         .iter()
         .any(|e| matches!(e, Event::ReactionOccurred { .. }));
     events.extend(metals_outside_the_series(vessel));
-    if !DisplacementEquilibrator::has_series_metal(vessel) && !dissolved_in_alkali {
+    let (water_events, with_water) = react_with_water(vessel);
+    if !DisplacementEquilibrator::has_series_metal(vessel)
+        && !dissolved_in_alkali
+        && with_water.is_empty()
+    {
         events.extend(amphoteric);
         return Ok(events);
     }
     let (more, reacted) = displace(vessel);
-    let any_reacted = !reacted.is_empty() || dissolved_in_alkali;
+    let any_reacted = !reacted.is_empty() || dissolved_in_alkali || !with_water.is_empty();
     if any_reacted {
         // The first solve described a state the step has now moved past:
         // its "this solution is supersaturated against …" notes are about
@@ -1984,6 +2229,7 @@ fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<E
         events.retain(|e| !matches!(e, Event::NotYetModeled { vessel, .. } if *vessel == id));
     }
     events.extend(amphoteric);
+    events.extend(water_events);
     events.extend(more);
     if any_reacted {
         events.extend(inner.equilibrate(vessel)?);

@@ -965,6 +965,33 @@
       "retrieved": null
     },
     {
+      "id": "legacy/Ca",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 1.54 g/cm3",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/K",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 0.89 g/cm3",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Na",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 0.968 g/cm3",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/Fe(OH)3",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -4541,6 +4568,54 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Ca",
+      "canonical_key": "OYPRJOBELJOOCE-UHFFFAOYSA-N",
+      "name": "calcium",
+      "identifiers": {
+        "inchikey": "OYPRJOBELJOOCE-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "K",
+      "canonical_key": "ZLMJMSJWJFRBEC-UHFFFAOYSA-N",
+      "name": "potassium",
+      "identifiers": {
+        "inchikey": "ZLMJMSJWJFRBEC-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Na",
+      "canonical_key": "KEAYESYHFKHZAL-UHFFFAOYSA-N",
+      "name": "sodium",
+      "identifiers": {
+        "inchikey": "KEAYESYHFKHZAL-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Na",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -17030,6 +17105,201 @@
       },
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Ca",
+      "species_id": "Ca",
+      "formula": "Ca",
+      "elements": [
+        {
+          "element": "Ca",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ca",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/K",
+      "species_id": "K",
+      "formula": "K",
+      "elements": [
+        {
+          "element": "K",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Na",
+      "species_id": "Na",
+      "formula": "Na",
+      "elements": [
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Na",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Na",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -41967,6 +42237,278 @@
       }
     },
     {
+      "id": "molar-mass/Ca",
+      "species_id": "Ca",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 40.078,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Ca",
+      "species_id": "Ca",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 25.93,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Ca",
+      "species_id": "Ca",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.54,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/K",
+      "species_id": "K",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 39.098,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/K",
+      "species_id": "K",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 29.58,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/K",
+      "species_id": "K",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.89,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Na",
+      "species_id": "Na",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 22.98977,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "interval",
+          "lower": 22.989769,
+          "upper": 22.98977
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "derived",
+          "detail": "sum of the IUPAC/CIAAW 2021 standard atomic weights over the formula unit. The interval is CIAAW's own - the isotopic variation of normal terrestrial materials, which is a spread across real samples rather than an error in anybody's measurement - propagated through the same sum by interval arithmetic and not in quadrature, and widened by one electron mass per unit of charge because this registry stores the formula sum rather than the ion mass. NOTHING HERE IS MEASURED AND NOTHING MEASURED IS CLAIMED: the atomic weights are measured, by CIAAW's cited evaluations and not by this project, and the sum is arithmetic. The validator requires the value to lie inside the interval, so this record is checked by the claim it carries"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Na",
+      "species_id": "Na",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 28.23,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Na",
+      "species_id": "Na",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.968,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Fe(OH)3",
       "species_id": "Fe(OH)3",
       "phase": "solid",
@@ -57182,7 +57724,7 @@
       "id": "optical/Ag",
       "species_id": "Ag",
       "phase": "solid",
-      "appearance": "silvery-white",
+      "appearance": "silvery",
       "flame_colour": null,
       "reflective_srgb": "#C0C0C0",
       "spectrum": [],
@@ -62746,6 +63288,54 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Ca",
+      "species_id": "Ca",
+      "phase": "solid",
+      "appearance": "silvery",
+      "flame_colour": "orange-red",
+      "reflective_srgb": "#C8C8C3",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/K",
+      "species_id": "K",
+      "phase": "solid",
+      "appearance": "silvery",
+      "flame_colour": "lilac",
+      "reflective_srgb": "#D2D2D0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Na",
+      "species_id": "Na",
+      "phase": "solid",
+      "appearance": "silvery",
+      "flame_colour": "bright yellow",
+      "reflective_srgb": "#D8D8D2",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Na",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -70492,6 +71082,303 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/Ca",
+      "subject": {
+        "kind": "species",
+        "id": "Ca"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/Ca",
+      "subject": {
+        "kind": "species",
+        "id": "Ca"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Ca",
+      "subject": {
+        "kind": "species",
+        "id": "Ca"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/K",
+      "subject": {
+        "kind": "species",
+        "id": "K"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/K",
+      "subject": {
+        "kind": "species",
+        "id": "K"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/K",
+      "subject": {
+        "kind": "species",
+        "id": "K"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Na",
+      "subject": {
+        "kind": "species",
+        "id": "Na"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/Na",
+      "subject": {
+        "kind": "species",
+        "id": "Na"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Na",
+      "subject": {
+        "kind": "species",
+        "id": "Na"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Na",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/Fe(OH)3",
       "subject": {
         "kind": "species",
@@ -76392,6 +77279,401 @@
       "lot_assumptions": [
         "surfactants, fragrance and brand-specific additives are not resolved in v1",
         "never mix real ammonia cleaner with bleach"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/sodium-hydroxide-solution-25-percent",
+      "version": 1,
+      "canonical_key": "sodium_hydroxide_solution_25_percent",
+      "name": "25% sodium hydroxide solution",
+      "aliases": {
+        "de": [
+          "Natronlauge 25%",
+          "Natronlauge_25%"
+        ],
+        "en": [
+          "sodium hydroxide solution 25%",
+          "caustic soda solution 25%",
+          "sodium_hydroxide_solution_25%"
+        ],
+        "fr": [
+          "soude caustique 25%",
+          "lessive de soude 25%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.274,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "density at 20 degrees Celsius, g/mL (relative to water at 4 C): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, Vol. III (E. W. Washburn, ed.; McGraw-Hill for the National Research Council, 1928; first edition, public domain by age), 'Density - aqueous inorganic solutions', read from the page image of archive.org item international-critical-tables_1928_3, printed p. 79, table 'NaOH [BTB]', 20 C column: 1.2629 at 24 % and 1.2848 at 26 % w/w; linear interpolation to 25 % gives 1.2739, stated to 1.274"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NaOH",
+          "fraction": {
+            "lower": 0.25,
+            "upper": 0.25
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.75,
+            "upper": 0.75
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "25% w/w sodium hydroxide in water, the dilute lye of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration",
+        "corrosive to skin and eyes; never mix with acids undiluted"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/hydrochloric-acid-20-percent",
+      "version": 1,
+      "canonical_key": "hydrochloric_acid_20_percent",
+      "name": "20% hydrochloric acid",
+      "aliases": {
+        "de": [
+          "Salzsäure 20%",
+          "verdünnte Salzsäure 20%",
+          "Salzsäure_20%"
+        ],
+        "en": [
+          "hydrochloric acid 20%",
+          "hydrochloric_acid_20%"
+        ],
+        "fr": [
+          "acide chlorhydrique dilué",
+          "acide chlorhydrique 20%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.098,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "density at 20 degrees Celsius, g/mL (relative to water at 4 C): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, Vol. III (E. W. Washburn, ed.; McGraw-Hill for the National Research Council, 1928; first edition, public domain by age), 'Density - aqueous inorganic solutions', read from the page image of archive.org item international-critical-tables_1928_3, printed p. 54, table 'HCl [JAB]', 20 C column, 20 % w/w: 1.0980"
+        }
+      },
+      "components": [
+        {
+          "species_id": "HCl",
+          "fraction": {
+            "lower": 0.2,
+            "upper": 0.2
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.8,
+            "upper": 0.8
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "20% w/w hydrogen chloride in water, the dilute acid of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration",
+        "corrosive; releases hydrogen chloride fumes"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/sulfuric-acid-30-percent",
+      "version": 1,
+      "canonical_key": "sulfuric_acid_30_percent",
+      "name": "30% sulfuric acid",
+      "aliases": {
+        "de": [
+          "Schwefelsäure 30%",
+          "verdünnte Schwefelsäure 30%",
+          "Schwefelsäure_30%"
+        ],
+        "en": [
+          "sulfuric acid 30%",
+          "sulphuric acid 30%",
+          "sulfuric_acid_30%"
+        ],
+        "fr": [
+          "acide sulfurique dilué",
+          "acide sulfurique 30%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.2185,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "density at 20 degrees Celsius, g/mL (relative to water at 4 C): NBS Circular 19, 'Standard density and volumetric tables', 6th edition (Bureau of Standards, 31 October 1924; a United States Government work), https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular19e6.pdf, Table 13 'Density of solutions of sulphuric acid (H2SO4) at 20 C' (calculated from Domke's table), printed p. 26, 30 % w/w: 1.21850"
+        }
+      },
+      "components": [
+        {
+          "species_id": "H2SO4",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "30% w/w sulfuric acid in water, the dilute acid of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration",
+        "corrosive; dilute by adding acid to water, never water to acid"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/ammonia-solution-24-percent",
+      "version": 1,
+      "canonical_key": "ammonia_solution_24_percent",
+      "name": "24% ammonia solution",
+      "aliases": {
+        "de": [
+          "Ammoniakwasser 24%",
+          "Ammoniakwasser",
+          "Ammoniakwasser_24%"
+        ],
+        "en": [
+          "ammonia solution 24%",
+          "aqueous ammonia 24%",
+          "ammonia_solution_24%"
+        ],
+        "fr": [
+          "solution d'ammoniaque",
+          "ammoniaque concentrée",
+          "ammoniaque 24%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.9101,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "density at 20 degrees Celsius, g/mL (relative to water at 4 C): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, Vol. III (E. W. Washburn, ed.; McGraw-Hill for the National Research Council, 1928; first edition, public domain by age), 'Density - aqueous inorganic solutions', read from the page image of archive.org item international-critical-tables_1928_3, printed p. 59, table 'NH3 [LJG]', 20 C column, 24 % w/w: 0.9101"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NH3",
+          "fraction": {
+            "lower": 0.24,
+            "upper": 0.24
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.76,
+            "upper": 0.76
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "24% w/w ammonia in water, the concentrated ammonia water of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration",
+        "releases ammonia gas; never mix with bleach"
       ],
       "substitutions": [],
       "confidence": "surrogate",

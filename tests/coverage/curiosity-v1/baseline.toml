@@ -2418,8 +2418,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-027"
 owning_task = "BRD-032"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-028"
@@ -2514,8 +2514,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-043"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-044"

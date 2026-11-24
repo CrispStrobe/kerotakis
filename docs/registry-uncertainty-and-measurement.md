@@ -155,7 +155,7 @@ widened by one electron mass per unit of charge so that it holds both.
 | | before | after |
 |---|---|---|
 | `exact` | 824 | 824 |
-| `interval` | 0 | **66** |
+| `interval` | 0 | **67** |
 | `unestablished` | — | **1027** |
 | `not_reported` | 1093 | **0** |
 | `measured` | 0 | **1** |
@@ -164,11 +164,11 @@ widened by one electron mass per unit of charge so that it holds both.
 | **values changed** | | **0** |
 
 Every one of the 1093 records that claimed a source reported no uncertainty
-now either carries a real band (66) or says nobody has established one
+now either carries a real band (67) or says nobody has established one
 (1027). `not_reported` is empty, and empty is the honest reading: no source
 behind a shipped number has been opened and read for a band.
 
-The 66 intervals are not typed in. They are computed at export time from a
+The 67 intervals are not typed in. They are computed at export time from a
 five-row table of CIAAW element intervals, summed over each species' own
 parsed formula. **The table is the unit of purchase**: five rows are there
 because they are the elements the colligative family needs — H, C and O for
@@ -244,7 +244,7 @@ spellings**:
 `states.rs`'s own comment reads *"M_w is the registry's own molar mass of
 water, 0.018015 kg/mol"* — beside its private copy of it.
 
-So the 66 bands are **claims about the registry and not yet about the bench**,
+So the 67 bands are **claims about the registry and not yet about the bench**,
 and a tolerance argued against one would have been arguing against a number
 the bench never sees. The corpus records that per row in a new `wired` field
 rather than leaving a reader to assume, and the structural test refuses a row
@@ -287,12 +287,12 @@ remaining twenty-one rows of the atomic-weight table.
 
 ## How far the pattern reaches, and what the rest costs
 
-**Molar mass — 66 of 186 today, for five table rows.**
+**Molar mass — 67 of 214 today, for five table rows.**
 
 | | |
 |---|---|
 | species the five-element table reaches | 71 |
-| of those, given an interval | **66** |
+| of those, given an interval | **67** |
 | of those, declined as findings | 5 |
 | species it does not reach | 115 |
 | elements needed to reach them | **21 more rows** |
@@ -356,7 +356,7 @@ recorded as follow-ups in `PLAN.md`.
   uncertainty, which is what is true of them.
 - **`provenance/upstreams.toml` was not touched** — another session owned it
   while this was written, and it landed the `ciaaw` row on the same day
-  (#607). **That row's verdict is `decision-required`, and these 66 bands rest
+  (#607). **That row's verdict is `decision-required`, and these 67 bands rest
   on it.** The row is the better account and nothing here disputes it: CIAAW
   grants free use for educational purposes, stops short of commercial use, and
   three questions are open that nobody has asked.

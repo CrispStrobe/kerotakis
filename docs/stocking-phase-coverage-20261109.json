@@ -6,9 +6,9 @@
     40.0
   ],
   "counts": {
-    "derived": 21,
-    "melting_point_without_latent_heat": 42,
-    "no_melting_point": 71,
+    "derived": 25,
+    "melting_point_without_latent_heat": 38,
+    "no_melting_point": 74,
     "not_condensed": 80
   },
   "species": [
@@ -91,6 +91,19 @@
       }
     },
     {
+      "species": "I2",
+      "standard_phase": "solid",
+      "melting_k": 386.8,
+      "boiling_k": 457.2,
+      "fusion_owner": true,
+      "basis": "derived",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "KCl",
       "standard_phase": "solid",
       "melting_k": 1044.0,
@@ -117,6 +130,19 @@
       }
     },
     {
+      "species": "Na2B4O7",
+      "standard_phase": "solid",
+      "melting_k": 1015.0,
+      "boiling_k": null,
+      "fusion_owner": true,
+      "basis": "derived",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "NaCl",
       "standard_phase": "solid",
       "melting_k": 1073.8,
@@ -130,10 +156,36 @@
       }
     },
     {
+      "species": "NaOH",
+      "standard_phase": "solid",
+      "melting_k": 593.0,
+      "boiling_k": 1651.0,
+      "fusion_owner": true,
+      "basis": "derived",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Pb",
       "standard_phase": "solid",
       "melting_k": 600.65,
       "boiling_k": 2017.0,
+      "fusion_owner": true,
+      "basis": "derived",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "S",
+      "standard_phase": "solid",
+      "melting_k": 392.0,
+      "boiling_k": 718.2,
       "fusion_owner": true,
       "basis": "derived",
       "stocked": {
@@ -481,19 +533,6 @@
       }
     },
     {
-      "species": "I2",
-      "standard_phase": "solid",
-      "melting_k": 386.8,
-      "boiling_k": 457.2,
-      "fusion_owner": false,
-      "basis": "melting_point_without_latent_heat",
-      "stocked": {
-        "10C": "solid",
-        "25C": "solid",
-        "40C": "solid"
-      }
-    },
-    {
       "species": "KI",
       "standard_phase": "solid",
       "melting_k": 958.0,
@@ -585,19 +624,6 @@
       }
     },
     {
-      "species": "Na2B4O7",
-      "standard_phase": "solid",
-      "melting_k": 1015.0,
-      "boiling_k": null,
-      "fusion_owner": false,
-      "basis": "melting_point_without_latent_heat",
-      "stocked": {
-        "10C": "solid",
-        "25C": "solid",
-        "40C": "solid"
-      }
-    },
-    {
       "species": "Na2CO3",
       "standard_phase": "solid",
       "melting_k": 1127.0,
@@ -663,19 +689,6 @@
       }
     },
     {
-      "species": "NaOH",
-      "standard_phase": "solid",
-      "melting_k": 593.0,
-      "boiling_k": 1651.0,
-      "fusion_owner": false,
-      "basis": "melting_point_without_latent_heat",
-      "stocked": {
-        "10C": "solid",
-        "25C": "solid",
-        "40C": "solid"
-      }
-    },
-    {
       "species": "PbI2",
       "standard_phase": "solid",
       "melting_k": 685.0,
@@ -693,19 +706,6 @@
       "standard_phase": "solid",
       "melting_k": 1360.0,
       "boiling_k": null,
-      "fusion_owner": false,
-      "basis": "melting_point_without_latent_heat",
-      "stocked": {
-        "10C": "solid",
-        "25C": "solid",
-        "40C": "solid"
-      }
-    },
-    {
-      "species": "S",
-      "standard_phase": "solid",
-      "melting_k": 392.0,
-      "boiling_k": 718.2,
       "fusion_owner": false,
       "basis": "melting_point_without_latent_heat",
       "stocked": {
@@ -885,6 +885,19 @@
     },
     {
       "species": "C",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Ca",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1079,6 +1092,19 @@
       }
     },
     {
+      "species": "K",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "K2Cr2O7",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1184,6 +1210,19 @@
     },
     {
       "species": "NH4Cl",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Na",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,

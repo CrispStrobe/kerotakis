@@ -276,8 +276,8 @@ fn ion_names_never_turn_an_element_into_its_ion() {
     assert_eq!(resolve("Ca2+").unwrap(), "Ca+2");
     assert_eq!(resolve("Cu+").unwrap(), "Cu+1");
     // `sodium`, `calcium`, `hydrogen ion`'s stem: metals/molecules, not ions.
-    assert!(resolve("sodium").is_none());
-    assert!(resolve("calcium").is_none());
+    assert_eq!(resolve("sodium").unwrap(), "Na");
+    assert_eq!(resolve("calcium").unwrap(), "Ca");
     assert_eq!(resolve("hydrogen").unwrap(), "H2");
     assert_eq!(resolve("magnesium").unwrap(), "Mg");
     // Ambiguous digit runs are not generated.

@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 43,
-    "neutral-refused": 162,
+    "neutral-refused": 165,
     "partitions": 9
   },
   "cases": [
@@ -342,6 +342,11 @@
       "basis": null
     },
     {
+      "species": "Ca",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Ca(OH)2",
       "class": "neutral-refused",
       "basis": null
@@ -492,6 +497,11 @@
       "basis": null
     },
     {
+      "species": "K",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "K2Cr2O7",
       "class": "neutral-refused",
       "basis": null
@@ -593,6 +603,11 @@
     },
     {
       "species": "NH4NO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Na",
       "class": "neutral-refused",
       "basis": null
     },

@@ -291,6 +291,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Zn" => &[ActiveMetal],
         "Fe" => &[ActiveMetal],
         "Pb" => &[ActiveMetal],
+        // Alkali and alkaline-earth metals take hydrogen out of water
+        // itself, exothermically (see `displacement::WATER_REACTIVE`), so
+        // they are both an active metal and water-reactive.
+        "Na" | "K" | "Ca" => &[ActiveMetal, WaterReactive],
         // th-122's block of uranium. The row is chemistry and only
         // chemistry: uranium sits above hydrogen in the activity series and
         // displaces it from acid exactly as the five metals above do, and
@@ -703,6 +707,9 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 /// this set against `species::registry()` — a new species without an
 /// entry here fails CI.
 pub const COVERED_KEYS: &[&str] = &[
+    "Na",
+    "K",
+    "Ca",
     "H+",
     "CO2(aq)",
     "CO3-2",

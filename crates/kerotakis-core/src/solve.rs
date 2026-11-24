@@ -2603,12 +2603,11 @@ impl Equilibrator for StateEquilibrator {
                 .iter()
                 .any(|p| p.species == solvent && p.phase == Phase::Liquid);
             if dry {
-                let stranded: Vec<&str> = vessel
-                    .contents
-                    .iter()
-                    .filter(|p| p.phase == Phase::Aqueous)
-                    .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
-                    .collect();
+                // The decidable residue is booked first (`dryness`); only
+                // what remains is named stranded.
+                let residue = crate::dryness::crystallise_to_dryness(vessel);
+                events.extend(residue.events);
+                let stranded = residue.stranded;
                 if !stranded.is_empty() {
                     events.push(Event::not_modeled(
                         vessel.id,

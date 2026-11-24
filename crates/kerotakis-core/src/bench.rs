@@ -3641,12 +3641,19 @@ impl Bench {
                     // the two places that removed it know that. This is
                     // one of them; `solve::StateEquilibrator`'s boiling
                     // branch is the other, and it says the same sentence.
-                    let stranded: Vec<&str> = v
-                        .contents
-                        .iter()
-                        .filter(|p| p.phase == Phase::Aqueous)
-                        .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
-                        .collect();
+                    //
+                    // Since 2026-11-24 (C1 audit) the residue a dry dish CAN
+                    // only form is booked first (`dryness`): a common-ion
+                    // residue is decidable, and a molecular solute is its
+                    // own solid. What is left after that is the genuinely
+                    // undecidable part, and only that is named stranded.
+                    let stranded: Vec<&str> = if dry {
+                        let residue = crate::dryness::crystallise_to_dryness(v);
+                        events.extend(residue.events);
+                        residue.stranded
+                    } else {
+                        Vec::new()
+                    };
                     if dry && !stranded.is_empty() {
                         events.push(Event::not_modeled(
                             *vessel,

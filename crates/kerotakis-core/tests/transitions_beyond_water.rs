@@ -305,8 +305,11 @@ fn boiling_a_beaker_dry_strands_its_ions_out_loud() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "water", 0.5);
+    // Reciprocal, so undecidable (a common-ion residue crystallises).
     add(&mut bench, &mut s, "Na+", 0.01);
+    add(&mut bench, &mut s, "K+", 0.01);
     add(&mut bench, &mut s, "Cl-", 0.01);
+    add(&mut bench, &mut s, "NO3-", 0.01);
     // 0.5 mol of water needs ~2.8 kJ to reach 100 C and 20.3 kJ to boil.
     let events = heat(&mut bench, &mut s, 60_000.0);
     assert!(

@@ -1960,7 +1960,7 @@
     }
   },
   {
-    "appearance": "silvery-white",
+    "appearance": "silvery",
     "colour": {
       "b": 192,
       "g": 192,
@@ -3880,6 +3880,84 @@
       "melting_k": 933.473,
       "source": "Melting point 933.473 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2743 K (2470 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11), and by the Wikipedia 'Aluminium' infobox, which cites the same paper (https://en.wikipedia.org/w/index.php?title=Aluminium&oldid=1384708213, cite_note-4); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals."
     }
+  },
+  {
+    "appearance": "silvery",
+    "aqueous_solubility_g_per_100_ml": 0.0,
+    "colour": {
+      "b": 195,
+      "g": 200,
+      "r": 200,
+      "strength": 0.0
+    },
+    "density": 1.54,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "orange-red",
+    "forms_only_above_k": null,
+    "formula": "Ca",
+    "heat_capacity": 25.93,
+    "heat_capacity_polys": [],
+    "inchikey": "OYPRJOBELJOOCE-UHFFFAOYSA-N",
+    "key": "Ca",
+    "magnetic": false,
+    "molar_mass": 40.078,
+    "name": "calcium",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 1.54 g/cm3",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "silvery",
+    "aqueous_solubility_g_per_100_ml": 0.0,
+    "colour": {
+      "b": 208,
+      "g": 210,
+      "r": 210,
+      "strength": 0.0
+    },
+    "density": 0.89,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "lilac",
+    "forms_only_above_k": null,
+    "formula": "K",
+    "heat_capacity": 29.58,
+    "heat_capacity_polys": [],
+    "inchikey": "ZLMJMSJWJFRBEC-UHFFFAOYSA-N",
+    "key": "K",
+    "magnetic": false,
+    "molar_mass": 39.098,
+    "name": "potassium",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 0.89 g/cm3",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "silvery",
+    "aqueous_solubility_g_per_100_ml": 0.0,
+    "colour": {
+      "b": 210,
+      "g": 216,
+      "r": 216,
+      "strength": 0.0
+    },
+    "density": 0.968,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "bright yellow",
+    "forms_only_above_k": null,
+    "formula": "Na",
+    "heat_capacity": 28.23,
+    "heat_capacity_polys": [],
+    "inchikey": "KEAYESYHFKHZAL-UHFFFAOYSA-N",
+    "key": "Na",
+    "magnetic": false,
+    "molar_mass": 22.98977,
+    "name": "sodium",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 0.968 g/cm3",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   },
   {
     "appearance": "red-brown",

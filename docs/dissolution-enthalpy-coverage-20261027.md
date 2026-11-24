@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 58/115, minteq.v4 62/115, pitzer 25/115.
+Priced after this change: wateq4f 58/118, minteq.v4 62/118, pitzer 25/118.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -44,6 +44,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `BaCl2` | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 |
 | `BaSO4` | routed | routed | routed |
 | `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Ca` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ca(OH)2` | curated | curated | curated |
 | `Ca3(PO4)2` | reference:minteq.v4:Ca3(PO4)2(beta) | routed | refused: a reaction species is not defined on the routed database |
 | `CaCO3` | routed | routed | routed |
@@ -64,6 +65,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `FeSO4` | reference:llnl.dat:FeSO4 | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:FeSO4 |
 | `H2C2O4` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `I2` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `K` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `K2Cr2O7` | refused: a reaction species is not defined on the routed database | reference:minteq.v4:K2Cr2O7 | refused: a reaction species is not defined on the routed database |
 | `K2CrO4` | refused: a reaction species is not defined on the routed database | reference:minteq.v4:K2CrO4 | refused: a reaction species is not defined on the routed database |
 | `KBr` | curated | curated | curated |
@@ -81,6 +83,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `MnO2` | refused: the reviewed phase dissolves by redox, not by dissociation | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase dissolves by redox, not by dissociation |
 | `NH4Cl` | curated | curated | refused: a dissociation product the routed database does not define |
 | `NH4NO3` | curated | curated | refused: a dissociation product the routed database does not define |
+| `Na` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Na2B4O7` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Na2CO3` | curated | curated | curated |
 | `Na2S` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |

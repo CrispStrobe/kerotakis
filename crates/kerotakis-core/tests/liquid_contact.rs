@@ -124,7 +124,11 @@ fn a_solid_is_not_in_contact_with_a_liquid_once_the_water_has_gone() {
     let mut bench = Bench::new();
     let mut solver = stack();
     add(&mut bench, &mut solver, "water", 5.5);
-    add(&mut bench, &mut solver, "CaCO3", 0.01);
+    // A reciprocal residue, so it stays stranded rather than being booked
+    // as a salt (`dryness`, 2026-11-24).
+    for key in ["Na+", "K+", "Cl-", "NO3-"] {
+        add(&mut bench, &mut solver, key, 0.01);
+    }
     let dried = boil_dry(&mut bench, &mut solver);
     assert!(
         dried.iter().any(|event| matches!(
@@ -168,7 +172,11 @@ fn the_german_reader_is_not_told_about_a_liquid_that_has_gone() {
     let mut bench = Bench::new();
     let mut solver = stack();
     add(&mut bench, &mut solver, "water", 5.5);
-    add(&mut bench, &mut solver, "CaCO3", 0.01);
+    // A reciprocal residue, so it stays stranded rather than being booked
+    // as a salt (`dryness`, 2026-11-24).
+    for key in ["Na+", "K+", "Cl-", "NO3-"] {
+        add(&mut bench, &mut solver, key, 0.01);
+    }
     boil_dry(&mut bench, &mut solver);
     let silver = add(&mut bench, &mut solver, "AgNO3", 0.01);
     let de = Locale::parse("de");

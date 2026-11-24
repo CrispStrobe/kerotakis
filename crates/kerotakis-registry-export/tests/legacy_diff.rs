@@ -42,7 +42,7 @@ const MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION: &[&str] =
 /// How many molar masses the five-element table actually reaches. Written
 /// down so that widening the table, or changing a formula, moves a number a
 /// reader can see rather than moving silently.
-const MOLAR_MASSES_WITH_A_BAND: usize = 66;
+const MOLAR_MASSES_WITH_A_BAND: usize = 67;
 
 /// Dissolution enthalpies computed from the NBS/Wagman 1982 tables.
 const NBS_WAGMAN_DISSOLUTION: &[&str] = &["KBr", "CuCl2", "Na3PO4", "Al2(SO4)3"];
@@ -1256,7 +1256,7 @@ fn rgb_hex(colour: Colour) -> String {
 ///
 /// The count is written down in `MOLAR_MASSES_WITH_A_BAND` and in
 /// `docs/registry-uncertainty-and-measurement.md`, and it is the honest
-/// answer to "how far does this pattern go": five element rows reach 66 of
+/// answer to "how far does this pattern go": five element rows reach 67 of
 /// the registry's 186 molar masses, and the remaining 120 are waiting on
 /// twenty-one more rows and five decisions. A reader who widens the table
 /// moves this number deliberately.
@@ -1268,7 +1268,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 214, "one molar mass per species");
+    assert_eq!(masses.len(), 217, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

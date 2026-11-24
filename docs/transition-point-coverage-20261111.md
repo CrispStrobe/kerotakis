@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 147, boiling.reported 67, melting.no_data 113, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 150, boiling.reported 67, melting.no_data 116, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -68,6 +68,7 @@ Counts: boiling.no_data 147, boiling.reported 67, melting.no_data 113, melting.r
 | CO2 | gas | sublimation 194.68 K | sublimation 194.68 K | literature/transition-points/CO2 |
 | CO2(aq) | aqueous | no_data | no_data | — |
 | CO3-2 | aqueous | no_data | no_data | — |
+| Ca | solid | no_data | no_data | — |
 | Ca(OH)2 | solid | decomposition 785.15 K | decomposition 785.15 K | literature/transition-points/Ca(OH)2 |
 | Ca+2 | aqueous | no_data | no_data | — |
 | Ca3(PO4)2 | solid | melting 2003 K | no_data | literature/transition-points/Ca3(PO4)2 |
@@ -114,6 +115,7 @@ Counts: boiling.no_data 147, boiling.reported 67, melting.no_data 113, melting.r
 | HSO3- | aqueous | no_data | no_data | — |
 | I- | aqueous | no_data | no_data | — |
 | I2 | solid | melting 386.8 K | boiling 457.2 K | literature/transition-points/I2 |
+| K | solid | no_data | no_data | — |
 | K+ | aqueous | no_data | no_data | — |
 | K2Cr2O7 | solid | no_data | no_data | — |
 | K2CrO4 | solid | no_data | no_data | — |
@@ -144,6 +146,7 @@ Counts: boiling.no_data 147, boiling.reported 67, melting.no_data 113, melting.r
 | NH4NO3 | solid | melting 442.8 K | no_data | literature/transition-points/NH4NO3 |
 | NO2- | aqueous | no_data | no_data | — |
 | NO3- | aqueous | no_data | no_data | — |
+| Na | solid | no_data | no_data | — |
 | Na+ | aqueous | no_data | no_data | — |
 | Na2B4O7 | solid | melting 1015 K | no_data | literature/transition-points/Na2B4O7 |
 | Na2CO3 | solid | melting 1127 K | no_data | literature/transition-points/Na2CO3 |

@@ -315,6 +315,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "Ca",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "Ca",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "Ca",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
     "solid": "Ca(OH)2",
     "route": "wateq4f",
     "class": "refused",
@@ -735,6 +756,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "K",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "K",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "K",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
     "solid": "K2Cr2O7",
     "route": "wateq4f",
     "class": "refused",
@@ -1090,6 +1132,27 @@
     "class": "refused",
     "phase": null,
     "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Na",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "Na",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "Na",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
     "solid": "Na2B4O7",

@@ -305,6 +305,9 @@ hydroxylapatite = "Hydroxylapatit"
 "dry ice" = "Trockeneis"
 "activated charcoal" = "Aktivkohle"
 "liquid nitrogen" = "flüssiger Stickstoff"
+sodium = "Natrium"
+potassium = "Kalium"
+calcium = "Calcium"
 
 [material]
 # Display names for the 132 named materials. NOT new translation work: each
@@ -314,8 +317,12 @@ hydroxylapatite = "Hydroxylapatit"
 # adding French means adding `fr.toml` beside this file, not editing the
 # registry.
 "1% Lugol iodine solution" = "Lugolsche Lösung 1%"
+"20% hydrochloric acid" = "Salzsäure 20%"
+"24% ammonia solution" = "Ammoniakwasser 24%"
+"25% sodium hydroxide solution" = "Natronlauge 25%"
 "3% hydrogen peroxide" = "Wasserstoffperoxid 3%"
 "3.5% seawater surrogate" = "Meerwasser"
+"30% sulfuric acid" = "Schwefelsäure 30%"
 "5% ammonia cleaner" = "Ammoniakreiniger 5%"
 "5% chlorine bleach" = "Chlorreiniger 5%"
 "5% white vinegar" = "Essig"
@@ -1833,6 +1840,7 @@ mostly-organic-solvent = "ein Mischlösungsmittel, das überwiegend organisch is
 combustion-no-solver = "ob dieser Inhalt brennt: kein angebundener Löser modelliert die Verbrennung dafür, das Labor kann es also weder bejahen noch verneinen"
 flame-emission-no-data = "die Flammenfarbe von {element} in {name}: das Labor hat keine belegten Emissionsdaten für dieses Kation und sagt deshalb nicht, welche Farbe es gibt"
 melting-not-modelled = "{name} über den Schmelzpunkt erhitzt ({melting} °C): Das Schmelzen wird hier nicht modelliert; der angezeigte Feststoff ist also keine Vorhersage, dass er fest bleibt"
+boiling-not-modelled = "{name} über den Siedepunkt erhitzt ({boiling} °C): Seine Verdampfungsenthalpie ist hier nicht belegt, daher wird es nicht verdampft — die angezeigte Flüssigkeit ist keine Vorhersage, dass sie flüssig bleibt, und die angezeigte Temperatur überschätzt die Erwärmung"
 melting-range-latent-heat-unsourced = "{name} über seinen Schmelzbereich hinaus erhitzt (bis {melting} °C): Seine Schmelzenthalpie ist nicht belegt, daher wird die latente Wärme nicht verbucht — die angezeigte Temperatur überschätzt die Erwärmung, und der angezeigte Feststoff ist keine Vorhersage, dass er fest bleibt"
 heating-an-empty-vessel = "Erwärmen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
 cooling-an-empty-vessel = "Abkühlen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
@@ -1857,6 +1865,7 @@ fizz-rate-near-barrier = "wie schnell {name} sprudelt: die Triebkraft übersteig
 stays-as-the-metal = "{name} bleibt als Metall liegen: nichts Gelöstes steht hier in der Spannungsreihe unter ihm. Seine langsame Reaktion mit dem Wasser selbst — Wasserstoff über Stunden, eine passivierende Hydroxidhaut — ist eine Geschwindigkeit, die dieses Labor nicht modelliert"
 metal-outside-series = "{name} ist ein Metall, das die Spannungsreihe dieses Labors nicht führt. Ob es sich hier löst — in Säure, in Lauge wie Aluminium und Zink, oder gar nicht —, wird deshalb nicht berechnet. Es bleibt als Metall liegen, und es entsteht kein Wasserstoff dafür"
 amphoteric-heat = "die Wärme, mit der sich {name} in Lauge löst: die Bildungsenthalpie von {complex} steht nicht in den belegten Daten dieses Labors, daher wird dafür keine Wärme verbucht und die Temperatur bleibt, wo der Schritt begann"
+water-metal-rate = "wie schnell und wie heftig {name} mit dem Wasser reagiert: Es steht in der Spannungsreihe weit unter Wasserstoff (E° {e_self} V gegenüber {e_water} V für Wasser selbst), und sein Hydroxid geht in Lösung, statt das Metall zu überziehen. Dieses Labor rechnet die Reaktion deshalb bis zum Ende und bepreist ihre Wärme. Das Tempo — das Metall, das über das Wasser flitzt, schmilzt, der Wasserstoff, der Feuer fängt — ist eine Geschwindigkeit, die es nicht berechnet"
 no-haloalkane = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
 no-nucleophile = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
 # The two classes go in brackets beside the noun rather than in front of
@@ -1894,6 +1903,7 @@ brine-retained-at-boundary = "reines Eis wurde entfernt und die verbleibende Sol
 ice-is-not-a-solution = "das Wasser in diesem Gefäß ist Eis, und Eis ist keine Lösung: pH-Wert, Ionenstärke und Speziesverteilung beschreiben allesamt Teilchen, die in einer Flüssigkeit gelöst sind — solange das Lösungsmittel gefroren ist, wird keine dieser Größen angegeben"
 boiling-is-not-settled = "das Wasser siedet und entweicht als Dampf, sodass sich das Gelöste im Rest vor Ihren Augen aufkonzentriert: Diese Werkbank meldet den Phasenübergang statt eines festen pH-Werts für eine Zusammensetzung, die sich noch ändert"
 stranded-solutes = "das letzte Wasser ist fort, und {names} werden weiterhin als gelöst geführt — ein Zustand, in dem ein Becherglas nicht sein kann. Woraus sie auskristallisieren, lässt sich aus den Ionen allein nicht entscheiden, deshalb rät das Labor die Feststoffe nicht"
+dry-residue-anhydrous = "der trockene Rückstand wird als {names} gebucht: Ein gelöstes Molekül trocknet zu seinem eigenen Feststoff ein, und Ionen mit nur einem gemeinsamen Partner können nur diese Salze bilden; der Rückstand wird wasserfrei gebucht, daher werden Kristallwasser, das eine echte Schale zurückhält, und die Kristallisationswärme beim Eintrocknen nicht modelliert"
 unavailable-crystallisation = "die Kristallisation von {salt}: {dissolved} mol sind gelöst, gegen eine Grenze von {capacity} mol bei dieser Temperatur, und {why}"
 crystallisation-heat-unpriced = "das Abkühlen sättigt diese Lösung mit {salt}, und die verwendete Engine kennt keine Lösungsenthalpie dafür; seine Kristallisation und die dabei frei werdende Wärme werden daher nicht berechnet, die Temperatur unten ist reine fühlbare Abkühlung"
 crystallisation-below-curve-domain = "dieses Abkühlen würde eine gesättigte {salt}-Lösung unter {floor} K führen, den tiefsten gemessenen Punkt ihrer Löslichkeitskurve, in Richtung des Salz-Eis-Eutektikums, das nicht modelliert ist; Kristallisation und Eisbildung werden dort nicht berechnet"
