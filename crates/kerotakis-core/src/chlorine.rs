@@ -504,13 +504,21 @@ fn absorb_in_alkali(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
 // ── 3. reductants ────────────────────────────────────────────────────
 
 /// (reduced ion, oxidised product, product phase, reductant per Cl₂,
-/// equation). Strongest reductant first.
-pub const REDUCTANTS: &[(&str, &str, Phase, f64, &str)] = &[
-    ("I-", "I2", Phase::Aqueous, 2.0, "Cl₂ + 2 I⁻ → I₂ + 2 Cl⁻"),
+/// product per Cl₂, equation). Strongest reductant first.
+pub const REDUCTANTS: &[(&str, &str, Phase, f64, f64, &str)] = &[
+    (
+        "I-",
+        "I2",
+        Phase::Aqueous,
+        2.0,
+        1.0,
+        "Cl₂ + 2 I⁻ → I₂ + 2 Cl⁻",
+    ),
     (
         "Fe+2",
         "Fe+3",
         Phase::Aqueous,
+        2.0,
         2.0,
         "Cl₂ + 2 Fe²⁺ → 2 Fe³⁺ + 2 Cl⁻",
     ),
@@ -519,6 +527,7 @@ pub const REDUCTANTS: &[(&str, &str, Phase, f64, &str)] = &[
         "Br2",
         Phase::Liquid,
         2.0,
+        1.0,
         "Cl₂ + 2 Br⁻ → Br₂ + 2 Cl⁻",
     ),
 ];
@@ -538,7 +547,7 @@ fn reduce(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         return false;
     }
     let mut progressed = false;
-    for (ion, product, phase, per, equation) in REDUCTANTS {
+    for (ion, product, phase, per, made, equation) in REDUCTANTS {
         let forms = ion_forms(ion);
         let have: f64 = forms
             .iter()
@@ -570,7 +579,7 @@ fn reduce(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         progressed = true;
         take_chlorine(vessel, x);
         take_ion(vessel, ion, &forms, x * per);
-        vessel.deposit(SpeciesId::new(product), Moles(x * per), *phase);
+        vessel.deposit(SpeciesId::new(product), Moles(x * made), *phase);
         vessel.deposit(SpeciesId::new(CHLORIDE), Moles(2.0 * x), Phase::Aqueous);
         reaction(events, vessel, equation);
         vessel.refresh_pressure();
