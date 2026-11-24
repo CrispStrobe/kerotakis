@@ -869,7 +869,24 @@ fn execute_prompt(
             &all_events,
         ));
     }
-    let typed_observation = all_events.iter().any(|event| {
+    // C1 closed-vessel combustion: a spark resolved at the `ignite` step
+    // (`combustion::flame_at_spark`) burns over curated tables — fuel
+    // stoichiometries, Wagman enthalpies, Zabetakis limits — without a
+    // solver route, because the spark is an operator, not an equilibrium.
+    // Its `ThermalEquilibrium` names that dataset; a positive release there
+    // is a curated answer, exactly as the curated-combustion solver's is.
+    let spark_curated = all_events.iter().any(|event| {
+        matches!(
+            event,
+            Event::ThermalEquilibrium {
+                reaction_energy_j: Some(released),
+                provenance,
+                ..
+            } if *released > 0.0 && provenance.dataset.starts_with("kerotakis:combustion:")
+        )
+    });
+    let typed_observation = !spark_curated
+        && (all_events.iter().any(|event| {
         matches!(
             event,
             Event::Smelled { .. }
@@ -885,7 +902,7 @@ fn execute_prompt(
         // below — this check is on `burned`, not on the event.
         || all_events.iter().any(|event| {
             matches!(event, Event::FlameStarved { burned, .. } if burned.0 <= 0.0)
-        });
+        }));
 
     // A typed observation BESIDE a computed result does not make the row a
     // typed observation. That is KID-12's rule above, generalised from the
@@ -1055,7 +1072,7 @@ fn execute_prompt(
     // a mixed answer is still partly curated. Keep every computed route
     // above (including zero-event chemistry) beside the endpoint route in
     // the serialized result; never relabel the whole answer as calculated.
-    let (observed, reason) = if succeeded(SolverRouteKind::Curated) {
+    let (observed, reason) = if succeeded(SolverRouteKind::Curated) || spark_curated {
         (Disposition::Curated, "curated-route")
     } else if computed_chemistry || succeeded(SolverRouteKind::Computed) {
         (Disposition::Computed, "computed-route")

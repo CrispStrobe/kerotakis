@@ -71,8 +71,58 @@ fn absence(events: &[Event]) -> (DidNotIgniteReason, Option<String>, Option<f64>
 /// pulls it straight back to 600 K before any chemistry runs, and what
 /// the solver then meets is a warm, unsparked fuel — 143 K short of
 /// catching, which is the number a client draws the wisp from.
+///
+/// Adjudicated 2026-11-24 (C1 closed-vessel combustion): this used to be
+/// posed in a SEALED flask of propane and oxygen. A spark in a 1:5
+/// propane/oxygen mixture lights it whatever bath the flask sits in — the
+/// spark heats a few cubic millimetres, not the bath — and the spark route
+/// (`combustion::flame_at_spark`) now says so and burns it. The quench is
+/// a property of the "whole vessel to 1200 K" stand-in, which still serves
+/// a dry OPEN vessel, so the case is posed there: propane in an open dish
+/// in a 600 K bath, drawing on the room's air.
 #[test]
 fn propane_in_a_quenching_bath_is_short_of_its_autoignition_temperature() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    {
+        let vessel = &mut bench.vessels[0];
+        vessel.headspace = Headspace::Open;
+        vessel.thermal_mode = ThermalMode::Thermostatted(Kelvin(600.0));
+        vessel.temperature = Kelvin(600.0);
+        vessel.deposit(SpeciesId::new("propane"), Moles(0.01), Phase::Gas);
+        vessel.refresh_pressure();
+    }
+
+    let events = ignite(&mut bench, &mut stack, v);
+    let (reason, fuel, oxygen, gap) = absence(&events);
+
+    assert_eq!(reason, DidNotIgniteReason::BelowAutoignition, "{events:?}");
+    assert_eq!(fuel.as_deref(), Some("propane"));
+    let gap = gap.expect("the gap is the answer");
+    // Propane's tabulated autoignition temperature is 743.15 K.
+    assert!((gap - 143.15).abs() < 1e-6, "{gap}");
+    let oxygen = oxygen.expect("an open dish reports the room's air");
+    assert!(
+        (oxygen - kerotakis_core::combustion::ROOM_OXYGEN_FRACTION).abs() < 1e-9,
+        "the dish stands in the room's air: {oxygen}"
+    );
+
+    // The fuel is untouched: an absence may not consume anything.
+    assert!(
+        (bench.vessels[0].moles_of(&SpeciesId::new("propane")).0 - 0.01).abs() < 1e-12,
+        "nothing burned"
+    );
+    // And the spark left nothing behind — the vessel is back in its bath.
+    assert!((bench.vessels[0].temperature.0 - 600.0).abs() < 1e-9);
+}
+
+/// The other half of the adjudication above: the same propane and oxygen
+/// SEALED in a 600 K bath does light on a spark, and the equilibrium
+/// solver's closed-boundary refusal ("no thermal chemistry has been
+/// committed") is not printed beside the burn it would contradict.
+#[test]
+fn sealed_propane_and_oxygen_light_on_a_spark_even_in_a_warm_bath() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
@@ -87,23 +137,12 @@ fn propane_in_a_quenching_bath_is_short_of_its_autoignition_temperature() {
         vessel.deposit(SpeciesId::new("O2"), Moles(0.05), Phase::Gas);
         vessel.refresh_pressure();
     }
-
     let events = ignite(&mut bench, &mut stack, v);
-    let (reason, fuel, oxygen, gap) = absence(&events);
-
-    assert_eq!(reason, DidNotIgniteReason::BelowAutoignition, "{events:?}");
-    assert_eq!(fuel.as_deref(), Some("propane"));
-    let gap = gap.expect("the gap is the answer");
-    // Propane's tabulated autoignition temperature is 743.15 K.
-    assert!((gap - 143.15).abs() < 1e-6, "{gap}");
-    let oxygen = oxygen.expect("a sealed vessel owns its gas and can report it");
-    assert!(oxygen > 0.5, "five parts oxygen to one of fuel: {oxygen}");
-
-    // The fuel is untouched: an absence may not consume anything.
-    assert!(
-        (bench.vessels[0].moles_of(&SpeciesId::new("propane")).0 - 0.01).abs() < 1e-12,
-        "nothing burned"
-    );
-    // And the spark left nothing behind — the vessel is back in its bath.
-    assert!((bench.vessels[0].temperature.0 - 600.0).abs() < 1e-9);
+    assert!(events.iter().any(|e| matches!(e, Event::Ignited { .. })));
+    assert!(bench.vessels[0].moles_of(&SpeciesId::new("propane")).0 < 1e-12);
+    assert!(!events.iter().any(|e| matches!(
+        e,
+        Event::NotYetModeled { reason: Some(r), .. }
+            if r.key == "not-modeled.cea-open-atmosphere-required"
+    )));
 }

@@ -2579,3 +2579,15 @@ Refreshed 2026-11-12 (twelve rows), after `ignite` stopped boiling liquid fuels 
 `th-031`, `th-032`, `th-033`, `th-038`, `th-047`, `th-050`, `th-052` to `th-056` and `th-114`
 (`curated` -> `computed`). Each ignites ethanol, methanol, hexane or petrol; the fuel used to leave
 as vapour before any combustion solver saw it, and now burns (`Vessel::ignition`).
+
+Refreshed 2026-11-24 (three rows), after `ignite` began resolving the spark
+where it is held (`combustion::flame_at_spark`, C1 closed-vessel combustion
+audit): `th-034` and `th-035` (hydrogen and oxygen sealed in a 1 L flask)
+`computed` -> `curated`. A closed fuel-gas mixture is now judged against its
+Zabetakis (1965) flammability limits and burned over Wagman (1982) enthalpies
+of formation instead of being handed to a Gibbs minimisation at 1200 K, which
+would also have "burned" a 3 % mixture that cannot carry a flame. Both rows
+still burn and both stay on the top rung; the provenance moved. `th-060`
+(wet wood with oxygen) `qualitative` -> `curated`: the liquid water used to
+send the whole vessel to the aqueous engine at 1200 K, so nothing burned and
+only an observation was left; the cellulose now burns against the room air.

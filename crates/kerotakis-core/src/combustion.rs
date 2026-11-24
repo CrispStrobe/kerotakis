@@ -560,190 +560,765 @@ impl Equilibrator for CombustionEquilibrator {
             return Ok(Vec::new());
         }
         let air_at_start = air(vessel);
-        let mut air = air_at_start;
-        let mut events = Vec::new();
-        let mut released_j = 0.0;
-        let mut starved: Option<(SpeciesId, f64, f64)> = None;
-
-        for (fuel, present) in fuels {
-            let extent = match air {
-                Air::Room => present,
-                Air::Inert => 0.0,
-                Air::Owned { oxygen, total } => {
-                    oxygen_limited_extent(fuel, oxygen, total).min(present)
-                }
-            };
-            if extent <= crate::OBSERVABLE_MOLES {
-                // Nothing of this fuel burned, and the reason is the air.
-                // Report the fraction the flame actually met.
-                let fraction = match air {
-                    Air::Room => 1.0,
-                    Air::Inert => 0.0,
-                    Air::Owned { oxygen, total } => {
-                        if total > 0.0 {
-                            oxygen / total
-                        } else {
-                            0.0
-                        }
-                    }
-                };
-                starved.get_or_insert((SpeciesId::new(fuel.species), 0.0, fraction));
-                continue;
-            }
-
-            let id = SpeciesId::new(fuel.species);
-            let oxygen_used = extent * fuel.oxygen;
-            let carbon_dioxide = extent * fuel.carbon_dioxide;
-            let steam = extent * fuel.water;
-
-            // Whatever phase holds it: the three kitchen fuels are solids,
-            // the two diesel surrogates are liquids, and a fuel that
-            // burned has left the vessel either way. Taking it from
-            // `Phase::Solid` alone would have burned the diesel without
-            // consuming it, and the ledger would have carried it forever.
-            vessel.withdraw(&id, Moles(extent));
-            let remaining = vessel.moles_of(&id);
-            events.push(Event::ReactionOccurred {
-                vessel: vessel.id,
-                equation: fuel.equation.to_string(),
-            });
-            events.push(Event::Consumed {
-                vessel: vessel.id,
-                species: id.clone(),
-                moles: Moles(extent),
-                remaining: Some(remaining),
-            });
-
-            match air {
-                Air::Room | Air::Inert => {
-                    // An open vessel exchanges with the room: the oxygen
-                    // came from outside the ledger and the products leave
-                    // it again. Nothing about the room is tracked, which
-                    // is why a candle in the open never runs out of air.
-                    events.push(Event::GasEvolved {
-                        vessel: vessel.id,
-                        species: SpeciesId::new("CO2"),
-                        moles: Moles(carbon_dioxide),
-                    });
-                    events.push(Event::GasEvolved {
-                        vessel: vessel.id,
-                        species: SpeciesId::new("water"),
-                        moles: Moles(steam),
-                    });
-                }
-                Air::Owned { oxygen, total } => {
-                    let taken = vessel.withdraw_phase(
-                        &SpeciesId::new("O2"),
-                        Moles(oxygen_used),
-                        Phase::Gas,
-                    );
-                    events.push(Event::Consumed {
-                        vessel: vessel.id,
-                        species: SpeciesId::new("O2"),
-                        moles: taken,
-                        remaining: Some(vessel.moles_of(&SpeciesId::new("O2"))),
-                    });
-                    vessel.deposit(SpeciesId::new("CO2"), Moles(carbon_dioxide), Phase::Gas);
-                    vessel.deposit(SpeciesId::new("water"), Moles(steam), Phase::Gas);
-                    events.push(Event::GasContained {
-                        vessel: vessel.id,
-                        species: SpeciesId::new("CO2"),
-                        moles: Moles(carbon_dioxide),
-                    });
-                    events.push(Event::GasContained {
-                        vessel: vessel.id,
-                        species: SpeciesId::new("water"),
-                        moles: Moles(steam),
-                    });
-                    let oxygen_left = (oxygen - taken.0).max(0.0);
-                    let total_left = total - taken.0 + carbon_dioxide + steam;
-                    air = Air::Owned {
-                        oxygen: oxygen_left,
-                        total: total_left,
-                    };
-                    if extent < present {
-                        // The flame stopped while fuel was still there:
-                        // the jar, not the candle, ended this.
-                        let fraction = if total_left > 0.0 {
-                            oxygen_left / total_left
-                        } else {
-                            0.0
-                        };
-                        starved.get_or_insert((id.clone(), extent, fraction));
-                    }
-                }
-            }
-
-            released_j += crate::reaction_heat::fuel_heat_released_j(fuel, extent);
-        }
-
-        if let Some((fuel, burned, oxygen_fraction)) = starved {
-            events.push(Event::FlameStarved {
-                vessel: vessel.id,
-                fuel,
-                burned: Moles(burned),
-                oxygen_fraction,
-            });
-        }
-
+        let (mut events, released_j) = burn_condensed(vessel, &fuels, air_at_start);
         if released_j <= 0.0 {
             return Ok(events);
         }
-
-        // The heat, and what the vessel does with it.
-        //
-        // In an OPEN vessel the products leave, and they leave hot: the
-        // energy goes up with the exhaust, which is why a candle does not
-        // heat its own candlestick to the flame temperature. Booking that
-        // heat into whatever happens to be left in the beaker produced a
-        // 6000 °C beaker in the curiosity corpus — the arithmetic was
-        // right and the physics was absent. So an open burn reports its
-        // energy and warms nothing; only a closed boundary, which keeps
-        // its own hot gas, can be warmed by it.
         let heat_stays = matches!(air_at_start, Air::Owned { .. });
-        if heat_stays
-            && matches!(vessel.thermal_mode, crate::vessel::ThermalMode::Adiabatic)
-            && vessel.heat_capacity() > 0.0
-        {
-            let from = vessel.temperature;
-            let to = Kelvin(vessel.temperature_after(released_j));
-            vessel.temperature = to;
-            events.push(Event::TemperatureChanged {
-                vessel: vessel.id,
-                from,
-                to,
+        book_heat(
+            vessel,
+            released_j,
+            heat_stays,
+            curated_provenance(),
+            &mut events,
+        );
+        Ok(events)
+    }
+}
+
+/// Burn the curated condensed fuels against whatever the boundary offers,
+/// returning the events and the heat released, J. Shared by the solver
+/// route and the spark route ([`flame_at_spark`]).
+fn burn_condensed(
+    vessel: &mut Vessel,
+    fuels: &[(&'static Fuel, f64)],
+    air_at_start: Air,
+) -> (Vec<Event>, f64) {
+    let mut air = air_at_start;
+    let mut events = Vec::new();
+    let mut released_j = 0.0;
+    let mut starved: Option<(SpeciesId, f64, f64)> = None;
+
+    for &(fuel, present) in fuels {
+        let extent = match air {
+            Air::Room => present,
+            Air::Inert => 0.0,
+            Air::Owned { oxygen, total } => oxygen_limited_extent(fuel, oxygen, total).min(present),
+        };
+        if extent <= crate::OBSERVABLE_MOLES {
+            // Nothing of this fuel burned, and the reason is the air.
+            // Report the fraction the flame actually met.
+            let fraction = match air {
+                Air::Room => 1.0,
+                Air::Inert => 0.0,
+                Air::Owned { oxygen, total } => {
+                    if total > 0.0 {
+                        oxygen / total
+                    } else {
+                        0.0
+                    }
+                }
+            };
+            starved.get_or_insert((SpeciesId::new(fuel.species), 0.0, fraction));
+            continue;
+        }
+
+        let id = SpeciesId::new(fuel.species);
+        let oxygen_used = extent * fuel.oxygen;
+        let carbon_dioxide = extent * fuel.carbon_dioxide;
+        let steam = extent * fuel.water;
+
+        // Whatever phase holds it: the three kitchen fuels are solids,
+        // the two diesel surrogates are liquids, and a fuel that
+        // burned has left the vessel either way. Taking it from
+        // `Phase::Solid` alone would have burned the diesel without
+        // consuming it, and the ledger would have carried it forever.
+        vessel.withdraw(&id, Moles(extent));
+        let remaining = vessel.moles_of(&id);
+        events.push(Event::ReactionOccurred {
+            vessel: vessel.id,
+            equation: fuel.equation.to_string(),
+        });
+        events.push(Event::Consumed {
+            vessel: vessel.id,
+            species: id.clone(),
+            moles: Moles(extent),
+            remaining: Some(remaining),
+        });
+
+        match air {
+            Air::Room | Air::Inert => {
+                // An open vessel exchanges with the room: the oxygen
+                // came from outside the ledger and the products leave
+                // it again. Nothing about the room is tracked, which
+                // is why a candle in the open never runs out of air.
+                events.push(Event::GasEvolved {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(carbon_dioxide),
+                });
+                events.push(Event::GasEvolved {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("water"),
+                    moles: Moles(steam),
+                });
+            }
+            Air::Owned { oxygen, total } => {
+                let taken =
+                    vessel.withdraw_phase(&SpeciesId::new("O2"), Moles(oxygen_used), Phase::Gas);
+                events.push(Event::Consumed {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("O2"),
+                    moles: taken,
+                    remaining: Some(vessel.moles_of(&SpeciesId::new("O2"))),
+                });
+                vessel.deposit(SpeciesId::new("CO2"), Moles(carbon_dioxide), Phase::Gas);
+                vessel.deposit(SpeciesId::new("water"), Moles(steam), Phase::Gas);
+                events.push(Event::GasContained {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(carbon_dioxide),
+                });
+                events.push(Event::GasContained {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("water"),
+                    moles: Moles(steam),
+                });
+                let oxygen_left = (oxygen - taken.0).max(0.0);
+                let total_left = total - taken.0 + carbon_dioxide + steam;
+                air = Air::Owned {
+                    oxygen: oxygen_left,
+                    total: total_left,
+                };
+                if extent < present {
+                    // The flame stopped while fuel was still there:
+                    // the jar, not the candle, ended this.
+                    let fraction = if total_left > 0.0 {
+                        oxygen_left / total_left
+                    } else {
+                        0.0
+                    };
+                    starved.get_or_insert((id.clone(), extent, fraction));
+                }
+            }
+        }
+
+        released_j += crate::reaction_heat::fuel_heat_released_j(fuel, extent);
+    }
+
+    if let Some((fuel, burned, oxygen_fraction)) = starved {
+        events.push(Event::FlameStarved {
+            vessel: vessel.id,
+            fuel,
+            burned: Moles(burned),
+            oxygen_fraction,
+        });
+    }
+
+    (events, released_j)
+}
+
+/// Where a flame's heat goes.
+///
+/// In an OPEN vessel the products leave, and they leave hot: the energy
+/// goes up with the exhaust, which is why a candle does not heat its own
+/// candlestick to the flame temperature. Booking that heat into whatever
+/// happens to be left in the beaker produced a 6000 °C beaker in the
+/// curiosity corpus — the arithmetic was right and the physics was absent.
+/// So an open burn reports its energy and warms nothing; only a closed
+/// boundary, which keeps its own hot gas, can be warmed by it.
+fn book_heat(
+    vessel: &mut Vessel,
+    released_j: f64,
+    heat_stays: bool,
+    provenance: Provenance,
+    events: &mut Vec<Event>,
+) {
+    if heat_stays
+        && matches!(vessel.thermal_mode, crate::vessel::ThermalMode::Adiabatic)
+        && vessel.heat_capacity() > 0.0
+    {
+        let from = vessel.temperature;
+        let to = Kelvin(vessel.temperature_after(released_j));
+        vessel.temperature = to;
+        events.push(Event::TemperatureChanged {
+            vessel: vessel.id,
+            from,
+            to,
+        });
+    }
+    events.push(Event::ThermalEquilibrium {
+        vessel: vessel.id,
+        temperature: vessel.temperature,
+        reaction_energy_j: Some(released_j),
+        holds_nothing: vessel.contents.is_empty(),
+        provenance,
+    });
+}
+
+fn curated_provenance() -> Provenance {
+    Provenance::new(
+        "curated combustion (Kerotakis)",
+        // A bare id, and there is nothing in it to translate.
+        "kerotakis:combustion:curated-fuels-v1",
+        // A whole English sentence, on a field a reader sees. The
+        // oxygen fraction is a NUMBER: German writes 0,16.
+        crate::phrase::Phrase::new(
+            "provenance.model.curated-complete-combustion",
+            "complete combustion to CO2 and H2O at a tabulated heat of combustion, with a limiting oxygen fraction of {fraction} for a closed boundary",
+            vec![(
+                "fraction".to_string(),
+                crate::phrase::Slot::number("0.16"),
+            )],
+        ),
+        FUELS
+            .iter()
+            .map(|fuel| format!("{}: {}", fuel.species, fuel.equation))
+            .collect(),
+        crate::phrase::Phrase::bare(
+            "routing.curated-fuel-table",
+            "NASA CEA carries no thermochemistry for this fuel, so the curated table answered instead of the vessel reaching the model boundary",
+        ),
+    )
+}
+
+// ── The spark itself (C1 audit, closed-vessel combustion) ──────────────
+//
+// `ignite` used to mean "take the WHOLE vessel to 1200 K and let the
+// solvers decide". That is a fair stand-in for a match held to a dry
+// spoonful of sugar, and the wrong physics everywhere else:
+//
+// * a jar over water, or a beaker whose headspace holds the hydrogen and
+//   oxygen an electrolysis made, had its LIQUID raised to 1200 K — so the
+//   water boiled away and the gas, which is what a match actually lights,
+//   never burned (the aqueous engine owns any vessel with liquid water);
+// * the equilibrium engine declines sealed and pressure-controlled
+//   boundaries, so magnesium in a closed jar of oxygen only melted;
+// * a candle sealed in a jar started from 1200 K and kept every joule in
+//   its gas, which is how a 1 g candle burst a 500 mL jar.
+//
+// A spark heats a few cubic millimetres, not the vessel. So where the
+// vessel is closed, or holds liquid water, or holds a gaseous fuel, the
+// flame is resolved HERE, at the vessel's own temperature: premixed fuel
+// gas burns if — and only if — the mixture is inside its flammability
+// limits, condensed curated fuels burn until the closed gas falls to the
+// limiting oxygen fraction, and a reactive metal burns the oxygen it is
+// given. Heat comes from tabulated standard enthalpies of formation.
+
+/// ΔfH°(H₂O, g, 298.15 K), J/mol. Wagman et al., "The NBS tables of
+/// chemical thermodynamic properties", J. Phys. Chem. Ref. Data 11,
+/// Suppl. 2 (1982).
+const DHF_WATER_GAS: f64 = -241_818.0;
+/// ΔfH°(CO₂, g, 298.15 K), J/mol. Wagman et al. (1982).
+const DHF_CARBON_DIOXIDE: f64 = -393_509.0;
+
+const WAGMAN_1982: &str = "ΔfH° at 298.15 K from D. D. Wagman et al., The NBS tables of chemical \
+    thermodynamic properties, J. Phys. Chem. Ref. Data 11, Suppl. 2 (1982); products taken as \
+    CO2(g) and H2O(g), so the heat is the lower heating value";
+const ZABETAKIS_LIMITS: &str =
+    "Lower and upper flammability limits in air at room temperature and \
+    1 atm, upward propagation, from M. G. Zabetakis, Flammability Characteristics of Combustible \
+    Gases and Vapors, U.S. Bureau of Mines Bulletin 627 (1965), Table A-1 (hydrogen 4.0–75 vol%, \
+    consistent with H. F. Coward and G. W. Jones, Bulletin 503 (1952))";
+
+/// A gaseous fuel a spark can light, with its flammability limits.
+#[derive(Debug, Clone, Copy)]
+pub struct GasFuel {
+    /// Registry species key.
+    pub species: &'static str,
+    /// Moles of O₂ per mole of fuel for complete combustion.
+    pub oxygen: f64,
+    /// Moles of CO₂ per mole of fuel.
+    pub carbon_dioxide: f64,
+    /// Moles of H₂O per mole of fuel.
+    pub water: f64,
+    /// ΔfH° of the fuel gas at 298.15 K, J/mol (Wagman 1982).
+    pub formation_j: f64,
+    /// Lower flammability limit in air, mole fraction.
+    pub lower_limit: f64,
+    /// Upper flammability limit in air, mole fraction.
+    pub upper_limit: f64,
+    /// Balance-checked by `every_gas_fuel_balances`.
+    pub equation: &'static str,
+}
+
+impl GasFuel {
+    /// Heat released per mole of fuel burned to CO₂(g) and H₂O(g), J.
+    pub fn heat_j_per_mol(&self) -> f64 {
+        self.formation_j - self.carbon_dioxide * DHF_CARBON_DIOXIDE - self.water * DHF_WATER_GAS
+    }
+}
+
+/// Gaseous fuels: ΔfH° from Wagman (1982), limits from Zabetakis (1965).
+pub const GAS_FUELS: &[GasFuel] = &[
+    GasFuel {
+        species: "H2",
+        oxygen: 0.5,
+        carbon_dioxide: 0.0,
+        water: 1.0,
+        formation_j: 0.0,
+        lower_limit: 0.040,
+        upper_limit: 0.75,
+        equation: "2 H2 + O2 -> 2 H2O",
+    },
+    GasFuel {
+        species: "methane",
+        oxygen: 2.0,
+        carbon_dioxide: 1.0,
+        water: 2.0,
+        formation_j: -74_810.0,
+        lower_limit: 0.050,
+        upper_limit: 0.150,
+        equation: "CH4 + 2 O2 -> CO2 + 2 H2O",
+    },
+    GasFuel {
+        species: "CO",
+        oxygen: 0.5,
+        carbon_dioxide: 1.0,
+        water: 0.0,
+        formation_j: -110_525.0,
+        lower_limit: 0.125,
+        upper_limit: 0.74,
+        equation: "2 CO + O2 -> 2 CO2",
+    },
+    GasFuel {
+        species: "ethene",
+        oxygen: 3.0,
+        carbon_dioxide: 2.0,
+        water: 2.0,
+        formation_j: 52_260.0,
+        lower_limit: 0.027,
+        upper_limit: 0.36,
+        equation: "C2H4 + 3 O2 -> 2 CO2 + 2 H2O",
+    },
+    GasFuel {
+        species: "propane",
+        oxygen: 5.0,
+        carbon_dioxide: 3.0,
+        water: 4.0,
+        formation_j: -103_850.0,
+        lower_limit: 0.021,
+        upper_limit: 0.095,
+        equation: "C3H8 + 5 O2 -> 3 CO2 + 4 H2O",
+    },
+    GasFuel {
+        species: "butane",
+        oxygen: 6.5,
+        carbon_dioxide: 4.0,
+        water: 5.0,
+        formation_j: -126_150.0,
+        lower_limit: 0.018,
+        upper_limit: 0.084,
+        equation: "2 C4H10 + 13 O2 -> 8 CO2 + 10 H2O",
+    },
+];
+
+pub fn gas_fuel(species: &str) -> Option<&'static GasFuel> {
+    GAS_FUELS.iter().find(|row| row.species == species)
+}
+
+/// A metal that burns in oxygen to a single oxide.
+#[derive(Debug, Clone, Copy)]
+pub struct MetalFuel {
+    pub metal: &'static str,
+    pub oxide: &'static str,
+    /// Moles of O₂ per mole of metal.
+    pub oxygen: f64,
+    /// Moles of oxide per mole of metal.
+    pub oxide_per_metal: f64,
+    /// ΔfH° of the oxide at 298.15 K, J/mol (Wagman 1982).
+    pub oxide_formation_j: f64,
+    pub equation: &'static str,
+}
+
+/// Metals the spark route burns inside a closed boundary. Magnesium only:
+/// it burns with a self-sustaining flame once lit, and its single oxide
+/// is on the shelf. Iron (to Fe₃O₄) waits for that oxide to be
+/// registered; it is not substituted with Fe₂O₃.
+pub const METAL_FUELS: &[MetalFuel] = &[MetalFuel {
+    metal: "Mg",
+    oxide: "MgO",
+    oxygen: 0.5,
+    oxide_per_metal: 1.0,
+    oxide_formation_j: -601_700.0,
+    equation: "2 Mg + O2 -> 2 MgO",
+}];
+
+/// Whether a premixed fuel gas can carry a flame.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Flammability {
+    /// Inside the limits: a spark lights it.
+    Flammable,
+    /// Too little fuel: below the (mixture) lower limit.
+    Lean { fuel_fraction: f64, limit: f64 },
+    /// Too little oxygen per fuel: richer than the upper limit allows.
+    Rich { fuel_fraction: f64, limit: f64 },
+}
+
+/// Judge a premixed gas against its flammability limits.
+///
+/// The limits of a fuel MIXTURE are Le Chatelier's rule,
+/// `L = 1 / Σ(yᵢ / Lᵢ)` with `yᵢ` each fuel's share of the fuel. The lower
+/// limit is a fuel fraction of the whole gas, so inert dilution counts
+/// against it. The upper limit is tabulated in AIR; to apply it to a gas
+/// that is not air (electrolysis gas, oxygen-enriched jars) it is read as
+/// what it physically is — a minimum of oxygen per mole of fuel,
+/// `0.2095·(1 − U)/U` — which leaves it exact in air and conservative in
+/// oxygen (hydrogen in pure oxygen is flammable to 94%, Zabetakis 1965,
+/// against the 93% this reading allows). Editorial reading (Kerotakis).
+pub fn flammability(fuels: &[(&GasFuel, f64)], oxygen: f64, total: f64) -> Flammability {
+    let fuel_total: f64 = fuels.iter().map(|(_, n)| n).sum();
+    if fuel_total <= 0.0 || total <= 0.0 {
+        return Flammability::Lean {
+            fuel_fraction: 0.0,
+            limit: 0.0,
+        };
+    }
+    let mix = |limit: fn(&GasFuel) -> f64| {
+        1.0 / fuels
+            .iter()
+            .map(|(fuel, n)| (n / fuel_total) / limit(fuel))
+            .sum::<f64>()
+    };
+    let lower = mix(|f| f.lower_limit);
+    let upper = mix(|f| f.upper_limit);
+    let fraction = fuel_total / total;
+    if fraction < lower {
+        return Flammability::Lean {
+            fuel_fraction: fraction,
+            limit: lower,
+        };
+    }
+    let oxygen_per_fuel_needed = 0.2095 * (1.0 - upper) / upper;
+    if oxygen / fuel_total < oxygen_per_fuel_needed {
+        return Flammability::Rich {
+            fuel_fraction: fraction,
+            limit: upper,
+        };
+    }
+    Flammability::Flammable
+}
+
+fn gas_moles_of(vessel: &Vessel, species: &str) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Gas && p.species.0 == species)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+/// The dataset id the spark route's `ThermalEquilibrium` carries.
+pub const SPARK_FLAME_DATASET: &str = "kerotakis:combustion:spark-flame-v1";
+
+fn spark_provenance() -> Provenance {
+    Provenance::new(
+        "spark flame (Kerotakis)",
+        SPARK_FLAME_DATASET,
+        crate::phrase::Phrase::bare(
+            "provenance.model.spark-flame",
+            "a spark lights only what is flammable where it is held: fuel gas inside its flammability limits burns to completion of the scarcer reactant, condensed fuels burn until a closed gas falls to the limiting oxygen fraction, and magnesium burns the oxygen it is given; heats from standard enthalpies of formation",
+        ),
+        GAS_FUELS
+            .iter()
+            .map(|f| format!("{}: {} ({WAGMAN_1982}; {ZABETAKIS_LIMITS})", f.species, f.equation))
+            .chain(
+                METAL_FUELS
+                    .iter()
+                    .map(|m| format!("{}: {} ({WAGMAN_1982})", m.metal, m.equation)),
+            )
+            .collect(),
+        crate::phrase::Phrase::bare(
+            "routing.spark-flame",
+            "the spark was resolved where it is held — in the gas or on the fuel — instead of raising the whole vessel to flame temperature",
+        ),
+    )
+}
+
+fn wall_loss_note(vessel: crate::VesselId) -> Event {
+    Event::not_modeled(
+        vessel,
+        crate::ops::NotModelledCause::ModelBoundary,
+        crate::phrase::Phrase::bare(
+            "not-modeled.closed-flame-wall-loss",
+            "heat loss from this closed flame to the vessel wall and the room is not modelled: every joule stays in the contents, so the temperature and pressure shown are an adiabatic upper bound; a real jar cools within seconds",
+        ),
+    )
+}
+
+/// Resolve a spark where the old "whole vessel to 1200 K" stand-in is the
+/// wrong physics, or return `None` to leave `ignite` on that path (a dry,
+/// open vessel with no fuel gas: a match to sugar, a spirit burner).
+pub fn flame_at_spark(vessel: &mut Vessel) -> Option<Vec<Event>> {
+    let closed = matches!(
+        vessel.headspace,
+        Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
+    );
+    let open = matches!(vessel.headspace, Headspace::Open);
+    if !closed && !open {
+        return None;
+    }
+    let wet = has_liquid_water(vessel);
+    let gases: Vec<(&'static GasFuel, f64)> = GAS_FUELS
+        .iter()
+        .map(|f| (f, gas_moles_of(vessel, f.species)))
+        .filter(|(_, n)| *n > crate::OBSERVABLE_MOLES)
+        .collect();
+    let condensed: Vec<(&'static Fuel, f64)> = FUELS
+        .iter()
+        .map(|f| (f, vessel.moles_of(&SpeciesId::new(f.species)).0))
+        .filter(|(_, n)| *n > crate::OBSERVABLE_MOLES)
+        .collect();
+    let metals: Vec<(&'static MetalFuel, f64)> = METAL_FUELS
+        .iter()
+        .map(|m| {
+            let n = vessel
+                .contents
+                .iter()
+                .filter(|p| p.species.0 == m.metal && p.phase == Phase::Solid)
+                .map(|p| p.moles.0)
+                .sum::<f64>();
+            (m, n)
+        })
+        .filter(|(_, n)| closed && *n > crate::OBSERVABLE_MOLES)
+        .collect();
+    // A dry open vessel stays on the equilibrium road: NASA CEA owns a
+    // methane or butane flame in the room's air and computes its flame
+    // temperature. Only where that road is closed (a closed boundary) or
+    // wrong (liquid water, which it would boil) does the spark resolve here.
+    let ours = (closed && (!gases.is_empty() || !condensed.is_empty() || !metals.is_empty()))
+        || (wet && (!gases.is_empty() || !condensed.is_empty()));
+    if !ours {
+        return None;
+    }
+
+    let id = vessel.id;
+    let mut events = Vec::new();
+    let mut released_j = 0.0;
+    let mut burned: Option<SpeciesId> = None;
+    let mut refused: Option<(SpeciesId, Flammability)> = None;
+
+    // 1. Premixed fuel gas.
+    if !gases.is_empty() {
+        let (oxygen, total) = if closed {
+            (gas_moles_of(vessel, "O2"), vessel.gas_moles().0)
+        } else {
+            (f64::INFINITY, f64::INFINITY)
+        };
+        // An open vessel's fuel gas meets the room at its mouth: it burns
+        // as it leaves, whatever its own composition (the "pop" of a test
+        // tube of hydrogen). A closed one is judged as the mixture it is.
+        let verdict = if closed {
+            flammability(&gases, oxygen, total)
+        } else {
+            Flammability::Flammable
+        };
+        if verdict == Flammability::Flammable {
+            let demand: f64 = gases.iter().map(|(f, n)| f.oxygen * n).sum();
+            let share = if closed && demand > oxygen {
+                oxygen / demand
+            } else {
+                1.0
+            };
+            let mut oxygen_used = 0.0;
+            let mut co2 = 0.0;
+            let mut steam = 0.0;
+            for &(fuel, present) in &gases {
+                let extent = present * share;
+                let species = SpeciesId::new(fuel.species);
+                vessel.withdraw_phase(&species, Moles(extent), Phase::Gas);
+                events.push(Event::ReactionOccurred {
+                    vessel: id,
+                    equation: fuel.equation.to_string(),
+                });
+                events.push(Event::Consumed {
+                    vessel: id,
+                    species: species.clone(),
+                    moles: Moles(extent),
+                    remaining: Some(vessel.moles_of(&species)),
+                });
+                oxygen_used += extent * fuel.oxygen;
+                co2 += extent * fuel.carbon_dioxide;
+                steam += extent * fuel.water;
+                released_j += extent * fuel.heat_j_per_mol();
+                burned.get_or_insert(species);
+            }
+            book_products(vessel, closed, oxygen_used, co2, steam, &mut events);
+        } else {
+            refused = Some((SpeciesId::new(gases[0].0.species), verdict));
+        }
+    }
+
+    // 2. Reactive metals in a closed jar of oxygen.
+    for &(metal, present) in &metals {
+        let oxygen = gas_moles_of(vessel, "O2");
+        let extent = present.min(oxygen / metal.oxygen);
+        if extent <= crate::OBSERVABLE_MOLES {
+            continue;
+        }
+        let species = SpeciesId::new(metal.metal);
+        vessel.withdraw_phase(&species, Moles(extent), Phase::Solid);
+        let taken = vessel.withdraw_phase(
+            &SpeciesId::new("O2"),
+            Moles(extent * metal.oxygen),
+            Phase::Gas,
+        );
+        let oxide = extent * metal.oxide_per_metal;
+        vessel.deposit(SpeciesId::new(metal.oxide), Moles(oxide), Phase::Solid);
+        events.push(Event::ReactionOccurred {
+            vessel: id,
+            equation: metal.equation.to_string(),
+        });
+        events.push(Event::Consumed {
+            vessel: id,
+            species: species.clone(),
+            moles: Moles(extent),
+            remaining: Some(vessel.moles_of(&species)),
+        });
+        events.push(Event::Consumed {
+            vessel: id,
+            species: SpeciesId::new("O2"),
+            moles: taken,
+            remaining: Some(vessel.moles_of(&SpeciesId::new("O2"))),
+        });
+        released_j += -metal.oxide_formation_j * oxide;
+        burned.get_or_insert(species);
+    }
+
+    // 3. Condensed curated fuels: the candle over water, the sealed jar.
+    if !condensed.is_empty() && (closed || wet) {
+        let (more, heat) = burn_condensed(vessel, &condensed, air(vessel));
+        if heat > 0.0 {
+            burned.get_or_insert(SpeciesId::new(condensed[0].0.species));
+        }
+        events.extend(more);
+        released_j += heat;
+    }
+
+    if released_j <= 0.0 && refused.is_none() && closed && gas_moles_of(vessel, "O2") <= 0.0 {
+        // A closed boundary with no oxygen in it at all: name the fuel
+        // that could not light, so the absence is not read as "it cannot
+        // burn" (a FlameStarved at zero extent says the same of a candle).
+        let fuel = condensed
+            .first()
+            .map(|(f, _)| SpeciesId::new(f.species))
+            .or_else(|| metals.first().map(|(m, _)| SpeciesId::new(m.metal)));
+        if let Some(fuel) = fuel {
+            let moles = vessel.moles_of(&fuel);
+            events.push(Event::DidNotIgnite {
+                vessel: id,
+                reason: crate::ops::DidNotIgniteReason::NoOxygen,
+                fuel: Some(fuel),
+                fuel_moles: Some(moles),
+                oxygen_fraction: Some(0.0),
+                gap_k: None,
             });
         }
-        events.push(Event::ThermalEquilibrium {
-            vessel: vessel.id,
-            temperature: vessel.temperature,
-            reaction_energy_j: Some(released_j),
-            holds_nothing: vessel.contents.is_empty(),
-            provenance: Provenance::new(
-                "curated combustion (Kerotakis)",
-                // A bare id, and there is nothing in it to translate.
-                "kerotakis:combustion:curated-fuels-v1",
-                // A whole English sentence, on a field a reader sees. The
-                // oxygen fraction is a NUMBER: German writes 0,16.
+        return Some(events);
+    }
+    if released_j <= 0.0 {
+        // Nothing caught. Say which absence this is, in the reading the
+        // learner can check: the fuel gas is there and out of its limits.
+        if let Some((fuel, verdict)) = refused {
+            let moles = vessel.moles_of(&fuel);
+            let oxygen_fraction = oxygen_fraction(vessel);
+            let (fraction, limit, key, en) = match verdict {
+                Flammability::Lean { fuel_fraction, limit } => (
+                    fuel_fraction,
+                    limit,
+                    "not-modeled.gas-mixture-too-lean",
+                    "the fuel gas is {fraction}% of the gas, below its lower flammability limit of {limit}%: a spark makes a small flash at most, and no flame travels through a mixture this lean",
+                ),
+                Flammability::Rich { fuel_fraction, limit } => (
+                    fuel_fraction,
+                    limit,
+                    "not-modeled.gas-mixture-too-rich",
+                    "the fuel gas is {fraction}% of the gas, with too little oxygen for its upper flammability limit of {limit}% in air: it cannot burn inside this vessel, only where it meets the air outside",
+                ),
+                Flammability::Flammable => unreachable!("a flammable verdict burns"),
+            };
+            events.push(Event::not_modeled(
+                id,
+                crate::ops::NotModelledCause::ModelBoundary,
                 crate::phrase::Phrase::new(
-                    "provenance.model.curated-complete-combustion",
-                    "complete combustion to CO2 and H2O at a tabulated heat of combustion, with a limiting oxygen fraction of {fraction} for a closed boundary",
-                    vec![(
-                        "fraction".to_string(),
-                        crate::phrase::Slot::number("0.16"),
-                    )],
+                    key,
+                    en,
+                    vec![
+                        (
+                            "fraction".to_string(),
+                            crate::phrase::Slot::number(format!("{:.1}", fraction * 100.0)),
+                        ),
+                        (
+                            "limit".to_string(),
+                            crate::phrase::Slot::number(format!("{:.1}", limit * 100.0)),
+                        ),
+                    ],
                 ),
-                FUELS
-                    .iter()
-                    .map(|fuel| format!("{}: {}", fuel.species, fuel.equation))
-                    .collect(),
-                crate::phrase::Phrase::bare(
-                    "routing.curated-fuel-table",
-                    "NASA CEA carries no thermochemistry for this fuel, so the curated table answered instead of the vessel reaching the model boundary",
-                ),
-            ),
+            ));
+            events.push(Event::DidNotIgnite {
+                vessel: id,
+                reason: if matches!(verdict, Flammability::Rich { .. }) {
+                    crate::ops::DidNotIgniteReason::NoOxygen
+                } else {
+                    crate::ops::DidNotIgniteReason::NotModelled
+                },
+                fuel: Some(fuel),
+                fuel_moles: Some(moles),
+                oxygen_fraction: Some(oxygen_fraction),
+                gap_k: None,
+            });
+        }
+        return Some(events);
+    }
+
+    let flame = burned
+        .as_ref()
+        .and_then(crate::species::lookup)
+        .and_then(|d| d.flame_colour)
+        .map(str::to_string);
+    events.insert(
+        0,
+        Event::Ignited {
+            vessel: id,
+            flame,
+            energy_j: Some(released_j),
+        },
+    );
+    book_heat(vessel, released_j, closed, spark_provenance(), &mut events);
+    if closed {
+        events.push(wall_loss_note(id));
+    }
+    Some(events)
+}
+
+/// Put a gas burn's products where the boundary keeps them.
+fn book_products(
+    vessel: &mut Vessel,
+    closed: bool,
+    oxygen_used: f64,
+    co2: f64,
+    steam: f64,
+    events: &mut Vec<Event>,
+) {
+    let id = vessel.id;
+    if closed {
+        let taken = vessel.withdraw_phase(&SpeciesId::new("O2"), Moles(oxygen_used), Phase::Gas);
+        events.push(Event::Consumed {
+            vessel: id,
+            species: SpeciesId::new("O2"),
+            moles: taken,
+            remaining: Some(vessel.moles_of(&SpeciesId::new("O2"))),
         });
-        Ok(events)
+        for (species, moles) in [("CO2", co2), ("water", steam)] {
+            if moles > 0.0 {
+                vessel.deposit(SpeciesId::new(species), Moles(moles), Phase::Gas);
+                events.push(Event::GasContained {
+                    vessel: id,
+                    species: SpeciesId::new(species),
+                    moles: Moles(moles),
+                });
+            }
+        }
+    } else {
+        for (species, moles) in [("CO2", co2), ("water", steam)] {
+            if moles > 0.0 {
+                events.push(Event::GasEvolved {
+                    vessel: id,
+                    species: SpeciesId::new(species),
+                    moles: Moles(moles),
+                });
+            }
+        }
     }
 }
 
@@ -879,6 +1454,74 @@ mod tests {
         assert!(
             left / oxygen > 0.7,
             "most of the oxygen is still there: {left} of {oxygen}"
+        );
+    }
+
+    /// Every gas fuel row conserves C, H and O, and its heat matches the
+    /// lower heating values derived from Wagman (1982).
+    #[test]
+    fn every_gas_fuel_balances_and_carries_its_sourced_heat() {
+        for fuel in GAS_FUELS {
+            let s = crate::species::lookup(&SpeciesId::new(fuel.species))
+                .unwrap_or_else(|| panic!("{} must be an installed species", fuel.species));
+            let f = crate::stoich::parse_formula(s.formula).expect("formula");
+            let count = |e: &str| f.counts.get(e).copied().unwrap_or(0.0);
+            assert_eq!(count("C"), fuel.carbon_dioxide, "C in {}", fuel.species);
+            assert_eq!(count("H"), 2.0 * fuel.water, "H in {}", fuel.species);
+            assert_eq!(
+                count("O") + 2.0 * fuel.oxygen,
+                2.0 * fuel.carbon_dioxide + fuel.water,
+                "O in {}",
+                fuel.species
+            );
+        }
+        let heat = |k: &str| gas_fuel(k).unwrap().heat_j_per_mol();
+        assert!((heat("H2") - 241_818.0).abs() < 1.0);
+        assert!((heat("methane") - 802_335.0).abs() < 1.0);
+        assert!((heat("CO") - 282_984.0).abs() < 1.0);
+    }
+
+    /// Zabetakis (1965): hydrogen in air burns from 4% to 75%.
+    #[test]
+    fn hydrogen_in_air_is_judged_against_its_flammability_limits() {
+        let h2 = gas_fuel("H2").unwrap();
+        let air = |x: f64| flammability(&[(h2, x)], 0.2095 * (1.0 - x), 1.0);
+        assert!(matches!(air(0.03), Flammability::Lean { .. }));
+        assert_eq!(air(0.05), Flammability::Flammable);
+        assert_eq!(air(0.30), Flammability::Flammable);
+        assert_eq!(air(0.74), Flammability::Flammable);
+        assert!(matches!(air(0.77), Flammability::Rich { .. }));
+        // Electrolysis gas, 2:1, is flammable; nitrogen dilution to 3%
+        // hydrogen is not.
+        assert_eq!(
+            flammability(&[(h2, 2.0)], 1.0, 3.0),
+            Flammability::Flammable
+        );
+        assert!(matches!(
+            flammability(&[(h2, 0.03)], 0.015, 1.0),
+            Flammability::Lean { .. }
+        ));
+        // No oxygen at all: too rich, whatever the fraction.
+        assert!(matches!(
+            flammability(&[(h2, 0.1)], 0.0, 1.0),
+            Flammability::Rich { .. }
+        ));
+    }
+
+    /// Le Chatelier: a methane/hydrogen fuel blend's lower limit lies
+    /// between the two pure limits.
+    #[test]
+    fn a_fuel_blend_uses_le_chateliers_rule() {
+        let h2 = gas_fuel("H2").unwrap();
+        let ch4 = gas_fuel("methane").unwrap();
+        // 50/50 blend: L = 1/(0.5/0.04 + 0.5/0.05) = 4.44%.
+        match flammability(&[(h2, 0.021), (ch4, 0.021)], 0.2, 1.0) {
+            Flammability::Lean { limit, .. } => assert!((limit - 0.04444).abs() < 1e-4),
+            other => panic!("4.2% of a 50/50 blend is lean, got {other:?}"),
+        }
+        assert_eq!(
+            flammability(&[(h2, 0.025), (ch4, 0.025)], 0.2, 1.0),
+            Flammability::Flammable
         );
     }
 }

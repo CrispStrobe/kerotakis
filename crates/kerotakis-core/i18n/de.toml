@@ -1747,6 +1747,9 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+closed-flame-wall-loss = "Der Wärmeverlust dieser geschlossenen Flamme an die Gefäßwand und den Raum ist nicht modelliert: Jedes Joule bleibt im Inhalt, daher sind Temperatur und Druck eine adiabatische Obergrenze; ein echtes Glas kühlt binnen Sekunden ab"
+gas-mixture-too-lean = "Das Brenngas macht {fraction} % des Gases aus, unter seiner unteren Zündgrenze von {limit} %: Ein Funke erzeugt höchstens ein kleines Aufblitzen, und durch ein so mageres Gemisch läuft keine Flamme"
+gas-mixture-too-rich = "Das Brenngas macht {fraction} % des Gases aus, mit zu wenig Sauerstoff für seine obere Zündgrenze von {limit} % in Luft: Es kann in diesem Gefäß nicht brennen, nur dort, wo es draußen auf Luft trifft"
 cea-solid-feed-cp-continuation = "Der feste Ausgangsstoff {species} liegt bei {temperature} K über seinem thermochemischen Datenbereich bis {high} K; sein vorhandenes Modell mit am Randwert gehaltener Wärmekapazität führt die fühlbare Energie in die Berechnung. Dieser überhitzte Ausgangszustand ist modellbegrenzt und außerhalb des Tabellenbereichs nicht thermochemisch validiert."
 carbonate-fast-endpoint = "Dieses Säure-Carbonat-Gaspaket ist ein begrenzter kuratierter Endpunkt aus neu gebildetem gelöstem CO2. Keimbildung an der Säurefront und Entweichzeiten sind nicht modelliert; dies ist keine kalibrierte Vorhersage einer augenblicklichen Gasausbeute"
 reducing-sugar-qualitative = "Dieser Nachweis reduzierender Zucker ist ein qualitativer kuratierter Weg, nicht kalibriert: Der Zucker wird als zu Gluconsäure oxidiert verbucht, molekular statt als Gluconat gehalten, obwohl das wirkliche Produkt ein Gemisch ist; der Einsatzpunkt ist eine redaktionelle Wasserbad-Schwelle, und weder eine Geschwindigkeit noch eine Reaktionswärme oder eine gemessene Ausbeute wird behauptet"
@@ -2038,6 +2041,7 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 # half of this defect a translation of the finished string could never
 # have reached.
 [provenance]
+"model.spark-flame" = "ein Funke entzündet nur, was dort brennbar ist, wo er gehalten wird: Brenngas innerhalb seiner Zündgrenzen verbrennt, bis der knappere Reaktionspartner aufgebraucht ist, kondensierte Brennstoffe brennen, bis ein geschlossenes Gas auf den begrenzenden Sauerstoffanteil fällt, und Magnesium verbrennt den Sauerstoff, den es erhält; Wärmen aus Standardbildungsenthalpien"
 # The dataset half. Two levels: a base clause naming what this lab added
 # to the vendored file, wrapped in the clause that is true of all of them.
 # The wrapper is written ONCE here for the same reason it is composed once
@@ -2060,6 +2064,7 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 "model.with-feed-tp-fallback" = "{model}; TP-Rückgriff auf die Flüssigbrennstoff-Zuführung bei der ausdrücklich angegebenen Zündzonentemperatur"
 
 [routing]
+spark-flame = "der Funke wurde dort aufgelöst, wo er gehalten wird – im Gas oder am Brennstoff –, statt das ganze Gefäß auf Flammentemperatur zu bringen"
 provisional-model-replay = "vorläufige Wiederholung des Modells mit dem ursprünglichen Stoffbestand; die endgültige Route wird mit einer neuen regulären wässrigen Berechnung geprüft"
 "silver-ammine" = "gewählt, weil Silber und reduzierter Stickstoff die Silber-Ammoniak-Komplexe aus minteq.v4.dat benötigen (NIST46.4-Einträge 204901 und 204902); die Elementabdeckung des Standarddatensatzes enthält diese Ligandenspezies nicht"
 "metal-ligand-complexes" = "gewählt, weil {dataset} der verwendete Datensatz ist, der die vorhandenen Metall-Ligand-Komplexe definiert ({families}); die Elementabdeckung allein enthält diese Ligandenspezies nicht"
