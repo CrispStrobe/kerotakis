@@ -649,22 +649,28 @@
     ]
   },
   "candle-jar": {
-    "event_count": 14,
+    "event_count": 23,
     "events_sample": [
       "v1: +5.000 g candle wax (1 known ingredient(s))",
       "v1: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
       "v2: new vessel",
       "v2: +5.000 g candle wax (1 known ingredient(s))",
       "v2: pressure controlled at 1.013 bar; initial headspace 1.000 L",
-      "v2: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
+      "v2: ignited · 0.82 kJ released",
+      "v2: C25H52 + 38 O2 -> 25 CO2 + 26 H2O",
+      "v2: 50.5 µmol paraffin consumed",
+      "v2: 1.92 mmol oxygen consumed",
+      "v2: 1.26 mmol carbon dioxide formed and remains in the closed headspace",
+      "v2: 1.31 mmol water formed and remains in the closed headspace",
+      "v2: the paraffin stopped burning with 16% oxygen still in the gas — a flame goes out long before the last of it is used up",
+      "v2: 25.0 °C → 108.0 °C",
+      "v2: thermal equilibrium at 108 °C",
+      "v2: not yet modelled — heat loss from this closed flame to the vessel wall and the room is not modelled: every joule stays in the contents, so the temperature and pressure shown are an adiabatic upper bound; a real jar cools within seconds",
       "v3: new vessel",
       "v3: +5.000 g candle wax (1 known ingredient(s))",
       "v3: pressure controlled at 1.013 bar; initial headspace 1.000 L",
       "v3: +0.0200 mol carbon dioxide — 0.0200 mol now in vessel",
-      "v3: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
-      "v4: new vessel",
-      "v4: +5.000 g paper (1 known ingredient(s))",
-      "v4: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way"
+      "v3: the paraffin never caught — only 14% of the gas is oxygen, and a flame needs about 16%"
     ],
     "lesson": "candle-jar.lab",
     "vessels": [
@@ -683,7 +689,7 @@
       {
         "contents": [
           {
-            "moles": 0.00001635,
+            "moles": 0.00127837,
             "phase": "Gas",
             "species": "CO2"
           },
@@ -693,19 +699,24 @@
             "species": "N2"
           },
           {
-            "moles": 0.00856311,
+            "moles": 0.00664485,
             "phase": "Gas",
             "species": "O2"
           },
           {
-            "moles": 0.01304258,
+            "moles": 0.0129921,
             "phase": "Solid",
             "species": "paraffin"
+          },
+          {
+            "moles": 0.0013125,
+            "phase": "Gas",
+            "species": "water"
           }
         ],
-        "headspace": "PressureControlled { pressure: Pascal(101325.0), volume: Liters(4.024819721616637) }",
+        "headspace": "PressureControlled { pressure: Pascal(101325.0), volume: Liters(1.2987638854854615) }",
         "label": "beaker",
-        "temperature_k": 298.15
+        "temperature_k": 381.1076
       },
       {
         "contents": [
@@ -730,7 +741,7 @@
             "species": "paraffin"
           }
         ],
-        "headspace": "PressureControlled { pressure: Pascal(101325.0), volume: Liters(5.994196507523371) }",
+        "headspace": "PressureControlled { pressure: Pascal(101325.0), volume: Liters(1.4893080739317444) }",
         "label": "beaker",
         "temperature_k": 298.15
       },

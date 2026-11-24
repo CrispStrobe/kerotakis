@@ -885,7 +885,8 @@ fn execute_prompt(
             } if *released > 0.0 && provenance.dataset.starts_with("kerotakis:combustion:")
         )
     });
-    let typed_observation = !spark_curated && all_events.iter().any(|event| {
+    let typed_observation = !spark_curated
+        && (all_events.iter().any(|event| {
         matches!(
             event,
             Event::Smelled { .. }
@@ -901,7 +902,7 @@ fn execute_prompt(
         // below — this check is on `burned`, not on the event.
         || all_events.iter().any(|event| {
             matches!(event, Event::FlameStarved { burned, .. } if burned.0 <= 0.0)
-        });
+        }));
 
     // A typed observation BESIDE a computed result does not make the row a
     // typed observation. That is KID-12's rule above, generalised from the
