@@ -8,7 +8,7 @@
   "counts": {
     "derived": 21,
     "melting_point_without_latent_heat": 42,
-    "no_melting_point": 71,
+    "no_melting_point": 74,
     "not_condensed": 80
   },
   "species": [
@@ -897,6 +897,19 @@
       }
     },
     {
+      "species": "Ca",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Ca(OH)2",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1079,6 +1092,19 @@
       }
     },
     {
+      "species": "K",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "K2Cr2O7",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1184,6 +1210,19 @@
     },
     {
       "species": "NH4Cl",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Na",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,

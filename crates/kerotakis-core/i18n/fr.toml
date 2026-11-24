@@ -285,6 +285,9 @@ hydroxylapatite = "hydroxylapatite"
 "dry ice" = "neige carbonique"
 "activated charcoal" = "charbon actif"
 "liquid nitrogen" = "azote liquide"
+sodium = "sodium"
+potassium = "potassium"
+calcium = "calcium"
 
 [material]
 # Display names for the 132 named materials. NOT new translation work: each
@@ -1649,6 +1652,7 @@ fizz-rate-near-barrier = "la vitesse à laquelle {name} pétille : la force motr
 stays-as-the-metal = "{name} reste à l'état métallique : rien de ce qui est dissous ici ne se situe en dessous de lui dans la série d'activité. Sa réaction lente avec l'eau elle-même — de l'hydrogène au fil des heures, une peau d'hydroxyde passivante — est une vitesse que ce laboratoire ne modélise pas"
 metal-outside-series = "{name} est un métal que la série d'activité de ce laboratoire ne répertorie pas : qu'il se dissolve ici — dans l'acide, dans une base comme l'aluminium et le zinc peuvent le faire, ou pas du tout — n'est donc pas calculé. Il reste à l'état métallique, et aucun hydrogène n'est produit pour lui"
 amphoteric-heat = "la chaleur dégagée par {name} en se dissolvant dans une base : l'enthalpie de formation de {complex} ne figure pas dans les données sourcées de ce laboratoire, aucune chaleur n'est donc comptée et la température reste celle du début de l'étape"
+water-metal-rate = "la vitesse et la violence avec lesquelles {name} réagit avec l'eau : il se situe bien en dessous de l'hydrogène dans la série d'activité (E° {e_self} V contre {e_water} V pour l'eau elle-même) et son hydroxyde se dissout au lieu de recouvrir le métal, si bien que ce laboratoire mène la réaction à son terme et chiffre sa chaleur. L'allure — le métal qui file sur l'eau, qui fond, l'hydrogène qui s'enflamme — est une vitesse qu'il ne calcule pas"
 no-haloalkane = "aucun substrat halogénoalcane dans le récipient — la table de sélectivité couvre le bromoéthane (primaire) et le bromure de tert-butyle (tertiaire)"
 no-nucleophile = "aucun nucléophile reconnu dans le récipient — la table de sélectivité couvre NaOH (fort) et l'eau (faible)"
 # The two classes go in brackets beside the noun rather than in front of

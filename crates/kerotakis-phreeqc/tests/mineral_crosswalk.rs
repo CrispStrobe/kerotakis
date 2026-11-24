@@ -46,6 +46,10 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// solubility. Both are unbookable (no registry chromium ion) and are never
 /// posed. Sodium nitrite joins too and is not a database phase.
 ///
+/// 2026-11-24: the alkali-metal + water class (A3) adds the metals Na, K
+/// and Ca. None is a database phase, so the gap is unchanged and all three
+/// join the non-database solids.
+///
 /// The gap was 24 before that. Nine of the 33 have been sourced to papers that were
 /// read in full rather than to a handbook — four on the morning of
 /// 2026-09-21 and five more the same day, once `saturation_moves` stopped
@@ -58,11 +62,11 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 115,
+            registry_solids: 118,
             database_phases: 53,
             with_reviewed_solubility: 14,
             without_reviewed_solubility: 39,
-            not_a_database_phase: 62,
+            not_a_database_phase: 65,
             phases_without_a_registry_solid: 601,
             several_phase_names: 13,
             not_posable: 13,

@@ -381,6 +381,11 @@
       "source": "formula"
     },
     {
+      "alias": "Calcium",
+      "canonical": "Ca",
+      "source": "name:de"
+    },
+    {
       "alias": "Calcium-Ion",
       "canonical": "Ca+2",
       "source": "name:de"
@@ -791,6 +796,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Kalium",
+      "canonical": "K",
+      "source": "name:de"
+    },
+    {
       "alias": "Kalium-Ion",
       "canonical": "K+",
       "source": "name:de"
@@ -1103,6 +1113,11 @@
     {
       "alias": "Naphthalin",
       "canonical": "naphthalene",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natrium",
+      "canonical": "Na",
       "source": "name:de"
     },
     {
@@ -1934,6 +1949,11 @@
       "alias": "bêta-phosphate tricalcique",
       "canonical": "Ca3(PO4)2",
       "source": "name:fr"
+    },
+    {
+      "alias": "calcium",
+      "canonical": "Ca",
+      "source": "name:en"
     },
     {
       "alias": "calcium chloride",
@@ -3441,6 +3461,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "potassium",
+      "canonical": "K",
+      "source": "name:en"
+    },
+    {
       "alias": "potassium bromide",
       "canonical": "KBr",
       "source": "name:en"
@@ -3573,6 +3598,11 @@
     {
       "alias": "slaked lime (calcium hydroxide)",
       "canonical": "Ca(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium",
+      "canonical": "Na",
       "source": "name:en"
     },
     {

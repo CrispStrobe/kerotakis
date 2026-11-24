@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 43, neutral-refused 162, partitions 9.
+Counts: ion-stays-aqueous 43, neutral-refused 165, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -83,6 +83,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 162, partitions 9.
 | neutral-refused | CO | — |
 | neutral-refused | CO2 | — |
 | neutral-refused | CO2(aq) | — |
+| neutral-refused | Ca | — |
 | neutral-refused | Ca(OH)2 | — |
 | neutral-refused | Ca3(PO4)2 | — |
 | neutral-refused | CaCO3 | — |
@@ -113,6 +114,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 162, partitions 9.
 | neutral-refused | HCl | — |
 | neutral-refused | HClO | — |
 | neutral-refused | HI | — |
+| neutral-refused | K | — |
 | neutral-refused | K2Cr2O7 | — |
 | neutral-refused | K2CrO4 | — |
 | neutral-refused | KBr | — |
@@ -134,6 +136,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 162, partitions 9.
 | neutral-refused | NH3 | — |
 | neutral-refused | NH4Cl | — |
 | neutral-refused | NH4NO3 | — |
+| neutral-refused | Na | — |
 | neutral-refused | Na2B4O7 | — |
 | neutral-refused | Na2CO3 | — |
 | neutral-refused | Na2S | — |

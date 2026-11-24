@@ -187,8 +187,12 @@ fn charge_hydrate_acid_and_counterion_distinctions_are_preserved() {
             species::lookup_key(distinct).unwrap().formula
         );
     }
-    assert!(species::lookup_key("Na").is_none());
-    assert!(parse_op("add v1 Na 0.001mol").is_err());
+    // `Na` is the metal, never the ion it would become in water.
+    assert_eq!(species::lookup_key("Na").unwrap().formula, "Na");
+    assert_eq!(
+        species::lookup_key("Na").unwrap().standard_phase,
+        Phase::Solid
+    );
     assert_ne!(SpeciesId::new("Na"), SpeciesId::new("Na+"));
     assert_eq!(
         stoich::parse_formula(species::lookup_key("Na+").unwrap().formula)

@@ -14,16 +14,18 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 43, outside_method 120, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 47, outside_method 119, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
+| missing_absorptivity | Ag | silvery |
 | missing_absorptivity | Ag2CO3 | pale yellow |
 | missing_absorptivity | Ag3PO4 | yellow |
 | missing_absorptivity | AgBr | pale yellow |
 | missing_absorptivity | AgI | pale yellow |
 | missing_absorptivity | Al | silver |
 | missing_absorptivity | C | black |
+| missing_absorptivity | Ca | silvery |
 | missing_absorptivity | Cl2 | yellow-green, toxic |
 | missing_absorptivity | Cu | reddish-brown |
 | missing_absorptivity | Cu(OH)2 | pale blue |
@@ -38,6 +40,7 @@ Counts: missing_absorptivity 43, outside_method 120, parameterised 7, parameteri
 | missing_absorptivity | Fe2O3 | reddish brown |
 | missing_absorptivity | FeCl3 | dark green-black crystals |
 | missing_absorptivity | FeSO4 | pale green |
+| missing_absorptivity | K | silvery |
 | missing_absorptivity | K2Cr2O7 | orange-red crystals |
 | missing_absorptivity | K2CrO4 | yellow crystals |
 | missing_absorptivity | KMnO4 | dark purple crystals |
@@ -46,6 +49,7 @@ Counts: missing_absorptivity 43, outside_method 120, parameterised 7, parameteri
 | missing_absorptivity | Mn+3 | red |
 | missing_absorptivity | MnO2 | black |
 | missing_absorptivity | MnO4-2 | green |
+| missing_absorptivity | Na | silvery |
 | missing_absorptivity | NaOCl | pale yellow-green |
 | missing_absorptivity | Pb | dull grey |
 | missing_absorptivity | PbI2 | yellow |
@@ -61,7 +65,6 @@ Counts: missing_absorptivity 43, outside_method 120, parameterised 7, parameteri
 | missing_absorptivity | hair_pigment | black |
 | missing_absorptivity | langite | blue-green |
 | missing_absorptivity | uranium | dull silvery grey |
-| outside_method | Ag | silvery-white |
 | outside_method | AgCl | white |
 | outside_method | AgNO3 | white |
 | outside_method | Al+3 | colourless |

@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 16 | 1 | 98 |
-| minteq.v4 | 18 | 1 | 96 |
-| pitzer | 9 | 2 | 104 |
+| wateq4f | 16 | 1 | 101 |
+| minteq.v4 | 18 | 1 | 99 |
+| pitzer | 9 | 2 | 107 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -120,6 +120,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `C` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `C` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `C` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Ca` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Ca` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Ca` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Ca(OH)2` | wateq4f | refused | Portlandite | the phase saturates at ionic strength >= 126191468896039863320576.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Ca(OH)2` | minteq.v4 | refused | Portlandite | the phase saturates at ionic strength >= 127359104181582925135872.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Ca(OH)2` | pitzer | solubility-only | Portlandite | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
@@ -180,6 +183,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `I2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `I2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `I2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `K` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `K` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `K` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `K2Cr2O7` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `K2Cr2O7` | minteq.v4 | refused | K2Cr2O7 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `K2Cr2O7` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -231,6 +237,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `NH4NO3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `NH4NO3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `NH4NO3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Na` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Na` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Na` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Na2B4O7` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Na2B4O7` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Na2B4O7` | pitzer | refused | - | the routed database defines no phase for this solid |

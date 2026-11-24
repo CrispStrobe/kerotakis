@@ -74,6 +74,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "Ca": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
   "Ca(OH)2": {
     "minteq.v4": "curated",
     "pitzer": "curated",
@@ -174,6 +179,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "K": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
   "K2Cr2O7": {
     "minteq.v4": "reference:minteq.v4:K2Cr2O7",
     "pitzer": "refused: a reaction species is not defined on the routed database",
@@ -258,6 +268,11 @@
     "minteq.v4": "curated",
     "pitzer": "refused: a dissociation product the routed database does not define",
     "wateq4f": "curated"
+  },
+  "Na": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
   "Na2B4O7": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
