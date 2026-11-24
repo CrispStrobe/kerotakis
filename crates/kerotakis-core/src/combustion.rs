@@ -1062,16 +1062,19 @@ pub fn flame_at_spark(vessel: &mut Vessel) -> Option<Vec<Event>> {
             let n = vessel
                 .contents
                 .iter()
-                .filter(|p| p.species.0 == m.metal && p.phase != Phase::Gas)
+                .filter(|p| p.species.0 == m.metal && p.phase == Phase::Solid)
                 .map(|p| p.moles.0)
                 .sum::<f64>();
             (m, n)
         })
         .filter(|(_, n)| closed && *n > crate::OBSERVABLE_MOLES)
         .collect();
-    let ours = !gases.is_empty()
-        || (closed && (!condensed.is_empty() || !metals.is_empty()))
-        || (wet && !condensed.is_empty());
+    // A dry open vessel stays on the equilibrium road: NASA CEA owns a
+    // methane or butane flame in the room's air and computes its flame
+    // temperature. Only where that road is closed (a closed boundary) or
+    // wrong (liquid water, which it would boil) does the spark resolve here.
+    let ours = (closed && (!gases.is_empty() || !condensed.is_empty() || !metals.is_empty()))
+        || (wet && (!gases.is_empty() || !condensed.is_empty()));
     if !ours {
         return None;
     }
@@ -1141,7 +1144,7 @@ pub fn flame_at_spark(vessel: &mut Vessel) -> Option<Vec<Event>> {
             continue;
         }
         let species = SpeciesId::new(metal.metal);
-        vessel.withdraw(&species, Moles(extent));
+        vessel.withdraw_phase(&species, Moles(extent), Phase::Solid);
         let taken = vessel.withdraw_phase(
             &SpeciesId::new("O2"),
             Moles(extent * metal.oxygen),
@@ -1179,6 +1182,27 @@ pub fn flame_at_spark(vessel: &mut Vessel) -> Option<Vec<Event>> {
         released_j += heat;
     }
 
+    if released_j <= 0.0 && refused.is_none() && closed && gas_moles_of(vessel, "O2") <= 0.0 {
+        // A closed boundary with no oxygen in it at all: name the fuel
+        // that could not light, so the absence is not read as "it cannot
+        // burn" (a FlameStarved at zero extent says the same of a candle).
+        let fuel = condensed
+            .first()
+            .map(|(f, _)| SpeciesId::new(f.species))
+            .or_else(|| metals.first().map(|(m, _)| SpeciesId::new(m.metal)));
+        if let Some(fuel) = fuel {
+            let moles = vessel.moles_of(&fuel);
+            events.push(Event::DidNotIgnite {
+                vessel: id,
+                reason: crate::ops::DidNotIgniteReason::NoOxygen,
+                fuel: Some(fuel),
+                fuel_moles: Some(moles),
+                oxygen_fraction: Some(0.0),
+                gap_k: None,
+            });
+        }
+        return Some(events);
+    }
     if released_j <= 0.0 {
         // Nothing caught. Say which absence this is, in the reading the
         // learner can check: the fuel gas is there and out of its limits.

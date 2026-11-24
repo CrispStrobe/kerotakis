@@ -99,6 +99,21 @@ fn ignite(vessel: Vessel) -> Absence {
         .unwrap_or_else(|| panic!("no DidNotIgnite among {events:?}"))
 }
 
+/// A dry open beaker: the one boundary where `ignite` still raises the
+/// vessel to flame temperature and asks the solvers. Since the C1
+/// closed-vessel work a spark in a SEALED flask of wax and oxygen is
+/// resolved where it is held — and lights the wax, which is the truth
+/// (`spark_flame.rs`) — so the "solver looked and found nothing" cases
+/// below are posed in the open, where that question still exists.
+fn open_beaker(contents: &[(&str, f64, Phase)], temperature_k: f64) -> Vessel {
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    v.temperature = Kelvin(temperature_k);
+    for (key, moles, phase) in contents {
+        v.deposit(SpeciesId::new(key), Moles(*moles), *phase);
+    }
+    v
+}
+
 fn sealed(contents: &[(&str, f64, Phase)], temperature_k: f64) -> Vessel {
     let mut v = Vessel::new(VesselId(0), "flask");
     v.headspace = Headspace::Sealed {
@@ -166,17 +181,19 @@ fn a_sealed_flask_with_no_air_names_the_fuel_it_could_not_light() {
 /// gap. Paraffin vapour lights at 473 K and the flask is at 298.15 K.
 #[test]
 fn wax_in_air_and_too_cool_carries_the_gap() {
-    let absence = ignite(sealed(
-        &[("paraffin", 0.02, Phase::Solid), ("O2", 0.005, Phase::Gas)],
-        298.15,
-    ));
+    let absence = ignite(open_beaker(&[("paraffin", 0.02, Phase::Solid)], 298.15));
 
     assert_eq!(absence.reason, DidNotIgniteReason::BelowAutoignition);
     assert_eq!(absence.fuel.as_deref(), Some("paraffin"));
     let gap = absence.gap.expect("the gap is the answer");
     assert!((gap - (473.0 - 298.15)).abs() < 1e-9, "{gap}");
-    let oxygen = absence.oxygen.expect("a sealed vessel owns its gas");
-    assert!(oxygen > 0.99, "the flask is pure oxygen: {oxygen}");
+    let oxygen = absence
+        .oxygen
+        .expect("an open beaker reports the room's air");
+    assert!(
+        (oxygen - kerotakis_core::combustion::ROOM_OXYGEN_FRACTION).abs() < 1e-9,
+        "the beaker stands in the room's air: {oxygen}"
+    );
 }
 
 /// Fuel, air, hot enough — and a solver looked and burned none of it.
@@ -189,10 +206,7 @@ fn wax_in_air_and_too_cool_carries_the_gap() {
 fn fuel_in_air_above_its_point_and_still_unburnt_is_not_a_claim() {
     // 600 K is well above paraffin's 473 K, and the spark is reverted to
     // this temperature rather than to room temperature.
-    let absence = ignite(sealed(
-        &[("paraffin", 0.02, Phase::Solid), ("O2", 0.005, Phase::Gas)],
-        600.0,
-    ));
+    let absence = ignite(open_beaker(&[("paraffin", 0.02, Phase::Solid)], 600.0));
 
     assert_eq!(absence.reason, DidNotIgniteReason::NotModelled);
     assert_eq!(
