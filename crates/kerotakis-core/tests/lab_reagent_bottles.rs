@@ -2,7 +2,9 @@
 //! the learner fills from a supplier: 25% sodium hydroxide, 20% hydrochloric
 //! acid, 30% sulfuric acid and 24% ammonia water. Each is a fixed mass-fraction
 //! recipe over species the registry already models, so the label is the whole
-//! composition claim; the density is a two-figure room-temperature value.
+//! composition claim; each density is the 20 degrees Celsius value of a primary
+//! printed table (International Critical Tables vol. III, 1928; NBS Circular 19,
+//! 6th ed., 1924), cited on its bulk-density record.
 
 use kerotakis_core::material::lookup;
 use kerotakis_core::script::parse_command;
@@ -85,10 +87,10 @@ fn the_acid_bottle_makes_the_beaker_acidic_and_the_lye_alkaline() {
         let command = parse_command(line, Locale::EN).expect(line);
         acid.step(command.operator.unwrap()).expect(line);
     }
-    // 5 mL at 1.10 g/mL and 20% w/w is 1.1 g of HCl: all of its chlorine is in the beaker.
+    // 5 mL at 1.098 g/mL and 20% w/w is 1.098 g of HCl: all of its chlorine is in the beaker.
     let chlorine = acid.total_moles(&SpeciesId("Cl-".to_string())).0
         + acid.total_moles(&SpeciesId("HCl".to_string())).0;
-    let expected = 5.0 * 1.10 * 0.20 / 36.461;
+    let expected = 5.0 * 1.098 * 0.20 / 36.461;
     assert!(
         (chlorine - expected).abs() / expected < 1e-3,
         "{chlorine} vs {expected}"
@@ -105,7 +107,7 @@ fn the_acid_bottle_makes_the_beaker_acidic_and_the_lye_alkaline() {
     }
     let sodium = lye.total_moles(&SpeciesId("Na+".to_string())).0
         + lye.total_moles(&SpeciesId("NaOH".to_string())).0;
-    let expected = 5.0 * 1.27 * 0.25 / 39.997;
+    let expected = 5.0 * 1.274 * 0.25 / 39.997;
     assert!(
         (sodium - expected).abs() / expected < 1e-3,
         "{sodium} vs {expected}"
