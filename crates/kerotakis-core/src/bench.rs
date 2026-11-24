@@ -1779,7 +1779,8 @@ impl Bench {
             return;
         };
 
-        let mut delivered = first - self.hold_at_source_ceiling(id, ceiling, events);
+        let mut delivered = first;
+        delivered -= self.hold_at_source_ceiling(id, ceiling, delivered, events);
         let mut passes = 1u32;
         let mut capped = false;
         loop {
@@ -1845,7 +1846,7 @@ impl Bench {
                     }
                 }
             }
-            delivered -= self.hold_at_source_ceiling(id, ceiling, events);
+            delivered -= self.hold_at_source_ceiling(id, ceiling, delivered, events);
             if let Ok(vessel) = self.vessel_mut(id) {
                 vessel.step_start = None;
                 vessel.heat_input = None;
@@ -1882,26 +1883,56 @@ impl Bench {
     /// back at the ceiling and exactly that energy — the integral of the
     /// residue's heat capacity between the ceiling and where the solver put
     /// it — is returned as undelivered. Returns the joules taken back.
-    fn hold_at_source_ceiling(&mut self, id: VesselId, ceiling: f64, events: &mut [Event]) -> f64 {
+    fn hold_at_source_ceiling(
+        &mut self,
+        id: VesselId,
+        ceiling: f64,
+        delivered: f64,
+        events: &mut [Event],
+    ) -> f64 {
+        // Only the boil-dry route: heat that chemistry RELEASES (a
+        // combustion, an iron-sulfur synthesis) can legitimately carry a
+        // vessel past the flame, and is not the burner's to take back.
+        let boiled = events.iter().any(|e| {
+            matches!(e, Event::StateChanged { vessel, from: Phase::Liquid, to: Phase::Gas, .. }
+                if *vessel == id)
+        });
+        // A burner never cools: a vessel already hotter than the flame
+        // when the dose began is held where it started, not below.
+        let started = events
+            .iter()
+            .find_map(|e| match e {
+                Event::TemperatureChanged { vessel, from, .. } if *vessel == id => Some(from.0),
+                _ => None,
+            })
+            .unwrap_or(ceiling);
+        let cap = ceiling.max(started);
         let Ok(vessel) = self.vessel_mut(id) else {
             return 0.0;
         };
         let overshot = vessel.temperature.0;
-        if overshot.is_nan() || overshot <= ceiling || !ceiling.is_finite() {
+        if !boiled || overshot.is_nan() || overshot <= cap || !cap.is_finite() || delivered <= 0.0 {
             return 0.0;
         }
-        let excess = vessel.energy_between(ceiling, overshot).max(0.0);
-        vessel.temperature = Kelvin(ceiling);
+        let excess = vessel.energy_between(cap, overshot).max(0.0);
+        // Never take back more than the burner put in.
+        let taken = excess.min(delivered);
+        let landed = if taken < excess {
+            vessel.temperature_after_from(overshot, -taken)
+        } else {
+            cap
+        };
+        vessel.temperature = Kelvin(landed);
         vessel.solution = None;
         vessel.refresh_pressure();
         for event in events.iter_mut() {
             if let Event::TemperatureChanged { vessel, to, .. } = event {
                 if *vessel == id && to.0 == overshot {
-                    *to = Kelvin(ceiling);
+                    *to = Kelvin(landed);
                 }
             }
         }
-        excess
+        taken
     }
 
     /// CAP-25: sealed glass has a limit, and exceeding it is an event, not
