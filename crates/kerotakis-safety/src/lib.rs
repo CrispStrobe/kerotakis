@@ -209,6 +209,13 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NH4NO3" => &[OxidizerStrong],
         "H2O2" => &[OxidizerStrong],
         "KMnO4" | "KIO3" => &[OxidizerStrong],
+        // H3 (2026-11-21). Dichromate and chromate are chromium(VI): strong
+        // oxidisers (UN 3086/UN 1479, class 5.1) and soluble acute
+        // toxicants whose hazard is the dissolved anion, the same argument
+        // EXP-39 made for oxalate. Sodium nitrite is a class 5.1 oxidiser
+        // (UN 1500) and acutely toxic when swallowed (methaemoglobinaemia).
+        "K2Cr2O7" | "K2CrO4" => &[OxidizerStrong, ToxicSoluble],
+        "NaNO2" => &[OxidizerStrong, ToxicSoluble],
         "Cl2" => &[OxidizerStrong],
         // Molecular iodine is an oxidising reagent, but it is not a strong
         // oxidising-material class comparable to permanganate.  Assigning it
@@ -785,6 +792,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "I-",
     "KIO3",
     "KMnO4",
+    "K2Cr2O7",
+    "K2CrO4",
     "KNO3",
     "Mg",
     "Mg+2",
@@ -818,6 +827,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na2SO4",
     "NaCl",
     "NaNO3",
+    "NaNO2",
     "NaHCO3",
     "NaHSO3",
     "NaHSO4",

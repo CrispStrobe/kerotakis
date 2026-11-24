@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 43, neutral-refused 159, partitions 9.
+Counts: ion-stays-aqueous 43, neutral-refused 162, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -113,6 +113,8 @@ Counts: ion-stays-aqueous 43, neutral-refused 159, partitions 9.
 | neutral-refused | HCl | — |
 | neutral-refused | HClO | — |
 | neutral-refused | HI | — |
+| neutral-refused | K2Cr2O7 | — |
+| neutral-refused | K2CrO4 | — |
 | neutral-refused | KBr | — |
 | neutral-refused | KCl | — |
 | neutral-refused | KI | — |
@@ -144,6 +146,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 159, partitions 9.
 | neutral-refused | NaHCO3 | — |
 | neutral-refused | NaHSO3 | — |
 | neutral-refused | NaHSO4 | — |
+| neutral-refused | NaNO2 | — |
 | neutral-refused | NaNO3 | — |
 | neutral-refused | NaOAc | — |
 | neutral-refused | NaOCl | — |

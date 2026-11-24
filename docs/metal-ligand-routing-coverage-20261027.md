@@ -11,7 +11,7 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 - route-deciding, defined on wateq4f: 2
 - route-deciding, defined only on minteq.v4: 50
 - route-deciding, missing on every routed database (refused): 5
-- route-deciding, metal suppliable from the registry: 29
+- route-deciding, metal suppliable from the registry: 32
 
 ## Route-deciding families
 
@@ -34,9 +34,9 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 | Co | Cyanide | cyanide | no | - | Co(Cyanide)3-, Co(Cyanide)5-3 | - | routes to minteq.v4 | - |
 | Co | Edta | EDTA | no | - | Co(Edta)-, Co(Edta)-2, CoH(Edta), CoH(Edta)-, CoH2(Edta) | - | routes to minteq.v4 | - |
 | Co | N(-3) | ammine | no | - | Co(NH3)+2, Co(NH3)2+2, Co(NH3)3+2, Co(NH3)4+2, Co(NH3)5+2, Co(NH3)6OH+2 | - | routes to minteq.v4 | - |
-| Cr | Acetate | acetate | no | - | Cr(Acetate)+, Cr(Acetate)+2, Cr(Acetate)2, Cr(Acetate)2+, Cr(Acetate)3 | - | routes to minteq.v4 | - |
-| Cr | Edta | EDTA | no | - | Cr(Edta)-, Cr(Edta)-2, CrH(Edta), CrH(Edta)-, CrOH(Edta)-2 | - | routes to minteq.v4 | - |
-| Cr | N(-3) | ammine | no | - | Cr(NH3)5OH+2, Cr(NH3)6+3 | - | routes to minteq.v4 | - |
+| Cr | Acetate | acetate | yes | - | Cr(Acetate)+, Cr(Acetate)+2, Cr(Acetate)2, Cr(Acetate)2+, Cr(Acetate)3 | - | routes to minteq.v4 | - |
+| Cr | Edta | EDTA | yes | - | Cr(Edta)-, Cr(Edta)-2, CrH(Edta), CrH(Edta)-, CrOH(Edta)-2 | - | routes to minteq.v4 | - |
+| Cr | N(-3) | ammine | yes | - | Cr(NH3)5OH+2, Cr(NH3)6+3 | - | routes to minteq.v4 | - |
 | Cu | Acetate | acetate | yes | - | Cu(Acetate)+, Cu(Acetate)2, Cu(Acetate)3- | - | routes to minteq.v4 | - |
 | Cu | Citrate | citrate | yes | - | Cu(Citrate)-, Cu(Citrate)2-4, Cu2(Citrate)2-2, CuH(Citrate), CuH2(Citrate)+ | - | routes to minteq.v4 | - |
 | Cu | Cyanide | cyanide | yes | - | Cu(Cyanide)2-, Cu(Cyanide)3-2, Cu(Cyanide)4-3 | - | routes to minteq.v4 | - |

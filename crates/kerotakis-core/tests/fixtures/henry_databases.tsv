@@ -18,6 +18,7 @@ NH3	wateq4f.dat	1.77	-34183.2800	93547b0343d9
 CO2	pitzer.dat	-1.465	-20190.0000	3640e62aee63
 NH3	llnl.dat	1.7966	-35225.1000	1324b807f0f8
 O2	llnl.dat	-2.8983	-12133.6000	1324b807f0f8
+SO2	llnl.dat	0.17	na	1324b807f0f8
 # skipped	O2	wateq4f.dat	no log_k
 # skipped	CO2	llnl.dat	CO2 + H2O = H+ + HCO3-
 # skipped	Cl2	llnl.dat	Cl2 + H2O = 0.5 O2 + 2 Cl- + 2 H+

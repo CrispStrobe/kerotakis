@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 41,
-    "outside_method": 119,
+    "missing_absorptivity": 43,
+    "outside_method": 120,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
@@ -128,6 +128,16 @@
     {
       "species": "FeSO4",
       "appearance": "pale green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "K2Cr2O7",
+      "appearance": "orange-red crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "K2CrO4",
+      "appearance": "yellow crystals",
       "class": "missing_absorptivity"
     },
     {
@@ -513,6 +523,11 @@
     {
       "species": "NaHSO4",
       "appearance": "white granular solid",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaNO2",
+      "appearance": "white",
       "class": "outside_method"
     },
     {

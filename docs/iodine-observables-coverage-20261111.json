@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 43,
-    "neutral-refused": 159,
+    "neutral-refused": 162,
     "partitions": 9
   },
   "cases": [
@@ -492,6 +492,16 @@
       "basis": null
     },
     {
+      "species": "K2Cr2O7",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "K2CrO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "KBr",
       "class": "neutral-refused",
       "basis": null
@@ -643,6 +653,11 @@
     },
     {
       "species": "NaHSO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NaNO2",
       "class": "neutral-refused",
       "basis": null
     },

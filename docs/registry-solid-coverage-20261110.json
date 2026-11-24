@@ -8,8 +8,8 @@
   "counts": {
     "bookable-unclaimed": 144,
     "declined": 12,
-    "registry-solid": 51,
-    "unbookable": 374
+    "registry-solid": 53,
+    "unbookable": 372
   },
   "registry_solids_matched": [
     "Ag",
@@ -35,6 +35,8 @@
     "Fe(OH)2",
     "Fe(OH)3",
     "Fe2O3",
+    "K2Cr2O7",
+    "K2CrO4",
     "KCl",
     "Mg(OH)2",
     "MgCO3",
@@ -445,6 +447,30 @@
         {
           "database": "wateq4f",
           "phase": "Maghemite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "K2Cr2O7",
+      "registry_species": "K2Cr2O7",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K2Cr2O7"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "K2CrO4",
+      "registry_species": "K2CrO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "K2CrO4"
         }
       ],
       "class": "registry-solid"
@@ -5945,30 +5971,6 @@
         {
           "database": "wateq4f",
           "phase": "K-Autunite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "K2Cr2O7",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "K2Cr2O7"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "K2CrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "K2CrO4"
         }
       ],
       "class": "unbookable"

@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 41, outside_method 119, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 43, outside_method 120, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -38,6 +38,8 @@ Counts: missing_absorptivity 41, outside_method 119, parameterised 7, parameteri
 | missing_absorptivity | Fe2O3 | reddish brown |
 | missing_absorptivity | FeCl3 | dark green-black crystals |
 | missing_absorptivity | FeSO4 | pale green |
+| missing_absorptivity | K2Cr2O7 | orange-red crystals |
+| missing_absorptivity | K2CrO4 | yellow crystals |
 | missing_absorptivity | KMnO4 | dark purple crystals |
 | missing_absorptivity | Mg | silvery |
 | missing_absorptivity | Mn+2 | very pale pink |
@@ -115,6 +117,7 @@ Counts: missing_absorptivity 41, outside_method 119, parameterised 7, parameteri
 | outside_method | NaHCO3 | white |
 | outside_method | NaHSO3 | white powder |
 | outside_method | NaHSO4 | white granular solid |
+| outside_method | NaNO2 | white |
 | outside_method | NaNO3 | white |
 | outside_method | NaOAc | white |
 | outside_method | NaOH | white |

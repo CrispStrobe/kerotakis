@@ -781,6 +781,16 @@ pub fn other_plan(vessel: &Vessel) -> Option<OtherPlan> {
     }
     let present: Vec<(&'static SivOxidant, f64)> = OXIDANT_TABLE
         .iter()
+        // A stoichiometric row whose product the registry cannot hold is not
+        // written: potassium dichromate joined the shelf (H3, 2026-11-21)
+        // and gave Cr2O7-2 a registry form, but its product Cr+3 still has
+        // none, and depositing an unregistered species would be inventing
+        // inventory. It stays the unpriced pair it was before.
+        .filter(|o| {
+            o.products
+                .iter()
+                .all(|(product, _)| crate::species::lookup_key(product).is_some())
+        })
         .map(|o| (o, oxidant_amount(vessel, o)))
         .filter(|(_, n)| *n > TRACE)
         .collect();

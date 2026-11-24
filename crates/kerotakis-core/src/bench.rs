@@ -1281,6 +1281,48 @@ impl Bench {
             events.insert(at.min(events.len()), event);
         }
 
+        // H7: a basic oxide or hydroxide that an acid takes into solution
+        // is a reaction, not only a dissolution — `CuO + H2SO4` used to say
+        // "copper(II) oxide dissolved" and nothing more. The equation is
+        // derived from the speciation the step left behind
+        // (`ionic::acid_dissolution_equation`) and told right after the
+        // dissolution it explains.
+        let mut dissolution_equations: Vec<(usize, Event)> = Vec::new();
+        for (index, event) in events.iter().enumerate() {
+            let Event::Dissolved {
+                vessel,
+                species,
+                moles,
+            } = event
+            else {
+                continue;
+            };
+            if moles.0 < crate::OBSERVABLE_MOLES {
+                continue;
+            }
+            let Ok(state) = self.vessel(*vessel) else {
+                continue;
+            };
+            if let Some(equation) = crate::ionic::acid_dissolution_equation(state, species) {
+                let already = events.iter().any(|e| {
+                    matches!(e, Event::ReactionOccurred { vessel: v, equation: q }
+                        if v == vessel && *q == equation)
+                });
+                if !already {
+                    dissolution_equations.push((
+                        index + 1,
+                        Event::ReactionOccurred {
+                            vessel: *vessel,
+                            equation,
+                        },
+                    ));
+                }
+            }
+        }
+        for (at, event) in dissolution_equations.into_iter().rev() {
+            events.insert(at.min(events.len()), event);
+        }
+
         // KID-13: gas leaving the liquid is what the dancing raisin rides.
         // The trigger is the gas, not the clock — this bench degasses a
         // glass in one step, so the moment to say it is the moment the

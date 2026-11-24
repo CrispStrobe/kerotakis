@@ -171,6 +171,11 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         ("HCO3", "C"),
         ("CO3", "C"),
         ("NO3", "N(5)"),
+        // Nitrite after nitrate, so a nitrate's three oxygens are never read
+        // as a nitrite plus a stray oxygen. wateq4f.dat (`N(+3) NO2-`) and
+        // minteq.v4.dat both master N(III) as NO2-, so sodium nitrite books
+        // as N(III) rather than as bare N coupled to pe (H3, 2026-11-21).
+        ("NO2", "N(3)"),
         ("SO4", "S(6)"),
         ("PO4", "P"),
         ("MnO4", "Mn(7)"),

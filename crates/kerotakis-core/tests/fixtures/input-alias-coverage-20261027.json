@@ -806,6 +806,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Kaliumchromat",
+      "canonical": "K2CrO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumdichromat",
+      "canonical": "K2Cr2O7",
+      "source": "name:de"
+    },
+    {
       "alias": "Kaliumhydroxid",
       "canonical": "KOH",
       "source": "name:de"
@@ -1133,6 +1143,11 @@
     {
       "alias": "Natriumnitrat",
       "canonical": "NaNO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Natriumnitrit",
+      "canonical": "NaNO2",
       "source": "name:de"
     },
     {
@@ -2136,6 +2151,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "chromate de potassium",
+      "canonical": "K2CrO4",
+      "source": "name:fr"
+    },
+    {
       "alias": "citrate",
       "canonical": "C6H5O7-3",
       "source": "ion-name:en"
@@ -2263,6 +2283,11 @@
     {
       "alias": "dichlore",
       "canonical": "Cl2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dichromate de potassium",
+      "canonical": "K2Cr2O7",
       "source": "name:fr"
     },
     {
@@ -3136,6 +3161,11 @@
       "source": "ion-name:en"
     },
     {
+      "alias": "nitrite de sodium",
+      "canonical": "NaNO2",
+      "source": "name:fr"
+    },
+    {
       "alias": "nitrite ion",
       "canonical": "NO2-",
       "source": "name:en"
@@ -3421,6 +3451,16 @@
       "source": "name:en"
     },
     {
+      "alias": "potassium chromate",
+      "canonical": "K2CrO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium dichromate",
+      "canonical": "K2Cr2O7",
+      "source": "name:en"
+    },
+    {
       "alias": "potassium hydroxide",
       "canonical": "KOH",
       "source": "name:en"
@@ -3573,6 +3613,11 @@
     {
       "alias": "sodium nitrate",
       "canonical": "NaNO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "sodium nitrite",
+      "canonical": "NaNO2",
       "source": "name:en"
     },
     {

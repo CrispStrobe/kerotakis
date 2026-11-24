@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 144, declined 12, registry-solid 51, unbookable 374.
+Counts: bookable-unclaimed 144, declined 12, registry-solid 53, unbookable 372.
 
 ## Matched registry solids
 
@@ -51,6 +51,8 @@ Counts: bookable-unclaimed 144, declined 12, registry-solid 51, unbookable 374.
 | `Fe(OH)2` | Fe(OH)2 | minteq.v4:`Fe(OH)2` |
 | `Fe(OH)3` | Fe(OH)3 | minteq.v4:`Ferrihydrite`, wateq4f:`Fe(OH)3(a)` |
 | `Fe2O3` | Fe2O3 | minteq.v4:`Hematite`, minteq.v4:`Maghemite`, wateq4f:`Hematite`, wateq4f:`Maghemite` |
+| `K2Cr2O7` | K2Cr2O7 | minteq.v4:`K2Cr2O7` |
+| `K2CrO4` | K2CrO4 | minteq.v4:`K2CrO4` |
 | `KCl` | KCl | pitzer:`Sylvite` |
 | `Mg(OH)2` | Mg(OH)2 | minteq.v4:`Brucite`, minteq.v4:`Mg(OH)2(active)`, pitzer:`Brucite`, wateq4f:`Brucite` |
 | `MgCO3` | MgCO3 | minteq.v4:`Magnesite`, pitzer:`Magnesite`, wateq4f:`Magnesite` |
@@ -444,8 +446,6 @@ Counts: bookable-unclaimed 144, declined 12, registry-solid 51, unbookable 374.
 | HgSeO3 | minteq.v4:`HgSeO3` |
 | K0.6Mg0.25Al2.3Si3.5O10(OH)2 | wateq4f:`Illite` |
 | K2(UO2)2(PO4)2 | minteq.v4:`K-Autunite`, wateq4f:`K-Autunite` |
-| K2Cr2O7 | minteq.v4:`K2Cr2O7` |
-| K2CrO4 | minteq.v4:`K2CrO4` |
 | K2MoO4 | minteq.v4:`K2MoO4` |
 | K2SeO4 | minteq.v4:`K2SeO4` |
 | KAl3Si3O10(OH)2 | wateq4f:`Kmica` |

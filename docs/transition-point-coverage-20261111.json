@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 144,
+    "boiling.no_data": 147,
     "boiling.reported": 67,
-    "melting.no_data": 110,
+    "melting.no_data": 113,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -1365,6 +1365,26 @@
       }
     },
     {
+      "species": "K2Cr2O7",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "K2CrO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "KBr",
       "standard_phase": "solid",
       "melting": {
@@ -1846,6 +1866,16 @@
         "outcome": "melting",
         "kelvin": 455.0,
         "source": "literature/transition-points/NaHSO4"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NaNO2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
       },
       "boiling": {
         "basis": "no_data"
