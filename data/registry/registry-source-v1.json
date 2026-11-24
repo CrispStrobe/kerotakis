@@ -75327,6 +75327,401 @@
       }
     },
     {
+      "id": "lab/sodium-hydroxide-solution-25-percent",
+      "version": 1,
+      "canonical_key": "sodium_hydroxide_solution_25_percent",
+      "name": "25% sodium hydroxide solution",
+      "aliases": {
+        "de": [
+          "Natronlauge 25%",
+          "Natronlauge_25%"
+        ],
+        "en": [
+          "sodium hydroxide solution 25%",
+          "caustic soda solution 25%",
+          "sodium_hydroxide_solution_25%"
+        ],
+        "fr": [
+          "soude caustique 25%",
+          "lessive de soude 25%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.27,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NaOH",
+          "fraction": {
+            "lower": 0.25,
+            "upper": 0.25
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.75,
+            "upper": 0.75
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "25% w/w sodium hydroxide in water, the dilute lye of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is a two-figure room-temperature value as commonly tabulated for this concentration, not a reviewed measurement",
+        "corrosive to skin and eyes; never mix with acids undiluted"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/hydrochloric-acid-20-percent",
+      "version": 1,
+      "canonical_key": "hydrochloric_acid_20_percent",
+      "name": "20% hydrochloric acid",
+      "aliases": {
+        "de": [
+          "Salzsäure 20%",
+          "verdünnte Salzsäure 20%",
+          "Salzsäure_20%"
+        ],
+        "en": [
+          "hydrochloric acid 20%",
+          "hydrochloric_acid_20%"
+        ],
+        "fr": [
+          "acide chlorhydrique dilué",
+          "acide chlorhydrique 20%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "HCl",
+          "fraction": {
+            "lower": 0.2,
+            "upper": 0.2
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.8,
+            "upper": 0.8
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "20% w/w hydrogen chloride in water, the dilute acid of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is a two-figure room-temperature value as commonly tabulated for this concentration, not a reviewed measurement",
+        "corrosive; releases hydrogen chloride fumes"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/sulfuric-acid-30-percent",
+      "version": 1,
+      "canonical_key": "sulfuric_acid_30_percent",
+      "name": "30% sulfuric acid",
+      "aliases": {
+        "de": [
+          "Schwefelsäure 30%",
+          "verdünnte Schwefelsäure 30%",
+          "Schwefelsäure_30%"
+        ],
+        "en": [
+          "sulfuric acid 30%",
+          "sulphuric acid 30%",
+          "sulfuric_acid_30%"
+        ],
+        "fr": [
+          "acide sulfurique dilué",
+          "acide sulfurique 30%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.22,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "H2SO4",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "30% w/w sulfuric acid in water, the dilute acid of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is a two-figure room-temperature value as commonly tabulated for this concentration, not a reviewed measurement",
+        "corrosive; dilute by adding acid to water, never water to acid"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "lab/ammonia-solution-24-percent",
+      "version": 1,
+      "canonical_key": "ammonia_solution_24_percent",
+      "name": "24% ammonia solution",
+      "aliases": {
+        "de": [
+          "Ammoniakwasser 24%",
+          "Ammoniakwasser",
+          "Ammoniakwasser_24%"
+        ],
+        "en": [
+          "ammonia solution 24%",
+          "aqueous ammonia 24%",
+          "ammonia_solution_24%"
+        ],
+        "fr": [
+          "solution d'ammoniaque",
+          "ammoniaque concentrée",
+          "ammoniaque 24%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.91,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NH3",
+          "fraction": {
+            "lower": 0.24,
+            "upper": 0.24
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.76,
+            "upper": 0.76
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "24% w/w ammonia in water, the concentrated ammonia water of a school reagent bottle",
+      "lot_assumptions": [
+        "the label concentration is the composition by definition; the density is a two-figure room-temperature value as commonly tabulated for this concentration, not a reviewed measurement",
+        "releases ammonia gas; never mix with bleach"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/sparkling-water-surrogate",
       "version": 1,
       "canonical_key": "sparkling_water",
