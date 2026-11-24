@@ -110,7 +110,13 @@ fn status(key: &str, db: &str) -> String {
             SolidRoute::RoutedMineral => "routed".to_string(),
             SolidRoute::Reference { source, phase } => format!("reference:{source}:{phase}"),
         },
-        Err(e) => format!("refused: {}", e.why),
+        Err(e) => match kerotakis_phreeqc::enthalpy::molecular_dissolution_route(key) {
+            // Kept whole in solution, so the registry's enthalpy of
+            // dissolution is the whole heat (`enthalpy::molecular_dissolution`).
+            Some(Ok(_)) => "molecular:registry".to_string(),
+            Some(Err(m)) => format!("refused: {}", m.why),
+            None => format!("refused: {}", e.why),
+        },
     }
 }
 
