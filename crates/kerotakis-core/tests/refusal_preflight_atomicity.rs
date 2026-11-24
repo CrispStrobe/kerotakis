@@ -282,7 +282,11 @@ fn partial_evaporation_with_coevaporation_notice_still_settles() {
 #[test]
 fn complete_evaporation_with_stranded_solute_notice_still_settles() {
     let mut bench = prepared(false);
-    deposit(&mut bench, "NaCl", 0.01, Phase::Aqueous);
+    // A reciprocal residue stays stranded; a single dissolved salt would
+    // now be booked as its solid (`dryness`, 2026-11-24).
+    for key in ["Na+", "K+", "Cl-", "NO3-"] {
+        deposit(&mut bench, key, 0.01, Phase::Aqueous);
+    }
     let events = accepted(
         &mut bench,
         Operator::Evaporate {
@@ -299,7 +303,9 @@ fn complete_evaporation_with_stranded_solute_notice_still_settles() {
     )));
     assert!(events.iter().any(|e| matches!(e, Event::Evaporated { .. })));
     assert_eq!(bench.vessels[0].moles_of(&SpeciesId::new("water")).0, 0.0);
-    assert_eq!(bench.vessels[0].moles_of(&SpeciesId::new("NaCl")).0, 0.01);
+    for key in ["Na+", "K+", "Cl-", "NO3-"] {
+        assert_eq!(bench.vessels[0].moles_of(&SpeciesId::new(key)).0, 0.01);
+    }
 }
 #[test]
 fn supported_nuclide_spike_still_settles() {

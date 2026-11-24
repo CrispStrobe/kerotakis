@@ -155,7 +155,16 @@ fn evaporating_to_dryness_says_the_ions_are_stranded() {
     ]);
     let screen = PermissiveScreen;
     let v = VesselId(0);
-    for (species, moles) in [("water", 5.55), ("Na+", 0.1), ("Cl-", 0.1)] {
+    // A RECIPROCAL residue (Na+/K+/Cl-/NO3-): it can dry to NaCl + KNO3 or
+    // KCl + NaNO3, so it is genuinely undecidable. A common-ion residue
+    // (brine alone) is booked as its salt since 2026-11-24 (`dryness`).
+    for (species, moles) in [
+        ("water", 5.55),
+        ("Na+", 0.1),
+        ("K+", 0.1),
+        ("Cl-", 0.1),
+        ("NO3-", 0.1),
+    ] {
         bench
             .step_with(
                 Operator::Add {

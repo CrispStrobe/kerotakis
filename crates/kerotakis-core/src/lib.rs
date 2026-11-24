@@ -45,6 +45,7 @@ pub mod curated;
 pub mod curdling;
 pub mod delta;
 pub mod displacement;
+pub mod dryness;
 pub mod electrochemistry;
 pub mod electrodiffusion;
 pub mod element_coverage;

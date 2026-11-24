@@ -713,6 +713,30 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
         kj_per_mol: 26.28,
         provenance: "Potassium chloride enthalpy of fusion 26.28 kJ/mol at its 1044 K melting point. JANAF Thermochemical Tables, second edition, D. R. Stull and H. Prophet, NSRDS-NBS 37, National Bureau of Standards, June 1971, doi:10.6028/NBS.NSRDS.37; retrieved 2026-09-13 from https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds37.pdf. PLAN.md's provenance audit names this edition as the public-domain escape hatch from the NIST SRD row, and the document itself bears no copyright notice - its copyright page carries nothing but a Library of Congress card number. This is emphatically NOT the 1985 third or 1998 fourth edition, whose copyright is secured under 15 U.S.C. 290e and assigned to the American Institute of Physics and the American Chemical Society. The ClK table, Potassium Chloride (KCl) (Crystal), prints T(m) = 1044 K and delta-H(m) = 6.282 kcal/mol, which is 26284 J/mol. Its note records alternatives of 6.34, 6.4 and 6.5 kcal/mol from other workers, so the spread on this row is about three per cent and the fourth figure here is the table's, not a measurement's.",
     },
+    LatentHeat {
+        species: "NaOH",
+        // 6.36 kJ/mol.
+        kj_per_mol: 6.36,
+        provenance: "Sodium hydroxide enthalpy of fusion 6.36 kJ/mol at its 592.25 K melting point. JANAF Thermochemical Tables, second edition, D. R. Stull and H. Prophet, NSRDS-NBS 37, National Bureau of Standards, June 1971, doi:10.6028/NBS.NSRDS.37; retrieved 2026-11-24 from https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds37.pdf. The same public-domain edition the NaCl and KCl rows cite (NOT the copyrighted 1985 third or 1998 fourth edition); the value was read off the scanned table header, not the OCR text layer, which is unusable for the rotated table pages. The HNaO table, Sodium Hydroxide (NaOH) (Crystal), PDF page 829, prints T(m) = 592.25 K and delta-H(m) = 1.519 kcal/mol, which is 6356 J/mol; its text credits the adopted heat and temperature of melting to Douglas and Dever and notes Popov and Ginzburg's 1.629 kcal/mol at 595.16 K. STATED OMISSION: the same header prints a crystal-crystal transition at T(t) = 565.95 K with delta-H(t) = 1.519 kcal/mol, as large as the fusion itself; this bench has one solid NaOH and does not pay that transition, so heating NaOH through 566-593 K is under-charged by about 6.4 kJ/mol. The registry's melting point is 593 K and the fusion is paid there",
+    },
+    LatentHeat {
+        species: "Na2B4O7",
+        // 81.17 kJ/mol.
+        kj_per_mol: 81.17,
+        provenance: "Anhydrous sodium tetraborate (borax glass) enthalpy of fusion 81.17 kJ/mol at its 1015.6 K melting point. JANAF Thermochemical Tables, second edition, D. R. Stull and H. Prophet, NSRDS-NBS 37, National Bureau of Standards, June 1971, doi:10.6028/NBS.NSRDS.37; retrieved 2026-11-24 from https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds37.pdf. The same public-domain edition the NaCl and KCl rows cite (NOT the copyrighted 1985 third or 1998 fourth edition); the value was read off the scanned table header, not the OCR text layer, which is unusable for the rotated table pages. The B4Na2O7 table, Disodium Tetraborate (Na2B4O7) (Crystal), PDF page 225, prints T(m) = 1015.6 K and delta-H(m) = 19.4 +/- 1.5 kcal/mol, which is 81170 +/- 6300 J/mol. The registry's melting point is 1015 K and the fusion is paid there. The decahydrate is a different substance and is not this row. A melted borax BEAD's colour with a transition-metal salt is chemistry this row does not claim",
+    },
+    LatentHeat {
+        species: "S",
+        // 1.728 kJ/mol (per mole of S atoms).
+        kj_per_mol: 1.728,
+        provenance: "Sulfur enthalpy of fusion 1.728 kJ/mol of S at its 388.36 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-11-24 from https://stacks.cdc.gov/view/cdc/219421 (cdc_219421_DS1.pdf). A United States Government work with no copyright notice, recorded as Public Domain by CDC Stacks. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672's S(c,l) table prints \"388.36 K, melting point of S; delta-H = 0.413 kcal/mol\" = 1728 J/mol at 1 cal = 4.184 J. TWO STATED SIMPLIFICATIONS: the registry's melting point is 392 K (monoclinic sulfur's commonly quoted 119 degrees Celsius), so this heat is paid there rather than at the table's 388.36 K; and the same table's orthorhombic-to-monoclinic transformation at 368.3 K (0.096 kcal/mol = 402 J/mol) is a solid-solid change this bench does not represent and is not paid. Liquid sulfur's colour and viscosity changes above about 160 degrees Celsius (polymerisation, the table's 432.02 K second-order transformation) are not modelled either. No enthalpy of vaporisation is claimed: the same table boils sulfur at 717.824 K 'to an equilibrium mixture of Sn (n = 1 to 8)', which is not one gas species",
+    },
+    LatentHeat {
+        species: "I2",
+        // 15.52 kJ/mol.
+        kj_per_mol: 15.52,
+        provenance: "Iodine enthalpy of fusion 15.52 kJ/mol at its 386.8 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-11-24 from https://stacks.cdc.gov/view/cdc/219421 (cdc_219421_DS1.pdf). A United States Government work with no copyright notice, recorded as Public Domain by CDC Stacks. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672's I2(c,l) table prints \"386.8 K, melting point of I2; delta-H = 3.709 kcal/mol\" = 15518 J/mol at 1 cal = 4.184 J; the registry's melting point is the same 386.8 K. Iodine's familiar violet vapour below its melting point is sublimation below the triple point, which this row does not claim: at one atmosphere the bench melts iodine, then boils it",
+    },
 ];
 
 /// Enthalpies of vaporisation at the normal boiling point.
@@ -788,6 +812,18 @@ pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[
         kj_per_mol: 24.39,
         provenance: "Acetic acid enthalpy of vaporisation 24.39 kJ/mol at its 118.2 degrees Celsius boiling point. NBS Circular 500, F. D. Rossini et al., Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards, 1952; retrieved 2026-09-13 from https://archive.org/details/circularofbureau500ross. A United States Government work and not Standard Reference Data - the Standard Reference Data Act notice that governs the NIST WebBook is absent from it - so it carries no copyright and is not on PLAN.md's avoid row. Its own Preface states the scope limit that makes it reach some of these rows and not others: it covers carbon compounds of one and two carbon atoms only. It prints 5.83 kcal/mol, which is 24392 J/mol. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. INDEPENDENTLY CONFIRMED by a second document read in full and licensed CC0 by age: A. C. Brown, J. Chem. Soc. Trans. 83 (1903) 987, doi:10.1039/CT9038300987, measured 97.05 cal/g at the boiling point, which is also 24.39 kJ/mol. THE VALUE MOVED, 23.70 to 24.39, and this is the largest correction in the table at 2.9 per cent. The retired 23.70 was not a rounding of anything here: it traces to the CRC Handbook, and PubChem proves the chain rather than breaking it - PubChem's acetic acid record prints '23.70 kJ/mol at 117.9 degrees Celsius' citing 'Haynes, W.M. (ed.). CRC Handbook of Chemistry and Physics. 94th Edition' through HSDB. That is the shipped value, verbatim, with the avoid-row source named. The number still looks too small for a hydrogen-bonded liquid and the reason is chemistry rather than error: acetic acid vapour is largely the cyclic dimer, so half the hydrogen bonds survive the boil and are never paid for. Its Trouton entropy is about 62 J/(mol.K) against a normal 85, which is the tell. WHAT THIS NUMBER IS NOT: it is the enthalpy per mole of monomer to the REAL, largely dimeric vapour. Vaporisation to ideal MONOMER gas is about 51.6 kJ/mol (Konicek and Wadso, Acta Chem. Scand. 24 (1970) 2612, doi:10.3891/acta.chem.scand.24-2612, open access). This bench releases the vapour as monomeric CH3COOH because that is the only acetic acid the registry carries, and the dimer is not modelled - so the energy is right for the boil and the species is not, and any future path that treats the vapour as ideal monomer needs the larger number",
     },
+    LatentHeat {
+        species: "I2",
+        // 41.93 kJ/mol.
+        kj_per_mol: 41.93,
+        provenance: "Iodine enthalpy of vaporisation 41.93 kJ/mol at its normal boiling point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-11-24 from https://stacks.cdc.gov/view/cdc/219421 (cdc_219421_DS1.pdf). A United States Government work with no copyright notice, recorded as Public Domain by CDC Stacks. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672's I2(c,l) table prints \"458.4 K, boiling point of I2; delta-H = 10.021 kcal/mol of I2\" = 41928 J/mol at 1 cal = 4.184 J. The registry's boiling point is 457.2 K, 1.2 K below the table's; the heat is paid at the registry's temperature",
+    },
+    LatentHeat {
+        species: "naphthalene",
+        // 43.36 kJ/mol.
+        kj_per_mol: 43.36,
+        provenance: "Naphthalene enthalpy of vaporisation 43.36 kJ/mol at its 491.15 K normal boiling point. R. D. Chirico, S. E. Knipmeyer, A. Nguyen and W. V. Steele, 'The Thermodynamic Properties to 700 K of Naphthalene and 2,7-Dimethylnaphthalene', NIPER-678, US Department of Energy, August 1993, doi:10.2172/10181459 (retrieved 2026-11-24 from https://www.osti.gov/servlets/purl/10181459), the same public-domain report the fusion row cites. Its Table 9 gives Delta-vap H/(R K) = 5298 +/- 22 at 480 K and 5149 +/- 27 at 500 K from its Wagner fit to its own ebulliometric and inclined-piston vapour pressures; linear interpolation to 491.15 K gives 5214.9, times R = 8.314462 J/(mol K) = 43.36 kJ/mol, uncertainty about +/- 0.2 kJ/mol. The report checks its derived value against the only direct calorimetric determination it found (Barrow and McClellan, 46.38 +/- 0.13 kJ/mol at 400.9 K, against its own 46.35 +/- 0.30). This row lets molten naphthalene boil at its boiling point instead of standing as a liquid at any temperature; sublimation of the solid below its melting point (moth-ball smell, crystals on a cold lid) is not claimed",
+    },
 ];
 
 /// The enthalpy of fusion of a substance, J/mol, or `None` where this
@@ -827,7 +863,11 @@ fn boils_at(key: &str) -> Option<f64> {
 /// the boiling route rather than the subliming one.
 fn condensation_partner(gas_key: &str) -> Option<(&'static str, f64)> {
     crate::species::registry().iter().find_map(|candidate| {
-        if candidate.standard_phase != Phase::Liquid
+        // A substance that is solid at room conditions but boils on this
+        // bench (iodine, naphthalene) condenses back to its LIQUID first and
+        // freezes through its own fusion row; only the gases themselves are
+        // excluded (2026-11-24).
+        if candidate.standard_phase == Phase::Gas
             || vaporisation_enthalpy(candidate.key).is_none()
             || sublimation_product(candidate.key) != gas_key
         {
@@ -1465,6 +1505,7 @@ impl Equilibrator for PhaseRouteEquilibrator {
         // anything is said about what stays solid.
         events.extend(crate::melting_range::settle_range_melts(vessel));
         events.extend(crate::melting_range::unmodelled_melts(vessel));
+        events.extend(crate::melting_range::unmodelled_boils(vessel));
         Ok(events)
     }
 }
