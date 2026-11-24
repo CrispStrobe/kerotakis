@@ -132,6 +132,20 @@ fn liquid_colour_word_of(vessel: &Vessel) -> &'static str {
         .unwrap_or("colourless")
 }
 
+/// The endpoint pH of every acid–base indicator dissolved in this vessel.
+fn indicator_endpoints_of(vessel: &Vessel) -> Vec<f64> {
+    let mut out: Vec<f64> = vessel
+        .contents
+        .iter()
+        .filter(|p| p.moles.0 > 0.0)
+        .filter_map(|p| crate::indicator::lookup(&p.species.0))
+        .map(|indicator| indicator.endpoint_ph())
+        .collect();
+    out.sort_by(f64::total_cmp);
+    out.dedup();
+    out
+}
+
 /// KID-21: a refusal that has an obvious remedy states it.
 ///
 /// Every message below was already correct and none of them said what to do
@@ -6539,6 +6553,15 @@ impl Bench {
         // still has an endpoint, and hard-coding "not colourless" would
         // have declared it reached before the burette was opened.
         let baseline_colour = liquid_colour_word_of(self.vessel(vessel)?);
+        // An acid–base indicator in the flask makes the colour endpoint a
+        // statement about the indicator, not about whichever colour word a
+        // dilution happens to tip over: the eye reads the indicator's
+        // change, and that change happens where its sourced transition puts
+        // it (`Indicator::endpoint_ph`). Reading the word alone let an
+        // overdosed dye "change" colour at pH 0.4 merely by being diluted,
+        // and stopped titrations long before equivalence.
+        let indicator_endpoints = indicator_endpoints_of(self.vessel(vessel)?);
+        let baseline_ph = self.vessel(vessel)?.solution.as_ref().map(|s| s.ph);
 
         let mut total_volume = Liters(0.0);
         let mut reached = false;
@@ -6763,7 +6786,12 @@ impl Bench {
                         Endpoint::Pe { compare, value } => {
                             info.pe.is_some_and(|pe| compare.holds(pe, value))
                         }
-                        Endpoint::ColourPersists => colour != baseline_colour,
+                        Endpoint::ColourPersists => match baseline_ph {
+                            Some(start) if !indicator_endpoints.is_empty() => indicator_endpoints
+                                .iter()
+                                .any(|&turn| (start - turn) * (ph - turn) <= 0.0 && start != turn),
+                            _ => colour != baseline_colour,
+                        },
                     };
                     if arrived {
                         reached = true;

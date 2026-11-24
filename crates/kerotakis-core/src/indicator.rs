@@ -33,9 +33,19 @@ use crate::spectrum::{bands, Spectrum};
 pub struct Indicator {
     /// Registry key of the species this describes.
     pub key: &'static str,
-    /// −log₁₀ Ka for `HIn ⇌ H⁺ + In⁻`.
-    pub pka: f64,
-    /// ε(λ) of the acid form, which dominates below the pKa.
+    /// Successive −log₁₀ Ka values, low to high. The last one is the
+    /// colour-bearing step `HIn ⇌ H⁺ + In⁻`; any before it lead from the
+    /// fully protonated dye to the form that loses the last proton, and
+    /// every form except the fully deprotonated one wears the `acid`
+    /// spectrum. Phenolphthalein needs two: its pink dianion is two protons
+    /// away from the colourless lactone, which is why it stays colourless
+    /// at neutral pH even at the concentrations a bench overdoses it to.
+    pub pkas: &'static [f64],
+    /// The visual transition range as printed in the reference tables
+    /// (CRC / reviewed literature) — the pH window over which the eye sees
+    /// the colour change. Sourced, not derived; see `provenance`.
+    pub transition: (f64, f64),
+    /// ε(λ) of the acid form(s), which dominate below the colour pKa.
     pub acid: fn() -> Spectrum,
     /// ε(λ) of the base form, which dominates above it.
     pub base: fn() -> Spectrum,
@@ -48,8 +58,44 @@ pub struct Indicator {
 impl Indicator {
     /// The fraction in the base form at this pH — Henderson–Hasselbalch,
     /// which is all an indicator's "range" ever was.
+    ///
+    /// With more than one dissociation step this is the stepwise
+    /// distribution's last form, normalised against overflow the same way
+    /// [`PigmentLadder::fractions`] is.
     pub fn base_fraction(&self, ph: f64) -> f64 {
-        crate::relations::henderson_hasselbalch_fraction(self.pka, ph)
+        if let [pka] = self.pkas {
+            return crate::relations::henderson_hasselbalch_fraction(*pka, ph);
+        }
+        stepwise_fractions(self.pkas, ph)
+            .last()
+            .copied()
+            .unwrap_or(0.0)
+    }
+
+    /// The pKa of the colour-bearing step.
+    pub fn colour_pka(&self) -> f64 {
+        self.pkas.last().copied().unwrap_or(f64::NAN)
+    }
+
+    /// The pH at which a titration "until the colour persists" is read as
+    /// finished with this indicator.
+    ///
+    /// A two-colour indicator (bromothymol blue, methyl orange) is read at
+    /// its mixed colour, which is its pKIn — the textbook statement that
+    /// an indicator's end point is at pH ≈ pKIn. A one-colour indicator
+    /// (phenolphthalein) has no mixed colour: the eye reads the presence or
+    /// absence of the coloured form, and that threshold is the edge of the
+    /// sourced transition range on the coloured side's far end — the first
+    /// persistent pink going up, the last of the pink going down, both at
+    /// the lower edge.
+    pub fn endpoint_ph(&self) -> f64 {
+        let acid_colourless = (self.acid)().iter().all(|e| *e == 0.0);
+        let base_colourless = (self.base)().iter().all(|e| *e == 0.0);
+        match (acid_colourless, base_colourless) {
+            (true, false) => self.transition.0,
+            (false, true) => self.transition.1,
+            _ => self.colour_pka(),
+        }
     }
 
     /// The two spectra mixed in the ratio the pH sets.
@@ -70,15 +116,24 @@ impl Indicator {
     /// one form visually dominates, which is what puts the range at about
     /// pKa ± 1.
     pub fn transition_range(&self) -> (f64, f64) {
-        (self.pka - 1.0, self.pka + 1.0)
+        let pka = self.colour_pka();
+        (pka - 1.0, pka + 1.0)
     }
 }
 
 pub const INDICATORS: &[Indicator] = &[
     Indicator {
         key: "phenolphthalein",
-        // Transition 8.3–10.0 in every textbook, which is this pKa ± 1.
-        pka: 9.4,
+        // Lactone H2In ⇌ HIn⁻ (colourless) pKa 9.05, HIn⁻ ⇌ In²⁻ (pink)
+        // pKa 9.50: Z. Tamura et al., Anal. Sci. 12 (1996) 927–930,
+        // doi:10.2116/analsci.12.927. Two protons between colourless and
+        // pink is why the pink fraction falls a hundredfold per pH unit
+        // below the range, not tenfold.
+        pkas: &[9.05, 9.50],
+        // Visual range 8.3–10.0 (colourless → pink): Rathod, Murthy &
+        // Bandyopadhyay, J. Chem. Educ. 96 (2019) 486–494; CRC Handbook,
+        // "Acid-Base Indicators".
+        transition: (8.3, 10.0),
         // Colourless: the lactone form has no visible absorption at all,
         // which is why the endpoint is a colour appearing out of nothing
         // rather than one colour becoming another.
@@ -88,12 +143,14 @@ pub const INDICATORS: &[Indicator] = &[
         base: || bands(&[(553.0, 20_000.0, 45.0)]),
         acid_colour: "colourless",
         base_colour: "magenta",
-        provenance: "pKa 9.4 and λmax 553 nm are literature values; ε ≈ 2.0e4 L/mol/cm good to about a significant figure; Gaussian band shape is ours",
+        provenance: "stepwise pKa 9.05 / 9.50 from Tamura et al., Anal. Sci. 12 (1996) 927, doi:10.2116/analsci.12.927; visual range 8.3–10.0 from Rathod et al., J. Chem. Educ. 96 (2019) 486 and the CRC Handbook indicator table; λmax 553 nm are literature values; ε ≈ 2.0e4 L/mol/cm good to about a significant figure; Gaussian band shape is ours",
     },
     Indicator {
         key: "methyl_orange",
-        // Transition 3.1–4.4, centred a little below this pKa.
-        pka: 3.47,
+        // Transition 3.1–4.4 (red → yellow), CRC Handbook "Acid-Base
+        // Indicators"; pKIn 3.47.
+        pkas: &[3.47],
+        transition: (3.1, 4.4),
         // Protonated azonium form, red, λmax ≈ 505 nm.
         acid: || bands(&[(505.0, 24_000.0, 50.0)]),
         // Yellow azo form, λmax ≈ 464 nm.
@@ -106,12 +163,15 @@ pub const INDICATORS: &[Indicator] = &[
         key: "bromothymol_blue",
         // Transition 6.0–7.6: the one indicator that actually straddles
         // neutral, which is why it is the schools' pond-water dye.
-        pka: 7.1,
+        // Transition 6.0–7.6 (yellow → blue), CRC Handbook "Acid-Base
+        // Indicators"; pKIn 7.1.
+        pkas: &[7.1],
+        transition: (6.0, 7.6),
         acid: || bands(&[(430.0, 14_000.0, 50.0)]),
         base: || bands(&[(615.0, 35_000.0, 55.0)]),
         acid_colour: "yellow",
         base_colour: "blue",
-        provenance: "pKa 7.1 and λmax 430/615 nm are literature values; ε values good to about a significant figure; Gaussian band shapes are ours",
+        provenance: "pKa 7.1 and λmax 430/615 nm are literature values; ε values good to about a significant figure; transition ranges are the CRC Handbook indicator table's; Gaussian band shapes are ours",
     },
 ];
 
@@ -157,30 +217,38 @@ impl PigmentLadder {
     /// subtracted before exponentiating — otherwise a pH of 14 overflows a
     /// double and every fraction comes back NaN.
     pub fn fractions(&self, ph: f64) -> Vec<f64> {
-        let mut exponents = Vec::with_capacity(self.forms.len());
-        let mut cumulative = 0.0;
-        for k in 0..self.forms.len() {
-            if k > 0 {
-                cumulative += self.pkas[k - 1];
-            }
-            exponents.push(k as f64 * ph - cumulative);
-        }
-        let peak = exponents.iter().copied().fold(f64::MIN, f64::max);
-        let weights: Vec<f64> = exponents
-            .iter()
-            .map(|e| 10f64.powf((e - peak).max(-300.0)))
-            .collect();
-        let total: f64 = weights.iter().sum();
-        if total <= 0.0 || !total.is_finite() {
-            // No answer is better than a fabricated one: hand back the most
-            // protonated form rather than a vector of NaN.
-            let mut out = vec![0.0; self.forms.len()];
-            out[0] = 1.0;
-            return out;
-        }
-        weights.into_iter().map(|w| w / total).collect()
+        stepwise_fractions(self.pkas, ph)
     }
+}
 
+/// The fraction in each of the `pkas.len() + 1` forms of a stepwise acid.
+fn stepwise_fractions(pkas: &[f64], ph: f64) -> Vec<f64> {
+    let forms = pkas.len() + 1;
+    let mut exponents = Vec::with_capacity(forms);
+    let mut cumulative = 0.0;
+    for k in 0..forms {
+        if k > 0 {
+            cumulative += pkas[k - 1];
+        }
+        exponents.push(k as f64 * ph - cumulative);
+    }
+    let peak = exponents.iter().copied().fold(f64::MIN, f64::max);
+    let weights: Vec<f64> = exponents
+        .iter()
+        .map(|e| 10f64.powf((e - peak).max(-300.0)))
+        .collect();
+    let total: f64 = weights.iter().sum();
+    if total <= 0.0 || !total.is_finite() {
+        // No answer is better than a fabricated one: hand back the most
+        // protonated form rather than a vector of NaN.
+        let mut out = vec![0.0; forms];
+        out[0] = 1.0;
+        return out;
+    }
+    weights.into_iter().map(|w| w / total).collect()
+}
+
+impl PigmentLadder {
     /// Every form's spectrum, mixed in the fractions the pH sets.
     pub fn spectrum_at(&self, ph: f64) -> Spectrum {
         let fractions = self.fractions(ph);
@@ -334,6 +402,38 @@ mod ladder_tests {
                 (ladder.fractions(ph)[1] - expected).abs() < 1e-12,
                 "pH {ph}: {} vs {expected}",
                 ladder.fractions(ph)[1]
+            );
+        }
+    }
+}
+
+#[cfg(test)]
+mod indicator_tests {
+    use super::*;
+
+    #[test]
+    fn phenolphthalein_pink_falls_a_hundredfold_per_ph_unit_below_its_range() {
+        let p = lookup("phenolphthalein").expect("phenolphthalein");
+        assert!(p.base_fraction(7.0) < 1e-4, "{}", p.base_fraction(7.0));
+        assert!(p.base_fraction(11.0) > 0.9);
+        let ratio = p.base_fraction(7.0) / p.base_fraction(6.0);
+        assert!((ratio - 100.0).abs() < 1.0, "{ratio}");
+    }
+
+    #[test]
+    fn endpoints_follow_the_sourced_ranges() {
+        let p = lookup("phenolphthalein").expect("phenolphthalein");
+        assert_eq!(p.endpoint_ph(), 8.3);
+        assert_eq!(lookup("bromothymol_blue").expect("btb").endpoint_ph(), 7.1);
+        assert_eq!(lookup("methyl_orange").expect("mo").endpoint_ph(), 3.47);
+        for i in INDICATORS {
+            let (lo, hi) = i.transition;
+            assert!(lo < hi, "{}", i.key);
+            assert!(
+                (lo - 0.5..=hi + 0.5).contains(&i.colour_pka()),
+                "{}: pKIn {} outside {lo}–{hi}",
+                i.key,
+                i.colour_pka()
             );
         }
     }
