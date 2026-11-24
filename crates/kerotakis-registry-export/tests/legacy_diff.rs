@@ -42,7 +42,7 @@ const MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION: &[&str] =
 /// How many molar masses the five-element table actually reaches. Written
 /// down so that widening the table, or changing a formula, moves a number a
 /// reader can see rather than moving silently.
-const MOLAR_MASSES_WITH_A_BAND: usize = 67;
+const MOLAR_MASSES_WITH_A_BAND: usize = 68;
 
 /// Dissolution enthalpies computed from the NBS/Wagman 1982 tables.
 const NBS_WAGMAN_DISSOLUTION: &[&str] = &["KBr", "CuCl2", "Na3PO4", "Al2(SO4)3"];
