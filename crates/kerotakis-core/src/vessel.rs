@@ -2037,6 +2037,23 @@ impl Vessel {
         Moles(taken)
     }
 
+    /// True when aqueous solutes are filed in this vessel but no liquid
+    /// water is left to carry them — the state an evaporated or boiled-dry
+    /// dish is in until (and where) `dryness` can book its salts.
+    pub fn solvent_gone(&self) -> bool {
+        let mut solute = false;
+        for p in &self.contents {
+            if p.species.0 == RESIDUE_SOLVENT {
+                if matches!(p.phase, Phase::Liquid | Phase::Aqueous) && p.moles.0 > 0.0 {
+                    return false;
+                }
+            } else if p.phase == Phase::Aqueous && p.moles.0 > 0.0 {
+                solute = true;
+            }
+        }
+        solute
+    }
+
     /// Effective heat capacity of the contents under this vessel's current
     /// mechanical boundary, J/K. Zero for an empty vessel.
     ///
@@ -2058,6 +2075,7 @@ impl Vessel {
     /// carries a curve for a species it is evaluated here; where it does
     /// not, the room-temperature constant comes back exactly as it did.
     pub fn heat_capacity_at(&self, t_k: f64) -> f64 {
+        let dry = self.solvent_gone();
         let resolved: f64 = self
             .contents
             .iter()
@@ -2068,7 +2086,10 @@ impl Vessel {
                 // boiled has its own heat capacity, and spending the wrong
                 // one is how a beaker chilled with 60 kJ came back at
                 // −39 °C instead of −78 °C.
-                let phase_molar = crate::states::heat_capacity_at(data, portion.phase, t_k);
+                let phase_molar = match residue_molar(data, portion.phase, dry) {
+                    Some(estimate) => estimate,
+                    None => crate::states::heat_capacity_at(data, portion.phase, t_k),
+                };
                 let molar = if portion.phase == Phase::Gas && self.is_sealed() {
                     (phase_molar - crate::constants::GAS_CONSTANT).max(0.0)
                 } else {
@@ -2096,12 +2117,16 @@ impl Vessel {
     /// and stays a rectangle.
     pub fn energy_between(&self, t0: f64, t1: f64) -> f64 {
         let sealed = self.is_sealed();
+        let dry = self.solvent_gone();
         let resolved: f64 = self
             .contents
             .iter()
             .filter_map(|portion| {
                 let data = species::lookup(&portion.species)?;
-                let mut molar = crate::states::enthalpy_between(data, portion.phase, t0, t1);
+                let mut molar = match residue_molar(data, portion.phase, dry) {
+                    Some(estimate) => estimate * (t1 - t0),
+                    None => crate::states::enthalpy_between(data, portion.phase, t0, t1),
+                };
                 if portion.phase == Phase::Gas && sealed {
                     molar -= crate::constants::GAS_CONSTANT * (t1 - t0);
                 }
@@ -2395,4 +2420,23 @@ impl Vessel {
 
 fn is_zero_mol(value: &f64) -> bool {
     *value == 0.0
+}
+
+/// The solvent whose absence makes a dissolved portion a dry residue.
+const RESIDUE_SOLVENT: &str = "water";
+
+/// Molar heat capacity of a solute stranded by its evaporated solvent,
+/// J/(mol·K), when the registry gives it none.
+///
+/// Dissolved species carry no heat capacity of their own on this bench —
+/// the solution's is its water's. With the water gone that convention left
+/// real grams of residue thermally weightless, and the leftover of a heat
+/// dose read as 1.65×10⁷ °C (C1 E292). Such a portion is charged as the
+/// solid it is, by Kopp's rule ([`crate::heat_capacity::kopp_solid_heat_capacity`]);
+/// a species whose registry figure is already positive keeps it.
+pub fn residue_molar(data: &species::SpeciesData, phase: Phase, dry: bool) -> Option<f64> {
+    if !dry || phase != Phase::Aqueous || data.heat_capacity > 0.0 {
+        return None;
+    }
+    crate::heat_capacity::kopp_solid_heat_capacity(data.formula)
 }
