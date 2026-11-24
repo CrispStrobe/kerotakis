@@ -33,6 +33,7 @@ pub mod catalog;
 pub mod centrifuge;
 pub mod chart;
 pub mod chemiluminescence;
+pub mod chlorine;
 pub mod clock;
 pub mod combustion;
 pub mod compartment;

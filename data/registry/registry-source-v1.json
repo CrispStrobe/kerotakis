@@ -947,6 +947,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/anthocyanin_ox",
+      "citation": "Bleaching product of red-cabbage anthocyanin by chlorine, hypochlorous acid or hypochlorite; simplified stoichiometry (one O addition), as the curated betanin, curcumin and indigo carmine bleaching products",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/chlorine.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/indigo_carmine_ox",
       "citation": "Bleaching product of indigo_carmine; simplified stoichiometry (one O addition from NaOCl)",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -4536,6 +4545,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "anthocyanin_ox",
+      "canonical_key": "legacy:species/anthocyanin_ox",
+      "name": "oxidised anthocyanin (colourless)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/anthocyanin_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -16840,6 +16863,125 @@
       },
       "evidence": {
         "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/anthocyanin_ox",
+      "species_id": "anthocyanin_ox",
+      "formula": "C21H20O12",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/anthocyanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/anthocyanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/anthocyanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/anthocyanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/anthocyanin_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -41882,6 +42024,38 @@
       }
     },
     {
+      "id": "molar-mass/anthocyanin_ox",
+      "species_id": "anthocyanin_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 464.38,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "interval",
+          "lower": 464.34676,
+          "upper": 464.40304
+        },
+        "source_id": "legacy/anthocyanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "sum of the IUPAC/CIAAW 2021 standard atomic weights over the formula unit. The interval is CIAAW's own - the isotopic variation of normal terrestrial materials, which is a spread across real samples rather than an error in anybody's measurement - propagated through the same sum by interval arithmetic and not in quadrature, and widened by one electron mass per unit of charge because this registry stores the formula sum rather than the ion mass. NOTHING HERE IS MEASURED AND NOTHING MEASURED IS CLAIMED: the atomic weights are measured, by CIAAW's cited evaluations and not by this project, and the sum is arithmetic. The validator requires the value to lie inside the interval, so this record is checked by the claim it carries"
+        }
+      }
+    },
+    {
       "id": "heat-capacity/curcumin_ox",
       "species_id": "curcumin_ox",
       "phase": "aqueous",
@@ -41912,6 +42086,36 @@
       }
     },
     {
+      "id": "heat-capacity/anthocyanin_ox",
+      "species_id": "anthocyanin_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 700.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/anthocyanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "density/curcumin_ox",
       "species_id": "curcumin_ox",
       "phase": "aqueous",
@@ -41935,6 +42139,36 @@
           "kind": "unestablished"
         },
         "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/anthocyanin_ox",
+      "species_id": "anthocyanin_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/anthocyanin_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -63263,6 +63497,22 @@
       }
     },
     {
+      "id": "optical/anthocyanin_ox",
+      "species_id": "anthocyanin_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#FFFFF0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/anthocyanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "optical/indigo_carmine_ox",
       "species_id": "indigo_carmine_ox",
       "phase": "aqueous",
@@ -70884,6 +71134,39 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/anthocyanin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "anthocyanin_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/anthocyanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
       "id": "legacy-tint-strength/curcumin_ox",
       "subject": {
         "kind": "species",
@@ -70910,6 +71193,39 @@
           "kind": "unestablished"
         },
         "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/anthocyanin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "anthocyanin_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/anthocyanin_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"

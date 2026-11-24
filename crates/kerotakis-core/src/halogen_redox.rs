@@ -930,7 +930,8 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
                     | PairStatus::NoRegistryForm
             )
         }) || solved
-            || crate::sulfur_iv::covers(o, r);
+            || crate::sulfur_iv::covers(o, r)
+            || crate::chlorine::covers(o, r);
         let list = if (admitted || solved) && !medium_ok {
             &mut outside
         } else if covered {
