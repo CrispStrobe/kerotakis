@@ -936,6 +936,19 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         source_id: SOURCE.to_string(),
         method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
     };
+    // C1 reagent bottles (2026-11-24): densities read from a primary
+    // printed table at 20 C, the citation carried on the record itself.
+    let tabulated_density = |value: f64, citation: &str| NumericRecord {
+        value,
+        unit: Unit {
+            symbol: "g/mL".to_string(),
+            dimension: Dimension::MassDensity,
+        },
+        conditions: Applicability::default(),
+        uncertainty: Uncertainty::Unestablished,
+        source_id: SOURCE.to_string(),
+        method: Method::Imported(citation.to_string()),
+    };
     let resistivity = |ohm_m: f64, span_lower_ohm_m: f64, span_upper_ohm_m: f64, boundary: &str| {
         MaterialRole::BulkElectricalResistivity {
             ohm_m,
@@ -1250,6 +1263,130 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             lot_assumptions: vec![
                 "surfactants, fragrance and brand-specific additives are not resolved in v1".to_string(),
                 "never mix real ammonia cleaner with bleach".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "lab/sodium-hydroxide-solution-25-percent".to_string(),
+            version: 1,
+            canonical_key: "sodium_hydroxide_solution_25_percent".to_string(),
+            name: "25% sodium hydroxide solution".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["sodium hydroxide solution 25%".to_string(), "caustic soda solution 25%".to_string(), "sodium_hydroxide_solution_25%".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Natronlauge 25%".to_string(), "Natronlauge_25%".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(tabulated_density(1.274, "density at 20 degrees Celsius, g/mL (relative to water at 4 C): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, Vol. III (E. W. Washburn, ed.; McGraw-Hill for the National Research Council, 1928; first edition, public domain by age), 'Density - aqueous inorganic solutions', read from the page image of archive.org item international-critical-tables_1928_3, printed p. 79, table 'NaOH [BTB]', 20 C column: 1.2629 at 24 % and 1.2848 at 26 % w/w; linear interpolation to 25 % gives 1.2739, stated to 1.274")),
+            components: vec![component("NaOH", 0.25), component("water", 0.75)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("25% w/w sodium hydroxide in water, the dilute lye of a school reagent bottle".to_string()),
+            lot_assumptions: vec![
+                "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration".to_string(),
+                "corrosive to skin and eyes; never mix with acids undiluted".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "lab/hydrochloric-acid-20-percent".to_string(),
+            version: 1,
+            canonical_key: "hydrochloric_acid_20_percent".to_string(),
+            name: "20% hydrochloric acid".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["hydrochloric acid 20%".to_string(), "hydrochloric_acid_20%".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Salzsäure 20%".to_string(), "verdünnte Salzsäure 20%".to_string(), "Salzsäure_20%".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(tabulated_density(1.098, "density at 20 degrees Celsius, g/mL (relative to water at 4 C): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, Vol. III (E. W. Washburn, ed.; McGraw-Hill for the National Research Council, 1928; first edition, public domain by age), 'Density - aqueous inorganic solutions', read from the page image of archive.org item international-critical-tables_1928_3, printed p. 54, table 'HCl [JAB]', 20 C column, 20 % w/w: 1.0980")),
+            components: vec![component("HCl", 0.2), component("water", 0.8)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("20% w/w hydrogen chloride in water, the dilute acid of a school reagent bottle".to_string()),
+            lot_assumptions: vec![
+                "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration".to_string(),
+                "corrosive; releases hydrogen chloride fumes".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "lab/sulfuric-acid-30-percent".to_string(),
+            version: 1,
+            canonical_key: "sulfuric_acid_30_percent".to_string(),
+            name: "30% sulfuric acid".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["sulfuric acid 30%".to_string(), "sulphuric acid 30%".to_string(), "sulfuric_acid_30%".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Schwefelsäure 30%".to_string(), "verdünnte Schwefelsäure 30%".to_string(), "Schwefelsäure_30%".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(tabulated_density(1.2185, "density at 20 degrees Celsius, g/mL (relative to water at 4 C): NBS Circular 19, 'Standard density and volumetric tables', 6th edition (Bureau of Standards, 31 October 1924; a United States Government work), https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular19e6.pdf, Table 13 'Density of solutions of sulphuric acid (H2SO4) at 20 C' (calculated from Domke's table), printed p. 26, 30 % w/w: 1.21850")),
+            components: vec![component("H2SO4", 0.3), component("water", 0.7)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("30% w/w sulfuric acid in water, the dilute acid of a school reagent bottle".to_string()),
+            lot_assumptions: vec![
+                "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration".to_string(),
+                "corrosive; dilute by adding acid to water, never water to acid".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "lab/ammonia-solution-24-percent".to_string(),
+            version: 1,
+            canonical_key: "ammonia_solution_24_percent".to_string(),
+            name: "24% ammonia solution".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["ammonia solution 24%".to_string(), "aqueous ammonia 24%".to_string(), "ammonia_solution_24%".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Ammoniakwasser 24%".to_string(), "Ammoniakwasser".to_string(), "Ammoniakwasser_24%".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(tabulated_density(0.9101, "density at 20 degrees Celsius, g/mL (relative to water at 4 C): International Critical Tables of Numerical Data, Physics, Chemistry and Technology, Vol. III (E. W. Washburn, ed.; McGraw-Hill for the National Research Council, 1928; first edition, public domain by age), 'Density - aqueous inorganic solutions', read from the page image of archive.org item international-critical-tables_1928_3, printed p. 59, table 'NH3 [LJG]', 20 C column, 24 % w/w: 0.9101")),
+            components: vec![component("NH3", 0.24), component("water", 0.76)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("24% w/w ammonia in water, the concentrated ammonia water of a school reagent bottle".to_string()),
+            lot_assumptions: vec![
+                "the label concentration is the composition by definition; the density is the tabulated 20 degrees Celsius value cited on the bulk-density record, read at this concentration".to_string(),
+                "releases ammonia gas; never mix with bleach".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

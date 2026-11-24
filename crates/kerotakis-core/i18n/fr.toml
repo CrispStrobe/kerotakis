@@ -297,8 +297,12 @@ calcium = "calcium"
 # adding French means adding `fr.toml` beside this file, not editing the
 # registry.
 "1% Lugol iodine solution" = "solution de Lugol 1%"
+"20% hydrochloric acid" = "acide chlorhydrique 20%"
+"24% ammonia solution" = "ammoniaque 24%"
+"25% sodium hydroxide solution" = "lessive de soude 25%"
 "3% hydrogen peroxide" = "peroxyde d'hydrogène 3%"
 "3.5% seawater surrogate" = "eau de mer"
+"30% sulfuric acid" = "acide sulfurique 30%"
 "5% ammonia cleaner" = "nettoyant ammoniaqué 5%"
 "5% chlorine bleach" = "eau de Javel 5%"
 "5% white vinegar" = "vinaigre"
@@ -1902,6 +1906,10 @@ receiver = "récepteur"
 # claimed by this recipe or another is skipped, so a duplicate here is
 # harmless rather than an export failure.
 [material-alias]
+"20% hydrochloric acid" = "acide chlorhydrique dilué"
+"24% ammonia solution" = "solution d'ammoniaque, ammoniaque concentrée"
+"25% sodium hydroxide solution" = "soude caustique 25%"
+"30% sulfuric acid" = "acide sulfurique dilué"
 "5% white vinegar" = "vinaigre blanc, vinaigre d'alcool"
 "baking soda" = "bicarbonate, bicarbonate de sodium, hydrogénocarbonate de sodium"
 "5% chlorine bleach" = "javel, eau de javel, hypochlorite de sodium"

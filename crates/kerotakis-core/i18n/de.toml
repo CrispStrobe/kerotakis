@@ -317,8 +317,12 @@ calcium = "Calcium"
 # adding French means adding `fr.toml` beside this file, not editing the
 # registry.
 "1% Lugol iodine solution" = "Lugolsche Lösung 1%"
+"20% hydrochloric acid" = "Salzsäure 20%"
+"24% ammonia solution" = "Ammoniakwasser 24%"
+"25% sodium hydroxide solution" = "Natronlauge 25%"
 "3% hydrogen peroxide" = "Wasserstoffperoxid 3%"
 "3.5% seawater surrogate" = "Meerwasser"
+"30% sulfuric acid" = "Schwefelsäure 30%"
 "5% ammonia cleaner" = "Ammoniakreiniger 5%"
 "5% chlorine bleach" = "Chlorreiniger 5%"
 "5% white vinegar" = "Essig"
