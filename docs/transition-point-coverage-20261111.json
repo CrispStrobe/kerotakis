@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 150,
+    "boiling.no_data": 151,
     "boiling.reported": 67,
-    "melting.no_data": 116,
+    "melting.no_data": 117,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -2348,6 +2348,16 @@
     },
     {
       "species": "anthocyanin",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "anthocyanin_ox",
       "standard_phase": "aqueous",
       "melting": {
         "basis": "no_data"

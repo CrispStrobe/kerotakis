@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 43, neutral-refused 165, partitions 9.
+Counts: ion-stays-aqueous 43, neutral-refused 166, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -176,6 +176,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 165, partitions 9.
 | neutral-refused | activated_charcoal | — |
 | neutral-refused | amylase | — |
 | neutral-refused | anthocyanin | — |
+| neutral-refused | anthocyanin_ox | — |
 | neutral-refused | antlerite | — |
 | neutral-refused | ascorbic_acid | — |
 | neutral-refused | atacamite | — |

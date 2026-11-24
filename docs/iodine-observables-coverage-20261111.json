@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 43,
-    "neutral-refused": 165,
+    "neutral-refused": 166,
     "partitions": 9
   },
   "cases": [
@@ -803,6 +803,11 @@
     },
     {
       "species": "anthocyanin",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "anthocyanin_ox",
       "class": "neutral-refused",
       "basis": null
     },
