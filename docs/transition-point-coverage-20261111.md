@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 150, boiling.reported 67, melting.no_data 116, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 151, boiling.reported 67, melting.no_data 117, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -198,6 +198,7 @@ Counts: boiling.no_data 150, boiling.reported 67, melting.no_data 116, melting.r
 | activated_charcoal | solid | no_data | no_data | — |
 | amylase | aqueous | no_data | no_data | — |
 | anthocyanin | aqueous | no_data | no_data | — |
+| anthocyanin_ox | aqueous | no_data | no_data | — |
 | antlerite | solid | no_data | no_data | — |
 | ascorbic_acid | solid | no_data | no_data | — |
 | atacamite | solid | decomposition 473.15 K | decomposition 473.15 K | literature/transition-points/atacamite |

@@ -1726,6 +1726,16 @@
       "source": "name:fr"
     },
     {
+      "alias": "anthocyane oxydée",
+      "canonical": "anthocyanin_ox",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "anthocyane oxydée (incolore)",
+      "canonical": "anthocyanin_ox",
+      "source": "name:fr"
+    },
+    {
       "alias": "anthocyanin (red-cabbage pigment)",
       "canonical": "anthocyanin",
       "source": "name:en"
@@ -3226,6 +3236,16 @@
       "source": "name:en"
     },
     {
+      "alias": "oxidiertes Anthocyan",
+      "canonical": "anthocyanin_ox",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "oxidiertes Anthocyan (farblos)",
+      "canonical": "anthocyanin_ox",
+      "source": "name:de"
+    },
+    {
       "alias": "oxidiertes Betanin",
       "canonical": "betanin_ox",
       "source": "name-prefix:de"
@@ -3254,6 +3274,16 @@
       "alias": "oxidiertes Indigocarmin (farblos)",
       "canonical": "indigo_carmine_ox",
       "source": "name:de"
+    },
+    {
+      "alias": "oxidised anthocyanin",
+      "canonical": "anthocyanin_ox",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "oxidised anthocyanin (colourless)",
+      "canonical": "anthocyanin_ox",
+      "source": "name:en"
     },
     {
       "alias": "oxidised betanin",
@@ -4134,6 +4164,16 @@
       ],
       "candidates": [
         "anthocyanin"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c21h20o12",
+      "spellings": [
+        "C21H20O12"
+      ],
+      "candidates": [
+        "anthocyanin_ox"
       ],
       "reason": "isomer-ambiguous-formula"
     },

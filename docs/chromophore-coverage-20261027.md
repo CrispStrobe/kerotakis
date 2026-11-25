@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 47, outside_method 119, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 47, outside_method 120, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -143,6 +143,7 @@ Counts: missing_absorptivity 47, outside_method 119, parameterised 7, parameteri
 | outside_method | ZnO | white |
 | outside_method | ZnSO4 | white |
 | outside_method | amylase | colorless solution |
+| outside_method | anthocyanin_ox | colourless |
 | outside_method | ascorbic_acid | white crystalline powder |
 | outside_method | betanin_ox | colourless |
 | outside_method | bromoethane | colourless |

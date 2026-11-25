@@ -57,6 +57,7 @@ BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
 COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/acid_endpoint.rs",
     ROOT / "crates/kerotakis-core/src/carbonate_endpoint.rs",
+    ROOT / "crates/kerotakis-core/src/chlorine.rs",
     ROOT / "crates/kerotakis-core/src/appearance.rs",
     ROOT / "crates/kerotakis-core/src/aqueous_continuation.rs",
     ROOT / "crates/kerotakis-core/src/amphoteric.rs",

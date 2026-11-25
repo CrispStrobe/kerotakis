@@ -287,12 +287,12 @@ remaining twenty-one rows of the atomic-weight table.
 
 ## How far the pattern reaches, and what the rest costs
 
-**Molar mass — 67 of 214 today, for five table rows.**
+**Molar mass — 68 of 218 today, for five table rows.**
 
 | | |
 |---|---|
-| species the five-element table reaches | 71 |
-| of those, given an interval | **67** |
+| species the five-element table reaches | 72 |
+| of those, given an interval | **68** |
 | of those, declined as findings | 5 |
 | species it does not reach | 115 |
 | elements needed to reach them | **21 more rows** |

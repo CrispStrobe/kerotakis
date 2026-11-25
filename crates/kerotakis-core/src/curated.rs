@@ -984,6 +984,7 @@ impl Equilibrator for CuratedEquilibrator {
         REACTIONS.iter().any(|r| {
             r.post_aqueous.is_none() && !(owned && r.aqueous_overlap.is_some()) && fires(vessel, r)
         }) || crate::sulfur_iv::fires(vessel)
+            || crate::chlorine::fires(vessel)
             || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
             || crate::reducing_sugar::fires(vessel)
@@ -1013,6 +1014,20 @@ impl Equilibrator for CuratedEquilibrator {
             let solvent = crate::nonaqueous::single_organic_solvent(vessel);
             for (i, reaction) in REACTIONS.iter().enumerate() {
                 if reaction.post_aqueous.is_some() || (owned && reaction.aqueous_overlap.is_some())
+                {
+                    continue;
+                }
+                // Chlorine water owns `HClO + H⁺ + Cl⁻ ⇌ Cl₂ + H₂O` once the
+                // vessel holds molecular chlorine: it solves the hydrolysis
+                // to its constant, where these rows would run it to
+                // completion and the two would undo each other.
+                if reaction
+                    .reactants
+                    .iter()
+                    .any(|(k, _)| matches!(*k, "HClO" | "ClO-"))
+                    && reaction.acid_protons.is_some()
+                    && reaction.products.iter().any(|(k, _, _)| *k == "Cl2")
+                    && crate::chlorine::owns_hypochlorous_equilibrium(vessel)
                 {
                     continue;
                 }
@@ -1117,6 +1132,13 @@ impl Equilibrator for CuratedEquilibrator {
             // halogen writers, whose iodine/sulfite rows would otherwise
             // give it all to iodine (see sulfur_iv).
             if crate::sulfur_iv::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Chlorine as a reagent (preparation, alkali, displacement,
+            // bleaching, chlorine water, dry chlorination): before the
+            // generic halogen writers, so dissolved chlorine and its HClO
+            // exist when their admitted rows look for them.
+            if crate::chlorine::apply(vessel, &mut events) {
                 progressed = true;
             }
             // The generic halogen/oxyhalogen writers run after the hand

@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 74, not_condensed 80.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 74, not_condensed 81.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -216,6 +216,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 74, n
 | not_condensed | Zn+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | amylase | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | anthocyanin | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | anthocyanin_ox | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | betanin | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | betanin_ox | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | bromothymol_blue | aqueous | — | — | no | aqueous | aqueous | aqueous |
