@@ -2406,6 +2406,21 @@ impl Vessel {
         }
     }
 
+    /// The pressure this vessel's present gas inventory would exert in its
+    /// sealed headspace at temperature `t_k`, Pa; the current pressure for
+    /// any other boundary. Gases are counted as gases even where cooling
+    /// would condense them (steam), so for a sealed vessel this is an
+    /// upper bound on the cooled pressure.
+    pub fn sealed_pressure_at(&self, t_k: f64) -> f64 {
+        const R_LITRE_PASCAL: f64 = 8_314.462_618;
+        match self.headspace {
+            Headspace::Sealed { volume } if volume.0 > 0.0 => {
+                self.gas_moles().0 * R_LITRE_PASCAL * t_k / volume.0
+            }
+            _ => self.pressure.0,
+        }
+    }
+
     /// Put a gas product in an owned headspace. Returns `false` for reservoir
     /// and swept boundaries, whose caller should report the amount as escaped.
     pub fn retain_gas(&mut self, species: SpeciesId, moles: Moles) -> bool {

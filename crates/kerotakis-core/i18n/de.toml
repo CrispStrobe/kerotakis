@@ -1758,6 +1758,7 @@ PVA = "PVA"
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
 closed-flame-wall-loss = "Der Wärmeverlust dieser geschlossenen Flamme an die Gefäßwand und den Raum ist nicht modelliert: Jedes Joule bleibt im Inhalt, daher sind Temperatur und Druck eine adiabatische Obergrenze; ein echtes Glas kühlt binnen Sekunden ab"
+sealed-flame-may-burst = "Dieses Bersten wird von der adiabatischen Obergrenze der geschlossenen Flamme ({upper} Pa) entschieden; dasselbe Gas hat bei Raumtemperatur nur {room} Pa, unter der Lehr-Berstgrenze ({rating} Pa), daher KANN ein echtes Gefäß mit Wärmeverlust an die Wand standhalten: Das Bersten wird als sichere Annahme gezeigt, nicht als sichere Vorhersage"
 gas-mixture-too-lean = "Das Brenngas macht {fraction} % des Gases aus, unter seiner unteren Zündgrenze von {limit} %: Ein Funke erzeugt höchstens ein kleines Aufblitzen, und durch ein so mageres Gemisch läuft keine Flamme"
 gas-mixture-too-rich = "Das Brenngas macht {fraction} % des Gases aus, mit zu wenig Sauerstoff für seine obere Zündgrenze von {limit} % in Luft: Es kann in diesem Gefäß nicht brennen, nur dort, wo es draußen auf Luft trifft"
 cea-solid-feed-cp-continuation = "Der feste Ausgangsstoff {species} liegt bei {temperature} K über seinem thermochemischen Datenbereich bis {high} K; sein vorhandenes Modell mit am Randwert gehaltener Wärmekapazität führt die fühlbare Energie in die Berechnung. Dieser überhitzte Ausgangszustand ist modellbegrenzt und außerhalb des Tabellenbereichs nicht thermochemisch validiert."

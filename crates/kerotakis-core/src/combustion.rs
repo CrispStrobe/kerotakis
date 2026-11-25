@@ -1025,6 +1025,11 @@ fn spark_provenance() -> Provenance {
     )
 }
 
+/// Key of the note that marks a closed flame's temperature and pressure as
+/// an adiabatic upper bound; `Bench::vent_if_burst` reads it. Must equal
+/// the literal in `wall_loss_note` (kept literal for the locale lint).
+pub const CLOSED_FLAME_WALL_LOSS: &str = "not-modeled.closed-flame-wall-loss";
+
 fn wall_loss_note(vessel: crate::VesselId) -> Event {
     Event::not_modeled(
         vessel,
