@@ -1,7 +1,7 @@
 {
   "lane": "2026-11-11 solid reagent",
   "counts": {
-    "registry-solubility": 13,
+    "registry-solubility": 14,
     "other-route": 2,
     "reviewed-row": 2,
     "refused": 4
@@ -154,6 +154,13 @@
       "cls": "registry-solubility",
       "dissolves_by_route": true,
       "g_per_100_ml": 200.0,
+      "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
+    },
+    {
+      "species": "urea",
+      "cls": "registry-solubility",
+      "dissolves_by_route": true,
+      "g_per_100_ml": 54.5,
       "source": "registry model_parameters aqueous-solubility-g-per-100-ml"
     }
   ]

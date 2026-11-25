@@ -27,6 +27,13 @@ pub(crate) const CURATED_INPUT_ALIASES: &[(&str, &str)] = &[
     // Exact reviewed identities: anhydrous salt and the explicitly -1 acetate ion.
     ("CuSO4_anhydrous", "CuSO4"),
     ("acetate", "CH3COO-"),
+    // The spellings a learner types for slaked lime that no generated rule
+    // reaches: the bare chemical name (the registry name carries it only in
+    // parentheses) and the formula with its brackets dropped. Urea's
+    // structural formula is the one every textbook prints.
+    ("calcium hydroxide", "Ca(OH)2"),
+    ("CaOH2", "Ca(OH)2"),
+    ("CO(NH2)2", "urea"),
 ];
 
 /// The reviewed aliases: the hand list above, plus every formula a shipped

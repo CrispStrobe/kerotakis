@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -27,6 +27,8 @@ Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameteri
 | missing_absorptivity | C | black |
 | missing_absorptivity | Ca | silvery |
 | missing_absorptivity | Cl2 | yellow-green, toxic |
+| missing_absorptivity | Co+2 | pink |
+| missing_absorptivity | CoCl2 | blue |
 | missing_absorptivity | Cu | reddish-brown |
 | missing_absorptivity | Cu(OH)2 | pale blue |
 | missing_absorptivity | Cu2(OH)2CO3 | green |
@@ -39,6 +41,7 @@ Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameteri
 | missing_absorptivity | Fe(OH)3 | red-brown |
 | missing_absorptivity | Fe+3 | pale yellow |
 | missing_absorptivity | Fe2O3 | reddish brown |
+| missing_absorptivity | Fe3O4 | black |
 | missing_absorptivity | FeCl3 | dark green-black crystals |
 | missing_absorptivity | FeSO4 | pale green |
 | missing_absorptivity | K | silvery |
@@ -103,6 +106,7 @@ Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameteri
 | outside_method | KOH | white |
 | outside_method | Mg(OH)2 | white |
 | outside_method | MgCO3 | white |
+| outside_method | MgCl2 | white crystals |
 | outside_method | MgO | brilliant white |
 | outside_method | MgSO4 | white |
 | outside_method | N2 | colourless |
@@ -149,6 +153,7 @@ Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameteri
 | outside_method | anthocyanin_ox | colourless |
 | outside_method | ascorbic_acid | white crystalline powder |
 | outside_method | betanin_ox | colourless |
+| outside_method | bischofite | colourless to white crystals |
 | outside_method | bromoethane | colourless |
 | outside_method | butane | colourless |
 | outside_method | catalase | colourless |
@@ -187,6 +192,7 @@ Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameteri
 | outside_method | sucrose | white |
 | outside_method | tert_butanol | colourless |
 | outside_method | tert_butyl_bromide | colourless |
+| outside_method | urea | white crystals |
 | outside_method | water | colourless |
 | parameterised | Cu+2 | blue |
 | parameterised | Fe+2 | pale green |

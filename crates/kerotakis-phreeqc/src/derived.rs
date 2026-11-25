@@ -203,9 +203,17 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// Aluminium is deliberately NOT in `CATION_RESIDUE`: its oxide and
 /// hydroxides are insoluble at bench pH, and the oxide-as-water rule
 /// below would dissolve corundum whole.
+///
+/// Cobalt joined 2026-11-24 (cobalt(II) chloride): minteq.v4.dat masters
+/// `Co` as `Co+2` (its Co+3 is a separate redox master), so a bare cobalt
+/// residue beside halides is the divalent cation and its hydrolysis and
+/// complexes are the database's own; wateq4f.dat and pitzer.dat have no
+/// cobalt, so `has_element` keeps such a vessel on a route that does. Like
+/// aluminium it is not in `CATION_RESIDUE`: no cobalt oxide is admitted to
+/// dissolve as water.
 const RESIDUE_OK: &[&str] = &[
     "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "I", "F", "Cu", "Mn", "Fe", "Zn",
-    "Pb", "Al",
+    "Pb", "Al", "Co",
 ];
 
 /// The subset of `RESIDUE_OK` that forms simple cations.
@@ -304,6 +312,10 @@ pub const UNSPECIATED_SOLUTES: &[(&str, &str)] = &[];
 /// protonation-state choice.
 const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     ("C", "HCO3-"),
+    // minteq.v4 masters bare `Co` as `Co+3` (with `Co(2)`/`Co(3)` as its
+    // redox states). The bench's cobalt is cobalt(II) — the chloride and
+    // nitrate on a shelf — so, as for iron, "cobalt" means Co+2.
+    ("Co", "Co+2"),
     ("P", "H2PO4-"),
     ("Acetate", "CH3COO-"),
     // Lactate's master species is `Lactate-`, which is not a registry key;
@@ -669,7 +681,7 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
 /// from their formula: the formula parser drops charge, so `S-2` parses as
 /// elemental sulfur, which `extract_sulfide` rightly refuses. The element
 /// state is stated here instead.
-const ION_ELEMENT_STATES: &[(&str, &str)] = &[("S-2", "S(-2)")];
+const ION_ELEMENT_STATES: &[(&str, &str)] = &[("S-2", "S(-2)"), ("Co+2", "Co(2)")];
 
 /// The protonation split for an element state, if it has one.
 pub fn protonation_split(element: &str) -> Option<&'static [(&'static str, &'static str)]> {

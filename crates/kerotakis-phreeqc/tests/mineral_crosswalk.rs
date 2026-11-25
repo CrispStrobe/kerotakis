@@ -62,19 +62,25 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// The 24 that remain are still counted in full, which is the deliberate
 /// pessimism, and `PLAN.md` says of each one why no value could be
 /// sourced.
+///
+/// 2026-11-24 (missing-species lane): five registry solids join. MgCl2 and
+/// urea are not database phases. CoCl2, bischofite (MgCl2·6H2O) and
+/// magnetite are database phases without a reviewed solubility, so the gap
+/// grows by three; magnetite is not posable (the route books iron as
+/// iron(II), and Fe3O4 holds iron(II) and iron(III) together).
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 121,
-            database_phases: 56,
+            registry_solids: 126,
+            database_phases: 59,
             with_reviewed_solubility: 14,
-            without_reviewed_solubility: 42,
-            not_a_database_phase: 65,
-            phases_without_a_registry_solid: 595,
+            without_reviewed_solubility: 45,
+            not_a_database_phase: 67,
+            phases_without_a_registry_solid: 592,
             several_phase_names: 14,
-            not_posable: 13,
+            not_posable: 14,
         },
         "the crosswalk has drifted from the shipped databases or registry"
     );
@@ -137,6 +143,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "BaCO3",
             "Ca3(PO4)2",
             "CaO",
+            "CoCl2",
             "Cu",
             "Cu(OH)2",
             "Cu2(OH)2CO3",
@@ -150,6 +157,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "CuSO4",
             "Fe(OH)2",
             "Fe2O3",
+            "Fe3O4",
             "MgCO3",
             "MgO",
             "MnO2",
@@ -168,6 +176,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "ZnSO4",
             "antlerite",
             "atacamite",
+            "bischofite",
             "brochantite",
             "chalcanthite",
             "epsomite",
@@ -272,6 +281,7 @@ fn unbookable_database_phases_are_never_posed() {
             "Cu2(OH)2CO3",
             "Cu2O",
             "Fe2O3",
+            "Fe3O4",
             "K2Cr2O7",
             "K2CrO4",
             "MnO2",

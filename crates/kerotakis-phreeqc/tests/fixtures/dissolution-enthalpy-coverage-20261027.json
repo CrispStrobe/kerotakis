@@ -104,6 +104,11 @@
     "pitzer": "hydration:minteq.v4:Ca(OH)2",
     "wateq4f": "hydration:minteq.v4:Ca(OH)2"
   },
+  "CoCl2": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "refused: a dissociation product the routed database does not define"
+  },
   "Cu": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
@@ -163,6 +168,11 @@
     "minteq.v4": "hydration:minteq.v4:Fe(OH)3",
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "reference:wateq4f:Hematite"
+  },
+  "Fe3O4": {
+    "minteq.v4": "reference:minteq.v4:Magnetite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Magnetite"
   },
   "FeCl3": {
     "minteq.v4": "reference:llnl.dat:Molysite",
@@ -248,6 +258,11 @@
     "minteq.v4": "routed",
     "pitzer": "routed",
     "wateq4f": "routed"
+  },
+  "MgCl2": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
   },
   "MgO": {
     "minteq.v4": "hydration:minteq.v4:Mg(OH)2",
@@ -474,6 +489,11 @@
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "reference:wateq4f:Atacamite"
   },
+  "bischofite": {
+    "minteq.v4": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
+  },
   "brochantite": {
     "minteq.v4": "reference:minteq.v4:Brochantite",
     "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
@@ -603,5 +623,10 @@
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "urea": {
+    "minteq.v4": "molecular:registry",
+    "pitzer": "molecular:registry",
+    "wateq4f": "molecular:registry"
   }
 }

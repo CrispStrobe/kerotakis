@@ -658,6 +658,8 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         // 2026-11-21, soluble-salt class (A2): KBr, CuCl2, Na3PO4 and
         // Al2(SO4)3 dissolution enthalpies from the NBS/Wagman 1982 tables.
         "literature/nbs-wagman-1982-dissolution",
+        // 2026-11-24, missing-species lane: urea's bounded water solubility.
+        "literature/hsdb-urea-water",
     ];
     for record in reviewed
         .phase_thermodynamics

@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 19 | 1 | 101 |
-| minteq.v4 | 21 | 1 | 99 |
-| pitzer | 9 | 2 | 110 |
+| wateq4f | 19 | 1 | 106 |
+| minteq.v4 | 21 | 1 | 104 |
+| pitzer | 9 | 3 | 114 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -138,6 +138,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `CaO` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `CaO` | minteq.v4 | refused | Lime | the phase saturates at ionic strength >= 1000760131850537823271101872996352.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `CaO` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `CoCl2` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `CoCl2` | minteq.v4 | refused | CoCl2 | the phase saturates at ionic strength >= 1076.88 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `CoCl2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Cu` | wateq4f | refused | CuMetal | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Cu` | minteq.v4 | refused | Cumetal | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Cu` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
@@ -174,6 +177,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Fe2O3` | wateq4f | refused | Hematite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Fe2O3` | minteq.v4 | refused | Hematite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Fe2O3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Fe3O4` | wateq4f | refused | Magnetite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `Fe3O4` | minteq.v4 | refused | Magnetite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `Fe3O4` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `FeCl3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `FeCl3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `FeCl3` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -225,6 +231,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `MgCO3` | wateq4f | crystallises-with-priced-heat | Magnesite | PHREEQC phase saturation, delta_h -25.811 kJ/mol; solid priced |
 | `MgCO3` | minteq.v4 | crystallises-with-priced-heat | Magnesite | PHREEQC phase saturation, delta_h 20.000 kJ/mol; solid priced |
 | `MgCO3` | pitzer | crystallises-with-priced-heat | Magnesite | PHREEQC phase saturation, delta_h -6.169 kJ/mol; solid priced |
+| `MgCl2` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `MgCl2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `MgCl2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `MgO` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `MgO` | minteq.v4 | refused | Periclase | the phase saturates at ionic strength >= 7675912150465959165952.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `MgO` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -360,6 +369,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `atacamite` | wateq4f | refused | Atacamite | the phase saturates at ionic strength >= 792.85 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `atacamite` | minteq.v4 | refused | Atacamite | the phase saturates at ionic strength >= 824.50 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `atacamite` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `bischofite` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `bischofite` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `bischofite` | pitzer | solubility-only | Bischofite | PHREEQC phase saturation, but the solid is unpriced (bischofite: the reviewed phase states no 25 C dissolution enthalpy) |
 | `brochantite` | wateq4f | refused | Brochantite | the phase saturates at ionic strength >= 3857.91 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `brochantite` | minteq.v4 | refused | Brochantite | the phase saturates at ionic strength >= 3653.86 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `brochantite` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -438,6 +450,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `uranium` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `uranium` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `uranium` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `urea` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `urea` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `urea` | pitzer | refused | - | the routed database defines no phase for this solid |
 <!-- coverage:end -->
 
 ## Remaining gaps

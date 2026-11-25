@@ -22,7 +22,7 @@ D-(+)-maltose monohydrate in water, mass fraction w = 0.4106 / 0.4424 / 0.4792 a
 hydrate water counted as solvent. Other sugars: glucose, fructose and sucrose already carry a
 registry solubility; no other sugar is a registry solid.
 
-Counts: other-route 2, refused 4, registry-solubility 13, reviewed-row 2.
+Counts: other-route 2, refused 4, registry-solubility 14, reviewed-row 2.
 
 | species | class | dissolves by route | g/100 mL | source |
 |---|---|---|---|---|
@@ -47,3 +47,4 @@ Counts: other-route 2, refused 4, registry-solubility 13, reviewed-row 2.
 | paraffin | refused | no | — | no primary measurement read: not-modeled.organic-solid-no-solubility |
 | starch | registry-solubility | yes | 0 | registry model_parameters aqueous-solubility-g-per-100-ml |
 | sucrose | registry-solubility | yes | 200 | registry model_parameters aqueous-solubility-g-per-100-ml |
+| urea | registry-solubility | yes | 54.5 | registry model_parameters aqueous-solubility-g-per-100-ml |

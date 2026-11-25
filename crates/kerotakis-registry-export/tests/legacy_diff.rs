@@ -45,7 +45,16 @@ const MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION: &[&str] =
 const MOLAR_MASSES_WITH_A_BAND: usize = 68;
 
 /// Dissolution enthalpies computed from the NBS/Wagman 1982 tables.
-const NBS_WAGMAN_DISSOLUTION: &[&str] = &["KBr", "CuCl2", "Na3PO4", "Al2(SO4)3"];
+const NBS_WAGMAN_DISSOLUTION: &[&str] = &[
+    "KBr",
+    "CuCl2",
+    "Na3PO4",
+    "Al2(SO4)3",
+    // Missing-species lane (2026-11-24).
+    "MgCl2",
+    "CoCl2",
+    "urea",
+];
 
 fn reaches_the_atomic_weight_table(species: &SpeciesData) -> bool {
     let formula = parse_formula(species.formula).expect("formula parses");
@@ -288,6 +297,8 @@ fn every_legacy_field_is_present_and_unchanged() {
                     // Their own reviewed sources: Berg & Vanderzee, and the
                     // NBS/Wagman 1982 soluble-salt rows (A2, 2026-11-21).
                     "Na2CO3" | "KBr" | "CuCl2" | "Na3PO4" | "Al2(SO4)3"
+                        // Missing-species lane (2026-11-24), NBS/Wagman 1982.
+                        | "MgCl2" | "CoCl2" | "urea"
                 ))
             .count()
     );
@@ -1268,7 +1279,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 221, "one molar mass per species");
+    assert_eq!(masses.len(), 227, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

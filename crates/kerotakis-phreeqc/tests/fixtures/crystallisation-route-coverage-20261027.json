@@ -441,6 +441,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "CoCl2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "CoCl2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "CoCl2",
+    "reason": "the phase saturates at ionic strength >= 1076.88 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "CoCl2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Cu",
     "route": "wateq4f",
     "class": "refused",
@@ -687,6 +708,27 @@
   },
   {
     "solid": "Fe2O3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Fe3O4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Magnetite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Fe3O4",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Magnetite",
+    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+  },
+  {
+    "solid": "Fe3O4",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -1048,6 +1090,27 @@
     "class": "crystallises-with-priced-heat",
     "phase": "Magnesite",
     "reason": "PHREEQC phase saturation, delta_h -6.169 kJ/mol; solid priced"
+  },
+  {
+    "solid": "MgCl2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "MgCl2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "MgCl2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
   },
   {
     "solid": "MgO",
@@ -1995,6 +2058,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "bischofite",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "bischofite",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "bischofite",
+    "route": "pitzer",
+    "class": "solubility-only",
+    "phase": "Bischofite",
+    "reason": "PHREEQC phase saturation, but the solid is unpriced (bischofite: the reviewed phase states no 25 C dissolution enthalpy)"
+  },
+  {
     "solid": "brochantite",
     "route": "wateq4f",
     "class": "refused",
@@ -2539,5 +2623,26 @@
     "class": "refused",
     "phase": null,
     "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
+  },
+  {
+    "solid": "urea",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "urea",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "urea",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
   }
 ]

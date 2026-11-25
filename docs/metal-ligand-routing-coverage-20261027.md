@@ -11,7 +11,7 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 - route-deciding, defined on wateq4f: 2
 - route-deciding, defined only on minteq.v4: 50
 - route-deciding, missing on every routed database (refused): 5
-- route-deciding, metal suppliable from the registry: 32
+- route-deciding, metal suppliable from the registry: 37
 
 ## Route-deciding families
 
@@ -29,11 +29,11 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 | Cd | Cyanide | cyanide | no | - | Cd(Cyanide)2, Cd(Cyanide)3-, Cd(Cyanide)4-2, CdCyanide+ | - | routes to minteq.v4 | - |
 | Cd | Edta | EDTA | no | - | Cd(Edta)-2, CdH(Edta)- | - | routes to minteq.v4 | - |
 | Cd | N(-3) | ammine | no | - | - | - | missing on every routed database; refused with a typed reason | Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Cd(NH3)4 2+) |
-| Co | Acetate | acetate | no | - | Co(Acetate)+, Co(Acetate)2 | - | routes to minteq.v4 | - |
-| Co | Citrate | citrate | no | - | Co(Citrate)-, CoH2Citrate+, CoHCitrate | - | routes to minteq.v4 | - |
-| Co | Cyanide | cyanide | no | - | Co(Cyanide)3-, Co(Cyanide)5-3 | - | routes to minteq.v4 | - |
-| Co | Edta | EDTA | no | - | Co(Edta)-, Co(Edta)-2, CoH(Edta), CoH(Edta)-, CoH2(Edta) | - | routes to minteq.v4 | - |
-| Co | N(-3) | ammine | no | - | Co(NH3)+2, Co(NH3)2+2, Co(NH3)3+2, Co(NH3)4+2, Co(NH3)5+2, Co(NH3)6OH+2 | - | routes to minteq.v4 | - |
+| Co | Acetate | acetate | yes | - | Co(Acetate)+, Co(Acetate)2 | - | routes to minteq.v4 | - |
+| Co | Citrate | citrate | yes | - | Co(Citrate)-, CoH2Citrate+, CoHCitrate | - | routes to minteq.v4 | - |
+| Co | Cyanide | cyanide | yes | - | Co(Cyanide)3-, Co(Cyanide)5-3 | - | routes to minteq.v4 | - |
+| Co | Edta | EDTA | yes | - | Co(Edta)-, Co(Edta)-2, CoH(Edta), CoH(Edta)-, CoH2(Edta) | - | routes to minteq.v4 | - |
+| Co | N(-3) | ammine | yes | - | Co(NH3)+2, Co(NH3)2+2, Co(NH3)3+2, Co(NH3)4+2, Co(NH3)5+2, Co(NH3)6OH+2 | - | routes to minteq.v4 | - |
 | Cr | Acetate | acetate | yes | - | Cr(Acetate)+, Cr(Acetate)+2, Cr(Acetate)2, Cr(Acetate)2+, Cr(Acetate)3 | - | routes to minteq.v4 | - |
 | Cr | Edta | EDTA | yes | - | Cr(Edta)-, Cr(Edta)-2, CrH(Edta), CrH(Edta)-, CrOH(Edta)-2 | - | routes to minteq.v4 | - |
 | Cr | N(-3) | ammine | yes | - | Cr(NH3)5OH+2, Cr(NH3)6+3 | - | routes to minteq.v4 | - |

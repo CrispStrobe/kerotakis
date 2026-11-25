@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 160, boiling.reported 67, melting.no_data 126, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -78,6 +78,8 @@ Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.r
 | Cl- | aqueous | no_data | no_data | — |
 | Cl2 | gas | melting 172.16 K | boiling 239.1 K | literature/transition-points/Cl2 |
 | ClO- | aqueous | no_data | no_data | — |
+| Co+2 | aqueous | no_data | no_data | — |
+| CoCl2 | solid | no_data | no_data | — |
 | Cu | solid | melting 1357.77 K | boiling 2868 K | literature/transition-points/Cu |
 | Cu(OH)2 | solid | no_data | no_data | — |
 | Cu+1 | aqueous | no_data | no_data | — |
@@ -94,6 +96,7 @@ Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.r
 | Fe+2 | aqueous | no_data | no_data | — |
 | Fe+3 | aqueous | no_data | no_data | — |
 | Fe2O3 | solid | no_data | no_data | — |
+| Fe3O4 | solid | no_data | no_data | — |
 | FeCl3 | solid | melting 577 K | no_data | literature/transition-points/FeCl3 |
 | FeSO4 | solid | decomposition 873.15 K | decomposition 873.15 K | literature/transition-points/FeSO4 |
 | H+ | aqueous | no_data | no_data | — |
@@ -132,6 +135,7 @@ Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.r
 | Mg(OH)2 | solid | no_data | no_data | — |
 | Mg+2 | aqueous | no_data | no_data | — |
 | MgCO3 | solid | no_data | no_data | — |
+| MgCl2 | solid | no_data | no_data | — |
 | MgO | solid | melting 3173 K | no_data | literature/transition-points/MgO |
 | MgSO4 | solid | melting 1400 K | no_data | literature/transition-points/MgSO4 |
 | Mn+2 | aqueous | no_data | no_data | — |
@@ -207,6 +211,7 @@ Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.r
 | atacamite | solid | decomposition 473.15 K | decomposition 473.15 K | literature/transition-points/atacamite |
 | betanin | aqueous | no_data | no_data | — |
 | betanin_ox | aqueous | no_data | no_data | — |
+| bischofite | solid | no_data | no_data | — |
 | brochantite | solid | decomposition 693.15 K | decomposition 693.15 K | literature/transition-points/brochantite |
 | bromoethane | liquid | melting 155 K | boiling 311.5 K | literature/transition-points/bromoethane |
 | bromothymol_blue | aqueous | no_data | no_data | — |
@@ -262,6 +267,7 @@ Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.r
 | tert_butanol | liquid | melting 298.97 K | boiling 355.47 K | literature/transition-points/tert_butanol |
 | tert_butyl_bromide | liquid | melting 256.95 K | boiling 346.4 K | literature/transition-points/tert_butyl_bromide |
 | uranium | solid | melting 1405 K | no_data | literature/transition-points/uranium |
+| urea | solid | no_data | no_data | — |
 | water | liquid | melting 273.15 K | boiling 373.15 K | literature/transition-points/water |
 
 ## Sources

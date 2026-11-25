@@ -2213,7 +2213,7 @@
     "metal": "Co",
     "ligand": "Acetate",
     "family": "acetate",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2228,7 +2228,7 @@
     "metal": "Co",
     "ligand": "Benzoate",
     "family": "background (Benzoate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2242,7 +2242,7 @@
     "metal": "Co",
     "ligand": "Butyrate",
     "family": "background (Butyrate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2257,7 +2257,7 @@
     "metal": "Co",
     "ligand": "C",
     "family": "background (C)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2272,7 +2272,7 @@
     "metal": "Co",
     "ligand": "Citrate",
     "family": "citrate",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2288,7 +2288,7 @@
     "metal": "Co",
     "ligand": "Cl",
     "family": "background (Cl)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2303,7 +2303,7 @@
     "metal": "Co",
     "ligand": "Cyanide",
     "family": "cyanide",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2318,7 +2318,7 @@
     "metal": "Co",
     "ligand": "Edta",
     "family": "EDTA",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2336,7 +2336,7 @@
     "metal": "Co",
     "ligand": "Ethylenediamine",
     "family": "background (Ethylenediamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2354,7 +2354,7 @@
     "metal": "Co",
     "ligand": "F",
     "family": "background (F)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2368,7 +2368,7 @@
     "metal": "Co",
     "ligand": "Formate",
     "family": "background (Formate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2383,7 +2383,7 @@
     "metal": "Co",
     "ligand": "Four_picoline",
     "family": "background (Four_picoline)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2400,7 +2400,7 @@
     "metal": "Co",
     "ligand": "Glutamate",
     "family": "background (Glutamate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2415,7 +2415,7 @@
     "metal": "Co",
     "ligand": "Glycine",
     "family": "background (Glycine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2432,7 +2432,7 @@
     "metal": "Co",
     "ligand": "N(-3)",
     "family": "ammine",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -2451,7 +2451,7 @@
     "metal": "Co",
     "ligand": "N(3)",
     "family": "background (N(3))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2465,7 +2465,7 @@
     "metal": "Co",
     "ligand": "N(5)",
     "family": "background (N(5))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2480,7 +2480,7 @@
     "metal": "Co",
     "ligand": "Nta",
     "family": "background (Nta)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2496,7 +2496,7 @@
     "metal": "Co",
     "ligand": "OH",
     "family": "hydroxide",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2517,7 +2517,7 @@
     "metal": "Co",
     "ligand": "P",
     "family": "background (P)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2531,7 +2531,7 @@
     "metal": "Co",
     "ligand": "Phenylacetate",
     "family": "background (Phenylacetate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2546,7 +2546,7 @@
     "metal": "Co",
     "ligand": "Phthalate",
     "family": "background (Phthalate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2561,7 +2561,7 @@
     "metal": "Co",
     "ligand": "Propionate",
     "family": "background (Propionate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2576,7 +2576,7 @@
     "metal": "Co",
     "ligand": "S(6)",
     "family": "background (S(6))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2590,7 +2590,7 @@
     "metal": "Co",
     "ligand": "Salicylate",
     "family": "background (Salicylate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2605,7 +2605,7 @@
     "metal": "Co",
     "ligand": "Se(6)",
     "family": "background (Se(6))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2619,7 +2619,7 @@
     "metal": "Co",
     "ligand": "Tartarate",
     "family": "background (Tartarate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -2635,7 +2635,7 @@
     "metal": "Co",
     "ligand": "Three_picoline",
     "family": "background (Three_picoline)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
