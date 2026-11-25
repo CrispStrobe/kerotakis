@@ -4490,7 +4490,10 @@ impl Equilibrator for PhreeqcEquilibrator {
             )]);
         }
         if partition(vessel).is_some_and(|problem| problem.solvent_only) {
-            return characterize_solvent_only(vessel);
+            let start = vessel.clone();
+            let mut events = characterize_solvent_only(vessel)?;
+            events.extend(molecular_dissolution_heat(&start, vessel));
+            return Ok(events);
         }
         let component_charge_note = analytical_charge_note(vessel);
         if let Some(surface) = vessel
@@ -5289,6 +5292,46 @@ fn unpriced_heat_note(vessel: kerotakis_core::VesselId, unpriced: &enthalpy::Unp
             vec![("species".to_string(), Slot::text(unpriced.species.clone()))],
         ),
     )
+}
+
+/// The heat of a step in which the only thing that went into solution is a
+/// molecule no database speciates (urea, glucose). Such a vessel is routed
+/// to the solvent relation, which never ran the whole-step heat balance, so
+/// the dissolution used to leave the thermometer where it was AND say
+/// nothing about it. The same ledger term the full balance uses
+/// ([`enthalpy::molecular_dissolution`]) prices it here, from the step's
+/// snapshot; a molecule without a reviewed enthalpy gets the same typed
+/// refusal the full balance gives, and the temperature is kept.
+fn molecular_dissolution_heat(start: &Vessel, vessel: &mut Vessel) -> Vec<Event> {
+    if !matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+        || !kerotakis_core::aqueous_continuation::whole_step_heat_available(start)
+    {
+        return Vec::new();
+    }
+    let before = match &vessel.step_start {
+        Some(snapshot) => snapshot.contents.clone(),
+        None => start.contents.clone(),
+    };
+    let quote = enthalpy::molecular_dissolution(&before, &vessel.contents);
+    if let Some(unpriced) = &quote.unpriced {
+        return vec![unpriced_heat_note(vessel.id, unpriced)];
+    }
+    if quote.priced.is_empty() || quote.released_j == 0.0 {
+        return Vec::new();
+    }
+    let t0 = start.temperature;
+    let t_final = aqueous_temperature_target(start, vessel, quote.released_j, true);
+    vessel.temperature = Kelvin(t_final.max(0.0));
+    vessel.refresh_pressure();
+    if (t_final - t0.0).abs() > 0.01 {
+        vec![Event::TemperatureChanged {
+            vessel: vessel.id,
+            from: t0,
+            to: vessel.temperature,
+        }]
+    } else {
+        Vec::new()
+    }
 }
 
 fn aqueous_temperature_target(
@@ -7224,6 +7267,100 @@ mod canonical_physical_closure_tests {
     }
 
     #[cfg(feature = "engine")]
+    /// Every supplied hydrate, posed on every routed database, is either
+    /// posed as a phase that database can name or dissolved into the
+    /// element totals with its crystal water credited to the solvent —
+    /// never skipped. The skip is what lost bischofite's magnesium: a
+    /// pitzer-only phase on the wateq4f route was kept, `build_input` could
+    /// not name it, and the solid became nothing.
+    #[test]
+    fn a_hydrate_the_route_cannot_pose_is_dissolved_not_dropped() {
+        let solver = PhreeqcEquilibrator::new().expect("native dataset constructor");
+        let water_mol = 5.534_276_991_396_059;
+        let n = 0.004;
+        let mut checked = 0;
+        let mut freed = 0;
+        for data in species::REGISTRY {
+            let Some(DerivedRole::Mineral { phase, elements }) = derived::role(data.key) else {
+                continue;
+            };
+            let Some(dp) = derived::phase_by_name(phase) else {
+                continue;
+            };
+            if dp.waters <= 0.0 {
+                continue;
+            }
+            for db in derived::DB_TAGS.iter().copied() {
+                let mut vessel = Vessel::new(VesselId(0), "hydrate route");
+                vessel.deposit(SpeciesId::new("water"), Moles(water_mol), Phase::Liquid);
+                vessel.deposit(SpeciesId::new(data.key), Moles(n), Phase::Solid);
+                let Ok(Some(setup)) = solver.setup_problem(&vessel, Some(db)) else {
+                    continue;
+                };
+                checked += 1;
+                let problem = &setup.problem;
+                for (name, moles, _) in &problem.phases {
+                    assert!(
+                        *moles <= 0.0 || posed_phase(name, setup.db_tag).is_some(),
+                        "{} on {db}: {name} would be skipped by build_input",
+                        data.key
+                    );
+                }
+                let posed: f64 = problem
+                    .phases
+                    .iter()
+                    .filter(|(name, ..)| {
+                        derived::phase_by_name(name).is_some_and(|p| p.species == data.key)
+                    })
+                    .map(|(_, moles, _)| *moles)
+                    .sum();
+                let dissolved = setup
+                    .freed_phases
+                    .iter()
+                    .filter(|(name, _)| {
+                        derived::phase_by_name(name).is_some_and(|p| p.species == data.key)
+                    })
+                    .map(|(_, moles)| *moles)
+                    .sum::<f64>();
+                assert!(
+                    (posed + dissolved - n).abs() < 1e-15,
+                    "{} on {db}: posed {posed} + dissolved {dissolved} != {n}",
+                    data.key
+                );
+                for (element, coefficient) in elements {
+                    let total: f64 = problem
+                        .totals
+                        .iter()
+                        .filter(|(e, _)| e == element)
+                        .map(|(_, m)| *m)
+                        .sum();
+                    assert!(
+                        (total - coefficient * dissolved).abs() < 1e-15,
+                        "{} on {db}: {element} total {total} vs {}",
+                        data.key,
+                        coefficient * dissolved
+                    );
+                }
+                let kgw = (water_mol + dp.waters * dissolved) * WATER_MOLAR_MASS / 1000.0;
+                assert!(
+                    (problem.kgw - kgw).abs() < 1e-15,
+                    "{} on {db}: crystal water {} kg vs {kgw}",
+                    data.key,
+                    problem.kgw
+                );
+                if dissolved > 0.0 {
+                    freed += 1;
+                }
+            }
+        }
+        assert!(checked >= 6, "too few hydrate routes examined: {checked}");
+        // Today every registry hydrate is defined on each route it can
+        // reach, so `freed` may be zero; the freeing path itself is pinned
+        // end to end by a pitzer-only hydrate (bischofite) where one ships.
+        let _ = freed;
+        assert_eq!(solver.engine_calls(), 0, "setup only");
+    }
+
     #[test]
     fn original_bicarbonate_boundary_keeps_the_one_molal_route_selection() {
         let solver = PhreeqcEquilibrator::new().expect("native dataset constructor");
@@ -9099,9 +9236,8 @@ impl PhreeqcEquilibrator {
         // input. Zero-amount candidates are dropped; a solid-backed
         // anhydrous phase (e.g. solid KCl on the wateq4f route — Sylvite is
         // pitzer-only) dissolves into element totals instead, i.e. is
-        // treated as freely soluble in that database's domain. Hydrate
-        // phases are kept so the engine errors honestly rather than the
-        // ledger losing their crystal water silently.
+        // treated as freely soluble in that database's domain. A hydrate
+        // is freed the same way, its crystal water credited to the solvent.
         let idx = derived::index_for(db_tag);
         // Every gas posed to the solve must be defined on the routed
         // database, natively or through the consistency-checked import in
@@ -9154,6 +9290,7 @@ impl PhreeqcEquilibrator {
         }
         let coupled_now =
             redox_coupling_totals(&phase_inclusive_totals(&problem), db_tag).is_some();
+        let mut freed_water_kg = 0.0;
         problem.phases.retain_mut(|(name, moles, _)| {
             if idx.has_phase(name) {
                 return true;
@@ -9170,13 +9307,24 @@ impl PhreeqcEquilibrator {
             }
             if *moles > 0.0 {
                 if let Some(p) = derived::phase_by_name(name) {
-                    if p.waters == 0.0 {
-                        for (el, c) in &p.elements {
-                            freed.push((el.clone(), *c * *moles));
-                        }
-                        freed_phases.push((name.clone(), *moles));
-                        return false;
+                    // A hydrate is freed exactly like an anhydrous salt,
+                    // and its waters of crystallisation join the solvent.
+                    //
+                    // It used to be KEPT "so the engine errors honestly",
+                    // but no error ever came: `build_input` poses only what
+                    // `posed_phase` can name and silently skips the rest. So
+                    // bischofite (MgCl2·6H2O, a phase only pitzer.dat
+                    // writes) entered a wateq4f solve as nothing at all —
+                    // its Mg and Cl were in neither the totals nor any
+                    // phase, the readback found the phase at zero, called
+                    // that a dissolution, and every atom of it was gone
+                    // from the vessel on the next step.
+                    for (el, c) in &p.elements {
+                        freed.push((el.clone(), *c * *moles));
                     }
+                    freed_water_kg += p.waters * *moles * WATER_MOLAR_MASS / 1000.0;
+                    freed_phases.push((name.clone(), *moles));
+                    return false;
                 }
                 return true;
             }
@@ -9216,6 +9364,22 @@ impl PhreeqcEquilibrator {
                 .iter()
                 .any(|(phase, ..)| phase == &exchange.phase)
         });
+        problem.kgw += freed_water_kg;
+        // Nothing with an amount may reach `build_input` unposable: it
+        // would be skipped there, and whatever it held would vanish.
+        if let Some((name, ..)) = problem
+            .phases
+            .iter()
+            .find(|(name, moles, _)| *moles > 0.0 && posed_phase(name, db_tag).is_none())
+        {
+            return Err(SolveError::NotConverged {
+                reason: None,
+                solver: self.name().to_string(),
+                detail: format!(
+                    "supplied solid phase {name} cannot be posed on the routed {db_tag} database and could not be dissolved into its element totals"
+                ),
+            });
+        }
         for (el, n) in freed {
             if let Some(entry) = problem.totals.iter_mut().find(|(e, _)| *e == el) {
                 entry.1 += n;

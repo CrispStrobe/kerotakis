@@ -709,6 +709,118 @@ fn unpriced_ceiling_kj(key: &str, db_tag: &str) -> f64 {
     family.unwrap_or_else(|| largest_phase_enthalpy_kj(db_tag))
 }
 
+/// Does this registry solid dissolve as an intact molecule?
+///
+/// Urea, glucose, sucrose: no vendored database speciates them, so the
+/// aqueous engine gives them no role at all and they enter solution as the
+/// same molecule they left the crystal as. For such a substance the whole
+/// heat of going into solution IS its enthalpy of dissolution — there are
+/// no products to price, and the solid and the solute can share one
+/// arbitrary basis because neither ever becomes anything else here.
+///
+/// That last clause is the condition, and [`molecular_dissolution`] checks
+/// it per step: a molecule whose solid and dissolved amounts do not move
+/// by equal and opposite amounts was consumed or produced by a reaction,
+/// and that is not a dissolution.
+///
+/// Only solids this lab can actually put into water qualify: freely
+/// soluble ones (`dissolves_without_speciation`), ones with a reviewed
+/// solubility, or ones the registry gives an enthalpy of dissolution. A
+/// metal, a condensed gas or an insoluble polymer is not a solute.
+pub fn is_molecular_solute(key: &str) -> bool {
+    key != "water"
+        && derived::role(key).is_none()
+        && !kerotakis_core::displacement::is_elemental_metal(key)
+        && !kerotakis_core::phase_route::is_condensed_gas(key)
+        && species::lookup_key(key).is_some_and(|d| {
+            d.standard_phase == Phase::Solid
+                && stoich::parse_formula(d.formula).is_ok_and(|f| f.charge == 0.0)
+                && (d.dissolves_without_speciation
+                    || d.dissolution_enthalpy_kj.is_some()
+                    || d.aqueous_solubility_at(kerotakis_core::Kelvin::STANDARD.0)
+                        .is_some_and(|g| g > 0.0))
+        })
+}
+
+/// The registry's enthalpy of dissolution of a molecular solute, kJ/mol
+/// (positive endothermic), or the refusal naming it. `None` for anything
+/// that is not a molecular solute.
+pub fn molecular_dissolution_route(key: &str) -> Option<Result<f64, Unpriced>> {
+    if !is_molecular_solute(key) {
+        return None;
+    }
+    Some(
+        species::lookup_key(key)
+            .and_then(|d| d.dissolution_enthalpy_kj)
+            .filter(|h| h.is_finite())
+            .ok_or(Unpriced {
+                species: key.to_string(),
+                why: "a molecular solute with no reviewed enthalpy of dissolution",
+            }),
+    )
+}
+
+/// The molecular dissolutions between two states of one vessel.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct MolecularDissolution {
+    /// Heat released by the priced ones, J (positive warms the beaker).
+    pub released_j: f64,
+    /// Registry keys whose solid-to-solution move is fully accounted for by
+    /// `released_j`.
+    pub priced: Vec<String>,
+    /// The first molecule that went into (or out of) solution with no
+    /// reviewed enthalpy.
+    pub unpriced: Option<Unpriced>,
+}
+
+/// Price every molecular solute that only changed PHASE between `before`
+/// and `after`: `-Δn(aq) × ΔH_dissolution`. A molecule whose total amount
+/// changed is left alone (a reaction owns it, and the caller's refusal
+/// rules apply); so is anything [`is_molecular_solute`] rejects.
+pub fn molecular_dissolution(before: &[Portion], after: &[Portion]) -> MolecularDissolution {
+    let mut moved: BTreeMap<&str, (f64, f64)> = BTreeMap::new();
+    for (sign, side) in [(-1.0, before), (1.0, after)] {
+        for p in side {
+            let slot = match p.phase {
+                Phase::Solid => 0,
+                Phase::Aqueous => 1,
+                _ => continue,
+            };
+            if !is_molecular_solute(&p.species.0) {
+                continue;
+            }
+            let entry = moved.entry(p.species.0.as_str()).or_insert((0.0, 0.0));
+            if slot == 0 {
+                entry.0 += sign * p.moles.0;
+            } else {
+                entry.1 += sign * p.moles.0;
+            }
+        }
+    }
+    let mut out = MolecularDissolution::default();
+    for (key, (d_solid, d_aqueous)) in moved {
+        if d_aqueous.abs() <= NEGLIGIBLE {
+            continue;
+        }
+        // Conserved as a molecule, to the solver's last digit relative to
+        // what moved: only then is this a dissolution and nothing else.
+        if (d_solid + d_aqueous).abs() > NEGLIGIBLE.max(1e-9 * d_aqueous.abs()) {
+            continue;
+        }
+        match molecular_dissolution_route(key) {
+            Some(Ok(h)) => {
+                out.released_j -= d_aqueous * h * 1000.0;
+                out.priced.push(key.to_string());
+            }
+            Some(Err(declined)) => {
+                out.unpriced.get_or_insert(declined);
+            }
+            None => {}
+        }
+    }
+    out
+}
+
 /// What the ledger could price, and a bound on what it could not.
 #[derive(Debug, Clone, PartialEq)]
 pub struct HeatQuote {
@@ -813,6 +925,15 @@ pub fn heat_quote(
     }
 
     let mut d_h_kj = 0.0;
+    // A molecule that only went into solution is its enthalpy of
+    // dissolution and nothing else; it has no basis-relative enthalpy of
+    // its own, so it is taken out of the per-species sum here.
+    let molecular = molecular_dissolution(before, after);
+    d_h_kj -= molecular.released_j / 1000.0;
+    for key in &molecular.priced {
+        delta.remove(&(key.clone(), phase_key(Phase::Solid)));
+        delta.remove(&(key.clone(), phase_key(Phase::Aqueous)));
+    }
     let mut unpriced: Option<Unpriced> = None;
     let mut unpriced_bound_kj = 0.0;
     for ((key, phase), moved) in &delta {

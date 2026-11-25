@@ -175,14 +175,14 @@
     "wateq4f": "reference:llnl.dat:FeSO4"
   },
   "H2C2O4": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "I2": {
-    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "K": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
@@ -191,13 +191,13 @@
   },
   "K2Cr2O7": {
     "minteq.v4": "reference:minteq.v4:K2Cr2O7",
-    "pitzer": "refused: a reaction species is not defined on the routed database",
-    "wateq4f": "refused: a reaction species is not defined on the routed database"
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "K2CrO4": {
     "minteq.v4": "reference:minteq.v4:K2CrO4",
-    "pitzer": "refused: a reaction species is not defined on the routed database",
-    "wateq4f": "refused: a reaction species is not defined on the routed database"
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "KBr": {
     "minteq.v4": "curated",
@@ -280,9 +280,9 @@
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
   "Na2B4O7": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "Na2CO3": {
     "minteq.v4": "curated",
@@ -380,9 +380,9 @@
     "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
   },
   "PVA": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "Pb": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
@@ -415,9 +415,9 @@
     "wateq4f": "routed"
   },
   "S": {
-    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "SiO2": {
     "minteq.v4": "reference:minteq.v4:Quartz",
@@ -465,9 +465,9 @@
     "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
   },
   "ascorbic_acid": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "atacamite": {
     "minteq.v4": "reference:minteq.v4:Atacamite",
@@ -520,14 +520,14 @@
     "wateq4f": "reference:wateq4f:Epsomite"
   },
   "fructose": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "glucose": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "graphite": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
@@ -560,19 +560,19 @@
     "wateq4f": "reference:wateq4f:Langite"
   },
   "malic_acid": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "maltose": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "naphthalene": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "nylon": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
@@ -595,9 +595,9 @@
     "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
   },
   "sucrose": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
+    "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "uranium": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
