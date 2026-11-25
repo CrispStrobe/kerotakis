@@ -985,6 +985,7 @@ impl Equilibrator for CuratedEquilibrator {
             r.post_aqueous.is_none() && !(owned && r.aqueous_overlap.is_some()) && fires(vessel, r)
         }) || crate::sulfur_iv::fires(vessel)
             || crate::chlorine::fires(vessel)
+            || crate::potential_redox::fires(vessel)
             || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
             || crate::reducing_sugar::fires(vessel)
@@ -1140,6 +1141,13 @@ impl Equilibrator for CuratedEquilibrator {
             // generic halogen writers, so dissolved chlorine and its HClO
             // exist when their admitted rows look for them.
             if crate::chlorine::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // The other potential-driven routes (bromine and iodine from an
+            // oxidant in acid, bromine on iodide, dichromate): after
+            // chlorine, whose preparations and displacements are rows of the
+            // same table, and before the generic halogen writers.
+            if crate::potential_redox::apply(vessel, &mut events) {
                 progressed = true;
             }
             // The generic halogen/oxyhalogen writers run after the hand

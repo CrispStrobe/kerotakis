@@ -931,7 +931,8 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
             )
         }) || solved
             || crate::sulfur_iv::covers(o, r)
-            || crate::chlorine::covers(o, r);
+            || crate::chlorine::covers(o, r)
+            || crate::potential_redox::covers(o, r);
         let list = if (admitted || solved) && !medium_ok {
             &mut outside
         } else if covered {
@@ -945,6 +946,10 @@ pub fn unpriced_notes(vessel: &Vessel) -> Vec<Event> {
     }
     // S(IV) beside peroxide that the sulfur(IV) writer refuses says so.
     let mut events = crate::sulfur_iv::unpriced_notes(vessel);
+    // Potential-driven and concentrated-acid routes whose product the
+    // registry does not carry yet say so here, every step.
+    events.extend(crate::potential_redox::dormant_notes(vessel));
+    events.extend(crate::concentrated_sulfuric::dormant_notes(vessel));
     if !uncovered.is_empty() {
         events.push(Event::not_modeled(
             vessel.id,
