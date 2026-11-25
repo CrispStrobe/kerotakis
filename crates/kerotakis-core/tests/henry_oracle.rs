@@ -128,6 +128,17 @@ const SOLUBILITY_BANDS: &[(&str, f64, &str)] = &[
          marked `Not possible to calculate`), so the 3100 K is uncorroborated \
          here. EXCLUDES: 1.2e-1 or 1.2e1, a decimal slip.",
     ),
+    (
+        "H2S",
+        0.05,
+        "5%. wateq4f.dat is the only vendored file that writes `H2S = H2S` \
+         (log_k -0.997, i.e. 0.1007 mol/(kg atm)); phreeqc.dat, llnl.dat and \
+         minteq.v4.dat write the gas straight to HS- and are skipped by the \
+         generator. Our 0.1013 mol/(L atm) is the modal 0.10 mol/(kg bar) of \
+         the NIST WebBook's compiled rows (0.087 to 0.10), 0.6% from \
+         wateq4f.dat. The band is the compilations' own few-percent spread. \
+         EXCLUDES: 1.0e-2 or 1.0, a decimal slip, and the 0.087 outlier row.",
+    ),
 ];
 
 /// Gases in the shipped table that this oracle CANNOT reach, and why. The
@@ -211,6 +222,16 @@ const TEMPERATURE_BANDS: &[(&str, f64, &str)] = &[
          gives 4237 K, 3.1% apart, with our 4200 between them and within 2.1% \
          of the further one. EXCLUDES: anything outside the range the two \
          references bracket.",
+    ),
+    (
+        "H2S",
+        0.10,
+        "10%. wateq4f.dat's -4.57 kcal gives 2300 K against our 2100 K, the \
+         modal value of the NIST WebBook's compiled rows, which themselves \
+         span 2000 to 2300 K (a 14% spread) with wateq4f.dat at the upper \
+         edge, 8.7% from us. The band is that spread. EXCLUDES: 1000 or \
+         4000 K, either of which would move the uptake visibly over a \
+         bench's temperature range.",
     ),
 ];
 
@@ -413,13 +434,13 @@ fn every_shipped_gas_is_either_corroborated_or_named_unreachable() {
         .collect();
     assert_eq!(
         solubility.len(),
-        6,
-        "six of the seven shipped gases have a corroborated solubility: {solubility:?}"
+        7,
+        "seven of the eight shipped gases have a corroborated solubility: {solubility:?}"
     );
     assert_eq!(
         temperature.len(),
-        3,
-        "three of the seven have a corroborated temperature coefficient: {temperature:?}"
+        4,
+        "four of the eight have a corroborated temperature coefficient: {temperature:?}"
     );
     eprintln!(
         "henry oracle: solubility corroborated for {} of {} gases, temperature \
@@ -512,5 +533,5 @@ fn the_fixture_still_matches_the_vendored_databases() {
         );
         rederived += 1;
     }
-    assert_eq!(rederived, 13, "every fixture row must be re-derivable");
+    assert_eq!(rederived, 14, "every fixture row must be re-derivable");
 }

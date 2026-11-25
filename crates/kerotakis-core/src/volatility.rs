@@ -502,7 +502,24 @@ impl Equilibrator for HeadspacePartitionEquilibrator {
 /// beaker is read by the foam, heat-basis and perturbation contracts as a
 /// Gas portion, and moving it is a separate, reviewed change (it is named
 /// as an open gap rather than folded in here).
-pub const OPEN_BOUNDARY_UPTAKE: &[&str] = &["SO2"];
+///
+/// Hydrogen sulfide joined on 2026-11-24 (C1 sulfur lane): a dose of the gas
+/// bubbled into a beaker of copper or lead salt solution sat as a Gas
+/// portion beside the liquid, so it neither lowered the pH nor met the metal
+/// ion. Its dissolved neutral share has an aqueous owner too, the reduced
+/// sulfur split's basis key `H2S(aq)` (see [`dissolved_key`]).
+pub const OPEN_BOUNDARY_UPTAKE: &[&str] = &["SO2", "hydrogen_sulfide"];
+
+/// The Henry-table formula and the aqueous inventory key of a gas in
+/// [`OPEN_BOUNDARY_UPTAKE`]. Sulfur dioxide keeps its key when dissolved;
+/// hydrogen sulfide's dissolved share books under the basis key `H2S(aq)`,
+/// never under the gas key, which has no aqueous role (`derived.rs`).
+pub fn dissolved_key(gas: &str) -> (&str, &str) {
+    match gas {
+        "hydrogen_sulfide" => ("H2S", "H2S(aq)"),
+        other => (other, other),
+    }
+}
 
 /// H6: send the gas a curated rate law just made in an open vessel through
 /// the open boundary.
@@ -559,14 +576,16 @@ pub fn settle_open_vessel_gas(vessel: &mut Vessel, made: &[(SpeciesId, f64)]) ->
         if parcel <= 0.0 {
             continue;
         }
+        let (formula, aqueous) = dissolved_key(&species.0);
+        let aqueous = SpeciesId::new(aqueous);
         let mut dissolve = 0.0;
         if water_present && v_liq > 0.0 {
-            if let Some(coeff) = henry_lookup(&species.0) {
+            if let Some(coeff) = henry_lookup(formula) {
                 let h = henry_at_t(coeff, vessel.temperature.0).value;
                 let dissolved: f64 = vessel
                     .contents
                     .iter()
-                    .filter(|p| p.species == species && p.phase == Phase::Aqueous)
+                    .filter(|p| p.species == aqueous && p.phase == Phase::Aqueous)
                     .map(|p| p.moles.0)
                     .sum();
                 dissolve = (h * v_liq - dissolved).clamp(0.0, parcel);
@@ -575,7 +594,7 @@ pub fn settle_open_vessel_gas(vessel: &mut Vessel, made: &[(SpeciesId, f64)]) ->
         let taken = vessel.withdraw_phase(&species, Moles(parcel), Phase::Gas).0;
         let dissolve = dissolve.min(taken);
         if dissolve > 0.0 {
-            vessel.deposit(species.clone(), Moles(dissolve), Phase::Aqueous);
+            vessel.deposit(aqueous, Moles(dissolve), Phase::Aqueous);
         }
         let escaped = taken - dissolve;
         if escaped > 0.0 {
@@ -789,5 +808,49 @@ mod tests {
             .contents
             .iter()
             .any(|p| p.species.0 == "SO2" && p.phase == Phase::Gas));
+    }
+
+    #[test]
+    fn hydrogen_sulfide_dissolves_as_its_basis_key_up_to_the_bubble_threshold() {
+        // 100 mL holds 0.1013 mol/(L atm) x 0.1 L = 10.1 mmol at one
+        // atmosphere: a 2 mmol dose dissolves whole, as H2S(aq).
+        let mut v = open_water_beaker();
+        v.deposit(SpeciesId::new("hydrogen_sulfide"), Moles(0.002), Phase::Gas);
+        let events = settle_open_vessel_gas(&mut v, &[(SpeciesId::new("hydrogen_sulfide"), 0.002)]);
+        assert!(events.is_empty(), "{events:?}");
+        let aq: f64 = v
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == "H2S(aq)" && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum();
+        assert!((aq - 0.002).abs() < 1e-12, "{aq}");
+        assert!(!v.contents.iter().any(|p| p.species.0 == "hydrogen_sulfide"));
+        // Far above the threshold only the excess escapes, as the gas key.
+        let mut v = open_water_beaker();
+        let litres = v.liquid_volume().0;
+        let capacity = henry_at_t(henry_lookup("H2S").unwrap(), v.temperature.0).value * litres;
+        v.deposit(
+            SpeciesId::new("hydrogen_sulfide"),
+            Moles(3.0 * capacity),
+            Phase::Gas,
+        );
+        let events = settle_open_vessel_gas(
+            &mut v,
+            &[(SpeciesId::new("hydrogen_sulfide"), 3.0 * capacity)],
+        );
+        let escaped: f64 = events
+            .iter()
+            .map(|e| match e {
+                Event::GasEvolved { species, moles, .. } if species.0 == "hydrogen_sulfide" => {
+                    moles.0
+                }
+                _ => 0.0,
+            })
+            .sum();
+        assert!(
+            (escaped - 2.0 * capacity).abs() < 1e-9 * capacity,
+            "{escaped} vs {capacity}"
+        );
     }
 }

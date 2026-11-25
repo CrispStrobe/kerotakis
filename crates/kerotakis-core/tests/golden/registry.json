@@ -7163,5 +7163,80 @@
     "provenance": "aluminium sulfate, Al2(SO4)3, the ANHYDROUS salt: added by the soluble-salt class lane (A2, 2026-11-21). IDENTITY VERIFIED against PubChem CID 24850: InChIKey DIZPMCHEQGEION-UHFFFAOYSA-H on 2026-11-21 (PUG REST property record). Molar mass 342.1311 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 26.9815384 + 3 x 32.06 + 12 x 15.999). HEAT CAPACITY 259.41 J/(mol.K): Cp at 298.15 K of the crystal, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 29:Al, Al2(SO4)3 cr. DENSITY 2.71 g/mL: 2.71 for the anhydrous salt, ILO-WHO International Chemical Safety Card and U.S. Coast Guard CHRIS (1999, 2.71 at 68 F), as quoted in PubChem CID 24850, read 2026-11-21 (Merck's 1.61 and CHRIS's 1.7 belong to hydrated commercial grades). APPEARANCE `white powder`: Merck Index 'white, lustrous crystals, pieces, granules, or powder', as quoted by HSDB. The aluminium books as the new basis ion Al+3, whose hydrolysis makes the solution acidic. In water the salt books as its ions through the existing formula-derived roles; hydrolysis and pH are the routed PHREEQC database's own. Its enthalpy of dissolution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards are screened in kerotakis-safety. NOT CLAIMED: aqueous solubility limit, melting point, tint.",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "black",
+    "colour": {
+      "b": 20,
+      "g": 22,
+      "r": 26,
+      "strength": 0.0
+    },
+    "density": 4.682,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "CuS",
+    "heat_capacity": 47.53,
+    "heat_capacity_polys": [],
+    "inchikey": "BWFPGXWASODCHM-UHFFFAOYSA-N",
+    "key": "CuS",
+    "magnetic": false,
+    "molar_mass": 95.611,
+    "name": "copper(II) sulfide",
+    "provenance": "copper(II) sulfide, CuS (covellite), the ANHYDROUS solid: added by the C1 sulfur/H2S lane (2026-11-24) so that aqueous sulfide precipitates it. IDENTITY: PubChem CID 14831 (covellite), InChIKey BWFPGXWASODCHM-UHFFFAOYSA-N, read 2026-11-24 (PUG REST property record). Molar mass 95.611 g/mol from IUPAC/CIAAW 2021 standard atomic weights. HEAT CAPACITY 47.53 J/(mol.K) at 298.15 K and DENSITY 4.682 g/mL (= formula weight / molar volume 20.42 cm3/mol) from Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a United States Government work), https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-24 from the text layer, the COVELLITE rows (298.15 K summary table and the temperature table). APPEARANCE `black`: 'Black powder or lumps' / 'Black hexagonal crystals' (HSDB in PubChem CID 165914). SURFACE SWATCH #1A1614: the registry's existing swatch for CuO (black), reused for the same cited appearance word, not a measured reflectance; tint strength 0. Insoluble in water; no reviewed aqueous solubility limit is claimed (the aqueous solver's own database phase governs precipitation). NOT CLAIMED: melting point, tint, nonstoichiometry, colloidal colour of fresh precipitates.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "black",
+    "colour": {
+      "b": 20,
+      "g": 22,
+      "r": 26,
+      "strength": 0.0
+    },
+    "density": 7.598,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "PbS",
+    "heat_capacity": 49.49,
+    "heat_capacity_polys": [],
+    "inchikey": "XCAUINMIESBTBL-UHFFFAOYSA-N",
+    "key": "PbS",
+    "magnetic": false,
+    "molar_mass": 239.27,
+    "name": "lead(II) sulfide",
+    "provenance": "lead(II) sulfide, PbS (galena), the ANHYDROUS solid: added by the C1 sulfur/H2S lane (2026-11-24) so that aqueous sulfide precipitates it. IDENTITY: PubChem CID 14819 (galena), InChIKey XCAUINMIESBTBL-UHFFFAOYSA-N, read 2026-11-24 (PUG REST property record). Molar mass 239.27 g/mol from IUPAC/CIAAW 2021 standard atomic weights. HEAT CAPACITY 49.49 J/(mol.K) at 298.15 K and DENSITY 7.598 g/mL (= formula weight / molar volume 31.49 cm3/mol) from Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a United States Government work), https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-24 from the text layer, the GALENA rows (298.15 K summary table and the temperature table). APPEARANCE `black`: 'Silvery, metallic crystals or black powder' (HSDB in PubChem CID 9794739); a freshly precipitated sulfide is the black powder. SURFACE SWATCH #1A1614: the registry's existing swatch for CuO (black), reused for the same cited appearance word, not a measured reflectance; tint strength 0. Insoluble in water; no reviewed aqueous solubility limit is claimed (the aqueous solver's own database phase governs precipitation). NOT CLAIMED: melting point, tint, nonstoichiometry, colloidal colour of fresh precipitates.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 250,
+      "g": 250,
+      "r": 250,
+      "strength": 0.0
+    },
+    "density": 4.09,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "ZnS",
+    "heat_capacity": 45.76,
+    "heat_capacity_polys": [],
+    "inchikey": "WGPCGCOKHWGKJJ-UHFFFAOYSA-N",
+    "key": "ZnS",
+    "magnetic": false,
+    "molar_mass": 97.46,
+    "name": "zinc sulfide",
+    "provenance": "zinc sulfide, ZnS (sphalerite), the ANHYDROUS solid: added by the C1 sulfur/H2S lane (2026-11-24) so that aqueous sulfide precipitates it. IDENTITY: PubChem CID 14821 (sphalerite), InChIKey WGPCGCOKHWGKJJ-UHFFFAOYSA-N, read 2026-11-24 (PUG REST property record). Molar mass 97.46 g/mol from IUPAC/CIAAW 2021 standard atomic weights. HEAT CAPACITY 45.76 J/(mol.K) at 298.15 K and DENSITY 4.09 g/mL (= formula weight / molar volume 23.83 cm3/mol) from Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a United States Government work), https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-24 from the text layer, the SPHALERITE rows (298.15 K summary table and the temperature table). APPEARANCE `white`: 'White to grayish-white or yellowish powder' (HSDB in PubChem CID 9833931). SURFACE SWATCH #FAFAFA: the registry's existing swatch for BaSO4 (white), reused for the same cited appearance word, not a measured reflectance; tint strength 0. Insoluble in water; no reviewed aqueous solubility limit is claimed (the aqueous solver's own database phase governs precipitation). NOT CLAIMED: melting point, tint, nonstoichiometry, colloidal colour of fresh precipitates.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

@@ -226,6 +226,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Blei(II)-sulfid",
+      "canonical": "PbS",
+      "source": "name:de"
+    },
+    {
       "alias": "Bleichmittel",
       "canonical": "NaOCl",
       "source": "name-prefix:de"
@@ -936,6 +941,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Kupfer(II)-sulfid",
+      "canonical": "CuS",
+      "source": "name:de"
+    },
+    {
       "alias": "Kupfersulfat",
       "canonical": "CuSO4",
       "source": "name:de"
@@ -1548,6 +1558,11 @@
     {
       "alias": "Zinksulfat",
       "canonical": "ZnSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Zinksulfid",
+      "canonical": "ZnS",
       "source": "name:de"
     },
     {
@@ -2248,6 +2263,11 @@
     {
       "alias": "copper(II) sulfate pentahydrate (chalcanthite)",
       "canonical": "chalcanthite",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) sulfide",
+      "canonical": "CuS",
       "source": "name:en"
     },
     {
@@ -2998,6 +3018,11 @@
     {
       "alias": "lead(II) sulfate",
       "canonical": "PbSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "lead(II) sulfide",
+      "canonical": "PbS",
       "source": "name:en"
     },
     {
@@ -3841,8 +3866,23 @@
       "source": "name:fr"
     },
     {
+      "alias": "sulfure de cuivre(II)",
+      "canonical": "CuS",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfure de plomb(II)",
+      "canonical": "PbS",
+      "source": "name:fr"
+    },
+    {
       "alias": "sulfure de sodium",
       "canonical": "Na2S",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfure de zinc",
+      "canonical": "ZnS",
       "source": "name:fr"
     },
     {
@@ -3948,6 +3988,11 @@
     {
       "alias": "zinc sulfate",
       "canonical": "ZnSO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc sulfide",
+      "canonical": "ZnS",
       "source": "name:en"
     },
     {

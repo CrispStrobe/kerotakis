@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 74, not_condensed 81.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, not_condensed 81.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -94,6 +94,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 74, n
 | no_melting_point | Cu2(OH)2CO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuCl2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuO | solid | — | — | no | solid | solid | solid |
+| no_melting_point | CuS | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Fe(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Fe(OH)3 | solid | — | — | no | solid | solid | solid |
@@ -128,9 +129,11 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 74, n
 | no_melting_point | PVA | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Pb(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PbCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | PbS | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Zn(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnO | solid | — | — | no | solid | solid | solid |
+| no_melting_point | ZnS | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | activated_charcoal | solid | — | — | no | solid | solid | solid |
 | no_melting_point | antlerite | solid | — | — | no | solid | solid | solid |

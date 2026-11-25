@@ -988,6 +988,7 @@ impl Equilibrator for CuratedEquilibrator {
             || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
             || crate::reducing_sugar::fires(vessel)
+            || crate::concentrated_sulfuric::fires(vessel)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -1153,6 +1154,11 @@ impl Equilibrator for CuratedEquilibrator {
             }
             // Fehling/Benedict and Tollens reducing-sugar tests.
             if crate::reducing_sugar::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Concentrated sulfuric acid (dehydration, HCl, hot oxidation)
+            // and peroxide on dissolved hydrogen sulfide.
+            if crate::concentrated_sulfuric::apply(vessel, &mut events) {
                 progressed = true;
             }
             if !progressed {

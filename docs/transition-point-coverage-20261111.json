@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 151,
+    "boiling.no_data": 154,
     "boiling.reported": 67,
-    "melting.no_data": 117,
+    "melting.no_data": 120,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -1015,6 +1015,16 @@
     },
     {
       "species": "CuO",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CuS",
       "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
@@ -2127,6 +2137,16 @@
       }
     },
     {
+      "species": "PbS",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "PbSO4",
       "standard_phase": "solid",
       "melting": {
@@ -2302,6 +2322,16 @@
     },
     {
       "species": "ZnO",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "ZnS",
       "standard_phase": "solid",
       "melting": {
         "basis": "no_data"

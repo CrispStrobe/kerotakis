@@ -37,6 +37,7 @@ pub mod chlorine;
 pub mod clock;
 pub mod combustion;
 pub mod compartment;
+pub mod concentrated_sulfuric;
 pub mod conductivity;
 pub mod constants;
 pub mod corrosion;

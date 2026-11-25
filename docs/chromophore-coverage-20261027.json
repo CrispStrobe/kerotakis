@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 47,
-    "outside_method": 120,
+    "missing_absorptivity": 49,
+    "outside_method": 121,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
@@ -102,6 +102,11 @@
     },
     {
       "species": "CuO",
+      "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "CuS",
       "appearance": "black",
       "class": "missing_absorptivity"
     },
@@ -203,6 +208,11 @@
     {
       "species": "PbI2",
       "appearance": "yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "PbS",
+      "appearance": "black",
       "class": "missing_absorptivity"
     },
     {
@@ -642,6 +652,11 @@
     },
     {
       "species": "ZnO",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "ZnS",
       "appearance": "white",
       "class": "outside_method"
     },

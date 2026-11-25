@@ -50,6 +50,11 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// and Ca. None is a database phase, so the gap is unchanged and all three
 /// join the non-database solids.
 ///
+/// 2026-11-24 (C1 sulfur lane): CuS, PbS and ZnS join the registry so
+/// aqueous sulfide can precipitate them; all three are database phases
+/// (covellite, galena, sphalerite, ZnS under several names), with no
+/// reviewed solubility claimed, so the gap grows by three.
+///
 /// The gap was 24 before that. Nine of the 33 have been sourced to papers that were
 /// read in full rather than to a handbook — four on the morning of
 /// 2026-09-21 and five more the same day, once `saturation_moves` stopped
@@ -62,13 +67,13 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 118,
-            database_phases: 53,
+            registry_solids: 121,
+            database_phases: 56,
             with_reviewed_solubility: 14,
-            without_reviewed_solubility: 39,
+            without_reviewed_solubility: 42,
             not_a_database_phase: 65,
-            phases_without_a_registry_solid: 601,
-            several_phase_names: 13,
+            phases_without_a_registry_solid: 595,
+            several_phase_names: 14,
             not_posable: 13,
         },
         "the crosswalk has drifted from the shipped databases or registry"
@@ -139,6 +144,9 @@ fn which_database_phases_have_a_reviewed_solubility() {
             // A2 (2026-11-21): anhydrous CuCl2 is Melanothallite in both
             // routed databases; no reviewed solubility is claimed.
             "CuCl2",
+            // 2026-11-24: covellite, galena and sphalerite; no reviewed
+            // solubility is claimed for any of the three sulfides.
+            "CuS",
             "CuSO4",
             "Fe(OH)2",
             "Fe2O3",
@@ -150,11 +158,13 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "Pb",
             "PbCO3",
             "PbI2",
+            "PbS",
             "PbSO4",
             "Zn",
             "Zn(OH)2",
             "ZnCO3",
             "ZnO",
+            "ZnS",
             "ZnSO4",
             "antlerite",
             "atacamite",

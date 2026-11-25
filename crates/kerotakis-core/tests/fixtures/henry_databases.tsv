@@ -13,16 +13,20 @@ NH3	phreeqc.dat	1.7966	na	5b80d45c989c
 O2	phreeqc.dat	-2.8983	na	5b80d45c989c
 CO2	wateq4f.dat	-1.468	-19982.7840	93547b0343d9
 H2	wateq4f.dat	-3.15	-7359.6560	93547b0343d9
+H2S	wateq4f.dat	-0.997	-19120.8800	93547b0343d9
 N2	wateq4f.dat	-3.26	-5681.8720	93547b0343d9
 NH3	wateq4f.dat	1.77	-34183.2800	93547b0343d9
 CO2	pitzer.dat	-1.465	-20190.0000	3640e62aee63
 NH3	llnl.dat	1.7966	-35225.1000	1324b807f0f8
 O2	llnl.dat	-2.8983	-12133.6000	1324b807f0f8
 SO2	llnl.dat	0.17	na	1324b807f0f8
+# skipped	H2S	phreeqc.dat	H2S = H+ + HS-
 # skipped	O2	wateq4f.dat	no log_k
 # skipped	CO2	llnl.dat	CO2 + H2O = H+ + HCO3-
 # skipped	Cl2	llnl.dat	Cl2 + H2O = 0.5 O2 + 2 Cl- + 2 H+
 # skipped	H2	llnl.dat	None
+# skipped	H2S	llnl.dat	H2S = H+ + HS-
 # skipped	N2	llnl.dat	None
 # skipped	CO2	minteq.v4.dat	CO2 + H2O = 2 H+ + CO3-2
+# skipped	H2S	minteq.v4.dat	H2S = H+ + HS-
 # skipped	O2	minteq.v4.dat	O2 + 4 H+ + 4 e- = 2 H2O

@@ -2425,7 +2425,13 @@ mod tests {
             protonation_split("S(-2)"),
             Some(&[("H2S", "H2S(aq)"), ("HS-", "HS-"), ("S-2", "S-2")][..])
         );
+        // The metal sulfides of the C1 sulfur lane (covellite, galena,
+        // sphalerite; 2026-11-24) are S(-2) minerals by definition.
+        let metal_sulfides = ["CuS", "PbS", "ZnS"];
         for s in species::REGISTRY {
+            if metal_sulfides.contains(&s.key) {
+                continue;
+            }
             if matches!(s.key, "Na2S" | "HS-" | "H2S(aq)" | "S-2") {
                 continue;
             }

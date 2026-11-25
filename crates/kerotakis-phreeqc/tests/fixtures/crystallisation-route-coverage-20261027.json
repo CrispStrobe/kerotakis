@@ -567,6 +567,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "CuS",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Covellite",
+    "reason": "PHREEQC phase saturation, delta_h 100.458 kJ/mol; solid priced"
+  },
+  {
+    "solid": "CuS",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Covellite",
+    "reason": "PHREEQC phase saturation, delta_h 97.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "CuS",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "CuSO4",
     "route": "wateq4f",
     "class": "refused",
@@ -1680,6 +1701,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "PbS",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Galena",
+    "reason": "PHREEQC phase saturation, delta_h 81.170 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbS",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Galena",
+    "reason": "PHREEQC phase saturation, delta_h 80.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbS",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "PbSO4",
     "route": "wateq4f",
     "class": "crystallises-with-priced-heat",
@@ -1821,6 +1863,27 @@
   },
   {
     "solid": "ZnO",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "ZnS",
+    "route": "wateq4f",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Sphalerite",
+    "reason": "PHREEQC phase saturation, delta_h 34.518 kJ/mol; solid priced"
+  },
+  {
+    "solid": "ZnS",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Sphalerite",
+    "reason": "PHREEQC phase saturation, delta_h 30.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "ZnS",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

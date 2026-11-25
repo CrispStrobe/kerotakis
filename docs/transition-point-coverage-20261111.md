@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 151, boiling.reported 67, melting.no_data 117, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 154, boiling.reported 67, melting.no_data 120, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -86,6 +86,7 @@ Counts: boiling.no_data 151, boiling.reported 67, melting.no_data 117, melting.r
 | Cu2O | solid | melting 1516.7 K | no_data | literature/transition-points/Cu2O |
 | CuCl2 | solid | no_data | no_data | — |
 | CuO | solid | no_data | no_data | — |
+| CuS | solid | no_data | no_data | — |
 | CuSO4 | solid | decomposition 873.15 K | decomposition 873.15 K | literature/transition-points/CuSO4 |
 | Fe | solid | melting 1811 K | boiling 3273 K | literature/transition-points/Fe |
 | Fe(OH)2 | solid | no_data | no_data | — |
@@ -178,6 +179,7 @@ Counts: boiling.no_data 151, boiling.reported 67, melting.no_data 117, melting.r
 | Pb+2 | aqueous | no_data | no_data | — |
 | PbCO3 | solid | decomposition 588.15 K | decomposition 588.15 K | literature/transition-points/PbCO3 |
 | PbI2 | solid | melting 685 K | boiling 1145 K | literature/transition-points/PbI2 |
+| PbS | solid | no_data | no_data | — |
 | PbSO4 | solid | melting 1360 K | no_data | literature/transition-points/PbSO4 |
 | S | solid | melting 392 K | boiling 718.2 K | literature/transition-points/S |
 | S-2 | aqueous | no_data | no_data | — |
@@ -194,6 +196,7 @@ Counts: boiling.no_data 151, boiling.reported 67, melting.no_data 117, melting.r
 | Zn+2 | aqueous | no_data | no_data | — |
 | ZnCO3 | solid | no_data | no_data | — |
 | ZnO | solid | no_data | no_data | — |
+| ZnS | solid | no_data | no_data | — |
 | ZnSO4 | solid | decomposition 863.15 K | decomposition 863.15 K | literature/transition-points/ZnSO4 |
 | activated_charcoal | solid | no_data | no_data | — |
 | amylase | aqueous | no_data | no_data | — |

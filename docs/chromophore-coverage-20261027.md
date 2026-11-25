@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 47, outside_method 120, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 49, outside_method 121, parameterised 7, parameterised_ph 4, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -33,6 +33,7 @@ Counts: missing_absorptivity 47, outside_method 120, parameterised 7, parameteri
 | missing_absorptivity | Cu2O | red |
 | missing_absorptivity | CuCl2 | yellow-brown powder |
 | missing_absorptivity | CuO | black |
+| missing_absorptivity | CuS | black |
 | missing_absorptivity | Fe | grey |
 | missing_absorptivity | Fe(OH)2 | pale green |
 | missing_absorptivity | Fe(OH)3 | red-brown |
@@ -53,6 +54,7 @@ Counts: missing_absorptivity 47, outside_method 120, parameterised 7, parameteri
 | missing_absorptivity | NaOCl | pale yellow-green |
 | missing_absorptivity | Pb | dull grey |
 | missing_absorptivity | PbI2 | yellow |
+| missing_absorptivity | PbS | black |
 | missing_absorptivity | S | pale yellow |
 | missing_absorptivity | Zn | bluish-silver |
 | missing_absorptivity | activated_charcoal | black |
@@ -141,6 +143,7 @@ Counts: missing_absorptivity 47, outside_method 120, parameterised 7, parameteri
 | outside_method | Zn+2 | colourless |
 | outside_method | ZnCO3 | white |
 | outside_method | ZnO | white |
+| outside_method | ZnS | white |
 | outside_method | ZnSO4 | white |
 | outside_method | amylase | colorless solution |
 | outside_method | anthocyanin_ox | colourless |

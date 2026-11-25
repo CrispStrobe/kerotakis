@@ -2140,6 +2140,18 @@ impl Bench {
                     moles: *moles,
                     total_after: Some(total_after),
                 });
+                // A dose of a soluble gas (SO2, H2S) poured into an open
+                // vessel has no headspace to wait in: it dissolves up to its
+                // bubble threshold and the rest escapes, exactly as the same
+                // gas made by a rate law does (C1 sulfur lane, 2026-11-24).
+                if arriving == Phase::Gas
+                    && crate::volatility::OPEN_BOUNDARY_UPTAKE.contains(&sid.0.as_str())
+                {
+                    events.extend(crate::volatility::settle_open_vessel_gas(
+                        v,
+                        &[(sid.clone(), moles.0)],
+                    ));
+                }
             }
             Operator::AddSolution {
                 vessel,

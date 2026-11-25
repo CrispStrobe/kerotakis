@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 62, refused 48.
+Registry species carrying a metal: emits 63, refused 50.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -44,6 +44,7 @@ Registry species carrying a metal: emits 62, refused 48.
 | emits | Cu2O | Cu | — |
 | emits | CuCl2 | Cu | blue-green |
 | emits | CuO | Cu | — |
+| emits | CuS | Cu | — |
 | emits | CuSO4 | Cu | blue-green |
 | emits | K | K | lilac |
 | emits | K+ | K | lilac |
@@ -124,12 +125,14 @@ Registry species carrying a metal: emits 62, refused 48.
 | refused | Pb+2 | Pb | — |
 | refused | PbCO3 | Pb | — |
 | refused | PbI2 | Pb | — |
+| refused | PbS | Pb | — |
 | refused | PbSO4 | Pb | — |
 | refused | Zn | Zn | — |
 | refused | Zn(OH)2 | Zn | — |
 | refused | Zn+2 | Zn | — |
 | refused | ZnCO3 | Zn | — |
 | refused | ZnO | Zn | — |
+| refused | ZnS | Zn | — |
 | refused | ZnSO4 | Zn | — |
 | refused | chlorophyll | Mg | — |
 | refused | epsomite | Mg | — |
