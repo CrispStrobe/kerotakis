@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 160, boiling.reported 67, melting.no_data 126, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 165, boiling.reported 67, melting.no_data 131, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -69,6 +69,7 @@ Counts: boiling.no_data 160, boiling.reported 67, melting.no_data 126, melting.r
 | CO2(aq) | aqueous | no_data | no_data | — |
 | CO3-2 | aqueous | no_data | no_data | — |
 | Ca | solid | no_data | no_data | — |
+| Ca(CH3COO)2 | solid | no_data | no_data | — |
 | Ca(OH)2 | solid | decomposition 785.15 K | decomposition 785.15 K | literature/transition-points/Ca(OH)2 |
 | Ca+2 | aqueous | no_data | no_data | — |
 | Ca3(PO4)2 | solid | melting 2003 K | no_data | literature/transition-points/Ca3(PO4)2 |
@@ -78,6 +79,7 @@ Counts: boiling.no_data 160, boiling.reported 67, melting.no_data 126, melting.r
 | Cl- | aqueous | no_data | no_data | — |
 | Cl2 | gas | melting 172.16 K | boiling 239.1 K | literature/transition-points/Cl2 |
 | ClO- | aqueous | no_data | no_data | — |
+| Co(NO3)2 | solid | no_data | no_data | — |
 | Co+2 | aqueous | no_data | no_data | — |
 | CoCl2 | solid | no_data | no_data | — |
 | Cu | solid | melting 1357.77 K | boiling 2868 K | literature/transition-points/Cu |
@@ -221,6 +223,7 @@ Counts: boiling.no_data 160, boiling.reported 67, melting.no_data 126, melting.r
 | chalcanthite | solid | dehydration 473.15 K | no_data | literature/transition-points/chalcanthite |
 | chlorophyll | solid | no_data | no_data | — |
 | citric_acid | solid | melting 427.15 K | no_data | literature/transition-points/citric_acid |
+| cobalt_nitrate_hexahydrate | solid | no_data | no_data | — |
 | curcumin | aqueous | no_data | no_data | — |
 | curcumin_ox | aqueous | no_data | no_data | — |
 | dehydroascorbic_acid | solid | no_data | no_data | — |
@@ -250,6 +253,8 @@ Counts: boiling.no_data 160, boiling.reported 67, melting.no_data 126, melting.r
 | lactic_acid | liquid | melting 290 K | no_data | literature/transition-points/lactic_acid |
 | langite | solid | no_data | no_data | — |
 | liquid_nitrogen | liquid | melting 63.14 K | boiling 77.34 K | literature/transition-points/liquid_nitrogen |
+| litmus | aqueous | no_data | no_data | — |
+| litmus_ox | aqueous | no_data | no_data | — |
 | malic_acid | solid | melting 400.75 K | no_data | literature/transition-points/malic_acid |
 | maltose | solid | no_data | no_data | — |
 | methane | gas | melting 90.68 K | boiling 111.67 K | literature/transition-points/methane |

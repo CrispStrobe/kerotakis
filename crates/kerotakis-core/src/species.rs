@@ -34,6 +34,9 @@ pub(crate) const CURATED_INPUT_ALIASES: &[(&str, &str)] = &[
     ("calcium hydroxide", "Ca(OH)2"),
     ("CaOH2", "Ca(OH)2"),
     ("CO(NH2)2", "urea"),
+    // Generic-Cp lane (2026-11-25): the shelf spellings of the new salts.
+    ("Ca(OAc)2", "Ca(CH3COO)2"),
+    ("azolitmin", "litmus"),
 ];
 
 /// The reviewed aliases: the hand list above, plus every formula a shipped

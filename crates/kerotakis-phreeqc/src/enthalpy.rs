@@ -122,6 +122,9 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     // NBS/Wagman 1982 cr -> ai. Hydrolysis is the routed database's own.
     ("MgCl2", &[("Mg+2", 1.0), ("Cl-", 2.0)]),
     ("CoCl2", &[("Co+2", 1.0), ("Cl-", 2.0)]),
+    // Generic-Cp lane (2026-11-25), NBS/Wagman 1982 cr -> ai.
+    ("Co(NO3)2", &[("Co+2", 1.0), ("NO3-", 2.0)]),
+    ("Ca(CH3COO)2", &[("Ca+2", 1.0), ("CH3COO-", 2.0)]),
     // SUSPECT VALUE, kept rather than dropped. kerotakis-59's registry
     // agent could not reproduce the registry's +16.2 kJ/mol against a
     // commonly tabulated ~+43.6, and the gap is not a sign, a unit or a

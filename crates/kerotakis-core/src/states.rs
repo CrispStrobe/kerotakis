@@ -281,6 +281,16 @@ pub fn heat_capacity_curve(data: &SpeciesData, phase: Phase) -> Option<&'static 
 pub fn heat_capacity_at(data: &SpeciesData, phase: Phase, t_k: f64) -> f64 {
     heat_capacity_curve(data, phase)
         .and_then(|curve| curve.cp(t_k))
+        .unwrap_or_else(|| constant_or_estimated(data, phase))
+}
+
+/// The flat molar heat capacity of this species in this phase: the
+/// registry's own figure, or — for a SOLID the registry has no reviewed
+/// figure for — Kopp's-rule estimate
+/// ([`crate::heat_capacity::estimated_solid_heat_capacity`]). A reviewed
+/// figure (any positive registry value or a Cp curve) always wins.
+fn constant_or_estimated(data: &SpeciesData, phase: Phase) -> f64 {
+    crate::heat_capacity::estimated_solid_heat_capacity(data, phase)
         .unwrap_or_else(|| constant_heat_capacity_in(data.key, phase, data.heat_capacity))
 }
 
@@ -296,7 +306,7 @@ pub fn heat_capacity_at(data: &SpeciesData, phase: Phase, t_k: f64) -> f64 {
 pub fn enthalpy_between(data: &SpeciesData, phase: Phase, t0: f64, t1: f64) -> f64 {
     match heat_capacity_curve(data, phase).and_then(|curve| curve.enthalpy_between(t0, t1)) {
         Some(joules) => joules,
-        None => constant_heat_capacity_in(data.key, phase, data.heat_capacity) * (t1 - t0),
+        None => constant_or_estimated(data, phase) * (t1 - t0),
     }
 }
 

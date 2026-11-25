@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 160,
+    "boiling.no_data": 165,
     "boiling.reported": 67,
-    "melting.no_data": 126,
+    "melting.no_data": 131,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -821,6 +821,16 @@
       }
     },
     {
+      "species": "Ca(CH3COO)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Ca(OH)2",
       "standard_phase": "solid",
       "melting": {
@@ -927,6 +937,16 @@
     {
       "species": "ClO-",
       "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Co(NO3)2",
+      "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
       },
@@ -2617,6 +2637,16 @@
       }
     },
     {
+      "species": "cobalt_nitrate_hexahydrate",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "curcumin",
       "standard_phase": "aqueous",
       "melting": {
@@ -2988,6 +3018,26 @@
         "outcome": "boiling",
         "kelvin": 77.34,
         "source": "literature/transition-points/liquid_nitrogen"
+      }
+    },
+    {
+      "species": "litmus",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "litmus_ox",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {
