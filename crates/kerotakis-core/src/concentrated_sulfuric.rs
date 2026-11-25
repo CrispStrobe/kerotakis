@@ -1093,7 +1093,7 @@ pub fn apply(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
             vessel.deposit(SpeciesId::new("water"), Moles(water * x), Phase::Liquid);
             let formula = crate::species::lookup_key(&key)
                 .map(|d| d.formula)
-                .unwrap_or(&key);
+                .unwrap_or(key.as_str());
             events.push(Event::ReactionOccurred {
                 vessel: vessel.id,
                 equation: format!("{formula} →({}) {carbon} C + {water} H₂O", display(acid)),
