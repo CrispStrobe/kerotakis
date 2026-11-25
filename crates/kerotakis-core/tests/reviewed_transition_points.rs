@@ -449,7 +449,7 @@ fn round3_circular_500_rows_carry_their_printed_values() {
         ("uranium", Some(1405.0), None, None),
         ("C", None, None, Some(4620.0)),
         ("graphite", None, None, Some(4620.0)),
-        ("H2SO4", Some(283.51), None, None),
+        ("H2SO4", Some(283.51), Some(608.6), None),
         ("KIO3", Some(833.0), None, None),
         ("NaHSO4", Some(455.0), None, None),
         ("SiO2", Some(1883.0), None, None),
