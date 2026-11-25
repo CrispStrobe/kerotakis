@@ -21,6 +21,9 @@
 //!    MnO₄⁻/Mn²⁺ 1.507 V, Cl₂(g)/Cl⁻ 1.35827 V. Activity coefficients are
 //!    not modelled (molality stands in for activity), and no rate is
 //!    claimed: both are said in a typed note every time the rule runs.
+//!    These, and rule 3, are rows of the generic potential-driven route in
+//!    [`crate::potential_redox`] (which also prepares bromine and iodine
+//!    the same way); this module only keeps their place in the rule order.
 //! 2. **Absorption in alkali** (`Cl₂ + 2 OH⁻ → ClO⁻ + Cl⁻ + H₂O`) against the
 //!    vessel's base: base equivalents, then NaOH, KOH and Ca(OH)₂ in any
 //!    condensed phase (bleaching powder / bleach liquor).
@@ -79,10 +82,11 @@ pub const AQUEOUS_DOMAIN_K: (f64, f64) = (273.15, 373.15);
 /// bench has none reviewed, and the typed note says so every time.
 pub const DRY_CHLORINATION_K: f64 = 573.15;
 
-/// CRC "Electrochemical Series" standard potentials, V.
-pub const E0_CL2: f64 = 1.358_27;
-pub const E0_MNO2: f64 = 1.224;
-pub const E0_MNO4: f64 = 1.507;
+/// CRC "Electrochemical Series" standard potentials, V (the rows live in
+/// `crate::potential_redox`).
+pub const E0_CL2: f64 = crate::potential_redox::E0_CL2;
+pub const E0_MNO2: f64 = crate::potential_redox::E0_MNO2;
+pub const E0_MNO4: f64 = crate::potential_redox::E0_MNO4;
 
 /// NBS 1982 (Wagman et al.) formation data, kJ/mol: (ΔfG°, ΔfH°).
 pub const NBS_CL2_AQ: (f64, f64) = (6.94, -23.4);
@@ -132,7 +136,6 @@ fn amount(vessel: &Vessel, key: &str, phases: &[Phase]) -> f64 {
 }
 
 const CONDENSED: &[Phase] = &[Phase::Aqueous, Phase::Solid, Phase::Liquid];
-const DISSOLVED_THEN_SOLID: &[Phase] = &[Phase::Aqueous, Phase::Solid];
 
 fn take(vessel: &mut Vessel, key: &str, n: f64, phases: &[Phase]) -> f64 {
     let mut left = n;
@@ -169,7 +172,7 @@ pub fn chlorine_pool(vessel: &Vessel) -> f64 {
     amount(vessel, CHLORINE, &[Phase::Gas, Phase::Aqueous])
 }
 
-fn take_chlorine(vessel: &mut Vessel, n: f64) -> f64 {
+pub(crate) fn take_chlorine(vessel: &mut Vessel, n: f64) -> f64 {
     take(vessel, CHLORINE, n, &[Phase::Aqueous, Phase::Gas])
 }
 
@@ -209,7 +212,7 @@ fn reaction(events: &mut Vec<Event>, vessel: &Vessel, equation: &str) {
 /// Write chlorine made by a reaction: an owned headspace keeps it; an
 /// open vessel keeps what its liquid holds at one atmosphere and the rest
 /// escapes.
-fn emit_chlorine(vessel: &mut Vessel, n: f64, events: &mut Vec<Event>) {
+pub(crate) fn emit_chlorine(vessel: &mut Vessel, n: f64, events: &mut Vec<Event>) {
     if n <= 0.0 {
         return;
     }
@@ -235,222 +238,14 @@ fn emit_chlorine(vessel: &mut Vessel, n: f64, events: &mut Vec<Event>) {
 }
 
 // ── 1. preparation ───────────────────────────────────────────────────
-
-/// One oxidant that turns acidified chloride into chlorine.
-#[derive(Debug, Clone, Copy)]
-pub struct ChlorineOxidant {
-    /// The oxidising ion or solid as the Nernst term counts it.
-    pub key: &'static str,
-    /// Registry forms that deliver it, with the spectator cation each
-    /// leaves (form, cation, cation per oxidant).
-    pub forms: &'static [(&'static str, Option<&'static str>)],
-    /// Mn²⁺ per oxidant, H⁺ per oxidant, Cl⁻ per oxidant, H₂O per oxidant,
-    /// Cl₂ per oxidant, electrons per oxidant.
-    pub mn: f64,
-    pub protons: f64,
-    pub chloride: f64,
-    pub water: f64,
-    pub chlorine: f64,
-    pub electrons: f64,
-    pub e0_v: f64,
-    /// Whether the oxidant is a solid (unit activity) or dissolved.
-    pub solid: bool,
-    pub equation: &'static str,
-}
-
-pub const OXIDANTS: &[ChlorineOxidant] = &[
-    ChlorineOxidant {
-        key: "MnO2",
-        forms: &[("MnO2", None)],
-        mn: 1.0,
-        protons: 4.0,
-        chloride: 2.0,
-        water: 2.0,
-        chlorine: 1.0,
-        electrons: 2.0,
-        e0_v: E0_MNO2,
-        solid: true,
-        equation: "MnO₂ + 4 H⁺ + 2 Cl⁻ → Mn²⁺ + Cl₂↑ + 2 H₂O",
-    },
-    ChlorineOxidant {
-        key: "MnO4-",
-        forms: &[("MnO4-", None), ("KMnO4", Some("K+"))],
-        mn: 1.0,
-        protons: 8.0,
-        chloride: 5.0,
-        water: 4.0,
-        chlorine: 2.5,
-        electrons: 5.0,
-        e0_v: E0_MNO4,
-        solid: false,
-        equation: "2 MnO₄⁻ + 16 H⁺ + 10 Cl⁻ → 2 Mn²⁺ + 5 Cl₂↑ + 8 H₂O",
-    },
-];
-
-fn chloride_forms() -> Vec<String> {
-    crate::halogen_redox::registry_forms(CHLORIDE)
-}
-
-fn chloride_available(vessel: &Vessel) -> f64 {
-    chloride_forms()
-        .iter()
-        .map(|f| amount(vessel, f, DISSOLVED_THEN_SOLID))
-        .sum::<f64>()
-        + literal_hcl(vessel)
-}
-
-/// Hydrochloric acid still booked as the molecule (poured in, not yet
-/// solved): it is the chloride AND the acid of the preparation.
-fn literal_hcl(vessel: &Vessel) -> f64 {
-    amount(vessel, "HCl", &[Phase::Aqueous, Phase::Liquid])
-}
-
-/// Book literal hydrochloric acid as the ions a solve would, so the
-/// preparation can spend its chloride and its proton separately.
-fn ionise_literal_hcl(vessel: &mut Vessel) {
-    let n = take(
-        vessel,
-        "HCl",
-        literal_hcl(vessel),
-        &[Phase::Aqueous, Phase::Liquid],
-    );
-    if n > 0.0 {
-        vessel.deposit(SpeciesId::new("H+"), Moles(n), Phase::Aqueous);
-        vessel.deposit(SpeciesId::new(CHLORIDE), Moles(n), Phase::Aqueous);
-        refresh_charge(vessel);
-    }
-}
-
-fn take_ion(vessel: &mut Vessel, ion: &str, forms: &[String], n: f64) -> f64 {
-    let mut left = n;
-    for form in forms {
-        if left <= TRACE {
-            break;
-        }
-        let got = take(vessel, form, left, DISSOLVED_THEN_SOLID);
-        for (cation, k) in crate::halogen_redox::spectators_of(form, ion) {
-            vessel.deposit(SpeciesId::new(cation), Moles(got * k), Phase::Aqueous);
-        }
-        left -= got;
-    }
-    n - left.max(0.0)
-}
-
-fn acid_available(vessel: &Vessel) -> f64 {
-    crate::displacement::unspent_acidity(vessel)
-        + crate::strong_reserve::certified_literal_acid_protons(vessel)
-}
-
-fn spend_acid(vessel: &mut Vessel, n: f64) {
-    refresh_charge(vessel);
-    let ledger = crate::displacement::unspent_acidity(vessel).min(n);
-    crate::displacement::consume_acidity(vessel, ledger);
-    let rest = (n - ledger).max(0.0);
-    if rest > TRACE {
-        crate::strong_reserve::consume_literal_acid(vessel, rest);
-    }
-}
-
-fn oxidant_available(vessel: &Vessel, ox: &ChlorineOxidant) -> f64 {
-    ox.forms
-        .iter()
-        .map(|(f, _)| amount(vessel, f, DISSOLVED_THEN_SOLID))
-        .sum()
-}
-
-/// ΔE (V) between the oxidant couple and Cl₂/Cl⁻ after extent `x` (mol
-/// oxidant reduced), ideal molality as activity, Cl₂ at one atmosphere.
-fn delta_e(vessel: &Vessel, ox: &ChlorineOxidant, x: f64, start: (f64, f64, f64, f64)) -> f64 {
-    let (ox0, h0, cl0, mn0) = start;
-    let w = kgw(vessel);
-    let s = crate::relations::nernst_slope(vessel.temperature);
-    let h = ((h0 - ox.protons * x) / w).max(1e-300);
-    let cl = ((cl0 - ox.chloride * x) / w).max(1e-300);
-    let mn = ((mn0 + ox.mn * x) / w).max(1e-300);
-    let ox_m = if ox.solid {
-        1.0
-    } else {
-        ((ox0 - x) / w).max(1e-300)
-    };
-    let e_ox = ox.e0_v - s / ox.electrons * (mn / (ox_m * h.powf(ox.protons))).log10();
-    let e_cl = E0_CL2 - s / 2.0 * (cl * cl).log10();
-    e_ox - e_cl
-}
-
-fn preparation_extent(vessel: &Vessel, ox: &ChlorineOxidant) -> f64 {
-    if !aqueous_ok(vessel) {
-        return 0.0;
-    }
-    let ox0 = oxidant_available(vessel, ox);
-    let h0 = acid_available(vessel) - crate::displacement::room_air_acidity_mol(vessel);
-    let cl0 = chloride_available(vessel);
-    if ox0 <= TRACE || h0 <= crate::OBSERVABLE_MOLES || cl0 <= TRACE {
-        return 0.0;
-    }
-    let mn0 = amount(vessel, "Mn+2", &[Phase::Aqueous]);
-    let xmax = ox0.min(h0 / ox.protons).min(cl0 / ox.chloride);
-    let start = (ox0, h0, cl0, mn0);
-    if delta_e(vessel, ox, 0.0, start) <= 0.0 {
-        return 0.0;
-    }
-    // ΔE falls monotonically with extent; the reaction runs to the
-    // potential crossing or to the limiting reagent, whichever is first.
-    if delta_e(vessel, ox, xmax * (1.0 - 1e-12), start) >= 0.0 {
-        return xmax;
-    }
-    let (mut lo, mut hi) = (0.0, xmax);
-    for _ in 0..200 {
-        let mid = 0.5 * (lo + hi);
-        if delta_e(vessel, ox, mid, start) >= 0.0 {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-    }
-    lo
-}
+//
+// The oxidant + acidified chloride preparations are rows of the generic
+// potential-driven route (`crate::potential_redox`): MnO₂/Mn²⁺,
+// MnO₄⁻/Mn²⁺ and Cr₂O₇²⁻/Cr³⁺ against Cl₂/Cl⁻, run to the crossing of the
+// two Nernst potentials. This module keeps their place in its rule order.
 
 fn prepare(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
-    let mut progressed = false;
-    for ox in OXIDANTS {
-        let x = preparation_extent(vessel, ox);
-        if x <= TRACE || x * ox.chlorine <= crate::OBSERVABLE_MOLES {
-            continue;
-        }
-        progressed = true;
-        ionise_literal_hcl(vessel);
-        let x = x.min(preparation_extent(vessel, ox));
-        spend_acid(vessel, x * ox.protons);
-        let mut left = x;
-        for (form, cation) in ox.forms {
-            if left <= TRACE {
-                break;
-            }
-            let got = take(vessel, form, left, DISSOLVED_THEN_SOLID);
-            if let Some(c) = cation {
-                vessel.deposit(SpeciesId::new(c), Moles(got), Phase::Aqueous);
-            }
-            left -= got;
-        }
-        let forms = chloride_forms();
-        take_ion(vessel, CHLORIDE, &forms, x * ox.chloride);
-        vessel.deposit(SpeciesId::new("Mn+2"), Moles(x * ox.mn), Phase::Aqueous);
-        vessel.deposit(SpeciesId::new("water"), Moles(x * ox.water), Phase::Liquid);
-        reaction(events, vessel, ox.equation);
-        emit_chlorine(vessel, x * ox.chlorine, events);
-        refresh_charge(vessel);
-        note(
-            events,
-            vessel,
-            NotModelledCause::RateNotModelled,
-            Phrase::new(
-                "not-modeled.chlorine-preparation-ideal",
-                "{oxidant} made chlorine from chloride in acid until the two electrode potentials met (CRC standard potentials, molality standing in for activity, chlorine at one atmosphere); activity coefficients in concentrated acid, the rate and the heat of this reaction are not modelled",
-                vec![("oxidant".to_string(), Slot::text(crate::halogen_redox::pretty(ox.key)))],
-            ),
-        );
-    }
-    progressed
+    crate::potential_redox::apply_in(vessel, events, crate::potential_redox::Scope::MakesChlorine)
 }
 
 // ── 2. absorption in alkali ──────────────────────────────────────────
@@ -502,90 +297,25 @@ fn absorb_in_alkali(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
 }
 
 // ── 3. reductants ────────────────────────────────────────────────────
-
-/// (reduced ion, oxidised product, product phase, reductant per Cl₂,
-/// product per Cl₂, equation). Strongest reductant first.
-pub const REDUCTANTS: &[(&str, &str, Phase, f64, f64, &str)] = &[
-    (
-        "I-",
-        "I2",
-        Phase::Aqueous,
-        2.0,
-        1.0,
-        "Cl₂ + 2 I⁻ → I₂ + 2 Cl⁻",
-    ),
-    (
-        "Fe+2",
-        "Fe+3",
-        Phase::Aqueous,
-        2.0,
-        2.0,
-        "Cl₂ + 2 Fe²⁺ → 2 Fe³⁺ + 2 Cl⁻",
-    ),
-    (
-        "Br-",
-        "Br2",
-        Phase::Liquid,
-        2.0,
-        1.0,
-        "Cl₂ + 2 Br⁻ → Br₂ + 2 Cl⁻",
-    ),
-];
+//
+// Halide displacement and iron(II): rows of `crate::potential_redox` with
+// Cl₂/Cl⁻ as the oxidant couple, strongest reductant first.
 
 /// Whether this module prices an oxidant/reductant pair the halogen
 /// writer table lists (so its honesty tail does not call it unpriced).
 pub fn covers(oxidant: &str, reductant: &str) -> bool {
-    oxidant == CHLORINE && REDUCTANTS.iter().any(|(r, ..)| *r == reductant)
-}
-
-fn ion_forms(ion: &str) -> Vec<String> {
-    crate::halogen_redox::registry_forms(ion)
+    oxidant == CHLORINE && crate::potential_redox::covers(oxidant, reductant)
 }
 
 fn reduce(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
     if !aqueous_ok(vessel) {
         return false;
     }
-    let mut progressed = false;
-    for (ion, product, phase, per, made, equation) in REDUCTANTS {
-        let forms = ion_forms(ion);
-        let have: f64 = forms
-            .iter()
-            .map(|f| amount(vessel, f, DISSOLVED_THEN_SOLID))
-            .sum();
-        if have <= TRACE || chlorine_pool(vessel) <= TRACE {
-            continue;
-        }
-        if !in_registry(product) {
-            note(
-                events,
-                vessel,
-                NotModelledCause::PhaseNotInRegistry,
-                Phrase::new(
-                    "not-modeled.chlorine-product-unregistered",
-                    "chlorine would oxidise {reductant} here, but the registry has no {product} to write, so it is left unreacted. That is a gap in the model, not evidence that nothing happens",
-                    vec![
-                        ("reductant".to_string(), Slot::text(crate::halogen_redox::pretty(ion))),
-                        ("product".to_string(), Slot::text(crate::halogen_redox::pretty(product))),
-                    ],
-                ),
-            );
-            continue;
-        }
-        let x = chlorine_pool(vessel).min(have / per);
-        if x <= TRACE {
-            continue;
-        }
-        progressed = true;
-        take_chlorine(vessel, x);
-        take_ion(vessel, ion, &forms, x * per);
-        vessel.deposit(SpeciesId::new(product), Moles(x * made), *phase);
-        vessel.deposit(SpeciesId::new(CHLORIDE), Moles(2.0 * x), Phase::Aqueous);
-        reaction(events, vessel, equation);
-        vessel.refresh_pressure();
-        refresh_charge(vessel);
-    }
-    progressed
+    crate::potential_redox::apply_in(
+        vessel,
+        events,
+        crate::potential_redox::Scope::ChlorineOxidant,
+    )
 }
 
 // ── 4. bleaching ─────────────────────────────────────────────────────
@@ -1003,10 +733,7 @@ fn dissolve_hydrogen_chloride(vessel: &mut Vessel, events: &mut Vec<Event>) -> b
 pub fn fires(vessel: &Vessel) -> bool {
     let wet = aqueous_ok(vessel);
     let pool = chlorine_pool(vessel);
-    if OXIDANTS
-        .iter()
-        .any(|ox| preparation_extent(vessel, ox) * ox.chlorine > crate::OBSERVABLE_MOLES)
-    {
+    if crate::potential_redox::fires_in(vessel, crate::potential_redox::Scope::MakesChlorine) {
         return true;
     }
     if wet && pool > TRACE && base_available(vessel) > TRACE {
@@ -1014,12 +741,7 @@ pub fn fires(vessel: &Vessel) -> bool {
     }
     if wet
         && pool > TRACE
-        && REDUCTANTS.iter().any(|(ion, product, ..)| {
-            in_registry(product)
-                && ion_forms(ion)
-                    .iter()
-                    .any(|f| amount(vessel, f, DISSOLVED_THEN_SOLID) > TRACE)
-        })
+        && crate::potential_redox::fires_in(vessel, crate::potential_redox::Scope::ChlorineOxidant)
     {
         return true;
     }

@@ -45,6 +45,10 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 const COMPOSERS: &[(&str, &str)] = &[
     ("chlorine.rs", include_str!("../src/chlorine.rs")),
     (
+        "potential_redox.rs",
+        include_str!("../src/potential_redox.rs"),
+    ),
+    (
         "carbonate_endpoint.rs",
         include_str!("../src/carbonate_endpoint.rs"),
     ),
