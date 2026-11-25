@@ -183,7 +183,14 @@ fn normalise(s: &str) -> String {
 fn strip_states(s: &str) -> String {
     let mut out = s.to_string();
     for state in ["(aq)", "(s)", "(l)", "(g)", "(cr)", "(am)", "(soln)"] {
-        out = out.replace(state, "");
+        // `replace` allocates a new String even when there is nothing to
+        // replace; nearly every formula carries no state suffix, so this
+        // guard saves seven allocations per parse (about a third of the
+        // allocation_profile workload, which parses the whole registry
+        // once).
+        if out.contains(state) {
+            out = out.replace(state, "");
+        }
     }
     out
 }
