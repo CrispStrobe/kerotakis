@@ -79,11 +79,14 @@
     },
     {
       "oxidant": "Br2/Br-",
-      "halogen_status": "no_registry_form",
-      "handling": "not_reachable",
-      "oxidant_forms": [],
+      "halogen_status": "rate_not_reviewed",
+      "handling": "refused",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "e0_v": 1.1038,
-      "delta_e_vs_i2aq_v": 0.4828
+      "delta_e_vs_i2aq_v": 0.4828,
+      "refusal_key": "not-modeled.redox-pair-unpriced"
     },
     {
       "oxidant": "Br3-/Br-",
@@ -142,8 +145,8 @@
   ],
   "counts": {
     "self": 1,
-    "not_reachable": 6,
-    "refused": 3,
+    "not_reachable": 5,
+    "refused": 4,
     "complete_writer": 2,
     "equilibrium_solver": 1,
     "owned_elsewhere": 1

@@ -27,7 +27,7 @@ registry source document and the curated/kinetic reactant tables. Do not edit by
 | SO4-2/S2O3-2 | 4 | 5 | +0.2843 | +0.284 | pass | 1348, 739, 712 | llnl.dat SO3-2, S2O3-2 and O2 reactions; cited +0.284 V computed from the NBS tables (Wagman et al., J. Phys. Chem. Ref. Data 11, Suppl. 2, 1982: dfG SO4-2 -744.53, S2O3-2 -522.5, H2O(l) -237.13 kJ/mol) for 2 SO4-2 + 10 H+ + 8 e- = S2O3-2 + 5 H2O |
 | DHA/ascorbic_acid | 2 | 2 | +0.3900 | +0.390 | pass | — | cited: C6H6O6 + 2 H+ + 2 e- = C6H8O6, E = +0.390 V, CRC Handbook of Chemistry and Physics, Electrochemical Series; vendored files define no dehydroascorbate species |
 
-Counts: admitted 15, couple_rejected 5, equilibrium_limited 1, no_registry_form 42, no_reviewed_couple 13, not_favourable 1, owned_elsewhere 5, product_not_determined 2, rate_not_reviewed 12, self 2.
+Counts: admitted 15, couple_rejected 6, equilibrium_limited 1, no_registry_form 35, no_reviewed_couple 13, not_favourable 1, owned_elsewhere 5, product_not_determined 3, rate_not_reviewed 17, self 2.
 
 ## Oxidant × reductant
 
@@ -82,13 +82,13 @@ Counts: admitted 15, couple_rejected 5, equilibrium_limited 1, no_registry_form 
 | Cl2/Cl- | Fe+3/Fe+2 | +0.588 | rate_not_reviewed | Cl2 | Fe+2 |  |
 | Cl2/Cl- | I2/I- | +0.823 | rate_not_reviewed | Cl2 | I-, KI |  |
 | Cl2/Cl- | DHA/ascorbic_acid | +0.968 | rate_not_reviewed | Cl2 | ascorbic_acid |  |
-| Br2/Br- | S4O6-2/S2O3-2 | -2.736 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
-| Br2/Br- | SO4-2/S2O3-2 | +0.820 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
-| Br2/Br- | SO4-2/SO3-2 | +1.211 | no_registry_form | — | SO3-2, Na2SO3 |  |
-| Br2/Br- | SO4-2/HSO3- | +0.998 | no_registry_form | — | HSO3-, NaHSO3 |  |
-| Br2/Br- | Fe+3/Fe+2 | +0.334 | no_registry_form | — | Fe+2 |  |
-| Br2/Br- | I2/I- | +0.568 | no_registry_form | — | I-, KI |  |
-| Br2/Br- | DHA/ascorbic_acid | +0.714 | no_registry_form | — | ascorbic_acid |  |
+| Br2/Br- | S4O6-2/S2O3-2 | -2.736 | couple_rejected | Br2 | S2O3-2, Na2S2O3 |  |
+| Br2/Br- | SO4-2/S2O3-2 | +0.820 | product_not_determined | Br2 | S2O3-2, Na2S2O3 |  |
+| Br2/Br- | SO4-2/SO3-2 | +1.211 | rate_not_reviewed | Br2 | SO3-2, Na2SO3 |  |
+| Br2/Br- | SO4-2/HSO3- | +0.998 | rate_not_reviewed | Br2 | HSO3-, NaHSO3 |  |
+| Br2/Br- | Fe+3/Fe+2 | +0.334 | rate_not_reviewed | Br2 | Fe+2 |  |
+| Br2/Br- | I2/I- | +0.568 | rate_not_reviewed | Br2 | I-, KI |  |
+| Br2/Br- | DHA/ascorbic_acid | +0.714 | rate_not_reviewed | Br2 | ascorbic_acid |  |
 | Br3-/Br- | S4O6-2/S2O3-2 | -2.777 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | Br3-/Br- | SO4-2/S2O3-2 | +0.778 | no_registry_form | — | S2O3-2, Na2S2O3 |  |
 | Br3-/Br- | SO4-2/SO3-2 | +1.170 | no_registry_form | — | SO3-2, Na2SO3 |  |

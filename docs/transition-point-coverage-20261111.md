@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 164, boiling.reported 68, melting.no_data 131, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 172, boiling.reported 68, melting.no_data 139, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -60,6 +60,7 @@ Counts: boiling.no_data 164, boiling.reported 68, melting.no_data 131, melting.r
 | BaCl2 | solid | melting 1235 K | boiling 1835.15 K | literature/transition-points/BaCl2 |
 | BaSO4 | solid | melting 1623 K | no_data | literature/transition-points/BaSO4 |
 | Br- | aqueous | no_data | no_data | — |
+| Br2 | liquid | no_data | no_data | — |
 | C | solid | sublimation 4620 K | sublimation 4620 K | literature/transition-points/C |
 | C6H5O7-3 | aqueous | no_data | no_data | — |
 | CH3COO- | aqueous | no_data | no_data | — |
@@ -82,7 +83,9 @@ Counts: boiling.no_data 164, boiling.reported 68, melting.no_data 131, melting.r
 | Co(NO3)2 | solid | no_data | no_data | — |
 | Co+2 | aqueous | no_data | no_data | — |
 | CoCl2 | solid | no_data | no_data | — |
+| Cr+3 | aqueous | no_data | no_data | — |
 | Cu | solid | melting 1357.77 K | boiling 2868 K | literature/transition-points/Cu |
+| Cu(NO3)2 | solid | no_data | no_data | — |
 | Cu(OH)2 | solid | no_data | no_data | — |
 | Cu+1 | aqueous | no_data | no_data | — |
 | Cu+2 | aqueous | no_data | no_data | — |
@@ -116,6 +119,7 @@ Counts: boiling.no_data 164, boiling.reported 68, melting.no_data 131, melting.r
 | HCl | liquid | no_data | no_data | — |
 | HClO | aqueous | no_data | no_data | — |
 | HI | liquid | no_data | no_data | — |
+| HNO3 | liquid | no_data | no_data | — |
 | HPO4-2 | aqueous | no_data | no_data | — |
 | HS- | aqueous | no_data | no_data | — |
 | HSO3- | aqueous | no_data | no_data | — |
@@ -125,8 +129,10 @@ Counts: boiling.no_data 164, boiling.reported 68, melting.no_data 131, melting.r
 | K+ | aqueous | no_data | no_data | — |
 | K2Cr2O7 | solid | no_data | no_data | — |
 | K2CrO4 | solid | no_data | no_data | — |
+| K2SO4 | solid | no_data | no_data | — |
 | KBr | solid | no_data | no_data | — |
 | KCl | solid | melting 1044 K | boiling 1680 K | literature/transition-points/KCl |
+| KHSO4 | solid | no_data | no_data | — |
 | KI | solid | melting 958 K | boiling 1597 K | literature/transition-points/KI |
 | KIO3 | solid | melting 833 K | no_data | literature/transition-points/KIO3 |
 | KMnO4 | solid | decomposition 523.15 K | decomposition 523.15 K | literature/transition-points/KMnO4 |
@@ -151,6 +157,8 @@ Counts: boiling.no_data 164, boiling.reported 68, melting.no_data 131, melting.r
 | NH4+ | aqueous | no_data | no_data | — |
 | NH4Cl | solid | sublimation 610.95 K | sublimation 610.95 K | literature/transition-points/NH4Cl |
 | NH4NO3 | solid | melting 442.8 K | no_data | literature/transition-points/NH4NO3 |
+| NO | gas | no_data | no_data | — |
+| NO2 | gas | no_data | no_data | — |
 | NO2- | aqueous | no_data | no_data | — |
 | NO3- | aqueous | no_data | no_data | — |
 | Na | solid | no_data | no_data | — |

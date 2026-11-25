@@ -23,7 +23,7 @@ by `not-modeled.redox-pair-outside-medium`.
 | HClO/Cl- | admitted | 1.4947 | 0.8737 | complete_writer |  | HClO |
 | ClO3-/Cl- | no_registry_form | 1.4421 | 0.8211 | not_reachable |  | — |
 | Cl2/Cl- | rate_not_reviewed | 1.358 | 0.737 | refused |  | Cl2 |
-| Br2/Br- | no_registry_form | 1.1038 | 0.4828 | not_reachable |  | — |
+| Br2/Br- | rate_not_reviewed | 1.1038 | 0.4828 | refused |  | Br2 |
 | Br3-/Br- | no_registry_form | 1.0627 | 0.4417 | not_reachable |  | — |
 | BrO-/Br- | no_registry_form | 1.5948 | 0.9738 | not_reachable |  | — |
 | BrO3-/Br- | no_registry_form | 1.4409 | 0.8199 | not_reachable |  | — |
@@ -31,7 +31,7 @@ by `not-modeled.redox-pair-outside-medium`.
 | MnO4- | no_reviewed_couple |  |  | refused |  | MnO4-, KMnO4 |
 | H2O2 | owned_elsewhere |  |  | owned_elsewhere |  | H2O2 |
 
-Counts: complete_writer 2, equilibrium_solver 1, not_reachable 6, owned_elsewhere 1, refused 3, self 1
+Counts: complete_writer 2, equilibrium_solver 1, not_reachable 5, owned_elsewhere 1, refused 4, self 1
 
 ## Sources
 

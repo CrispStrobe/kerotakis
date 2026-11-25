@@ -6,7 +6,7 @@
     "hexane"
   ],
   "classes": {
-    "monatomic cation": 18,
+    "monatomic cation": 19,
     "monatomic anion": 4,
     "small organic ion": 3,
     "polyatomic inorganic ion": 20
@@ -75,6 +75,12 @@
     {
       "species": "Co+2",
       "formula": "Co+2",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Cr+3",
+      "formula": "Cr+3",
       "ion_class": "monatomic cation",
       "hydrocarbon_rule": "retained in water"
     },

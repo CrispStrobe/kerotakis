@@ -124,6 +124,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "Cu(NO3)2": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
   "Cu(OH)2": {
     "minteq.v4": "reference:minteq.v4:Cu(OH)2",
     "pitzer": "refused: a reaction species is not defined on the routed database",
@@ -219,6 +224,11 @@
     "pitzer": "refused: a molecular solute with no reviewed enthalpy of dissolution",
     "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
+  "K2SO4": {
+    "minteq.v4": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "pitzer": "routed",
+    "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
+  },
   "KBr": {
     "minteq.v4": "curated",
     "pitzer": "curated",
@@ -228,6 +238,11 @@
     "minteq.v4": "curated",
     "pitzer": "curated",
     "wateq4f": "curated"
+  },
+  "KHSO4": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
   },
   "KI": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",

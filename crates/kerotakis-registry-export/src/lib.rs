@@ -646,6 +646,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         // carries silver chloride and gypsum and is already listed above.
         "literature/bates-bower-smith-calcium-hydroxide-1956",
         "literature/berkeley-saturated-solutions-1904",
+        // 2026-11-25, redox species (ported from the 2026-11-21 species batch):
+        // bromine's bounded water solubility.
+        "literature/hsdb-bromine-water",
     ];
     // Runtime SpeciesData carries the scalar but cannot retain its per-field
     // uncertainty, conditions or source. Preserve explicitly reviewed heat

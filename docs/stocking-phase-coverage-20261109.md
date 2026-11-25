@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, not_condensed 84.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 90, not_condensed 87.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -58,7 +58,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, n
 | melting_point_without_latent_heat | FeCl3 | solid | 577 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | H2C2O4 | solid | 464.45 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | H2O2 | liquid | 271.2 | 423.35 | no | liquid | liquid | liquid |
-| melting_point_without_latent_heat | H2SO4 | liquid | 283.51 | — | no | liquid | liquid | liquid |
+| melting_point_without_latent_heat | H2SO4 | liquid | 283.51 | 608.6 | no | liquid | liquid | liquid |
 | melting_point_without_latent_heat | KI | solid | 958 | 1597 | no | solid | solid | solid |
 | melting_point_without_latent_heat | KIO3 | solid | 833 | — | no | solid | solid | solid |
 | melting_point_without_latent_heat | KNO3 | solid | 610 | — | no | solid | solid | solid |
@@ -86,6 +86,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, n
 | no_melting_point | Al2(SO4)3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Al2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Br2 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | C | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca(CH3COO)2 | solid | — | — | no | solid | solid | solid |
@@ -93,6 +94,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, n
 | no_melting_point | CaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Co(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CoCl2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Cu(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu2(OH)2CO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuCl2 | solid | — | — | no | solid | solid | solid |
@@ -107,10 +109,13 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, n
 | no_melting_point | H3PO4 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | HCl | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | HI | liquid | — | — | no | liquid | liquid | liquid |
+| no_melting_point | HNO3 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | K | solid | — | — | no | solid | solid | solid |
 | no_melting_point | K2Cr2O7 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | K2CrO4 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | K2SO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KBr | solid | — | — | no | solid | solid | solid |
+| no_melting_point | KHSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KMnO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Mg(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | MgCO3 | solid | — | — | no | solid | solid | solid |
@@ -182,6 +187,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, n
 | not_condensed | Cl2 | gas | 172.16 | 239.1 | no | gas | gas | gas |
 | not_condensed | ClO- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Co+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | Cr+3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+1 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Fe+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
@@ -209,6 +215,8 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, n
 | not_condensed | N2 | gas | 63.15 | 77.34 | no | gas | gas | gas |
 | not_condensed | NH2Cl | gas | — | — | no | gas | gas | gas |
 | not_condensed | NH4+ | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | NO | gas | — | — | no | gas | gas | gas |
+| not_condensed | NO2 | gas | — | — | no | gas | gas | gas |
 | not_condensed | NO2- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | NO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Na+ | aqueous | — | — | no | aqueous | aqueous | aqueous |

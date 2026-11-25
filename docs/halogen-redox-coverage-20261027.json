@@ -999,8 +999,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "S4O6-2/S2O3-2",
       "delta_e_v": -2.7355,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "couple_rejected",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "S2O3-2",
         "Na2S2O3"
@@ -1011,8 +1013,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "SO4-2/S2O3-2",
       "delta_e_v": 0.8195,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "product_not_determined",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "S2O3-2",
         "Na2S2O3"
@@ -1023,8 +1027,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "SO4-2/SO3-2",
       "delta_e_v": 1.2111,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "SO3-2",
         "Na2SO3"
@@ -1035,8 +1041,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "SO4-2/HSO3-",
       "delta_e_v": 0.9979,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "HSO3-",
         "NaHSO3"
@@ -1047,8 +1055,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "Fe+3/Fe+2",
       "delta_e_v": 0.3342,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "Fe+2"
       ],
@@ -1058,8 +1068,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "I2/I-",
       "delta_e_v": 0.5683,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "I-",
         "KI"
@@ -1070,8 +1082,10 @@
       "oxidant": "Br2/Br-",
       "reductant": "DHA/ascorbic_acid",
       "delta_e_v": 0.7138,
-      "status": "no_registry_form",
-      "oxidant_forms": [],
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Br2"
+      ],
       "reductant_forms": [
         "ascorbic_acid"
       ],
@@ -1621,14 +1635,14 @@
   ],
   "counts": {
     "admitted": 15,
-    "couple_rejected": 5,
+    "couple_rejected": 6,
     "equilibrium_limited": 1,
-    "no_registry_form": 42,
+    "no_registry_form": 35,
     "no_reviewed_couple": 13,
     "not_favourable": 1,
     "owned_elsewhere": 5,
-    "product_not_determined": 2,
-    "rate_not_reviewed": 12,
+    "product_not_determined": 3,
+    "rate_not_reviewed": 17,
     "self": 2
   }
 }

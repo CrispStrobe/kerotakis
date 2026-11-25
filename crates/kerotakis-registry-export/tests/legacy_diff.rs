@@ -52,6 +52,9 @@ const NBS_WAGMAN_DISSOLUTION: &[&str] = &[
     "Al2(SO4)3",
     // Missing-species lane (2026-11-24).
     "MgCl2",
+    // Redox species (2026-11-25), ported from the species batch.
+    "HNO3",
+    "Br2",
     "CoCl2",
     "urea",
     // Generic-Cp lane (2026-11-25).
@@ -304,6 +307,8 @@ fn every_legacy_field_is_present_and_unchanged() {
                         | "MgCl2" | "CoCl2" | "urea"
                         // Generic-Cp lane (2026-11-25), NBS/Wagman 1982.
                         | "Co(NO3)2" | "Ca(CH3COO)2"
+                        // Redox species (2026-11-25), ported NBS/Wagman 1982 rows.
+                        | "HNO3" | "Br2"
                 ))
             .count()
     );
@@ -1079,6 +1084,8 @@ fn reviewed_solubility(key: &str) -> Option<ReviewedSolubility> {
         "NaCl" => (BERKELEY_1904, 288.35, true),
         "KCl" => (BERKELEY_1904, 292.70, true),
         "Mg(OH)2" => (MCGEE_1977, 298.15, false),
+        // 2026-11-25: bromine, one HSDB 25 C point converted to g/100 mL.
+        "Br2" => ("literature/hsdb-bromine-water", 298.15, false),
         _ => return None,
     };
     Some(ReviewedSolubility {
@@ -1284,7 +1291,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 232, "one molar mass per species");
+    assert_eq!(masses.len(), 240, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

@@ -5,12 +5,12 @@
   "schema": 1,
   "selected_example_counts": {
     "Ag": 8,
-    "Cu": 16,
+    "Cu": 17,
     "Fe": 16,
-    "H": 206,
+    "H": 208,
     "Mn": 7,
     "Na": 42,
-    "O": 250,
+    "O": 256,
     "Pb": 8,
     "Zn": 10
   }

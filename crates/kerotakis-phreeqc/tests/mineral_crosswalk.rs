@@ -68,17 +68,21 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// magnetite are database phases without a reviewed solubility, so the gap
 /// grows by three; magnetite is not posable (the route books iron as
 /// iron(II), and Fe3O4 holds iron(II) and iron(III) together).
+///
+/// 2026-11-25 (redox species): KHSO4, K2SO4 and Cu(NO3)2 join. K2SO4 is a
+/// database phase (arcanite) without a reviewed solubility; the other two
+/// are not database phases.
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 129,
-            database_phases: 59,
+            registry_solids: 132,
+            database_phases: 60,
             with_reviewed_solubility: 14,
-            without_reviewed_solubility: 45,
-            not_a_database_phase: 70,
-            phases_without_a_registry_solid: 592,
+            without_reviewed_solubility: 46,
+            not_a_database_phase: 72,
+            phases_without_a_registry_solid: 591,
             several_phase_names: 14,
             not_posable: 14,
         },
@@ -158,6 +162,8 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "Fe(OH)2",
             "Fe2O3",
             "Fe3O4",
+            // 2026-11-25: arcanite; no reviewed solubility is claimed.
+            "K2SO4",
             "MgCO3",
             "MgO",
             "MnO2",

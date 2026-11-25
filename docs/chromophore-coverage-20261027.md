@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 54, outside_method 126, parameterised 7, parameterised_ph 5, unclassified 40.
+Counts: missing_absorptivity 58, outside_method 130, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -24,13 +24,16 @@ Counts: missing_absorptivity 54, outside_method 126, parameterised 7, parameteri
 | missing_absorptivity | AgBr | pale yellow |
 | missing_absorptivity | AgI | pale yellow |
 | missing_absorptivity | Al | silver |
+| missing_absorptivity | Br2 | red-brown |
 | missing_absorptivity | C | black |
 | missing_absorptivity | Ca | silvery |
 | missing_absorptivity | Cl2 | yellow-green, toxic |
 | missing_absorptivity | Co(NO3)2 | red |
 | missing_absorptivity | Co+2 | pink |
 | missing_absorptivity | CoCl2 | blue |
+| missing_absorptivity | Cr+3 | green |
 | missing_absorptivity | Cu | reddish-brown |
+| missing_absorptivity | Cu(NO3)2 | blue-green |
 | missing_absorptivity | Cu(OH)2 | pale blue |
 | missing_absorptivity | Cu2(OH)2CO3 | green |
 | missing_absorptivity | Cu2O | red |
@@ -54,6 +57,7 @@ Counts: missing_absorptivity 54, outside_method 126, parameterised 7, parameteri
 | missing_absorptivity | Mn+3 | red |
 | missing_absorptivity | MnO2 | black |
 | missing_absorptivity | MnO4-2 | green |
+| missing_absorptivity | NO2 | brown |
 | missing_absorptivity | Na | silvery |
 | missing_absorptivity | NaOCl | pale yellow-green |
 | missing_absorptivity | Pb | dull grey |
@@ -101,8 +105,11 @@ Counts: missing_absorptivity 54, outside_method 126, parameterised 7, parameteri
 | outside_method | HBr | colourless |
 | outside_method | HCl | colourless |
 | outside_method | HI | fuming colorless liquid |
+| outside_method | HNO3 | colourless |
+| outside_method | K2SO4 | white |
 | outside_method | KBr | white crystals |
 | outside_method | KCl | white |
+| outside_method | KHSO4 | white |
 | outside_method | KI | white crystalline solid |
 | outside_method | KIO3 | white crystalline powder |
 | outside_method | KNO3 | white |
@@ -117,6 +124,7 @@ Counts: missing_absorptivity 54, outside_method 126, parameterised 7, parameteri
 | outside_method | NH3 | colourless, sharp smell |
 | outside_method | NH4Cl | white |
 | outside_method | NH4NO3 | white |
+| outside_method | NO | colourless |
 | outside_method | Na2B4O7 | white |
 | outside_method | Na2CO3 | white |
 | outside_method | Na2S | colourless |

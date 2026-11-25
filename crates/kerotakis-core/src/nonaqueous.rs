@@ -785,6 +785,12 @@ pub const REGISTRY_LIQUID_MEDIA: &[(&str, LiquidMedium)] = &[
     ("H3PO4", LiquidMedium::MineralAcid),
     ("HCl", LiquidMedium::StrongAcid),
     ("HI", LiquidMedium::StrongAcid),
+    // Pure nitric acid (2026-11-25): a neat molecular strong acid, counted
+    // in the acid term like HCl and HI.
+    ("HNO3", LiquidMedium::StrongAcid),
+    // Liquid bromine: a non-aqueous molecular liquid that competes with
+    // water as the solvent exactly as the organic liquids do.
+    ("Br2", LiquidMedium::Organic),
     ("NH3", LiquidMedium::AqueousReagentSolute),
     ("NaOCl", LiquidMedium::AqueousReagentSolute),
     ("liquid_nitrogen", LiquidMedium::NotAMatrix),

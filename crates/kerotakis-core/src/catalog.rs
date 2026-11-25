@@ -250,7 +250,7 @@ pub fn reagent_requirement(facts: &ReagentFacts) -> u32 {
     if has("cryogen") || has("asphyxiant") {
         return LAST_TIER;
     }
-    if has("toxic") || has("corrosive") {
+    if has("toxic") || has("corrosive") || has("carcinogen") {
         return 3;
     }
     if has("flammable") || has("oxidizer") {

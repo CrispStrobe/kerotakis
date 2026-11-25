@@ -90,6 +90,13 @@ pub enum ReactiveGroup {
 pub enum HandlingHazard {
     Cryogen,
     Asphyxiant,
+    /// Acutely toxic by inhalation (a gas or a fuming liquid).
+    Toxic,
+    /// Corrodes skin and eyes on contact without being a strong acid or
+    /// base class.
+    Corrosive,
+    /// A recognised human carcinogen (IARC Group 1).
+    Carcinogen,
 }
 
 pub fn handling_hazards(species_key: &str) -> &'static [HandlingHazard] {
@@ -100,6 +107,15 @@ pub fn handling_hazards(species_key: &str) -> &'static [HandlingHazard] {
         // their own quantity/container policy before this metadata should
         // change their Story availability.
         "liquid_nitrogen" => &[Cryogen, Asphyxiant],
+        // ICSC 0930 / 1311: nitrogen dioxide and monoxide are toxic by
+        // inhalation (lung oedema; methaemoglobin for NO).
+        "NO2" | "NO" => &[Toxic],
+        // ICSC 0107: bromine is "very toxic by inhalation" and corrosive to
+        // the eyes, skin and respiratory tract.
+        "Br2" => &[Toxic, Corrosive],
+        // IARC Monographs vol. 100C (2012): chromium(VI) compounds are
+        // carcinogenic to humans (Group 1).
+        "K2Cr2O7" | "K2CrO4" => &[Carcinogen],
         _ => &[],
     }
 }
@@ -148,6 +164,9 @@ pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
             .map(|hazard| match hazard {
                 HandlingHazard::Cryogen => "cryogen",
                 HandlingHazard::Asphyxiant => "asphyxiant",
+                HandlingHazard::Toxic => "toxic",
+                HandlingHazard::Corrosive => "corrosive",
+                HandlingHazard::Carcinogen => "carcinogen",
             }),
     );
     (labels, assessed)
@@ -173,6 +192,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "KSCN" | "SCN-" => &[ToxicSoluble, ReducingAgent],
         "CO3-2" => &[Carbonate],
         "H2SO4" | "NaHSO4" => &[AcidStrong],
+        // Potassium hydrogen sulfate is the potassium twin of NaHSO4: its
+        // solution is a strong acid (ILO/WHO ICSC, potassium hydrogen sulfate).
+        "KHSO4" => &[AcidStrong],
+        // Pure nitric acid is both a strong acid and a strong oxidising
+        // acid (NOAA reactive group "Acids, Strong Oxidizing"; ICSC 0183:
+        // "strong oxidant, reacts violently with combustible and reducing
+        // materials"), so it carries both rows.
+        "HNO3" => &[AcidStrong, OxidizerStrong],
 
         // ── strong bases ──────────────────────────────────────────
         "NaOH" => &[BaseStrong],
@@ -217,6 +244,21 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "K2Cr2O7" | "K2CrO4" => &[OxidizerStrong, ToxicSoluble],
         "NaNO2" => &[OxidizerStrong, ToxicSoluble],
         "Cl2" => &[OxidizerStrong],
+        // Liquid bromine (ICSC 0107: "strong oxidant, reacts violently with
+        // combustible and reducing materials"); its toxicity and
+        // corrosiveness are handling hazards below.
+        "Br2" => &[OxidizerStrong],
+        // Nitrogen dioxide is an oxidant (ICSC 0930: "strong oxidant");
+        // its inhalation toxicity is a handling hazard below. Nitrogen
+        // monoxide is not an oxidising-material class (ICSC 1311).
+        "NO2" => &[OxidizerStrong],
+        "NO" => &[],
+        // Copper(II) nitrate is an oxidising nitrate salt (ILO/WHO ICSC,
+        // copper(II) nitrate: "the substance is a strong oxidant").
+        "Cu(NO3)2" => &[OxidizerStrong],
+        // Chromium(III) salts are not the hexavalent hazard: no oxidising
+        // class, no carcinogen classification (IARC Group 3).
+        "Cr+3" => &[],
         // Molecular iodine is an oxidising reagent, but it is not a strong
         // oxidising-material class comparable to permanganate.  Assigning it
         // that incompatibility group falsely labelled ordinary iodine/hexane
@@ -591,6 +633,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "NH4Cl"
         | "NH4+"
         | "Na2SO4"
+        | "K2SO4"
         // The insoluble sulfate: barium that cannot be absorbed.
         | "BaSO4"
         // The registry-solid coverage lane's sparingly soluble halides,
@@ -883,6 +926,14 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaHCO3",
     "NaHSO3",
     "NaHSO4",
+    "KHSO4",
+    "K2SO4",
+    "HNO3",
+    "Br2",
+    "NO",
+    "NO2",
+    "Cu(NO3)2",
+    "Cr+3",
     "NaOAc",
     "NaOCl",
     "ClO-",

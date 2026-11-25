@@ -168,57 +168,56 @@ fn hypochlorous_acid_oxidises_iron_two_in_acid_but_not_without() {
     assert!(!eq.iter().any(|e| e.starts_with("HClO + H⁺")), "{eq:?}");
 }
 
-// ── dormant rows say what they lack ──────────────────────────────────
+// ── rows that were dormant until bromine and chromium(III) joined ────
 
 #[test]
-fn acidified_permanganate_and_bromide_name_the_missing_bromine() {
+fn acidified_permanganate_oxidises_bromide_to_bromine() {
     let mut v = water(0.555);
     put(&mut v, "KMnO4", 0.0002, Phase::Aqueous);
     put(&mut v, "KBr", 0.002, Phase::Aqueous);
     acid(&mut v, 0.01);
     let events = run(&mut v);
-    assert!(equations(&events).iter().all(|e| !e.contains("Br")));
-    let notes = halogen_redox::unpriced_notes(&v);
-    let keys = note_keys(&notes);
+    let eq = equations(&events);
     assert!(
-        keys.contains(&"not-modeled.potential-redox-product-unregistered".to_string()),
-        "{keys:?}"
+        eq.contains(&"2 MnO₄⁻ + 16 H⁺ + 10 Br⁻ → 2 Mn²⁺ + 5 Br₂ + 8 H₂O".to_string()),
+        "{eq:?}"
     );
-    // ... and is not also called an unpriced pair.
-    assert!(
-        !keys.contains(&"not-modeled.redox-pair-unpriced".to_string()),
-        "{keys:?}"
-    );
-}
-
-#[test]
-fn dichromate_and_iron_two_name_the_missing_chromium_three() {
-    let mut v = water(0.555);
-    put(&mut v, "K2Cr2O7", 0.0002, Phase::Aqueous);
-    put(&mut v, "FeSO4", 0.002, Phase::Aqueous);
-    acid(&mut v, 0.01);
-    v.solute_charge = displacement::solute_charge(&v);
-    let notes = halogen_redox::unpriced_notes(&v);
-    let named = notes.iter().any(|e| match e {
-        Event::NotYetModeled {
-            reason: Some(r), ..
-        } => {
-            r.key == "not-modeled.potential-redox-product-unregistered"
-                && r.text_slot("product") == Some("Cr³⁺")
-        }
-        _ => false,
-    });
-    assert!(named, "{notes:?}");
-    // Without acid the dichromate couple is not admitted, so nothing is said.
-    let mut v = water(0.555);
-    put(&mut v, "K2Cr2O7", 0.0002, Phase::Aqueous);
-    put(&mut v, "FeSO4", 0.002, Phase::Aqueous);
-    v.solute_charge = displacement::solute_charge(&v);
+    // Permanganate is limiting: 5/2 Br₂ per MnO₄⁻.
+    assert!((all(&v, "Br2") - 0.0005).abs() < 1e-9, "{}", all(&v, "Br2"));
+    assert!((all(&v, "Mn+2") - 0.0002).abs() < 1e-9);
     let keys = note_keys(&halogen_redox::unpriced_notes(&v));
     assert!(
         !keys.contains(&"not-modeled.potential-redox-product-unregistered".to_string()),
         "{keys:?}"
     );
+}
+
+#[test]
+fn acidified_dichromate_oxidises_iron_two_to_chromium_three() {
+    let mut v = water(0.555);
+    put(&mut v, "K2Cr2O7", 0.0002, Phase::Aqueous);
+    put(&mut v, "FeSO4", 0.002, Phase::Aqueous);
+    acid(&mut v, 0.01);
+    let events = run(&mut v);
+    let eq = equations(&events);
+    assert!(
+        eq.contains(&"Cr₂O₇²⁻ + 14 H⁺ + 6 Fe²⁺ → 2 Cr³⁺ + 6 Fe³⁺ + 7 H₂O".to_string()),
+        "{eq:?}"
+    );
+    assert!(
+        (all(&v, "Cr+3") - 0.0004).abs() < 1e-9,
+        "{}",
+        all(&v, "Cr+3")
+    );
+    assert!((all(&v, "Fe+3") - 0.0012).abs() < 1e-9);
+    assert!(all(&v, "K2Cr2O7") < 1e-12);
+    // Without acid the dichromate couple is not admitted.
+    let mut v = water(0.555);
+    put(&mut v, "K2Cr2O7", 0.0002, Phase::Aqueous);
+    put(&mut v, "FeSO4", 0.002, Phase::Aqueous);
+    let events = run(&mut v);
+    assert!(equations(&events).iter().all(|e| !e.contains("Cr")));
+    assert!(all(&v, "Cr+3") < 1e-12);
 }
 
 #[test]

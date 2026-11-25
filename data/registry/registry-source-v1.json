@@ -3015,6 +3015,87 @@
       "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/1176",
       "revision": null,
       "retrieved": "2026-11-24"
+    },
+    {
+      "id": "legacy/HNO3",
+      "citation": "nitric acid, HNO3: added by the species-batch lane (2026-11-21). IDENTITY VERIFIED against PubChem CID 944: InChIKey GRYLNZFGIOXLOG-UHFFFAOYSA-N on 2026-11-21 (PUG REST property record). Molar mass 63.012 g/mol from IUPAC/CIAAW 2021 standard atomic weights (conventional values H 1.008, C 12.011, N 14.007, O 15.999, S 32.06, K 39.0983, Ca 40.078, Zn 65.38, Br 79.904). HEAT CAPACITY 109.87 J/(mol.K): Cp at 298.15 K of the pure liquid, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 18:N (p. 2-65), HNO3 l. DENSITY 1.5129 g/mL: 1.5129 g/cu cm at 20 C, Hazardous Substances Data Bank (HSDB, US National Library of Medicine) and the US Department of Energy PAC Chemical Database, as quoted in PubChem CID 944, read 2026-11-21. This is PURE (100 %) nitric acid, the liquid of the NBS `l` row, not the 65-70 % commercial concentrate. In water it books as H+ and NO3- through the existing formula-derived roles; its strong-acid behaviour is the routed PHREEQC database's own. Its enthalpy of dilution to infinite dilution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards (strong acid, oxidiser) are screened in kerotakis-safety. NOT CLAIMED: melting or boiling point, vapour pressure, NO2 decomposition (fuming), the redox chemistry of the concentrated acid with metals.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Br2",
+      "citation": "bromine, Br2: added by the species-batch lane (2026-11-21). IDENTITY VERIFIED against PubChem CID 24408: InChIKey GDTBXPJZTBHREO-UHFFFAOYSA-N on 2026-11-21 (PUG REST property record). Molar mass 159.808 g/mol from IUPAC/CIAAW 2021 standard atomic weights (conventional values H 1.008, C 12.011, N 14.007, O 15.999, S 32.06, K 39.0983, Ca 40.078, Zn 65.38, Br 79.904). HEAT CAPACITY 75.689 J/(mol.K): Cp at 298.15 K of the liquid, NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-21), Table 11:Br (p. 2-50), Br2 l. DENSITY 3.1023 g/mL: 3.1023 at 25 C/4 C, Hazardous Substances Data Bank (HSDB) and OSHA, and 3.1023 at 77 F from EPA (1998) as quoted by CAMEO Chemicals, all in PubChem CID 24408, read 2026-11-21. Liquid elemental bromine. In water it dissolves as molecular Br2(aq), bounded by the separately sourced solubility (literature/hsdb-bromine-water); its tiny hydrolysis to HOBr + Br- (0.00115 mol/L HOBr beside 0.2141 mol/L at saturation, HSDB) is NOT modelled. Its enthalpy of solution is recorded separately in literature/nbs-wagman-1982-dissolution. Hazards (toxic, corrosive, strong oxidiser) are screened in kerotakis-safety. NOT CLAIMED: boiling point and vapour pressure (it fumes at room temperature), melting point.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "literature/hsdb-bromine-water",
+      "citation": "Hazardous Substances Data Bank (HSDB), US National Library of Medicine, record BROMINE, as quoted in PubChem CID 24408 (Solubility section), read 2026-11-21: 'In water, 33.6 g/L at 25 C', i.e. 3.36 g/100 mL. The same record gives 'Solubility in water (25 C): 0.2141 mol/L with formation of 0.00115 mol/L of HOBr'. The secondary compilation's primary measurement is not read here, so no uncertainty is claimed; other quotes in the same PubChem record (35.8 g/L at 20 C, ICSC 4.0 g/100 mL at 20 C) bracket it.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/24408",
+      "revision": "HSDB via PubChem, accessed 2026-11-21",
+      "retrieved": "2026-11-21"
+    },
+    {
+      "id": "legacy/NO",
+      "citation": "nitrogen monoxide, NO: added by the redox-species lane (2026-11-25) to switch on the dormant potential-redox and concentrated-acid route rows. IDENTITY PubChem CID 145068 (PUG REST InChIKey), read 2026-11-25. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values N 14.007, O 15.999, S 32.06, K 39.0983, Cr 51.996, Cu 63.546, H 1.008). HEAT CAPACITY Cp(g, 298.15 K) 29.844 J/(mol.K): D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work (NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-25), Table 18:N (p. 2-64), NO g. DENSITY 1.0 is the unused placeholder every gas record in this registry carries (gas volumes come from the ideal-gas law), NOT a measured value. APPEARANCE colourless gas (HSDB citing CRC Handbook 76th ed., as quoted by PubChem CID 145068 (Color/Form), read 2026-11-25); in air it is oxidised to brown NO2, which this record does NOT model. NOT CLAIMED: melting/boiling point, Henry constant (no aqueous dissolution or nitrosyl chemistry is modelled), the NO + O2 reaction.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/NO2",
+      "citation": "nitrogen dioxide, NO2: added by the redox-species lane (2026-11-25) to switch on the dormant potential-redox and concentrated-acid route rows. IDENTITY PubChem CID 3032552 (PUG REST InChIKey), read 2026-11-25. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values N 14.007, O 15.999, S 32.06, K 39.0983, Cr 51.996, Cu 63.546, H 1.008). HEAT CAPACITY Cp(g, 298.15 K) 37.20 J/(mol.K): D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work (NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-25), Table 18:N (p. 2-64), NO2 g. DENSITY 1.0 is the unused gas placeholder (ideal-gas volumes), NOT a measured value. APPEARANCE brown gas (HSDB citing CRC Handbook 88th ed.: \"Brown gas; equilibrium with N2O4\", as quoted by PubChem CID 3032552 (Color/Form), read 2026-11-25). NOT CLAIMED: the 2 NO2 = N2O4 dimerisation (N2O4 is not a registry species), boiling point 21 C (liquefaction), Henry constant and hydrolysis to HNO3 + HNO2.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Cr+3",
+      "citation": "chromium(III) ion, Cr+3: added by the redox-species lane (2026-11-25) to switch on the dormant potential-redox and concentrated-acid route rows. IDENTITY PubChem CID 27668 (PUG REST InChIKey), read 2026-11-25. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values N 14.007, O 15.999, S 32.06, K 39.0983, Cr 51.996, Cu 63.546, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE green: chromium(III) in the sulfate or chloride solutions a bench makes is green (the violet hexaaqua ion turns green as sulfate or chloride enters the coordination sphere), N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.4. Booked in solution as Cr(3) of minteq.v4 (master Cr(OH)2+); its hydrolysis and complexes are that database's. NOT CLAIMED: oxidation to chromate, the violet/green isomer distinction, any precipitation colour.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Cu(NO3)2",
+      "citation": "copper(II) nitrate, Cu(NO3)2: added by the redox-species lane (2026-11-25) to switch on the dormant potential-redox and concentrated-acid route rows. Anhydrous copper(II) nitrate (alpha form). IDENTITY PubChem CID 18616 (PUG REST InChIKey), read 2026-11-25. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values N 14.007, O 15.999, S 32.06, K 39.0983, Cr 51.996, Cu 63.546, H 1.008). HEAT CAPACITY: NOT AVAILABLE - the NBS/Wagman 1982 tables (Table 36:Cu, p. 2-156) list Cu(NO3)2 cr with dfH -302.9 kJ/mol but no Cp, so this record carries 0 like the registry's other unsourced-Cp solids (a dry residue is charged its Kopp estimate at runtime). DENSITY 2.679 g/cm3 computed from the crystal structure: S. C. Wallwork and W. E. Addison, J. Chem. Soc. 1965, 2925-2933 (COD 1542184): Pmn21, Z = 4, V = 464.972 A3; rho = 4 x 187.554 / (0.602214 x 464.972) = 2.679. APPEARANCE blue-green crystals (Merck Index as quoted by PubChem CID 18616 (Color/Form), read 2026-11-25). In water it books as Cu+2 + 2 NO3- through the existing formula-derived roles. NOT CLAIMED: the trihydrate and hexahydrate (no sourced density for the trihydrate), melting/decomposition, dissolution enthalpy.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/KHSO4",
+      "citation": "potassium hydrogen sulfate, KHSO4: added by the redox-species lane (2026-11-25) to switch on the dormant potential-redox and concentrated-acid route rows. IDENTITY PubChem CID 516920 (PUG REST InChIKey), read 2026-11-25. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values N 14.007, O 15.999, S 32.06, K 39.0983, Cr 51.996, Cu 63.546, H 1.008). HEAT CAPACITY: NOT AVAILABLE - NBS/Wagman 1982 (Table 100:K, p. 2-337) lists KHSO4 cr dfH -1160.6, S 138.1 but no Cp, so this record carries 0 (zero-Cp solid). DENSITY 2.24 g/cm3 at 25 C, US DOE PAC Chemical Database as quoted by PubChem CID 516920 (Density), read 2026-11-25 (ICSC gives 2.2; the crystal structure of F. A. Cotton et al., Acta Cryst. B31 (1975), COD 9011152, Z = 16, V = 1562.77 A3 gives 2.31). APPEARANCE white (colourless crystals). In water it books as K+ + HSO4-, whose acid dissociation is the routed database's own, as for NaHSO4. NOT CLAIMED: melting point, dissolution enthalpy, pyrosulfate formation on heating.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/K2SO4",
+      "citation": "potassium sulfate, K2SO4: added by the redox-species lane (2026-11-25) to switch on the dormant potential-redox and concentrated-acid route rows. IDENTITY PubChem CID 24507 (PUG REST InChIKey), read 2026-11-25. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values N 14.007, O 15.999, S 32.06, K 39.0983, Cr 51.996, Cu 63.546, H 1.008). HEAT CAPACITY Cp(cr, 298.15 K) 131.46 J/(mol.K): D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work (NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-25), Table 100:K (p. 2-335), K2SO4 cr. DENSITY 2.66 g/cm3: The Merck Index 9th ed. via HSDB, as quoted by PubChem CID 24507 (Density), read 2026-11-25; the 296 K crystal structure (K. Ojima et al., Acta Cryst. B51 (1995), COD 2101318: Z = 4, V = 434.56 A3) gives 2.664. APPEARANCE colourless or white crystals (Merck Index via the same record). Solubility in water 12 g/100 mL at 25 C (ICSC via the same record) is owned by the routed database (arcanite), not stored here. NOT CLAIMED: melting point, dissolution enthalpy.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     }
   ],
   "identities": [
@@ -6638,6 +6719,134 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/litmus_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "HNO3",
+      "canonical_key": "GRYLNZFGIOXLOG-UHFFFAOYSA-N",
+      "name": "nitric acid",
+      "identifiers": {
+        "inchikey": "GRYLNZFGIOXLOG-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Br2",
+      "canonical_key": "GDTBXPJZTBHREO-UHFFFAOYSA-N",
+      "name": "bromine",
+      "identifiers": {
+        "inchikey": "GDTBXPJZTBHREO-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "NO",
+      "canonical_key": "MWUXSHHQAYIFBG-UHFFFAOYSA-N",
+      "name": "nitrogen monoxide",
+      "identifiers": {
+        "inchikey": "MWUXSHHQAYIFBG-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "NO2",
+      "canonical_key": "JCXJVPUVTGWSNB-UHFFFAOYSA-N",
+      "name": "nitrogen dioxide",
+      "identifiers": {
+        "inchikey": "JCXJVPUVTGWSNB-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Cr+3",
+      "canonical_key": "BFGKITSFLPAWGI-UHFFFAOYSA-N",
+      "name": "chromium(III) ion",
+      "identifiers": {
+        "inchikey": "BFGKITSFLPAWGI-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Cu(NO3)2",
+      "canonical_key": "XTVVROIMIGLXTD-UHFFFAOYSA-N",
+      "name": "copper(II) nitrate",
+      "identifiers": {
+        "inchikey": "XTVVROIMIGLXTD-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "KHSO4",
+      "canonical_key": "CHKVPAROMQMJNQ-UHFFFAOYSA-M",
+      "name": "potassium hydrogen sulfate",
+      "identifiers": {
+        "inchikey": "CHKVPAROMQMJNQ-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "K2SO4",
+      "canonical_key": "OTYBMLCTZGSZBG-UHFFFAOYSA-L",
+      "name": "potassium sulfate",
+      "identifiers": {
+        "inchikey": "OTYBMLCTZGSZBG-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/K2SO4",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -30905,6 +31114,823 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/HNO3",
+      "species_id": "HNO3",
+      "formula": "HNO3",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Br2",
+      "species_id": "Br2",
+      "formula": "Br2",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Br2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/NO",
+      "species_id": "NO",
+      "formula": "NO",
+      "elements": [
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NO",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NO",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/NO2",
+      "species_id": "NO2",
+      "formula": "NO2",
+      "elements": [
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NO2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NO2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Cr+3",
+      "species_id": "Cr+3",
+      "formula": "Cr+3",
+      "elements": [
+        {
+          "element": "Cr",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cr+3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 3.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Cu(NO3)2",
+      "species_id": "Cu(NO3)2",
+      "formula": "Cu(NO3)2",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu(NO3)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu(NO3)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Cu(NO3)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/KHSO4",
+      "species_id": "KHSO4",
+      "formula": "KHSO4",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KHSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "K",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KHSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KHSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KHSO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/K2SO4",
+      "species_id": "K2SO4",
+      "formula": "K2SO4",
+      "elements": [
+        {
+          "element": "K",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2SO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2SO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/K2SO4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -37135,7 +38161,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 4.39e-8,
+        "value": 4.39e-08,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -37340,7 +38366,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 1.678e-8,
+        "value": 1.678e-08,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -37545,7 +38571,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 5.9e-8,
+        "value": 5.9e-08,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -37750,7 +38776,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 1.587e-8,
+        "value": 1.587e-08,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -37955,7 +38981,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 9.71e-8,
+        "value": 9.71e-08,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -44441,7 +45467,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 2.65e-8,
+        "value": 2.65e-08,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -50221,7 +51247,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 0.00001,
+        "value": 1e-05,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -58695,6 +59721,800 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/HNO3",
+      "species_id": "HNO3",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 63.012,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HNO3",
+      "species_id": "HNO3",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 109.87,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/HNO3",
+      "species_id": "HNO3",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5129,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/HNO3",
+      "species_id": "HNO3",
+      "phase": "liquid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -33.26,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "liquid",
+          "notes": "HNO3(l) -> H+(aq) + NO3-(aq) at infinite dilution. Table 18:N (p. 2-65): dfH HNO3 l -174.10, HNO3 in infinite H2O -207.36 kJ/mol; -207.36 - (-174.10) = -33.26."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/nbs-wagman-1982-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Br2",
+      "species_id": "Br2",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 159.808,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Br2",
+      "species_id": "Br2",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 75.689,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Br2",
+      "species_id": "Br2",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.1023,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/Br2",
+      "species_id": "Br2",
+      "phase": "liquid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -2.59,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "liquid",
+          "notes": "Br2(l) -> Br2(aq). Table 11:Br (p. 2-50): dfH Br2 l 0 (reference state), Br2 ao -2.59 kJ/mol; -2.59 - 0 = -2.59."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/nbs-wagman-1982-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/NO",
+      "species_id": "NO",
+      "phase": "gas",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 30.006,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/NO",
+      "species_id": "NO",
+      "phase": "gas",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 29.844,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/NO",
+      "species_id": "NO",
+      "phase": "gas",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/NO2",
+      "species_id": "NO2",
+      "phase": "gas",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 46.005,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/NO2",
+      "species_id": "NO2",
+      "phase": "gas",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 37.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/NO2",
+      "species_id": "NO2",
+      "phase": "gas",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Cr+3",
+      "species_id": "Cr+3",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 51.996,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Cr+3",
+      "species_id": "Cr+3",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Cr+3",
+      "species_id": "Cr+3",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Cu(NO3)2",
+      "species_id": "Cu(NO3)2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 187.554,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Cu(NO3)2",
+      "species_id": "Cu(NO3)2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Cu(NO3)2",
+      "species_id": "Cu(NO3)2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.679,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/KHSO4",
+      "species_id": "KHSO4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 136.162,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/KHSO4",
+      "species_id": "KHSO4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/KHSO4",
+      "species_id": "KHSO4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.24,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/K2SO4",
+      "species_id": "K2SO4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 174.252,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/K2SO4",
+      "species_id": "K2SO4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 131.46,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/K2SO4",
+      "species_id": "K2SO4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.66,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -58717,8 +60537,8 @@
             57.3833663,
             -0.826791524,
             0.00441308798,
-            -0.00001054251164,
-            9.69449597e-9
+            -1.054251164e-05,
+            9.69449597e-09
           ],
           "reference": "H2O(cr): Ice. Gordon,1982."
         }
@@ -58752,7 +60572,7 @@
             -767.899505,
             1.761556813,
             -0.002151167128,
-            1.092570813e-6
+            1.092570813e-06
           ],
           "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969."
         },
@@ -58766,7 +60586,7 @@
             -272.237395,
             0.447924376,
             -0.000391939743,
-            1.425743266e-7
+            1.425743266e-07
           ],
           "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969."
         }
@@ -58798,8 +60618,8 @@
             575.573102,
             0.931782653,
             0.00722271286,
-            -7.34255737e-6,
-            4.95504349e-9,
+            -7.34255737e-06,
+            4.95504349e-09,
             -1.336933246e-12
           ],
           "reference": "H2O: Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25."
@@ -58812,7 +60632,7 @@
             -2412.698562,
             4.64611078,
             0.002291998307,
-            -6.83683048e-7,
+            -6.83683048e-07,
             9.42646893e-11,
             -4.82238053e-15
           ],
@@ -58847,8 +60667,8 @@
             398.458231,
             -1.547496756,
             0.00335217231,
-            -3.78778159e-6,
-            1.751729541e-9
+            -3.78778159e-06,
+            1.751729541e-09
           ],
           "reference": "NaCL(cr): Cubic. Gurvich,1982 pt1 p335 pt2 p374."
         },
@@ -58860,7 +60680,7 @@
             0.0,
             5.66571869,
             0.000870890149,
-            1.34056003e-6,
+            1.34056003e-06,
             0.0,
             0.0
           ],
@@ -58894,7 +60714,7 @@
             0.0,
             1.866766938,
             0.00425614025,
-            -3.26525227e-6,
+            -3.26525227e-06,
             0.0,
             0.0
           ],
@@ -58942,8 +60762,8 @@
             909.031167,
             -2.356891244,
             0.02204449885,
-            -0.00002510781471,
-            1.446300484e-8,
+            -2.510781471e-05,
+            1.446300484e-08,
             -3.36907094e-12
           ],
           "reference": "SO2: Gurvich,1989 pt1 p288 pt2 p175."
@@ -58956,7 +60776,7 @@
             -825.226138,
             7.61617863,
             -0.000199932761,
-            5.65563143e-8,
+            5.65563143e-08,
             -5.45431661e-12,
             2.918294102e-16
           ],
@@ -58991,8 +60811,8 @@
             -74.9975099,
             0.50121824,
             -0.001423348682,
-            1.994984415e-6,
-            -1.095038067e-9
+            1.994984415e-06,
+            -1.095038067e-09
           ],
           "reference": "Ca(OH)2(cr): Hexagonal Gurvich,1996a pt1 p454 pt2 p357."
         },
@@ -59038,7 +60858,7 @@
             5470.07809,
             -21.9947439,
             0.0592981586,
-            -0.0000434615259,
+            -4.34615259e-05,
             0.0,
             0.0
           ],
@@ -59052,8 +60872,8 @@
             -7265.7876,
             20.78520457,
             -0.01455522591,
-            0.00001267438982,
-            -1.010207859e-8,
+            1.267438982e-05,
+            -1.010207859e-08,
             3.8180255e-12
           ],
           "reference": "CuO(cr): Crystal. King,1973 p56."
@@ -59086,7 +60906,7 @@
             -771.467716,
             8.69417109,
             0.00385088334,
-            -3.61049854e-6,
+            -3.61049854e-06,
             0.0,
             0.0
           ],
@@ -59101,7 +60921,7 @@
             -95.92892425,
             0.6189564989,
             -0.001367212259,
-            1.067453163e-6,
+            1.067453163e-06,
             0.0
           ],
           "reference": "NaOH(a): Alpha. Gurvich,1996b."
@@ -59162,8 +60982,8 @@
             -554.712652,
             6.20758937,
             -0.002989632078,
-            3.17302729e-6,
-            -1.793629562e-9,
+            3.17302729e-06,
+            -1.793629562e-09,
             4.26004359e-13
           ],
           "reference": "CL2: Ref-Elm. Gurvich,1989 pt1 p177 pt2 p88."
@@ -59176,7 +60996,7 @@
             -19496.27662,
             28.54535795,
             -0.01449968764,
-            4.46389077e-6,
+            4.46389077e-06,
             -6.35852586e-10,
             3.32736029e-14
           ],
@@ -59211,7 +61031,7 @@
             -206.152052,
             0.716872043,
             -0.001253560327,
-            1.178136083e-6,
+            1.178136083e-06,
             -4.52696241e-10
           ],
           "reference": "Na2CO3(a): Alpha,monoclinic. Gurvich,1982 pt1 p356 pt2 p390."
@@ -59272,7 +61092,7 @@
             -626.411601,
             5.30172524,
             0.002503813816,
-            -2.127308728e-7,
+            -2.127308728e-07,
             -7.68998878e-10,
             2.849677801e-13
           ],
@@ -59285,8 +61105,8 @@
             117696.2419,
             -1788.791477,
             8.29152319,
-            -0.0000922315678,
-            4.86367688e-9,
+            -9.22315678e-05,
+            4.86367688e-09,
             -1.891053312e-12,
             6.33003659e-16
           ],
@@ -59300,7 +61120,7 @@
             1016847.056,
             -256.140523,
             0.0336940108,
-            -2.181184337e-6,
+            -2.181184337e-06,
             6.99142084e-11,
             -8.8423515e-16
           ],
@@ -59335,7 +61155,7 @@
             173.093063,
             -0.654543415,
             0.001415897824,
-            -1.598259237e-6,
+            -1.598259237e-06,
             7.38753415e-10
           ],
           "reference": "KCL(cr): Cubic. Gurvich,1982 pt1 p390 pt2 p419."
@@ -59348,8 +61168,8 @@
             0.0,
             5.28708855,
             0.00400409216,
-            -4.34344901e-6,
-            2.753186288e-9,
+            -4.34344901e-06,
+            2.753186288e-09,
             0.0
           ],
           "reference": "KCL(cr): Cubic. Gurvich,1982 pt1 p390 pt2 p419."
@@ -59383,8 +61203,8 @@
             -1907.177167,
             7.61666627,
             -0.0165587086,
-            0.00001879382277,
-            -8.72071327e-9
+            1.879382277e-05,
+            -8.72071327e-09
           ],
           "reference": "CaCO3(cr): Hexagonal Gurvich,1996a pt1 p483 pt2 p376."
         },
@@ -59431,8 +61251,8 @@
             -694.432081,
             2.802477174,
             -0.00612940322,
-            6.9821678e-6,
-            -3.24754384e-9
+            6.9821678e-06,
+            -3.24754384e-09
           ],
           "reference": "CaO(cr): Cubic Gurvich,1996a pt1 p442 pt2 p348."
         },
@@ -59444,7 +61264,7 @@
             0.0,
             7.174205094,
             -0.001959947129,
-            1.291116374e-6,
+            1.291116374e-06,
             -2.077091735e-10,
             0.0
           ],
@@ -59478,8 +61298,8 @@
             0.0,
             1.458173723,
             0.01330204666,
-            -0.00004098858502,
-            4.754339101e-8,
+            -4.098858502e-05,
+            4.754339101e-08,
             0.0
           ],
           "reference": "Mg(cr): Hexagonal. Ref-Elm. Alcock,1993."
@@ -59492,7 +61312,7 @@
             0.0,
             3.398877384,
             -0.0007243962663,
-            1.405254188e-6,
+            1.405254188e-06,
             0.0,
             0.0
           ],
@@ -59526,8 +61346,8 @@
             164.8069205,
             2.080947143,
             0.002639078305,
-            -2.714101362e-6,
-            1.402864982e-9,
+            -2.714101362e-06,
+            1.402864982e-09,
             -9.72432164e-14
           ],
           "reference": "Cu(cr): Cubic. Ref-Elm.Cox,1989 p226."
@@ -59561,7 +61381,7 @@
             39.5950036,
             -0.1143735885,
             0.0001934363797,
-            -1.675385126e-7,
+            -1.675385126e-07,
             6.07818994e-11
           ],
           "reference": "Zn(cr): Crystal. Ref-Elm. Cox,1989 p221."
@@ -59594,8 +61414,8 @@
             725.478802,
             0.106651838,
             0.00552954155,
-            -4.42559085e-6,
-            2.09166812e-9,
+            -4.42559085e-06,
+            2.09166812e-09,
             -3.88892446e-13
           ],
           "reference": "Ag(cr): Cubic. Ref-Elm. Cox,1989 p228."
@@ -59628,8 +61448,8 @@
             -780.380625,
             9.44017147,
             -0.02521767704,
-            0.0000535017051,
-            -5.09909473e-8,
+            5.35017051e-05,
+            -5.09909473e-08,
             1.993862728e-11
           ],
           "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
@@ -59642,7 +61462,7 @@
             -24471.50531,
             65.6102093,
             -0.0704392968,
-            0.0000318105287,
+            3.18105287e-05,
             0.0,
             0.0
           ],
@@ -59657,8 +61477,8 @@
             -728.921228,
             26.13888297,
             -0.0349474214,
-            0.00001763752622,
-            -2.907723254e-9
+            1.763752622e-05,
+            -2.907723254e-09
           ],
           "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
         },
@@ -59685,7 +61505,7 @@
             8052.828,
             -6.30308963,
             0.002677273007,
-            -5.75004553e-7,
+            -5.75004553e-07,
             4.71861196e-11
           ],
           "reference": "Fe(c): Gamma. Ref-Elm. Chase,1998 pp1221-5."
@@ -59733,7 +61553,7 @@
             -144.9325747,
             0.63975911,
             -0.0014583468,
-            1.715467374e-6,
+            1.715467374e-06,
             -8.18348237e-10
           ],
           "reference": "MgO(cr): Cubic Gurvich,1996a pt1 p397 pt2 p317."
@@ -59746,7 +61566,7 @@
             0.0,
             5.510366817,
             0.001085932905,
-            -4.866191754e-7,
+            -4.866191754e-07,
             1.253230798e-10,
             0.0
           ],
@@ -59781,7 +61601,7 @@
             13.65384188,
             -0.0463609644,
             0.0001021333011,
-            -1.082893179e-7,
+            -1.082893179e-07,
             4.47225886e-11
           ],
           "reference": "C(gr): Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002."
@@ -59794,7 +61614,7 @@
             -2596.528368,
             6.94884191,
             -0.00348483609,
-            1.844192445e-6,
+            1.844192445e-06,
             -5.05520596e-10,
             5.75063901e-14
           ],
@@ -59808,7 +61628,7 @@
             -1138.235908,
             3.7002795,
             -0.0001833807727,
-            6.34368325e-8,
+            6.34368325e-08,
             -7.06858948e-12,
             3.33543598e-16
           ],
@@ -59842,8 +61662,8 @@
             484.700097,
             1.119010961,
             0.00429388924,
-            -6.83630052e-7,
-            -2.0233727e-9,
+            -6.83630052e-07,
+            -2.0233727e-09,
             1.039040018e-12
           ],
           "reference": "O2: Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9."
@@ -59856,7 +61676,7 @@
             2344.830282,
             1.819732036,
             0.001267847582,
-            -2.188067988e-7,
+            -2.188067988e-07,
             2.053719572e-11,
             -8.19346705e-16
           ],
@@ -59870,7 +61690,7 @@
             -286610.6874,
             66.9035225,
             -0.00616995902,
-            3.016396027e-7,
+            3.016396027e-07,
             -7.4214166e-12,
             7.27817577e-17
           ],
@@ -59904,8 +61724,8 @@
             -381.846182,
             6.08273836,
             -0.00853091441,
-            0.00001384646189,
-            -9.62579362e-9,
+            1.384646189e-05,
+            -9.62579362e-09,
             2.519705809e-12
           ],
           "reference": "N2: Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207."
@@ -59918,7 +61738,7 @@
             -2239.249073,
             6.06694922,
             -0.00061396855,
-            1.491806679e-7,
+            1.491806679e-07,
             -1.923105485e-11,
             1.061954386e-15
           ],
@@ -59932,7 +61752,7 @@
             -642073.354,
             202.0264635,
             -0.03065092046,
-            2.486903333e-6,
+            2.486903333e-06,
             -9.70595411e-11,
             1.437538881e-15
           ],
@@ -59966,8 +61786,8 @@
             -800.918604,
             8.21470201,
             -0.01269714457,
-            0.00001753605076,
-            -1.20286027e-8,
+            1.753605076e-05,
+            -1.20286027e-08,
             3.36809349e-12
           ],
           "reference": "H2: Ref-Elm. Gurvich,1978 pt1 p103 pt2 p31."
@@ -59980,7 +61800,7 @@
             -837.150474,
             2.975364532,
             0.001252249124,
-            -3.74071619e-7,
+            -3.74071619e-07,
             5.9366252e-11,
             -3.6069941e-15
           ],
@@ -59994,7 +61814,7 @@
             -314754.7149,
             79.8412188,
             -0.00841478921,
-            4.75324835e-7,
+            4.75324835e-07,
             -1.371873492e-11,
             1.605461756e-16
           ],
@@ -60029,7 +61849,7 @@
             -71.2989894,
             0.2668406702,
             -0.000518201732,
-            5.23866509e-7,
+            5.23866509e-07,
             -2.151645616e-10
           ],
           "reference": "Pb(cr): Cubic. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337."
@@ -60062,8 +61882,8 @@
             634.393435,
             -0.713188382,
             0.0108872528,
-            -0.0000145874182,
-            9.96116088e-9,
+            -1.45874182e-05,
+            9.96116088e-09,
             -1.77492801e-12
           ],
           "reference": "AL(cr): Cubic. Ref-Elm. Cox,1989 p217."
@@ -60096,8 +61916,8 @@
             49.1536151,
             6.3516127,
             0.02730299149,
-            -0.00002006100982,
-            7.51152641e-9,
+            -2.006100982e-05,
+            7.51152641e-09,
             -1.262038044e-12
           ],
           "reference": "Fe(OH)3(cr): Crystal. Chase,1998 p1231."
@@ -60130,8 +61950,8 @@
             -5246.0135,
             35.6407814,
             -0.0577728535,
-            0.0000833416255,
-            -5.35340428e-8,
+            8.33416255e-05,
+            -5.35340428e-08,
             1.183994084e-11
           ],
           "reference": "Fe(OH)2(cr): Crystal. Chase,1998 p1229."
@@ -60144,8 +61964,8 @@
             -35848.4862,
             66.3148213,
             -0.02947893247,
-            4.57266967e-6,
-            1.317544528e-9,
+            4.57266967e-06,
+            1.317544528e-09,
             -2.977356578e-13
           ],
           "reference": "Fe(OH)2(cr): Crystal. Chase,1998 p1229."
@@ -60178,7 +61998,7 @@
             8358.13999,
             -39.711454,
             0.1231927219,
-            -0.0000964780065,
+            -9.64780065e-05,
             0.0,
             0.0
           ],
@@ -60192,8 +62012,8 @@
             37008.6861,
             -90.8862334,
             0.1431689186,
-            -0.0000951396524,
-            2.532586546e-8,
+            -9.51396524e-05,
+            2.532586546e-08,
             0.0
           ],
           "reference": "Mg(OH)2(cr): Hexagonal. Gurvich,1996a pt1 p405 pt2 p323."
@@ -60226,7 +62046,7 @@
             23230.47773,
             -67.6570177,
             0.1306052231,
-            -0.0000697068812,
+            -6.97068812e-05,
             0.0,
             0.0
           ],
@@ -60255,7 +62075,7 @@
             -211.9080355,
             0.2221481558,
             -0.0001206765164,
-            3.48073805e-8,
+            3.48073805e-08,
             -4.16529786e-12
           ],
           "reference": "Fe2O3(cr): Hematite above Curie pt. Pankratz,1983 p158."
@@ -60302,8 +62122,8 @@
             7214.66111,
             -31.45730294,
             0.0741217715,
-            -8.67007782e-6,
-            -1.080461312e-7,
+            -8.67007782e-06,
+            -1.080461312e-07,
             8.31632491e-11
           ],
           "reference": "SiO2(a-qz): Alpha-quartz,hexagonal. Gurvich,1991 pt1 p250 pt2 p228."
@@ -60330,7 +62150,7 @@
             0.0,
             9.331036946,
             -0.0007306503931,
-            3.339944266e-7,
+            3.339944266e-07,
             0.0,
             0.0
           ],
@@ -60365,7 +62185,7 @@
             -90.8757695,
             0.362191993,
             -0.000559287085,
-            3.46342113e-7,
+            3.46342113e-07,
             0.0
           ],
           "reference": "Na2SO4(V): Rhombic. Gurvich,1982 pt1 p346 pt2 p384."
@@ -60392,7 +62212,7 @@
             0.0,
             25.03069934,
             -0.01581223668,
-            0.00001591831629,
+            1.591831629e-05,
             0.0,
             0.0
           ],
@@ -60426,8 +62246,8 @@
             2786.18102,
             -12.0257785,
             0.0391761929,
-            -0.0000361905443,
-            2.026853043e-8,
+            -3.61905443e-05,
+            2.026853043e-08,
             -4.97670549e-12
           ],
           "reference": "CH4: Gurvich,1991 pt1 p44 pt2 p36."
@@ -60440,7 +62260,7 @@
             -13835.01485,
             20.49107091,
             -0.001961974759,
-            4.72731304e-7,
+            4.72731304e-07,
             -3.72881469e-11,
             1.623737207e-15
           ],
@@ -60475,7 +62295,7 @@
             -29.39466091,
             0.1188952745,
             -0.0001376308269,
-            8.81482391e-8,
+            8.81482391e-08,
             -2.342987994e-11
           ],
           "reference": "C3H8: Hf:TRC(10/85) w1350. Chao,1973."
@@ -60488,7 +62308,7 @@
             -26597.91134,
             45.3435684,
             -0.00502066392,
-            9.47121694e-7,
+            9.47121694e-07,
             -9.57540523e-11,
             4.00967288e-15
           ],
@@ -60523,7 +62343,7 @@
             -38.9156212,
             0.1584654284,
             -0.0001860050159,
-            1.199676349e-7,
+            1.199676349e-07,
             -3.20167055e-11
           ],
           "reference": "C4H10,n-butane: Hf:TRC(10/85) w1350. Chen,1975."
@@ -60536,7 +62356,7 @@
             -32560.5151,
             57.3673275,
             -0.00619791681,
-            1.180186048e-6,
+            1.180186048e-06,
             -1.221893698e-10,
             5.25063525e-15
           ],
@@ -60570,8 +62390,8 @@
             -292.2285939,
             5.72452717,
             -0.00817623503,
-            0.00001456903469,
-            -1.087746302e-8,
+            1.456903469e-05,
+            -1.087746302e-08,
             3.027941827e-12
           ],
           "reference": "CO: Gurvich,1979 pt1 p25 pt2 p29."
@@ -60584,7 +62404,7 @@
             -1944.704863,
             5.91671418,
             -0.000566428283,
-            1.39881454e-7,
+            1.39881454e-07,
             -1.787680361e-11,
             9.62093557e-16
           ],
@@ -60598,7 +62418,7 @@
             -750037.784,
             249.5474979,
             -0.039563511,
-            3.29777208e-6,
+            3.29777208e-06,
             -1.318409933e-10,
             1.998937948e-15
           ],
@@ -60633,7 +62453,7 @@
             70.0760082,
             -0.1693010736,
             0.0002296941394,
-            -1.193708373e-7,
+            -1.193708373e-07,
             0.0
           ],
           "reference": "Cu2O(cr): Crystal. King,1973 p60."
@@ -60646,8 +62466,8 @@
             -32267.6771,
             92.4291324,
             -0.1133053506,
-            0.0000888645846,
-            -3.91177959e-8,
+            8.88645846e-05,
+            -3.91177959e-08,
             8.17075314e-12
           ],
           "reference": "Cu2O(cr): Crystal. King,1973 p60."
@@ -60715,8 +62535,8 @@
             -809.595381,
             3.26799268,
             -0.00711163994,
-            8.08824734e-6,
-            -3.75863992e-9
+            8.08824734e-06,
+            -3.75863992e-09
           ],
           "reference": "MgCO3(cr): Hexagonal. Gurvich,1996a pt1 p429 pt2 p341."
         },
@@ -65863,7 +67683,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0.000012284972899117373,
+            "value": 1.2284972899117373e-05,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -65913,7 +67733,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.155225e-7,
+            "value": 1.155225e-07,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -69425,6 +71245,134 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "optical/HNO3",
+      "species_id": "HNO3",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Br2",
+      "species_id": "Br2",
+      "phase": "liquid",
+      "appearance": "red-brown",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/NO",
+      "species_id": "NO",
+      "phase": "gas",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/NO2",
+      "species_id": "NO2",
+      "phase": "gas",
+      "appearance": "brown",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Cr+3",
+      "species_id": "Cr+3",
+      "phase": "aqueous",
+      "appearance": "green",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Cu(NO3)2",
+      "species_id": "Cu(NO3)2",
+      "phase": "solid",
+      "appearance": "blue-green",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/KHSO4",
+      "species_id": "KHSO4",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/K2SO4",
+      "species_id": "K2SO4",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "safety": [],
@@ -70120,7 +72068,7 @@
       "model": "bounded-room-temperature-dissolution",
       "parameter": "aqueous-solubility-g-per-100-ml",
       "quantity": {
-        "value": 0.00001,
+        "value": 1e-05,
         "unit": {
           "symbol": "g/100mL",
           "dimension": "mass_concentration"
@@ -70424,7 +72372,7 @@
       "model": "bounded-room-temperature-dissolution",
       "parameter": "aqueous-solubility-g-per-100-ml",
       "quantity": {
-        "value": 0.0000199,
+        "value": 1.99e-05,
         "unit": {
           "symbol": "g/100mL",
           "dimension": "mass_concentration"
@@ -75409,7 +77357,7 @@
       "model": "bounded-room-temperature-dissolution",
       "parameter": "aqueous-solubility-g-per-100-ml",
       "quantity": {
-        "value": 0.0000151,
+        "value": 1.51e-05,
         "unit": {
           "symbol": "g/100mL",
           "dimension": "mass_concentration"
@@ -81631,6 +83579,310 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/HNO3",
+      "subject": {
+        "kind": "species",
+        "id": "HNO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HNO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Br2",
+      "subject": {
+        "kind": "species",
+        "id": "Br2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Br2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/Br2",
+      "subject": {
+        "kind": "species",
+        "id": "Br2"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 3.36,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "liquid",
+          "notes": "single reviewed 25 °C point; no temperature dependence is inferred"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/hsdb-bromine-water",
+        "method": {
+          "kind": "derived",
+          "detail": "33.6 g/L at 25 C from HSDB, converted by an exact factor to 3.36 g/100 mL; a single 25 C point, no temperature dependence inferred."
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/NO",
+      "subject": {
+        "kind": "species",
+        "id": "NO"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/NO2",
+      "subject": {
+        "kind": "species",
+        "id": "NO2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NO2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Cr+3",
+      "subject": {
+        "kind": "species",
+        "id": "Cr+3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cr+3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Cu(NO3)2",
+      "subject": {
+        "kind": "species",
+        "id": "Cu(NO3)2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cu(NO3)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/KHSO4",
+      "subject": {
+        "kind": "species",
+        "id": "KHSO4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KHSO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/K2SO4",
+      "subject": {
+        "kind": "species",
+        "id": "K2SO4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/K2SO4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -83367,8 +85619,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 1e-6,
-            "upper": 1e-6
+            "lower": 1e-06,
+            "upper": 1e-06
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -83389,7 +85641,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram_per_litre": 8.48e-6,
+          "reference_rate_per_second_per_gram_per_litre": 8.48e-06,
           "optimum_temperature_k": 308.15,
           "temperature_width_k": 18.0,
           "requires_hydration": true,
@@ -83459,8 +85711,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 3e-7,
-            "upper": 3e-7
+            "lower": 3e-07,
+            "upper": 3e-07
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -83482,7 +85734,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram_per_litre": 8.48e-6,
+          "reference_rate_per_second_per_gram_per_litre": 8.48e-06,
           "optimum_temperature_k": 308.15,
           "temperature_width_k": 18.0,
           "requires_hydration": false,
@@ -84900,8 +87152,8 @@
         {
           "species_id": "curcumin",
           "fraction": {
-            "lower": 0.00002,
-            "upper": 0.00002
+            "lower": 2e-05,
+            "upper": 2e-05
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -84997,8 +87249,8 @@
         {
           "species_id": "indigo_carmine",
           "fraction": {
-            "lower": 0.00002,
-            "upper": 0.00002
+            "lower": 2e-05,
+            "upper": 2e-05
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -85255,9 +87507,9 @@
             0.00481543997931,
             0.000855073675272,
             0.000124619078076,
-            0.0000149066126883,
-            1.46348015158e-6,
-            1.17925612747e-7
+            1.49066126883e-05,
+            1.46348015158e-06,
+            1.17925612747e-07
           ],
           "scattering": [
             1.0,
@@ -89134,7 +91386,7 @@
         {
           "kind": "bulk_electrical_resistivity",
           "ohm_m": 0.01,
-          "span_lower_ohm_m": 0.00001,
+          "span_lower_ohm_m": 1e-05,
           "span_upper_ohm_m": 0.1,
           "boundary": "An n-type phosphorus-doped silicon wafer of an ordinary 1 ohm.cm grade. THE VALUE IS ONE POINT IN A RANGE THIS RECIPE DOES NOT PIN DOWN: doped silicon as sold spans about 1e-5 to 1e-1 ohm.m, which end a wafer sits at is set by its dopant concentration - roughly 1e21 to 1e25 atoms per cubic metre - and neither the span nor the reading claims a particular wafer. What changed against the intrinsic-silicon row is the CARRIER DENSITY and nothing else: each dopant atom contributes one mobile electron (phosphorus) or one hole (boron), five to eight orders of magnitude more carriers than the thermal ones, while the lattice, the mobility and the band gap are all essentially as they were. No carrier-density model is computed here and none is claimed - these are two reviewed measurements of two objects, and the sentence between them is the mechanism, not a calculation.",
           "source": "Kerotakis curated material-resistivity tranche v1: room-temperature bulk DC volume resistivity of the named object, in ohm.m, with the span its class of material covers. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. General materials-science and electrical-engineering reference tables for insulators and semiconductors are the intended primary reference, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the pure-solid electrical-resistivity tranche is. What separates these rows from that one is that an insulator's resistivity is not a constant of the substance the way a metal's is: it moves by orders of magnitude with composition, temperature and surface condition, and a semiconductor's is set by a dopant concentration no recipe here states. Every row therefore carries the span its class covers beside the single value the meter reads, and every row's own boundary states what the number does not cover. Compiled 2026-09-05"
@@ -95341,7 +97593,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram_per_litre": 1.96e-7,
+          "reference_rate_per_second_per_gram_per_litre": 1.96e-07,
           "optimum_temperature_k": 316.15,
           "temperature_width_k": 15.0,
           "requires_hydration": false,
@@ -95410,7 +97662,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram_per_litre": 1.96e-7,
+          "reference_rate_per_second_per_gram_per_litre": 1.96e-07,
           "optimum_temperature_k": 303.15,
           "temperature_width_k": 12.0,
           "requires_hydration": false,
@@ -95528,7 +97780,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram_per_litre": 1.96e-7,
+          "reference_rate_per_second_per_gram_per_litre": 1.96e-07,
           "optimum_temperature_k": 300.15,
           "temperature_width_k": 15.0,
           "requires_hydration": false,

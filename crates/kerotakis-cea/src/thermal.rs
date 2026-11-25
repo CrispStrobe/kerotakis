@@ -354,12 +354,27 @@ const IRON_OXIDE_BURNS: &[(&str, &str)] = &[
     ("Fe3O4", "3 Fe(s) + 2 O₂(g) → Fe₃O₄(s)"),
 ];
 
+/// Registry keys kept out of the equilibrium product pool.
+///
+/// The redox species (2026-11-25) joined the registry to switch on aqueous
+/// redox and acid routes. Several have NASA records (NO, NO2, HNO3, Br2,
+/// K2SO4, ...); admitting them changed burning-in-air flame temperatures
+/// (codex lessons computed 2507 C against a reviewed 2566-2569 C) and broke
+/// convergence of the zinc phase-feed controls. They stay out of the
+/// combustion product pool until that is reviewed as its own lane.
+// TODO(redox-species-20261125): admit NO/NO2 to combustion with a reviewed
+// flame-temperature adjudication.
+const CEA_WITHHELD: &[&str] = &["NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4"];
+
 /// Registry key → CEA species name, derived by matching chemical formulas.
 fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
     static MAP: OnceLock<BTreeMap<&'static str, &'static str>> = OnceLock::new();
     MAP.get_or_init(|| {
         let mut map = BTreeMap::new();
         for reg in species::REGISTRY {
+            if CEA_WITHHELD.contains(&reg.key) {
+                continue;
+            }
             let Some(want) = formula_composition(reg.formula) else {
                 continue;
             };

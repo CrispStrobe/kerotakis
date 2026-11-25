@@ -6,10 +6,10 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 161,
+    "bookable-unclaimed": 181,
     "declined": 12,
-    "registry-solid": 59,
-    "unbookable": 349
+    "registry-solid": 60,
+    "unbookable": 328
   },
   "registry_solids_matched": [
     "Ag",
@@ -40,6 +40,7 @@
     "Fe3O4",
     "K2Cr2O7",
     "K2CrO4",
+    "K2SO4",
     "KCl",
     "Mg(OH)2",
     "MgCO3",
@@ -521,6 +522,18 @@
         {
           "database": "minteq.v4",
           "phase": "K2CrO4"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "K2SO4",
+      "registry_species": "K2SO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Arcanite"
         }
       ],
       "class": "registry-solid"
@@ -1498,6 +1511,30 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "(NH4)2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(NH4)2CrO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ag2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2CrO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "Ag2S",
       "registry_species": null,
       "reason": null,
@@ -1618,6 +1655,18 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "BaCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaCrO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "BaHPO4",
       "registry_species": null,
       "reason": null,
@@ -1637,6 +1686,18 @@
         {
           "database": "minteq.v4",
           "phase": "BaS"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CaCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CaCrO4"
         }
       ],
       "class": "bookable-unclaimed"
@@ -1866,6 +1927,118 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "Cr",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Crmetal"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cr(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cr(OH)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cr(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cr(OH)3"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Cr(OH)3(am)"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Cr2O3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cr2O3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CrBr3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrBr3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CrCl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrCl2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CrCl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrCl3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CrI3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrI3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CrO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CrO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "Cu0.066Cu1.868S",
       "registry_species": null,
       "reason": null,
@@ -2086,6 +2259,18 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "CuCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CuCrO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "CuFe2O4",
       "registry_species": null,
       "reason": null,
@@ -2270,6 +2455,18 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "FeCr2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "FeCr2O4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "FeOOH",
       "registry_species": null,
       "reason": null,
@@ -2429,18 +2626,6 @@
         {
           "database": "pitzer",
           "phase": "Polyhalite"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "K2SO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "pitzer",
-          "phase": "Arcanite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -2661,6 +2846,30 @@
         {
           "database": "pitzer",
           "phase": "MgCl2_4H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCr2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgCr2O4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "MgCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "MgCrO4"
         }
       ],
       "class": "bookable-unclaimed"
@@ -2953,6 +3162,30 @@
         {
           "database": "pitzer",
           "phase": "Glauberite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2Cr2O7",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2Cr2O7"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Na2CrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Na2CrO4"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3350,6 +3583,18 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "PbCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbCrO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "PbHPO4",
       "registry_species": null,
       "reason": null,
@@ -3433,6 +3678,18 @@
         {
           "database": "wateq4f",
           "phase": "Laurionite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "SrCrO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "SrCrO4"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3726,18 +3983,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "(NH4)2CrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(NH4)2CrO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "(NH4)2SeO4",
       "registry_species": null,
       "reason": null,
@@ -3793,18 +4038,6 @@
         {
           "database": "minteq.v4",
           "phase": "(VO)3(PO4)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Ag2CrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Ag2CrO4"
         }
       ],
       "class": "unbookable"
@@ -4178,18 +4411,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "BaCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "BaCrO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "BaF2",
       "registry_species": null,
       "reason": null,
@@ -4549,18 +4770,6 @@
         {
           "database": "wateq4f",
           "phase": "Laumontite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CaCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CaCrO4"
         }
       ],
       "class": "unbookable"
@@ -5142,94 +5351,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "Cr",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Crmetal"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Cr(OH)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Cr(OH)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Cr(OH)3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Cr(OH)3"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "Cr(OH)3(am)"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Cr2O3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Cr2O3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CrBr3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CrBr3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CrCl2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CrCl2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CrCl3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CrCl3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "CrF3",
       "registry_species": null,
       "reason": null,
@@ -5237,30 +5358,6 @@
         {
           "database": "minteq.v4",
           "phase": "CrF3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CrI3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CrI3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CrO3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CrO3"
         }
       ],
       "class": "unbookable"
@@ -5361,18 +5458,6 @@
         {
           "database": "minteq.v4",
           "phase": "Cu3Se2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CuCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CuCrO4"
         }
       ],
       "class": "unbookable"
@@ -5589,18 +5674,6 @@
         {
           "database": "wateq4f",
           "phase": "Scorodite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "FeCr2O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "FeCr2O4"
         }
       ],
       "class": "unbookable"
@@ -6254,30 +6327,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "MgCr2O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "MgCr2O4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "MgCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "MgCrO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "MgF2",
       "registry_species": null,
       "reason": null,
@@ -6489,30 +6538,6 @@
         {
           "database": "wateq4f",
           "phase": "Na-Autunite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Na2Cr2O7",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Na2Cr2O7"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Na2CrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Na2CrO4"
         }
       ],
       "class": "unbookable"
@@ -7022,18 +7047,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "PbCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "PbCrO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "PbF2",
       "registry_species": null,
       "reason": null,
@@ -7489,18 +7502,6 @@
         {
           "database": "wateq4f",
           "phase": "Sr-Autunite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "SrCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "SrCrO4"
         }
       ],
       "class": "unbookable"
