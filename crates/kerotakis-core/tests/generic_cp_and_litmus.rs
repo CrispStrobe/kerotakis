@@ -119,7 +119,7 @@ fn heating_a_measured_solid_says_nothing_about_an_estimate() {
 fn every_zero_heat_capacity_registry_solid_is_kopp_estimable() {
     // The mechanism is generic: whichever registry solid carries no reviewed
     // figure is charged by Kopp. Today that is exactly the three added with
-    // it; every other zero-Cp registry row is a dissolved species, which the
+    // it, plus anhydrous copper(II) nitrate and KHSO4; every other zero-Cp registry row is a dissolved species, which the
     // aqueous convention (and, when dry, `vessel::residue_molar`) covers.
     let mut estimated: Vec<&str> = species::REGISTRY
         .iter()
@@ -129,7 +129,14 @@ fn every_zero_heat_capacity_registry_solid_is_kopp_estimable() {
     estimated.sort_unstable();
     assert_eq!(
         estimated,
-        ["Ca(CH3COO)2", "Co(NO3)2", "cobalt_nitrate_hexahydrate"]
+        [
+            "Ca(CH3COO)2",
+            "Co(NO3)2",
+            // Redox species (2026-11-25): NBS lists no Cp for either.
+            "Cu(NO3)2",
+            "KHSO4",
+            "cobalt_nitrate_hexahydrate"
+        ]
     );
 }
 

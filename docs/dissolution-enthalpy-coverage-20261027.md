@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 65/129, minteq.v4 71/129, pitzer 28/129.
+Priced after this change: wateq4f 66/132, minteq.v4 72/132, pitzer 29/132.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -54,6 +54,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Co(NO3)2` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
 | `CoCl2` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
 | `Cu` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Cu(NO3)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `Cu2(OH)2CO3` | reference:wateq4f:Malachite | reference:minteq.v4:Malachite | refused: a reaction species is not defined on the routed database |
 | `Cu2O` | reference:wateq4f:Cuprite | reference:minteq.v4:Cuprite | refused: a reaction species is not defined on the routed database |
@@ -73,8 +74,10 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `K` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `K2Cr2O7` | refused: a molecular solute with no reviewed enthalpy of dissolution | reference:minteq.v4:K2Cr2O7 | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `K2CrO4` | refused: a molecular solute with no reviewed enthalpy of dissolution | reference:minteq.v4:K2CrO4 | refused: a molecular solute with no reviewed enthalpy of dissolution |
+| `K2SO4` | reference:llnl.dat:Arcanite | reference:llnl.dat:Arcanite | routed |
 | `KBr` | curated | curated | curated |
 | `KCl` | curated | curated | curated |
+| `KHSO4` | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states an exact-zero enthalpy placeholder |
 | `KI` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `KIO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `KMnO4` | curated | curated | refused: a dissociation product the routed database does not define |

@@ -73,6 +73,8 @@ both from wateq4f; NH3 link Δlog K 2.2e-4, ΔΔH 0.21 kJ/mol; H2 link identical
 | `N2(g)` | native | refused (wateq4f: linking-species-absent `N2`; phreeqc: linking-species-absent `N2`) | refused (wateq4f: linking-species-absent `N2`; phreeqc: linking-species-absent `N2`) |
 | `NH2Cl(g)` | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) |
 | `NH3(g)` | native | **imported** from wateq4f | refused (wateq4f: linking-species-absent `NH3`; phreeqc: linking-species-absent `NH3`) |
+| `NO(g)` | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) |
+| `NO2(g)` | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) | refused (no-reviewed-donor-definition) |
 | `Ntg(g)` | refused (phreeqc: linking-species-absent `Ntg`; pitzer: linking-species-absent `Ntg`) | refused (phreeqc: linking-species-absent `Ntg`; pitzer: linking-species-absent `Ntg`) | native |
 | `O2(g)` | native | native | refused (wateq4f: linking-species-absent `O2`; phreeqc: linking-species-absent `O2`; minteq.v4: no-linking-aqueous-species) |
 | `Oxg(g)` | refused (phreeqc: linking-species-absent `Oxg`; pitzer: linking-species-absent `Oxg`) | refused (phreeqc: linking-species-absent `Oxg`; pitzer: linking-species-absent `Oxg`) | native |

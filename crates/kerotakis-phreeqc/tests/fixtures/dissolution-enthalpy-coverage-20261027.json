@@ -225,9 +225,9 @@
     "wateq4f": "refused: a molecular solute with no reviewed enthalpy of dissolution"
   },
   "K2SO4": {
-    "minteq.v4": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "minteq.v4": "reference:llnl.dat:Arcanite",
     "pitzer": "routed",
-    "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
+    "wateq4f": "reference:llnl.dat:Arcanite"
   },
   "KBr": {
     "minteq.v4": "curated",
@@ -240,9 +240,9 @@
     "wateq4f": "curated"
   },
   "KHSO4": {
-    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+    "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "pitzer": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "wateq4f": "refused: the reviewed phase states an exact-zero enthalpy placeholder"
   },
   "KI": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
