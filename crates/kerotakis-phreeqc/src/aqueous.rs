@@ -11686,7 +11686,8 @@ fn opaque_clock_component_owner(
 /// owned analytical components. This narrow class has no typed interface or
 /// finite external dose; a gas may cross an admitted reservoir or redistribute
 /// into a finite headspace. Candidate minerals use their derived component
-/// vector. Ambiguous valence bases retain their existing route disposition.
+/// vector. An element held in several valences is closed per valence key;
+/// only a gas transfer that would move such an element declines.
 fn project_gas_aware_components(
     vessel: &Vessel,
     problem: &Problem,
@@ -11773,12 +11774,23 @@ fn project_gas_aware_components(
             keys.insert(element.clone());
         }
     }
+    // Each analytical key (valence-tagged where the problem holds a redox
+    // split, e.g. N(-3) beside N(5)) is closed against its own exact
+    // readback below, so two oxidation states of one element are two
+    // independent owners. Only a gas transfer, which names an element and
+    // not a valence, needs the base to resolve to exactly one key: an
+    // ambiguous base is left out of `unique_keys`, and
+    // `add_gas_component_transfer` declines any phase that would move it.
     let mut unique_keys = BTreeMap::<String, String>::new();
+    let mut ambiguous = BTreeSet::<String>::new();
     for key in &keys {
         let base = key.split('(').next().unwrap_or(key);
         if unique_keys.insert(base.into(), key.clone()).is_some() {
-            return Ok(false); // An independent oxidation state needs its own owner.
+            ambiguous.insert(base.into());
         }
+    }
+    for base in &ambiguous {
+        unique_keys.remove(base);
     }
     let mut targets = BTreeMap::<String, f64>::new();
     for (key, amount) in &problem.totals {
@@ -12019,6 +12031,89 @@ mod gas_component_projection_tests {
             },
             false,
         )
+    }
+
+    /// Silver nitrate + ammonia in an open beaker (C3000 exp113): the
+    /// ammonia film parcel is spent from N(-3) while nitrate's N(5) is an
+    /// independent, unchanged owner. Two valences of one element must not
+    /// by themselves refuse the certified projection (they did after the
+    /// NH3 vent of #901, failing every later solve of the vessel).
+    fn ammonia_nitrate_problem() -> Problem {
+        Problem {
+            kgw: 0.005,
+            solvent_only: false,
+            clock_co2_applied_mol: 0.0,
+            h2s_parcel_applied_mol: 0.0,
+            nh3_parcel_applied_mol: -2.0e-4,
+            totals: vec![
+                ("Ag".into(), 2.0e-4),
+                ("Cl".into(), 2.0e-4),
+                ("Na".into(), 2.0e-4),
+                ("N(-3)".into(), 4.8e-3),
+                ("N(5)".into(), 2.0e-4),
+            ],
+            phases: vec![],
+            gases: vec![],
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec![
+                "Ag".into(),
+                "Cl".into(),
+                "Na".into(),
+                "N(-3)".into(),
+                "N(5)".into(),
+            ],
+        }
+    }
+
+    #[test]
+    fn two_valences_of_one_element_project_per_valence_key() {
+        let vessel = Vessel::new(VesselId(0), "open beaker");
+        let problem = ammonia_nitrate_problem();
+        let mut ions: Vec<(String, f64)> = problem
+            .totals
+            .iter()
+            .map(|(key, amount)| (key.clone(), amount * (1.0 + 1e-9)))
+            .collect();
+        assert!(project(&vessel, &problem, &mut ions, &[], &[], false).unwrap());
+        for ((key, projected), (_, target)) in ions.iter().zip(&problem.totals) {
+            assert!(
+                (projected - target).abs() <= target * 1e-15,
+                "{key}: {projected} vs {target}"
+            );
+        }
+        // Each valence still closes on its own: nitrogen read back in the
+        // wrong valence is a lost component, not a residue to rescale.
+        let mut moved = problem.totals.clone();
+        moved[3].1 -= 1e-4;
+        moved[4].1 += 1e-4;
+        assert!(project(&vessel, &problem, &mut moved, &[], &[], false).is_err());
+    }
+
+    #[test]
+    fn gas_transfer_of_an_element_held_in_two_valences_still_declines() {
+        let vessel = Vessel::new(VesselId(0), "open beaker");
+        let mut problem = ammonia_nitrate_problem();
+        problem.nh3_parcel_applied_mol = 0.0;
+        problem.phases = vec![("NH3(g)".into(), 0.0, -8.0)];
+        problem.external_gases = vec![ExternalGas {
+            phase: "NH3(g)".into(),
+            species: "NH3".into(),
+            initial_moles: 0.0,
+            kind: ExternalGasKind::Reservoir,
+        }];
+        let mut ions = problem.totals.clone();
+        assert!(!project(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[("NH3(g)".into(), 0.0)],
+            &[],
+            false
+        )
+        .unwrap());
     }
 
     fn reservoir_problem() -> Problem {
