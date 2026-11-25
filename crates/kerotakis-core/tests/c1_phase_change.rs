@@ -322,6 +322,44 @@ fn naphthalene_and_iodine_boil_instead_of_standing_as_liquids() {
 }
 
 #[test]
+fn concentrated_sulfuric_acid_boils_at_its_janaf_point() {
+    // c1-6-E147 heated 0.05 mol H2SO4 (with copper) to 947 C and kept the
+    // acid liquid. NSRDS-NBS 37 gives Tb = 608.6 K, Delta-Hv = 13.39
+    // kcal/mol: 0.05 mol from 25 C needs ~0.05 x 155 x 310 = 2.4 kJ of
+    // sensible heat plus 0.05 x 56.02 = 2.8 kJ to boil it all.
+    let mut bench = Bench::new();
+    let mut s = stack();
+    add(&mut bench, &mut s, "H2SO4", 0.05);
+    let events = heat(&mut bench, &mut s, 3_500.0);
+    let t = bench.vessel(VesselId(0)).unwrap().temperature.0;
+    // Part boiled: the vessel sits on the 608.6 K plateau, not above it.
+    assert!(
+        (t - 608.6).abs() < 0.5,
+        "on the boiling plateau: {t} K {events:#?}"
+    );
+    let liquid = total(&bench, "H2SO4", Phase::Liquid);
+    assert!(liquid > 1e-4 && liquid < 0.05, "partly boiled: {liquid}");
+    assert!(!note_keys(&events)
+        .iter()
+        .any(|k| k == "not-modeled.boiling-not-modelled"));
+    // Enough heat boils all of it; none is left as a liquid above 608.6 K.
+    heat(&mut bench, &mut s, 6_000.0);
+    assert!(total(&bench, "H2SO4", Phase::Liquid) < 1e-9);
+}
+
+#[test]
+fn sulfuric_acid_below_its_boiling_point_stays_liquid() {
+    // Negative control: 0.05 mol warmed by 1 kJ (~150 C) does not boil.
+    let mut bench = Bench::new();
+    let mut s = stack();
+    add(&mut bench, &mut s, "H2SO4", 0.05);
+    heat(&mut bench, &mut s, 1_000.0);
+    let t = bench.vessel(VesselId(0)).unwrap().temperature.0;
+    assert!(t < 600.0 && t > 350.0, "{t} K");
+    assert!((total(&bench, "H2SO4", Phase::Liquid) - 0.05).abs() < 1e-9);
+}
+
+#[test]
 fn a_liquid_with_no_sourced_boil_is_refused_not_kept_silently() {
     // Dodecane has a reviewed 489 K boiling point and no enthalpy of
     // vaporisation on this bench: past 489 K it must be said.

@@ -157,3 +157,48 @@ fn lead_acetate_meets_hydrogen_sulfide_without_a_solver_failure() {
     assert!(!failed(&steps), "{steps:#?}");
     assert!(moles(&bench, "PbS", Phase::Solid) > 5e-5);
 }
+
+#[test]
+fn zinc_sulfide_stays_dissolved_in_molar_hydrochloric_acid() {
+    // The classical H2S separation: in ~1 M HCl the FRESH zinc sulfide
+    // (wateq4f ZnS(a), log K -9.052) is undersaturated, so zinc stays in
+    // solution while copper (below) is precipitated. Sphalerite (log K
+    // -11.618) would have come down here, and did before 2026-11-25.
+    let (bench, steps) = run(&[
+        "add v1 water 10mL",
+        "add v1 HCl 0.01mol",
+        "add v1 ZnSO4 0.001mol",
+        "add v1 hydrogen_sulfide 0.002mol",
+    ]);
+    assert!(!failed(&steps), "{steps:#?}");
+    let zns = moles(&bench, "ZnS", Phase::Solid);
+    assert!(zns < 1e-7, "ZnS from 1 M HCl: {zns}\n{steps:#?}");
+}
+
+#[test]
+fn copper_sulfide_still_precipitates_from_molar_hydrochloric_acid() {
+    // Negative control for the zinc case: covellite has no amorphous
+    // database entry, keeps its crystal and comes down from 1 M HCl.
+    let (bench, steps) = run(&[
+        "add v1 water 10mL",
+        "add v1 HCl 0.01mol",
+        "add v1 CuSO4 0.001mol",
+        "add v1 hydrogen_sulfide 0.002mol",
+    ]);
+    assert!(!failed(&steps), "{steps:#?}");
+    let cus = moles(&bench, "CuS", Phase::Solid);
+    assert!(cus > 5e-4, "CuS: {cus}\n{steps:#?}");
+}
+
+#[test]
+fn zinc_sulfide_precipitates_from_a_neutral_sulfide_solution() {
+    // Without the acid the fresh solid is still deeply supersaturated.
+    let (bench, steps) = run(&[
+        "add v1 water 10mL",
+        "add v1 ZnSO4 0.001mol",
+        "add v1 Na2S 0.001mol",
+    ]);
+    assert!(!failed(&steps), "{steps:#?}");
+    let zns = moles(&bench, "ZnS", Phase::Solid);
+    assert!(zns > 5e-4, "ZnS: {zns}\n{steps:#?}");
+}

@@ -351,8 +351,8 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `ZnO` | wateq4f | refused | Zincite(c) | the phase saturates at ionic strength >= 276076852920.58 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `ZnO` | minteq.v4 | refused | ZnO(active) | the phase saturates at ionic strength >= 308624213131.56 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `ZnO` | pitzer | refused | - | the routed database defines no phase for this solid |
-| `ZnS` | wateq4f | crystallises-with-priced-heat | Sphalerite | PHREEQC phase saturation, delta_h 34.518 kJ/mol; solid priced |
-| `ZnS` | minteq.v4 | crystallises-with-priced-heat | Sphalerite | PHREEQC phase saturation, delta_h 30.000 kJ/mol; solid priced |
+| `ZnS` | wateq4f | crystallises-with-priced-heat | ZnS(a) | PHREEQC phase saturation, delta_h 15.355 kJ/mol; solid priced |
+| `ZnS` | minteq.v4 | crystallises-with-priced-heat | ZnS(am) | PHREEQC phase saturation, delta_h 15.355 kJ/mol; solid priced |
 | `ZnS` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `ZnSO4` | wateq4f | refused | Zincosite | the phase saturates at ionic strength >= 127.96 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `ZnSO4` | minteq.v4 | refused | Zincosite | the phase saturates at ionic strength >= 368.90 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |

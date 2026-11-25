@@ -1931,6 +1931,19 @@ impl Bench {
         // Only the boil-dry route: heat that chemistry RELEASES (a
         // combustion, an iron-sulfur synthesis) can legitimately carry a
         // vessel past the flame, and is not the burner's to take back.
+        //
+        // KNOWN GAP (reviewed 2026-11-25, deliberately left open): reaction
+        // heat released into a very small mass with no heat source has no
+        // ceiling at all. There is no flame temperature to hold it at, and
+        // the bound a real tube supplies - the glass itself, roughly
+        // 0.8 J/(g K) for borosilicate times its mass - is not available:
+        // the bench models no vessel mass (`VESSEL_KINDS` carries only a
+        // light path), and a per-kind glass mass would be an editorial
+        // number that shifts every temperature on the bench. Kopp's-rule
+        // residue Cp (#920) and the sourced boiling/decomposition routes
+        // (e.g. H2SO4, 2026-11-25) are the physically justified limits that
+        // exist; where a product has none, the adiabatic temperature
+        // stands and the closed-flame upper-bound note applies.
         let boiled = events.iter().any(|e| {
             matches!(e, Event::StateChanged { vessel, from: Phase::Liquid, to: Phase::Gas, .. }
                 if *vessel == id)
@@ -1982,6 +1995,45 @@ impl Bench {
         };
         if !vessel.is_sealed() || vessel.pressure.0 <= crate::senses::GLASS_BURST_PA {
             return;
+        }
+        // A closed flame's temperature is an adiabatic UPPER bound: wall
+        // loss is not modelled (`combustion::wall_loss_note`), so the
+        // pressure computed from it is an upper bound too, and the real peak
+        // lies between the pressure of the same gas back at room temperature
+        // and that bound. When even the room-temperature pressure is below
+        // the rating, the burst is not certain: it is still SHOWN (the safe
+        // assumption, and the only one that leaves the bench in a state it
+        // can model - a sealed jar held at its unreal adiabatic flame
+        // temperature drives the gas kinetics far outside their data), but
+        // a typed note says the vessel only MAY burst.
+        let upper_bound_only = events.iter().any(|e| {
+            matches!(e, Event::NotYetModeled { reason: Some(reason), .. }
+                if reason.key == crate::combustion::CLOSED_FLAME_WALL_LOSS)
+        });
+        if upper_bound_only && vessel.temperature.0 > crate::constants::STANDARD_TEMPERATURE {
+            let room = vessel.sealed_pressure_at(crate::constants::STANDARD_TEMPERATURE);
+            if room <= crate::senses::GLASS_BURST_PA {
+                let at = vessel.pressure.0;
+                events.push(Event::not_modeled(
+                    id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    crate::phrase::Phrase::new(
+                        "not-modeled.sealed-flame-may-burst",
+                        "this burst is decided by the closed flame's adiabatic upper bound ({upper} Pa); the same gas back at room temperature is only {room} Pa, below the teaching burst constant ({rating} Pa), so with wall loss a real vessel MAY survive: the burst is shown as the safe assumption, not as a certain prediction",
+                        vec![
+                            ("upper".into(), crate::phrase::Slot::number(format!("{at:.3e}"))),
+                            (
+                                "rating".into(),
+                                crate::phrase::Slot::number(format!(
+                                    "{:.3e}",
+                                    crate::senses::GLASS_BURST_PA
+                                )),
+                            ),
+                            ("room".into(), crate::phrase::Slot::number(format!("{room:.3e}"))),
+                        ],
+                    ),
+                ));
+            }
         }
         let at = vessel.pressure.0;
         let gases = vent_headspace(vessel);

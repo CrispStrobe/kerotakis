@@ -2541,7 +2541,7 @@
     },
     {
       "id": "literature/transition-points/H2SO4",
-      "citation": "melting 283.51 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-2 Sulfur, printed p. 553; read from the page image, archive.org circularofbureau500ross (leaf n560). No normal boiling point tabulated; 337 C (azeotrope, decomposes) retained from CRC 95th ed. p. 4-85 as quoted by Wikipedia 'Sulfuric acid'. Printed entry: H2SO4 Fusion c->liq 283.51 K (10.35 C). No normal boiling point is tabulated (the acid decomposes/forms an azeotrope); the handbook 337 C value has no primary and is not claimed.",
+      "citation": "melting 283.51 K (confidence H, critically evaluated compilation): F. D. Rossini, D. D. Wagman, W. H. Evans, S. Levine and I. Jaffe, Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards Circular 500 (1952), Series II; https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf, a United States Government work in the public domain (no doi). Read from the page image (archive.org circularofbureau500ross), not the scanned text layer: Table 14-2 Sulfur, printed p. 553; read from the page image, archive.org circularofbureau500ross (leaf n560). Printed entry: H2SO4 Fusion c->liq 283.51 K (10.35 C); Circular 500 tabulates no normal boiling point (the acid decomposes/forms an azeotrope). Boiling point 608.6 K: JANAF Thermochemical Tables, second edition, D. R. Stull and H. Prophet, NSRDS-NBS 37, National Bureau of Standards, June 1971, doi:10.6028/NBS.NSRDS.37 (public domain; https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds37.pdf, read 2026-11-25 from the page image, PDF page 853), table 'Sulfuric Acid (H2SO4) (Liquid)', which prints 'Tb = [608.6] K' in brackets: the table defines it as the temperature at which the Gibbs energy change of H2SO4(l) = H2SO4(g) approaches zero, i.e. the thermodynamic boiling point of undissociated acid, and adds (citing Kuchinskii, Zh. Fiz. Khim. 30 (1956) 1207) that the real vapour over boiling H2SO4(l) is 76.6 mol% SO3, 22.6% H2SO4 and 0.8% H2O. The 98 % azeotrope's handbook 337 C (610 K) agrees within 2 K but is not the cited value.",
       "licence": "LicenseRef-US-Public-Domain",
       "lane": "runtime",
       "origin": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular500.pdf",
@@ -32832,6 +32832,43 @@
       "property": "melting_temperature",
       "quantity": {
         "value": 283.51,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/transition-points/H2SO4",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 transition value, re-sourced 2026-11-11: transcribed from the primary measurement or public-domain table named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/H2SO4",
+      "species_id": "H2SO4",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 608.6,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"

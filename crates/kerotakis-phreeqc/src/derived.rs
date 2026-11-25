@@ -481,6 +481,53 @@ pub fn phase_in_db(name: &str, db_tag: &str) -> Option<&'static str> {
         .map(String::as_str)
 }
 
+/// How far down the polymorph order a database phase sorts, added to its
+/// log K: `-1e6` (always first) for the AMORPHOUS / freshly precipitated
+/// form of a binary metal sulfide, `0` for everything else.
+///
+/// The stablest-polymorph rule (lowest log K) is the right default for a
+/// mineral added as itself, but a metal sulfide precipitated from solution
+/// at room temperature is not sphalerite: it is the fresh, poorly
+/// crystalline solid, orders of magnitude more soluble. That is the basis
+/// of the classical H2S separation: ZnS stays dissolved in ~0.3 M and
+/// stronger HCl while CuS and PbS precipitate. With sphalerite (wateq4f
+/// log K -11.618 for ZnS + H+ = Zn+2 + HS-) the bench put ZnS down from
+/// 1 M HCl. The same databases carry the fresh solid, wateq4f `ZnS(a)` and
+/// minteq.v4 `ZnS(am)` (log K -9.052; J. W. Ball and D. K. Nordstrom,
+/// WATEQ4F, USGS Open-File Report 91-183, 1991), which stays dissolved
+/// there. Only polymorphs the databases themselves define are chosen
+/// between; nothing is invented, and a sulfide with no amorphous entry
+/// (CuS covellite, PbS galena) keeps its crystal.
+///
+/// Deliberately scoped to sulfides: amorphous silica, alumina gel and the
+/// like are also what precipitates, but sand and corundum on the shelf are
+/// crystalline and kinetically inert, and those polymorph choices need
+/// their own review.
+pub fn fresh_precipitate_rank(registry_key: &str, phase_name: &str) -> f64 {
+    const NONMETALS: &[&str] = &[
+        "H", "O", "C", "N", "S", "P", "F", "Cl", "Br", "I", "B", "Se", "Si", "As", "Te",
+    ];
+    if !(phase_name.ends_with("(a)") || phase_name.ends_with("(am)")) {
+        return 0.0;
+    }
+    let Some(data) = species::REGISTRY.iter().find(|s| s.key == registry_key) else {
+        return 0.0;
+    };
+    let Ok(f) = kerotakis_core::stoich::parse_formula(data.formula) else {
+        return 0.0;
+    };
+    let binary_metal_sulfide = f.counts.len() == 2
+        && f.counts.contains_key("S")
+        && f.counts
+            .keys()
+            .all(|e| e == "S" || !NONMETALS.contains(&e.as_str()));
+    if binary_metal_sulfide {
+        -1.0e6
+    } else {
+        0.0
+    }
+}
+
 /// Phases a routed database may pose even though it does not define them,
 /// reviewed one by one. An injected definition carries the home database's
 /// log K and no enthalpy — a phase whose home entry has a real delta_h
@@ -973,6 +1020,10 @@ impl Derived {
                 else {
                     continue;
                 };
+                // Sort key: a freshly precipitated sulfide ranks ahead of
+                // every crystalline polymorph (`fresh_precipitate_rank`),
+                // then the lowest log K.
+                let order = fresh_precipitate_rank(reg, name) + info.log_k.unwrap_or(f64::MAX);
                 phases.push((
                     DerivedPhase {
                         name: name.clone(),
@@ -981,7 +1032,7 @@ impl Derived {
                         elements,
                         log_k: info.log_k,
                     },
-                    info.log_k.unwrap_or(f64::MAX),
+                    order,
                 ));
             }
         }
@@ -1899,6 +1950,20 @@ pub fn carbonate_acid_enthalpy_kj(db_tag: &str) -> Option<f64> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_fresh_metal_sulfide_is_posed_amorphous_and_other_solids_keep_the_stablest() {
+        // ZnS: the databases' own amorphous entries, not sphalerite.
+        assert_eq!(routed_phase_for_solid("ZnS", "wateq4f"), Some("ZnS(a)"));
+        assert_eq!(routed_phase_for_solid("ZnS", "minteq.v4"), Some("ZnS(am)"));
+        // CuS and PbS have no amorphous entry and keep their crystal.
+        assert_eq!(routed_phase_for_solid("CuS", "wateq4f"), Some("Covellite"));
+        assert_eq!(routed_phase_for_solid("PbS", "wateq4f"), Some("Galena"));
+        // The rule is sulfide-only: amorphous silica does not displace quartz.
+        assert_eq!(fresh_precipitate_rank("SiO2", "SiO2(a)"), 0.0);
+        assert_eq!(fresh_precipitate_rank("ZnS", "Sphalerite"), 0.0);
+        assert!(fresh_precipitate_rank("ZnS", "ZnS(am)") < 0.0);
+    }
 
     fn dissolves(key: &str) -> Vec<(String, f64)> {
         match role(key) {

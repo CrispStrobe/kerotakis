@@ -65,8 +65,16 @@ fn allocation_budget() {
     // 2026-11-25: 5510 once the registry reached 221 species (chlorine #917
     // plus the C1 metal sulfides); the growth is registry tables built once,
     // not per-step work.
+    // 2026-11-25, profiled with dhat on a Kaggle CPU kernel: of 5520 blocks,
+    // 4934 were the FIRST kinetics::advance and 10 the second. The first
+    // call builds `registered_proton_donor_amount`'s one-time cache by
+    // parsing every registry formula, which is why the count scales with
+    // the registry size. stoich::strip_states allocated on every one of its
+    // seven str::replace calls even with nothing to replace (2136 blocks);
+    // guarding them brought the workload to 3643 (3742 after #922 added five
+    // species). Budget tightened to match.
     assert!(
-        stats.total_blocks < 5_800,
+        stats.total_blocks < 4_000,
         "combined workload allocated {} blocks — investigate hot spots",
         stats.total_blocks
     );

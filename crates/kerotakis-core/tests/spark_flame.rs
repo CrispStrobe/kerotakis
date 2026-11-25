@@ -222,3 +222,47 @@ fn a_sealed_candle_burns_from_room_temperature() {
     assert!(bench.vessels[0].temperature.0 < 800.0);
     assert!(has_note(&events, "not-modeled.closed-flame-wall-loss"));
 }
+
+/// A dry 2:1 oxyhydrogen spark in a sealed 50 mL tube: the adiabatic upper
+/// bound passes the burst constant, but the same 0.002 mol of gas back at
+/// room temperature is ~99 kPa. The burst is still shown (the safe
+/// assumption) and is qualified by a typed note: the tube only MAY burst.
+#[test]
+fn a_burst_decided_only_by_the_adiabatic_upper_bound_is_qualified() {
+    let (_bench, events) = run(&[
+        "seal v1 50mL",
+        "add v1 H2 0.002mol",
+        "add v1 O2 0.001mol",
+        "ignite v1",
+    ]);
+    assert!(ignited(&events), "{events:#?}");
+    assert!(has_note(&events, "not-modeled.closed-flame-wall-loss"));
+    assert!(events.iter().any(|e| matches!(e, Event::Burst { .. })));
+    assert!(has_note(&events, "not-modeled.sealed-flame-may-burst"));
+}
+
+/// Negative: a burst from gas alone (no flame upper bound) is certain and
+/// carries no qualifying note.
+#[test]
+fn a_gas_dose_burst_is_not_qualified() {
+    let (_bench, events) = run(&["seal v1 10mL", "add v1 O2 0.01mol"]);
+    assert!(events.iter().any(|e| matches!(e, Event::Burst { .. })));
+    assert!(!has_note(&events, "not-modeled.sealed-flame-may-burst"));
+}
+
+/// The cooled-pressure test that decides certain vs possible bursts.
+#[test]
+fn a_burst_is_certain_only_when_the_cooled_gas_still_exceeds_the_rating() {
+    use kerotakis_core::units::{Kelvin, Liters, Moles};
+    let mut v = kerotakis_core::vessel::Vessel::new(kerotakis_core::VesselId(0), "flask");
+    v.headspace = kerotakis_core::Headspace::Sealed {
+        volume: Liters(0.05),
+    };
+    v.temperature = Kelvin(2500.0);
+    v.deposit(SpeciesId::new("N2"), Moles(0.002), Phase::Gas);
+    let room = v.sealed_pressure_at(298.15);
+    assert!(room < kerotakis_core::senses::GLASS_BURST_PA, "{room}");
+    v.deposit(SpeciesId::new("N2"), Moles(0.008), Phase::Gas);
+    let room = v.sealed_pressure_at(298.15);
+    assert!(room > kerotakis_core::senses::GLASS_BURST_PA, "{room}");
+}
