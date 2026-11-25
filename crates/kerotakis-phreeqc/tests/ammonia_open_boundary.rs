@@ -135,3 +135,67 @@ fn ammonium_chloride_alone_gives_off_no_ammonia() {
     assert_eq!(evolved(&steps[2], "NH3"), 0.0, "{:#?}", steps[2]);
     assert!(!noted(&steps[2], NOTE));
 }
+
+fn solid(bench: &Bench, key: &str) -> f64 {
+    bench
+        .vessel(VesselId(0))
+        .unwrap()
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == key && p.phase == Phase::Solid)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+/// Nitrate is nitrogen in another valence. Its N(V) is an independent
+/// owner beside the N(-III) the vent spends, not a reason to refuse the
+/// whole projection (after #901 every later solve of such a vessel failed
+/// with "clock CO2 lacks a certified native component projection").
+#[test]
+fn ammonium_nitrate_and_sodium_hydroxide_vent_ammonia_and_keep_the_nitrate() {
+    let (bench, steps) = run(&[
+        "add v1 water 100mL",
+        "add v1 NH4NO3 0.02mol",
+        "add v1 NaOH 0.02mol",
+        "wait 60s",
+        "wait 60s",
+    ]);
+    for (i, step) in steps.iter().enumerate() {
+        assert!(!failed(step), "step {i}: {step:#?}");
+    }
+    let vented = evolved(&steps[3], "NH3") + evolved(&steps[4], "NH3");
+    assert!(vented > 5e-5 && vented < 2e-3, "bounded vent: {vented}");
+    let kept = moles(&bench, "NH3") + moles(&bench, "NH4+");
+    assert!(
+        (kept + vented - 0.02).abs() < 1e-9,
+        "ammonia nitrogen conserved: {kept} + {vented}"
+    );
+    assert!(
+        (moles(&bench, "NO3-") - 0.02).abs() < 1e-9,
+        "nitrate untouched: {}",
+        moles(&bench, "NO3-")
+    );
+}
+
+/// C3000 exp113: silver chloride dissolves in ammonia, the open beaker
+/// vents some ammonia while stirred, and acetic acid then re-precipitates
+/// the silver chloride. Silver nitrate puts N(V) beside the N(-III).
+#[test]
+fn silver_chloride_dissolved_in_ammonia_reprecipitates_with_acetic_acid() {
+    let (bench, steps) = run(&[
+        "add v1 water 5mL",
+        "add v1 NaCl 0.0002mol",
+        "add v1 AgNO3 0.0002mol",
+        "add v1 NH3 0.005mol",
+        "stir v1",
+        "add v1 CH3COOH 0.01mol",
+    ]);
+    for (i, step) in steps.iter().enumerate() {
+        assert!(!failed(step), "step {i}: {step:#?}");
+    }
+    assert!(
+        solid(&bench, "AgCl") > 1.9e-4,
+        "AgCl back out of solution: {}",
+        solid(&bench, "AgCl")
+    );
+}
