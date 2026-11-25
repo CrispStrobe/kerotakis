@@ -348,19 +348,11 @@ fn owned_thermal_error(reason: Phrase, detail: impl Into<String>) -> SolveError 
     }
 }
 
-/// Registry keys deliberately kept out of the equilibrium product pool.
-///
-/// Magnetite (2026-11-24) is a registry solid with a NASA record
-/// (`Fe3O4(cr)`, two polymorphs and a liquid), and iron burning in a
-/// limited oxygen supply really does make it. Admitting it, though, made the
-/// minimiser fail to converge on iron wool burning in excess oxygen
-/// (curiosity th-041: "did not converge after 60 iterations") and changed
-/// how molten iron poured into water resolves (th-124). Until the solver is
-/// shown to converge with it, the bench keeps the prior hematite-only answer
-/// and says nothing about magnetite as a burn product.
-// TODO(missing-species-20261124): admit Fe3O4 once the iron/oxygen
-// minimisation converges with it (Fe + O2 -> Fe3O4 in the combustion route).
-const CEA_WITHHELD: &[&str] = &["Fe3O4"];
+/// The iron oxides a burn can leave, with the equation each is reported by.
+const IRON_OXIDE_BURNS: &[(&str, &str)] = &[
+    ("Fe2O3", "4 Fe(s) + 3 O₂(g) → 2 Fe₂O₃(s)"),
+    ("Fe3O4", "3 Fe(s) + 2 O₂(g) → Fe₃O₄(s)"),
+];
 
 /// Registry key → CEA species name, derived by matching chemical formulas.
 fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
@@ -368,9 +360,6 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
     MAP.get_or_init(|| {
         let mut map = BTreeMap::new();
         for reg in species::REGISTRY {
-            if CEA_WITHHELD.contains(&reg.key) {
-                continue;
-            }
             let Some(want) = formula_composition(reg.formula) else {
                 continue;
             };
@@ -1377,19 +1366,27 @@ impl Equilibrator for ThermalEquilibrator {
                 equation: equation.to_string(),
             });
         }
+        // Burning iron names each oxide the minimisation actually left:
+        // hematite in plenty of oxygen, magnetite where the oxygen ran short
+        // or the flame sat on the hematite/magnetite boundary, both where
+        // the lever rule mixed them.
         if !events.is_empty()
             && charge
                 .mapped
                 .iter()
                 .any(|(species, amount)| species.0 == "Fe" && *amount > 1e-12)
-            && contents
-                .iter()
-                .any(|portion| portion.species.0 == "Fe2O3" && portion.moles.0 > 1e-12)
         {
-            events.push(Event::ReactionOccurred {
-                vessel: vessel.id,
-                equation: "4 Fe(s) + 3 O₂(g) → 2 Fe₂O₃(s)".to_string(),
-            });
+            for (oxide, equation) in IRON_OXIDE_BURNS {
+                if contents
+                    .iter()
+                    .any(|portion| portion.species.0 == *oxide && portion.moles.0 > 1e-12)
+                {
+                    events.push(Event::ReactionOccurred {
+                        vessel: vessel.id,
+                        equation: equation.to_string(),
+                    });
+                }
+            }
         }
 
         let changed = !events.is_empty();
