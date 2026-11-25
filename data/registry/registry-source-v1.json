@@ -1946,6 +1946,51 @@
       "retrieved": null
     },
     {
+      "id": "legacy/Co(NO3)2",
+      "citation": "cobalt(II) nitrate, Co(NO3)2, the ANHYDROUS salt: added by the generic-Cp lane (2026-11-25). IDENTITY VERIFIED against PubChem CID 25000: InChIKey UFMZWBIQTDUYBN-UHFFFAOYSA-N on 2026-11-25 (PUG REST property record). Molar mass 182.941194 g/mol from IUPAC/CIAAW 2021 standard atomic weights (conventional values H 1.008, C 12.011, N 14.007, O 15.999, Ca 40.078, Co 58.933194). HEAT CAPACITY: NOT TABULATED — NBS/Wagman 1982 leaves Cp blank for this substance, and no other reviewed value was found; the registry figure 0 means 'no reviewed figure' and the bench ESTIMATES it at runtime by Kopp's rule (H. Kopp, Phil. Trans. R. Soc. Lond. 155 (1865) 71-202; SI atomic contributions per Himmelblau & Riggs), kerotakis_core::heat_capacity::estimated_solid_heat_capacity, and says so in a typed note whenever it enters a heat balance. Formation enthalpies NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-25 from the page image), Table 40:Co (p. 2-171): Co(NO3)2 cr dfH -420.5 kJ/mol; ai dfH -472.8, dfG -276.9 kJ/mol, S 180 J/(mol.K). DENSITY 2.49 g/mL, CRC Handbook of Chemistry and Physics 95th ed. p. 4-60 as quoted in PubChem CID 25000, read 2026-11-25. In water it books as Co+2 and 2 NO3-.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/cobalt_nitrate_hexahydrate",
+      "citation": "cobalt(II) nitrate hexahydrate, Co(NO3)2·6H2O, the usual shelf form: added by the generic-Cp lane (2026-11-25). IDENTITY VERIFIED against PubChem CID 24821: InChIKey QGUAJWGNOXCYJF-UHFFFAOYSA-N on 2026-11-25 (PUG REST property record). Molar mass 291.031194 g/mol from IUPAC/CIAAW 2021 standard atomic weights (conventional values H 1.008, C 12.011, N 14.007, O 15.999, Ca 40.078, Co 58.933194). HEAT CAPACITY: NOT TABULATED — NBS/Wagman 1982 leaves Cp blank for this substance, and no other reviewed value was found; the registry figure 0 means 'no reviewed figure' and the bench ESTIMATES it at runtime by Kopp's rule (H. Kopp, Phil. Trans. R. Soc. Lond. 155 (1865) 71-202; SI atomic contributions per Himmelblau & Riggs), kerotakis_core::heat_capacity::estimated_solid_heat_capacity, and says so in a typed note whenever it enters a heat balance. NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-25 from the page image), Table 40:Co (p. 2-171): Co(NO3)2.6H2O cr dfH -2211.20 kJ/mol, S 452 J/(mol.K), Cp blank. DENSITY 1.88 g/mL at 25 C as quoted in PubChem CID 24821, read 2026-11-25. Its dissolution enthalpy is NOT claimed on this row (the tables would give -472.8 + 6(-285.830) - (-2211.20) = +23.42 kJ/mol, but the bench's dissolution pricer has no reviewed path for released crystal water), so its heat is reported unpriced; no dehydration temperature is claimed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Ca(CH3COO)2",
+      "citation": "calcium acetate, Ca(CH3COO)2, the ANHYDROUS salt: added by the generic-Cp lane (2026-11-25). IDENTITY VERIFIED against PubChem CID 6116: InChIKey VSGNNIFQASZAOI-UHFFFAOYSA-L on 2026-11-25 (PUG REST property record). Molar mass 158.166 g/mol from IUPAC/CIAAW 2021 standard atomic weights (conventional values H 1.008, C 12.011, N 14.007, O 15.999, Ca 40.078, Co 58.933194). HEAT CAPACITY: NOT TABULATED — NBS/Wagman 1982 leaves Cp blank for this substance, and no other reviewed value was found; the registry figure 0 means 'no reviewed figure' and the bench ESTIMATES it at runtime by Kopp's rule (H. Kopp, Phil. Trans. R. Soc. Lond. 155 (1865) 71-202; SI atomic contributions per Himmelblau & Riggs), kerotakis_core::heat_capacity::estimated_solid_heat_capacity, and says so in a typed note whenever it enters a heat balance. Formation enthalpies NBS/Wagman 1982 (D. D. Wagman et al., The NBS tables of chemical thermodynamic properties, J. Phys. Chem. Ref. Data 11 (1982) Suppl. 2, a United States Government work; NIST reprint https://srd.nist.gov/JPCRD/jpcrdS2Vol11.pdf, read 2026-11-25 from the page image), Table 94:Ca (p. 2-272): Ca(CH3CO2)2 cr dfH -1479.5 kJ/mol; ai dfH -1514.86, dfG -1292.19 kJ/mol, S 120.1 J/(mol.K). DENSITY 1.50 g/mL, Ashford's Dictionary of Industrial Chemicals (1994) p. 166 as quoted in PubChem CID 6116, read 2026-11-25. In water it books as Ca+2 and 2 CH3COO-; its dry distillation to acetone is NOT modelled.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/litmus",
+      "citation": "litmus, the lichen dye (a mixture of some 10-15 orcein-type dyes; azolitmin is its principal chromophore and behaves almost as the mixture does): added by the generic-Cp lane (2026-11-25). Composition taken as the azolitmin record of PubChem CID 38684 (C10H11N3O, 189.21 g/mol); litmus itself is a mixture and no InChIKey is asserted. Colour is pH-dependent and lives in kerotakis_core::indicator (transition pH 4.5-8.3, red -> blue) with its own provenance.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/litmus_ox",
+      "citation": "Bleaching product of litmus by chlorine, hypochlorous acid or hypochlorite; simplified stoichiometry (one O addition), as the curated anthocyanin, betanin, curcumin and indigo carmine bleaching products. added by the generic-Cp lane (2026-11-25). ",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals.",
       "licence": "CC0-1.0",
@@ -6517,6 +6562,82 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/urea",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Co(NO3)2",
+      "canonical_key": "UFMZWBIQTDUYBN-UHFFFAOYSA-N",
+      "name": "cobalt(II) nitrate",
+      "identifiers": {
+        "inchikey": "UFMZWBIQTDUYBN-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "cobalt_nitrate_hexahydrate",
+      "canonical_key": "QGUAJWGNOXCYJF-UHFFFAOYSA-N",
+      "name": "cobalt(II) nitrate hexahydrate",
+      "identifiers": {
+        "inchikey": "QGUAJWGNOXCYJF-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Ca(CH3COO)2",
+      "canonical_key": "VSGNNIFQASZAOI-UHFFFAOYSA-L",
+      "name": "calcium acetate",
+      "identifiers": {
+        "inchikey": "VSGNNIFQASZAOI-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "litmus",
+      "canonical_key": "legacy:species/litmus",
+      "name": "litmus",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "litmus_ox",
+      "canonical_key": "legacy:species/litmus_ox",
+      "name": "oxidised litmus (colourless)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/litmus_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -30076,6 +30197,709 @@
       },
       "evidence": {
         "source_id": "legacy/urea",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Co(NO3)2",
+      "species_id": "Co(NO3)2",
+      "formula": "Co(NO3)2",
+      "elements": [
+        {
+          "element": "Co",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Co(NO3)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Co(NO3)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Co(NO3)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/cobalt_nitrate_hexahydrate",
+      "species_id": "cobalt_nitrate_hexahydrate",
+      "formula": "Co(NO3)2·6H2O",
+      "elements": [
+        {
+          "element": "Co",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/cobalt_nitrate_hexahydrate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/cobalt_nitrate_hexahydrate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/cobalt_nitrate_hexahydrate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/cobalt_nitrate_hexahydrate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Ca(CH3COO)2",
+      "species_id": "Ca(CH3COO)2",
+      "formula": "Ca(CH3COO)2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ca(CH3COO)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Ca",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ca(CH3COO)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ca(CH3COO)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ca(CH3COO)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/litmus",
+      "species_id": "litmus",
+      "formula": "C10H11N3O",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/litmus_ox",
+      "species_id": "litmus_ox",
+      "formula": "C10H11N3O2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/litmus_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/litmus_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/litmus_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -57347,6 +58171,530 @@
           "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
         }
       }
+    },
+    {
+      "id": "molar-mass/Co(NO3)2",
+      "species_id": "Co(NO3)2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 182.941194,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Co(NO3)2",
+      "species_id": "Co(NO3)2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Co(NO3)2",
+      "species_id": "Co(NO3)2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.49,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/Co(NO3)2",
+      "species_id": "Co(NO3)2",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -52.3,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "Co(NO3)2(cr) -> Co+2(aq) + 2 NO3-(aq). Table 40:Co (p. 2-171): dfH Co(NO3)2 cr -420.5, Co(NO3)2 ai -472.8 kJ/mol; -472.8 - (-420.5) = -52.3."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/nbs-wagman-1982-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/cobalt_nitrate_hexahydrate",
+      "species_id": "cobalt_nitrate_hexahydrate",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 291.031194,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/cobalt_nitrate_hexahydrate",
+      "species_id": "cobalt_nitrate_hexahydrate",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/cobalt_nitrate_hexahydrate",
+      "species_id": "cobalt_nitrate_hexahydrate",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.88,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Ca(CH3COO)2",
+      "species_id": "Ca(CH3COO)2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 158.166,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Ca(CH3COO)2",
+      "species_id": "Ca(CH3COO)2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Ca(CH3COO)2",
+      "species_id": "Ca(CH3COO)2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/Ca(CH3COO)2",
+      "species_id": "Ca(CH3COO)2",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -35.36,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "Ca(CH3COO)2(cr) -> Ca+2(aq) + 2 CH3COO-(aq). Table 94:Ca (p. 2-272): dfH Ca(CH3CO2)2 cr -1479.5, ai -1514.86 kJ/mol; -1514.86 - (-1479.5) = -35.36."
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/nbs-wagman-1982-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
+        }
+      }
+    },
+    {
+      "id": "molar-mass/litmus",
+      "species_id": "litmus",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 189.21,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/litmus",
+      "species_id": "litmus",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/litmus",
+      "species_id": "litmus",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.3,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/litmus_ox",
+      "species_id": "litmus_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 205.21,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/litmus_ox",
+      "species_id": "litmus_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/litmus_ox",
+      "species_id": "litmus_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.3,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -67992,6 +69340,86 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/urea",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Co(NO3)2",
+      "species_id": "Co(NO3)2",
+      "phase": "solid",
+      "appearance": "red",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/cobalt_nitrate_hexahydrate",
+      "species_id": "cobalt_nitrate_hexahydrate",
+      "phase": "solid",
+      "appearance": "red",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Ca(CH3COO)2",
+      "species_id": "Ca(CH3COO)2",
+      "phase": "solid",
+      "appearance": "white crystals",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/litmus",
+      "species_id": "litmus",
+      "phase": "aqueous",
+      "appearance": "purple",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/litmus_ox",
+      "species_id": "litmus_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#FFFFF0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/litmus_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -80000,6 +81428,204 @@
           "kind": "unestablished"
         },
         "source_id": "legacy/urea",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Co(NO3)2",
+      "subject": {
+        "kind": "species",
+        "id": "Co(NO3)2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Co(NO3)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/cobalt_nitrate_hexahydrate",
+      "subject": {
+        "kind": "species",
+        "id": "cobalt_nitrate_hexahydrate"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/cobalt_nitrate_hexahydrate",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Ca(CH3COO)2",
+      "subject": {
+        "kind": "species",
+        "id": "Ca(CH3COO)2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ca(CH3COO)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/litmus",
+      "subject": {
+        "kind": "species",
+        "id": "litmus"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/litmus",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/litmus_ox",
+      "subject": {
+        "kind": "species",
+        "id": "litmus_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/litmus_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/litmus_ox",
+      "subject": {
+        "kind": "species",
+        "id": "litmus_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/litmus_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"

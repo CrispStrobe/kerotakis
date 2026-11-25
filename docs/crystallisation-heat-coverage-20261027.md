@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 19 | 1 | 106 |
-| minteq.v4 | 21 | 1 | 104 |
-| pitzer | 9 | 3 | 114 |
+| wateq4f | 19 | 1 | 109 |
+| minteq.v4 | 21 | 1 | 107 |
+| pitzer | 9 | 3 | 117 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -123,6 +123,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Ca` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Ca` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Ca` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Ca(CH3COO)2` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Ca(CH3COO)2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `Ca(CH3COO)2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Ca(OH)2` | wateq4f | refused | Portlandite | the phase saturates at ionic strength >= 126191468896039863320576.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Ca(OH)2` | minteq.v4 | refused | Portlandite | the phase saturates at ionic strength >= 127359104181582925135872.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Ca(OH)2` | pitzer | solubility-only | Portlandite | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
@@ -138,6 +141,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `CaO` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `CaO` | minteq.v4 | refused | Lime | the phase saturates at ionic strength >= 1000760131850537823271101872996352.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `CaO` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Co(NO3)2` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Co(NO3)2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `Co(NO3)2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `CoCl2` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `CoCl2` | minteq.v4 | refused | CoCl2 | the phase saturates at ionic strength >= 1076.88 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `CoCl2` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -387,6 +393,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `citric_acid` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `citric_acid` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `citric_acid` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `cobalt_nitrate_hexahydrate` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `cobalt_nitrate_hexahydrate` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `cobalt_nitrate_hexahydrate` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `dehydroascorbic_acid` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `dehydroascorbic_acid` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `dehydroascorbic_acid` | pitzer | refused | - | the routed database defines no phase for this solid |

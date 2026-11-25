@@ -73,11 +73,11 @@ fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 126,
+            registry_solids: 129,
             database_phases: 59,
             with_reviewed_solubility: 14,
             without_reviewed_solubility: 45,
-            not_a_database_phase: 67,
+            not_a_database_phase: 70,
             phases_without_a_registry_solid: 592,
             several_phase_names: 14,
             not_posable: 14,

@@ -336,6 +336,27 @@
     "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
+    "solid": "Ca(CH3COO)2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Ca(CH3COO)2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Ca(CH3COO)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Ca(OH)2",
     "route": "wateq4f",
     "class": "refused",
@@ -435,6 +456,27 @@
   },
   {
     "solid": "CaO",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Co(NO3)2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Co(NO3)2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Co(NO3)2",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -2178,6 +2220,27 @@
   },
   {
     "solid": "citric_acid",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "cobalt_nitrate_hexahydrate",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "cobalt_nitrate_hexahydrate",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "cobalt_nitrate_hexahydrate",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

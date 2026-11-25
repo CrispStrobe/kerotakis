@@ -476,6 +476,30 @@ pub fn kopp_solid_heat_capacity(formula: &str) -> Option<f64> {
     (sum > 0.0).then_some(sum)
 }
 
+/// Heat capacity of a registry SOLID that has no reviewed figure,
+/// J/(mol·K), estimated by Kopp's rule from its formula; `None` whenever a
+/// reviewed figure exists (a positive registry value or a Cp curve for the
+/// solid) or the species is not a solid.
+///
+/// The registry records "no reviewed heat capacity" as 0 J/(mol·K), and
+/// its source citation for such a species says the figure is estimated
+/// here. Zero would make a weighed solid thermally weightless — any heat
+/// dose would send it to absurd temperatures — so every such solid is
+/// charged the additive Kopp estimate instead, and the bench says so
+/// (`dryness::estimated_heat_capacity_event`). Water is never estimated.
+pub fn estimated_solid_heat_capacity(
+    data: &crate::species::SpeciesData,
+    phase: Phase,
+) -> Option<f64> {
+    if phase != Phase::Solid || data.heat_capacity > 0.0 || data.key == "water" {
+        return None;
+    }
+    if polynomial_for(data.heat_capacity_polys, Phase::Solid).is_some() {
+        return None;
+    }
+    kopp_solid_heat_capacity(data.formula)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

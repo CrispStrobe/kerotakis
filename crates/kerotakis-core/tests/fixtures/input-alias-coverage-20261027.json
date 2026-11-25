@@ -351,6 +351,11 @@
       "source": "curated"
     },
     {
+      "alias": "Ca(OAc)2",
+      "canonical": "Ca(CH3COO)2",
+      "source": "curated"
+    },
+    {
       "alias": "Ca2+",
       "canonical": "Ca+2",
       "source": "charge-notation"
@@ -408,6 +413,11 @@
     {
       "alias": "Calcium-Ion",
       "canonical": "Ca+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Calciumacetat",
+      "canonical": "Ca(CH3COO)2",
       "source": "name:de"
     },
     {
@@ -471,6 +481,26 @@
       "source": "name:de"
     },
     {
+      "alias": "Co(NO3)2*6H2O",
+      "canonical": "cobalt_nitrate_hexahydrate",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "Co(NO3)2.6H2O",
+      "canonical": "cobalt_nitrate_hexahydrate",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "Co(NO3)2_anhydrous",
+      "canonical": "Co(NO3)2",
+      "source": "anhydrous"
+    },
+    {
+      "alias": "Co(NO3)2·6H2O",
+      "canonical": "cobalt_nitrate_hexahydrate",
+      "source": "formula"
+    },
+    {
       "alias": "Co2+",
       "canonical": "Co+2",
       "source": "charge-notation"
@@ -483,6 +513,16 @@
     {
       "alias": "Cobalt(II)-chlorid",
       "canonical": "CoCl2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Cobalt(II)-nitrat",
+      "canonical": "Co(NO3)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Cobalt(II)-nitrat-Hexahydrat",
+      "canonical": "cobalt_nitrate_hexahydrate",
       "source": "name:de"
     },
     {
@@ -993,6 +1033,11 @@
     {
       "alias": "Kupfersulfat",
       "canonical": "CuSO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Lackmus",
+      "canonical": "litmus",
       "source": "name:de"
     },
     {
@@ -1751,6 +1796,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "acétate de calcium",
+      "canonical": "Ca(CH3COO)2",
+      "source": "name:fr"
+    },
+    {
       "alias": "acétate de sodium",
       "canonical": "NaOAc",
       "source": "name:fr"
@@ -1874,6 +1924,11 @@
       "alias": "atacamite (green copper corrosion)",
       "canonical": "atacamite",
       "source": "name:en"
+    },
+    {
+      "alias": "azolitmin",
+      "canonical": "litmus",
+      "source": "curated"
     },
     {
       "alias": "azote liquide",
@@ -2058,6 +2113,11 @@
     {
       "alias": "calcium",
       "canonical": "Ca",
+      "source": "name:en"
+    },
+    {
+      "alias": "calcium acetate",
+      "canonical": "Ca(CH3COO)2",
       "source": "name:en"
     },
     {
@@ -2328,6 +2388,16 @@
     {
       "alias": "cobalt(II) ion",
       "canonical": "Co+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "cobalt(II) nitrate",
+      "canonical": "Co(NO3)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "cobalt(II) nitrate hexahydrate",
+      "canonical": "cobalt_nitrate_hexahydrate",
       "source": "name:en"
     },
     {
@@ -3336,6 +3406,16 @@
       "source": "name:fr"
     },
     {
+      "alias": "nitrate de cobalt(II)",
+      "canonical": "Co(NO3)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "nitrate de cobalt(II) hexahydraté",
+      "canonical": "cobalt_nitrate_hexahydrate",
+      "source": "name:fr"
+    },
+    {
       "alias": "nitrate de plomb(II)",
       "canonical": "Pb(NO3)2",
       "source": "name:fr"
@@ -3446,6 +3526,16 @@
       "source": "name:de"
     },
     {
+      "alias": "oxidiertes Lackmus",
+      "canonical": "litmus_ox",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "oxidiertes Lackmus (farblos)",
+      "canonical": "litmus_ox",
+      "source": "name:de"
+    },
+    {
       "alias": "oxidised anthocyanin",
       "canonical": "anthocyanin_ox",
       "source": "name-prefix:en"
@@ -3483,6 +3573,16 @@
     {
       "alias": "oxidised indigo carmine (colourless)",
       "canonical": "indigo_carmine_ox",
+      "source": "name:en"
+    },
+    {
+      "alias": "oxidised litmus",
+      "canonical": "litmus_ox",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "oxidised litmus (colourless)",
+      "canonical": "litmus_ox",
       "source": "name:en"
     },
     {
@@ -4091,6 +4191,21 @@
       "source": "name:en"
     },
     {
+      "alias": "tournesol",
+      "canonical": "litmus",
+      "source": "name:fr"
+    },
+    {
+      "alias": "tournesol oxydé",
+      "canonical": "litmus_ox",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "tournesol oxydé (incolore)",
+      "canonical": "litmus_ox",
+      "source": "name:fr"
+    },
+    {
       "alias": "trisodium phosphate",
       "canonical": "Na3PO4",
       "source": "name:en"
@@ -4260,6 +4375,26 @@
         "graphite"
       ],
       "reason": "registry-key"
+    },
+    {
+      "alias": "c10h11n3o",
+      "spellings": [
+        "C10H11N3O"
+      ],
+      "candidates": [
+        "litmus"
+      ],
+      "reason": "isomer-ambiguous-formula"
+    },
+    {
+      "alias": "c10h11n3o2",
+      "spellings": [
+        "C10H11N3O2"
+      ],
+      "candidates": [
+        "litmus_ox"
+      ],
+      "reason": "isomer-ambiguous-formula"
     },
     {
       "alias": "c10h8",

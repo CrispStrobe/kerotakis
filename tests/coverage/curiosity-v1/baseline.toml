@@ -3000,8 +3000,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-124"
 owning_task = "BRD-073"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-125"

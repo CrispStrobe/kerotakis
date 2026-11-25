@@ -2583,6 +2583,7 @@ impl Bench {
                         capped: false,
                     });
                     brown_dry_lemon_mark(v, &mut events);
+                    events.extend(crate::dryness::estimated_heat_capacity_event(v));
                 } else {
                     events.push(Event::not_modeled(
                         *vessel,
