@@ -21,7 +21,7 @@ reagent) is booked as complete. Protons come from the represented acidity.
 
 Current rows: halogen preparation (MnO₂, KMnO₄, K₂Cr₂O₇ + Cl⁻/Br⁻/I⁻ in acid),
 halogen displacement (Cl₂/Br⁻, Cl₂/I⁻, Br₂/I⁻), and iron(II) oxidation (Cl₂,
-Br₂, Cr₂O₇²⁻). Chlorine-making and chlorine-oxidant rows run inside
+Br₂, HClO, Cr₂O₇²⁻). Chlorine-making and chlorine-oxidant rows run inside
 `chlorine.rs` at their old place in its rule order; the rest run in the curated
 pass right after it.
 

@@ -43,7 +43,7 @@
 //! Standard reduction potentials at 25 °C, CRC Handbook of Chemistry and
 //! Physics, "Electrochemical Series" (P. Vanýsek): MnO₂/Mn²⁺ 1.224 V,
 //! MnO₄⁻/Mn²⁺ 1.507 V, Cr₂O₇²⁻/Cr³⁺ 1.232 V, Cl₂(g)/Cl⁻ 1.35827 V,
-//! Br₂(l)/Br⁻ 1.066 V, I₂(s)/I⁻ 0.5355 V, Fe³⁺/Fe²⁺ 0.771 V.
+//! Br₂(l)/Br⁻ 1.066 V, HClO/Cl⁻ 1.482 V, I₂(s)/I⁻ 0.5355 V, Fe³⁺/Fe²⁺ 0.771 V.
 //!
 //! Iron(II) oxidised by permanganate is NOT a route here: the aqueous engine
 //! already equilibrates Mn and Fe redox (wateq4f), and a second owner would
@@ -70,6 +70,7 @@ pub const E0_CL2: f64 = 1.358_27;
 pub const E0_BR2: f64 = 1.066;
 pub const E0_I2: f64 = 0.5355;
 pub const E0_FE3: f64 = 0.771;
+pub const E0_HCLO: f64 = 1.482;
 
 /// One registry form that delivers a couple member, and the spectator ions
 /// it releases per unit of the member.
@@ -224,6 +225,24 @@ pub const COUPLES: &[Couple] = &[
         source: CRC,
     },
     Couple {
+        id: "HClO/Cl-",
+        oxidised: "HClO",
+        oxidised_forms: &[],
+        oxidised_phase: Phase::Aqueous,
+        oxidised_unit_activity: false,
+        reduced: "Cl-",
+        reduced_per_oxidised: 1.0,
+        reduced_forms: &[],
+        reduced_acids: &[],
+        reduced_phase: Phase::Aqueous,
+        reduced_unit_activity: false,
+        electrons: 2.0,
+        protons: 1.0,
+        water: 1.0,
+        e0_v: E0_HCLO,
+        source: CRC,
+    },
+    Couple {
         id: "Fe+3/Fe+2",
         oxidised: "Fe+3",
         oxidised_forms: &[],
@@ -256,6 +275,7 @@ pub struct Route {
 const PREP: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.2.3 (laboratory preparation of the halogens by oxidising the halide in acid)";
 const DISPLACE: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.3 (each halogen displaces the heavier halides from solution)";
 const IODOMETRY: &str = "Vogel's Textbook of Quantitative Chemical Analysis, 6th ed., iodometric standardisations (dichromate, permanganate on acidified iodide)";
+const HYPOCHLOROUS: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.2.6 (hypochlorous acid as a rapid oxidant in acid solution)";
 const DICHROMATOMETRY: &str = "Vogel's Textbook of Quantitative Chemical Analysis, 6th ed., titrations with potassium dichromate (iron(II) in acid)";
 
 /// Every route, in the order they run: halogen preparations, then the
@@ -320,6 +340,11 @@ pub const ROUTES: &[Route] = &[
         oxidant: "Cr2O7-2/Cr+3",
         reductant: "I2/I-",
         source: IODOMETRY,
+    },
+    Route {
+        oxidant: "HClO/Cl-",
+        reductant: "Fe+3/Fe+2",
+        source: HYPOCHLOROUS,
     },
     Route {
         oxidant: "Br2/Br-",
@@ -1034,6 +1059,10 @@ mod tests {
         assert_eq!(
             equation(route("Cr2O7-2/Cr+3", "Fe+3/Fe+2")),
             "Cr₂O₇²⁻ + 14 H⁺ + 6 Fe²⁺ → 2 Cr³⁺ + 6 Fe³⁺ + 7 H₂O"
+        );
+        assert_eq!(
+            equation(route("HClO/Cl-", "Fe+3/Fe+2")),
+            "HClO + H⁺ + 2 Fe²⁺ → 2 Fe³⁺ + Cl⁻ + H₂O"
         );
         assert_eq!(
             equation(route("MnO4-/Mn+2", "I2/I-")),

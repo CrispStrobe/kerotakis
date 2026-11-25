@@ -143,6 +143,31 @@ fn iodine_does_not_oxidise_manganese_two() {
     assert!((all(&v, "I2") + all(&v, "I3-") - 0.0005).abs() < 1e-12);
 }
 
+#[test]
+fn hypochlorous_acid_oxidises_iron_two_in_acid_but_not_without() {
+    let mut v = water(0.555);
+    put(&mut v, "HClO", 0.0005, Phase::Aqueous);
+    put(&mut v, "FeSO4", 0.002, Phase::Aqueous);
+    acid(&mut v, 0.01);
+    let eq = equations(&run(&mut v));
+    assert!(
+        eq.contains(&"HClO + H⁺ + 2 Fe²⁺ → 2 Fe³⁺ + Cl⁻ + H₂O".to_string()),
+        "{eq:?}"
+    );
+    assert!(
+        (all(&v, "Fe+3") - 0.001).abs() < 1e-9,
+        "{}",
+        all(&v, "Fe+3")
+    );
+    assert!(all(&v, "HClO") < 1e-12);
+    // No represented acid: the route does not run.
+    let mut v = water(0.555);
+    put(&mut v, "HClO", 0.0005, Phase::Aqueous);
+    put(&mut v, "FeSO4", 0.002, Phase::Aqueous);
+    let eq = equations(&run(&mut v));
+    assert!(!eq.iter().any(|e| e.starts_with("HClO + H⁺")), "{eq:?}");
+}
+
 // ── dormant rows say what they lack ──────────────────────────────────
 
 #[test]
