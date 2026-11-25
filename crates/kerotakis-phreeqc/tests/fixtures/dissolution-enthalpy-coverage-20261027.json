@@ -79,6 +79,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "Ca(CH3COO)2": {
+    "minteq.v4": "curated",
+    "pitzer": "molecular:registry",
+    "wateq4f": "molecular:registry"
+  },
   "Ca(OH)2": {
     "minteq.v4": "curated",
     "pitzer": "curated",
@@ -103,6 +108,11 @@
     "minteq.v4": "hydration:minteq.v4:Ca(OH)2",
     "pitzer": "hydration:minteq.v4:Ca(OH)2",
     "wateq4f": "hydration:minteq.v4:Ca(OH)2"
+  },
+  "Co(NO3)2": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "refused: a dissociation product the routed database does not define"
   },
   "CoCl2": {
     "minteq.v4": "curated",
@@ -515,6 +525,11 @@
     "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
   },
   "citric_acid": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "cobalt_nitrate_hexahydrate": {
     "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
     "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
     "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"

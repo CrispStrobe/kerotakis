@@ -152,6 +152,30 @@ pub fn equilibrate_tp(
                 && (s.is_gas() || s.t_range().is_some_and(|(lo, hi)| t >= lo && t <= hi))
         })
         .collect();
+    // Polymorph choice. Two condensed records of one composition (alpha and
+    // beta quartz, magnetite's two crystal forms, a solid and its liquid)
+    // are pure phases with unit activity, so at a given temperature only the
+    // one with the lower G° can be present at equilibrium — the other is
+    // never stable beside it. Both columns in the Newton matrix would be
+    // identical apart from μ°, and at a record boundary they are identical
+    // outright, which makes the system singular. Keep only the stable one.
+    let pool: Vec<&Species> = pool
+        .iter()
+        .copied()
+        .filter(|s| {
+            if s.is_gas() {
+                return true;
+            }
+            let Some(gs) = s.g(t) else { return true };
+            !pool.iter().any(|o| {
+                !o.is_gas()
+                    && o.name != s.name
+                    && o.composition == s.composition
+                    && o.g(t)
+                        .is_some_and(|go| go < gs || (go == gs && o.name < s.name))
+            })
+        })
+        .collect();
     if pool.is_empty() {
         return Err(CeaError::NoSpecies);
     }
@@ -798,6 +822,11 @@ pub fn equilibrate_hp_open(
         };
     }
     let mut failed_mids = 0u8;
+    // The converged states on either side of the bracket, kept so that a
+    // bracket which collapses onto a phase boundary can be resolved by the
+    // lever rule below instead of being refused.
+    let mut below: Option<Equilibrium> = Some(last.clone());
+    let mut above: Option<Equilibrium> = None;
     for _ in 0..60 {
         let mid = 0.5 * (lo + hi);
         match equilibrate_tp(budget, candidates, mid, pressure_bar) {
@@ -808,8 +837,10 @@ pub fn equilibrate_hp_open(
                 last = eq;
                 if last.enthalpy - atmosphere_credit(atmosphere, &last) < enthalpy {
                     lo = mid;
+                    below = Some(last.clone());
                 } else {
                     hi = mid;
+                    above = Some(last.clone());
                 }
             }
             Err(e) => {
@@ -841,10 +872,99 @@ pub fn equilibrate_hp_open(
             return Ok(last);
         }
     }
-    // Phase changes can leave a jump in the TP enthalpy curve: shrinking
-    // the temperature bracket then cannot reach an intermediate target.
-    // Never return the last pure phase as a successful HP balance.
+    // Phase changes leave a jump in the TP enthalpy curve: at a univariant
+    // point (a melting point, or an oxide decomposing to a lower oxide and
+    // oxygen at the oxygen pressure the charge sets) the two assemblages
+    // coexist at ONE temperature, and every adiabatic target between their
+    // enthalpies is a MIXTURE of them at that temperature — ice and water at
+    // 0 °C, hematite and magnetite at the decomposition point of an iron
+    // flame. Bisection collapses the bracket onto that temperature and can
+    // never reach the target with either pure side, so it is resolved by the
+    // lever rule. Never return the last pure phase as a successful balance.
+    if let (Some(b), Some(a)) = (below.as_ref(), above.as_ref()) {
+        if let Some(eq) = lever_rule(b, a, enthalpy, atmosphere, energy_tolerance) {
+            if dbg {
+                eprintln!(
+                    "HP plateau at {:.3} K resolved by the lever rule",
+                    eq.temperature
+                );
+            }
+            return Ok(eq);
+        }
+    }
     Err(CeaError::NotConverged(60))
+}
+
+/// The coexistence state on a phase boundary the bisection has collapsed
+/// onto: the two converged assemblages either side of it, mixed in the
+/// proportion that closes the energy balance.
+///
+/// Both sides conserve every element, so any convex combination does too;
+/// at the shared temperature both are equilibria, so their mixture is one.
+/// `None` unless the bracket really has collapsed to a point (a genuine
+/// discontinuity, not an unconverged search) and the target lies between
+/// the two enthalpies.
+fn lever_rule(
+    below: &Equilibrium,
+    above: &Equilibrium,
+    enthalpy: f64,
+    atmosphere: Option<&OpenAtmosphere>,
+    tolerance: f64,
+) -> Option<Equilibrium> {
+    if (above.temperature - below.temperature).abs() > 1e-6 {
+        return None;
+    }
+    let residual = |eq: &Equilibrium| eq.enthalpy - atmosphere_credit(atmosphere, eq) - enthalpy;
+    let (r0, r1) = (residual(below), residual(above));
+    if !(r0 <= 0.0 && r1 >= 0.0) {
+        return None;
+    }
+    let (mut f_lo, mut f_hi) = (0.0f64, 1.0f64);
+    let mut mixed = mix(below, above, 0.5);
+    for _ in 0..200 {
+        let f = 0.5 * (f_lo + f_hi);
+        mixed = mix(below, above, f);
+        let r = residual(&mixed);
+        if r.abs() <= tolerance {
+            return Some(mixed);
+        }
+        if r < 0.0 {
+            f_lo = f;
+        } else {
+            f_hi = f;
+        }
+    }
+    (residual(&mixed).abs() <= tolerance).then_some(mixed)
+}
+
+/// `(1 − f)·below + f·above`, species by species.
+fn mix(below: &Equilibrium, above: &Equilibrium, f: f64) -> Equilibrium {
+    let mut composition: Vec<(String, f64)> = Vec::new();
+    for (name, _) in below.composition.iter().chain(&above.composition) {
+        if composition.iter().any(|(n, _)| n == name) {
+            continue;
+        }
+        let m = (1.0 - f) * below.moles_of(name) + f * above.moles_of(name);
+        if m > 1e-10 {
+            composition.push((name.clone(), m));
+        }
+    }
+    composition.sort_by(|a, b| b.1.total_cmp(&a.1));
+    let mut sources = below.sources.clone();
+    for s in &above.sources {
+        if !sources.contains(s) {
+            sources.push(s.clone());
+        }
+    }
+    sources.truncate(5);
+    Equilibrium {
+        composition,
+        temperature: (1.0 - f) * below.temperature + f * above.temperature,
+        pressure_bar: below.pressure_bar,
+        enthalpy: (1.0 - f) * below.enthalpy + f * above.enthalpy,
+        gas_moles: (1.0 - f) * below.gas_moles + f * above.gas_moles,
+        sources,
+    }
 }
 
 /// Gauss-Jordan with partial pivoting on a flat row-major augmented matrix.
@@ -980,10 +1100,12 @@ mod tests {
     }
 
     #[test]
-    fn hp_refuses_an_unresolved_phase_enthalpy_gap() {
+    fn hp_resolves_a_phase_enthalpy_gap_by_the_lever_rule() {
         // Deliberately synthetic, disjoint phase domains with a 10 kJ/mol
         // latent jump at 1000 K. A TP solve can return either pure phase,
-        // but cannot choose the phase fraction required by this HP target.
+        // but not the phase fraction this HP target needs. That used to be
+        // refused; it is now the coexistence state at the transition: half
+        // a mole melted, at 1000 K, energy closed, every atom kept.
         let mut solid = crate::db().get("Zn(cr)").unwrap().clone();
         let mut liquid = crate::db().get("Zn(L)").unwrap().clone();
         solid.intervals = vec![crate::nasa9::Interval {
@@ -1007,10 +1129,20 @@ mod tests {
         assert!(high.moles_of("Zn(L)") > 0.99);
         assert!(high.enthalpy - low.enthalpy > 10000.0);
         let target = solid.h(1000.0).unwrap() + nitrogen.h(1000.0).unwrap() + 5000.0;
-        assert!(matches!(
-            equilibrate_hp(&b, &pool, target, 1.0),
-            Err(CeaError::NotConverged(_))
-        ));
+        let melt = equilibrate_hp(&b, &pool, target, 1.0).expect("a partial melt");
+        assert_conserved(&melt, &b, "partial melt");
+        assert!(
+            (melt.temperature - 1000.0).abs() < 1e-3,
+            "{}",
+            melt.temperature
+        );
+        assert!((melt.enthalpy - target).abs() <= 1.0 + target.abs() * 1e-8);
+        assert!(
+            (melt.moles_of("Zn(L)") - 0.5).abs() < 1e-3,
+            "half melted: {:?}",
+            melt.composition
+        );
+        assert!((melt.moles_of("Zn(cr)") + melt.moles_of("Zn(L)") - 1.0).abs() < 1e-9);
         // Nearby continuous targets still close the original energy bound.
         let target = low.enthalpy;
         let solved = equilibrate_hp(&b, &pool, target, 1.0).unwrap();
@@ -1243,5 +1375,31 @@ mod tests {
         let warm = equilibrate_tp(&b, &pool, 1000.0, 1.0).expect("a reference");
         let eq = equilibrate_hp(&b, &pool, warm.enthalpy, 1.0).expect("a solution");
         assert_conserved(&eq, &b, "adiabatic calcite");
+    }
+
+    /// The lever rule only ever resolves a bracket that has collapsed onto
+    /// a single temperature; two states far apart are an unconverged
+    /// search, and mixing them would invent a state that is neither.
+    #[test]
+    fn the_lever_rule_refuses_states_at_different_temperatures() {
+        let (b, pool) = chalk_in_air();
+        let cold = equilibrate_tp(&b, &pool, 900.0, 1.0).expect("cold");
+        let hot = equilibrate_tp(&b, &pool, 1400.0, 1.0).expect("hot");
+        let target = 0.5 * (cold.enthalpy + hot.enthalpy);
+        assert!(lever_rule(&cold, &hot, target, None, 1.0).is_none());
+        // Same temperature, but a target outside both: also refused.
+        assert!(lever_rule(&cold, &cold, cold.enthalpy + 1e6, None, 1.0).is_none());
+    }
+
+    /// Of two condensed records of one composition, only the stable one
+    /// takes part: a pure phase above its own melting point is never in the
+    /// answer beside the liquid, and both columns would be degenerate.
+    #[test]
+    fn only_the_stable_polymorph_enters_the_pool() {
+        let b = budget(&[("Fe", 0.01), ("O", 1e-6)]);
+        let pool = pool_of(&["Fe(a)", "Fe(c)", "Fe(d)", "Fe(L)", "Fe", "O2", "FeO"]);
+        let eq = equilibrate_tp(&b, &pool, 2000.0, 1.0).expect("molten iron");
+        assert_conserved(&eq, &b, "molten iron");
+        assert!(eq.moles_of("Fe(L)") > 0.009, "{:?}", eq.composition);
     }
 }

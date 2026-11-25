@@ -8,8 +8,8 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 82,
-    "not_condensed": 82
+    "no_melting_point": 85,
+    "not_condensed": 84
   },
   "species": [
     {
@@ -910,6 +910,19 @@
       }
     },
     {
+      "species": "Ca(CH3COO)2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Ca(OH)2",
       "standard_phase": "solid",
       "melting_k": null,
@@ -924,6 +937,19 @@
     },
     {
       "species": "CaCO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Co(NO3)2",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1665,6 +1691,19 @@
     },
     {
       "species": "chlorophyll",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "cobalt_nitrate_hexahydrate",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -2909,6 +2948,32 @@
         "10C": "liquid",
         "25C": "liquid",
         "40C": "liquid"
+      }
+    },
+    {
+      "species": "litmus",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "litmus_ox",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
       }
     },
     {

@@ -54,6 +54,9 @@ const NBS_WAGMAN_DISSOLUTION: &[&str] = &[
     "MgCl2",
     "CoCl2",
     "urea",
+    // Generic-Cp lane (2026-11-25).
+    "Co(NO3)2",
+    "Ca(CH3COO)2",
 ];
 
 fn reaches_the_atomic_weight_table(species: &SpeciesData) -> bool {
@@ -299,6 +302,8 @@ fn every_legacy_field_is_present_and_unchanged() {
                     "Na2CO3" | "KBr" | "CuCl2" | "Na3PO4" | "Al2(SO4)3"
                         // Missing-species lane (2026-11-24), NBS/Wagman 1982.
                         | "MgCl2" | "CoCl2" | "urea"
+                        // Generic-Cp lane (2026-11-25), NBS/Wagman 1982.
+                        | "Co(NO3)2" | "Ca(CH3COO)2"
                 ))
             .count()
     );
@@ -1279,7 +1284,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
         .iter()
         .filter(|record| record.property == PhaseProperty::MolarMass)
         .collect();
-    assert_eq!(masses.len(), 227, "one molar mass per species");
+    assert_eq!(masses.len(), 232, "one molar mass per species");
     let with_band = masses
         .iter()
         .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))

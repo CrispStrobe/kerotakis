@@ -173,6 +173,28 @@ pub const INDICATORS: &[Indicator] = &[
         base_colour: "blue",
         provenance: "pKa 7.1 and λmax 430/615 nm are literature values; ε values good to about a significant figure; transition ranges are the CRC Handbook indicator table's; Gaussian band shapes are ours",
     },
+    Indicator {
+        key: "litmus",
+        // Litmus (azolitmin, its principal chromophore): visual transition
+        // pH 4.5–8.3, red → blue, as handbook indicator tables quote it
+        // (CRC Handbook / Lange's "Acid-Base Indicators"); the US
+        // Pharmacopeia's reagent monograph gives "approximately pH 4.5 to 8,
+        // red to blue" (USP 35–NF 30, Indicators and Indicator Test Papers).
+        // Litmus is a mixture of lichen dyes, so no single pKa is published:
+        // the colour pKIn here is the centre of that sourced range, 6.4,
+        // which is derived, not measured.
+        pkas: &[6.4],
+        transition: (4.5, 8.3),
+        // EDITORIAL band positions: no reviewed azolitmin spectrum was
+        // found. The acid form is red (absorbs blue-green), the base form
+        // blue (absorbs orange); the bands are placed where those
+        // complementary colours require and are not a measurement.
+        acid: || bands(&[(500.0, 15_000.0, 55.0)]),
+        base: || bands(&[(590.0, 15_000.0, 60.0)]),
+        acid_colour: "red",
+        base_colour: "blue",
+        provenance: "visual transition pH 4.5–8.3 (red → blue) as quoted in handbook indicator tables (CRC Handbook / Lange's Handbook 'Acid-Base Indicators'), consistent with USP 35–NF 30 'Indicators and Indicator Test Papers' (approximately pH 4.5 to 8, red to blue); pKIn 6.4 is the centre of that range, derived because litmus is a mixture with no single published pKa; band positions and ε are EDITORIAL (Kerotakis), chosen only to give the sourced red and blue, and are not a measured spectrum; Gaussian band shapes are ours",
+    },
 ];
 
 /// KID-8: a pigment whose colour passes through more than two forms.
@@ -426,6 +448,9 @@ mod indicator_tests {
         assert_eq!(p.endpoint_ph(), 8.3);
         assert_eq!(lookup("bromothymol_blue").expect("btb").endpoint_ph(), 7.1);
         assert_eq!(lookup("methyl_orange").expect("mo").endpoint_ph(), 3.47);
+        let litmus = lookup("litmus").expect("litmus");
+        assert_eq!(litmus.transition, (4.5, 8.3));
+        assert_eq!(litmus.endpoint_ph(), 6.4);
         for i in INDICATORS {
             let (lo, hi) = i.transition;
             assert!(lo < hi, "{}", i.key);

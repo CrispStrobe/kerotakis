@@ -278,6 +278,46 @@ pub fn residue_heat_capacity_event(vessel: &Vessel) -> Option<Event> {
     })
 }
 
+/// The typed boundary for a vessel holding a solid whose heat capacity is
+/// Kopp's-rule estimated because the registry has no reviewed figure for
+/// it (`heat_capacity::estimated_solid_heat_capacity`), or `None` when no
+/// such solid is present. Said wherever such a solid takes part in a heat
+/// balance (heating, cooling).
+pub fn estimated_heat_capacity_event(vessel: &Vessel) -> Option<Event> {
+    let mut estimated: Vec<&'static str> = Vec::new();
+    for p in &vessel.contents {
+        if p.moles.0 <= TRACE {
+            continue;
+        }
+        if let Some(data) = species::lookup(&p.species) {
+            if crate::heat_capacity::estimated_solid_heat_capacity(data, p.phase).is_some()
+                && !estimated.contains(&data.name)
+            {
+                estimated.push(data.name);
+            }
+        }
+    }
+    (!estimated.is_empty()).then(|| {
+        Event::not_modeled(
+            vessel.id,
+            NotModelledCause::ModelBoundary,
+            estimated_heat_capacity_note(&estimated),
+        )
+    })
+}
+
+/// The boundary a solid charged by Kopp's rule carries.
+pub fn estimated_heat_capacity_note(names: &[&str]) -> Phrase {
+    Phrase::new(
+        "not-modeled.kopp-estimated-heat-capacity",
+        "no measured heat capacity is tabulated for {names}, so its share of this heat balance uses an estimate by Kopp's rule (the sum of tabulated atomic contributions, Kopp 1865); the temperature reached is approximate to that extent",
+        vec![(
+            "names".to_string(),
+            Slot::terms("species", names.iter().copied()),
+        )],
+    )
+}
+
 /// The boundary a dry residue charged by Kopp's rule carries.
 pub fn residue_heat_capacity_note(names: &[&str]) -> Phrase {
     Phrase::new(

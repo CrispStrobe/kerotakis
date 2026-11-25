@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 44, neutral-refused 174, partitions 9.
+Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -85,12 +85,14 @@ Counts: ion-stays-aqueous 44, neutral-refused 174, partitions 9.
 | neutral-refused | CO2 | — |
 | neutral-refused | CO2(aq) | — |
 | neutral-refused | Ca | — |
+| neutral-refused | Ca(CH3COO)2 | — |
 | neutral-refused | Ca(OH)2 | — |
 | neutral-refused | Ca3(PO4)2 | — |
 | neutral-refused | CaCO3 | — |
 | neutral-refused | CaCl2 | — |
 | neutral-refused | CaO | — |
 | neutral-refused | Cl2 | — |
+| neutral-refused | Co(NO3)2 | — |
 | neutral-refused | CoCl2 | — |
 | neutral-refused | Cu | — |
 | neutral-refused | Cu(OH)2 | — |
@@ -199,6 +201,7 @@ Counts: ion-stays-aqueous 44, neutral-refused 174, partitions 9.
 | neutral-refused | chalcanthite | — |
 | neutral-refused | chlorophyll | — |
 | neutral-refused | citric_acid | — |
+| neutral-refused | cobalt_nitrate_hexahydrate | — |
 | neutral-refused | curcumin | — |
 | neutral-refused | curcumin_ox | — |
 | neutral-refused | dehydroascorbic_acid | — |
@@ -225,6 +228,8 @@ Counts: ion-stays-aqueous 44, neutral-refused 174, partitions 9.
 | neutral-refused | lactic_acid | — |
 | neutral-refused | langite | — |
 | neutral-refused | liquid_nitrogen | — |
+| neutral-refused | litmus | — |
+| neutral-refused | litmus_ox | — |
 | neutral-refused | malic_acid | — |
 | neutral-refused | maltose | — |
 | neutral-refused | methane | — |

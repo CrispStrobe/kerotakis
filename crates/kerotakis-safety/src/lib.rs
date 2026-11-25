@@ -418,6 +418,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // chloride). The shelf shows it as toxic for the same reason as barium.
         "CoCl2" => &[ToxicSoluble],
         "Co+2" => &[ToxicSoluble],
+        // Cobalt(II) nitrate and its hexahydrate: the same soluble cobalt(II)
+        // hazard as cobalt(II) chloride (soluble cobalt(II) salts).
+        "Co(NO3)2" => &[ToxicSoluble],
+        "cobalt_nitrate_hexahydrate" => &[ToxicSoluble],
 
         // Cuprite has no group in this limited compatibility matrix. Do
         // not label the insoluble oxide ToxicSoluble or ActiveMetal merely
@@ -523,6 +527,12 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "bischofite"
         | "Fe3O4"
         | "urea"
+        // Generic-Cp lane (2026-11-25): calcium acetate reads as NaOAc does;
+        // litmus and its bleached form are indicator dyes, as bromothymol
+        // blue is.
+        | "Ca(CH3COO)2"
+        | "litmus"
+        | "litmus_ox"
         | "Pb+2"
         | "Pb(NO3)2"
         | "PE"
@@ -768,6 +778,11 @@ pub const COVERED_KEYS: &[&str] = &[
     "MgCl2",
     "bischofite",
     "CoCl2",
+    "Co(NO3)2",
+    "cobalt_nitrate_hexahydrate",
+    "Ca(CH3COO)2",
+    "litmus",
+    "litmus_ox",
     "Co+2",
     "Fe3O4",
     "urea",

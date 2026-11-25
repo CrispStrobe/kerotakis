@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 44,
-    "neutral-refused": 174,
+    "neutral-refused": 179,
     "partitions": 9
   },
   "cases": [
@@ -352,6 +352,11 @@
       "basis": null
     },
     {
+      "species": "Ca(CH3COO)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Ca(OH)2",
       "class": "neutral-refused",
       "basis": null
@@ -378,6 +383,11 @@
     },
     {
       "species": "Cl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Co(NO3)2",
       "class": "neutral-refused",
       "basis": null
     },
@@ -922,6 +932,11 @@
       "basis": null
     },
     {
+      "species": "cobalt_nitrate_hexahydrate",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "curcumin",
       "class": "neutral-refused",
       "basis": null
@@ -1048,6 +1063,16 @@
     },
     {
       "species": "liquid_nitrogen",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "litmus",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "litmus_ox",
       "class": "neutral-refused",
       "basis": null
     },

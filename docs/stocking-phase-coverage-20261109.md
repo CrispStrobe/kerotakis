@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 82, not_condensed 82.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 85, not_condensed 84.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -88,8 +88,10 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 82, n
 | no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | C | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Ca(CH3COO)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CaCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Co(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CoCl2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu2(OH)2CO3 | solid | — | — | no | solid | solid | solid |
@@ -147,6 +149,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 82, n
 | no_melting_point | cellulose | solid | — | — | no | solid | solid | solid |
 | no_melting_point | chalcanthite | solid | — | — | no | solid | solid | solid |
 | no_melting_point | chlorophyll | solid | — | — | no | solid | solid | solid |
+| no_melting_point | cobalt_nitrate_hexahydrate | solid | — | — | no | solid | solid | solid |
 | no_melting_point | dehydroascorbic_acid | solid | — | — | no | solid | solid | solid |
 | no_melting_point | diamond | solid | — | — | no | solid | solid | solid |
 | no_melting_point | epsomite | solid | — | — | no | solid | solid | solid |
@@ -242,6 +245,8 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 82, n
 | not_condensed | isobutylene | gas | 132.45 | 266.7 | no | gas | gas | gas |
 | not_condensed | lactate | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | liquid_nitrogen | liquid | 63.14 | 77.34 | no | liquid | liquid | liquid |
+| not_condensed | litmus | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | litmus_ox | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | methane | gas | 90.68 | 111.67 | no | gas | gas | gas |
 | not_condensed | methyl_orange | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | phenolphthalein | aqueous | — | — | no | aqueous | aqueous | aqueous |
