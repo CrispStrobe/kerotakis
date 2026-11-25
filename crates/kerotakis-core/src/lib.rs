@@ -101,6 +101,7 @@ pub mod pigment;
 pub mod plastics;
 pub mod polarization;
 pub mod polymer;
+pub mod potential_redox;
 pub mod properties;
 pub mod protein;
 pub mod reaction_heat;
