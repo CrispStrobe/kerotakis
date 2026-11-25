@@ -351,8 +351,12 @@ fn registry_with_counts(counts: &BTreeMap<String, f64>) -> Option<&'static str> 
     })
 }
 
-/// The registry's monatomic cation of `element` (Na → Na+), with its charge.
+/// The registry's monatomic metal cation of `element` (Na → Na+), with its
+/// charge. Hydrogen is not a metal: an acid is not its own salt.
 fn cation_of(element: &str) -> Option<f64> {
+    if element == "H" {
+        return None;
+    }
     crate::species::registry().iter().find_map(|s| {
         let f = crate::stoich::parse_formula(s.formula).ok()?;
         (f.charge > 0.0 && f.counts.len() == 1 && f.counts.get(element) == Some(&1.0))

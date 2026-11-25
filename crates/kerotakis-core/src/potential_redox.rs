@@ -599,7 +599,7 @@ pub fn equation(route: &Route) -> String {
     if w < 0.0 {
         left.push(term(-a * w, "water", false));
     }
-    let mut products = vec![
+    let mut products = [
         (
             ox.reduced,
             a * ox.reduced_per_oxidised,
@@ -844,7 +844,7 @@ fn emit_product(vessel: &mut Vessel, key: &str, n: f64, phase: Phase, events: &m
 /// The product a dormant route lacks, if its reagents are both here.
 fn missing_product(vessel: &Vessel, route: &Route) -> Option<&'static str> {
     let (ox, red) = pair(route);
-    if ox.e0_v <= red.e0_v || liquid_water(vessel) <= 0.0 {
+    if liquid_water(vessel) <= 0.0 {
         return None;
     }
     if oxidant_available(vessel, ox) <= TRACE || reductant_available(vessel, red) <= TRACE {
@@ -1003,8 +1003,9 @@ mod tests {
                 "{}: {el:?}",
                 equation(r)
             );
-            // Every route is downhill at standard state.
-            assert!(ox.e0_v > red.e0_v, "{}", equation(r));
+            // Not every route is downhill at standard state: MnO₂ and
+            // dichromate make chlorine only from concentrated acid, which is
+            // what the Nernst crossing decides.
         }
     }
 

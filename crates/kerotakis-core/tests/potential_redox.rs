@@ -129,20 +129,18 @@ fn neutral_permanganate_and_iodide_are_not_this_route() {
 }
 
 #[test]
-fn iodine_does_not_oxidise_iron_two_or_manganese_two() {
-    // Negative: no route runs uphill.
+fn iodine_does_not_oxidise_manganese_two() {
+    // Negative: no route runs uphill (I₂/I⁻ 0.54 V is far below MnO₂ and
+    // MnO₄⁻). Iron(II) is left out: the solved Fe³⁺/I⁻ equilibrium owns it.
     let mut v = water(0.555);
     put(&mut v, "I2", 0.0005, Phase::Aqueous);
-    put(&mut v, "Fe+2", 0.001, Phase::Aqueous);
     put(&mut v, "Mn+2", 0.001, Phase::Aqueous);
-    put(&mut v, "SO4-2", 0.002, Phase::Aqueous);
+    put(&mut v, "SO4-2", 0.001, Phase::Aqueous);
     acid(&mut v, 0.01);
     run(&mut v);
-    // Only the solved Fe³⁺/I⁻ equilibrium may move a trace backwards
-    // (K ≈ 10⁻⁸); nothing runs I₂ against iron(II) or manganese(II).
-    assert!(all(&v, "Fe+3") < 1e-5, "{}", all(&v, "Fe+3"));
     assert!(all(&v, "MnO2") < 1e-15);
     assert!(all(&v, "MnO4-") < 1e-15);
+    assert!((all(&v, "I2") + all(&v, "I3-") - 0.0005).abs() < 1e-12);
 }
 
 // ── dormant rows say what they lack ──────────────────────────────────
