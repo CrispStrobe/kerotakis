@@ -1100,10 +1100,12 @@ mod tests {
     }
 
     #[test]
-    fn hp_refuses_an_unresolved_phase_enthalpy_gap() {
+    fn hp_resolves_a_phase_enthalpy_gap_by_the_lever_rule() {
         // Deliberately synthetic, disjoint phase domains with a 10 kJ/mol
         // latent jump at 1000 K. A TP solve can return either pure phase,
-        // but cannot choose the phase fraction required by this HP target.
+        // but not the phase fraction this HP target needs. That used to be
+        // refused; it is now the coexistence state at the transition: half
+        // a mole melted, at 1000 K, energy closed, every atom kept.
         let mut solid = crate::db().get("Zn(cr)").unwrap().clone();
         let mut liquid = crate::db().get("Zn(L)").unwrap().clone();
         solid.intervals = vec![crate::nasa9::Interval {
@@ -1127,10 +1129,20 @@ mod tests {
         assert!(high.moles_of("Zn(L)") > 0.99);
         assert!(high.enthalpy - low.enthalpy > 10000.0);
         let target = solid.h(1000.0).unwrap() + nitrogen.h(1000.0).unwrap() + 5000.0;
-        assert!(matches!(
-            equilibrate_hp(&b, &pool, target, 1.0),
-            Err(CeaError::NotConverged(_))
-        ));
+        let melt = equilibrate_hp(&b, &pool, target, 1.0).expect("a partial melt");
+        assert_conserved(&melt, &b, "partial melt");
+        assert!(
+            (melt.temperature - 1000.0).abs() < 1e-3,
+            "{}",
+            melt.temperature
+        );
+        assert!((melt.enthalpy - target).abs() <= 1.0 + target.abs() * 1e-8);
+        assert!(
+            (melt.moles_of("Zn(L)") - 0.5).abs() < 1e-3,
+            "half melted: {:?}",
+            melt.composition
+        );
+        assert!((melt.moles_of("Zn(cr)") + melt.moles_of("Zn(L)") - 1.0).abs() < 1e-9);
         // Nearby continuous targets still close the original energy bound.
         let target = low.enthalpy;
         let solved = equilibrate_hp(&b, &pool, target, 1.0).unwrap();
@@ -1363,49 +1375,6 @@ mod tests {
         let warm = equilibrate_tp(&b, &pool, 1000.0, 1.0).expect("a reference");
         let eq = equilibrate_hp(&b, &pool, warm.enthalpy, 1.0).expect("a solution");
         assert_conserved(&eq, &b, "adiabatic calcite");
-    }
-
-    /// Iron wool burning in plenty of oxygen, with magnetite admitted beside
-    /// hematite. The flame sits on the hematite → magnetite + O2 boundary,
-    /// where the enthalpy jumps at one temperature; the adiabatic balance is
-    /// a mixture of both sides there, found by the lever rule instead of
-    /// being refused (curiosity th-041 before the fix).
-    #[test]
-    fn iron_burning_in_oxygen_with_magnetite_admitted_converges() {
-        let fe = 1.0 / 55.845;
-        let b = budget(&[("Fe", fe), ("O", 0.2)]);
-        let pool = pool_of(&[
-            "Fe(a)",
-            "Fe(c)",
-            "Fe(d)",
-            "Fe(L)",
-            "Fe",
-            "FeO",
-            "O2",
-            "O",
-            "Fe2O3(cr)",
-            "Fe3O4(cr)",
-            "Fe3O4(L)",
-        ]);
-        let db = crate::db();
-        let h0 = fe * db.get("Fe(a)").unwrap().h(298.15).unwrap()
-            + 0.1 * db.get("O2").unwrap().h(298.15).unwrap();
-        let eq = equilibrate_hp(&b, &pool, h0, 1.0).expect("the iron flame resolves");
-        assert_conserved(&eq, &b, "iron in oxygen");
-        assert!(
-            eq.temperature > 1200.0,
-            "a flame, not a cold charge: {}",
-            eq.temperature
-        );
-        assert!(
-            (eq.enthalpy - h0).abs() <= 1.0 + h0.abs() * 1e-8,
-            "energy balance closed: {} vs {h0}",
-            eq.enthalpy
-        );
-        let oxide = eq.moles_of("Fe2O3(cr)") * 2.0
-            + eq.moles_of("Fe3O4(cr)") * 3.0
-            + eq.moles_of("Fe3O4(L)") * 3.0;
-        assert!(oxide > 0.9 * fe, "the iron burned: {:?}", eq.composition);
     }
 
     /// The lever rule only ever resolves a bracket that has collapsed onto

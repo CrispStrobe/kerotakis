@@ -121,9 +121,15 @@ fn steel_wool_ignites_to_named_iron_oxide_in_open_air() {
         vessel.moles_of(&SpeciesId::new("Fe")).0 < 1e-6,
         "the resolved iron fibres should be consumed: {events:?}"
     );
+    // Iron atoms bound as a named oxide. Since magnetite was admitted
+    // (2026-11-25) the flame settles on the iron-oxide boundary, so either
+    // or both of hematite and magnetite may carry them; together they must
+    // hold the iron (1 g = 0.0179 mol), as hematite alone did before.
+    let fe_in_oxide = 2.0 * vessel.moles_of(&SpeciesId::new("Fe2O3")).0
+        + 3.0 * vessel.moles_of(&SpeciesId::new("Fe3O4")).0;
     assert!(
-        vessel.moles_of(&SpeciesId::new("Fe2O3")).0 > 0.008,
-        "air oxygen should become conserved named hematite: {:?}",
+        fe_in_oxide > 0.016,
+        "air oxygen should become conserved named iron oxide: {:?}",
         vessel.contents
     );
     assert!(events.iter().any(|event| matches!(
@@ -132,11 +138,12 @@ fn steel_wool_ignites_to_named_iron_oxide_in_open_air() {
     )));
     assert!(events.iter().any(|event| matches!(
         event,
-        Event::Precipitated { species, .. } if species.0 == "Fe2O3"
+        Event::Precipitated { species, .. } if species.0 == "Fe2O3" || species.0 == "Fe3O4"
     )));
     assert!(events.iter().any(|event| matches!(
         event,
-        Event::ReactionOccurred { equation, .. } if equation.contains("Fe₂O₃")
+        Event::ReactionOccurred { equation, .. }
+            if equation.contains("Fe₂O₃") || equation.contains("Fe₃O₄")
     )));
 }
 
