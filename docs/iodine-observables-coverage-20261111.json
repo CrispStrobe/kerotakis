@@ -2,8 +2,8 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 43,
-    "neutral-refused": 169,
+    "ion-stays-aqueous": 44,
+    "neutral-refused": 174,
     "partitions": 9
   },
   "cases": [
@@ -83,6 +83,11 @@
     },
     {
       "species": "ClO-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Co+2",
       "class": "ion-stays-aqueous",
       "basis": null
     },
@@ -377,6 +382,11 @@
       "basis": null
     },
     {
+      "species": "CoCl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Cu",
       "class": "neutral-refused",
       "basis": null
@@ -433,6 +443,11 @@
     },
     {
       "species": "Fe2O3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Fe3O4",
       "class": "neutral-refused",
       "basis": null
     },
@@ -568,6 +583,11 @@
     },
     {
       "species": "MgCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "MgCl2",
       "class": "neutral-refused",
       "basis": null
     },
@@ -852,6 +872,11 @@
       "basis": null
     },
     {
+      "species": "bischofite",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "brochantite",
       "class": "neutral-refused",
       "basis": null
@@ -1088,6 +1113,11 @@
     },
     {
       "species": "uranium",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "urea",
       "class": "neutral-refused",
       "basis": null
     },

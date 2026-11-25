@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 61/121, minteq.v4 65/121, pitzer 25/121.
+Priced after this change: wateq4f 64/126, minteq.v4 69/126, pitzer 27/126.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -50,6 +50,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `CaCO3` | routed | routed | routed |
 | `CaCl2` | curated | curated | curated |
 | `CaO` | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 |
+| `CoCl2` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
 | `Cu` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `Cu2(OH)2CO3` | reference:wateq4f:Malachite | reference:minteq.v4:Malachite | refused: a reaction species is not defined on the routed database |
@@ -62,6 +63,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Fe(OH)2` | reference:llnl.dat:Fe(OH)2 | refused: the reviewed phase states an exact-zero enthalpy placeholder | reference:llnl.dat:Fe(OH)2 |
 | `Fe(OH)3` | refused: the reviewed phase states no 25 C dissolution enthalpy | reference:minteq.v4:Ferrihydrite | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `Fe2O3` | reference:wateq4f:Hematite | hydration:minteq.v4:Fe(OH)3 | refused: a reaction species is not defined on the routed database |
+| `Fe3O4` | reference:wateq4f:Magnetite | reference:minteq.v4:Magnetite | refused: a reaction species is not defined on the routed database |
 | `FeCl3` | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:Molysite | refused: a reaction species is not defined on the routed database |
 | `FeSO4` | reference:llnl.dat:FeSO4 | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:FeSO4 |
 | `H2C2O4` | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution |
@@ -79,6 +81,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Mg` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Mg(OH)2` | reference:wateq4f:Brucite | reference:minteq.v4:Brucite | routed |
 | `MgCO3` | routed | routed | routed |
+| `MgCl2` | curated | curated | curated |
 | `MgO` | hydration:minteq.v4:Mg(OH)2 | hydration:minteq.v4:Mg(OH)2 | hydration:minteq.v4:Mg(OH)2 |
 | `MgSO4` | reference:llnl.dat:MgSO4 | reference:llnl.dat:MgSO4 | reference:llnl.dat:MgSO4 |
 | `MnO2` | refused: the reviewed phase dissolves by redox, not by dissociation | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase dissolves by redox, not by dissociation |
@@ -124,6 +127,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `antlerite` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `ascorbic_acid` | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `atacamite` | reference:wateq4f:Atacamite | reference:minteq.v4:Atacamite | refused: a reaction species is not defined on the routed database |
+| `bischofite` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `brochantite` | reference:minteq.v4:Brochantite | reference:minteq.v4:Brochantite | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `cellulose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `chalcanthite` | reference:wateq4f:Chalcanthite | reference:minteq.v4:Chalcanthite | refused: a reaction species is not defined on the routed database |
@@ -150,6 +154,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `starch` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `sucrose` | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `uranium` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `urea` | molecular:registry | molecular:registry | molecular:registry |
 
 ## Reaction heats per declared extent
 

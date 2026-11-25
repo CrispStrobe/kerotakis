@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
+Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 
 ## Matched registry solids
 
@@ -41,6 +41,7 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | `Ca3(PO4)2` | Ca3(PO4)2 | minteq.v4:`Ca3(PO4)2(beta)` |
 | `CaCO3` | CaCO3 | minteq.v4:`Aragonite`, minteq.v4:`Calcite`, pitzer:`Aragonite`, pitzer:`Calcite`, wateq4f:`Aragonite`, wateq4f:`Calcite` |
 | `CaO` | CaO | minteq.v4:`Lime` |
+| `CoCl2` | CoCl2 | minteq.v4:`CoCl2` |
 | `Cu` | Cu | minteq.v4:`Cumetal`, wateq4f:`CuMetal` |
 | `Cu(OH)2` | Cu(OH)2 | minteq.v4:`Cu(OH)2`, wateq4f:`Cu(OH)2` |
 | `Cu2(OH)2CO3` | Cu2(OH)2CO3 | minteq.v4:`Malachite`, wateq4f:`Malachite` |
@@ -52,6 +53,7 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | `Fe(OH)2` | Fe(OH)2 | minteq.v4:`Fe(OH)2` |
 | `Fe(OH)3` | Fe(OH)3 | minteq.v4:`Ferrihydrite`, wateq4f:`Fe(OH)3(a)` |
 | `Fe2O3` | Fe2O3 | minteq.v4:`Hematite`, minteq.v4:`Maghemite`, wateq4f:`Hematite`, wateq4f:`Maghemite` |
+| `Fe3O4` | Fe3O4 | minteq.v4:`Magnetite`, wateq4f:`Magnetite` |
 | `K2Cr2O7` | K2Cr2O7 | minteq.v4:`K2Cr2O7` |
 | `K2CrO4` | K2CrO4 | minteq.v4:`K2CrO4` |
 | `KCl` | KCl | pitzer:`Sylvite` |
@@ -77,6 +79,7 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | `ZnSO4` | ZnSO4 | minteq.v4:`Zincosite`, wateq4f:`Zincosite` |
 | `antlerite` | Cu3(OH)4SO4 | minteq.v4:`Antlerite`, wateq4f:`Antlerite` |
 | `atacamite` | Cu2(OH)3Cl | minteq.v4:`Atacamite`, wateq4f:`Atacamite` |
+| `bischofite` | MgCl2:6H2O | pitzer:`Bischofite` |
 | `brochantite` | Cu4(OH)6SO4 | minteq.v4:`Brochantite`, wateq4f:`Brochantite` |
 | `chalcanthite` | CuSO4:5H2O | minteq.v4:`Chalcanthite`, wateq4f:`Chalcanthite` |
 | `epsomite` | MgSO4:7H2O | minteq.v4:`Epsomite`, pitzer:`Epsomite`, wateq4f:`Epsomite` |
@@ -106,6 +109,15 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 
 | formula | phases |
 |---|---|
+| (Co(NH3)5Cl)(NO3)2 | minteq.v4:`(Co(NH3)5Cl)(NO3)2` |
+| (Co(NH3)5Cl)Br2 | minteq.v4:`(Co(NH3)5Cl)Br2` |
+| (Co(NH3)5Cl)Cl2 | minteq.v4:`(Co(NH3)5Cl)Cl2` |
+| (Co(NH3)5Cl)I2 | minteq.v4:`(Co(NH3)5Cl)I2` |
+| (Co(NH3)5OH2)Cl3 | minteq.v4:`(Co(NH3)5OH2)Cl3` |
+| (Co(NH3)6)(NO3)3 | minteq.v4:`(Co(NH3)6)(NO3)3` |
+| (Co(NH3)6)Br3 | minteq.v4:`(Co(NH3)6)Br3` |
+| (Co(NH3)6)Cl3 | minteq.v4:`(Co(NH3)6)Cl3` |
+| (Co(NH3)6)I3 | minteq.v4:`(Co(NH3)6)I3` |
 | (H3O)Fe3(SO4)2(OH)6 | minteq.v4:`H-Jarosite`, wateq4f:`JarositeH` |
 | (K0.77Na0.03H0.2)Fe3(SO4)2(OH)6 | wateq4f:`Jarosite(ss)` |
 | Ag2S | minteq.v4:`Acanthite`, wateq4f:`Acanthite` |
@@ -121,6 +133,19 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | CaMg3(CO3)4 | minteq.v4:`Huntite`, pitzer:`Huntite`, wateq4f:`Huntite` |
 | CaNa2(CO3)2:5H2O | pitzer:`Gaylussite` |
 | CaSO4 | minteq.v4:`Anhydrite`, pitzer:`Anhydrite`, wateq4f:`Anhydrite` |
+| Co(BO2)2 | minteq.v4:`Co(BO2)2` |
+| Co(OH)2 | minteq.v4:`Co(OH)2` |
+| Co(OH)3 | minteq.v4:`Co(OH)3` |
+| Co3(PO4)2 | minteq.v4:`Co3(PO4)2` |
+| Co3O4 | minteq.v4:`Co3O4` |
+| CoCO3 | minteq.v4:`CoCO3` |
+| CoCl2:6H2O | minteq.v4:`CoCl2:6H2O` |
+| CoFe2O4 | minteq.v4:`CoFe2O4` |
+| CoHPO4 | minteq.v4:`CoHPO4` |
+| CoO | minteq.v4:`CoO` |
+| CoS | minteq.v4:`CoS(alpha)`, minteq.v4:`CoS(beta)` |
+| CoSO4 | minteq.v4:`CoSO4` |
+| CoSO4:6H2O | minteq.v4:`CoSO4:6H2O` |
 | Cu0.066Cu1.868S | minteq.v4:`Djurleite`, wateq4f:`Djurleite` |
 | Cu0.25Cu1.5S | minteq.v4:`Anilite`, wateq4f:`Anilite` |
 | Cu0.6Cu0.8S | minteq.v4:`BlaubleiII`, wateq4f:`BlaubleiII` |
@@ -146,7 +171,6 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | Fe2MgO4 | minteq.v4:`Magnesioferrite` |
 | Fe3(OH)8 | minteq.v4:`Fe3(OH)8`, wateq4f:`Fe3(OH)8` |
 | Fe3(PO4)2:8H2O | minteq.v4:`Vivianite`, wateq4f:`Vivianite` |
-| Fe3O4 | minteq.v4:`Magnetite`, wateq4f:`Magnetite` |
 | Fe3S4 | minteq.v4:`Greigite`, wateq4f:`Greigite` |
 | FeAl2O4 | minteq.v4:`Hercynite` |
 | FeOOH | minteq.v4:`Goethite`, minteq.v4:`Lepidocrocite`, wateq4f:`Goethite` |
@@ -177,7 +201,6 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | MgCO3:Mg(OH)2:3H2O | minteq.v4:`Artinite`, wateq4f:`Artinite` |
 | MgCl2:2H2O | pitzer:`MgCl2_2H2O` |
 | MgCl2:4H2O | pitzer:`MgCl2_4H2O` |
-| MgCl2:6H2O | pitzer:`Bischofite` |
 | MgHPO4:3H2O | minteq.v4:`MgHPO4:3H2O` |
 | MgSO4:4H2O | pitzer:`Leonhardite` |
 | MgSO4:5H2O | pitzer:`Pentahydrite` |
@@ -252,15 +275,6 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 
 | formula | phases |
 |---|---|
-| (Co(NH3)5Cl)(NO3)2 | minteq.v4:`(Co(NH3)5Cl)(NO3)2` |
-| (Co(NH3)5Cl)Br2 | minteq.v4:`(Co(NH3)5Cl)Br2` |
-| (Co(NH3)5Cl)Cl2 | minteq.v4:`(Co(NH3)5Cl)Cl2` |
-| (Co(NH3)5Cl)I2 | minteq.v4:`(Co(NH3)5Cl)I2` |
-| (Co(NH3)5OH2)Cl3 | minteq.v4:`(Co(NH3)5OH2)Cl3` |
-| (Co(NH3)6)(NO3)3 | minteq.v4:`(Co(NH3)6)(NO3)3` |
-| (Co(NH3)6)Br3 | minteq.v4:`(Co(NH3)6)Br3` |
-| (Co(NH3)6)Cl3 | minteq.v4:`(Co(NH3)6)Cl3` |
-| (Co(NH3)6)I3 | minteq.v4:`(Co(NH3)6)I3` |
 | (HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 | wateq4f:`Montmorillonite-BelleFourche` |
 | (HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 | wateq4f:`Montmorillonite-Aberdeen` |
 | (NH4)2(UO2)2(PO4)2 | minteq.v4:`Uramphite`, wateq4f:`Uramphite` |
@@ -359,24 +373,10 @@ Counts: bookable-unclaimed 141, declined 12, registry-solid 56, unbookable 372.
 | CdSe | minteq.v4:`CdSe` |
 | CdSeO4:2H2O | minteq.v4:`CdSeO4:2H2O` |
 | CdSiO3 | wateq4f:`CdSiO3` |
-| Co(BO2)2 | minteq.v4:`Co(BO2)2` |
-| Co(OH)2 | minteq.v4:`Co(OH)2` |
-| Co(OH)3 | minteq.v4:`Co(OH)3` |
 | Co3(AsO4)2 | minteq.v4:`Co3(AsO4)2` |
-| Co3(PO4)2 | minteq.v4:`Co3(PO4)2` |
-| Co3O4 | minteq.v4:`Co3O4` |
-| CoCO3 | minteq.v4:`CoCO3` |
-| CoCl2 | minteq.v4:`CoCl2` |
-| CoCl2:6H2O | minteq.v4:`CoCl2:6H2O` |
 | CoF2 | minteq.v4:`CoF2` |
 | CoF3 | minteq.v4:`CoF3` |
-| CoFe2O4 | minteq.v4:`CoFe2O4` |
-| CoHPO4 | minteq.v4:`CoHPO4` |
 | CoMoO4 | minteq.v4:`CoMoO4` |
-| CoO | minteq.v4:`CoO` |
-| CoS | minteq.v4:`CoS(alpha)`, minteq.v4:`CoS(beta)` |
-| CoSO4 | minteq.v4:`CoSO4` |
-| CoSO4:6H2O | minteq.v4:`CoSO4:6H2O` |
 | CoSe | minteq.v4:`CoSe` |
 | CoSeO3 | minteq.v4:`CoSeO3` |
 | CoSeO4:6H2O | minteq.v4:`CoSeO4:6H2O` |

@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
+Counts: ion-stays-aqueous 44, neutral-refused 174, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -32,6 +32,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 | ion-stays-aqueous | Ca+2 | — |
 | ion-stays-aqueous | Cl- | — |
 | ion-stays-aqueous | ClO- | — |
+| ion-stays-aqueous | Co+2 | — |
 | ion-stays-aqueous | Cu+1 | — |
 | ion-stays-aqueous | Cu+2 | — |
 | ion-stays-aqueous | Fe+2 | — |
@@ -90,6 +91,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 | neutral-refused | CaCl2 | — |
 | neutral-refused | CaO | — |
 | neutral-refused | Cl2 | — |
+| neutral-refused | CoCl2 | — |
 | neutral-refused | Cu | — |
 | neutral-refused | Cu(OH)2 | — |
 | neutral-refused | Cu2(OH)2CO3 | — |
@@ -102,6 +104,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 | neutral-refused | Fe(OH)2 | — |
 | neutral-refused | Fe(OH)3 | — |
 | neutral-refused | Fe2O3 | — |
+| neutral-refused | Fe3O4 | — |
 | neutral-refused | FeCl3 | — |
 | neutral-refused | FeSO4 | — |
 | neutral-refused | H2 | — |
@@ -129,6 +132,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 | neutral-refused | Mg | — |
 | neutral-refused | Mg(OH)2 | — |
 | neutral-refused | MgCO3 | — |
+| neutral-refused | MgCl2 | — |
 | neutral-refused | MgO | — |
 | neutral-refused | MgSO4 | — |
 | neutral-refused | MnO2 | — |
@@ -185,6 +189,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 | neutral-refused | atacamite | — |
 | neutral-refused | betanin | — |
 | neutral-refused | betanin_ox | — |
+| neutral-refused | bischofite | — |
 | neutral-refused | brochantite | — |
 | neutral-refused | bromoethane | — |
 | neutral-refused | bromothymol_blue | — |
@@ -233,6 +238,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 | neutral-refused | sucrose | — |
 | neutral-refused | tert_butyl_bromide | — |
 | neutral-refused | uranium | — |
+| neutral-refused | urea | — |
 | neutral-refused | water | — |
 | partitions | CH3COOH | unifac-group-model |
 | partitions | I2 | empirical |

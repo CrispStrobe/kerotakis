@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 49,
-    "outside_method": 121,
+    "missing_absorptivity": 52,
+    "outside_method": 124,
     "parameterised": 7,
     "parameterised_ph": 4,
     "unclassified": 40
@@ -73,6 +73,16 @@
     {
       "species": "Cl2",
       "appearance": "yellow-green, toxic",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Co+2",
+      "appearance": "pink",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "CoCl2",
+      "appearance": "blue",
       "class": "missing_absorptivity"
     },
     {
@@ -133,6 +143,11 @@
     {
       "species": "Fe2O3",
       "appearance": "reddish brown",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe3O4",
+      "appearance": "black",
       "class": "missing_absorptivity"
     },
     {
@@ -456,6 +471,11 @@
       "class": "outside_method"
     },
     {
+      "species": "MgCl2",
+      "appearance": "white crystals",
+      "class": "outside_method"
+    },
+    {
       "species": "MgO",
       "appearance": "brilliant white",
       "class": "outside_method"
@@ -686,6 +706,11 @@
       "class": "outside_method"
     },
     {
+      "species": "bischofite",
+      "appearance": "colourless to white crystals",
+      "class": "outside_method"
+    },
+    {
       "species": "bromoethane",
       "appearance": "colourless",
       "class": "outside_method"
@@ -873,6 +898,11 @@
     {
       "species": "tert_butyl_bromide",
       "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "urea",
+      "appearance": "white crystals",
       "class": "outside_method"
     },
     {

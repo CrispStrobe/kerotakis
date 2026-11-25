@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, not_condensed 81.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 82, not_condensed 82.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -90,6 +90,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, n
 | no_melting_point | Ca | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CaCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | CoCl2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu2(OH)2CO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuCl2 | solid | — | — | no | solid | solid | solid |
@@ -99,6 +100,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, n
 | no_melting_point | Fe(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Fe(OH)3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Fe2O3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Fe3O4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | FeSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | H3PO4 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | HCl | liquid | — | — | no | liquid | liquid | liquid |
@@ -110,6 +112,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, n
 | no_melting_point | KMnO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Mg(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | MgCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | MgCl2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | MnO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NH3 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | NH4Cl | solid | — | — | no | solid | solid | solid |
@@ -139,6 +142,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, n
 | no_melting_point | antlerite | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ascorbic_acid | solid | — | — | no | solid | solid | solid |
 | no_melting_point | atacamite | solid | — | — | no | solid | solid | solid |
+| no_melting_point | bischofite | solid | — | — | no | solid | solid | solid |
 | no_melting_point | brochantite | solid | — | — | no | solid | solid | solid |
 | no_melting_point | cellulose | solid | — | — | no | solid | solid | solid |
 | no_melting_point | chalcanthite | solid | — | — | no | solid | solid | solid |
@@ -159,6 +163,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, n
 | no_melting_point | paraffin | solid | — | — | no | solid | solid | solid |
 | no_melting_point | starch | solid | — | — | no | solid | solid | solid |
 | no_melting_point | sucrose | solid | — | — | no | solid | solid | solid |
+| no_melting_point | urea | solid | — | — | no | solid | solid | solid |
 | not_condensed | Ag+ | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Al+3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Ba+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
@@ -173,6 +178,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 77, n
 | not_condensed | Cl- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cl2 | gas | 172.16 | 239.1 | no | gas | gas | gas |
 | not_condensed | ClO- | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | Co+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+1 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Fe+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |

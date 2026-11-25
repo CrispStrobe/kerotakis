@@ -8,8 +8,8 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 77,
-    "not_condensed": 81
+    "no_melting_point": 82,
+    "not_condensed": 82
   },
   "species": [
     {
@@ -936,6 +936,19 @@
       }
     },
     {
+      "species": "CoCl2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Cu(OH)2",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1041,6 +1054,19 @@
     },
     {
       "species": "Fe2O3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Fe3O4",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1184,6 +1210,19 @@
     },
     {
       "species": "MgCO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "MgCl2",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1573,6 +1612,19 @@
       }
     },
     {
+      "species": "bischofite",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "brochantite",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1833,6 +1885,19 @@
       }
     },
     {
+      "species": "urea",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Ag+",
       "standard_phase": "aqueous",
       "melting_k": null,
@@ -2003,6 +2068,19 @@
     },
     {
       "species": "ClO-",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "Co+2",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

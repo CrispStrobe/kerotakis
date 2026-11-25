@@ -341,6 +341,16 @@
       "source": "curated"
     },
     {
+      "alias": "CH4N2O",
+      "canonical": "urea",
+      "source": "formula"
+    },
+    {
+      "alias": "CO(NH2)2",
+      "canonical": "urea",
+      "source": "curated"
+    },
+    {
       "alias": "Ca2+",
       "canonical": "Ca+2",
       "source": "charge-notation"
@@ -369,6 +379,11 @@
       "alias": "CaH2O2",
       "canonical": "Ca(OH)2",
       "source": "formula"
+    },
+    {
+      "alias": "CaOH2",
+      "canonical": "Ca(OH)2",
+      "source": "curated"
     },
     {
       "alias": "CaSO4*2H2O",
@@ -453,6 +468,21 @@
     {
       "alias": "Citronensäure",
       "canonical": "citric_acid",
+      "source": "name:de"
+    },
+    {
+      "alias": "Co2+",
+      "canonical": "Co+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "Cobalt(II)-Ion",
+      "canonical": "Co+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Cobalt(II)-chlorid",
+      "canonical": "CoCl2",
       "source": "name:de"
     },
     {
@@ -601,6 +631,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Eisen(II,III)-oxid",
+      "canonical": "Fe3O4",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Eisen(II,III)-oxid (Magnetit)",
+      "canonical": "Fe3O4",
+      "source": "name:de"
+    },
+    {
       "alias": "Eisen(III)-Ion",
       "canonical": "Fe+3",
       "source": "name:de"
@@ -693,6 +733,11 @@
     {
       "alias": "Haarpigment (Eumelanin-Wiederholungseinheit)",
       "canonical": "hair_pigment",
+      "source": "name:de"
+    },
+    {
+      "alias": "Harnstoff",
+      "canonical": "urea",
       "source": "name:de"
     },
     {
@@ -1001,6 +1046,21 @@
       "source": "name:de"
     },
     {
+      "alias": "Magnesiumchlorid",
+      "canonical": "MgCl2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Magnesiumchlorid-Hexahydrat",
+      "canonical": "bischofite",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Magnesiumchlorid-Hexahydrat (Bischofit)",
+      "canonical": "bischofite",
+      "source": "name:de"
+    },
+    {
       "alias": "Magnesiumhydroxid",
       "canonical": "Mg(OH)2",
       "source": "name:de"
@@ -1069,6 +1129,26 @@
       "alias": "Mg2+",
       "canonical": "Mg+2",
       "source": "charge-notation"
+    },
+    {
+      "alias": "MgCl2*6H2O",
+      "canonical": "bischofite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "MgCl2.6H2O",
+      "canonical": "bischofite",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "MgCl2_anhydrous",
+      "canonical": "MgCl2",
+      "source": "anhydrous"
+    },
+    {
+      "alias": "MgCl2·6H2O",
+      "canonical": "bischofite",
+      "source": "formula"
     },
     {
       "alias": "MgH2O2",
@@ -1986,6 +2066,11 @@
       "source": "name:en"
     },
     {
+      "alias": "calcium hydroxide",
+      "canonical": "Ca(OH)2",
+      "source": "curated"
+    },
+    {
       "alias": "calcium ion",
       "canonical": "Ca+2",
       "source": "name:en"
@@ -2176,6 +2261,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "chlorure de cobalt(II)",
+      "canonical": "CoCl2",
+      "source": "name:fr"
+    },
+    {
       "alias": "chlorure de cuivre(II)",
       "canonical": "CuCl2",
       "source": "name:fr"
@@ -2183,6 +2273,21 @@
     {
       "alias": "chlorure de fer(III)",
       "canonical": "FeCl3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de magnésium",
+      "canonical": "MgCl2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chlorure de magnésium hexahydraté",
+      "canonical": "bischofite",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "chlorure de magnésium hexahydraté (bischofite)",
+      "canonical": "bischofite",
       "source": "name:fr"
     },
     {
@@ -2213,6 +2318,16 @@
     {
       "alias": "citric acid",
       "canonical": "citric_acid",
+      "source": "name:en"
+    },
+    {
+      "alias": "cobalt(II) chloride",
+      "canonical": "CoCl2",
+      "source": "name:en"
+    },
+    {
+      "alias": "cobalt(II) ion",
+      "canonical": "Co+2",
       "source": "name:en"
     },
     {
@@ -2761,6 +2876,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "ion cobalt(II)",
+      "canonical": "Co+2",
+      "source": "name:fr"
+    },
+    {
       "alias": "ion cuivre(I)",
       "canonical": "Cu+1",
       "source": "name:fr"
@@ -2946,6 +3066,16 @@
       "source": "name:en"
     },
     {
+      "alias": "iron(II,III) oxide",
+      "canonical": "Fe3O4",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "iron(II,III) oxide (magnetite)",
+      "canonical": "Fe3O4",
+      "source": "name:en"
+    },
+    {
       "alias": "iron(III) chloride",
       "canonical": "FeCl3",
       "source": "name:en"
@@ -3043,6 +3173,21 @@
     {
       "alias": "magnesium carbonate (magnesite)",
       "canonical": "MgCO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium chloride",
+      "canonical": "MgCl2",
+      "source": "name:en"
+    },
+    {
+      "alias": "magnesium chloride hexahydrate",
+      "canonical": "bischofite",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "magnesium chloride hexahydrate (bischofite)",
+      "canonical": "bischofite",
       "source": "name:en"
     },
     {
@@ -3358,6 +3503,16 @@
     {
       "alias": "oxyde de cuivre(II)",
       "canonical": "CuO",
+      "source": "name:fr"
+    },
+    {
+      "alias": "oxyde de fer(II,III)",
+      "canonical": "Fe3O4",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "oxyde de fer(II,III) (magnétite)",
+      "canonical": "Fe3O4",
       "source": "name:fr"
     },
     {
@@ -3949,6 +4104,11 @@
       "alias": "tétrathionate",
       "canonical": "S4O6-2",
       "source": "ion-name:fr"
+    },
+    {
+      "alias": "urée",
+      "canonical": "urea",
+      "source": "name:fr"
     },
     {
       "alias": "washing soda (sodium carbonate)",

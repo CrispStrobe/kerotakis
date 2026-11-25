@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 154,
+    "boiling.no_data": 160,
     "boiling.reported": 67,
-    "melting.no_data": 120,
+    "melting.no_data": 126,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -935,6 +935,26 @@
       }
     },
     {
+      "species": "Co+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CoCl2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Cu",
       "standard_phase": "solid",
       "melting": {
@@ -1107,6 +1127,16 @@
     },
     {
       "species": "Fe2O3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Fe3O4",
       "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
@@ -1562,6 +1592,16 @@
     },
     {
       "species": "MgCO3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "MgCl2",
       "standard_phase": "solid",
       "melting": {
         "basis": "no_data"
@@ -2453,6 +2493,16 @@
       }
     },
     {
+      "species": "bischofite",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "brochantite",
       "standard_phase": "solid",
       "melting": {
@@ -3163,6 +3213,16 @@
         "outcome": "melting",
         "kelvin": 1405.0,
         "source": "literature/transition-points/uranium"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "urea",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
       },
       "boiling": {
         "basis": "no_data"

@@ -6,10 +6,10 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 141,
+    "bookable-unclaimed": 161,
     "declined": 12,
-    "registry-solid": 56,
-    "unbookable": 372
+    "registry-solid": 59,
+    "unbookable": 349
   },
   "registry_solids_matched": [
     "Ag",
@@ -25,6 +25,7 @@
     "Ca3(PO4)2",
     "CaCO3",
     "CaO",
+    "CoCl2",
     "Cu",
     "Cu(OH)2",
     "Cu2(OH)2CO3",
@@ -36,6 +37,7 @@
     "Fe(OH)2",
     "Fe(OH)3",
     "Fe2O3",
+    "Fe3O4",
     "K2Cr2O7",
     "K2CrO4",
     "KCl",
@@ -61,6 +63,7 @@
     "ZnSO4",
     "antlerite",
     "atacamite",
+    "bischofite",
     "brochantite",
     "chalcanthite",
     "epsomite",
@@ -291,6 +294,18 @@
       "class": "registry-solid"
     },
     {
+      "formula": "CoCl2",
+      "registry_species": "CoCl2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoCl2"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "Cu",
       "registry_species": "Cu",
       "reason": null,
@@ -466,6 +481,22 @@
         {
           "database": "wateq4f",
           "phase": "Maghemite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Fe3O4",
+      "registry_species": "Fe3O4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Magnetite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Magnetite"
         }
       ],
       "class": "registry-solid"
@@ -991,6 +1022,18 @@
       "class": "registry-solid"
     },
     {
+      "formula": "MgCl2:6H2O",
+      "registry_species": "bischofite",
+      "reason": null,
+      "phases": [
+        {
+          "database": "pitzer",
+          "phase": "Bischofite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "Cu4(OH)6SO4",
       "registry_species": "brochantite",
       "reason": null,
@@ -1319,6 +1362,114 @@
       "class": "declined"
     },
     {
+      "formula": "(Co(NH3)5Cl)(NO3)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)(NO3)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)Br2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)Br2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)Cl2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)Cl2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)5Cl)I2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5Cl)I2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)5OH2)Cl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)5OH2)Cl3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)6)(NO3)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)(NO3)3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)6)Br3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)Br3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)6)Cl3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)Cl3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "(Co(NH3)6)I3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "(Co(NH3)6)I3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "(H3O)Fe3(SO4)2(OH)6",
       "registry_species": null,
       "reason": null,
@@ -1550,6 +1701,166 @@
         {
           "database": "wateq4f",
           "phase": "Anhydrite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Co(BO2)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co(BO2)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Co(OH)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co(OH)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Co(OH)3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co(OH)3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Co3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co3(PO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Co3O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Co3O4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoCO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoCl2:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoCl2:6H2O"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoFe2O4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoFe2O4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoHPO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoHPO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoO"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoS(alpha)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "CoS(beta)"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoSO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "CoSO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "CoSO4:6H2O"
         }
       ],
       "class": "bookable-unclaimed"
@@ -1926,22 +2237,6 @@
         {
           "database": "wateq4f",
           "phase": "Vivianite"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "Fe3O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Magnetite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Magnetite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -2366,18 +2661,6 @@
         {
           "database": "pitzer",
           "phase": "MgCl2_4H2O"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "MgCl2:6H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "pitzer",
-          "phase": "Bischofite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3401,114 +3684,6 @@
         }
       ],
       "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "(Co(NH3)5Cl)(NO3)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)5Cl)(NO3)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)5Cl)Br2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)5Cl)Br2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)5Cl)Cl2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)5Cl)Cl2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)5Cl)I2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)5Cl)I2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)5OH2)Cl3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)5OH2)Cl3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)6)(NO3)3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)6)(NO3)3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)6)Br3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)6)Br3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)6)Cl3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)6)Cl3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "(Co(NH3)6)I3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "(Co(NH3)6)I3"
-        }
-      ],
-      "class": "unbookable"
     },
     {
       "formula": "(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2",
@@ -4883,42 +5058,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "Co(BO2)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Co(BO2)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Co(OH)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Co(OH)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Co(OH)3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Co(OH)3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "Co3(AsO4)2",
       "registry_species": null,
       "reason": null,
@@ -4926,66 +5065,6 @@
         {
           "database": "minteq.v4",
           "phase": "Co3(AsO4)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Co3(PO4)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Co3(PO4)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Co3O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Co3O4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoCO3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoCO3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoCl2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoCl2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoCl2:6H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoCl2:6H2O"
         }
       ],
       "class": "unbookable"
@@ -5015,30 +5094,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "CoFe2O4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoFe2O4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoHPO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoHPO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "CoMoO4",
       "registry_species": null,
       "reason": null,
@@ -5046,58 +5101,6 @@
         {
           "database": "minteq.v4",
           "phase": "CoMoO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoO",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoO"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoS",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoS(alpha)"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "CoS(beta)"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoSO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoSO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "CoSO4:6H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "CoSO4:6H2O"
         }
       ],
       "class": "unbookable"

@@ -413,6 +413,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // pedagogical point of the sulfate test.
         "BaCl2" => &[ToxicSoluble],
         "Ba+2" => &[ToxicSoluble],
+        // Soluble cobalt(II): harmful if swallowed, a skin and respiratory
+        // sensitiser and a suspected carcinogen (ILO/WHO ICSC 0783, cobalt(II)
+        // chloride). The shelf shows it as toxic for the same reason as barium.
+        "CoCl2" => &[ToxicSoluble],
+        "Co+2" => &[ToxicSoluble],
 
         // Cuprite has no group in this limited compatibility matrix. Do
         // not label the insoluble oxide ToxicSoluble or ActiveMetal merely
@@ -511,6 +516,13 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "CuCl2"
         | "Na3PO4"
         | "Al+3"
+        // Missing-species lane (2026-11-24): magnesium chloride and its
+        // hexahydrate read as CaCl2 does; magnetite is an insoluble oxide;
+        // urea is a neutral molecular solute.
+        | "MgCl2"
+        | "bischofite"
+        | "Fe3O4"
+        | "urea"
         | "Pb+2"
         | "Pb(NO3)2"
         | "PE"
@@ -753,6 +765,12 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na3PO4",
     "Al2(SO4)3",
     "Al+3",
+    "MgCl2",
+    "bischofite",
+    "CoCl2",
+    "Co+2",
+    "Fe3O4",
+    "urea",
     "BaSO4",
     "BaCO3",
     "Br-",
