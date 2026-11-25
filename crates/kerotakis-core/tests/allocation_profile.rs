@@ -65,8 +65,10 @@ fn allocation_budget() {
     // 2026-11-25: 5510 once the registry reached 221 species (chlorine #917
     // plus the C1 metal sulfides); the growth is registry tables built once,
     // not per-step work.
+    // 2026-11-25: 5842 at 232 species (cobalt nitrate and hexahydrate,
+    // calcium acetate, litmus and its bleached form); registry tables again.
     assert!(
-        stats.total_blocks < 5_800,
+        stats.total_blocks < 6_000,
         "combined workload allocated {} blocks — investigate hot spots",
         stats.total_blocks
     );

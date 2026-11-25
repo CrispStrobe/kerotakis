@@ -23,10 +23,10 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 52,
-    "outside_method": 124,
+    "missing_absorptivity": 54,
+    "outside_method": 126,
     "parameterised": 7,
-    "parameterised_ph": 4,
+    "parameterised_ph": 5,
     "unclassified": 40
   },
   "species": [
@@ -73,6 +73,11 @@
     {
       "species": "Cl2",
       "appearance": "yellow-green, toxic",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Co(NO3)2",
+      "appearance": "red",
       "class": "missing_absorptivity"
     },
     {
@@ -271,6 +276,11 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "cobalt_nitrate_hexahydrate",
+      "appearance": "red",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "graphite",
       "appearance": "grey-black",
       "class": "missing_absorptivity"
@@ -353,6 +363,11 @@
     {
       "species": "CO2",
       "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "Ca(CH3COO)2",
+      "appearance": "white crystals",
       "class": "outside_method"
     },
     {
@@ -841,6 +856,11 @@
       "class": "outside_method"
     },
     {
+      "species": "litmus_ox",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
       "species": "malic_acid",
       "appearance": "white crystalline powder",
       "class": "outside_method"
@@ -953,6 +973,11 @@
     {
       "species": "bromothymol_blue",
       "appearance": null,
+      "class": "parameterised_ph"
+    },
+    {
+      "species": "litmus",
+      "appearance": "purple",
       "class": "parameterised_ph"
     },
     {

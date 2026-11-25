@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 64/126, minteq.v4 69/126, pitzer 27/126.
+Priced after this change: wateq4f 65/129, minteq.v4 71/129, pitzer 28/129.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -45,11 +45,13 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `BaSO4` | routed | routed | routed |
 | `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ca` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Ca(CH3COO)2` | molecular:registry | curated | molecular:registry |
 | `Ca(OH)2` | curated | curated | curated |
 | `Ca3(PO4)2` | reference:minteq.v4:Ca3(PO4)2(beta) | routed | refused: a reaction species is not defined on the routed database |
 | `CaCO3` | routed | routed | routed |
 | `CaCl2` | curated | curated | curated |
 | `CaO` | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 |
+| `Co(NO3)2` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
 | `CoCl2` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
 | `Cu` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
@@ -133,6 +135,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `chalcanthite` | reference:wateq4f:Chalcanthite | reference:minteq.v4:Chalcanthite | refused: a reaction species is not defined on the routed database |
 | `chlorophyll` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `citric_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `cobalt_nitrate_hexahydrate` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `dehydroascorbic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `diamond` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `dry_ice` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |

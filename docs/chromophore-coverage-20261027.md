@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameterised_ph 4, unclassified 40.
+Counts: missing_absorptivity 54, outside_method 126, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -27,6 +27,7 @@ Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameteri
 | missing_absorptivity | C | black |
 | missing_absorptivity | Ca | silvery |
 | missing_absorptivity | Cl2 | yellow-green, toxic |
+| missing_absorptivity | Co(NO3)2 | red |
 | missing_absorptivity | Co+2 | pink |
 | missing_absorptivity | CoCl2 | blue |
 | missing_absorptivity | Cu | reddish-brown |
@@ -66,6 +67,7 @@ Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameteri
 | missing_absorptivity | brochantite | green |
 | missing_absorptivity | chalcanthite | deep blue crystals |
 | missing_absorptivity | chlorophyll | green |
+| missing_absorptivity | cobalt_nitrate_hexahydrate | red |
 | missing_absorptivity | graphite | grey-black |
 | missing_absorptivity | hair_pigment | black |
 | missing_absorptivity | langite | blue-green |
@@ -83,6 +85,7 @@ Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameteri
 | outside_method | CH3COOH | colourless, vinegar smell |
 | outside_method | CO | colourless |
 | outside_method | CO2 | colourless |
+| outside_method | Ca(CH3COO)2 | white crystals |
 | outside_method | Ca(OH)2 | white |
 | outside_method | Ca3(PO4)2 | white |
 | outside_method | CaCO3 | white |
@@ -180,6 +183,7 @@ Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameteri
 | outside_method | isopropanol | colourless |
 | outside_method | lactic_acid | colourless, syrupy |
 | outside_method | liquid_nitrogen | colourless |
+| outside_method | litmus_ox | colourless |
 | outside_method | malic_acid | white crystalline powder |
 | outside_method | maltose | white crystalline powder |
 | outside_method | methane | colourless |
@@ -203,6 +207,7 @@ Counts: missing_absorptivity 52, outside_method 124, parameterised 7, parameteri
 | parameterised | indigo_carmine | dark blue powder |
 | parameterised_ph | anthocyanin | purple |
 | parameterised_ph | bromothymol_blue | — |
+| parameterised_ph | litmus | purple |
 | parameterised_ph | methyl_orange | — |
 | parameterised_ph | phenolphthalein | — |
 | unclassified | Ag+ | — |

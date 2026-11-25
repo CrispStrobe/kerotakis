@@ -338,6 +338,23 @@
       "delta_h_kj": -158.802
     },
     {
+      "phase": "Co(NO3)2",
+      "formula": "Co(NO3)2",
+      "lhs": [],
+      "rhs": [
+        [
+          "Co+2",
+          1.0
+        ],
+        [
+          "NO3-",
+          2.0
+        ]
+      ],
+      "log_k": 8.0,
+      "delta_h_kj": 0.0
+    },
+    {
       "phase": "CoCl2",
       "formula": "CoCl2",
       "lhs": [],
