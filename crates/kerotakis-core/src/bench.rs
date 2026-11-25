@@ -1931,6 +1931,19 @@ impl Bench {
         // Only the boil-dry route: heat that chemistry RELEASES (a
         // combustion, an iron-sulfur synthesis) can legitimately carry a
         // vessel past the flame, and is not the burner's to take back.
+        //
+        // KNOWN GAP (reviewed 2026-11-25, deliberately left open): reaction
+        // heat released into a very small mass with no heat source has no
+        // ceiling at all. There is no flame temperature to hold it at, and
+        // the bound a real tube supplies - the glass itself, roughly
+        // 0.8 J/(g K) for borosilicate times its mass - is not available:
+        // the bench models no vessel mass (`VESSEL_KINDS` carries only a
+        // light path), and a per-kind glass mass would be an editorial
+        // number that shifts every temperature on the bench. Kopp's-rule
+        // residue Cp (#920) and the sourced boiling/decomposition routes
+        // (e.g. H2SO4, 2026-11-25) are the physically justified limits that
+        // exist; where a product has none, the adiabatic temperature
+        // stands and the closed-flame upper-bound note applies.
         let boiled = events.iter().any(|e| {
             matches!(e, Event::StateChanged { vessel, from: Phase::Liquid, to: Phase::Gas, .. }
                 if *vessel == id)
