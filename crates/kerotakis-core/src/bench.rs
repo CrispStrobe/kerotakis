@@ -3777,6 +3777,7 @@ impl Bench {
                     let stranded: Vec<&str> = if dry {
                         let residue = crate::dryness::crystallise_to_dryness(v);
                         events.extend(residue.events);
+                        events.extend(crate::dryness::residue_heat_capacity_event(v));
                         residue.stranded
                     } else {
                         Vec::new()

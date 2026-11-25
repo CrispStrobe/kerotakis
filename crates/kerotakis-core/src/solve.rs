@@ -2607,6 +2607,7 @@ impl Equilibrator for StateEquilibrator {
                 // what remains is named stranded.
                 let residue = crate::dryness::crystallise_to_dryness(vessel);
                 events.extend(residue.events);
+                events.extend(crate::dryness::residue_heat_capacity_event(vessel));
                 let stranded = residue.stranded;
                 if !stranded.is_empty() {
                     events.push(Event::not_modeled(

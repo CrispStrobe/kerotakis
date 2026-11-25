@@ -250,6 +250,46 @@ pub fn crystallise_to_dryness(vessel: &mut Vessel) -> DryResidue {
     out
 }
 
+/// The typed boundary for a dry vessel whose remaining dissolved portions
+/// are charged a Kopp's-rule heat capacity (`vessel::residue_molar`), or
+/// `None` when nothing is estimated. Said by the same two passes that name
+/// stranded solutes, after the decidable residue has been booked.
+pub fn residue_heat_capacity_event(vessel: &Vessel) -> Option<Event> {
+    let dry = vessel.solvent_gone();
+    let mut estimated: Vec<&'static str> = Vec::new();
+    for p in &vessel.contents {
+        if p.moles.0 <= TRACE {
+            continue;
+        }
+        if let Some(data) = species::lookup(&p.species) {
+            if crate::vessel::residue_molar(data, p.phase, dry).is_some()
+                && !estimated.contains(&data.name)
+            {
+                estimated.push(data.name);
+            }
+        }
+    }
+    (!estimated.is_empty()).then(|| {
+        Event::not_modeled(
+            vessel.id,
+            NotModelledCause::ModelBoundary,
+            residue_heat_capacity_note(&estimated),
+        )
+    })
+}
+
+/// The boundary a dry residue charged by Kopp's rule carries.
+pub fn residue_heat_capacity_note(names: &[&str]) -> Phrase {
+    Phrase::new(
+        "not-modeled.dry-residue-kopp-heat-capacity",
+        "with the water gone, {names} are warmed as the solid residue they are, at a heat capacity estimated by Kopp's rule (the sum of tabulated atomic contributions, Kopp 1865) rather than a measured value; heat the residue cannot hold below the source's temperature is reported undelivered",
+        vec![(
+            "names".to_string(),
+            Slot::terms("species", names.iter().copied()),
+        )],
+    )
+}
+
 /// The boundary every booked dry residue carries.
 pub fn dry_residue_note(names: &[&str]) -> Phrase {
     Phrase::new(

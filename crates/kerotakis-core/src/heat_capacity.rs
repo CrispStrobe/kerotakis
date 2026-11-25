@@ -422,6 +422,60 @@ pub fn polynomial_for(
     polys.iter().find(|p| p.phase == phase)
 }
 
+/// Kopp's atomic heat capacities, J/(g-atom·K), for the elements Kopp
+/// tabulated below the classical value; every other element takes
+/// [`KOPP_OTHER`].
+///
+/// Source: H. Kopp, "Investigations of the specific heat of solid bodies",
+/// Phil. Trans. R. Soc. Lond. 155 (1865) 71–202, as tabulated in SI units
+/// in D. M. Himmelblau & J. B. Riggs, *Basic Principles and Calculations in
+/// Chemical Engineering* (Kopp's rule table: C 7.53, H 9.62, B 11.3,
+/// Si 15.9, O 16.7, F 20.9, P 22.6, S 22.6, all others 25.9).
+const KOPP_ATOMIC: [(&str, f64); 8] = [
+    ("C", 7.53),
+    ("H", 9.62),
+    ("B", 11.3),
+    ("Si", 15.9),
+    ("O", 16.7),
+    ("F", 20.9),
+    ("P", 22.6),
+    ("S", 22.6),
+];
+
+/// Kopp's value for every element not in [`KOPP_ATOMIC`], J/(g-atom·K) —
+/// close to the Dulong–Petit limit 3R = 24.9.
+pub const KOPP_OTHER: f64 = 25.9;
+
+/// Heat capacity of one mole of a SOLID of this formula estimated by
+/// Kopp's rule (the molar heat capacity of a solid compound is the sum of
+/// its atoms' contributions), J/(mol·K). `None` for a formula that does not
+/// parse or has no atoms.
+///
+/// This is what a solute left behind by its evaporated solvent is charged
+/// when the registry has no heat capacity for it. Dissolved ions carry a
+/// heat capacity of zero on this bench, because a solution's heat capacity
+/// is its water's; once the water has gone that convention leaves real
+/// grams of residue weighing nothing thermally, and any heat put into the
+/// vessel read as millions of degrees (C1 E292). Kopp's rule is additive,
+/// so the estimate for a set of ions does not depend on which salts they
+/// would pair into — the one thing `dryness` declines to guess. The
+/// charge is ignored: an ion's atoms are the residue's atoms.
+pub fn kopp_solid_heat_capacity(formula: &str) -> Option<f64> {
+    let parsed = crate::stoich::parse_formula(formula).ok()?;
+    let sum: f64 = parsed
+        .counts
+        .iter()
+        .map(|(el, n)| {
+            let per = KOPP_ATOMIC
+                .iter()
+                .find(|(e, _)| e == el)
+                .map_or(KOPP_OTHER, |(_, v)| *v);
+            n * per
+        })
+        .sum();
+    (sum > 0.0).then_some(sum)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
