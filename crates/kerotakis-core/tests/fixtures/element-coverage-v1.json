@@ -5,13 +5,13 @@
   "schema": 1,
   "selected_example_counts": {
     "Ag": 8,
-    "Cu": 15,
+    "Cu": 16,
     "Fe": 15,
     "H": 200,
     "Mn": 7,
     "Na": 42,
     "O": 242,
-    "Pb": 7,
-    "Zn": 9
+    "Pb": 8,
+    "Zn": 10
   }
 }

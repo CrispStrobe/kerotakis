@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 43,
-    "neutral-refused": 166,
+    "neutral-refused": 169,
     "partitions": 9
   },
   "cases": [
@@ -407,6 +407,11 @@
       "basis": null
     },
     {
+      "species": "CuS",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "CuSO4",
       "class": "neutral-refused",
       "basis": null
@@ -747,6 +752,11 @@
       "basis": null
     },
     {
+      "species": "PbS",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "PbSO4",
       "class": "neutral-refused",
       "basis": null
@@ -783,6 +793,11 @@
     },
     {
       "species": "ZnO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "ZnS",
       "class": "neutral-refused",
       "basis": null
     },

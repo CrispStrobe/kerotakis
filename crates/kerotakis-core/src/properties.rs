@@ -221,6 +221,24 @@ pub const HENRY_COEFFICIENTS: &[HenryCoefficient] = &[
                      from Sander's Henry's-law compilation); converted to \
                      1.216 mol/(L·atm); read 2026-11-21",
     },
+    // H2S (C1 sulfur lane, 2026-11-24). NIST Chemistry WebBook (SRD 69)
+    // Henry's-law table for hydrogen sulfide (CAS 7783-06-4), read
+    // 2026-11-24: its compiled rows give k°H 0.087-0.10 mol/(kg·bar), modal
+    // 0.10, and d(ln kH)/d(1/T) 2000-2300 K, modal 2100 K. 0.10 mol/(kg·bar)
+    // × 1.01325 bar/atm = 0.1013 mol/(L·atm), taking 1 kg of dilute water as
+    // 1 L. PHYSICAL (neutral H2S) solubility; the HS- that forms from it is
+    // the aqueous solver's.
+    HenryCoefficient {
+        gas: "hydrogen sulfide",
+        formula: "H2S",
+        hcp_298: 0.1013,
+        c_kelvin: 2100.0,
+        provenance: "NIST Chemistry WebBook, NIST Standard Reference Database 69, \
+                     hydrogen sulfide (CAS 7783-06-4) Henry's law data: modal \
+                     k°H 0.10 mol/(kg·bar), d(ln kH)/d(1/T) 2100 K (compiled \
+                     from Sander's Henry's-law compilation); converted to \
+                     0.1013 mol/(L·atm); read 2026-11-24",
+    },
 ];
 
 /// Henry's constant at temperature T (Kelvin), mol/(L·atm).

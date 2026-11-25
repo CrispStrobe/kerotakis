@@ -1865,6 +1865,33 @@
       "retrieved": null
     },
     {
+      "id": "legacy/CuS",
+      "citation": "copper(II) sulfide, CuS (covellite), the ANHYDROUS solid: added by the C1 sulfur/H2S lane (2026-11-24) so that aqueous sulfide precipitates it. IDENTITY: PubChem CID 14831 (covellite), InChIKey BWFPGXWASODCHM-UHFFFAOYSA-N, read 2026-11-24 (PUG REST property record). Molar mass 95.611 g/mol from IUPAC/CIAAW 2021 standard atomic weights. HEAT CAPACITY 47.53 J/(mol.K) at 298.15 K and DENSITY 4.682 g/mL (= formula weight / molar volume 20.42 cm3/mol) from Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a United States Government work), https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-24 from the text layer, the COVELLITE rows (298.15 K summary table and the temperature table). APPEARANCE `black`: 'Black powder or lumps' / 'Black hexagonal crystals' (HSDB in PubChem CID 165914). SURFACE SWATCH #1A1614: the registry's existing swatch for CuO (black), reused for the same cited appearance word, not a measured reflectance; tint strength 0. Insoluble in water; no reviewed aqueous solubility limit is claimed (the aqueous solver's own database phase governs precipitation). NOT CLAIMED: melting point, tint, nonstoichiometry, colloidal colour of fresh precipitates.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PbS",
+      "citation": "lead(II) sulfide, PbS (galena), the ANHYDROUS solid: added by the C1 sulfur/H2S lane (2026-11-24) so that aqueous sulfide precipitates it. IDENTITY: PubChem CID 14819 (galena), InChIKey XCAUINMIESBTBL-UHFFFAOYSA-N, read 2026-11-24 (PUG REST property record). Molar mass 239.27 g/mol from IUPAC/CIAAW 2021 standard atomic weights. HEAT CAPACITY 49.49 J/(mol.K) at 298.15 K and DENSITY 7.598 g/mL (= formula weight / molar volume 31.49 cm3/mol) from Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a United States Government work), https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-24 from the text layer, the GALENA rows (298.15 K summary table and the temperature table). APPEARANCE `black`: 'Silvery, metallic crystals or black powder' (HSDB in PubChem CID 9794739); a freshly precipitated sulfide is the black powder. SURFACE SWATCH #1A1614: the registry's existing swatch for CuO (black), reused for the same cited appearance word, not a measured reflectance; tint strength 0. Insoluble in water; no reviewed aqueous solubility limit is claimed (the aqueous solver's own database phase governs precipitation). NOT CLAIMED: melting point, tint, nonstoichiometry, colloidal colour of fresh precipitates.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/ZnS",
+      "citation": "zinc sulfide, ZnS (sphalerite), the ANHYDROUS solid: added by the C1 sulfur/H2S lane (2026-11-24) so that aqueous sulfide precipitates it. IDENTITY: PubChem CID 14821 (sphalerite), InChIKey WGPCGCOKHWGKJJ-UHFFFAOYSA-N, read 2026-11-24 (PUG REST property record). Molar mass 97.46 g/mol from IUPAC/CIAAW 2021 standard atomic weights. HEAT CAPACITY 45.76 J/(mol.K) at 298.15 K and DENSITY 4.09 g/mL (= formula weight / molar volume 23.83 cm3/mol) from Robie, R. A. and Hemingway, B. S. (1995), Thermodynamic properties of minerals and related substances at 298.15 K and 1 bar (10^5 pascals) pressure and at higher temperatures, U.S. Geological Survey Bulletin 2131 (a United States Government work), https://pubs.usgs.gov/bul/2131/report.pdf, read 2026-11-24 from the text layer, the SPHALERITE rows (298.15 K summary table and the temperature table). APPEARANCE `white`: 'White to grayish-white or yellowish powder' (HSDB in PubChem CID 9833931). SURFACE SWATCH #FAFAFA: the registry's existing swatch for BaSO4 (white), reused for the same cited appearance word, not a measured reflectance; tint strength 0. Insoluble in water; no reviewed aqueous solubility limit is claimed (the aqueous solver's own database phase governs precipitation). NOT CLAIMED: melting point, tint, nonstoichiometry, colloidal colour of fresh precipitates.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals.",
       "licence": "CC0-1.0",
@@ -6283,6 +6310,54 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "CuS",
+      "canonical_key": "BWFPGXWASODCHM-UHFFFAOYSA-N",
+      "name": "copper(II) sulfide",
+      "identifiers": {
+        "inchikey": "BWFPGXWASODCHM-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PbS",
+      "canonical_key": "XCAUINMIESBTBL-UHFFFAOYSA-N",
+      "name": "lead(II) sulfide",
+      "identifiers": {
+        "inchikey": "XCAUINMIESBTBL-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "ZnS",
+      "canonical_key": "WGPCGCOKHWGKJJ-UHFFFAOYSA-N",
+      "name": "zinc sulfide",
+      "identifiers": {
+        "inchikey": "WGPCGCOKHWGKJJ-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/ZnS",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -28933,6 +29008,282 @@
       },
       "evidence": {
         "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/CuS",
+      "species_id": "CuS",
+      "formula": "CuS",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CuS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CuS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PbS",
+      "species_id": "PbS",
+      "formula": "PbS",
+      "elements": [
+        {
+          "element": "Pb",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PbS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/ZnS",
+      "species_id": "ZnS",
+      "formula": "ZnS",
+      "elements": [
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Zn",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ZnS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ZnS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/ZnS",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -55246,6 +55597,276 @@
           "detail": "One standard dissolution enthalpy computed from two (or more) tabulated standard formation enthalpies of the NBS/Wagman 1982 tables, each read from the NIST reprint page; the arithmetic is in `notes`."
         }
       }
+    },
+    {
+      "id": "molar-mass/CuS",
+      "species_id": "CuS",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 95.611,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/CuS",
+      "species_id": "CuS",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 47.53,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/CuS",
+      "species_id": "CuS",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.682,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PbS",
+      "species_id": "PbS",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 239.27,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PbS",
+      "species_id": "PbS",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 49.49,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PbS",
+      "species_id": "PbS",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 7.598,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/ZnS",
+      "species_id": "ZnS",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 97.46,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/ZnS",
+      "species_id": "ZnS",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 45.76,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/ZnS",
+      "species_id": "ZnS",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.09,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -65747,6 +66368,54 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/Al2(SO4)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/CuS",
+      "species_id": "CuS",
+      "phase": "solid",
+      "appearance": "black",
+      "flame_colour": null,
+      "reflective_srgb": "#1A1614",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PbS",
+      "species_id": "PbS",
+      "phase": "solid",
+      "appearance": "black",
+      "flame_colour": null,
+      "reflective_srgb": "#1A1614",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/ZnS",
+      "species_id": "ZnS",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#FAFAFA",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/ZnS",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -77329,6 +77998,204 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/CuS",
+      "subject": {
+        "kind": "species",
+        "id": "CuS"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/CuS",
+      "subject": {
+        "kind": "species",
+        "id": "CuS"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CuS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PbS",
+      "subject": {
+        "kind": "species",
+        "id": "PbS"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PbS",
+      "subject": {
+        "kind": "species",
+        "id": "PbS"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/PbS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/ZnS",
+      "subject": {
+        "kind": "species",
+        "id": "ZnS"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ZnS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/ZnS",
+      "subject": {
+        "kind": "species",
+        "id": "ZnS"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/ZnS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }

@@ -11738,7 +11738,12 @@ fn project_gas_aware_components(
             ));
         }
         let tolerance = 1e-14_f64.max(target.abs() * 1e-7);
-        if (current - target).abs() > tolerance || (target > 0.0 && current == 0.0) {
+        // A target inside the absolute bound with an empty readback is the
+        // floating-point residue of a component the solve exhausted into a
+        // phase (all of a sulfide precipitated as PbS left 1.7e-16 mol of
+        // S(-2) to subtract to); a target above the bound with nothing read
+        // back is still a lost component.
+        if (current - target).abs() > tolerance || (target > tolerance && current == 0.0) {
             return Err(component_projection_error(
                 ProjectionReason::ComponentBoundExceeded,
                 format!(

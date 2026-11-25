@@ -6,9 +6,9 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 144,
+    "bookable-unclaimed": 141,
     "declined": 12,
-    "registry-solid": 53,
+    "registry-solid": 56,
     "unbookable": 372
   },
   "registry_solids_matched": [
@@ -31,6 +31,7 @@
     "Cu2O",
     "CuCl2",
     "CuO",
+    "CuS",
     "CuSO4",
     "Fe(OH)2",
     "Fe(OH)3",
@@ -48,6 +49,7 @@
     "Pb",
     "PbCO3",
     "PbI2",
+    "PbS",
     "PbSO4",
     "S",
     "SiO2",
@@ -55,6 +57,7 @@
     "Zn(OH)2",
     "ZnCO3",
     "ZnO",
+    "ZnS",
     "ZnSO4",
     "antlerite",
     "atacamite",
@@ -384,6 +387,22 @@
       "class": "registry-solid"
     },
     {
+      "formula": "CuS",
+      "registry_species": "CuS",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Covellite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Covellite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "CuSO4",
       "registry_species": "CuSO4",
       "reason": null,
@@ -680,6 +699,22 @@
       "class": "registry-solid"
     },
     {
+      "formula": "PbS",
+      "registry_species": "PbS",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Galena"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Galena"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "PbSO4",
       "registry_species": "PbSO4",
       "reason": null,
@@ -871,6 +906,38 @@
         {
           "database": "wateq4f",
           "phase": "ZnO(a)"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "ZnS",
+      "registry_species": "ZnS",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Sphalerite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Wurtzite"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "ZnS(am)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Sphalerite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Wurtzite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "ZnS(a)"
         }
       ],
       "class": "registry-solid"
@@ -1779,22 +1846,6 @@
         {
           "database": "minteq.v4",
           "phase": "CuOCuSO4"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "CuS",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Covellite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Covellite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3104,22 +3155,6 @@
       "class": "bookable-unclaimed"
     },
     {
-      "formula": "PbS",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Galena"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Galena"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
       "formula": "SrHPO4",
       "registry_species": null,
       "reason": null,
@@ -3315,38 +3350,6 @@
         {
           "database": "wateq4f",
           "phase": "ZnI2"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "ZnS",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Sphalerite"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "Wurtzite"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "ZnS(am)"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Sphalerite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Wurtzite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "ZnS(a)"
         }
       ],
       "class": "bookable-unclaimed"

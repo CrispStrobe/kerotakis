@@ -101,7 +101,7 @@ fn phase_conflict(property: &str) {
 fn same_runtime(doc: &Value) {
     let canonical = document();
     let expected = parse_document(&canonical).unwrap();
-    assert_eq!(expected.len(), 218);
+    assert_eq!(expected.len(), 221);
     assert_eq!(
         expected.iter().filter(|s| s.heat_capacity == 0.0).count(),
         53

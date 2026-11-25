@@ -8,7 +8,7 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 74,
+    "no_melting_point": 77,
     "not_condensed": 81
   },
   "species": [
@@ -988,6 +988,19 @@
       }
     },
     {
+      "species": "CuS",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "CuSO4",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1430,6 +1443,19 @@
       }
     },
     {
+      "species": "PbS",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Zn(OH)2",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1457,6 +1483,19 @@
     },
     {
       "species": "ZnO",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "ZnS",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,

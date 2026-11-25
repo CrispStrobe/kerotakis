@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 43, neutral-refused 166, partitions 9.
+Counts: ion-stays-aqueous 43, neutral-refused 169, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -96,6 +96,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 166, partitions 9.
 | neutral-refused | Cu2O | — |
 | neutral-refused | CuCl2 | — |
 | neutral-refused | CuO | — |
+| neutral-refused | CuS | — |
 | neutral-refused | CuSO4 | — |
 | neutral-refused | Fe | — |
 | neutral-refused | Fe(OH)2 | — |
@@ -164,6 +165,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 166, partitions 9.
 | neutral-refused | Pb(NO3)2 | — |
 | neutral-refused | PbCO3 | — |
 | neutral-refused | PbI2 | — |
+| neutral-refused | PbS | — |
 | neutral-refused | PbSO4 | — |
 | neutral-refused | S | — |
 | neutral-refused | SO2 | — |
@@ -172,6 +174,7 @@ Counts: ion-stays-aqueous 43, neutral-refused 166, partitions 9.
 | neutral-refused | Zn(OH)2 | — |
 | neutral-refused | ZnCO3 | — |
 | neutral-refused | ZnO | — |
+| neutral-refused | ZnS | — |
 | neutral-refused | ZnSO4 | — |
 | neutral-refused | activated_charcoal | — |
 | neutral-refused | amylase | — |

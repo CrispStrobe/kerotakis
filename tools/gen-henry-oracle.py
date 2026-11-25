@@ -50,7 +50,7 @@ DATABASES = ["phreeqc.dat", "wateq4f.dat", "pitzer.dat", "llnl.dat", "minteq.v4.
 # The gases `properties::HENRY_COEFFICIENTS` carries. Kept by hand: a gas
 # added there without a line here fails the reverse check in
 # `crates/kerotakis-core/tests/henry_oracle.rs`, which is the point.
-GASES = {"CO2": "CO2(g)", "O2": "O2(g)", "N2": "N2(g)", "H2": "H2(g)", "Cl2": "Cl2(g)", "NH3": "NH3(g)", "SO2": "SO2(g)"}
+GASES = {"CO2": "CO2(g)", "O2": "O2(g)", "N2": "N2(g)", "H2": "H2(g)", "Cl2": "Cl2(g)", "NH3": "NH3(g)", "SO2": "SO2(g)", "H2S": "H2S(g)"}
 
 KCAL_J = 4184.0
 KJ_J = 1000.0

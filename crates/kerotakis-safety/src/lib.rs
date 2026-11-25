@@ -272,6 +272,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // it has left the liquid. It keeps `Sulfide` so further acid still
         // raises `acid-sulfide-h2s`.
         "S-2" | "H2S(aq)" => &[ReducingAgent, ToxicSoluble, Sulfide],
+        // Zinc sulfide (sphalerite) dissolves in dilute strong acid and
+        // releases hydrogen sulfide, which is how the qualitative-analysis
+        // scheme separates it from the acid-insoluble copper and lead
+        // sulfides. Insoluble in water, so not `ToxicSoluble`.
+        "ZnS" => &[ReducingAgent, Sulfide],
         // Iodide speciates since 2026-10-27; the bottle and its ion carry
         // the same screen, as hypo and `S2O3-2` do.
         "KI" | "I-" => &[ReducingAgent],
@@ -576,6 +581,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Ag3PO4"
         | "PbSO4"
         | "PbI2"
+        // Copper(II) and lead(II) sulfide (C1 sulfur lane): not attacked by
+        // dilute non-oxidising acid at bench scale (they are the
+        // acid-insoluble sulfide group), so no gas-release group.
+        | "CuS"
+        | "PbS"
         // BRD-012.S03's food chemistry. The two sugars and the polymer are
         // inert by the same reading that already covers sucrose, maltose
         // and starch.
@@ -854,6 +864,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "Pb(NO3)2",
     "PbCO3",
     "PbSO4",
+    "CuS",
+    "PbS",
+    "ZnS",
     "PbI2",
     "Pb+2",
     "PE",

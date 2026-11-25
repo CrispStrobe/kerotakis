@@ -91,6 +91,10 @@ const COMPOSERS: &[(&str, &str)] = &[
         include_str!("../src/reducing_sugar.rs"),
     ),
     (
+        "concentrated_sulfuric.rs",
+        include_str!("../src/concentrated_sulfuric.rs"),
+    ),
+    (
         "aqueous_continuation.rs",
         include_str!("../src/aqueous_continuation.rs"),
     ),

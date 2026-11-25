@@ -134,6 +134,11 @@
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "hydration:wateq4f:Cu(OH)2"
   },
+  "CuS": {
+    "minteq.v4": "reference:minteq.v4:Covellite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Covellite"
+  },
   "CuSO4": {
     "minteq.v4": "curated",
     "pitzer": "refused: a dissociation product the routed database does not define",
@@ -399,6 +404,11 @@
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "routed"
   },
+  "PbS": {
+    "minteq.v4": "reference:minteq.v4:Galena",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Galena"
+  },
   "PbSO4": {
     "minteq.v4": "routed",
     "pitzer": "refused: a reaction species is not defined on the routed database",
@@ -433,6 +443,11 @@
     "minteq.v4": "hydration:minteq.v4:Zn(OH)2",
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "hydration:minteq.v4:Zn(OH)2"
+  },
+  "ZnS": {
+    "minteq.v4": "reference:minteq.v4:Sphalerite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Sphalerite"
   },
   "ZnSO4": {
     "minteq.v4": "curated",
