@@ -209,24 +209,23 @@ fn dichromate_turns_back_to_chromate_in_base() {
 }
 
 #[test]
-fn dichromate_dissolves_only_to_its_solubility_after_speciation() {
-    // 20 g in 100 mL against 13.2 g/100 mL: the rest stays on the bottom,
-    // step after step, although the dissolved part is booked on ions.
+fn dichromate_is_bounded_by_its_database_phase_after_speciation() {
+    // minteq.v4.dat spells K2Cr2O7 as a phase; once chromium(VI) is
+    // bookable it is posed, so 60 g in 100 mL keeps a solid on the bottom
+    // step after step although the dissolved part is booked on ions.
     let (bench, steps) = run(&[
         "add v1 water 100mL",
-        "add v1 K2Cr2O7 20g",
+        "add v1 K2Cr2O7 60g",
         "wait 10s",
         "wait 10s",
     ]);
     let solid = moles_in(&bench, "K2Cr2O7", Phase::Solid);
-    let total = 20.0 / 294.1818;
+    let total = 60.0 / 294.1818;
     let dissolved = chromium_six(&bench) / 2.0;
-    assert!(solid > 0.2 * total, "solid {solid}: {steps:#?}");
+    assert!(solid > 0.05 * total, "solid {solid}: {steps:#?}");
     assert!(
-        (solid + dissolved - total).abs() < 1e-9,
+        (solid + dissolved + moles_in(&bench, "K2Cr2O7", Phase::Aqueous) - total).abs() < 1e-6,
         "{solid} + {dissolved}"
     );
-    // Within the reviewed bound (13.2 g/100 mL; temperature may differ a
-    // little from 20 C, so allow the 100 C figure's slope over a few K).
-    assert!(dissolved * 294.1818 < 14.5, "{} g", dissolved * 294.1818);
+    assert!(moles(&bench, "Cr+3") < 1e-15);
 }

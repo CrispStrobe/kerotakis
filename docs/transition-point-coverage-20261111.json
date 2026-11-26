@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 179,
+    "boiling.no_data": 182,
     "boiling.reported": 68,
-    "melting.no_data": 146,
+    "melting.no_data": 149,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -995,6 +995,26 @@
       }
     },
     {
+      "species": "Cr2O7-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "CrO4-2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Cu",
       "standard_phase": "solid",
       "melting": {
@@ -1413,6 +1433,16 @@
     },
     {
       "species": "HClO",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "HCrO4-",
       "standard_phase": "aqueous",
       "melting": {
         "basis": "no_data"

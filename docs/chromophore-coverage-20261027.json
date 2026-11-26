@@ -23,7 +23,7 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 64,
+    "missing_absorptivity": 67,
     "outside_method": 131,
     "parameterised": 7,
     "parameterised_ph": 5,
@@ -98,6 +98,16 @@
     {
       "species": "Cr+3",
       "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cr2O7-2",
+      "appearance": "orange",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "CrO4-2",
+      "appearance": "yellow",
       "class": "missing_absorptivity"
     },
     {
@@ -193,6 +203,11 @@
     {
       "species": "FeSO4",
       "appearance": "pale green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "HCrO4-",
+      "appearance": "orange",
       "class": "missing_absorptivity"
     },
     {

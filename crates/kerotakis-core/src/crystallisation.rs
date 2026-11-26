@@ -459,12 +459,6 @@ pub fn apply(vessel: &mut Vessel, curve: &SolubilityCurve, moles: f64) {
 /// such crystals in the next aqueous step would undo the crystallisation
 /// (and, on a priced route, charge its heat back).
 pub fn holds_solid(vessel: &Vessel, salt: &str) -> bool {
-    // A bounded salt whose dissolved part is speciated keeps its solid out
-    // of the aqueous solve always: the saturation pass moves only what the
-    // reviewed solubility allows (`crate::bounded_speciation`).
-    if crate::bounded_speciation::speciates(salt) {
-        return true;
-    }
     let Some(curve) = curve_for(salt).filter(|c| c.runtime_admitted) else {
         return false;
     };

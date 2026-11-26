@@ -9,7 +9,7 @@
     "monatomic cation": 19,
     "monatomic anion": 4,
     "small organic ion": 3,
-    "polyatomic inorganic ion": 22
+    "polyatomic inorganic ion": 25
   },
   "rows": [
     {
@@ -85,6 +85,18 @@
       "hydrocarbon_rule": "retained in water"
     },
     {
+      "species": "Cr2O7-2",
+      "formula": "Cr2O7-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "CrO4-2",
+      "formula": "CrO4-2",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
       "species": "Cu+1",
       "formula": "Cu+1",
       "ion_class": "monatomic cation",
@@ -141,6 +153,12 @@
     {
       "species": "HCO3-",
       "formula": "HCO3-",
+      "ion_class": "polyatomic inorganic ion",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "HCrO4-",
+      "formula": "HCrO4-",
       "ion_class": "polyatomic inorganic ion",
       "hydrocarbon_rule": "retained in water"
     },

@@ -73,8 +73,8 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `H2C2O4` | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `I2` | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `K` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `K2Cr2O7` | refused: a molecular solute with no reviewed enthalpy of dissolution | reference:minteq.v4:K2Cr2O7 | refused: a molecular solute with no reviewed enthalpy of dissolution |
-| `K2CrO4` | refused: a molecular solute with no reviewed enthalpy of dissolution | reference:minteq.v4:K2CrO4 | refused: a molecular solute with no reviewed enthalpy of dissolution |
+| `K2Cr2O7` | refused: a reaction species is not defined on the routed database | reference:minteq.v4:K2Cr2O7 | refused: a reaction species is not defined on the routed database |
+| `K2CrO4` | refused: a reaction species is not defined on the routed database | routed | refused: a reaction species is not defined on the routed database |
 | `K2SO4` | reference:llnl.dat:Arcanite | reference:llnl.dat:Arcanite | routed |
 | `K3Fe(CN)6` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `K4Fe(CN)6` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |

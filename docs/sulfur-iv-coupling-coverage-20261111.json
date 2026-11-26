@@ -377,6 +377,7 @@
       ],
       "pricing": "stoichiometric",
       "registry_forms": [
+        "Cr2O7-2",
         "K2Cr2O7"
       ],
       "status": "writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
@@ -404,8 +405,10 @@
         null
       ],
       "pricing": "stoichiometric",
-      "registry_forms": [],
-      "status": "no registry form (row kept; priced as below once the registry carries it): writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
+      "registry_forms": [
+        "HCrO4-"
+      ],
+      "status": "writer when sole S(IV) oxidant, instantaneous, no rate constant claimed (typed note on every run), proton demand limited by represented acid",
       "refusal_keys": [
         "not-modeled.sulfite-oxidant-no-rate-claimed",
         "not-modeled.sulfite-oxidant-acid-limited",

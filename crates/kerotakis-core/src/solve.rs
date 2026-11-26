@@ -1666,14 +1666,7 @@ pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
                 .sum::<f64>()
         };
         let solid = amount(undissolved);
-        // A bounded salt whose dissolved part the aqueous engine booked onto
-        // ions is still dissolved (`crate::bounded_speciation`).
-        let aqueous = amount(Phase::Aqueous)
-            + if crate::bounded_speciation::speciates(&portion.species.0) {
-                crate::bounded_speciation::dissolved_as_ions(vessel, &portion.species.0)
-            } else {
-                0.0
-            };
+        let aqueous = amount(Phase::Aqueous);
         let pure_water_capacity = limit * water_ml / 100.0 / data.molar_mass;
         // The same reviewed figure, answered in THIS solution rather than
         // in the pure water it was measured in.

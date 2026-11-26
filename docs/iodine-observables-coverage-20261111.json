@@ -2,7 +2,7 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 47,
+    "ion-stays-aqueous": 50,
     "neutral-refused": 191,
     "partitions": 9
   },
@@ -97,6 +97,16 @@
       "basis": null
     },
     {
+      "species": "Cr2O7-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "CrO4-2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
       "species": "Cu+1",
       "class": "ion-stays-aqueous",
       "basis": null
@@ -143,6 +153,11 @@
     },
     {
       "species": "HCO3-",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "HCrO4-",
       "class": "ion-stays-aqueous",
       "basis": null
     },

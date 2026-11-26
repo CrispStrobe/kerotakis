@@ -1266,15 +1266,8 @@ impl Derived {
             // The same holds for a bounded LIQUID (bromine, 2026-11-25): its
             // dissolved part is the molecule, and a `Dissolves` role would
             // book its element total as bromide, a silent reduction.
-            //
-            // A bounded salt whose dissolved part IS speciated (potassium
-            // dichromate, 2026-11-26) gets its `Dissolves` role: its solid
-            // is held outside the solve by
-            // `kerotakis_core::crystallisation::holds_solid`, so the role
-            // only ever sees what the saturation pass dissolved.
             let bounded_solid = matches!(s.standard_phase, Phase::Solid | Phase::Liquid)
-                && s.aqueous_solubility_g_per_100_ml.is_some()
-                && !kerotakis_core::bounded_speciation::speciates(s.key);
+                && s.aqueous_solubility_g_per_100_ml.is_some();
             if bounded_solid {
                 continue;
             }
@@ -1870,6 +1863,9 @@ fn contribution_from_counts(
         contrib.push(("S(-2)".to_string(), n));
     }
 
+    // Group units fitted, for the free-acid guard below (a dichromate is
+    // ONE unit carrying two chromium atoms).
+    let mut fitted_units: Vec<f64> = contrib.iter().map(|(_, n)| *n).collect();
     for (group_formula, element) in oxyanion_groups() {
         let sig = parse_formula(group_formula).expect("group formulas parse");
         let fit = sig
@@ -1887,6 +1883,7 @@ fn contribution_from_counts(
             let base = element.split('(').next().unwrap_or(element);
             let atoms = sig.get(base).copied().unwrap_or(1.0);
             contrib.push((element.to_string(), fit * atoms));
+            fitted_units.push(fit);
         }
     }
     counts.retain(|_, n| *n > 0.0);
@@ -1911,7 +1908,7 @@ fn contribution_from_counts(
     let no_cation_residue = !counts
         .keys()
         .any(|el| el != "H" && el != "O" && RESIDUE_OK.contains(&el.as_str()));
-    if no_cation_residue && contrib.iter().any(|(_, fit)| *fit > 1.0) {
+    if no_cation_residue && fitted_units.iter().any(|fit| *fit > 1.0) {
         return None;
     }
 

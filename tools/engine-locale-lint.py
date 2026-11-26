@@ -69,7 +69,6 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/biuret.rs",
     ROOT / "crates/kerotakis-core/src/reducing_sugar.rs",
     ROOT / "crates/kerotakis-core/src/concentrated_sulfuric.rs",
-    ROOT / "crates/kerotakis-core/src/bounded_speciation.rs",
     ROOT / "crates/kerotakis-core/src/dryness.rs",
     ROOT / "crates/kerotakis-core/src/melting_range.rs",
     ROOT / "crates/kerotakis-core/src/iodine_chemistry.rs",

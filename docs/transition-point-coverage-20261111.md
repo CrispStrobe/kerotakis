@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 179, boiling.reported 68, melting.no_data 146, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 182, boiling.reported 68, melting.no_data 149, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -84,6 +84,8 @@ Counts: boiling.no_data 179, boiling.reported 68, melting.no_data 146, melting.r
 | Co+2 | aqueous | no_data | no_data | — |
 | CoCl2 | solid | no_data | no_data | — |
 | Cr+3 | aqueous | no_data | no_data | — |
+| Cr2O7-2 | aqueous | no_data | no_data | — |
+| CrO4-2 | aqueous | no_data | no_data | — |
 | Cu | solid | melting 1357.77 K | boiling 2868 K | literature/transition-points/Cu |
 | Cu(NO3)2 | solid | no_data | no_data | — |
 | Cu(OH)2 | solid | no_data | no_data | — |
@@ -121,6 +123,7 @@ Counts: boiling.no_data 179, boiling.reported 68, melting.no_data 146, melting.r
 | HCO3- | aqueous | no_data | no_data | — |
 | HCl | liquid | no_data | no_data | — |
 | HClO | aqueous | no_data | no_data | — |
+| HCrO4- | aqueous | no_data | no_data | — |
 | HI | liquid | no_data | no_data | — |
 | HNO3 | liquid | no_data | no_data | — |
 | HPO4-2 | aqueous | no_data | no_data | — |

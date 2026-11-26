@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 47, neutral-refused 191, partitions 9.
+Counts: ion-stays-aqueous 50, neutral-refused 191, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -34,6 +34,8 @@ Counts: ion-stays-aqueous 47, neutral-refused 191, partitions 9.
 | ion-stays-aqueous | ClO- | — |
 | ion-stays-aqueous | Co+2 | — |
 | ion-stays-aqueous | Cr+3 | — |
+| ion-stays-aqueous | Cr2O7-2 | — |
+| ion-stays-aqueous | CrO4-2 | — |
 | ion-stays-aqueous | Cu+1 | — |
 | ion-stays-aqueous | Cu+2 | — |
 | ion-stays-aqueous | Fe(CN)6-3 | — |
@@ -44,6 +46,7 @@ Counts: ion-stays-aqueous 47, neutral-refused 191, partitions 9.
 | ion-stays-aqueous | H2BO3- | — |
 | ion-stays-aqueous | H2PO4- | — |
 | ion-stays-aqueous | HCO3- | — |
+| ion-stays-aqueous | HCrO4- | — |
 | ion-stays-aqueous | HPO4-2 | — |
 | ion-stays-aqueous | HS- | — |
 | ion-stays-aqueous | HSO3- | — |

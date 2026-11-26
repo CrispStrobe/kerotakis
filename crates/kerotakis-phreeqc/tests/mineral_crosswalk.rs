@@ -78,6 +78,10 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// Zn2[Fe(CN)6] are minteq.v4 slice phases (cited Ksp) matched through the
 /// conserved hexacyanoferrate pseudo-element, so the gap grows by three.
 /// Seven slice phases join the 683 distinct minerals (690).
+///
+/// 2026-11-26 (chromium(VI) speciation): minteq.v4.dat's K2CrO4 and
+/// K2Cr2O7 phases become posable now that a Cr(6) total books on its own
+/// ions, so two rows leave the not-posable count.
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
@@ -90,7 +94,7 @@ fn the_gap_is_counted_from_both_datasets() {
             not_a_database_phase: 74,
             phases_without_a_registry_solid: 595,
             several_phase_names: 14,
-            not_posable: 14,
+            not_posable: 12,
         },
         "the crosswalk has drifted from the shipped databases or registry"
     );
@@ -299,8 +303,6 @@ fn unbookable_database_phases_are_never_posed() {
             "Cu2O",
             "Fe2O3",
             "Fe3O4",
-            "K2Cr2O7",
-            "K2CrO4",
             "MnO2",
             "Pb",
             "S",
