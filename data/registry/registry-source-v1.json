@@ -2126,6 +2126,33 @@
       "retrieved": null
     },
     {
+      "id": "legacy/CrO4-2",
+      "citation": "chromate ion, CrO4-2: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 24461 (PUG REST InChIKey ZCDOYSPFYFSLEW-UHFFFAOYSA-N), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE yellow: the chromate ion is the chromophore of every yellow alkali chromate solution; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Cr2O7-2",
+      "citation": "dichromate ion, Cr2O7-2: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 24503 (PUG REST InChIKey SOCTUWSJJQCPFX-UHFFFAOYSA-N), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE orange: the dichromate ion is the chromophore of every orange acidified chromate or dichromate solution; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/HCrO4-",
+      "citation": "hydrogen chromate ion, HCrO4-: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 107815 (PUG REST InChIKey SNQOSLDJBAESSM-UHFFFAOYSA-M), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE orange: hydrogen chromate is the dominant chromium(VI) species of dilute acidified dichromate (Burke, Deardorff and Menis 1972, below), whose solutions are orange; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "literature/transition-points/Ag",
       "citation": "Melting point 1234.93 K: H. Preston-Thomas, 'The International Temperature Scale of 1990 (ITS-90)', Metrologia 27 (1990) 3-10, doi:10.1088/0026-1394/27/1/002, defining fixed point (freezing point at 101.325 kPa). Normal boiling point 2483 K (2210 degrees Celsius): Y. Zhang, J. R. G. Evans and S. Yang, 'Corrected Values for Boiling Points and Enthalpies of Vaporization of Elements in Handbooks', J. Chem. Eng. Data 56 (2011) 328-337, doi:10.1021/je1011086, value as quoted by Wikipedia, 'Boiling points of the elements (data page)', row 'Zhang et al.' (https://en.wikipedia.org/w/index.php?title=Boiling_points_of_the_elements_(data_page)&oldid=1337535288, read 2026-11-11); the paper itself was not read (paywalled). Preferred over the 1949 NBS Circular 500 normal boiling points, which Zhang et al. show to be low for several metals.",
       "licence": "CC0-1.0",
@@ -3159,33 +3186,6 @@
       "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/24408",
       "revision": "HSDB via PubChem, accessed 2026-11-21",
       "retrieved": "2026-11-21"
-    },
-    {
-      "id": "legacy/CrO4-2",
-      "citation": "chromate ion, CrO4-2: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 24461 (PUG REST InChIKey ZCDOYSPFYFSLEW-UHFFFAOYSA-N), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE yellow: the chromate ion is the chromophore of every yellow alkali chromate solution; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
-      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
-      "lane": "build_oracle",
-      "origin": "crates/kerotakis-core/src/species.rs",
-      "revision": null,
-      "retrieved": null
-    },
-    {
-      "id": "legacy/Cr2O7-2",
-      "citation": "dichromate ion, Cr2O7-2: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 24503 (PUG REST InChIKey SOCTUWSJJQCPFX-UHFFFAOYSA-N), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE orange: the dichromate ion is the chromophore of every orange acidified chromate or dichromate solution; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
-      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
-      "lane": "build_oracle",
-      "origin": "crates/kerotakis-core/src/species.rs",
-      "revision": null,
-      "retrieved": null
-    },
-    {
-      "id": "legacy/HCrO4-",
-      "citation": "hydrogen chromate ion, HCrO4-: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 107815 (PUG REST InChIKey SNQOSLDJBAESSM-UHFFFAOYSA-M), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE orange: hydrogen chromate is the dominant chromium(VI) species of dilute acidified dichromate (Burke, Deardorff and Menis 1972, below), whose solutions are orange; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
-      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
-      "lane": "build_oracle",
-      "origin": "crates/kerotakis-core/src/species.rs",
-      "revision": null,
-      "retrieved": null
     }
   ],
   "identities": [
