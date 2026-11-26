@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 67, refused 58.
+Registry species carrying a metal: emits 67, refused 65.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -107,7 +107,10 @@ Registry species carrying a metal: emits 67, refused 58.
 | refused | Co+2 | Co | — |
 | refused | CoCl2 | Co | — |
 | refused | Cr+3 | Cr | — |
+| refused | Cu2Fe(CN)6 | Cu+Fe | — |
 | refused | Fe | Fe | — |
+| refused | Fe(CN)6-3 | Fe | — |
+| refused | Fe(CN)6-4 | Fe | — |
 | refused | Fe(OH)2 | Fe | — |
 | refused | Fe(OH)3 | Fe | — |
 | refused | Fe+2 | Fe | — |
@@ -118,6 +121,8 @@ Registry species carrying a metal: emits 67, refused 58.
 | refused | FeSO4 | Fe | — |
 | refused | K2Cr2O7 | Cr+K | — |
 | refused | K2CrO4 | Cr+K | — |
+| refused | K3Fe(CN)6 | Fe+K | — |
+| refused | K4Fe(CN)6 | Fe+K | — |
 | refused | KMnO4 | K+Mn | — |
 | refused | Mg(OH)2 | Mg | — |
 | refused | Mg+2 | Mg | — |
@@ -137,9 +142,11 @@ Registry species carrying a metal: emits 67, refused 58.
 | refused | PbI2 | Pb | — |
 | refused | PbS | Pb | — |
 | refused | PbSO4 | Pb | — |
+| refused | Prussian_blue | Fe | — |
 | refused | Zn | Zn | — |
 | refused | Zn(OH)2 | Zn | — |
 | refused | Zn+2 | Zn | — |
+| refused | Zn2Fe(CN)6 | Fe+Zn | — |
 | refused | ZnCO3 | Zn | — |
 | refused | ZnO | Zn | — |
 | refused | ZnS | Zn | — |

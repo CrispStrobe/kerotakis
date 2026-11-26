@@ -72,9 +72,11 @@ fn allocation_budget() {
     // the registry size. stoich::strip_states allocated on every one of its
     // seven str::replace calls even with nothing to replace (2136 blocks);
     // guarding them brought the workload to 3643 (3742 after #922 added five
-    // species). Budget tightened to match.
+    // species). Budget tightened to match. 4050 after the complex-salts lane
+    // added seven species and #926 eight more (the same once-built registry
+    // tables).
     assert!(
-        stats.total_blocks < 4_000,
+        stats.total_blocks < 4_200,
         "combined workload allocated {} blocks — investigate hot spots",
         stats.total_blocks
     );

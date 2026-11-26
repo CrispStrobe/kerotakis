@@ -1,0 +1,74 @@
+# Source: shipped-complex-borrows (minteq.v4 part)
+# Metal-ligand complexes and hexacyanoferrate salts borrowed from databases
+# that ship in vendor/iphreeqc/database but are not routed, or from a
+# cited handbook solubility product. Each row names its origin. log_k only:
+# no reaction enthalpy is carried (reaction heat stays declared unpriced), no rate,
+# no spectrum. Constants are 25 C, ionic strength zero.
+#
+# Hexacyanoferrate(II)/(III) are entered as two CONSERVED pseudo-elements,
+# like Thiocyanate and Thiosulfate: the Fe(CN)6 core is kinetically inert,
+# so the anion is not dissociated into Fe2+/Fe3+ and cyanide (which the
+# minteq.v4 Fe(Cyanide)6 constants would do, thermodynamically, below about
+# pH 4 - releasing HCN that a bench acid test does not release). The two
+# are NOT redox-linked here: electron exchange between them (and the
+# Turnbull's blue reaction Fe2+ + Fe(CN)6-3) is not posed by this slice.
+SOLUTION_MASTER_SPECIES
+    Ferrocyanide   Ferrocyanide-4   0   211.95   211.95
+    Ferricyanide   Ferricyanide-3   0   211.95   211.95
+SOLUTION_SPECIES
+    Ferrocyanide-4 = Ferrocyanide-4
+        log_k 0
+    Ferricyanide-3 = Ferricyanide-3
+        log_k 0
+    # minteq.v4.dat (NIST46.4): Fe+2 + 6 Cyanide- = Fe(Cyanide)6-4 35.4,
+    # H+ + ... = HFe(Cyanide)6-3 39.71, 2 H+ + ... = H2Fe(Cyanide)6-2 42.11;
+    # differences give the protonations of the intact anion.
+    H+ + Ferrocyanide-4 = H(Ferrocyanide)-3
+        log_k 4.31
+    2 H+ + Ferrocyanide-4 = H2(Ferrocyanide)-2
+        log_k 6.71
+
+    # llnl.dat line 9399
+    Zn+2 + 4 Cyanide- = Zn(Cyanide)4-2
+        log_k 16.704
+    # sit.dat lines 1466 and 1472 (ANDRA SIT, from Hogfeldt 1982 IUPAC
+    # Stability Constants Part A: 74BEL/MAR, 72POU/RIG)
+    Ag+ + Thiosulfate-2 = Ag(Thiosulfate)-
+        log_k 9.23
+    Ag+ + 2 Thiosulfate-2 = Ag(Thiosulfate)2-3
+        log_k 13.64
+    # sit.dat lines 2959-2973 (ANDRA SIT, 06BLA/IGN): cobalt(II) chloro
+    # complexes; the tetrahedral CoCl4-2 is the blue of cobalt in strong HCl.
+    Co+2 + 2 Cl- = CoCl2
+        log_k 0.02
+    Co+2 + 3 Cl- = CoCl3-
+        log_k -1.71
+    Co+2 + 4 Cl- = CoCl4-2
+        log_k -2.09
+PHASES
+    # Handbook solubility products, Patnaik, Dean's Analytical Chemistry
+    # Handbook, 2nd ed. (McGraw-Hill 2004), solubility-product table:
+    # Fe4[Fe(CN)6]3 Ksp 3.3e-41, Cu2[Fe(CN)6] Ksp 1.3e-16.
+Prussian_blue
+        Fe4(Ferrocyanide)3 = 4 Fe+3 + 3 Ferrocyanide-4
+        log_k -40.48
+Cu_hexacyanoferrate_II
+        Cu2(Ferrocyanide) = 2 Cu+2 + Ferrocyanide-4
+        log_k -15.886
+    # minteq.v4.dat PHASES (NIST46) re-expressed against the intact anion:
+    # log Ksp = log_k(M_nFe(Cyanide)6) + log beta6 (35.4 for Fe(II), 43.6 Fe(III)).
+Zn_hexacyanoferrate_II
+        Zn2(Ferrocyanide) = 2 Zn+2 + Ferrocyanide-4
+        log_k -15.68
+Pb_hexacyanoferrate_II
+        Pb2(Ferrocyanide) = 2 Pb+2 + Ferrocyanide-4
+        log_k -18.02
+Cd_hexacyanoferrate_II
+        Cd2(Ferrocyanide) = 2 Cd+2 + Ferrocyanide-4
+        log_k -17.38
+Ag_hexacyanoferrate_II
+        Ag4(Ferrocyanide) = 4 Ag+ + Ferrocyanide-4
+        log_k -44.07
+Ag_hexacyanoferrate_III
+        Ag3(Ferricyanide) = 3 Ag+ + Ferricyanide-3
+        log_k -29.1867

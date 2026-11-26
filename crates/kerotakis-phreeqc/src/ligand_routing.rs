@@ -96,33 +96,12 @@ pub struct KnownFamily {
 
 /// Qualitative existence only, never a constant. A test fails as soon as a
 /// routed database gains one of these, so the entry then becomes a route.
-pub const KNOWN_FAMILIES_WITHOUT_ROUTED_DATA: &[KnownFamily] = &[
-    KnownFamily {
-        metal: "Zn",
-        ligand: "N(-3)",
-        source: "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(NH3)4 2+)",
-    },
-    KnownFamily {
-        metal: "Cd",
-        ligand: "N(-3)",
-        source: "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Cd(NH3)4 2+)",
-    },
-    KnownFamily {
-        metal: "Zn",
-        ligand: "Cyanide",
-        source: "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(CN)4 2-)",
-    },
-    KnownFamily {
-        metal: "Ag",
-        ligand: "Thiosulfate",
-        source: "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 28 (Ag(S2O3)2 3-, photographic fixing)",
-    },
-    KnownFamily {
-        metal: "Fe",
-        ligand: "Oxalate",
-        source: "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 25 (Fe(C2O4)3 3-)",
-    },
-];
+pub const KNOWN_FAMILIES_WITHOUT_ROUTED_DATA: &[KnownFamily] = &[KnownFamily {
+    metal: "Fe",
+    ligand: "Oxalate",
+    source:
+        "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 25 (Fe(C2O4)3 3-)",
+}];
 
 const ELEMENT_SYMBOLS: &[&str] = &[
     "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl",

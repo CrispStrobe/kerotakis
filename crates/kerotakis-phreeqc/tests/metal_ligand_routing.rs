@@ -110,22 +110,38 @@ fn ammines_route_to_the_database_that_defines_them() {
 
 #[test]
 fn known_families_without_data_are_refused_not_ignored() {
-    for (metal, ligand) in [("Zn", "N(-3)"), ("Ag", "Thiosulfate"), ("Cd", "N(-3)")] {
+    assert_eq!(
+        select(&els(&["Fe(3)", "Oxalate", "Na"])),
+        LigandRoute::Undefined {
+            pairs: vec![pair("Fe", "Oxalate")]
+        }
+    );
+}
+
+#[test]
+fn borrowed_shipped_complexes_route_instead_of_refusing() {
+    // Zinc and cadmium ammines come from llnl.dat and are appended to both
+    // ligand routes, so the default route keeps them.
+    for metal in ["Zn", "Cd"] {
         assert_eq!(
-            select(&els(&[metal, ligand, "Na"])),
-            LigandRoute::Undefined {
-                pairs: vec![pair(metal, ligand)]
+            select(&els(&[metal, "N(-3)", "S(6)"])),
+            LigandRoute::Route {
+                db: "wateq4f",
+                pairs: vec![pair(metal, "N(-3)")]
             }
         );
     }
-    // Boundary: silver ammines are defined, silver thiosulfate is not; the
-    // refusal names only the undefined family.
+    // Silver thiosulfate (sit.dat) and zinc cyanide (llnl.dat) ride on the
+    // pseudo-elements only minteq.v4 defines.
     assert_eq!(
         select(&els(&["Ag", "N(-3)", "Thiosulfate", "Na"])),
-        LigandRoute::Undefined {
-            pairs: vec![pair("Ag", "Thiosulfate")]
+        LigandRoute::Route {
+            db: "minteq.v4",
+            pairs: vec![pair("Ag", "N(-3)"), pair("Ag", "Thiosulfate")]
         }
     );
+    assert!(routes_defining("Zn", "Cyanide").contains(&"minteq.v4"));
+    assert!(!routes_defining("Zn", "Cyanide").contains(&"wateq4f"));
 }
 
 #[test]
@@ -243,35 +259,68 @@ mod native {
     }
 
     #[test]
-    fn silver_thiosulfate_is_refused_with_a_typed_reason_before_mutation() {
+    fn silver_chloride_dissolves_in_excess_thiosulfate_on_the_minteq_route() {
         let mut solver = PhreeqcEquilibrator::new().unwrap();
         let mut vessel = water();
         deposit(&mut vessel, "AgNO3", 0.001);
-        deposit(&mut vessel, "Na2S2O3", 0.002);
-        let before = serde_json::to_value(&vessel).unwrap();
-        let error = solver.equilibrate(&mut vessel).unwrap_err();
-        assert_eq!(
-            error.owned_reason().map(|p| p.key.as_str()),
-            Some("solver-reason.aqueous.metal-ligand-complexes-undefined"),
-            "{error}"
+        deposit(&mut vessel, "NaCl", 0.001);
+        deposit(&mut vessel, "Na2S2O3", 0.004);
+        let before = vessel.clone();
+        solver.equilibrate(&mut vessel).unwrap();
+        let (dataset, _) = provenance(&vessel);
+        assert!(dataset.contains("minteq"), "{dataset}");
+        let complex = molality(&vessel, "Ag(S2O3)2-3") + molality(&vessel, "Ag(Thiosulfate)2-3");
+        assert!(complex > 1.5e-4, "bis-thiosulfato silver {complex}");
+        assert!(
+            vessel
+                .contents
+                .iter()
+                .filter(|p| p.phase == kerotakis_core::Phase::Solid)
+                .all(|p| p.moles.0 < 1e-5),
+            "no silver chloride left: {:?}",
+            vessel.contents
         );
-        assert!(error.to_string().contains("Ag/Thiosulfate"), "{error}");
-        assert_eq!(before, serde_json::to_value(&vessel).unwrap());
+        assert_conserved(&before, &vessel);
     }
 
     #[test]
-    fn zinc_ammine_is_refused_whether_ammonia_or_ammonium_supplies_it() {
+    fn silver_chloride_stays_without_thiosulfate() {
+        // Negative control: the same silver chloride with no ligand.
         let mut solver = PhreeqcEquilibrator::new().unwrap();
-        for ligand in ["NH3", "NH4Cl"] {
+        let mut vessel = water();
+        deposit(&mut vessel, "AgNO3", 0.001);
+        deposit(&mut vessel, "NaCl", 0.001);
+        solver.equilibrate(&mut vessel).unwrap();
+        let solid: f64 = vessel
+            .contents
+            .iter()
+            .filter(|p| p.phase == kerotakis_core::Phase::Solid)
+            .map(|p| p.moles.0)
+            .sum();
+        assert!(solid > 9e-4, "AgCl precipitate expected, got {solid}");
+    }
+
+    #[test]
+    fn zinc_ammine_forms_whether_ammonia_or_ammonium_supplies_it() {
+        let mut solver = PhreeqcEquilibrator::new().unwrap();
+        for (ligand, moles) in [("NH3", 0.02), ("NH4Cl", 0.004)] {
             let mut vessel = water();
             deposit(&mut vessel, "ZnSO4", 0.001);
-            deposit(&mut vessel, ligand, 0.004);
-            let error = solver.equilibrate(&mut vessel).unwrap_err();
-            assert_eq!(
-                error.owned_reason().map(|p| p.key.as_str()),
-                Some("solver-reason.aqueous.metal-ligand-complexes-undefined"),
-                "{ligand}: {error}"
-            );
+            deposit(&mut vessel, ligand, moles);
+            let before = vessel.clone();
+            solver.equilibrate(&mut vessel).unwrap();
+            let ammines: f64 = ["Zn(NH3)+2", "Zn(NH3)2+2", "Zn(NH3)3+2", "Zn(NH3)4+2"]
+                .iter()
+                .map(|n| molality(&vessel, n))
+                .sum();
+            assert!(ammines > 0.0, "{ligand}: zinc ammines");
+            if ligand == "NH3" {
+                assert!(
+                    molality(&vessel, "Zn(NH3)4+2") > 1e-4,
+                    "excess ammonia: tetraammine"
+                );
+            }
+            assert_conserved(&before, &vessel);
         }
     }
 
@@ -284,14 +333,7 @@ mod native {
             if metal != other {
                 deposit(&mut vessel, other, 0.001);
             }
-            let result = solver.equilibrate(&mut vessel);
-            if metal == "ZnSO4" {
-                // Ammonium nitrate still carries N(-3): zinc ammines are a
-                // known family, so this is the refusal boundary, not a pass.
-                assert!(result.is_err());
-                continue;
-            }
-            result.unwrap();
+            solver.equilibrate(&mut vessel).unwrap();
             let (dataset, routing) = provenance(&vessel);
             assert!(dataset.contains("wateq4f.dat"), "{metal}: {dataset}");
             assert!(!routing.contains("metal-ligand complexes"), "{routing}");

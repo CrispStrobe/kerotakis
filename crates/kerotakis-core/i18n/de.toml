@@ -235,6 +235,13 @@ polystyrene = "Polystyrol"
 "litmus" = "Lackmus"
 "oxidised litmus (colourless)" = "oxidiertes Lackmus (farblos)"
 urea = "Harnstoff"
+"potassium hexacyanoferrate(II)" = "Kaliumhexacyanoferrat(II)"
+"potassium hexacyanoferrate(III)" = "Kaliumhexacyanoferrat(III)"
+"hexacyanoferrate(II) ion" = "Hexacyanoferrat(II)-Ion"
+"hexacyanoferrate(III) ion" = "Hexacyanoferrat(III)-Ion"
+"Prussian blue (iron(III) hexacyanoferrate(II))" = "Berliner Blau (Eisen(III)-hexacyanoferrat(II))"
+"copper(II) hexacyanoferrate(II)" = "Kupfer(II)-hexacyanoferrat(II)"
+"zinc hexacyanoferrate(II)" = "Zinkhexacyanoferrat(II)"
 "aluminium ion" = "Aluminium-Ion"
 "potassium hydroxide" = "Kaliumhydroxid"
 "potassium iodate" = "Kaliumiodat"
@@ -1458,6 +1465,9 @@ white = "weiß"
 # the colour beside the name instead of in front of it, where it does not
 # decline. That choice lives HERE, in the data, which is the whole point:
 # a translator changes the construction without changing a line of Rust.
+"deep blue" = "tiefblau"
+"lemon-yellow crystals" = "zitronengelbe Kristalle"
+"red crystals" = "rote Kristalle"
 [look]
 indicator-optics-missing-ph = "Die Farbe ist unvollständig: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt."
 # The space between two whole sentences. It looks like typography rather
@@ -1485,6 +1495,7 @@ piece-floats = "ein Stück {what} schwimmt obenauf"
 piece-bottom = "ein Stück {what} liegt am Boden"
 piece-here = "ein Stück {what} liegt im Becher"
 spectral-gap = "Die Farbe ist unvollständig: für {species} liegt kein Absorptionsspektrum vor."
+complex-colour-editorial = "Die Farbe von {species} ist aus der berichteten Farbe als redaktionelle Bande gezeichnet, nicht aus einem gemessenen Spektrum."
 biuret-surrogate = "Das Violett ist die Biuret-Farbe des Kupfer-Peptid-Komplexes, als reine Augen-Ersatzbande gezeichnet: Es ist kein kalibrierter Proteinnachweis, und das Kupfer bleibt im Bestand so verbucht, wie der Löser es hinterlassen hat."
 # The list grammar, as two entries rather than a hardcoded " and ": a
 # language that uses no final conjunction writes "{head}{last}" here and

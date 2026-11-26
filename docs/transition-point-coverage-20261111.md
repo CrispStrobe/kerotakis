@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 172, boiling.reported 68, melting.no_data 139, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 179, boiling.reported 68, melting.no_data 146, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -90,12 +90,15 @@ Counts: boiling.no_data 172, boiling.reported 68, melting.no_data 139, melting.r
 | Cu+1 | aqueous | no_data | no_data | — |
 | Cu+2 | aqueous | no_data | no_data | — |
 | Cu2(OH)2CO3 | solid | no_data | no_data | — |
+| Cu2Fe(CN)6 | solid | no_data | no_data | — |
 | Cu2O | solid | melting 1516.7 K | no_data | literature/transition-points/Cu2O |
 | CuCl2 | solid | no_data | no_data | — |
 | CuO | solid | no_data | no_data | — |
 | CuS | solid | no_data | no_data | — |
 | CuSO4 | solid | decomposition 873.15 K | decomposition 873.15 K | literature/transition-points/CuSO4 |
 | Fe | solid | melting 1811 K | boiling 3273 K | literature/transition-points/Fe |
+| Fe(CN)6-3 | aqueous | no_data | no_data | — |
+| Fe(CN)6-4 | aqueous | no_data | no_data | — |
 | Fe(OH)2 | solid | no_data | no_data | — |
 | Fe(OH)3 | solid | no_data | no_data | — |
 | Fe+2 | aqueous | no_data | no_data | — |
@@ -130,6 +133,8 @@ Counts: boiling.no_data 172, boiling.reported 68, melting.no_data 139, melting.r
 | K2Cr2O7 | solid | no_data | no_data | — |
 | K2CrO4 | solid | no_data | no_data | — |
 | K2SO4 | solid | no_data | no_data | — |
+| K3Fe(CN)6 | solid | no_data | no_data | — |
+| K4Fe(CN)6 | solid | no_data | no_data | — |
 | KBr | solid | no_data | no_data | — |
 | KCl | solid | melting 1044 K | boiling 1680 K | literature/transition-points/KCl |
 | KHSO4 | solid | no_data | no_data | — |
@@ -195,6 +200,7 @@ Counts: boiling.no_data 172, boiling.reported 68, melting.no_data 139, melting.r
 | PbI2 | solid | melting 685 K | boiling 1145 K | literature/transition-points/PbI2 |
 | PbS | solid | no_data | no_data | — |
 | PbSO4 | solid | melting 1360 K | no_data | literature/transition-points/PbSO4 |
+| Prussian_blue | solid | no_data | no_data | — |
 | S | solid | melting 392 K | boiling 718.2 K | literature/transition-points/S |
 | S-2 | aqueous | no_data | no_data | — |
 | S2O3-2 | aqueous | no_data | no_data | — |
@@ -208,6 +214,7 @@ Counts: boiling.no_data 172, boiling.reported 68, melting.no_data 139, melting.r
 | Zn | solid | melting 692.677 K | boiling 1180 K | literature/transition-points/Zn |
 | Zn(OH)2 | solid | no_data | no_data | — |
 | Zn+2 | aqueous | no_data | no_data | — |
+| Zn2Fe(CN)6 | solid | no_data | no_data | — |
 | ZnCO3 | solid | no_data | no_data | — |
 | ZnO | solid | no_data | no_data | — |
 | ZnS | solid | no_data | no_data | — |

@@ -28,7 +28,7 @@ fn concentrated_ligand_feed_discloses_activity_model_fallback() {
 }
 
 #[test]
-fn reported_thiocyanate_complexes_keep_unknown_spectra_explicit() {
+fn reported_thiocyanate_complexes_are_coloured_by_their_table_rows() {
     use kerotakis_core::{
         vessel::{SolutionInfo, SpeciesDetail, Vessel},
         Moles, Phase, SpeciesId, VesselId,
@@ -56,13 +56,23 @@ fn reported_thiocyanate_complexes_keep_unknown_spectra_explicit() {
             })
             .collect(),
     });
-    assert_eq!(
-        kerotakis_core::solution_optics::spectral_gaps(&vessel),
-        vec!["Fe(SCN)+2", "Fe(SCN)2+"]
+    // Both complexes now carry complex_optics rows: the mono complex a
+    // cited 447 nm band, the bis complex an editorial one that is disclosed.
+    assert!(kerotakis_core::solution_optics::spectral_gaps(&vessel).is_empty());
+    let seen = kerotakis_core::appearance::observe(&vessel);
+    assert!(
+        !seen.words.contains("Colour is incomplete"),
+        "{}",
+        seen.words
     );
-    assert!(kerotakis_core::appearance::observe(&vessel)
-        .words
-        .contains("Colour is incomplete"));
+    assert!(seen
+        .notes
+        .iter()
+        .any(|p| p.key == "look.complex-colour-editorial"));
+    assert_eq!(
+        kerotakis_core::solution_optics::editorial_complexes(&vessel),
+        vec!["Fe(SCN)2+"]
+    );
 }
 
 #[test]

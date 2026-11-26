@@ -519,6 +519,14 @@ fn blockers(vessel: &Vessel, nm: f64, present: &[&'static str]) -> Vec<String> {
             out.insert(name.clone());
         }
     }
+    // A complex coloured by a complex_optics row absorbs across the visible;
+    // unless it also has a cited single-wavelength row, the reading cannot
+    // account for it and must not be taken.
+    for name in crate::solution_optics::complex_rows_present(vessel) {
+        if !is_cited(&name) {
+            out.insert(name);
+        }
+    }
     if coverage.starch_iodine_complex {
         out.insert("starch-iodine complex".to_string());
     }

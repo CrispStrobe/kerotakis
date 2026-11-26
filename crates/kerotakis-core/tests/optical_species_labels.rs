@@ -167,7 +167,7 @@ fn scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids() {
                 activity: 0.001,
             },
             SpeciesDetail {
-                name: "Cu(NH3)4+2".into(),
+                name: "CuCO3".into(),
                 molality: 0.001,
                 activity: 0.001,
             },
@@ -184,13 +184,13 @@ fn scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids() {
     );
     let spectral = liquid["spectral_gaps"].as_array().unwrap();
     assert!(spectral.contains(&serde_json::json!("CuSO4")));
-    assert!(spectral.contains(&serde_json::json!("Cu(NH3)4+2")));
+    assert!(spectral.contains(&serde_json::json!("CuCO3")));
     assert_eq!(liquid["optical_species_names"]["CuSO4"], "copper sulfate");
     assert_eq!(
         liquid["optical_species_names"]["methyl_orange"],
         "methyl orange"
     );
-    assert!(liquid["optical_species_names"].get("Cu(NH3)4+2").is_none());
+    assert!(liquid["optical_species_names"].get("CuCO3").is_none());
     assert_eq!(
         liquid["optical_species_names"].as_object().unwrap().len(),
         2

@@ -113,17 +113,30 @@ def split_hydrate(f: str):
     return f, 0.0
 
 
+# Conserved pseudo-elements of the shipped-complex-borrows slice
+# (crates/kerotakis-phreeqc/src/derived.rs PSEUDO_ELEMENT_ATOMS): a phase
+# written over one is matched by the real atoms it holds.
+PSEUDO_ELEMENTS = {"Ferrocyanide": "Fe(CN)6", "Ferricyanide": "Fe(CN)6"}
+# Phase blocks the runtime appends to a routed database before it runs.
+EXTENSIONS = {"minteq.v4": [ROOT / "data/thermo/shipped-complex-borrows-minteq.dat"]}
+
+
 def composition(formula: str):
+    for pseudo, atoms in PSEUDO_ELEMENTS.items():
+        formula = formula.replace(pseudo, atoms)
     base, waters = split_hydrate(formula)
     return groups(strip_charge(base)), waters
 
 
-def phases(path: Path):
+def phases(path: Path, extra=()):
     """Non-gas PHASES entries as {name: formula}, first definition wins."""
     out = {}
     section = None
     pending = None
-    for raw in path.read_text(encoding="latin-1").splitlines():
+    text = path.read_text(encoding="latin-1")
+    for ext in extra:
+        text += "\n" + ext.read_text(encoding="utf-8")
+    for raw in text.splitlines():
         line = raw.split("#")[0]
         if not line.strip():
             continue
@@ -165,7 +178,7 @@ def main():
 
     by_formula = {}
     for tag, file in DATABASES:
-        for name, formula in phases(db_dir / file).items():
+        for name, formula in phases(db_dir / file, EXTENSIONS.get(tag, ())).items():
             row = by_formula.setdefault(formula, {"formula": formula, "phases": []})
             row["phases"].append({"database": tag, "phase": name})
     rows = []
