@@ -516,9 +516,14 @@
     "family": "thiosulfate",
     "registry_supplies_metal": true,
     "route_deciding": true,
-    "complexes": {},
-    "decision": "missing on every routed database; refused with a typed reason",
-    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 28 (Ag(S2O3)2 3-, photographic fixing)"
+    "complexes": {
+      "minteq.v4": [
+        "Ag(Thiosulfate)-",
+        "Ag(Thiosulfate)2-3"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
   },
   {
     "metal": "Ag",
@@ -1982,9 +1987,20 @@
     "family": "ammine",
     "registry_supplies_metal": false,
     "route_deciding": true,
-    "complexes": {},
-    "decision": "missing on every routed database; refused with a typed reason",
-    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Cd(NH3)4 2+)"
+    "complexes": {
+      "minteq.v4": [
+        "Cd(NH3)+2",
+        "Cd(NH3)2+2",
+        "Cd(NH3)4+2"
+      ],
+      "wateq4f": [
+        "Cd(NH3)+2",
+        "Cd(NH3)2+2",
+        "Cd(NH3)4+2"
+      ]
+    },
+    "decision": "routes to wateq4f",
+    "source": null
   },
   {
     "metal": "Cd",
@@ -2293,7 +2309,10 @@
     "complexes": {
       "minteq.v4": [
         "CoCl+",
-        "CoCl+2"
+        "CoCl+2",
+        "CoCl2",
+        "CoCl3-",
+        "CoCl4-2"
       ]
     },
     "decision": "reported; background ligand, not route-deciding",
@@ -7276,9 +7295,13 @@
     "family": "cyanide",
     "registry_supplies_metal": true,
     "route_deciding": true,
-    "complexes": {},
-    "decision": "missing on every routed database; refused with a typed reason",
-    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(CN)4 2-)"
+    "complexes": {
+      "minteq.v4": [
+        "Zn(Cyanide)4-2"
+      ]
+    },
+    "decision": "routes to minteq.v4",
+    "source": null
   },
   {
     "metal": "Zn",
@@ -7478,9 +7501,22 @@
     "family": "ammine",
     "registry_supplies_metal": true,
     "route_deciding": true,
-    "complexes": {},
-    "decision": "missing on every routed database; refused with a typed reason",
-    "source": "Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(NH3)4 2+)"
+    "complexes": {
+      "minteq.v4": [
+        "Zn(NH3)+2",
+        "Zn(NH3)2+2",
+        "Zn(NH3)3+2",
+        "Zn(NH3)4+2"
+      ],
+      "wateq4f": [
+        "Zn(NH3)+2",
+        "Zn(NH3)2+2",
+        "Zn(NH3)3+2",
+        "Zn(NH3)4+2"
+      ]
+    },
+    "decision": "routes to wateq4f",
+    "source": null
   },
   {
     "metal": "Zn",

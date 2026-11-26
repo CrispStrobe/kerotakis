@@ -191,6 +191,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Berliner Blau",
+      "canonical": "Prussian_blue",
+      "source": "name-prefix:de"
+    },
+    {
+      "alias": "Berliner Blau (Eisen(III)-hexacyanoferrat(II))",
+      "canonical": "Prussian_blue",
+      "source": "name:de"
+    },
+    {
       "alias": "Betanin (Rote-Bete-Rot)",
       "canonical": "betanin",
       "source": "name:de"
@@ -561,6 +571,11 @@
       "source": "formula"
     },
     {
+      "alias": "Cu2[Fe(CN)6]",
+      "canonical": "Cu2Fe(CN)6",
+      "source": "formula"
+    },
+    {
       "alias": "Cu3SO4(OH)4",
       "canonical": "antlerite",
       "source": "formula"
@@ -746,6 +761,11 @@
       "source": "charge-notation"
     },
     {
+      "alias": "Fe4[Fe(CN)6]3",
+      "canonical": "Prussian_blue",
+      "source": "formula"
+    },
+    {
       "alias": "FeH2O2",
       "canonical": "Fe(OH)2",
       "source": "formula"
@@ -799,6 +819,26 @@
       "alias": "He",
       "canonical": "helium",
       "source": "formula"
+    },
+    {
+      "alias": "Hexacyanoferrat(II)",
+      "canonical": "Fe(CN)6-4",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hexacyanoferrat(II)-Ion",
+      "canonical": "Fe(CN)6-4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hexacyanoferrat(III)",
+      "canonical": "Fe(CN)6-3",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hexacyanoferrat(III)-Ion",
+      "canonical": "Fe(CN)6-3",
+      "source": "name:de"
     },
     {
       "alias": "Hexan",
@@ -901,6 +941,26 @@
       "source": "name:de"
     },
     {
+      "alias": "K3[Fe(CN)6]",
+      "canonical": "K3Fe(CN)6",
+      "source": "formula"
+    },
+    {
+      "alias": "K4[Fe(CN)6]*3H2O",
+      "canonical": "K4Fe(CN)6",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "K4[Fe(CN)6].3H2O",
+      "canonical": "K4Fe(CN)6",
+      "source": "hydrate-notation"
+    },
+    {
+      "alias": "K4[Fe(CN)6]·3H2O",
+      "canonical": "K4Fe(CN)6",
+      "source": "formula"
+    },
+    {
       "alias": "Kalium",
       "canonical": "K",
       "source": "name:de"
@@ -928,6 +988,16 @@
     {
       "alias": "Kaliumdichromat",
       "canonical": "K2Cr2O7",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumhexacyanoferrat(II)",
+      "canonical": "K4Fe(CN)6",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumhexacyanoferrat(III)",
+      "canonical": "K3Fe(CN)6",
       "source": "name:de"
     },
     {
@@ -1028,6 +1098,11 @@
     {
       "alias": "Kupfer(II)-chlorid",
       "canonical": "CuCl2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-hexacyanoferrat(II)",
+      "canonical": "Cu2Fe(CN)6",
       "source": "name:de"
     },
     {
@@ -1466,6 +1541,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Prussian blue",
+      "canonical": "Prussian_blue",
+      "source": "name-prefix:en"
+    },
+    {
+      "alias": "Prussian blue (iron(III) hexacyanoferrate(II))",
+      "canonical": "Prussian_blue",
+      "source": "name:en"
+    },
+    {
       "alias": "S2-",
       "canonical": "S-2",
       "source": "charge-notation"
@@ -1716,6 +1801,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Zinkhexacyanoferrat(II)",
+      "canonical": "Zn2Fe(CN)6",
+      "source": "name:de"
+    },
+    {
       "alias": "Zinkhydroxid",
       "canonical": "Zn(OH)2",
       "source": "name:de"
@@ -1739,6 +1829,11 @@
       "alias": "Zn2+",
       "canonical": "Zn+2",
       "source": "charge-notation"
+    },
+    {
+      "alias": "Zn2[Fe(CN)6]",
+      "canonical": "Zn2Fe(CN)6",
+      "source": "formula"
     },
     {
       "alias": "ZnH2O2",
@@ -2069,6 +2164,16 @@
       "alias": "bleached hair pigment (oxidised)",
       "canonical": "hair_pigment_ox",
       "source": "name:en"
+    },
+    {
+      "alias": "bleu de Prusse",
+      "canonical": "Prussian_blue",
+      "source": "name-prefix:fr"
+    },
+    {
+      "alias": "bleu de Prusse (hexacyanoferrate(II) de fer(III))",
+      "canonical": "Prussian_blue",
+      "source": "name:fr"
     },
     {
       "alias": "bleu de bromothymol",
@@ -2491,6 +2596,11 @@
       "source": "name:en"
     },
     {
+      "alias": "copper(II) hexacyanoferrate(II)",
+      "canonical": "Cu2Fe(CN)6",
+      "source": "name:en"
+    },
+    {
       "alias": "copper(II) hydroxide",
       "canonical": "Cu(OH)2",
       "source": "name:en"
@@ -2748,6 +2858,46 @@
     {
       "alias": "hair pigment (eumelanin repeat unit)",
       "canonical": "hair_pigment",
+      "source": "name:en"
+    },
+    {
+      "alias": "hexacyanoferrate(II)",
+      "canonical": "Fe(CN)6-4",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hexacyanoferrate(II) de cuivre(II)",
+      "canonical": "Cu2Fe(CN)6",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hexacyanoferrate(II) de potassium",
+      "canonical": "K4Fe(CN)6",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hexacyanoferrate(II) de zinc",
+      "canonical": "Zn2Fe(CN)6",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hexacyanoferrate(II) ion",
+      "canonical": "Fe(CN)6-4",
+      "source": "name:en"
+    },
+    {
+      "alias": "hexacyanoferrate(III)",
+      "canonical": "Fe(CN)6-3",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hexacyanoferrate(III) de potassium",
+      "canonical": "K3Fe(CN)6",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hexacyanoferrate(III) ion",
+      "canonical": "Fe(CN)6-3",
       "source": "name:en"
     },
     {
@@ -3058,6 +3208,16 @@
     {
       "alias": "ion fer(III)",
       "canonical": "Fe+3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hexacyanoferrate(II)",
+      "canonical": "Fe(CN)6-4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hexacyanoferrate(III)",
+      "canonical": "Fe(CN)6-3",
       "source": "name:fr"
     },
     {
@@ -3906,6 +4066,16 @@
       "source": "name:en"
     },
     {
+      "alias": "potassium hexacyanoferrate(II)",
+      "canonical": "K4Fe(CN)6",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium hexacyanoferrate(III)",
+      "canonical": "K3Fe(CN)6",
+      "source": "name:en"
+    },
+    {
       "alias": "potassium hydrogen sulfate",
       "canonical": "KHSO4",
       "source": "name:en"
@@ -4368,6 +4538,11 @@
     {
       "alias": "zinc carbonate (smithsonite)",
       "canonical": "ZnCO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "zinc hexacyanoferrate(II)",
+      "canonical": "Zn2Fe(CN)6",
       "source": "name:en"
     },
     {

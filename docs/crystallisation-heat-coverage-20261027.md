@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 19 | 1 | 112 |
-| minteq.v4 | 21 | 1 | 110 |
-| pitzer | 10 | 3 | 119 |
+| wateq4f | 19 | 1 | 117 |
+| minteq.v4 | 21 | 4 | 112 |
+| pitzer | 10 | 3 | 124 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -159,6 +159,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Cu2(OH)2CO3` | wateq4f | refused | Malachite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2(OH)2CO3` | minteq.v4 | refused | Malachite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2(OH)2CO3` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Cu2Fe(CN)6` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Cu2Fe(CN)6` | minteq.v4 | solubility-only | Cu_hexacyanoferrate_II | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
+| `Cu2Fe(CN)6` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Cu2O` | wateq4f | refused | Cuprite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2O` | minteq.v4 | refused | Cuprite | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `Cu2O` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -213,6 +216,12 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `K2SO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `K2SO4` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `K2SO4` | pitzer | crystallises-with-priced-heat | Arcanite | PHREEQC phase saturation, delta_h 22.184 kJ/mol; solid priced |
+| `K3Fe(CN)6` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `K3Fe(CN)6` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `K3Fe(CN)6` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `K4Fe(CN)6` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `K4Fe(CN)6` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `K4Fe(CN)6` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `KBr` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `KBr` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `KBr` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -348,6 +357,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `PbSO4` | wateq4f | crystallises-with-priced-heat | Anglesite | PHREEQC phase saturation, delta_h 8.996 kJ/mol; solid priced |
 | `PbSO4` | minteq.v4 | crystallises-with-priced-heat | Anglesite | PHREEQC phase saturation, delta_h 12.000 kJ/mol; solid priced |
 | `PbSO4` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Prussian_blue` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Prussian_blue` | minteq.v4 | solubility-only | Prussian_blue | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
+| `Prussian_blue` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `S` | wateq4f | refused | Sulfur | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `S` | minteq.v4 | refused | Sulfur | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
 | `S` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -360,6 +372,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Zn(OH)2` | wateq4f | refused | Zn(OH)2-e | the phase saturates at ionic strength >= 632455532033.68 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Zn(OH)2` | minteq.v4 | refused | Zn(OH)2(epsilon) | the phase saturates at ionic strength >= 683958885027.42 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Zn(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Zn2Fe(CN)6` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `Zn2Fe(CN)6` | minteq.v4 | solubility-only | Zn_hexacyanoferrate_II | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
+| `Zn2Fe(CN)6` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `ZnCO3` | wateq4f | crystallises-with-priced-heat | Smithsonite | PHREEQC phase saturation, delta_h -18.242 kJ/mol; solid priced |
 | `ZnCO3` | minteq.v4 | crystallises-with-priced-heat | Smithsonite | PHREEQC phase saturation, delta_h -15.840 kJ/mol; solid priced |
 | `ZnCO3` | pitzer | refused | - | the routed database defines no phase for this solid |
