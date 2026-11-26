@@ -525,6 +525,27 @@
     "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
+    "solid": "Cu(NO3)2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Cu(NO3)2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Cu(NO3)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Cu(OH)2",
     "route": "wateq4f",
     "class": "refused",
@@ -924,6 +945,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "K2SO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K2SO4",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K2SO4",
+    "route": "pitzer",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Arcanite",
+    "reason": "PHREEQC phase saturation, delta_h 22.184 kJ/mol; solid priced"
+  },
+  {
     "solid": "KBr",
     "route": "wateq4f",
     "class": "refused",
@@ -964,6 +1006,27 @@
     "class": "crystallises-with-priced-heat",
     "phase": "Sylvite",
     "reason": "PHREEQC phase saturation, delta_h 18.310 kJ/mol; solid priced"
+  },
+  {
+    "solid": "KHSO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "KHSO4",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "KHSO4",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
   },
   {
     "solid": "KI",

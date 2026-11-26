@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 64, refused 57.
+Registry species carrying a metal: emits 67, refused 58.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -38,6 +38,7 @@ Registry species carrying a metal: emits 64, refused 57.
 | emits | CaCl2 | Ca | brick red |
 | emits | CaO | Ca | brick red |
 | emits | Cu | Cu | blue-green |
+| emits | Cu(NO3)2 | Cu | — |
 | emits | Cu(OH)2 | Cu | — |
 | emits | Cu+1 | Cu | blue-green |
 | emits | Cu+2 | Cu | blue-green |
@@ -49,8 +50,10 @@ Registry species carrying a metal: emits 64, refused 57.
 | emits | CuSO4 | Cu | blue-green |
 | emits | K | K | lilac |
 | emits | K+ | K | lilac |
+| emits | K2SO4 | K | — |
 | emits | KBr | K | lilac |
 | emits | KCl | K | lilac |
+| emits | KHSO4 | K | — |
 | emits | KI | K | — |
 | emits | KIO3 | K | — |
 | emits | KNO3 | K | violet |
@@ -103,6 +106,7 @@ Registry species carrying a metal: emits 64, refused 57.
 | refused | Co(NO3)2 | Co | — |
 | refused | Co+2 | Co | — |
 | refused | CoCl2 | Co | — |
+| refused | Cr+3 | Cr | — |
 | refused | Fe | Fe | — |
 | refused | Fe(OH)2 | Fe | — |
 | refused | Fe(OH)3 | Fe | — |

@@ -2,8 +2,8 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 44,
-    "neutral-refused": 179,
+    "ion-stays-aqueous": 45,
+    "neutral-refused": 186,
     "partitions": 9
   },
   "cases": [
@@ -88,6 +88,11 @@
     },
     {
       "species": "Co+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Cr+3",
       "class": "ion-stays-aqueous",
       "basis": null
     },
@@ -327,6 +332,11 @@
       "basis": null
     },
     {
+      "species": "Br2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "C",
       "class": "neutral-refused",
       "basis": null
@@ -398,6 +408,11 @@
     },
     {
       "species": "Cu",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Cu(NO3)2",
       "class": "neutral-refused",
       "basis": null
     },
@@ -527,6 +542,11 @@
       "basis": null
     },
     {
+      "species": "HNO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "K",
       "class": "neutral-refused",
       "basis": null
@@ -542,12 +562,22 @@
       "basis": null
     },
     {
+      "species": "K2SO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "KBr",
       "class": "neutral-refused",
       "basis": null
     },
     {
       "species": "KCl",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KHSO4",
       "class": "neutral-refused",
       "basis": null
     },
@@ -638,6 +668,16 @@
     },
     {
       "species": "NH4NO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NO",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "NO2",
       "class": "neutral-refused",
       "basis": null
     },

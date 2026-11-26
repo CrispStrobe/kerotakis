@@ -423,9 +423,9 @@ fn acid(vessel: &Vessel) -> f64 {
 /// boundary: with water fraction w = W / (W + R), staying below the floor f
 /// needs W ≤ R f / (1 − f).
 fn water_room(vessel: &Vessel, acid: &str) -> f64 {
-    let Some(fraction) = crate::nonaqueous::water_fraction_among_solvents(vessel) else {
-        return 0.0;
-    };
+    // No solvent fraction at all is a liquid without water: the neat acid
+    // itself is the whole liquid.
+    let fraction = crate::nonaqueous::water_fraction_among_solvents(vessel).unwrap_or(0.0);
     let water = phase_moles(vessel, "water", &[Phase::Liquid, Phase::Aqueous]);
     let total = if fraction > 0.0 {
         water / fraction
@@ -810,8 +810,38 @@ fn medium_admits(vessel: &Vessel, acid: &OxidisingAcid, r: &AcidReductant) -> bo
 fn acid_amount(vessel: &Vessel, acid: &OxidisingAcid) -> f64 {
     match acid.medium {
         Medium::Concentrated { .. } => neat(vessel, acid.acid),
-        Medium::Aqueous => phase_moles(vessel, acid.acid, &[Phase::Liquid, Phase::Aqueous]),
+        Medium::Aqueous => {
+            phase_moles(vessel, acid.acid, &[Phase::Liquid, Phase::Aqueous])
+                + dissolved_acid(vessel, acid)
+        }
     }
+}
+
+/// Acid a solve has already ionised (nitric acid booked as H⁺ + NO₃⁻): the
+/// acid's dissolved anion, as far as represented acidity pairs with it. A
+/// beaker of dilute nitric acid is the same oxidant after its first solve as
+/// before it.
+fn dissolved_acid(vessel: &Vessel, acid: &OxidisingAcid) -> f64 {
+    let anion = phase_moles(vessel, acid.anion, &[Phase::Aqueous]);
+    if anion <= TRACE {
+        return 0.0;
+    }
+    let mut v = vessel.clone();
+    v.solute_charge = crate::displacement::solute_charge(&v);
+    anion.min(crate::displacement::unspent_acidity(&v).max(0.0))
+}
+
+/// Book the ionised acid back as the literal acid so the row can spend it.
+fn molecularise_dissolved_acid(vessel: &mut Vessel, acid: &OxidisingAcid) {
+    let n = dissolved_acid(vessel, acid);
+    if n <= TRACE {
+        return;
+    }
+    vessel.solute_charge = crate::displacement::solute_charge(vessel);
+    crate::displacement::consume_acidity(vessel, n);
+    withdraw(vessel, acid.anion, n, &[Phase::Aqueous]);
+    vessel.deposit(SpeciesId::new(acid.acid), Moles(n), Phase::Aqueous);
+    vessel.solute_charge = crate::displacement::solute_charge(vessel);
 }
 
 fn oxidation_extent(vessel: &Vessel, row: &AcidOxidation) -> f64 {
@@ -1144,6 +1174,9 @@ pub fn apply(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         if x <= TRACE {
             continue;
         }
+        if row.acid.medium == Medium::Aqueous {
+            molecularise_dissolved_acid(vessel, row.acid);
+        }
         let acid_phases: &[Phase] = match row.acid.medium {
             Medium::Concentrated { .. } => &[Phase::Liquid],
             Medium::Aqueous => &[Phase::Aqueous, Phase::Liquid],
@@ -1438,21 +1471,55 @@ mod tests {
     }
 
     #[test]
-    fn salts_whose_products_are_unregistered_stay_and_say_so() {
-        // No KHSO4/K2SO4 in the registry; no HNO3 either.
-        for key in ["KCl", "KNO3", "NaNO3"] {
+    fn potassium_and_nitrate_salts_make_the_hydrogen_salt() {
+        // KHSO4 and HNO3 joined the registry (2026-11-25): these rows were
+        // dormant and now run to the salt.
+        for (key, salt) in [
+            ("KCl", "KHSO4"),
+            ("KBr", "KHSO4"),
+            ("KNO3", "KHSO4"),
+            ("NaNO3", "NaHSO4"),
+        ] {
             let mut v = beaker();
             v.deposit(SpeciesId::new(key), Moles(0.01), Phase::Solid);
             v.deposit(SpeciesId::new(ACID), Moles(0.05), Phase::Liquid);
-            assert!(!fires(&v), "{key}");
+            assert!(fires(&v), "{key}");
             assert!(
-                noted(
+                !noted(
                     &dormant_notes(&v),
                     "not-modeled.acid-route-product-unregistered"
                 ),
                 "{key}"
             );
+            let mut events = Vec::new();
+            assert!(apply(&mut v, &mut events), "{key}");
+            assert!(
+                (phase_moles(&v, salt, &[Phase::Solid]) - 0.01).abs() < 1e-12,
+                "{key}"
+            );
+            assert!(phase_moles(&v, key, &[Phase::Solid]) < 1e-12, "{key}");
         }
+        // Nitric acid stays in the liquid below its boiling point.
+        let mut v = beaker();
+        v.deposit(SpeciesId::new("KNO3"), Moles(0.01), Phase::Solid);
+        v.deposit(SpeciesId::new(ACID), Moles(0.05), Phase::Liquid);
+        let mut events = Vec::new();
+        assert!(apply(&mut v, &mut events));
+        assert!(
+            (phase_moles(&v, "HNO3", &[Phase::Liquid, Phase::Aqueous, Phase::Gas]) - 0.01).abs()
+                < 1e-12,
+            "{events:?}"
+        );
+        // A salt whose sulfate the registry still lacks (anhydrous CaSO4;
+        // gypsum is a different formula) stays and says so.
+        let mut v = beaker();
+        v.deposit(SpeciesId::new("CaCl2"), Moles(0.01), Phase::Solid);
+        v.deposit(SpeciesId::new(ACID), Moles(0.05), Phase::Liquid);
+        assert!(!fires(&v));
+        assert!(noted(
+            &dormant_notes(&v),
+            "not-modeled.acid-route-product-unregistered"
+        ));
         // Iodide is oxidised, not displaced.
         let mut v = beaker();
         v.deposit(SpeciesId::new("KI"), Moles(0.01), Phase::Solid);
@@ -1525,14 +1592,22 @@ mod tests {
             eq("H2SO4", "activated_charcoal", "SO2"),
             "C + 2 H₂SO₄ →Δ CO₂↑ + 2 SO₂↑ + 2 H₂O"
         );
-        // Nitric acid rows are dormant until the registry carries HNO3, NO,
-        // NO2 and copper(II) nitrate; their balance is already fixed.
+        // Nitric acid rows are live since HNO3, NO, NO2 and copper(II)
+        // nitrate joined the registry (2026-11-25).
         let dilute = rows
             .iter()
             .find(|r| r.acid.acid == "HNO3" && r.acid.reduced == "NO")
             .unwrap();
         assert!((dilute.acid_per - 8.0 / 3.0).abs() < 1e-12);
-        assert!(dilute.missing.is_some());
+        assert!(dilute.missing.is_none());
+        assert_eq!(
+            eq("HNO3", "Cu", "NO"),
+            "3 Cu + 8 HNO₃ → 3 Cu(NO₃)₂ + 2 NO↑ + 4 H₂O"
+        );
+        assert_eq!(
+            eq("HNO3", "Cu", "NO2"),
+            "Cu + 4 HNO₃ → Cu(NO₃)₂ + 2 NO₂↑ + 2 H₂O"
+        );
         // Copper's potential comes from the activity series, below both
         // nitrate couples and above sulfate/sulfite at unit activity.
         let cu = ACID_REDUCTANTS.iter().find(|r| r.key == "Cu").unwrap();

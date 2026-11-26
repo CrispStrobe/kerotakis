@@ -42,7 +42,7 @@
 //!
 //! Standard reduction potentials at 25 °C, CRC Handbook of Chemistry and
 //! Physics, "Electrochemical Series" (P. Vanýsek): MnO₂/Mn²⁺ 1.224 V,
-//! MnO₄⁻/Mn²⁺ 1.507 V, Cr₂O₇²⁻/Cr³⁺ 1.232 V, Cl₂(g)/Cl⁻ 1.35827 V,
+//! MnO₄⁻/Mn²⁺ 1.507 V, Cr₂O₇²⁻/Cr³⁺ 1.36 V (Bard, Parsons & Jordan 1985), Cl₂(g)/Cl⁻ 1.35827 V,
 //! Br₂(l)/Br⁻ 1.066 V, HClO/Cl⁻ 1.482 V, I₂(s)/I⁻ 0.5355 V, Fe³⁺/Fe²⁺ 0.771 V.
 //!
 //! Iron(II) oxidised by permanganate is NOT a route here: the aqueous engine
@@ -65,7 +65,12 @@ pub const RESOLUTION: f64 = 1e-9;
 /// CRC "Electrochemical Series" standard potentials, V (see module notes).
 pub const E0_MNO2: f64 = 1.224;
 pub const E0_MNO4: f64 = 1.507;
-pub const E0_CR2O7: f64 = 1.232;
+/// Dichromate/chromium(III): 1.36 V, A. J. Bard, R. Parsons and J. Jordan
+/// (eds.), Standard Potentials in Aqueous Solution (IUPAC, Marcel Dekker,
+/// 1985), as tabulated in Vanýsek's CRC Electrochemical Series. Some later
+/// CRC printings give 1.232 V and older textbooks 1.33 V; the critically
+/// evaluated IUPAC compilation is the primary source chosen (2026-11-25).
+pub const E0_CR2O7: f64 = 1.36;
 pub const E0_CL2: f64 = 1.358_27;
 pub const E0_BR2: f64 = 1.066;
 pub const E0_I2: f64 = 0.5355;

@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
+Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
 
 ## Matched registry solids
 
@@ -56,6 +56,7 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | `Fe3O4` | Fe3O4 | minteq.v4:`Magnetite`, wateq4f:`Magnetite` |
 | `K2Cr2O7` | K2Cr2O7 | minteq.v4:`K2Cr2O7` |
 | `K2CrO4` | K2CrO4 | minteq.v4:`K2CrO4` |
+| `K2SO4` | K2SO4 | pitzer:`Arcanite` |
 | `KCl` | KCl | pitzer:`Sylvite` |
 | `Mg(OH)2` | Mg(OH)2 | minteq.v4:`Brucite`, minteq.v4:`Mg(OH)2(active)`, pitzer:`Brucite`, wateq4f:`Brucite` |
 | `MgCO3` | MgCO3 | minteq.v4:`Magnesite`, pitzer:`Magnesite`, wateq4f:`Magnesite` |
@@ -120,6 +121,8 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | (Co(NH3)6)I3 | minteq.v4:`(Co(NH3)6)I3` |
 | (H3O)Fe3(SO4)2(OH)6 | minteq.v4:`H-Jarosite`, wateq4f:`JarositeH` |
 | (K0.77Na0.03H0.2)Fe3(SO4)2(OH)6 | wateq4f:`Jarosite(ss)` |
+| (NH4)2CrO4 | minteq.v4:`(NH4)2CrO4` |
+| Ag2CrO4 | minteq.v4:`Ag2CrO4` |
 | Ag2S | minteq.v4:`Acanthite`, wateq4f:`Acanthite` |
 | Al(OH)3 | minteq.v4:`Al(OH)3(am)`, minteq.v4:`Gibbsite`, wateq4f:`Al(OH)3(a)`, wateq4f:`Gibbsite` |
 | Al4(OH)10SO4 | minteq.v4:`Al4(OH)10SO4`, wateq4f:`Basaluminite` |
@@ -127,8 +130,10 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | AlOOH | minteq.v4:`Boehmite`, minteq.v4:`Diaspore`, wateq4f:`Boehmite`, wateq4f:`Diaspore` |
 | B(OH)3 | pitzer:`Boric_acid,s` |
 | Ba(OH)2:8H2O | minteq.v4:`Ba(OH)2:8H2O` |
+| BaCrO4 | minteq.v4:`BaCrO4` |
 | BaHPO4 | minteq.v4:`BaHPO4` |
 | BaS | minteq.v4:`BaS` |
+| CaCrO4 | minteq.v4:`CaCrO4` |
 | CaHPO4 | minteq.v4:`CaHPO4` |
 | CaMg3(CO3)4 | minteq.v4:`Huntite`, pitzer:`Huntite`, wateq4f:`Huntite` |
 | CaNa2(CO3)2:5H2O | pitzer:`Gaylussite` |
@@ -146,6 +151,15 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | CoS | minteq.v4:`CoS(alpha)`, minteq.v4:`CoS(beta)` |
 | CoSO4 | minteq.v4:`CoSO4` |
 | CoSO4:6H2O | minteq.v4:`CoSO4:6H2O` |
+| Cr | minteq.v4:`Crmetal` |
+| Cr(OH)2 | minteq.v4:`Cr(OH)2` |
+| Cr(OH)3 | minteq.v4:`Cr(OH)3`, minteq.v4:`Cr(OH)3(am)` |
+| Cr2O3 | minteq.v4:`Cr2O3` |
+| CrBr3 | minteq.v4:`CrBr3` |
+| CrCl2 | minteq.v4:`CrCl2` |
+| CrCl3 | minteq.v4:`CrCl3` |
+| CrI3 | minteq.v4:`CrI3` |
+| CrO3 | minteq.v4:`CrO3` |
 | Cu0.066Cu1.868S | minteq.v4:`Djurleite`, wateq4f:`Djurleite` |
 | Cu0.25Cu1.5S | minteq.v4:`Anilite`, wateq4f:`Anilite` |
 | Cu0.6Cu0.8S | minteq.v4:`BlaubleiII`, wateq4f:`BlaubleiII` |
@@ -160,6 +174,7 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | CuBr | minteq.v4:`CuBr`, wateq4f:`CuBr` |
 | CuCO3 | minteq.v4:`CuCO3`, wateq4f:`CuCO3` |
 | CuCl | minteq.v4:`Nantokite`, wateq4f:`Nantokite` |
+| CuCrO4 | minteq.v4:`CuCrO4` |
 | CuFe2O4 | minteq.v4:`Cupricferrite`, wateq4f:`CupricFerrite` |
 | CuFeO2 | minteq.v4:`Cuprousferrite`, wateq4f:`CuprousFerrite` |
 | CuFeS2 | minteq.v4:`Chalcopyrite`, wateq4f:`Chalcopyrite` |
@@ -173,6 +188,7 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Fe3(PO4)2:8H2O | minteq.v4:`Vivianite`, wateq4f:`Vivianite` |
 | Fe3S4 | minteq.v4:`Greigite`, wateq4f:`Greigite` |
 | FeAl2O4 | minteq.v4:`Hercynite` |
+| FeCr2O4 | minteq.v4:`FeCr2O4` |
 | FeOOH | minteq.v4:`Goethite`, minteq.v4:`Lepidocrocite`, wateq4f:`Goethite` |
 | FePO4:2H2O | minteq.v4:`Strengite`, wateq4f:`Strengite` |
 | FeS | minteq.v4:`FeS(ppt)`, minteq.v4:`Mackinawite`, wateq4f:`FeS(ppt)`, wateq4f:`Mackinawite` |
@@ -184,7 +200,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | K2Mg(SO4)2:4H2O | pitzer:`Leonite` |
 | K2Mg(SO4)2:6H2O | pitzer:`Schoenite` |
 | K2MgCa2(SO4)4:2H2O | pitzer:`Polyhalite` |
-| K2SO4 | pitzer:`Arcanite` |
 | K8H6(SO4)7 | pitzer:`Misenite` |
 | KAl(SO4)2:12H2O | minteq.v4:`K-Alum`, wateq4f:`AlumK` |
 | KAl3(SO4)2(OH)6 | minteq.v4:`Alunite`, wateq4f:`Alunite` |
@@ -201,6 +216,8 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | MgCO3:Mg(OH)2:3H2O | minteq.v4:`Artinite`, wateq4f:`Artinite` |
 | MgCl2:2H2O | pitzer:`MgCl2_2H2O` |
 | MgCl2:4H2O | pitzer:`MgCl2_4H2O` |
+| MgCr2O4 | minteq.v4:`MgCr2O4` |
+| MgCrO4 | minteq.v4:`MgCrO4` |
 | MgHPO4:3H2O | minteq.v4:`MgHPO4:3H2O` |
 | MgSO4:4H2O | pitzer:`Leonhardite` |
 | MgSO4:5H2O | pitzer:`Pentahydrite` |
@@ -221,6 +238,8 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Na2CO3:H2O | minteq.v4:`Thermonatrite`, wateq4f:`Thermonatrite` |
 | Na2Ca(CO3)2:2H2O | pitzer:`Pirssonite` |
 | Na2Ca(SO4)2 | pitzer:`Glauberite` |
+| Na2Cr2O7 | minteq.v4:`Na2Cr2O7` |
+| Na2CrO4 | minteq.v4:`Na2CrO4` |
 | Na2Mg(SO4)2:4H2O | pitzer:`Bloedite` |
 | Na2SO4:10H2O | minteq.v4:`Mirabilite`, pitzer:`Mirabilite`, wateq4f:`Mirabilite` |
 | Na3H(CO3)2:2H2O | pitzer:`Trona` |
@@ -249,11 +268,13 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Pb5(PO4)3OH | minteq.v4:`Hydroxylpyromorphite`, wateq4f:`Hxypyromorphite` |
 | PbAl3(PO4)2(OH)5:H2O | minteq.v4:`Plumbgummite`, wateq4f:`Plumbogummite` |
 | PbAl3PO4SO4(OH)6 | minteq.v4:`Hinsdalite`, wateq4f:`Hinsdalite` |
+| PbCrO4 | minteq.v4:`PbCrO4` |
 | PbHPO4 | minteq.v4:`PbHPO4`, wateq4f:`PbHPO4` |
 | PbO | minteq.v4:`Litharge`, minteq.v4:`Massicot`, wateq4f:`Litharge`, wateq4f:`Massicot` |
 | PbO2 | minteq.v4:`Plattnerite`, wateq4f:`Plattnerite` |
 | PbO:0.33H2O | minteq.v4:`PbO:0.3H2O`, wateq4f:`PbO:0.3H2O` |
 | PbOHCl | minteq.v4:`Laurionite`, wateq4f:`Laurionite` |
+| SrCrO4 | minteq.v4:`SrCrO4` |
 | SrHPO4 | minteq.v4:`SrHPO4` |
 | Zn(BO2)2 | minteq.v4:`Zn(BO2)2`, wateq4f:`Zn(BO2)2` |
 | Zn(NO3)2:6H2O | minteq.v4:`Zn(NO3)2:6H2O`, wateq4f:`Zn(NO3)2:6H2O` |
@@ -278,13 +299,11 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | (HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 | wateq4f:`Montmorillonite-BelleFourche` |
 | (HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 | wateq4f:`Montmorillonite-Aberdeen` |
 | (NH4)2(UO2)2(PO4)2 | minteq.v4:`Uramphite`, wateq4f:`Uramphite` |
-| (NH4)2CrO4 | minteq.v4:`(NH4)2CrO4` |
 | (NH4)2SeO4 | minteq.v4:`(NH4)2SeO4` |
 | (NaKMg0.5)0.11Al2.33Si3.67O10(OH)2 | wateq4f:`Beidellite` |
 | (UO2)3(PO4)2 | minteq.v4:`(UO2)3(PO4)2` |
 | (UO2)3(PO4)2:4H2O | wateq4f:`(UO2)3(PO4)2:4w` |
 | (VO)3(PO4)2 | minteq.v4:`(VO)3(PO4)2` |
-| Ag2CrO4 | minteq.v4:`Ag2CrO4` |
 | Ag2HVO4 | minteq.v4:`Ag2HVO4` |
 | Ag2MoO4 | minteq.v4:`Ag2MoO4` |
 | Ag2Se | minteq.v4:`Ag2Se` |
@@ -311,7 +330,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Ba2V2O7:2H2O | minteq.v4:`Ba2V2O7:2H2O` |
 | Ba3(AsO4)2 | minteq.v4:`Ba3(AsO4)2`, wateq4f:`Ba3(AsO4)2` |
 | Ba3(VO4)2:4H2O | minteq.v4:`Ba3(VO4)2:4H2O` |
-| BaCrO4 | minteq.v4:`BaCrO4` |
 | BaF2 | minteq.v4:`BaF2`, wateq4f:`BaF2` |
 | BaMoO4 | minteq.v4:`BaMoO4` |
 | BaSeO3 | minteq.v4:`BaSeO3`, wateq4f:`BaSeO3` |
@@ -340,7 +358,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | CaAl2Si2O8 | wateq4f:`Anorthite` |
 | CaAl2Si4O12:2H2O | wateq4f:`Wairakite` |
 | CaAl2Si4O12:4H2O | wateq4f:`Laumontite` |
-| CaCrO4 | minteq.v4:`CaCrO4` |
 | CaF2 | minteq.v4:`Fluorite`, wateq4f:`Fluorite` |
 | CaMgSi2O6 | pitzer:`Diopside`, wateq4f:`Diopside` |
 | CaMoO4 | minteq.v4:`CaMoO4` |
@@ -380,16 +397,7 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | CoSe | minteq.v4:`CoSe` |
 | CoSeO3 | minteq.v4:`CoSeO3` |
 | CoSeO4:6H2O | minteq.v4:`CoSeO4:6H2O` |
-| Cr | minteq.v4:`Crmetal` |
-| Cr(OH)2 | minteq.v4:`Cr(OH)2` |
-| Cr(OH)3 | minteq.v4:`Cr(OH)3`, minteq.v4:`Cr(OH)3(am)` |
-| Cr2O3 | minteq.v4:`Cr2O3` |
-| CrBr3 | minteq.v4:`CrBr3` |
-| CrCl2 | minteq.v4:`CrCl2` |
-| CrCl3 | minteq.v4:`CrCl3` |
 | CrF3 | minteq.v4:`CrF3` |
-| CrI3 | minteq.v4:`CrI3` |
-| CrO3 | minteq.v4:`CrO3` |
 | Cu(SbO3)2 | minteq.v4:`Cu(SbO3)2` |
 | Cu(UO2)2(PO4)2 | minteq.v4:`Torbernite`, wateq4f:`Torbernite` |
 | Cu2Sb:3H2O | minteq.v4:`Cu2Sb:3H2O` |
@@ -398,7 +406,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Cu3(AsO4)2:6H2O | wateq4f:`Cu3(AsO4)2:6w` |
 | Cu3Sb | minteq.v4:`Cu3Sb` |
 | Cu3Se2 | minteq.v4:`Cu3Se2` |
-| CuCrO4 | minteq.v4:`CuCrO4` |
 | CuF | minteq.v4:`CuF`, wateq4f:`CuF` |
 | CuF2 | minteq.v4:`CuF2`, wateq4f:`CuF2` |
 | CuF2:2H2O | minteq.v4:`CuF2:2H2O`, wateq4f:`CuF2:2H2O` |
@@ -415,7 +422,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Fe2(SeO3)3:2H2O | minteq.v4:`Fe2(SeO3)3:2H2O` |
 | Fe3Si2O5(OH)4 | minteq.v4:`Greenalite`, wateq4f:`Greenalite` |
 | FeAsO4:2H2O | minteq.v4:`FeAsO4:2H2O`, wateq4f:`Scorodite` |
-| FeCr2O4 | minteq.v4:`FeCr2O4` |
 | FeMoO4 | minteq.v4:`FeMoO4` |
 | FeSe | minteq.v4:`FeSe` |
 | FeSe2 | minteq.v4:`Ferroselite`, wateq4f:`FeSe2` |
@@ -465,8 +471,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Mg3Si4O10(OH)2 | pitzer:`Talc`, wateq4f:`Talc` |
 | Mg5Al2Si3O10(OH)8 | wateq4f:`Chlorite14A`, wateq4f:`Chlorite7A` |
 | Mg7Si8O22(OH)2 | pitzer:`Anthophyllite` |
-| MgCr2O4 | minteq.v4:`MgCr2O4` |
-| MgCrO4 | minteq.v4:`MgCrO4` |
 | MgF2 | minteq.v4:`MgF2` |
 | MgMoO4 | minteq.v4:`MgMoO4` |
 | MgSeO3:6H2O | minteq.v4:`MgSeO3:6H2O` |
@@ -484,8 +488,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | MoS2 | minteq.v4:`MoS2` |
 | Na0.5K0.5AlSi3O8:H2O | wateq4f:`Phillipsite` |
 | Na2(UO2)2(PO4)2 | minteq.v4:`Na-Autunite`, wateq4f:`Na-Autunite` |
-| Na2Cr2O7 | minteq.v4:`Na2Cr2O7` |
-| Na2CrO4 | minteq.v4:`Na2CrO4` |
 | Na2Mo2O7 | minteq.v4:`Na2Mo2O7` |
 | Na2MoO4 | minteq.v4:`Na2MoO4` |
 | Na2MoO4:2H2O | minteq.v4:`Na2MoO4:2H2O` |
@@ -523,7 +525,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | Pb3(VO4)2 | minteq.v4:`Pb3(VO4)2` |
 | PbBrF | minteq.v4:`PbBrF`, wateq4f:`PbBrF` |
 | PbClF | minteq.v4:`Matlockite`, wateq4f:`Matlockite` |
-| PbCrO4 | minteq.v4:`PbCrO4` |
 | PbF2 | minteq.v4:`PbF2`, wateq4f:`PbF2` |
 | PbMoO4 | minteq.v4:`PbMoO4` |
 | PbSe | minteq.v4:`Clausthalite` |
@@ -560,7 +561,6 @@ Counts: bookable-unclaimed 161, declined 12, registry-solid 59, unbookable 349.
 | SnSe | minteq.v4:`SnSe` |
 | SnSe2 | minteq.v4:`SnSe2` |
 | Sr(UO2)2(PO4)2 | minteq.v4:`Sr-Autunite`, wateq4f:`Sr-Autunite` |
-| SrCrO4 | minteq.v4:`SrCrO4` |
 | SrF2 | minteq.v4:`SrF2`, wateq4f:`SrF2` |
 | SrSeO3 | minteq.v4:`SrSeO3` |
 | SrSeO4 | minteq.v4:`SrSeO4` |

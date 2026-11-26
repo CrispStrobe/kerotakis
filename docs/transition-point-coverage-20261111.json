@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 164,
+    "boiling.no_data": 172,
     "boiling.reported": 68,
-    "melting.no_data": 131,
+    "melting.no_data": 139,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -707,6 +707,16 @@
       }
     },
     {
+      "species": "Br2",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "C",
       "standard_phase": "solid",
       "melting": {
@@ -975,6 +985,16 @@
       }
     },
     {
+      "species": "Cr+3",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Cu",
       "standard_phase": "solid",
       "melting": {
@@ -988,6 +1008,16 @@
         "outcome": "boiling",
         "kelvin": 2868.0,
         "source": "literature/transition-points/Cu"
+      }
+    },
+    {
+      "species": "Cu(NO3)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {
@@ -1372,6 +1402,16 @@
       }
     },
     {
+      "species": "HNO3",
+      "standard_phase": "liquid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "HPO4-2",
       "standard_phase": "aqueous",
       "melting": {
@@ -1468,6 +1508,16 @@
       }
     },
     {
+      "species": "K2SO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "KBr",
       "standard_phase": "solid",
       "melting": {
@@ -1491,6 +1541,16 @@
         "outcome": "boiling",
         "kelvin": 1680.0,
         "source": "literature/transition-points/KCl"
+      }
+    },
+    {
+      "species": "KHSO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {
@@ -1779,6 +1839,26 @@
         "outcome": "melting",
         "kelvin": 442.8,
         "source": "literature/transition-points/NH4NO3"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NO",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "NO2",
+      "standard_phase": "gas",
+      "melting": {
+        "basis": "no_data"
       },
       "boiling": {
         "basis": "no_data"

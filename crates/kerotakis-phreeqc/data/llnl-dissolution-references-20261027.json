@@ -106,6 +106,23 @@
       "delta_h_kj": -25.8027
     },
     {
+      "phase": "Arcanite",
+      "formula": "K2SO4",
+      "lhs": [],
+      "rhs": [
+        [
+          "SO4-2",
+          1.0
+        ],
+        [
+          "K+",
+          2.0
+        ]
+      ],
+      "log_k": -1.8008,
+      "delta_h_kj": 23.836
+    },
+    {
       "phase": "BaCl2",
       "formula": "BaCl2",
       "lhs": [],
@@ -838,6 +855,27 @@
       ],
       "log_k": 5.9399,
       "delta_h_kj": -76.2827
+    },
+    {
+      "phase": "Mercallite",
+      "formula": "KHSO4",
+      "lhs": [],
+      "rhs": [
+        [
+          "H+",
+          1.0
+        ],
+        [
+          "K+",
+          1.0
+        ],
+        [
+          "SO4-2",
+          1.0
+        ]
+      ],
+      "log_k": -1.4389,
+      "delta_h_kj": 0.0
     },
     {
       "phase": "MgSO4",

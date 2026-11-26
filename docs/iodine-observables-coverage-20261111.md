@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
+Counts: ion-stays-aqueous 45, neutral-refused 186, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -33,6 +33,7 @@ Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
 | ion-stays-aqueous | Cl- | — |
 | ion-stays-aqueous | ClO- | — |
 | ion-stays-aqueous | Co+2 | — |
+| ion-stays-aqueous | Cr+3 | — |
 | ion-stays-aqueous | Cu+1 | — |
 | ion-stays-aqueous | Cu+2 | — |
 | ion-stays-aqueous | Fe+2 | — |
@@ -80,6 +81,7 @@ Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
 | neutral-refused | BaCO3 | — |
 | neutral-refused | BaCl2 | — |
 | neutral-refused | BaSO4 | — |
+| neutral-refused | Br2 | — |
 | neutral-refused | C | — |
 | neutral-refused | CO | — |
 | neutral-refused | CO2 | — |
@@ -95,6 +97,7 @@ Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
 | neutral-refused | Co(NO3)2 | — |
 | neutral-refused | CoCl2 | — |
 | neutral-refused | Cu | — |
+| neutral-refused | Cu(NO3)2 | — |
 | neutral-refused | Cu(OH)2 | — |
 | neutral-refused | Cu2(OH)2CO3 | — |
 | neutral-refused | Cu2O | — |
@@ -120,11 +123,14 @@ Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
 | neutral-refused | HCl | — |
 | neutral-refused | HClO | — |
 | neutral-refused | HI | — |
+| neutral-refused | HNO3 | — |
 | neutral-refused | K | — |
 | neutral-refused | K2Cr2O7 | — |
 | neutral-refused | K2CrO4 | — |
+| neutral-refused | K2SO4 | — |
 | neutral-refused | KBr | — |
 | neutral-refused | KCl | — |
+| neutral-refused | KHSO4 | — |
 | neutral-refused | KI | — |
 | neutral-refused | KIO3 | — |
 | neutral-refused | KMnO4 | — |
@@ -143,6 +149,8 @@ Counts: ion-stays-aqueous 44, neutral-refused 179, partitions 9.
 | neutral-refused | NH3 | — |
 | neutral-refused | NH4Cl | — |
 | neutral-refused | NH4NO3 | — |
+| neutral-refused | NO | — |
+| neutral-refused | NO2 | — |
 | neutral-refused | Na | — |
 | neutral-refused | Na2B4O7 | — |
 | neutral-refused | Na2CO3 | — |

@@ -90,15 +90,30 @@ Each constant is stated in the typed note of the rule that uses it.
 
 ## Known gaps
 
-- Nitric acid: the `HNO3` rows (NO₃⁻/NO 0.957 V dilute, NO₃⁻/NO₂ 0.803 V
-  concentrated, CRC) are written and balanced, but they stay dormant until the
-  registry has `HNO3`, `NO`, `NO2` and `Cu(NO3)2`. The concentrated row also
-  needs a sourced concentration boundary: commercial 68 % nitric acid is
-  water-majority by mole fraction.
-- Bromine (`Br2`) and chromium(III) (`Cr+3`) are not in the registry, so the
-  bromine, dichromate and Br₂/I⁻ routes are dormant.
-- Potassium hydrogen sulfate and potassium sulfate are not in the registry,
-  so KCl/KBr/KNO₃ + conc. H₂SO₄ are dormant.
+Bromine (`Br2`), chromium(III) (`Cr+3`), nitric acid (`HNO3`), `NO`, `NO2`,
+copper(II) nitrate, `KHSO4` and `K2SO4` joined the registry on 2026-11-25
+(sources in each record's citation), so the bromine, dichromate, Br₂/I⁻,
+nitric acid and potassium-salt rows are live. What is still missing:
+
+- Concentrated nitric acid has no sourced sharp boundary. Copper and nitric
+  acid give a NO/NO₂ mixture whose NO₂ share rises over roughly 3-8 mol/L
+  (Takeda et al., J. Chem. Eng. Japan, 2024, NOx from Cu/Ni/Fe dissolution
+  in nitric acid); no single concentration switches the product. The bench
+  therefore keeps its own admission boundary,
+  `nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR` (water mole fraction 0.5, about
+  78 % HNO₃ by mass), and states it in the route's typed note. Commercial
+  68 % acid is water-majority by mole fraction and is booked as the dilute
+  (NO) row: a known limitation, not a datum.
+- Chromium(VI) ions (`Cr2O7-2`, `CrO4-2`) are not registry species, and
+  potassium dichromate and chromate still dissolve without speciation:
+  minteq.v4 carries Cr(6), but a solved Cr(6) total would book back as
+  `Cr+3` (the booking ion), a silent reduction. Only chromium(III) enters a
+  solve.
+- `N2O4` (the NO₂ dimer), `HNO2` and Henry constants for NO/NO₂ are not
+  modelled; the NO + O₂ → NO₂ reaction in air is not a route.
+- Copper(II) nitrate trihydrate is not a registry species (no primary
+  density found); the anhydrous salt, `KHSO4` and copper(II) nitrate carry
+  no measured Cp (NBS/Wagman 1982 lists none), so they are zero-Cp records.
 - HBr from a bromide is booked as HBr only. Its partial oxidation by the acid
   to Br₂ + SO₂ has no reviewed split, and a typed note says so.
 - Neutral permanganate (MnO₄⁻ → MnO₂) has no couple row yet, and the route

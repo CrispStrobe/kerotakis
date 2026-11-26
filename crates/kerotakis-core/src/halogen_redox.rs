@@ -1037,7 +1037,8 @@ mod tests {
         assert_eq!(status("I2/I-", "S4O6-2/S2O3-2"), PairStatus::OwnedElsewhere);
         // Iodine cannot oxidise iron(II).
         assert_eq!(status("I2/I-", "Fe+3/Fe+2"), PairStatus::NotFavourable);
-        // No registry bromine species at all.
-        assert_eq!(status("Br2/Br-", "I2/I-"), PairStatus::NoRegistryForm);
+        // Bromine is a registry species (2026-11-25); this writer has no
+        // reviewed rate for it (the potential-driven route owns Br2/I-).
+        assert_eq!(status("Br2/Br-", "I2/I-"), PairStatus::RateNotReviewed);
     }
 }

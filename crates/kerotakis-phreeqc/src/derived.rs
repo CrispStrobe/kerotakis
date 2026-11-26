@@ -211,9 +211,18 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// cobalt, so `has_element` keeps such a vessel on a route that does. Like
 /// aluminium it is not in `CATION_RESIDUE`: no cobalt oxide is admitted to
 /// dissolve as water.
+///
+/// Chromium joined 2026-11-25 (chromium(III), the product of dichromate
+/// reductions): minteq.v4.dat masters `Cr` as chromate (`CrO4-2`, Cr(6))
+/// with `Cr(3)` (`Cr(OH)2+`) a separate redox state, so a chromium(III)
+/// residue is booked as `Cr+3` and its hydrolysis is the database's own;
+/// wateq4f.dat and pitzer.dat have no chromium. Chromium(VI) is NOT
+/// admitted: potassium dichromate and chromate still dissolve without
+/// speciation, because booking a Cr(6) total back as `Cr+3` would be a
+/// silent reduction.
 const RESIDUE_OK: &[&str] = &[
     "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "I", "F", "Cu", "Mn", "Fe", "Zn",
-    "Pb", "Al", "Co",
+    "Pb", "Al", "Co", "Cr",
 ];
 
 /// The subset of `RESIDUE_OK` that forms simple cations.
@@ -316,6 +325,11 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // redox states). The bench's cobalt is cobalt(II) — the chloride and
     // nitrate on a shelf — so, as for iron, "cobalt" means Co+2.
     ("Co", "Co+2"),
+    // minteq.v4 masters bare `Cr` as chromate, Cr(6). The only chromium
+    // admitted to a solve is chromium(III) (see `RESIDUE_OK`), so it books
+    // back as Cr+3.
+    ("Cr", "Cr+3"),
+    ("Cr(3)", "Cr+3"),
     ("P", "H2PO4-"),
     ("Acetate", "CH3COO-"),
     // Lactate's master species is `Lactate-`, which is not a registry key;
@@ -728,7 +742,8 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
 /// from their formula: the formula parser drops charge, so `S-2` parses as
 /// elemental sulfur, which `extract_sulfide` rightly refuses. The element
 /// state is stated here instead.
-const ION_ELEMENT_STATES: &[(&str, &str)] = &[("S-2", "S(-2)"), ("Co+2", "Co(2)")];
+const ION_ELEMENT_STATES: &[(&str, &str)] =
+    &[("S-2", "S(-2)"), ("Co+2", "Co(2)"), ("Cr+3", "Cr(3)")];
 
 /// The protonation split for an element state, if it has one.
 pub fn protonation_split(element: &str) -> Option<&'static [(&'static str, &'static str)]> {
@@ -1197,8 +1212,11 @@ impl Derived {
             // and better change, and it wants `saturation_moves` to be
             // able to see a dissolved amount that has been booked onto
             // ions, which it cannot today.
-            let bounded_solid =
-                s.standard_phase == Phase::Solid && s.aqueous_solubility_g_per_100_ml.is_some();
+            // The same holds for a bounded LIQUID (bromine, 2026-11-25): its
+            // dissolved part is the molecule, and a `Dissolves` role would
+            // book its element total as bromide, a silent reduction.
+            let bounded_solid = matches!(s.standard_phase, Phase::Solid | Phase::Liquid)
+                && s.aqueous_solubility_g_per_100_ml.is_some();
             if bounded_solid {
                 continue;
             }

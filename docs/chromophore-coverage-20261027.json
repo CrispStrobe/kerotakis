@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 54,
-    "outside_method": 126,
+    "missing_absorptivity": 58,
+    "outside_method": 130,
     "parameterised": 7,
     "parameterised_ph": 5,
     "unclassified": 40
@@ -61,6 +61,11 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "Br2",
+      "appearance": "red-brown",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "C",
       "appearance": "black",
       "class": "missing_absorptivity"
@@ -91,8 +96,18 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "Cr+3",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "Cu",
       "appearance": "reddish-brown",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cu(NO3)2",
+      "appearance": "blue-green",
       "class": "missing_absorptivity"
     },
     {
@@ -208,6 +223,11 @@
     {
       "species": "MnO4-2",
       "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "NO2",
+      "appearance": "brown",
       "class": "missing_absorptivity"
     },
     {
@@ -446,12 +466,27 @@
       "class": "outside_method"
     },
     {
+      "species": "HNO3",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "K2SO4",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
       "species": "KBr",
       "appearance": "white crystals",
       "class": "outside_method"
     },
     {
       "species": "KCl",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "KHSO4",
       "appearance": "white",
       "class": "outside_method"
     },
@@ -523,6 +558,11 @@
     {
       "species": "NH4NO3",
       "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NO",
+      "appearance": "colourless",
       "class": "outside_method"
     },
     {

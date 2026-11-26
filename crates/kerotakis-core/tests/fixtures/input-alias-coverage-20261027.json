@@ -271,6 +271,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Brom",
+      "canonical": "Br2",
+      "source": "name:de"
+    },
+    {
       "alias": "Bromethan",
       "canonical": "bromoethane",
       "source": "name:de"
@@ -466,6 +471,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Chrom(III)-Ion",
+      "canonical": "Cr+3",
+      "source": "name:de"
+    },
+    {
       "alias": "Citrat",
       "canonical": "C6H5O7-3",
       "source": "ion-name:de"
@@ -524,6 +534,11 @@
       "alias": "Cobalt(II)-nitrat-Hexahydrat",
       "canonical": "cobalt_nitrate_hexahydrate",
       "source": "name:de"
+    },
+    {
+      "alias": "Cr3+",
+      "canonical": "Cr+3",
+      "source": "charge-notation"
     },
     {
       "alias": "Cu+",
@@ -916,6 +931,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Kaliumhydrogensulfat",
+      "canonical": "KHSO4",
+      "source": "name:de"
+    },
+    {
       "alias": "Kaliumhydroxid",
       "canonical": "KOH",
       "source": "name:de"
@@ -938,6 +958,11 @@
     {
       "alias": "Kaliumpermanganat",
       "canonical": "KMnO4",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kaliumsulfat",
+      "canonical": "K2SO4",
       "source": "name:de"
     },
     {
@@ -1008,6 +1033,11 @@
     {
       "alias": "Kupfer(II)-hydroxid",
       "canonical": "Cu(OH)2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Kupfer(II)-nitrat",
+      "canonical": "Cu(NO3)2",
       "source": "name:de"
     },
     {
@@ -1446,6 +1476,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Salpetersäure",
+      "canonical": "HNO3",
+      "source": "name:de"
+    },
+    {
       "alias": "Salzsäure",
       "canonical": "HCl",
       "source": "name:de"
@@ -1533,6 +1568,16 @@
     {
       "alias": "Stickstoff",
       "canonical": "N2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Stickstoffdioxid",
+      "canonical": "NO2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Stickstoffmonoxid",
+      "canonical": "NO",
       "source": "name:de"
     },
     {
@@ -1763,6 +1808,11 @@
     {
       "alias": "acide malique",
       "canonical": "malic_acid",
+      "source": "name:fr"
+    },
+    {
+      "alias": "acide nitrique",
+      "canonical": "HNO3",
       "source": "name:fr"
     },
     {
@@ -2041,6 +2091,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "brome",
+      "canonical": "Br2",
+      "source": "name:fr"
+    },
+    {
       "alias": "bromide",
       "canonical": "Br-",
       "source": "ion-name:en"
@@ -2048,6 +2103,11 @@
     {
       "alias": "bromide ion",
       "canonical": "Br-",
+      "source": "name:en"
+    },
+    {
+      "alias": "bromine",
+      "canonical": "Br2",
       "source": "name:en"
     },
     {
@@ -2366,6 +2426,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "chromium(III) ion",
+      "canonical": "Cr+3",
+      "source": "name:en"
+    },
+    {
       "alias": "citrate",
       "canonical": "C6H5O7-3",
       "source": "ion-name:en"
@@ -2433,6 +2498,11 @@
     {
       "alias": "copper(II) ion",
       "canonical": "Cu+2",
+      "source": "name:en"
+    },
+    {
+      "alias": "copper(II) nitrate",
+      "canonical": "Cu(NO3)2",
       "source": "name:en"
     },
     {
@@ -2558,6 +2628,11 @@
     {
       "alias": "diiode",
       "canonical": "I2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "dioxyde d'azote",
+      "canonical": "NO2",
       "source": "name:fr"
     },
     {
@@ -2729,6 +2804,11 @@
       "alias": "hydrogénophosphate",
       "canonical": "HPO4-2",
       "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydrogénosulfate de potassium",
+      "canonical": "KHSO4",
+      "source": "name:fr"
     },
     {
       "alias": "hydrogénosulfate de sodium",
@@ -2938,6 +3018,11 @@
     {
       "alias": "ion chlorure",
       "canonical": "Cl-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion chrome(III)",
+      "canonical": "Cr+3",
       "source": "name:fr"
     },
     {
@@ -3341,6 +3426,11 @@
       "source": "name:en"
     },
     {
+      "alias": "monoxyde d'azote",
+      "canonical": "NO",
+      "source": "name:fr"
+    },
+    {
       "alias": "monoxyde de carbone",
       "canonical": "CO",
       "source": "name:fr"
@@ -3416,6 +3506,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "nitrate de cuivre(II)",
+      "canonical": "Cu(NO3)2",
+      "source": "name:fr"
+    },
+    {
       "alias": "nitrate de plomb(II)",
       "canonical": "Pb(NO3)2",
       "source": "name:fr"
@@ -3433,6 +3528,11 @@
     {
       "alias": "nitrate ion",
       "canonical": "NO3-",
+      "source": "name:en"
+    },
+    {
+      "alias": "nitric acid",
+      "canonical": "HNO3",
       "source": "name:en"
     },
     {
@@ -3454,6 +3554,16 @@
       "alias": "nitrogen",
       "canonical": "N2",
       "source": "curated"
+    },
+    {
+      "alias": "nitrogen dioxide",
+      "canonical": "NO2",
+      "source": "name:en"
+    },
+    {
+      "alias": "nitrogen monoxide",
+      "canonical": "NO",
+      "source": "name:en"
     },
     {
       "alias": "nylon 6,6",
@@ -3796,6 +3906,11 @@
       "source": "name:en"
     },
     {
+      "alias": "potassium hydrogen sulfate",
+      "canonical": "KHSO4",
+      "source": "name:en"
+    },
+    {
       "alias": "potassium hydroxide",
       "canonical": "KOH",
       "source": "name:en"
@@ -3823,6 +3938,11 @@
     {
       "alias": "potassium permanganate",
       "canonical": "KMnO4",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium sulfate",
+      "canonical": "K2SO4",
       "source": "name:en"
     },
     {
@@ -4053,6 +4173,11 @@
     {
       "alias": "sulfate de plomb(II)",
       "canonical": "PbSO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "sulfate de potassium",
+      "canonical": "K2SO4",
       "source": "name:fr"
     },
     {
