@@ -1168,7 +1168,7 @@ impl Equilibrator for MixingEquilibrator {
         for move_ in saturation_moves(vessel) {
             match move_ {
                 SaturationMove::Dissolve(solute, moles) => {
-                    vessel.withdraw_phase(&solute, moles, Phase::Solid);
+                    vessel.withdraw_phase(&solute, moles, undissolved_phase_of(&solute));
                     vessel.deposit(solute.clone(), moles, Phase::Aqueous);
                     rephase_lots(vessel, &solute, moles);
                     events.push(Event::Dissolved {
@@ -1176,6 +1176,11 @@ impl Equilibrator for MixingEquilibrator {
                         species: solute,
                         moles,
                     });
+                    vessel.resolved.invalidate();
+                }
+                SaturationMove::Separate(solute, moles) => {
+                    vessel.withdraw_phase(&solute, moles, Phase::Aqueous);
+                    vessel.deposit(solute, moles, Phase::Liquid);
                     vessel.resolved.invalidate();
                 }
                 SaturationMove::Crystallise(solute, moles) => {
@@ -1270,13 +1275,18 @@ impl Equilibrator for MixingEquilibrator {
             match move_ {
                 SaturationMove::Dissolve(solute, moles) => {
                     delta = delta
-                        .with_moles(solute.clone(), Phase::Solid, -moles.0)
+                        .with_moles(solute.clone(), undissolved_phase_of(&solute), -moles.0)
                         .with_moles(solute.clone(), Phase::Aqueous, moles.0);
                     events.push(Event::Dissolved {
                         vessel: vessel.id,
                         species: solute,
                         moles,
                     });
+                }
+                SaturationMove::Separate(solute, moles) => {
+                    delta = delta
+                        .with_moles(solute.clone(), Phase::Aqueous, -moles.0)
+                        .with_moles(solute, Phase::Liquid, moles.0);
                 }
                 SaturationMove::Crystallise(solute, moles) => {
                     delta = delta
@@ -1340,6 +1350,10 @@ pub enum SaturationMove {
         dissolved: Moles,
         capacity: Moles,
     },
+    /// A bounded LIQUID past its solubility: the excess is its own liquid
+    /// layer again (bromine under bromine water). Liquids do not
+    /// supersaturate, so this is bookkeeping, not an event.
+    Separate(SpeciesId, Moles),
 }
 
 /// What the saturation limit says about every solute with a reviewed one.
@@ -1592,6 +1606,22 @@ fn common_ion_capacity(
     Some(0.5 * (lo + hi) * litres)
 }
 
+/// The phase a bounded solute's undissolved part sits in: its own liquid
+/// for a species whose standard phase is liquid (bromine), else solid.
+pub fn undissolved_phase(data: &species::SpeciesData) -> Phase {
+    if data.standard_phase == Phase::Liquid {
+        Phase::Liquid
+    } else {
+        Phase::Solid
+    }
+}
+
+fn undissolved_phase_of(solute: &SpeciesId) -> Phase {
+    species::lookup(solute)
+        .map(undissolved_phase)
+        .unwrap_or(Phase::Solid)
+}
+
 pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
     let water_moles = vessel
         .contents
@@ -1608,15 +1638,22 @@ pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
     let mut seen = std::collections::HashSet::new();
     let mut out = Vec::new();
     for portion in &vessel.contents {
-        if !matches!(portion.phase, Phase::Solid | Phase::Aqueous) {
-            continue;
-        }
-        if !seen.insert(portion.species.clone()) {
+        if !matches!(portion.phase, Phase::Solid | Phase::Liquid | Phase::Aqueous) {
             continue;
         }
         let Some(data) = species::lookup(&portion.species) else {
             continue;
         };
+        // The undissolved phase is the species' own condensed phase: a
+        // bounded LIQUID (bromine) dissolves from its liquid layer up to
+        // its reviewed solubility exactly as a bounded solid does.
+        let undissolved = undissolved_phase(data);
+        if portion.phase == Phase::Liquid && undissolved != Phase::Liquid {
+            continue;
+        }
+        if !seen.insert(portion.species.clone()) {
+            continue;
+        }
         let Some(limit) = data.aqueous_solubility_at(vessel.temperature.0) else {
             continue;
         };
@@ -1628,8 +1665,15 @@ pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
                 .map(|p| p.moles.0)
                 .sum::<f64>()
         };
-        let solid = amount(Phase::Solid);
-        let aqueous = amount(Phase::Aqueous);
+        let solid = amount(undissolved);
+        // A bounded salt whose dissolved part the aqueous engine booked onto
+        // ions is still dissolved (`crate::bounded_speciation`).
+        let aqueous = amount(Phase::Aqueous)
+            + if crate::bounded_speciation::speciates(&portion.species.0) {
+                crate::bounded_speciation::dissolved_as_ions(vessel, &portion.species.0)
+            } else {
+                0.0
+            };
         let pure_water_capacity = limit * water_ml / 100.0 / data.molar_mass;
         // The same reviewed figure, answered in THIS solution rather than
         // in the pure water it was measured in.
@@ -1656,6 +1700,14 @@ pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
         } else {
             capacity
         };
+        if aqueous > capacity + 1e-12 && undissolved == Phase::Liquid {
+            // A liquid does not supersaturate: the excess is its own layer.
+            out.push(SaturationMove::Separate(
+                portion.species.clone(),
+                Moles(aqueous - capacity),
+            ));
+            continue;
+        }
         if aqueous > capacity + 1e-12 {
             // A seed is a crystal of the same solute already in the vessel.
             // Without one the solution stays where it is and says so; with

@@ -179,6 +179,16 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         ("SO4", "S(6)"),
         ("PO4", "P"),
         ("MnO4", "Mn(7)"),
+        // Chromium(VI), 2026-11-26. minteq.v4.dat masters `Cr(6)` as
+        // `CrO4-2` and carries `CrO4-2 + H+ = HCrO4-` and
+        // `2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O` itself, so a dichromate or
+        // chromate formula is a chromium(VI) total and the solve owns the
+        // yellow/orange equilibrium. Dichromate first ("most specific
+        // first"): its seven oxygens must not be read as one chromate plus
+        // a stray CrO3. A group carrying two atoms of its element counts
+        // two (see the extraction loop).
+        ("Cr2O7", "Cr(6)"),
+        ("CrO4", "Cr(6)"),
     ]
 }
 
@@ -330,6 +340,9 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // back as Cr+3.
     ("Cr", "Cr+3"),
     ("Cr(3)", "Cr+3"),
+    // Chromium(VI) books on its master, chromate; the protonation split
+    // below names the hydrogen chromate and dichromate shares.
+    ("Cr(6)", "CrO4-2"),
     ("P", "H2PO4-"),
     ("Acetate", "CH3COO-"),
     // Lactate's master species is `Lactate-`, which is not a registry key;
@@ -722,6 +735,25 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
     // handles by falling back to the single booking ion, exactly as it
     // does for pitzer's missing nitrogen.
     ("B", &[("H3BO3", "H3BO3"), ("H2BO3-", "H2BO3-")]),
+    // Chromium(VI) (2026-11-26): chromate, hydrogen chromate and the
+    // dimer, all minteq.v4's own species (`CrO4-2 + H+ = HCrO4-` log K
+    // 6.51, `2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O` log K 14.56, both NIST46.4
+    // as minteq.v4.dat cites them), so adding
+    // acid turns a chromate solution to dichromate and base turns it back
+    // without any route of ours. The readback weights each share by the
+    // chromium it carries, so the dimer is not double counted. The
+    // database's ion pairs and mixed complexes (KCrO4-, NaCrO4-,
+    // CrO3Cl-, CrO3SO4-2, H2CrO4) have no registry key and are named
+    // with these three in proportion; minteq is the only shipped
+    // database with chromium, so no route lacks the columns.
+    (
+        "Cr(6)",
+        &[
+            ("CrO4-2", "CrO4-2"),
+            ("HCrO4-", "HCrO4-"),
+            ("Cr2O7-2", "Cr2O7-2"),
+        ],
+    ),
     // Reduced sulfur. pKa1 about 7 sits in the bench range, so a sodium
     // sulfide solution (mostly HS-) and the same solution acidified (mostly
     // dissolved H2S) are different substances in one ledger. The neutral
@@ -1234,8 +1266,15 @@ impl Derived {
             // The same holds for a bounded LIQUID (bromine, 2026-11-25): its
             // dissolved part is the molecule, and a `Dissolves` role would
             // book its element total as bromide, a silent reduction.
+            //
+            // A bounded salt whose dissolved part IS speciated (potassium
+            // dichromate, 2026-11-26) gets its `Dissolves` role: its solid
+            // is held outside the solve by
+            // `kerotakis_core::crystallisation::holds_solid`, so the role
+            // only ever sees what the saturation pass dissolved.
             let bounded_solid = matches!(s.standard_phase, Phase::Solid | Phase::Liquid)
-                && s.aqueous_solubility_g_per_100_ml.is_some();
+                && s.aqueous_solubility_g_per_100_ml.is_some()
+                && !kerotakis_core::bounded_speciation::speciates(s.key);
             if bounded_solid {
                 continue;
             }
@@ -1842,7 +1881,12 @@ fn contribution_from_counts(
                 let c = counts.get_mut(el).unwrap();
                 *c -= n * fit;
             }
-            contrib.push((element.to_string(), fit));
+            // An element-state total counts ATOMS: dichromate is two
+            // chromium(VI). A named master (`Acetate`) is not an element
+            // of the group and counts units, as before.
+            let base = element.split('(').next().unwrap_or(element);
+            let atoms = sig.get(base).copied().unwrap_or(1.0);
+            contrib.push((element.to_string(), fit * atoms));
         }
     }
     counts.retain(|_, n| *n > 0.0);

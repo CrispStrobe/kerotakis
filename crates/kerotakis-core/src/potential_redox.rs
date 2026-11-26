@@ -82,11 +82,42 @@ pub const E0_HCLO: f64 = 1.482;
 #[derive(Debug, Clone, Copy)]
 pub struct Form {
     pub key: &'static str,
+    /// Formula units of this form per unit of the couple member: 2 for
+    /// hydrogen chromate standing in for dichromate
+    /// (2 HCrO₄⁻ = Cr₂O₇²⁻ + H₂O), 1 for a salt of the member itself.
+    pub per: f64,
+    /// Released per unit of the MEMBER taken (water as a liquid, every
+    /// other spectator as a dissolved ion).
     pub spectators: &'static [(&'static str, f64)],
 }
 
 const fn form(key: &'static str, spectators: &'static [(&'static str, f64)]) -> Form {
-    Form { key, spectators }
+    Form {
+        key,
+        per: 1.0,
+        spectators,
+    }
+}
+
+const fn form_per(key: &'static str, per: f64, spectators: &'static [(&'static str, f64)]) -> Form {
+    Form {
+        key,
+        per,
+        spectators,
+    }
+}
+
+/// One registry form of a couple member: its key, formula units per member
+/// unit, and what taking one member unit from it releases.
+type FormRow = (String, f64, Vec<(&'static str, f64)>);
+
+fn release(vessel: &mut Vessel, ion: &str, moles: f64) {
+    let phase = if ion == "water" {
+        Phase::Liquid
+    } else {
+        Phase::Aqueous
+    };
+    vessel.deposit(SpeciesId::new(ion), Moles(moles), phase);
 }
 
 /// A reduction half `oxidised + electrons e⁻ + protons H⁺ →
@@ -158,7 +189,14 @@ pub const COUPLES: &[Couple] = &[
     Couple {
         id: "Cr2O7-2/Cr+3",
         oxidised: "Cr2O7-2",
-        oxidised_forms: &[form("K2Cr2O7", &[("K+", 2.0)])],
+        // A solve books chromium(VI) on minteq.v4's own species; in the
+        // acid this couple needs, most of it is hydrogen chromate, which is
+        // dichromate by 2 HCrO₄⁻ = Cr₂O₇²⁻ + H₂O (the database's own
+        // dimerisation), so it is the same oxidant (2026-11-26).
+        oxidised_forms: &[
+            form("K2Cr2O7", &[("K+", 2.0)]),
+            form_per("HCrO4-", 2.0, &[("water", 1.0)]),
+        ],
         oxidised_phase: Phase::Aqueous,
         oxidised_unit_activity: false,
         reduced: "Cr+3",
@@ -453,15 +491,15 @@ fn kgw(vessel: &Vessel) -> f64 {
 /// Every form of a member with the spectators it releases per unit: the
 /// member itself, the couple's explicit forms, and (for an anion) every
 /// Na/K salt of it in the registry.
-fn forms_of(member: &str, explicit: &[Form]) -> Vec<(String, Vec<(&'static str, f64)>)> {
-    let mut out: Vec<(String, Vec<(&'static str, f64)>)> = Vec::new();
+fn forms_of(member: &str, explicit: &[Form]) -> Vec<FormRow> {
+    let mut out: Vec<FormRow> = Vec::new();
     for f in crate::halogen_redox::registry_forms(member) {
         let spect = crate::halogen_redox::spectators_of(&f, member);
-        out.push((f, spect));
+        out.push((f, 1.0, spect));
     }
     for f in explicit {
-        if !out.iter().any(|(k, _)| k == f.key) {
-            out.push((f.key.to_string(), f.spectators.to_vec()));
+        if !out.iter().any(|(k, ..)| k == f.key) {
+            out.push((f.key.to_string(), f.per, f.spectators.to_vec()));
         }
     }
     out
@@ -477,7 +515,7 @@ fn oxidant_available(vessel: &Vessel, c: &Couple) -> f64 {
     }
     forms_of(c.oxidised, c.oxidised_forms)
         .iter()
-        .map(|(f, _)| amount(vessel, f, PHASES))
+        .map(|(f, per, _)| amount(vessel, f, PHASES) / per)
         .sum()
 }
 
@@ -487,13 +525,13 @@ fn take_oxidant(vessel: &mut Vessel, c: &Couple, n: f64) {
         return;
     }
     let mut left = n;
-    for (f, spect) in forms_of(c.oxidised, c.oxidised_forms) {
+    for (f, per, spect) in forms_of(c.oxidised, c.oxidised_forms) {
         if left <= TRACE {
             break;
         }
-        let got = take(vessel, &f, left, PHASES);
+        let got = take(vessel, &f, left * per, PHASES) / per;
         for (ion, k) in spect {
-            vessel.deposit(SpeciesId::new(ion), Moles(got * k), Phase::Aqueous);
+            release(vessel, ion, got * k);
         }
         left -= got;
     }
@@ -509,7 +547,7 @@ fn literal_acid(vessel: &Vessel, c: &Couple) -> f64 {
 fn reductant_available(vessel: &Vessel, c: &Couple) -> f64 {
     forms_of(c.reduced, c.reduced_forms)
         .iter()
-        .map(|(f, _)| amount(vessel, f, &[Phase::Aqueous, Phase::Solid]))
+        .map(|(f, per, _)| amount(vessel, f, &[Phase::Aqueous, Phase::Solid]) / per)
         .sum::<f64>()
         + literal_acid(vessel, c)
 }
@@ -534,13 +572,13 @@ fn ionise_literal_acids(vessel: &mut Vessel, c: &Couple) {
 
 fn take_reductant(vessel: &mut Vessel, c: &Couple, n: f64) {
     let mut left = n;
-    for (f, spect) in forms_of(c.reduced, c.reduced_forms) {
+    for (f, per, spect) in forms_of(c.reduced, c.reduced_forms) {
         if left <= TRACE {
             break;
         }
-        let got = take(vessel, &f, left, &[Phase::Aqueous, Phase::Solid]);
+        let got = take(vessel, &f, left * per, &[Phase::Aqueous, Phase::Solid]) / per;
         for (ion, k) in spect {
-            vessel.deposit(SpeciesId::new(ion), Moles(got * k), Phase::Aqueous);
+            release(vessel, ion, got * k);
         }
         left -= got;
     }

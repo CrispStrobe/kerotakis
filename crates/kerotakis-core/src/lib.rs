@@ -24,6 +24,7 @@ pub mod aqueous_continuation;
 pub mod authority;
 pub mod bench;
 pub mod biuret;
+pub mod bounded_speciation;
 pub mod buoyancy;
 pub mod butler_volmer;
 pub mod cabinet;

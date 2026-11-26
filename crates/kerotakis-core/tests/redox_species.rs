@@ -81,10 +81,17 @@ fn the_new_species_are_registered_with_their_phase_and_colour() {
         assert_eq!(data.standard_phase, phase, "{key}");
         assert_eq!(data.appearance, Some(appearance), "{key}");
     }
-    // Chromium(VI) ions are deliberately not registry species yet: a solved
-    // Cr(6) total would book back as Cr+3.
-    assert!(species::lookup_key("Cr2O7-2").is_none());
-    assert!(species::lookup_key("CrO4-2").is_none());
+    // Chromium(VI) ions (2026-11-26): a solved Cr(6) total books back on
+    // them, never as Cr+3.
+    for (key, appearance) in [
+        ("CrO4-2", "yellow"),
+        ("Cr2O7-2", "orange"),
+        ("HCrO4-", "orange"),
+    ] {
+        let data = species::lookup_key(key).unwrap_or_else(|| panic!("{key} registered"));
+        assert_eq!(data.standard_phase, Phase::Aqueous, "{key}");
+        assert_eq!(data.appearance, Some(appearance), "{key}");
+    }
 }
 
 // ── halogen displacement ─────────────────────────────────────────────
@@ -285,4 +292,121 @@ fn bromine_oxidises_hydrogen_sulfite() {
     put(&mut v, "Cl-", 1e-2, Phase::Aqueous);
     v.solute_charge = displacement::solute_charge(&v);
     assert!(sulfur_iv::other_plan(&v).is_some_and(|plan| plan.run.is_some()));
+}
+
+// ── neat nitric acid with no water at all (2026-11-26) ─────────────────
+
+#[test]
+fn neat_nitric_acid_with_no_water_still_oxidises_copper() {
+    // 5 mL of nitric acid (1.51 g/mL) on copper turnings, nothing else.
+    let hno3 = 5.0 * 1.51 / 63.012;
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    put(&mut v, "HNO3", hno3, Phase::Liquid);
+    put(&mut v, "Cu", 0.01, Phase::Solid);
+    assert!(concentrated_sulfuric::fires(&v));
+    let mut events = Vec::new();
+    assert!(concentrated_sulfuric::apply(&mut v, &mut events));
+    let gone = 0.01 - all(&v, "Cu");
+    assert!(gone > 1e-3, "copper oxidised {gone}");
+    // Cu + 4 HNO3 -> Cu(NO3)2 + 2 NO2 + 2 H2O: two NO2 per copper, no NO.
+    assert!((gas_out(&events, &v, "NO2") - 2.0 * gone).abs() < 1e-9);
+    assert!(gas_out(&events, &v, "NO") < 1e-12);
+    // And through the curated pass the bench runs.
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    put(&mut v, "HNO3", hno3, Phase::Liquid);
+    put(&mut v, "Cu", 0.01, Phase::Solid);
+    let events = CuratedEquilibrator.equilibrate(&mut v).unwrap();
+    assert!(gas_out(&events, &v, "NO2") > 1e-3, "{events:?}");
+}
+
+#[test]
+fn dry_solids_with_no_liquid_do_not_react() {
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    put(&mut v, "Cu", 0.01, Phase::Solid);
+    put(&mut v, "KNO3", 0.02, Phase::Solid);
+    put(&mut v, "Cu(NO3)2", 0.01, Phase::Solid);
+    assert!(!concentrated_sulfuric::fires(&v));
+    let mut events = Vec::new();
+    concentrated_sulfuric::apply(&mut v, &mut events);
+    assert!((all(&v, "Cu") - 0.01).abs() < 1e-15);
+    assert!(gas_out(&events, &v, "NO2") < 1e-15);
+}
+
+// ── dissolved bromine (2026-11-26) ─────────────────────────────────────
+
+fn water_ml(v: &Vessel) -> f64 {
+    let n: f64 = v
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+        .map(|p| p.moles.0)
+        .sum();
+    species::lookup_key("water")
+        .unwrap()
+        .liters_from_moles(Moles(n))
+        .0
+        * 1000.0
+}
+
+fn liquid(v: &Vessel, key: &str) -> f64 {
+    v.contents
+        .iter()
+        .filter(|p| p.species.0 == key && p.phase == Phase::Liquid)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+fn dissolved(v: &Vessel, key: &str) -> f64 {
+    v.contents
+        .iter()
+        .filter(|p| p.species.0 == key && p.phase == Phase::Aqueous)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+#[test]
+fn bromine_dissolves_up_to_its_solubility_and_the_rest_stays_a_layer() {
+    // 3.36 g/100 mL at 25 C (HSDB); 0.1 mol of bromine is 16 g, far more.
+    let mut v = water(5.55);
+    put(&mut v, "Br2", 0.1, Phase::Liquid);
+    let cap = 3.36 * water_ml(&v) / 100.0 / species::lookup_key("Br2").unwrap().molar_mass;
+    MixingEquilibrator.equilibrate(&mut v).unwrap();
+    assert!(
+        (dissolved(&v, "Br2") - cap).abs() < 1e-9,
+        "{}",
+        dissolved(&v, "Br2")
+    );
+    assert!((liquid(&v, "Br2") - (0.1 - cap)).abs() < 1e-9);
+    // A second pass dissolves nothing more.
+    MixingEquilibrator.equilibrate(&mut v).unwrap();
+    assert!((dissolved(&v, "Br2") - cap).abs() < 1e-9);
+}
+
+#[test]
+fn a_little_bromine_dissolves_entirely() {
+    let mut v = water(5.55);
+    put(&mut v, "Br2", 0.001, Phase::Liquid);
+    MixingEquilibrator.equilibrate(&mut v).unwrap();
+    assert!((dissolved(&v, "Br2") - 0.001).abs() < 1e-12);
+    assert!(liquid(&v, "Br2") < 1e-15);
+}
+
+#[test]
+fn bromine_with_no_water_stays_liquid_and_excess_separates_again() {
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    put(&mut v, "Br2", 0.01, Phase::Liquid);
+    MixingEquilibrator.equilibrate(&mut v).unwrap();
+    assert!((liquid(&v, "Br2") - 0.01).abs() < 1e-15);
+    assert!(dissolved(&v, "Br2") < 1e-15);
+    // More dissolved than the water holds: the excess is a layer again,
+    // with no supersaturation or precipitation claimed.
+    let mut v = water(0.555);
+    put(&mut v, "Br2", 0.01, Phase::Aqueous);
+    let cap = 3.36 * water_ml(&v) / 100.0 / species::lookup_key("Br2").unwrap().molar_mass;
+    let events = MixingEquilibrator.equilibrate(&mut v).unwrap();
+    assert!((dissolved(&v, "Br2") - cap).abs() < 1e-9);
+    assert!((liquid(&v, "Br2") - (0.01 - cap)).abs() < 1e-9);
+    assert!(events
+        .iter()
+        .all(|e| !matches!(e, Event::Supersaturated { .. } | Event::Precipitated { .. })));
 }
