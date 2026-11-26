@@ -10267,9 +10267,24 @@ impl PhreeqcEquilibrator {
                 }
                 continue;
             }
+            // The posed states of this element, for `frozen_state` below.
+            let inputs: Vec<(&String, f64)> = problem
+                .totals
+                .iter()
+                .filter(|(k, _)| k.split('(').next().unwrap_or(k) == base)
+                .map(|(k, n)| (k, *n))
+                .collect();
+            let mut frozen = 0.0;
             for (column, molality) in split {
                 let moles = total * molality / sum;
                 if moles <= TRACE {
+                    continue;
+                }
+                if let Some(reason) = frozen_state(base, column, &inputs) {
+                    if env_readback() {
+                        eprintln!("   frozen {column} {moles:.6e} mol: {reason:?}");
+                    }
+                    frozen += moles;
                     continue;
                 }
                 // A specific oxidation state may have no name of its own
@@ -10289,6 +10304,25 @@ impl PhreeqcEquilibrator {
                     new_ions.push((base.to_string(), moles));
                 } else {
                     unnameable.push((column.clone(), moles));
+                }
+            }
+            // A frozen share goes back to the states the element was posed
+            // in, in their posed proportion — exactly as the uncoupled
+            // FAST_REDOX branch above does for the whole element.
+            if frozen > 0.0 {
+                let total_in: f64 = inputs.iter().map(|(_, n)| n).sum();
+                for (key, n_in) in &inputs {
+                    let moles = frozen * n_in / total_in;
+                    if moles <= 0.0 {
+                        continue;
+                    }
+                    if derived::booking_ion(key).is_none() {
+                        unnameable.push(((*key).clone(), moles));
+                    } else if let Some(entry) = new_ions.iter_mut().find(|(k, _)| k == *key) {
+                        entry.1 += moles;
+                    } else {
+                        new_ions.push(((*key).clone(), moles));
+                    }
                 }
             }
         }
@@ -13340,6 +13374,55 @@ mod selected_value_failure_tests {
     }
 }
 
+/// Why a readback share in some oxidation state is not booked as such.
+///
+/// Typed so the rule is a statement with a source, not a silent branch.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum FrozenStateReason {
+    /// The element is outside [`FAST_REDOX`], so by that curated kinetic
+    /// law it keeps the oxidation state it was added in; the database's
+    /// redox split against pe is an equilibrium the bench does not reach.
+    /// The state is also one the registry cannot name, so booking it would
+    /// refuse the whole solve (`ReadbackUnrepresented`). First case:
+    /// cobalt in minteq.v4.dat, which defines `Co(3)` through
+    /// `Co+3 + e- = Co+2`, log K 32.4 (its cited source Bard85: Bard,
+    /// Parsons & Jordan, *Standard Potentials in Aqueous Solution*, 1985,
+    /// E° = +1.92 V). Aqueous Co(III) is an oxidant strong enough to
+    /// oxidise water, and air does not oxidise Co(II) in acid on a bench
+    /// timescale; concentrated hydrochloric acid drove a sliver past the
+    /// refusal threshold and the cobalt chloride solve failed outright.
+    UnregisteredStateOfFrozenElement,
+}
+
+/// Whether the readback share of `column` (an oxidation-state column such
+/// as `Co(3)`) for element `base` is a conversion the bench does not make,
+/// given the element's posed states `inputs`.
+///
+/// Only a state that (a) belongs to an element outside [`FAST_REDOX`],
+/// (b) was not itself posed, and (c) has no registry booking ion qualifies.
+/// Every named state keeps its solved share, so the N/S mixed-state splits
+/// the native component problem conserves are untouched, and an element
+/// whose unnamed state was *fed in* (no posed state to return it to) still
+/// refuses as before.
+fn frozen_state(base: &str, column: &str, inputs: &[(&String, f64)]) -> Option<FrozenStateReason> {
+    if FAST_REDOX.contains(&base) || derived::booking_ion(column).is_some() {
+        return None;
+    }
+    let total_in: f64 = inputs.iter().map(|(_, n)| n).sum();
+    if total_in <= 0.0 {
+        return None;
+    }
+    let state = tagged_state(column)?;
+    let posed = inputs.iter().any(|(key, _)| match tagged_state(key) {
+        Some(s) => s == state,
+        // A bare key books at the element's curated charge.
+        None => derived::booking_ion(base)
+            .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
+            .is_some_and(|f| f.charge as i32 == state),
+    });
+    (!posed).then_some(FrozenStateReason::UnregisteredStateOfFrozenElement)
+}
+
 /// Elements whose redox couples equilibrate fast enough to matter on a
 /// bench, and are therefore allowed to exchange electrons with each other.
 ///
@@ -15975,5 +16058,37 @@ mod sulfur_dioxide_boundary_tests {
         assert!(sulfur_dioxide_headspace_boundary(&vessel, &problem(vec![])).is_none());
         let co2 = problem(vec![("CO2(g)".into(), "CO2".into(), 0.0)]);
         assert!(sulfur_dioxide_headspace_boundary(&vessel, &co2).is_none());
+    }
+}
+
+#[cfg(test)]
+mod frozen_state_tests {
+    use super::*;
+
+    #[test]
+    fn an_unregistered_state_of_a_frozen_element_returns_to_its_posed_state() {
+        let co2 = "Co(2)".to_string();
+        let inputs = [(&co2, 0.01)];
+        assert!(derived::booking_ion("Co(2)").is_some());
+        assert!(derived::booking_ion("Co(3)").is_none());
+        assert_eq!(
+            frozen_state("Co", "Co(3)", &inputs),
+            Some(FrozenStateReason::UnregisteredStateOfFrozenElement)
+        );
+        // The posed state itself is booked, never frozen.
+        assert_eq!(frozen_state("Co", "Co(2)", &inputs), None);
+    }
+
+    #[test]
+    fn a_fed_or_fast_or_unposed_state_is_not_frozen() {
+        // Co(III) that was itself fed in has nowhere to return to: it still
+        // refuses through ReadbackUnrepresented rather than being relabelled.
+        let co3 = "Co(3)".to_string();
+        assert_eq!(frozen_state("Co", "Co(3)", &[(&co3, 0.01)]), None);
+        // Nothing posed at all: no state to return the share to.
+        assert_eq!(frozen_state("Co", "Co(3)", &[]), None);
+        // FAST_REDOX elements keep their own rule (coupled or uncoupled).
+        let mn2 = "Mn(2)".to_string();
+        assert_eq!(frozen_state("Mn", "Mn(6)", &[(&mn2, 0.01)]), None);
     }
 }
