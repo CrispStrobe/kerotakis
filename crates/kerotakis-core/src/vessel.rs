@@ -2383,6 +2383,47 @@ impl Vessel {
         (activity.is_finite() && activity > 0.0).then_some(activity)
     }
 
+    /// Gas molecules held in `litres` at `t_k`: the pool count less one
+    /// per dimer of an associating gas (`2 NO₂ ⇌ N₂O₄`), so an ideal-gas
+    /// pressure does not count a dimerised pool twice.
+    pub fn gas_molecules_in(&self, t_k: f64, litres: f64) -> f64 {
+        self.gas_moles().0 - crate::nitrogen_oxides::association_deficit(self, t_k, litres)
+    }
+
+    /// Volume at which the owned gas exerts `pressure_pa` at `t_k`. The
+    /// molecule count rises with the volume (dimers dissociate), so this
+    /// bisects `V = n(V)·R·T/P` between the all-dimer and all-monomer
+    /// bounds.
+    fn gas_volume_at(&self, t_k: f64, pressure_pa: f64) -> Liters {
+        const R_LITRE_PASCAL: f64 = 8_314.462_618;
+        let scale = R_LITRE_PASCAL * t_k / pressure_pa;
+        let mut hi = self.gas_moles().0 * scale;
+        let f = |v: f64| self.gas_molecules_in(t_k, v) * scale - v;
+        if !(hi > 0.0 && hi.is_finite()) || f(hi) >= 0.0 {
+            return Liters(hi.max(0.0));
+        }
+        let mut lo = 0.0_f64;
+        for (key, _) in crate::nitrogen_oxides::ASSOCIATING_GASES {
+            let pool: f64 = self
+                .contents
+                .iter()
+                .filter(|p| p.phase == Phase::Gas && p.species.0 == *key)
+                .map(|p| p.moles.0)
+                .sum();
+            lo += pool;
+        }
+        lo = (self.gas_moles().0 - 0.5 * lo).max(0.0) * scale;
+        for _ in 0..100 {
+            let mid = 0.5 * (lo + hi);
+            if f(mid) >= 0.0 {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        Liters(0.5 * (lo + hi))
+    }
+
     /// Recompute pressure from the owned gas inventory. The first model is
     /// deliberately the ideal-gas law; PHREEQC owns gas/liquid partitioning,
     /// while this method keeps pressure correct after generic operations.
@@ -2391,13 +2432,16 @@ impl Vessel {
         match self.headspace {
             Headspace::Open => self.pressure = Pascal::ATMOSPHERIC,
             Headspace::Sealed { volume } if volume.0 > 0.0 => {
-                self.pressure =
-                    Pascal(self.gas_moles().0 * R_LITRE_PASCAL * self.temperature.0 / volume.0);
+                self.pressure = Pascal(
+                    self.gas_molecules_in(self.temperature.0, volume.0)
+                        * R_LITRE_PASCAL
+                        * self.temperature.0
+                        / volume.0,
+                );
             }
             Headspace::Sealed { .. } => self.pressure = Pascal(0.0),
             Headspace::PressureControlled { pressure, .. } if pressure.0 > 0.0 => {
-                let volume =
-                    Liters(self.gas_moles().0 * R_LITRE_PASCAL * self.temperature.0 / pressure.0);
+                let volume = self.gas_volume_at(self.temperature.0, pressure.0);
                 self.headspace = Headspace::PressureControlled { pressure, volume };
                 self.pressure = pressure;
             }
@@ -2415,7 +2459,7 @@ impl Vessel {
         const R_LITRE_PASCAL: f64 = 8_314.462_618;
         match self.headspace {
             Headspace::Sealed { volume } if volume.0 > 0.0 => {
-                self.gas_moles().0 * R_LITRE_PASCAL * t_k / volume.0
+                self.gas_molecules_in(t_k, volume.0) * R_LITRE_PASCAL * t_k / volume.0
             }
             _ => self.pressure.0,
         }

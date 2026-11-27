@@ -39,9 +39,13 @@
 //! equilibrium constant at the vessel's temperature whenever the monomer
 //! matters: the headspace colour ([`crate::gas_colour`]) and the monomer
 //! pressure of rule 2. N₂O₄ is colourless in the visible, so cooling a
-//! brown jar fades it. The shown headspace pressure still counts the pool
-//! as monomer; that, the unpriced dimerisation heat and the condensation
-//! of N₂O₄ below its boiling point (21 °C at 1 atm) are said in a note.
+//! brown jar fades it. The headspace pressure counts molecules, so each
+//! dimer counts once ([`association_deficit`], used by
+//! [`Vessel::refresh_pressure`]); the dimerisation heat is unpriced.
+//! When the dimer's partial pressure passes the saturation pressure of
+//! N₂O₄ ([`n2o4_saturation_bar`]) a typed note says pale liquid (or below
+//! −11 °C solid) would condense; there is no N₂O₄ registry species to
+//! book the condensate in, so it is a caveat, not a writer.
 //!
 //! ## Data
 //!
@@ -153,18 +157,93 @@ pub fn nitrous_acid_ka(t: f64) -> f64 {
     constant(nitrous_acid_kj(), t)
 }
 
+/// Gases the registry holds as ONE pool in monomer units although part of
+/// the pool is a dimer `2 M ⇌ D`: (registry key of the pool, `Kp(T)` of
+/// the dimerisation in bar⁻¹). A new associating gas is a row here, and
+/// both the headspace pressure ([`association_deficit`]) and the
+/// condensation check pick it up.
+pub const ASSOCIATING_GASES: &[(&str, fn(f64) -> f64)] = &[(NO2, dimerisation_kp)];
+
 /// Monomer moles in a pool of `pool` mol NO₂ units held in `litres` at
 /// `t` K: `n_M + 2 n_D = pool`, `n_D / n_M² = Kp·R·T / V`.
 pub fn monomer_moles(pool: f64, t: f64, litres: f64) -> f64 {
+    monomer_moles_with(dimerisation_kp, pool, t, litres)
+}
+
+/// [`monomer_moles`] for any row of [`ASSOCIATING_GASES`].
+pub fn monomer_moles_with(kp: fn(f64) -> f64, pool: f64, t: f64, litres: f64) -> f64 {
     if !(pool > 0.0 && t > 0.0 && litres > 0.0) {
         return pool.max(0.0);
     }
-    let k = dimerisation_kp(t) * R_L_BAR * t / litres;
+    let k = kp(t) * R_L_BAR * t / litres;
     if !(k.is_finite() && k > 0.0) {
         return pool;
     }
     // Stable root of 2k n² + n − pool = 0.
     2.0 * pool / (1.0 + (1.0 + 8.0 * k * pool).sqrt())
+}
+
+/// Moles by which counting every associating pool in monomer units
+/// overstates the number of gas molecules held in `litres` at `t` K: one
+/// per dimer, `Σ (pool − n_M)/2`. Subtracted from the pool count, it is
+/// the molecule count the ideal-gas pressure needs.
+pub fn association_deficit(vessel: &Vessel, t: f64, litres: f64) -> f64 {
+    ASSOCIATING_GASES
+        .iter()
+        .map(|(key, kp)| {
+            let pool = gas(vessel, key);
+            if pool > TRACE {
+                0.5 * (pool - monomer_moles_with(*kp, pool, t, litres)).max(0.0)
+            } else {
+                0.0
+            }
+        })
+        .sum()
+}
+
+// ── N2O4 condensation check ──────────────────────────────────────────
+
+/// Enthalpy of vaporisation of N₂O₄ at 298.15 K, J/mol: the difference of
+/// the two vendored NASA CEA formation enthalpies in
+/// `vendor/nasa-cea/thermo.inp`, `N2O4` (gas, Gurvich 1989, 11110.919
+/// J/mol) and `N2O4(L)` (McBride 1996, −17549.000 J/mol).
+pub const N2O4_VAPORISATION_J: f64 = 11_110.919 + 17_549.000;
+/// Normal boiling point of N₂O₄, K (21.15 °C, CRC Handbook of Chemistry
+/// and Physics).
+pub const N2O4_BOILING_K: f64 = 294.30;
+/// Melting point of N₂O₄, K (−11.2 °C, CRC Handbook of Chemistry and
+/// Physics). Below it the condensate is solid.
+pub const N2O4_MELTING_K: f64 = 261.95;
+/// Upper end of the Clausius–Clapeyron line (constant 25 °C enthalpy).
+const N2O4_LINE_TOP_K: f64 = 323.15;
+
+/// Saturation pressure of LIQUID N₂O₄ at `t` K, bar: Clausius–Clapeyron
+/// through the normal boiling point with the CEA vaporisation enthalpy.
+/// Below the melting point this is the supercooled-liquid line, which
+/// lies ABOVE the solid's, so a dimer pressure above it is a certain
+/// deposit and one below it is undecided. `None` above the line's range.
+pub fn n2o4_saturation_bar(t: f64) -> Option<f64> {
+    if !(t.is_finite() && t > 0.0 && t <= N2O4_LINE_TOP_K) {
+        return None;
+    }
+    let r = crate::constants::GAS_CONSTANT;
+    Some(ATM_BAR * (-N2O4_VAPORISATION_J / r * (1.0 / t - 1.0 / N2O4_BOILING_K)).exp())
+}
+
+/// Dimer partial pressure (bar) of the headspace NO₂ pool and its
+/// saturation pressure, when the dimer pressure exceeds it: the jar is
+/// cold or concentrated enough that pale N₂O₄ would condense.
+pub fn n2o4_supersaturation(vessel: &Vessel) -> Option<(f64, f64)> {
+    let litres = vessel.headspace_volume()?.0;
+    let t = vessel.temperature.0;
+    let pool = gas(vessel, NO2);
+    if !(pool > TRACE && litres > 0.0) {
+        return None;
+    }
+    let dimer = 0.5 * (pool - monomer_moles(pool, t, litres));
+    let p = dimer * R_L_BAR * t / litres;
+    let sat = n2o4_saturation_bar(t)?;
+    (p > sat).then_some((p, sat))
 }
 
 /// Moles of a headspace gas that absorb as the registry species: the
@@ -518,12 +597,32 @@ fn dimer_note(vessel: &Vessel, events: &mut Vec<Event>) {
                 vessel,
                 Phrase::new(
                     "not-modeled.nitrogen-dioxide-dimer-pool",
-                    "nitrogen dioxide in the headspace is in equilibrium with colourless dinitrogen tetroxide (2 NO₂ ⇌ N₂O₄, NBS constant, van 't Hoff from 25 °C): {share} of it is the dimer at this temperature, more when colder, so the brown fades on cooling; the gas is held as one NO₂ pool, the shown pressure counts it as monomer, and the dimerisation heat and any condensation of N₂O₄ (boiling point 21 °C) are not modelled",
+                    "nitrogen dioxide in the headspace is in equilibrium with colourless dinitrogen tetroxide (2 NO₂ ⇌ N₂O₄, NBS constant, van 't Hoff from 25 °C): {share} of it is the dimer at this temperature, more when colder, so the brown fades on cooling; the gas is held as one NO₂ pool, the shown pressure counts each dimer as one molecule, and the dimerisation heat is not priced",
                     vec![("share".to_string(), Slot::number(format!("{:.0} %", share * 100.0)))],
                 ),
             );
         }
     }
+}
+
+fn condensation_note(vessel: &Vessel, events: &mut Vec<Event>) {
+    let Some((p, sat)) = n2o4_supersaturation(vessel) else {
+        return;
+    };
+    let solid = vessel.temperature.0 < N2O4_MELTING_K;
+    let phrase = Phrase::new(
+        if solid {
+            "not-modeled.dinitrogen-tetroxide-deposition"
+        } else {
+            "not-modeled.dinitrogen-tetroxide-condensation"
+        },
+        "the dinitrogen tetroxide in this headspace is at {pressure} bar, above its saturation pressure of {saturation} bar here (Clausius–Clapeyron through the 21 °C boiling point with the NASA CEA vaporisation enthalpy), so pale N₂O₄ would condense out of the gas (as a solid below −11 °C); the bench has no N₂O₄ species to book a condensate in, so the gas is kept and its pressure is too high",
+        vec![
+            ("pressure".to_string(), Slot::number(format!("{p:.3}"))),
+            ("saturation".to_string(), Slot::number(format!("{sat:.3}"))),
+        ],
+    );
+    note(events, vessel, phrase);
 }
 
 /// Whether any rule would act.
@@ -541,6 +640,7 @@ pub fn apply(vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
     progressed |= absorb(vessel, events);
     progressed |= decompose(vessel, events);
     dimer_note(vessel, events);
+    condensation_note(vessel, events);
     progressed
 }
 
