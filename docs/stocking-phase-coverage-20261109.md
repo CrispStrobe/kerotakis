@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 98, not_condensed 92.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 100, not_condensed 93.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -84,6 +84,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 98, n
 | melting_point_without_latent_heat | uranium | solid | 1405 | — | no | solid | solid | solid |
 | no_melting_point | Ag2CO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ag2CrO4 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Al(OH)3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Al2(SO4)3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Al2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
@@ -138,6 +139,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 98, n
 | no_melting_point | NaNO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NaOAc | solid | — | — | no | solid | solid | solid |
 | no_melting_point | NaOCl | liquid | — | — | no | liquid | liquid | liquid |
+| no_melting_point | Ni(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PET | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PP | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PS | solid | — | — | no | solid | solid | solid |
@@ -233,6 +235,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 98, n
 | not_condensed | NO2- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | NO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Na+ | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | Ni+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | O2 | gas | 54.4 | 90.19 | no | gas | gas | gas |
 | not_condensed | OH- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | PE | solid | — | — | no | solid | solid | solid |

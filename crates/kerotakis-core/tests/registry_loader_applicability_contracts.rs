@@ -105,8 +105,8 @@ fn same_runtime(doc: &Value) {
     assert_eq!(
         expected.iter().filter(|s| s.heat_capacity == 0.0).count(),
         // +3 (2026-11-26): the chromium(VI) ions carry the aqueous-ion
-        // zero-Cp convention.
-        72
+        // zero-Cp convention; +1 (2026-11-27): Ni+2 likewise.
+        73
     );
     let typed: RegistryDocument = serde_json::from_value(doc.clone()).unwrap();
     assert!(typed.validate().is_ok());

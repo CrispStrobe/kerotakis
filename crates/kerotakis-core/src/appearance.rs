@@ -177,6 +177,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     // the question K32 asks. The registry knew every plastic's density all
     // along; nothing put it beside the liquid's.
     let mut floating: Vec<(&str, f64, Colour)> = Vec::new();
+    // Powder stirred into the liquid and still hanging in it: moles and the
+    // mole-weighted solid colour, so the cloud takes the solid's colour.
+    let mut suspended_tint = (0.0_f64, [0.0_f64; 3]);
     let liquid_density = crate::buoyancy::liquid_density_g_per_ml(vessel);
     for p in &vessel.contents {
         if p.phase != Phase::Solid {
@@ -230,6 +233,21 @@ pub fn observe(vessel: &Vessel) -> Appearance {
                     strength: 0.0,
                 })
         };
+        // A tracked suspension is the powder itself spread through the
+        // liquid: nickel(II) hydroxide shaken into water is a green cloud,
+        // and with none of it settled yet, naming no colour at all said
+        // "colourless and cloudy" — the cloud lost the only colour in the
+        // tube. Only tracked lots count; untracked solids keep the settled
+        // deposit wording they always had.
+        if has_liquid && !rises {
+            if let Some(fraction) = tracked_suspension {
+                let m = p.moles.0 * fraction;
+                suspended_tint.0 += m;
+                suspended_tint.1[0] += m * colour.r as f64;
+                suspended_tint.1[1] += m * colour.g as f64;
+                suspended_tint.1[2] += m * colour.b as f64;
+            }
+        }
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
         // Nothing is SUSPENDED in a beaker with no liquid in it.
         //
@@ -274,6 +292,20 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     } else {
         0.0
     };
+    // Scattering by the suspended powder carries its colour into the
+    // liquid in proportion to how opaque the suspension makes it, the same
+    // blend the colloid branch above applies to its scattered base.
+    if pigment_colour.is_none() && suspended_tint.0 > 0.0 && solid_moles > 0.0 {
+        if let Some(colour) = &mut liquid {
+            let weight = particle_cloudiness * (suspended_tint.0 / solid_moles).clamp(0.0, 1.0);
+            let mix = |own: u8, tint: f64| {
+                (own as f64 * (1.0 - weight) + (tint / suspended_tint.0) * weight).round() as u8
+            };
+            colour.r = mix(colour.r, suspended_tint.1[0]);
+            colour.g = mix(colour.g, suspended_tint.1[1]);
+            colour.b = mix(colour.b, suspended_tint.1[2]);
+        }
+    }
     let emulsion_cloudiness = crate::emulsion::observe(vessel)
         .map(|emulsion| 0.78 * emulsion.dispersed_fraction)
         .unwrap_or(0.0);

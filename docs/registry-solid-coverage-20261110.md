@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 181, declined 12, registry-solid 66, unbookable 329.
+Counts: bookable-unclaimed 187, declined 12, registry-solid 68, unbookable 321.
 
 ## Matched registry solids
 
@@ -35,6 +35,7 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 66, unbookable 329.
 | `AgBr` | AgBr | minteq.v4:`Bromyrite`, wateq4f:`Bromyrite` |
 | `AgCl` | AgCl | minteq.v4:`Cerargyrite`, wateq4f:`Cerargyrite` |
 | `AgI` | AgI | minteq.v4:`Iodyrite`, wateq4f:`Iodyrite` |
+| `Al(OH)3` | Al(OH)3 | minteq.v4:`Al(OH)3(am)`, minteq.v4:`Gibbsite`, wateq4f:`Al(OH)3(a)`, wateq4f:`Gibbsite` |
 | `Al2O3` | Al2O3 | minteq.v4:`Al2O3` |
 | `BaCO3` | BaCO3 | minteq.v4:`Witherite`, wateq4f:`Witherite` |
 | `BaCrO4` | BaCrO4 | minteq.v4:`BaCrO4` |
@@ -68,6 +69,7 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 66, unbookable 329.
 | `Na2SO4` | Na2SO4 | minteq.v4:`Thenardite`, pitzer:`Thenardite`, wateq4f:`Thenardite` |
 | `NaCl` | NaCl | minteq.v4:`Halite`, pitzer:`Halite`, wateq4f:`Halite` |
 | `NaHCO3` | NaHCO3 | pitzer:`Nahcolite`, wateq4f:`Nahcolite` |
+| `Ni(OH)2` | Ni(OH)2 | minteq.v4:`Ni(OH)2`, wateq4f:`Ni(OH)2` |
 | `Pb` | Pb | minteq.v4:`Pbmetal`, wateq4f:`PbMetal` |
 | `PbCO3` | PbCO3 | minteq.v4:`Cerussite`, wateq4f:`Cerussite` |
 | `PbCrO4` | PbCrO4 | minteq.v4:`PbCrO4` |
@@ -131,7 +133,6 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 66, unbookable 329.
 | Ag2S | minteq.v4:`Acanthite`, wateq4f:`Acanthite` |
 | Ag3(Ferricyanide) | minteq.v4:`Ag_hexacyanoferrate_III` |
 | Ag4(Ferrocyanide) | minteq.v4:`Ag_hexacyanoferrate_II` |
-| Al(OH)3 | minteq.v4:`Al(OH)3(am)`, minteq.v4:`Gibbsite`, wateq4f:`Al(OH)3(a)`, wateq4f:`Gibbsite` |
 | Al4(OH)10SO4 | minteq.v4:`Al4(OH)10SO4`, wateq4f:`Basaluminite` |
 | AlOHSO4 | minteq.v4:`AlOHSO4`, wateq4f:`Jurbanite` |
 | AlOOH | minteq.v4:`Boehmite`, minteq.v4:`Diaspore`, wateq4f:`Boehmite`, wateq4f:`Diaspore` |
@@ -256,6 +257,13 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 66, unbookable 329.
 | NaFe3(SO4)2(OH)6 | minteq.v4:`Na-Jarosite`, wateq4f:`Jarosite-Na` |
 | NaHCO3:Na2CO3:2H2O | wateq4f:`Trona` |
 | NaK3(SO4)2 | pitzer:`Glaserite` |
+| Ni3(PO4)2 | minteq.v4:`Ni3(PO4)2`, wateq4f:`Ni3(PO4)2` |
+| Ni4(OH)6SO4 | minteq.v4:`Ni4(OH)6SO4`, wateq4f:`Ni4(OH)6SO4` |
+| NiCO3 | minteq.v4:`NiCO3`, wateq4f:`NiCO3` |
+| NiO | minteq.v4:`Bunsenite`, wateq4f:`Bunsenite` |
+| NiS | minteq.v4:`NiS(alpha)`, minteq.v4:`NiS(beta)`, minteq.v4:`NiS(gamma)`, wateq4f:`Millerite` |
+| NiSO4:6H2O | minteq.v4:`Retgersite`, wateq4f:`Retgersite` |
+| NiSO4:7H2O | minteq.v4:`Morenosite`, wateq4f:`Morenosite` |
 | Pb(BO2)2 | minteq.v4:`Pb(BO2)2`, wateq4f:`Pb(BO2)2` |
 | Pb10(OH)6O(CO3)6 | minteq.v4:`Pb10(OH)6O(CO3)6` |
 | Pb2(Ferrocyanide) | minteq.v4:`Pb_hexacyanoferrate_II` |
@@ -510,17 +518,9 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 66, unbookable 329.
 | NaSb | minteq.v4:`NaSb` |
 | NaSi7O13(OH)3:3H2O | wateq4f:`Magadiite` |
 | NaVO3 | minteq.v4:`NaVO3` |
-| Ni(OH)2 | minteq.v4:`Ni(OH)2`, wateq4f:`Ni(OH)2` |
 | Ni2SiO4 | wateq4f:`Ni2SiO4` |
 | Ni3(AsO4)2:8H2O | minteq.v4:`Ni3(AsO4)2:8H2O`, wateq4f:`Ni3(AsO4)2:8H2O` |
-| Ni3(PO4)2 | minteq.v4:`Ni3(PO4)2`, wateq4f:`Ni3(PO4)2` |
-| Ni4(OH)6SO4 | minteq.v4:`Ni4(OH)6SO4`, wateq4f:`Ni4(OH)6SO4` |
-| NiCO3 | minteq.v4:`NiCO3`, wateq4f:`NiCO3` |
 | NiMoO4 | minteq.v4:`NiMoO4` |
-| NiO | minteq.v4:`Bunsenite`, wateq4f:`Bunsenite` |
-| NiS | minteq.v4:`NiS(alpha)`, minteq.v4:`NiS(beta)`, minteq.v4:`NiS(gamma)`, wateq4f:`Millerite` |
-| NiSO4:6H2O | minteq.v4:`Retgersite`, wateq4f:`Retgersite` |
-| NiSO4:7H2O | minteq.v4:`Morenosite`, wateq4f:`Morenosite` |
 | NiSb | minteq.v4:`Breithauptite` |
 | NiSe | minteq.v4:`NiSe` |
 | NiSeO3:2H2O | minteq.v4:`NiSeO3:2H2O` |

@@ -6,10 +6,10 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 181,
+    "bookable-unclaimed": 187,
     "declined": 12,
-    "registry-solid": 66,
-    "unbookable": 329
+    "registry-solid": 68,
+    "unbookable": 321
   },
   "registry_solids_matched": [
     "Ag",
@@ -19,6 +19,7 @@
     "AgBr",
     "AgCl",
     "AgI",
+    "Al(OH)3",
     "Al2O3",
     "BaCO3",
     "BaCrO4",
@@ -52,6 +53,7 @@
     "Na2SO4",
     "NaCl",
     "NaHCO3",
+    "Ni(OH)2",
     "Pb",
     "PbCO3",
     "PbCrO4",
@@ -184,6 +186,30 @@
         {
           "database": "wateq4f",
           "phase": "Iodyrite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Al(OH)3",
+      "registry_species": "Al(OH)3",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Al(OH)3(am)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "Gibbsite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Al(OH)3(a)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Gibbsite"
         }
       ],
       "class": "registry-solid"
@@ -732,6 +758,22 @@
         {
           "database": "wateq4f",
           "phase": "Nahcolite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ni(OH)2",
+      "registry_species": "Ni(OH)2",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni(OH)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni(OH)2"
         }
       ],
       "class": "registry-solid"
@@ -1636,30 +1678,6 @@
         {
           "database": "minteq.v4",
           "phase": "Ag_hexacyanoferrate_II"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "Al(OH)3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Al(OH)3(am)"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "Gibbsite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Al(OH)3(a)"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Gibbsite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3396,6 +3414,126 @@
         {
           "database": "pitzer",
           "phase": "Glaserite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ni3(PO4)2",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni3(PO4)2"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni3(PO4)2"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ni4(OH)6SO4",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ni4(OH)6SO4"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Ni4(OH)6SO4"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NiCO3",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiCO3"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "NiCO3"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NiO",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Bunsenite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Bunsenite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NiS",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "NiS(alpha)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "NiS(beta)"
+        },
+        {
+          "database": "minteq.v4",
+          "phase": "NiS(gamma)"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Millerite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NiSO4:6H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Retgersite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Retgersite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "NiSO4:7H2O",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Morenosite"
+        },
+        {
+          "database": "wateq4f",
+          "phase": "Morenosite"
         }
       ],
       "class": "bookable-unclaimed"
@@ -6813,22 +6951,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "Ni(OH)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Ni(OH)2"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Ni(OH)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "Ni2SiO4",
       "registry_species": null,
       "reason": null,
@@ -6857,54 +6979,6 @@
       "class": "unbookable"
     },
     {
-      "formula": "Ni3(PO4)2",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Ni3(PO4)2"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Ni3(PO4)2"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "Ni4(OH)6SO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Ni4(OH)6SO4"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Ni4(OH)6SO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "NiCO3",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "NiCO3"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "NiCO3"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
       "formula": "NiMoO4",
       "registry_species": null,
       "reason": null,
@@ -6912,78 +6986,6 @@
         {
           "database": "minteq.v4",
           "phase": "NiMoO4"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "NiO",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Bunsenite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Bunsenite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "NiS",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "NiS(alpha)"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "NiS(beta)"
-        },
-        {
-          "database": "minteq.v4",
-          "phase": "NiS(gamma)"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Millerite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "NiSO4:6H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Retgersite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Retgersite"
-        }
-      ],
-      "class": "unbookable"
-    },
-    {
-      "formula": "NiSO4:7H2O",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Morenosite"
-        },
-        {
-          "database": "wateq4f",
-          "phase": "Morenosite"
         }
       ],
       "class": "unbookable"

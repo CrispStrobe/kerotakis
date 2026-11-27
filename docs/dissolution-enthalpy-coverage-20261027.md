@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 66/140, minteq.v4 75/140, pitzer 29/140.
+Priced after this change: wateq4f 68/142, minteq.v4 77/142, pitzer 29/142.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -38,8 +38,9 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `AgI` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `AgNO3` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Al` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Al(OH)3` | reference:wateq4f:Gibbsite | reference:minteq.v4:Gibbsite | refused: a reaction species is not defined on the routed database |
 | `Al2(SO4)3` | curated | curated | refused: a dissociation product the routed database does not define |
-| `Al2O3` | reference:minteq.v4:Al2O3 | reference:minteq.v4:Al2O3 | refused: a reaction species is not defined on the routed database |
+| `Al2O3` | hydration:minteq.v4:Al(OH)3 | hydration:minteq.v4:Al(OH)3 | refused: a reaction species is not defined on the routed database |
 | `Ba(OH)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `BaCO3` | routed | routed | reference:wateq4f:Witherite |
 | `BaCl2` | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 |
@@ -114,6 +115,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `NaNO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `NaOAc` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
 | `NaOH` | curated | curated | curated |
+| `Ni(OH)2` | reference:wateq4f:Ni(OH)2 | reference:minteq.v4:Ni(OH)2 | refused: a reaction species is not defined on the routed database |
 | `PE` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `PET` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `PP` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
