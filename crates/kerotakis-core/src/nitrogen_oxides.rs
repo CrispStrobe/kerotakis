@@ -157,12 +157,15 @@ pub fn nitrous_acid_ka(t: f64) -> f64 {
     constant(nitrous_acid_kj(), t)
 }
 
+/// `Kp(T)` of a dimerisation `2 M ⇌ D`, bar⁻¹, at `T` K.
+pub type DimerisationKp = fn(f64) -> f64;
+
 /// Gases the registry holds as ONE pool in monomer units although part of
 /// the pool is a dimer `2 M ⇌ D`: (registry key of the pool, `Kp(T)` of
 /// the dimerisation in bar⁻¹). A new associating gas is a row here, and
 /// both the headspace pressure ([`association_deficit`]) and the
 /// condensation check pick it up.
-pub const ASSOCIATING_GASES: &[(&str, fn(f64) -> f64)] = &[(NO2, dimerisation_kp)];
+pub const ASSOCIATING_GASES: &[(&str, DimerisationKp)] = &[(NO2, dimerisation_kp)];
 
 /// Monomer moles in a pool of `pool` mol NO₂ units held in `litres` at
 /// `t` K: `n_M + 2 n_D = pool`, `n_D / n_M² = Kp·R·T / V`.
@@ -171,7 +174,7 @@ pub fn monomer_moles(pool: f64, t: f64, litres: f64) -> f64 {
 }
 
 /// [`monomer_moles`] for any row of [`ASSOCIATING_GASES`].
-pub fn monomer_moles_with(kp: fn(f64) -> f64, pool: f64, t: f64, litres: f64) -> f64 {
+pub fn monomer_moles_with(kp: DimerisationKp, pool: f64, t: f64, litres: f64) -> f64 {
     if !(pool > 0.0 && t > 0.0 && litres > 0.0) {
         return pool.max(0.0);
     }
