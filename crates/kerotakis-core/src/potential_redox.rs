@@ -80,6 +80,11 @@ pub const E0_HCLO: f64 = 1.482;
 /// (Vanýsek). Hydrogen peroxide is the REDUCTANT of this couple: oxidised to
 /// oxygen by an oxidant stronger than itself (acidified dichromate).
 pub const E0_O2_H2O2: f64 = 0.695;
+/// [Fe(CN)₆]³⁻ + e⁻ ⇌ [Fe(CN)₆]⁴⁻ (CRC Electrochemical Series, Vanýsek).
+/// Below Fe³⁺/Fe²⁺ (0.771 V): hexacyanoferrate(III) does NOT oxidise free
+/// iron(II) on potentials alone; Turnbull's blue forms only because Prussian
+/// blue precipitates (see `Sink`).
+pub const E0_FE_CN6: f64 = 0.358;
 
 /// One registry form that delivers a couple member, and the spectator ions
 /// it releases per unit of the member.
@@ -308,6 +313,25 @@ pub const COUPLES: &[Couple] = &[
         source: CRC,
     },
     Couple {
+        id: "Fe(CN)6-3/Fe(CN)6-4",
+        oxidised: "Fe(CN)6-3",
+        // K3[Fe(CN)6] and any other Na/K salt are found in the registry.
+        oxidised_forms: &[],
+        oxidised_phase: Phase::Aqueous,
+        oxidised_unit_activity: false,
+        reduced: "Fe(CN)6-4",
+        reduced_per_oxidised: 1.0,
+        reduced_forms: &[],
+        reduced_acids: &[],
+        reduced_phase: Phase::Aqueous,
+        reduced_unit_activity: false,
+        electrons: 1.0,
+        protons: 0.0,
+        water: 0.0,
+        e0_v: E0_FE_CN6,
+        source: CRC,
+    },
+    Couple {
         id: "O2/H2O2",
         oxidised: "O2",
         oxidised_forms: &[],
@@ -337,7 +361,38 @@ pub struct Route {
     pub reductant: &'static str,
     /// Why this is the bench reaction (thermodynamics alone admits nothing).
     pub source: &'static str,
+    /// An insoluble salt of the two PRODUCTS that holds them out of
+    /// solution, so the crossing is computed on their free molalities. Only
+    /// for a route whose bench reaction is driven by that precipitate.
+    pub sink: Option<Sink>,
 }
+
+/// A product salt `(red.oxidised)_a (ox.reduced)_b` with a cited solubility
+/// product. The route books only the electron transfer; the equilibrium
+/// solver precipitates the salt from its own database phase, which must
+/// carry the same constant.
+#[derive(Debug, Clone, Copy)]
+pub struct Sink {
+    /// Registry key of the solid (named in the note).
+    pub solid: &'static str,
+    /// Reductant-couple oxidised member per formula unit.
+    pub red_oxidised: f64,
+    /// Oxidant-couple reduced member per formula unit.
+    pub ox_reduced: f64,
+    /// log10 Ksp, 25 °C, ionic strength zero.
+    pub log_ksp: f64,
+    pub source: &'static str,
+}
+
+/// Prussian blue Fe₄[Fe(CN)₆]₃, log Ksp −40.48: the constant the minteq.v4
+/// slice `shipped-complex-borrows` carries for its phase `Prussian_blue`.
+const PRUSSIAN_BLUE: Sink = Sink {
+    solid: "Prussian_blue",
+    red_oxidised: 4.0,
+    ox_reduced: 3.0,
+    log_ksp: -40.48,
+    source: "Patnaik, Dean's Analytical Chemistry Handbook, 2nd ed. (McGraw-Hill 2004), solubility-product table: Fe4[Fe(CN)6]3 Ksp 3.3e-41",
+};
 
 const PREP: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.2.3 (laboratory preparation of the halogens by oxidising the halide in acid)";
 const DISPLACE: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.3 (each halogen displaces the heavier halides from solution)";
@@ -348,6 +403,10 @@ const HYPOCHLOROUS: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd
 /// to green chromium(III) and oxygen; the net reaction is the one booked.
 /// The blue intermediate is NOT represented (no registry species, no rate).
 const PEROXIDE_ON_DICHROMATE: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §23.3.4 (peroxo compounds of chromium: acidified dichromate with hydrogen peroxide gives blue CrO(O2)2, which decomposes in aqueous acid to Cr(III) and O2); the blue intermediate is not represented";
+/// Turnbull's blue: iron(II) with hexacyanoferrate(III) gives the same
+/// product as iron(III) with hexacyanoferrate(II), by electron transfer
+/// followed by precipitation.
+const TURNBULL: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §25.3.3 (Prussian blue and Turnbull's blue are the same compound: Fe(II) with [Fe(CN)6]3- gives Fe(III) and [Fe(CN)6]4- by electron transfer)";
 const DICHROMATOMETRY: &str = "Vogel's Textbook of Quantitative Chemical Analysis, 6th ed., titrations with potassium dichromate (iron(II) in acid)";
 
 /// Every route, in the order they run: halogen preparations, then the
@@ -357,88 +416,164 @@ pub const ROUTES: &[Route] = &[
         oxidant: "MnO2/Mn+2",
         reductant: "Cl2/Cl-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "MnO4-/Mn+2",
         reductant: "Cl2/Cl-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "Cr2O7-2/Cr+3",
         reductant: "Cl2/Cl-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "Cl2/Cl-",
         reductant: "I2/I-",
         source: DISPLACE,
+        sink: None,
     },
     Route {
         oxidant: "Cl2/Cl-",
         reductant: "Fe+3/Fe+2",
         source: DISPLACE,
+        sink: None,
     },
     Route {
         oxidant: "Cl2/Cl-",
         reductant: "Br2/Br-",
         source: DISPLACE,
+        sink: None,
     },
     Route {
         oxidant: "MnO2/Mn+2",
         reductant: "Br2/Br-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "MnO4-/Mn+2",
         reductant: "Br2/Br-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "Cr2O7-2/Cr+3",
         reductant: "Br2/Br-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "MnO2/Mn+2",
         reductant: "I2/I-",
         source: PREP,
+        sink: None,
     },
     Route {
         oxidant: "MnO4-/Mn+2",
         reductant: "I2/I-",
         source: IODOMETRY,
+        sink: None,
     },
     Route {
         oxidant: "Cr2O7-2/Cr+3",
         reductant: "I2/I-",
         source: IODOMETRY,
+        sink: None,
     },
     Route {
         oxidant: "HClO/Cl-",
         reductant: "Fe+3/Fe+2",
         source: HYPOCHLOROUS,
+        sink: None,
     },
     Route {
         oxidant: "Br2/Br-",
         reductant: "I2/I-",
         source: DISPLACE,
+        sink: None,
     },
     Route {
         oxidant: "Br2/Br-",
         reductant: "Fe+3/Fe+2",
         source: DISPLACE,
+        sink: None,
     },
     Route {
         oxidant: "Cr2O7-2/Cr+3",
         reductant: "Fe+3/Fe+2",
         source: DICHROMATOMETRY,
+        sink: None,
     },
     Route {
         oxidant: "Cr2O7-2/Cr+3",
         reductant: "O2/H2O2",
         source: PEROXIDE_ON_DICHROMATE,
+        sink: None,
+    },
+    Route {
+        oxidant: "Fe(CN)6-3/Fe(CN)6-4",
+        reductant: "Fe+3/Fe+2",
+        source: TURNBULL,
+        sink: Some(PRUSSIAN_BLUE),
     },
 ];
+
+/// An oxidation the bench performs whose product the registry cannot write
+/// at all (no species, no potential, no volatility), so no route row can
+/// be posed. Each row only names the gap in a typed note.
+#[derive(Debug, Clone, Copy)]
+pub struct Unwritten {
+    /// Oxidant couple (its oxidised member is the reagent looked for).
+    pub oxidant: &'static str,
+    /// Registry key of the reductant.
+    pub reductant: &'static str,
+    /// The product the registry lacks, as a plain name.
+    pub product: &'static str,
+    /// Whether the bench reaction needs acid.
+    pub needs_acid: bool,
+    pub source: &'static str,
+}
+
+/// C1R-5: acidified dichromate oxidises ethanol to acetaldehyde (and on to
+/// acetic acid). Without an acetaldehyde species the distillate, the smell
+/// and the aldehyde tests (silver mirror) cannot be computed.
+pub const UNWRITTEN: &[Unwritten] = &[Unwritten {
+    oxidant: "Cr2O7-2/Cr+3",
+    reductant: "ethanol",
+    product: "acetaldehyde",
+    needs_acid: true,
+    source: "Vogel's Textbook of Practical Organic Chemistry, 5th ed., aliphatic aldehydes (acetaldehyde by oxidising ethanol with acidified dichromate and distilling it off as formed)",
+}];
+
+fn unwritten_applies(vessel: &Vessel, row: &Unwritten) -> bool {
+    let Some(ox) = couple(row.oxidant) else {
+        return false;
+    };
+    liquid_water(vessel) > 0.0
+        && oxidant_available(vessel, ox) > TRACE
+        && amount(vessel, row.reductant, &[Phase::Aqueous, Phase::Liquid]) > TRACE
+        && (!row.needs_acid
+            || acid_available(vessel) - crate::displacement::room_air_acidity_mol(vessel)
+                > crate::OBSERVABLE_MOLES)
+}
+
+fn unwritten_note(events: &mut Vec<Event>, vessel: &Vessel, row: &Unwritten) {
+    let ox = couple(row.oxidant).expect("unwritten oxidant couple");
+    let phrase = Phrase::new(
+        "not-modeled.oxidation-product-unregistered",
+        "{oxidant} would oxidise {reductant} to {product} here, but the registry has no {product} (no species, potential or volatility), so they are left unreacted and no test that needs the {product}, such as a silver mirror, can be computed. That is a gap in the model, not evidence that nothing happens",
+        vec![
+            ("oxidant".to_string(), Slot::text(pretty(ox.oxidised))),
+            ("reductant".to_string(), Slot::text(pretty(row.reductant))),
+            ("product".to_string(), Slot::text(row.product.to_string())),
+        ],
+    );
+    note(events, vessel, NotModelledCause::PhaseNotInRegistry, phrase);
+}
 
 pub fn couple(id: &str) -> Option<&'static Couple> {
     COUPLES.iter().find(|c| c.id == id)
@@ -759,7 +894,36 @@ fn molal(n: f64, w: f64) -> f64 {
 
 /// Oxidant-couple potential minus reductant-couple potential (V) after
 /// extent `x` (mol oxidant reduced).
-fn delta_e(vessel: &Vessel, ox: &Couple, red: &Couple, x: f64, s0: Start) -> f64 {
+/// Free molalities `(red_oxidised, ox_reduced)` left in solution once the
+/// sink salt has precipitated to its solubility product (molality standing
+/// in for activity, like every other term here).
+fn sink_free(sink: &Sink, f: f64, c: f64) -> (f64, f64) {
+    let (a, b) = (sink.red_oxidised, sink.ox_reduced);
+    let iap = |p: f64| a * (f - a * p).max(1e-300).log10() + b * (c - b * p).max(1e-300).log10();
+    if f <= 0.0 || c <= 0.0 || iap(0.0) <= sink.log_ksp {
+        return (f, c);
+    }
+    let (mut lo, mut hi) = (0.0, (f / a).min(c / b));
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        if iap(mid) > sink.log_ksp {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    let p = 0.5 * (lo + hi);
+    (f - a * p, c - b * p)
+}
+
+fn delta_e(
+    vessel: &Vessel,
+    ox: &Couple,
+    red: &Couple,
+    sink: Option<&Sink>,
+    x: f64,
+    s0: Start,
+) -> f64 {
     let w = kgw(vessel);
     let slope = crate::relations::nernst_slope(vessel.temperature);
     let (k, red_n, h_net, _) = per_oxidant(ox, red);
@@ -769,7 +933,17 @@ fn delta_e(vessel: &Vessel, ox: &Couple, red: &Couple, x: f64, s0: Start) -> f64
     } else {
         molal(s0.ox - x, w)
     };
-    let oxr_m = if ox.reduced_unit_activity {
+    // With a sink both products are dissolved ions (no unit activity).
+    let sunk = sink.map(|sk| {
+        sink_free(
+            sk,
+            (s0.red_oxidised + k * x) / w,
+            (s0.ox_reduced + ox.reduced_per_oxidised * x) / w,
+        )
+    });
+    let oxr_m = if let Some((_, c)) = sunk {
+        c.max(1e-300)
+    } else if ox.reduced_unit_activity {
         1.0
     } else {
         molal(s0.ox_reduced + ox.reduced_per_oxidised * x, w)
@@ -779,7 +953,9 @@ fn delta_e(vessel: &Vessel, ox: &Couple, red: &Couple, x: f64, s0: Start) -> f64
     } else {
         molal(s0.red - red_n * x, w)
     };
-    let redo_m = if red.oxidised_unit_activity {
+    let redo_m = if let Some((f, _)) = sunk {
+        f.max(1e-300)
+    } else if red.oxidised_unit_activity {
         1.0
     } else {
         molal(s0.red_oxidised + k * x, w)
@@ -815,17 +991,25 @@ pub fn extent(vessel: &Vessel, route: &Route) -> f64 {
         }
         xmax = xmax.min(s0.protons / h_net);
     }
-    if delta_e(vessel, ox, red, 0.0, s0) <= 0.0 {
+    if delta_e(vessel, ox, red, route.sink.as_ref(), 0.0, s0) <= 0.0 {
         return 0.0;
     }
     // ΔE falls monotonically with extent.
-    if delta_e(vessel, ox, red, xmax * (1.0 - RESOLUTION), s0) >= 0.0 {
+    if delta_e(
+        vessel,
+        ox,
+        red,
+        route.sink.as_ref(),
+        xmax * (1.0 - RESOLUTION),
+        s0,
+    ) >= 0.0
+    {
         return xmax;
     }
     let (mut lo, mut hi) = (0.0, xmax);
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
-        if delta_e(vessel, ox, red, mid, s0) >= 0.0 {
+        if delta_e(vessel, ox, red, route.sink.as_ref(), mid, s0) >= 0.0 {
             lo = mid;
         } else {
             hi = mid;
@@ -901,7 +1085,17 @@ fn ideal_note(events: &mut Vec<Event>, vessel: &Vessel, route: &Route) {
         // note says what the chlorine pool is.
         return;
     }
-    let phrase = if is_chlorine(red.oxidised) {
+    let phrase = if let Some(sink) = route.sink {
+        Phrase::new(
+            "not-modeled.potential-redox-precipitate-driven",
+            "{oxidant} oxidised {reductant} although its standard potential is the lower: {solid} precipitates and holds the products out of solution (CRC standard potentials and the cited solubility product, molality standing in for activity); activity coefficients, the rate, the heat and the real hydrated, potassium-bearing solid are not modelled",
+            vec![
+                ("oxidant".to_string(), Slot::text(pretty(ox.oxidised))),
+                ("reductant".to_string(), Slot::text(pretty(red.reduced))),
+                ("solid".to_string(), Slot::text(pretty(sink.solid))),
+            ],
+        )
+    } else if is_chlorine(red.oxidised) {
         Phrase::new(
             "not-modeled.chlorine-preparation-ideal",
             "{oxidant} made chlorine from chloride in acid until the two electrode potentials met (CRC standard potentials, molality standing in for activity, chlorine at one atmosphere); activity coefficients in concentrated acid, the rate and the heat of this reaction are not modelled",
@@ -1030,6 +1224,11 @@ pub fn dormant_notes(vessel: &Vessel) -> Vec<Event> {
     {
         if let Some(product) = missing_product(vessel, route) {
             unregistered_note(&mut events, vessel, route, product);
+        }
+    }
+    for row in UNWRITTEN {
+        if unwritten_applies(vessel, row) {
+            unwritten_note(&mut events, vessel, row);
         }
     }
     events

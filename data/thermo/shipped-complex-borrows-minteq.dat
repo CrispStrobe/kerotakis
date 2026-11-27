@@ -10,8 +10,10 @@
 # so the anion is not dissociated into Fe2+/Fe3+ and cyanide (which the
 # minteq.v4 Fe(Cyanide)6 constants would do, thermodynamically, below about
 # pH 4 - releasing HCN that a bench acid test does not release). The two
-# are NOT redox-linked here: electron exchange between them (and the
-# Turnbull's blue reaction Fe2+ + Fe(CN)6-3) is not posed by this slice.
+# are NOT redox-linked here. The Turnbull's blue electron transfer
+# Fe2+ + Fe(CN)6-3 -> Fe3+ + Fe(CN)6-4 is booked before the solve by the
+# core potential-redox route (CRC 0.358 V, driven by this Prussian_blue
+# constant); this slice then precipitates Prussian blue.
 SOLUTION_MASTER_SPECIES
     Ferrocyanide   Ferrocyanide-4   0   211.95   211.95
     Ferricyanide   Ferricyanide-3   0   211.95   211.95

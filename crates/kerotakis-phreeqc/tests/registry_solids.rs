@@ -221,3 +221,16 @@ fn barium_chloride_and_potassium_chromate_give_barium_chromate() {
         0.009,
     );
 }
+
+// Aluminium hydroxide (C1 complex-salts lane, 2026-11-27): minteq.v4
+// defines Gibbsite and Al(OH)3(am) under this formula; before the registry
+// row an alkaline aluminium salt reported them supersaturated and deposited
+// nothing, so "no precipitate" was an absence by omission.
+#[test]
+fn aluminium_sulfate_and_sodium_hydroxide_give_aluminium_hydroxide() {
+    assert_precipitates(
+        &[WATER, ("Al2(SO4)3", 0.005), ("NaOH", 0.03)],
+        "Al(OH)3",
+        0.008,
+    );
+}

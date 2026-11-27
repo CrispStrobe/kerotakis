@@ -73,9 +73,27 @@ J. Res. NBS 76A (1972) 469) peak below 405 nm, so the visible tail is drawn edit
 const BR2_AQ: &str = "Dissolved bromine (bromine water) is yellow-orange to brown, from the Br2 \
 band near 390 nm ('Oxidation of Thiourea by Aqueous Bromine', snippet via lookchem PDF: Br2 171 \
 mol-1 dm3 cm-1 at 390 nm, the uvvis_absorptivity row); band width as for the other cited rows";
+const CR3: &str = "Bunch, Analysis of the visible spectra of concentrated chromic chloride \
+solutions, honours thesis, Spring Arbor College (1983), NASA CR-172496 (NTRS 19830024599), \
+pp. 5-8: Cr(H2O)6 3+ maxima 575 and 407 nm, epsilon 13.9 and 16.1 L mol-1 cm-1; \
+Cr(H2O)5Cl 2+ maxima 605 and 430 nm, epsilon 17.8 and 21.6 L mol-1 cm-1 (0.1 cm cell, \
+curve-resolved). Widths editorial (sigma 40 and 30 nm): a 45/40 nm draft drew 45 mM \
+chromium(III) near-black through the 4 cm beaker path. The sulfato complex has no cited \
+spectrum and stays a spectral gap";
 
 /// The table. Append rows; never change a cited number without its source.
 pub const TABLE: &[ComplexColour] = &[
+    // --- chromium(III): hexaaqua blue-violet, chloro complex green
+    ComplexColour {
+        species: "Cr+3",
+        bands: &[(575.0, 13.9, 40.0), (407.0, 16.1, 30.0)],
+        basis: Basis::Cited(CR3),
+    },
+    ComplexColour {
+        species: "CrCl+2",
+        bands: &[(605.0, 17.8, 40.0), (430.0, 21.6, 30.0)],
+        basis: Basis::Cited(CR3),
+    },
     // --- copper(II) ammines
     ComplexColour {
         species: "Cu(NH3)4+2",
@@ -430,6 +448,31 @@ mod tests {
         assert!(
             bromine.r > bromine.b,
             "bromine water is yellow-orange to brown: {bromine:?}"
+        );
+    }
+
+    /// C1R-9: 45 mM chromium(III) through the beaker path is coloured, not
+    /// black; the chloro complex is green.
+    #[test]
+    fn chromium_three_is_not_drawn_black_and_its_chloro_complex_is_green() {
+        let colour = |name: &str, molar: f64| {
+            let row = row_for(name).unwrap();
+            assert!(!is_editorial(row), "{name} is cited");
+            let s = spectrum(row).unwrap();
+            let a = s.map(|e| e * molar * crate::spectrum::BEAKER_PATH_CM);
+            crate::spectrum::transmitted_colour(&a)
+        };
+        let aqua = colour("Cr+3", 0.045);
+        let brightest = aqua.r.max(aqua.g).max(aqua.b);
+        assert!(brightest > 90, "45 mM chromium(III) is not black: {aqua:?}");
+        assert!(
+            aqua.b > aqua.r,
+            "hexaaqua chromium(III) is blue-violet: {aqua:?}"
+        );
+        let chloro = colour("CrCl+2", 0.045);
+        assert!(
+            chloro.g > chloro.r && chloro.g > chloro.b,
+            "chloro chromium(III) is green: {chloro:?}"
         );
     }
 }
