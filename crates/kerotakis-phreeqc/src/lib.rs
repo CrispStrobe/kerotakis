@@ -463,7 +463,9 @@ SOLUTION_SPECIES
             // The reviewed neutral S(IV)/SO2(g) slice extends the Sulfite
             // pseudo-element defined above, so it goes on this route only.
             super::aqueous_gases::append_to(&super::aqueous_gases::sulfur_dioxide::append_to(
-                &super::complexation::append_to(&bytes),
+                &super::complexation::append_minteq_borrows(&super::complexation::append_to(
+                    &bytes,
+                )),
             ))
         })
     }

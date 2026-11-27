@@ -237,6 +237,37 @@ pub fn coverage(vessel: &Vessel) -> OpticalCoverage {
 
 /// Legacy missing-spectrum list for scene consumers. Missing pH has a distinct
 /// typed cause in coverage(), not an absent spectrum.
+/// Present native complexes coloured by any [`crate::complex_optics`] row.
+pub fn complex_rows_present(vessel: &Vessel) -> Vec<String> {
+    complexes_where(vessel, |_| true)
+}
+
+/// Complexes coloured by an editorial row of [`crate::complex_optics`].
+pub fn editorial_complexes(vessel: &Vessel) -> Vec<String> {
+    complexes_where(vessel, crate::complex_optics::is_editorial)
+}
+
+fn complexes_where(
+    vessel: &Vessel,
+    keep: impl Fn(&crate::complex_optics::ComplexColour) -> bool,
+) -> Vec<String> {
+    let Some(solution) = &vessel.solution else {
+        return Vec::new();
+    };
+    solution
+        .species
+        .iter()
+        .filter(|s| s.molality > 1e-9)
+        .filter(|s| {
+            !species::REGISTRY
+                .iter()
+                .any(|data| data.spectrum.is_some() && same_species(&s.name, data.key))
+        })
+        .filter(|s| crate::complex_optics::row_for(&s.name).is_some_and(&keep))
+        .map(|s| s.name.clone())
+        .collect()
+}
+
 pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
     coverage(vessel).missing_spectra
 }
@@ -269,6 +300,7 @@ fn missing_native_spectra(vessel: &Vessel) -> Vec<String> {
                 .iter()
                 .any(|data| data.spectrum.is_some() && same_species(&s.name, data.key))
         })
+        .filter(|s| crate::complex_optics::row_for(&s.name).is_none())
         .map(|s| s.name.clone())
         .collect()
 }
@@ -315,6 +347,14 @@ pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS
                         continue;
                     }
                     for (out, epsilon) in result.iter_mut().zip(data.spectrum.unwrap()) {
+                        *out += epsilon * native.molality.max(0.0) * kg / litres * path_cm;
+                    }
+                } else if let Some(spectrum) = crate::complex_optics::row_for(&native.name)
+                    .and_then(crate::complex_optics::spectrum)
+                {
+                    // A complex the registry does not carry: its colour is
+                    // a row of the complex table (never the free ion's).
+                    for (out, epsilon) in result.iter_mut().zip(spectrum) {
                         *out += epsilon * native.molality.max(0.0) * kg / litres * path_cm;
                     }
                 }
@@ -365,7 +405,7 @@ mod tests {
                     activity: 0.0005,
                 },
                 SpeciesDetail {
-                    name: "Cu(NH3)4+2".into(),
+                    name: "CuCO3".into(),
                     molality: 0.099,
                     activity: 0.05,
                 },
@@ -375,7 +415,7 @@ mod tests {
         for (free, total) in free_spectrum.iter().zip(total_spectrum) {
             assert!((free - total * 0.01).abs() < 1e-12);
         }
-        assert_eq!(spectral_gaps(&v), vec!["Cu(NH3)4+2"]);
+        assert_eq!(spectral_gaps(&v), vec!["CuCO3"]);
         assert!(crate::appearance::observe(&v)
             .words
             .contains("Colour is incomplete"));

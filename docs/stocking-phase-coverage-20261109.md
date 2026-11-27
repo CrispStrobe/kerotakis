@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 90, not_condensed 87.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, not_condensed 89.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -97,6 +97,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 90, n
 | no_melting_point | Cu(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Cu2(OH)2CO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Cu2Fe(CN)6 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuCl2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuO | solid | — | — | no | solid | solid | solid |
 | no_melting_point | CuS | solid | — | — | no | solid | solid | solid |
@@ -114,6 +115,8 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 90, n
 | no_melting_point | K2Cr2O7 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | K2CrO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | K2SO4 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | K3Fe(CN)6 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | K4Fe(CN)6 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KBr | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KHSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KMnO4 | solid | — | — | no | solid | solid | solid |
@@ -140,7 +143,9 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 90, n
 | no_melting_point | Pb(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PbCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PbS | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Prussian_blue | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Zn(OH)2 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Zn2Fe(CN)6 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnO | solid | — | — | no | solid | solid | solid |
 | no_melting_point | ZnS | solid | — | — | no | solid | solid | solid |
@@ -190,6 +195,8 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 90, n
 | not_condensed | Cr+3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+1 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | Fe(CN)6-3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | Fe(CN)6-4 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Fe+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Fe+3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | H+ | aqueous | — | — | no | aqueous | aqueous | aqueous |

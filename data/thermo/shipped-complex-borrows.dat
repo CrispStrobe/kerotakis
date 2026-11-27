@@ -1,0 +1,21 @@
+# Source: shipped-complex-borrows
+# Metal-ammine complexes borrowed verbatim (log_k only) from llnl.dat, which
+# ships in vendor/iphreeqc/database but is not a routed database. No reaction enthalpy
+# (reaction heat stays declared unpriced), no rate, no spectrum. 25 C, I = 0.
+SOLUTION_SPECIES
+    # llnl.dat lines 9413-9433 (zinc ammines)
+    Zn+2 + NH3 = Zn(NH3)+2
+        log_k 2.0527
+    Zn+2 + 2 NH3 = Zn(NH3)2+2
+        log_k 4.259
+    Zn+2 + 3 NH3 = Zn(NH3)3+2
+        log_k 6.4653
+    Zn+2 + 4 NH3 = Zn(NH3)4+2
+        log_k 8.3738
+    # llnl.dat lines 2277-2293 (cadmium ammines)
+    Cd+2 + NH3 = Cd(NH3)+2
+        log_k 2.5295
+    Cd+2 + 2 NH3 = Cd(NH3)2+2
+        log_k 4.876
+    Cd+2 + 4 NH3 = Cd(NH3)4+2
+        log_k 7.2914

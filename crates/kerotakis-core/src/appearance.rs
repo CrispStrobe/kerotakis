@@ -351,6 +351,10 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             )],
         )]
     };
+    let editorial = crate::solution_optics::editorial_complexes(vessel);
+    if has_liquid && !editorial.is_empty() {
+        notes.push(crate::complex_optics::editorial_note(editorial));
+    }
     if biuret_complex_moles > 0.0 {
         notes.push(crate::biuret::note());
     }

@@ -8,9 +8,9 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 
 - enumerated (metal, ligand) families: 474
 - route-deciding families: 57
-- route-deciding, defined on wateq4f: 2
-- route-deciding, defined only on minteq.v4: 50
-- route-deciding, missing on every routed database (refused): 5
+- route-deciding, defined on wateq4f: 4
+- route-deciding, defined only on minteq.v4: 52
+- route-deciding, missing on every routed database (refused): 1
 - route-deciding, metal suppliable from the registry: 37
 
 ## Route-deciding families
@@ -21,14 +21,14 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 | Ag | Cyanide | cyanide | yes | - | Ag(Cyanide)2-, Ag(Cyanide)3-2, Ag(Cyanide)OH- | - | routes to minteq.v4 | - |
 | Ag | Edta | EDTA | yes | - | Ag(Edta)-3, AgH(Edta)-2 | - | routes to minteq.v4 | - |
 | Ag | N(-3) | ammine | yes | - | Ag(NH3)2+, AgNH3+ | - | routes to minteq.v4 | - |
-| Ag | Thiosulfate | thiosulfate | yes | - | - | - | missing on every routed database; refused with a typed reason | Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 28 (Ag(S2O3)2 3-, photographic fixing) |
+| Ag | Thiosulfate | thiosulfate | yes | - | Ag(Thiosulfate)-, Ag(Thiosulfate)2-3 | - | routes to minteq.v4 | - |
 | Al | Citrate | citrate | yes | - | Al(Citrate), Al(Citrate)2-3, AlH(Citrate)+ | - | routes to minteq.v4 | - |
 | Al | Edta | EDTA | yes | - | Al(Edta)-, AlH(Edta), AlOH(Edta)-2 | - | routes to minteq.v4 | - |
 | Cd | Acetate | acetate | no | - | Cd(Acetate)+, Cd(Acetate)2 | - | routes to minteq.v4 | - |
 | Cd | Citrate | citrate | no | - | Cd(Citrate)-, Cd(Citrate)2-4, CdH(Citrate), CdH2(Citrate)+ | - | routes to minteq.v4 | - |
 | Cd | Cyanide | cyanide | no | - | Cd(Cyanide)2, Cd(Cyanide)3-, Cd(Cyanide)4-2, CdCyanide+ | - | routes to minteq.v4 | - |
 | Cd | Edta | EDTA | no | - | Cd(Edta)-2, CdH(Edta)- | - | routes to minteq.v4 | - |
-| Cd | N(-3) | ammine | no | - | - | - | missing on every routed database; refused with a typed reason | Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Cd(NH3)4 2+) |
+| Cd | N(-3) | ammine | no | Cd(NH3)+2, Cd(NH3)2+2, Cd(NH3)4+2 | Cd(NH3)+2, Cd(NH3)2+2, Cd(NH3)4+2 | - | routes to wateq4f | - |
 | Co | Acetate | acetate | yes | - | Co(Acetate)+, Co(Acetate)2 | - | routes to minteq.v4 | - |
 | Co | Citrate | citrate | yes | - | Co(Citrate)-, CoH2Citrate+, CoHCitrate | - | routes to minteq.v4 | - |
 | Co | Cyanide | cyanide | yes | - | Co(Cyanide)3-, Co(Cyanide)5-3 | - | routes to minteq.v4 | - |
@@ -71,9 +71,9 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 | Tl | Edta | EDTA | no | - | Tl(Edta)-3, TlH(Edta)-2 | - | routes to minteq.v4 | - |
 | Zn | Acetate | acetate | yes | - | Zn(Acetate)+, Zn(Acetate)2 | - | routes to minteq.v4 | - |
 | Zn | Citrate | citrate | yes | - | Zn(Citrate)-, Zn(Citrate)2-4, ZnH(Citrate), ZnH2(Citrate)+ | - | routes to minteq.v4 | - |
-| Zn | Cyanide | cyanide | yes | - | - | - | missing on every routed database; refused with a typed reason | Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(CN)4 2-) |
+| Zn | Cyanide | cyanide | yes | - | Zn(Cyanide)4-2 | - | routes to minteq.v4 | - |
 | Zn | Edta | EDTA | yes | - | Zn(Edta)-2, ZnH(Edta)-, ZnOH(Edta)-3 | - | routes to minteq.v4 | - |
-| Zn | N(-3) | ammine | yes | - | - | - | missing on every routed database; refused with a typed reason | Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 29 (Zn(NH3)4 2+) |
+| Zn | N(-3) | ammine | yes | Zn(NH3)+2, Zn(NH3)2+2, Zn(NH3)3+2, Zn(NH3)4+2 | Zn(NH3)+2, Zn(NH3)2+2, Zn(NH3)3+2, Zn(NH3)4+2 | - | routes to wateq4f | - |
 
 ## Reported, not route-deciding
 
@@ -211,7 +211,7 @@ Counts of complex species per database.
 | Co | Benzoate | background (Benzoate) | 0 | 1 | 0 |
 | Co | Butyrate | background (Butyrate) | 0 | 2 | 0 |
 | Co | C | background (C) | 0 | 2 | 0 |
-| Co | Cl | background (Cl) | 0 | 2 | 0 |
+| Co | Cl | background (Cl) | 0 | 5 | 0 |
 | Co | Ethylenediamine | background (Ethylenediamine) | 0 | 5 | 0 |
 | Co | F | background (F) | 0 | 1 | 0 |
 | Co | Formate | background (Formate) | 0 | 2 | 0 |

@@ -8,8 +8,8 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 90,
-    "not_condensed": 87
+    "no_melting_point": 95,
+    "not_condensed": 89
   },
   "species": [
     {
@@ -1027,6 +1027,19 @@
       }
     },
     {
+      "species": "Cu2Fe(CN)6",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "CuCl2",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1236,6 +1249,32 @@
     },
     {
       "species": "K2SO4",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "K3Fe(CN)6",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "K4Fe(CN)6",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1586,7 +1625,33 @@
       }
     },
     {
+      "species": "Prussian_blue",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Zn(OH)2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "Zn2Fe(CN)6",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -2224,6 +2289,32 @@
     },
     {
       "species": "Cu+2",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "Fe(CN)6-3",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "Fe(CN)6-4",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

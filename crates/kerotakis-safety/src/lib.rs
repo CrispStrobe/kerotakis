@@ -575,6 +575,18 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Ca(CH3COO)2"
         | "litmus"
         | "litmus_ox"
+        // Complex-salts lane (2026-11-25): the hexacyanoferrates hold their
+        // cyanide in an inert Fe(CN)6 core and are not treated as free
+        // cyanide; HCN from hot concentrated acid is a real hazard this
+        // key-level screen does not model. Their insoluble
+        // iron, copper and zinc salts are pigments/precipitates.
+        | "K4Fe(CN)6"
+        | "K3Fe(CN)6"
+        | "Fe(CN)6-4"
+        | "Fe(CN)6-3"
+        | "Prussian_blue"
+        | "Cu2Fe(CN)6"
+        | "Zn2Fe(CN)6"
         | "Pb+2"
         | "Pb(NO3)2"
         | "PE"
@@ -829,6 +841,13 @@ pub const COVERED_KEYS: &[&str] = &[
     "Co+2",
     "Fe3O4",
     "urea",
+    "K4Fe(CN)6",
+    "K3Fe(CN)6",
+    "Fe(CN)6-4",
+    "Fe(CN)6-3",
+    "Prussian_blue",
+    "Cu2Fe(CN)6",
+    "Zn2Fe(CN)6",
     "BaSO4",
     "BaCO3",
     "Br-",

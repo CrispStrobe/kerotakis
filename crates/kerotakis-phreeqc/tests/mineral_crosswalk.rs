@@ -72,17 +72,23 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// 2026-11-25 (redox species): KHSO4, K2SO4 and Cu(NO3)2 join. K2SO4 is a
 /// database phase (arcanite) without a reviewed solubility; the other two
 /// are not database phases.
+///
+/// 2026-11-25 (complex salts): five registry solids join. K4[Fe(CN)6] and
+/// K3[Fe(CN)6] dissolve and are not phases; Prussian blue, Cu2[Fe(CN)6] and
+/// Zn2[Fe(CN)6] are minteq.v4 slice phases (cited Ksp) matched through the
+/// conserved hexacyanoferrate pseudo-element, so the gap grows by three.
+/// Seven slice phases join the 683 distinct minerals (690).
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 132,
-            database_phases: 60,
+            registry_solids: 137,
+            database_phases: 63,
             with_reviewed_solubility: 14,
-            without_reviewed_solubility: 46,
-            not_a_database_phase: 72,
-            phases_without_a_registry_solid: 591,
+            without_reviewed_solubility: 49,
+            not_a_database_phase: 74,
+            phases_without_a_registry_solid: 595,
             several_phase_names: 14,
             not_posable: 14,
         },
@@ -151,6 +157,9 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "Cu",
             "Cu(OH)2",
             "Cu2(OH)2CO3",
+            // 2026-11-25: hexacyanoferrate precipitates carry a cited Ksp in
+            // the minteq.v4 slice, not a reviewed bench solubility.
+            "Cu2Fe(CN)6",
             "Cu2O",
             // A2 (2026-11-21): anhydrous CuCl2 is Melanothallite in both
             // routed databases; no reviewed solubility is claimed.
@@ -174,8 +183,10 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "PbI2",
             "PbS",
             "PbSO4",
+            "Prussian_blue",
             "Zn",
             "Zn(OH)2",
+            "Zn2Fe(CN)6",
             "ZnCO3",
             "ZnO",
             "ZnS",

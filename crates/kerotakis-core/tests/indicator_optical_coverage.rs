@@ -153,12 +153,12 @@ fn native_spectrum_and_ph_gaps_both_survive() {
     let mut v = indicator(Phase::Aqueous, 1e-6);
     solved(&mut v, f64::NAN);
     v.solution.as_mut().unwrap().species.push(SpeciesDetail {
-        name: "Cu(NH3)4+2".into(),
+        name: "CuCO3".into(),
         molality: 0.01,
         activity: 0.01,
     });
     let c = appearance::observe(&v);
-    assert_eq!(c.spectral_gaps, vec!["Cu(NH3)4+2"]);
+    assert_eq!(c.spectral_gaps, vec!["CuCO3"]);
     assert_eq!(ph_gaps(&v), vec!["methyl_orange"]);
     let seen = appearance::observe(&v);
     assert!(seen.notes.iter().any(|p| p.key == "look.spectral-gap"));

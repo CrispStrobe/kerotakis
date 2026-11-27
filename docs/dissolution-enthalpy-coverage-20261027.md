@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 66/132, minteq.v4 72/132, pitzer 29/132.
+Priced after this change: wateq4f 66/137, minteq.v4 72/137, pitzer 29/137.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -57,6 +57,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Cu(NO3)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `Cu2(OH)2CO3` | reference:wateq4f:Malachite | reference:minteq.v4:Malachite | refused: a reaction species is not defined on the routed database |
+| `Cu2Fe(CN)6` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `Cu2O` | reference:wateq4f:Cuprite | reference:minteq.v4:Cuprite | refused: a reaction species is not defined on the routed database |
 | `CuCl2` | curated | curated | refused: a dissociation product the routed database does not define |
 | `CuO` | hydration:wateq4f:Cu(OH)2 | hydration:wateq4f:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
@@ -75,6 +76,8 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `K2Cr2O7` | refused: a molecular solute with no reviewed enthalpy of dissolution | reference:minteq.v4:K2Cr2O7 | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `K2CrO4` | refused: a molecular solute with no reviewed enthalpy of dissolution | reference:minteq.v4:K2CrO4 | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `K2SO4` | reference:llnl.dat:Arcanite | reference:llnl.dat:Arcanite | routed |
+| `K3Fe(CN)6` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `K4Fe(CN)6` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `KBr` | curated | curated | curated |
 | `KCl` | curated | curated | curated |
 | `KHSO4` | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states an exact-zero enthalpy placeholder |
@@ -120,10 +123,12 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `PbI2` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `PbS` | reference:wateq4f:Galena | reference:minteq.v4:Galena | refused: a reaction species is not defined on the routed database |
 | `PbSO4` | routed | routed | refused: a reaction species is not defined on the routed database |
+| `Prussian_blue` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `S` | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution | refused: a molecular solute with no reviewed enthalpy of dissolution |
 | `SiO2` | reference:wateq4f:Quartz | reference:minteq.v4:Quartz | reference:wateq4f:Quartz |
 | `Zn` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Zn(OH)2` | reference:minteq.v4:Zn(OH)2(epsilon) | reference:minteq.v4:Zn(OH)2(epsilon) | refused: the reviewed phase states no 25 C dissolution enthalpy |
+| `Zn2Fe(CN)6` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `ZnCO3` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `ZnO` | hydration:minteq.v4:Zn(OH)2 | hydration:minteq.v4:Zn(OH)2 | refused: a reaction species is not defined on the routed database |
 | `ZnS` | reference:wateq4f:Sphalerite | reference:minteq.v4:Sphalerite | refused: a reaction species is not defined on the routed database |

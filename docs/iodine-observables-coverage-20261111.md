@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 45, neutral-refused 186, partitions 9.
+Counts: ion-stays-aqueous 47, neutral-refused 191, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -36,6 +36,8 @@ Counts: ion-stays-aqueous 45, neutral-refused 186, partitions 9.
 | ion-stays-aqueous | Cr+3 | — |
 | ion-stays-aqueous | Cu+1 | — |
 | ion-stays-aqueous | Cu+2 | — |
+| ion-stays-aqueous | Fe(CN)6-3 | — |
+| ion-stays-aqueous | Fe(CN)6-4 | — |
 | ion-stays-aqueous | Fe+2 | — |
 | ion-stays-aqueous | Fe+3 | — |
 | ion-stays-aqueous | H+ | — |
@@ -100,6 +102,7 @@ Counts: ion-stays-aqueous 45, neutral-refused 186, partitions 9.
 | neutral-refused | Cu(NO3)2 | — |
 | neutral-refused | Cu(OH)2 | — |
 | neutral-refused | Cu2(OH)2CO3 | — |
+| neutral-refused | Cu2Fe(CN)6 | — |
 | neutral-refused | Cu2O | — |
 | neutral-refused | CuCl2 | — |
 | neutral-refused | CuO | — |
@@ -128,6 +131,8 @@ Counts: ion-stays-aqueous 45, neutral-refused 186, partitions 9.
 | neutral-refused | K2Cr2O7 | — |
 | neutral-refused | K2CrO4 | — |
 | neutral-refused | K2SO4 | — |
+| neutral-refused | K3Fe(CN)6 | — |
+| neutral-refused | K4Fe(CN)6 | — |
 | neutral-refused | KBr | — |
 | neutral-refused | KCl | — |
 | neutral-refused | KHSO4 | — |
@@ -181,11 +186,13 @@ Counts: ion-stays-aqueous 45, neutral-refused 186, partitions 9.
 | neutral-refused | PbI2 | — |
 | neutral-refused | PbS | — |
 | neutral-refused | PbSO4 | — |
+| neutral-refused | Prussian_blue | — |
 | neutral-refused | S | — |
 | neutral-refused | SO2 | — |
 | neutral-refused | SiO2 | — |
 | neutral-refused | Zn | — |
 | neutral-refused | Zn(OH)2 | — |
+| neutral-refused | Zn2Fe(CN)6 | — |
 | neutral-refused | ZnCO3 | — |
 | neutral-refused | ZnO | — |
 | neutral-refused | ZnS | — |

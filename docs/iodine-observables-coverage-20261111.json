@@ -2,8 +2,8 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 45,
-    "neutral-refused": 186,
+    "ion-stays-aqueous": 47,
+    "neutral-refused": 191,
     "partitions": 9
   },
   "cases": [
@@ -103,6 +103,16 @@
     },
     {
       "species": "Cu+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Fe(CN)6-3",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
+      "species": "Fe(CN)6-4",
       "class": "ion-stays-aqueous",
       "basis": null
     },
@@ -427,6 +437,11 @@
       "basis": null
     },
     {
+      "species": "Cu2Fe(CN)6",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Cu2O",
       "class": "neutral-refused",
       "basis": null
@@ -563,6 +578,16 @@
     },
     {
       "species": "K2SO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "K3Fe(CN)6",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "K4Fe(CN)6",
       "class": "neutral-refused",
       "basis": null
     },
@@ -832,6 +857,11 @@
       "basis": null
     },
     {
+      "species": "Prussian_blue",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "S",
       "class": "neutral-refused",
       "basis": null
@@ -853,6 +883,11 @@
     },
     {
       "species": "Zn(OH)2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Zn2Fe(CN)6",
       "class": "neutral-refused",
       "basis": null
     },

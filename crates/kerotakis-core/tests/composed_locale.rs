@@ -91,6 +91,10 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("appearance.rs", include_str!("../src/appearance.rs")),
     ("biuret.rs", include_str!("../src/biuret.rs")),
     (
+        "complex_optics.rs",
+        include_str!("../src/complex_optics.rs"),
+    ),
+    (
         "reducing_sugar.rs",
         include_str!("../src/reducing_sugar.rs"),
     ),

@@ -60,6 +60,7 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/chlorine.rs",
     ROOT / "crates/kerotakis-core/src/potential_redox.rs",
     ROOT / "crates/kerotakis-core/src/appearance.rs",
+    ROOT / "crates/kerotakis-core/src/complex_optics.rs",
     ROOT / "crates/kerotakis-core/src/aqueous_continuation.rs",
     ROOT / "crates/kerotakis-core/src/amphoteric.rs",
     ROOT / "crates/kerotakis-core/src/displacement.rs",

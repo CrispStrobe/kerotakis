@@ -390,6 +390,9 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // Same shape, for the reviewed ligand slice: PHREEQC's component is
     // `Thiocyanate`, the registry's word for the ion is `SCN-`.
     ("Thiocyanate", "SCN-"),
+    // The conserved hexacyanoferrate anions (complexation's minteq.v4 slice).
+    ("Ferrocyanide", "Fe(CN)6-4"),
+    ("Ferricyanide", "Fe(CN)6-3"),
     ("Mn(7)", "MnO4-"),
     // Bare manganese books as the reduced ion, which is what the databases
     // treat as the master species and what dissolved manganese actually is
@@ -742,8 +745,14 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
 /// from their formula: the formula parser drops charge, so `S-2` parses as
 /// elemental sulfur, which `extract_sulfide` rightly refuses. The element
 /// state is stated here instead.
-const ION_ELEMENT_STATES: &[(&str, &str)] =
-    &[("S-2", "S(-2)"), ("Co+2", "Co(2)"), ("Cr+3", "Cr(3)")];
+const ION_ELEMENT_STATES: &[(&str, &str)] = &[
+    ("S-2", "S(-2)"),
+    ("Co+2", "Co(2)"),
+    ("Cr+3", "Cr(3)"),
+    // The conserved hexacyanoferrate anions are their own pseudo-elements.
+    ("Fe(CN)6-4", "Ferrocyanide"),
+    ("Fe(CN)6-3", "Ferricyanide"),
+];
 
 /// The protonation split for an element state, if it has one.
 pub fn protonation_split(element: &str) -> Option<&'static [(&'static str, &'static str)]> {
@@ -995,6 +1004,7 @@ impl Derived {
                 if info.is_gas || phases.iter().any(|(p, _)| p.name == *name) {
                     continue;
                 }
+                let pseudo = expand_pseudo_elements(&info.composition).1;
                 let Some(reg) = registry_solid_matching(&info.composition, info.waters) else {
                     continue;
                 };
@@ -1031,9 +1041,18 @@ impl Derived {
                 // same group decomposition as registry formulas — robust
                 // against per-database equation quirks (e.g. wateq4f's
                 // alkalinity conventions).
-                let Some(elements) = contribution_from_counts(info.composition.clone(), indexes)
-                else {
-                    continue;
+                // A phase written over a conserved pseudo-element (the
+                // hexacyanoferrate salts) books exactly the master species
+                // its own dissolution reaction releases.
+                let elements = if pseudo {
+                    info.elements.clone()
+                } else {
+                    let Some(elements) =
+                        contribution_from_counts(info.composition.clone(), indexes)
+                    else {
+                        continue;
+                    };
+                    elements
                 };
                 // Sort key: a freshly precipitated sulfide ranks ahead of
                 // every crystalline polymorph (`fresh_precipitate_rank`),
@@ -1239,6 +1258,79 @@ impl Derived {
     }
 }
 
+/// Conserved pseudo-elements that stand for a whole inert complex anion,
+/// with the real atoms they hold. A database phase written over one is
+/// matched against a registry solid by its real composition.
+pub const PSEUDO_ELEMENT_ATOMS: &[(&str, &[(&str, f64)])] = &[
+    ("Ferrocyanide", &[("Fe", 1.0), ("C", 6.0), ("N", 6.0)]),
+    ("Ferricyanide", &[("Fe", 1.0), ("C", 6.0), ("N", 6.0)]),
+];
+
+/// Expand pseudo-elements into atoms; also whether any was present.
+pub fn expand_pseudo_elements(
+    composition: &BTreeMap<String, f64>,
+) -> (BTreeMap<String, f64>, bool) {
+    let mut out = BTreeMap::new();
+    let mut pseudo = false;
+    for (element, n) in composition {
+        if let Some((_, atoms)) = PSEUDO_ELEMENT_ATOMS.iter().find(|(p, _)| p == element) {
+            pseudo = true;
+            for (atom, k) in *atoms {
+                *out.entry(atom.to_string()).or_insert(0.0) += k * n;
+            }
+        } else {
+            *out.entry(element.clone()).or_insert(0.0) += n;
+        }
+    }
+    (out, pseudo)
+}
+
+/// Hexacyanoferrate units in a registry formula, booked as the conserved
+/// anion whose charge balances the remaining cations: K4[Fe(CN)6] is
+/// hexacyanoferrate(II), K3[Fe(CN)6] hexacyanoferrate(III). Anything that
+/// does not balance to exactly one of the two is unmappable.
+fn extract_hexacyanoferrate(
+    counts: &BTreeMap<String, f64>,
+    indexes: [&DbIndex; 3],
+) -> Option<Option<Vec<(String, f64)>>> {
+    let c = counts.get("C").copied().unwrap_or(0.0);
+    let n = counts.get("N").copied().unwrap_or(0.0);
+    let fe = counts.get("Fe").copied().unwrap_or(0.0);
+    let units = c / 6.0;
+    if c == 0.0 || c != n || units.fract() != 0.0 || fe < units {
+        return None;
+    }
+    let mut rest = counts.clone();
+    rest.remove("C");
+    rest.remove("N");
+    if fe == units {
+        rest.remove("Fe");
+    } else {
+        rest.insert("Fe".into(), fe - units);
+    }
+    // Remaining atoms are simple cations; Fe outside the anion would be
+    // booked as Fe+2 here, which is not how Prussian blue's iron(III) is
+    // held, so such salts are left to their database phase.
+    if rest.contains_key("Fe") || rest.is_empty() {
+        return Some(None);
+    }
+    let mut charge = 0.0;
+    for (element, k) in &rest {
+        charge += cation_charge(element, indexes)? * k;
+    }
+    let per_unit = charge / units;
+    let anion = if (per_unit - 4.0).abs() < 1e-9 {
+        "Ferrocyanide"
+    } else if (per_unit - 3.0).abs() < 1e-9 {
+        "Ferricyanide"
+    } else {
+        return Some(None);
+    };
+    let mut result = contribution_from_counts(rest, indexes)?;
+    result.push((anion.to_string(), units));
+    Some(Some(result))
+}
+
 /// A solid registry species whose formula matches this composition and
 /// hydrate count exactly.
 /// The registry solid a database phase's composition IS, if any — the one
@@ -1256,6 +1348,10 @@ pub(crate) fn registry_solid_matching(
     composition: &BTreeMap<String, f64>,
     waters: f64,
 ) -> Option<&'static str> {
+    // A phase written over a conserved pseudo-element (Fe4(Ferrocyanide)3)
+    // is matched by the real atoms it holds.
+    let (expanded, _) = expand_pseudo_elements(composition);
+    let composition = &expanded;
     struct SolidIdentity {
         key: &'static str,
         waters: f64,
@@ -1296,6 +1392,9 @@ fn derive_contribution(formula: &str, indexes: [&DbIndex; 3]) -> Option<Vec<(Str
     // Preserve the explicitly written ligand identity, not an empirical
     // C/N/S coincidence (thiourea, for example, is not ammonium thiocyanate).
     // Counterions and multiplicities still go through the generic parser.
+    if base.contains("Fe(CN)6") {
+        return extract_hexacyanoferrate(&counts, indexes).flatten();
+    }
     if base.contains("SCN") {
         let ligands = ["S", "C", "N"]
             .iter()
@@ -2256,11 +2355,11 @@ mod tests {
     #[test]
     fn phase_coverage_reports_how_little_the_datasets_share() {
         let c = phase_coverage();
-        assert_eq!(c.total, 683, "distinct minerals across all three datasets");
+        assert_eq!(c.total, 690, "distinct minerals across all three datasets");
         assert_eq!(c.shared, 21, "minerals every dataset defines");
         assert_eq!(
             c.per_database,
-            vec![("wateq4f", 296), ("minteq.v4", 547), ("pitzer", 64)]
+            vec![("wateq4f", 296), ("minteq.v4", 554), ("pitzer", 64)]
         );
         // Gases are excluded, and one of them would otherwise land in the
         // shared count: all three datasets define CO2(g). Counting phases
@@ -2274,8 +2373,9 @@ mod tests {
         // 696 → 707 with OPT-8: the same eleven parser-dividend minerals,
         // counted here before polymorph dedupe.
         // The reviewed HBr gas adds one phase, not a shelf mineral; so
-        // does the Goldberg-Parker SO2(g) on minteq.v4 (708 -> 709).
-        assert_eq!(every.len(), 709, "phases, gases included");
+        // does the Goldberg-Parker SO2(g) on minteq.v4 (708 -> 709). The
+        // hexacyanoferrate slice adds seven precipitates (709 -> 716).
+        assert_eq!(every.len(), 716, "phases, gases included");
         assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 26);
         assert!(
             idx.iter().all(|i| i.has_phase("CO2(g)")),

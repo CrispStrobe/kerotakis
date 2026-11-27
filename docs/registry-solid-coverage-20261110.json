@@ -6,10 +6,10 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 181,
+    "bookable-unclaimed": 184,
     "declined": 12,
-    "registry-solid": 60,
-    "unbookable": 328
+    "registry-solid": 63,
+    "unbookable": 329
   },
   "registry_solids_matched": [
     "Ag",
@@ -29,6 +29,7 @@
     "Cu",
     "Cu(OH)2",
     "Cu2(OH)2CO3",
+    "Cu2Fe(CN)6",
     "Cu2O",
     "CuCl2",
     "CuO",
@@ -54,10 +55,12 @@
     "PbI2",
     "PbS",
     "PbSO4",
+    "Prussian_blue",
     "S",
     "SiO2",
     "Zn",
     "Zn(OH)2",
+    "Zn2Fe(CN)6",
     "ZnCO3",
     "ZnO",
     "ZnS",
@@ -350,6 +353,18 @@
         {
           "database": "wateq4f",
           "phase": "Malachite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Cu2(Ferrocyanide)",
+      "registry_species": "Cu2Fe(CN)6",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cu_hexacyanoferrate_II"
         }
       ],
       "class": "registry-solid"
@@ -775,6 +790,18 @@
       "class": "registry-solid"
     },
     {
+      "formula": "Fe4(Ferrocyanide)3",
+      "registry_species": "Prussian_blue",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Prussian_blue"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
       "formula": "S",
       "registry_species": "S",
       "reason": null,
@@ -910,6 +937,18 @@
         {
           "database": "wateq4f",
           "phase": "Zn(OH)2-g"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Zn2(Ferrocyanide)",
+      "registry_species": "Zn2Fe(CN)6",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Zn_hexacyanoferrate_II"
         }
       ],
       "class": "registry-solid"
@@ -1546,6 +1585,30 @@
         {
           "database": "wateq4f",
           "phase": "Acanthite"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ag3(Ferricyanide)",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag_hexacyanoferrate_III"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
+      "formula": "Ag4(Ferrocyanide)",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag_hexacyanoferrate_II"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3351,6 +3414,18 @@
       "class": "bookable-unclaimed"
     },
     {
+      "formula": "Pb2(Ferrocyanide)",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Pb_hexacyanoferrate_II"
+        }
+      ],
+      "class": "bookable-unclaimed"
+    },
+    {
       "formula": "Pb2(OH)3Cl",
       "registry_species": null,
       "reason": null,
@@ -4930,6 +5005,18 @@
         {
           "database": "wateq4f",
           "phase": "Cd(OH)2(a)"
+        }
+      ],
+      "class": "unbookable"
+    },
+    {
+      "formula": "Cd2(Ferrocyanide)",
+      "registry_species": null,
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Cd_hexacyanoferrate_II"
         }
       ],
       "class": "unbookable"

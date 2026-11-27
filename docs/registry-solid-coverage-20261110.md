@@ -22,7 +22,7 @@ Chromates are absent from every class below for a different reason: the registry
 chromate ion, so a chromate solid could be neither fed nor read back. The `unbookable`
 class lists every such case.
 
-Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
+Counts: bookable-unclaimed 184, declined 12, registry-solid 63, unbookable 329.
 
 ## Matched registry solids
 
@@ -45,6 +45,7 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
 | `Cu` | Cu | minteq.v4:`Cumetal`, wateq4f:`CuMetal` |
 | `Cu(OH)2` | Cu(OH)2 | minteq.v4:`Cu(OH)2`, wateq4f:`Cu(OH)2` |
 | `Cu2(OH)2CO3` | Cu2(OH)2CO3 | minteq.v4:`Malachite`, wateq4f:`Malachite` |
+| `Cu2Fe(CN)6` | Cu2(Ferrocyanide) | minteq.v4:`Cu_hexacyanoferrate_II` |
 | `Cu2O` | Cu2O | minteq.v4:`Cuprite`, wateq4f:`Cuprite` |
 | `CuCl2` | CuCl2 | minteq.v4:`Melanothallite`, wateq4f:`Melanothallite` |
 | `CuO` | CuO | minteq.v4:`Tenorite`, wateq4f:`Tenorite` |
@@ -70,10 +71,12 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
 | `PbI2` | PbI2 | minteq.v4:`PbI2`, wateq4f:`PbI2` |
 | `PbS` | PbS | minteq.v4:`Galena`, wateq4f:`Galena` |
 | `PbSO4` | PbSO4 | minteq.v4:`Anglesite`, wateq4f:`Anglesite` |
+| `Prussian_blue` | Fe4(Ferrocyanide)3 | minteq.v4:`Prussian_blue` |
 | `S` | S | minteq.v4:`Sulfur`, wateq4f:`Sulfur` |
 | `SiO2` | SiO2 | minteq.v4:`Chalcedony`, minteq.v4:`Cristobalite`, minteq.v4:`Quartz`, minteq.v4:`SiO2(am-gel)`, minteq.v4:`SiO2(am-ppt)`, pitzer:`Chalcedony`, pitzer:`Quartz`, pitzer:`SiO2(a)`, wateq4f:`Chalcedony`, wateq4f:`Cristobalite`, wateq4f:`Quartz`, wateq4f:`SiO2(a)`, wateq4f:`Silicagel` |
 | `Zn` | Zn | minteq.v4:`Znmetal`, wateq4f:`ZnMetal` |
 | `Zn(OH)2` | Zn(OH)2 | minteq.v4:`Zn(OH)2`, minteq.v4:`Zn(OH)2(am)`, minteq.v4:`Zn(OH)2(beta)`, minteq.v4:`Zn(OH)2(epsilon)`, minteq.v4:`Zn(OH)2(gamma)`, wateq4f:`Zn(OH)2-a`, wateq4f:`Zn(OH)2-b`, wateq4f:`Zn(OH)2-c`, wateq4f:`Zn(OH)2-e`, wateq4f:`Zn(OH)2-g` |
+| `Zn2Fe(CN)6` | Zn2(Ferrocyanide) | minteq.v4:`Zn_hexacyanoferrate_II` |
 | `ZnCO3` | ZnCO3 | minteq.v4:`Smithsonite`, wateq4f:`Smithsonite` |
 | `ZnO` | ZnO | minteq.v4:`Zincite`, minteq.v4:`ZnO(active)`, wateq4f:`Zincite(c)`, wateq4f:`ZnO(a)` |
 | `ZnS` | ZnS | minteq.v4:`Sphalerite`, minteq.v4:`Wurtzite`, minteq.v4:`ZnS(am)`, wateq4f:`Sphalerite`, wateq4f:`Wurtzite`, wateq4f:`ZnS(a)` |
@@ -124,6 +127,8 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
 | (NH4)2CrO4 | minteq.v4:`(NH4)2CrO4` |
 | Ag2CrO4 | minteq.v4:`Ag2CrO4` |
 | Ag2S | minteq.v4:`Acanthite`, wateq4f:`Acanthite` |
+| Ag3(Ferricyanide) | minteq.v4:`Ag_hexacyanoferrate_III` |
+| Ag4(Ferrocyanide) | minteq.v4:`Ag_hexacyanoferrate_II` |
 | Al(OH)3 | minteq.v4:`Al(OH)3(am)`, minteq.v4:`Gibbsite`, wateq4f:`Al(OH)3(a)`, wateq4f:`Gibbsite` |
 | Al4(OH)10SO4 | minteq.v4:`Al4(OH)10SO4`, wateq4f:`Basaluminite` |
 | AlOHSO4 | minteq.v4:`AlOHSO4`, wateq4f:`Jurbanite` |
@@ -252,6 +257,7 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
 | NaK3(SO4)2 | pitzer:`Glaserite` |
 | Pb(BO2)2 | minteq.v4:`Pb(BO2)2`, wateq4f:`Pb(BO2)2` |
 | Pb10(OH)6O(CO3)6 | minteq.v4:`Pb10(OH)6O(CO3)6` |
+| Pb2(Ferrocyanide) | minteq.v4:`Pb_hexacyanoferrate_II` |
 | Pb2(OH)3Cl | minteq.v4:`Pb2(OH)3Cl`, wateq4f:`Pb2(OH)3Cl` |
 | Pb2CuPO4(OH)3:3H2O | minteq.v4:`Tsumebite`, wateq4f:`Tsumebite` |
 | Pb2O(OH)2 | minteq.v4:`Pb2O(OH)2` |
@@ -368,6 +374,7 @@ Counts: bookable-unclaimed 181, declined 12, registry-solid 60, unbookable 328.
 | Cd | minteq.v4:`Cdmetal(alpha)`, minteq.v4:`Cdmetal(gamma)`, wateq4f:`Cd(gamma)`, wateq4f:`CdMetal` |
 | Cd(BO2)2 | minteq.v4:`Cd(BO2)2`, wateq4f:`Cd(BO2)2` |
 | Cd(OH)2 | minteq.v4:`Cd(OH)2`, minteq.v4:`Cd(OH)2(am)`, wateq4f:`Cd(OH)2`, wateq4f:`Cd(OH)2(a)` |
+| Cd2(Ferrocyanide) | minteq.v4:`Cd_hexacyanoferrate_II` |
 | Cd3(OH)2(SO4)2 | minteq.v4:`Cd3(OH)2(SO4)2`, wateq4f:`Cd3(OH)2(SO4)2` |
 | Cd3(OH)4SO4 | minteq.v4:`Cd3(OH)4SO4`, wateq4f:`Cd3(OH)4SO4` |
 | Cd3(PO4)2 | minteq.v4:`Cd3(PO4)2`, wateq4f:`Cd3(PO4)2` |

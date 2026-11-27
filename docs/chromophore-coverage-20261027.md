@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 58, outside_method 130, parameterised 7, parameterised_ph 5, unclassified 40.
+Counts: missing_absorptivity 64, outside_method 131, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -36,11 +36,14 @@ Counts: missing_absorptivity 58, outside_method 130, parameterised 7, parameteri
 | missing_absorptivity | Cu(NO3)2 | blue-green |
 | missing_absorptivity | Cu(OH)2 | pale blue |
 | missing_absorptivity | Cu2(OH)2CO3 | green |
+| missing_absorptivity | Cu2Fe(CN)6 | red-brown |
 | missing_absorptivity | Cu2O | red |
 | missing_absorptivity | CuCl2 | yellow-brown powder |
 | missing_absorptivity | CuO | black |
 | missing_absorptivity | CuS | black |
 | missing_absorptivity | Fe | grey |
+| missing_absorptivity | Fe(CN)6-3 | yellow |
+| missing_absorptivity | Fe(CN)6-4 | pale yellow |
 | missing_absorptivity | Fe(OH)2 | pale green |
 | missing_absorptivity | Fe(OH)3 | red-brown |
 | missing_absorptivity | Fe+3 | pale yellow |
@@ -51,6 +54,8 @@ Counts: missing_absorptivity 58, outside_method 130, parameterised 7, parameteri
 | missing_absorptivity | K | silvery |
 | missing_absorptivity | K2Cr2O7 | orange-red crystals |
 | missing_absorptivity | K2CrO4 | yellow crystals |
+| missing_absorptivity | K3Fe(CN)6 | red crystals |
+| missing_absorptivity | K4Fe(CN)6 | lemon-yellow crystals |
 | missing_absorptivity | KMnO4 | dark purple crystals |
 | missing_absorptivity | Mg | silvery |
 | missing_absorptivity | Mn+2 | very pale pink |
@@ -63,6 +68,7 @@ Counts: missing_absorptivity 58, outside_method 130, parameterised 7, parameteri
 | missing_absorptivity | Pb | dull grey |
 | missing_absorptivity | PbI2 | yellow |
 | missing_absorptivity | PbS | black |
+| missing_absorptivity | Prussian_blue | deep blue |
 | missing_absorptivity | S | pale yellow |
 | missing_absorptivity | Zn | bluish-silver |
 | missing_absorptivity | activated_charcoal | black |
@@ -156,6 +162,7 @@ Counts: missing_absorptivity 58, outside_method 130, parameterised 7, parameteri
 | outside_method | Sr+2 | colourless |
 | outside_method | Zn(OH)2 | white |
 | outside_method | Zn+2 | colourless |
+| outside_method | Zn2Fe(CN)6 | white |
 | outside_method | ZnCO3 | white |
 | outside_method | ZnO | white |
 | outside_method | ZnS | white |

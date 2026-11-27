@@ -588,6 +588,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "Cu2Fe(CN)6",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Cu2Fe(CN)6",
+    "route": "minteq.v4",
+    "class": "solubility-only",
+    "phase": "Cu_hexacyanoferrate_II",
+    "reason": "the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved"
+  },
+  {
+    "solid": "Cu2Fe(CN)6",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Cu2O",
     "route": "wateq4f",
     "class": "refused",
@@ -964,6 +985,48 @@
     "class": "crystallises-with-priced-heat",
     "phase": "Arcanite",
     "reason": "PHREEQC phase saturation, delta_h 22.184 kJ/mol; solid priced"
+  },
+  {
+    "solid": "K3Fe(CN)6",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K3Fe(CN)6",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K3Fe(CN)6",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K4Fe(CN)6",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K4Fe(CN)6",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "K4Fe(CN)6",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
   },
   {
     "solid": "KBr",
@@ -1911,6 +1974,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "Prussian_blue",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Prussian_blue",
+    "route": "minteq.v4",
+    "class": "solubility-only",
+    "phase": "Prussian_blue",
+    "reason": "the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved"
+  },
+  {
+    "solid": "Prussian_blue",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "S",
     "route": "wateq4f",
     "class": "refused",
@@ -1989,6 +2073,27 @@
   },
   {
     "solid": "Zn(OH)2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Zn2Fe(CN)6",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Zn2Fe(CN)6",
+    "route": "minteq.v4",
+    "class": "solubility-only",
+    "phase": "Zn_hexacyanoferrate_II",
+    "reason": "the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved"
+  },
+  {
+    "solid": "Zn2Fe(CN)6",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 58,
-    "outside_method": 130,
+    "missing_absorptivity": 64,
+    "outside_method": 131,
     "parameterised": 7,
     "parameterised_ph": 5,
     "unclassified": 40
@@ -121,6 +121,11 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "Cu2Fe(CN)6",
+      "appearance": "red-brown",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "Cu2O",
       "appearance": "red",
       "class": "missing_absorptivity"
@@ -143,6 +148,16 @@
     {
       "species": "Fe",
       "appearance": "grey",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe(CN)6-3",
+      "appearance": "yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe(CN)6-4",
+      "appearance": "pale yellow",
       "class": "missing_absorptivity"
     },
     {
@@ -193,6 +208,16 @@
     {
       "species": "K2CrO4",
       "appearance": "yellow crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "K3Fe(CN)6",
+      "appearance": "red crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "K4Fe(CN)6",
+      "appearance": "lemon-yellow crystals",
       "class": "missing_absorptivity"
     },
     {
@@ -253,6 +278,11 @@
     {
       "species": "PbS",
       "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Prussian_blue",
+      "appearance": "deep blue",
       "class": "missing_absorptivity"
     },
     {
@@ -718,6 +748,11 @@
     {
       "species": "Zn+2",
       "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "Zn2Fe(CN)6",
+      "appearance": "white",
       "class": "outside_method"
     },
     {

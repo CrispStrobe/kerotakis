@@ -1839,7 +1839,7 @@ mod tests {
                     activity: 0.0005,
                 },
                 SpeciesDetail {
-                    name: "Cu(NH3)4+2".into(),
+                    name: "CuCO3".into(),
                     molality: 0.099,
                     activity: 0.05,
                 },
@@ -1848,7 +1848,7 @@ mod tests {
         let gapped = scene_vessel(&v).liquid.expect("a liquid");
         assert_eq!(
             gapped.spectral_gaps,
-            vec!["Cu(NH3)4+2".to_string()],
+            vec!["CuCO3".to_string()],
             "the scene names what the prose names"
         );
         // And it is still only an admission. The engine did not invent the
