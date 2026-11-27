@@ -3440,6 +3440,36 @@ fn saturation_moles(phase: &str, kgw: f64, temperature_k: f64) -> Option<f64> {
 ///   registry has not reviewed — manganese dioxide and silver chloride
 ///   are both in that transcript — still inflates the estimate. Closing
 ///   that is registry data with a source behind it, not arithmetic here.
+/// Element totals an activity route estimates its ionic strength from:
+/// the dissolved totals plus what a supplied solid phase can put into
+/// solution (capped at its registry solubility, as
+/// [`potential_molality`] caps it). A soluble salt added as a solid is
+/// posed as a finite phase with no dissolved total, so the totals alone
+/// read 1.5 mol CoCl2 in a kilogram of water as I = 0 and the route never
+/// fired.
+fn activity_route_totals(problem: &Problem, temperature_k: f64) -> Vec<(String, f64)> {
+    let kgw = problem.kgw.max(MIN_SOLVENT_KG);
+    let mut totals = problem.totals.clone();
+    for (name, moles, _) in &problem.phases {
+        if *moles <= 0.0 {
+            continue;
+        }
+        let Some(phase) = derived::phase_by_name(name) else {
+            continue;
+        };
+        let dissolvable =
+            saturation_moles(name, kgw, temperature_k).map_or(*moles, |cap| moles.min(cap));
+        for (element, coefficient) in &phase.elements {
+            let n = coefficient * dissolvable;
+            match totals.iter_mut().find(|(e, _)| e == element) {
+                Some(entry) => entry.1 += n,
+                None => totals.push((element.clone(), n)),
+            }
+        }
+    }
+    totals
+}
+
 fn potential_molality(problem: &Problem, temperature_k: f64) -> f64 {
     let kgw = problem.kgw.max(MIN_SOLVENT_KG);
     let dissolved: f64 = problem.totals.iter().map(|(_, n)| n).sum();
@@ -9276,8 +9306,9 @@ impl PhreeqcEquilibrator {
             && problem.exchanges.is_empty()
             && problem.solid_solutions.is_empty()
         {
+            let route_totals = activity_route_totals(&problem, vessel.temperature.0);
             if let Some(route) =
-                crate::activity_routes::select(&problem.elements, &problem.totals, problem.kgw)
+                crate::activity_routes::select(&problem.elements, &route_totals, problem.kgw)
             {
                 crate::activity_routes::apply_aliases(
                     route,
@@ -9286,7 +9317,7 @@ impl PhreeqcEquilibrator {
                 );
                 let ionic_strength = crate::activity_routes::estimated_ionic_strength(
                     route.db,
-                    &problem.totals,
+                    &activity_route_totals(&problem, vessel.temperature.0),
                     problem.kgw,
                 );
                 db_tag = route.db;
@@ -9447,7 +9478,7 @@ impl PhreeqcEquilibrator {
         if let Some(route) = crate::activity_routes::route_for_db(db_tag) {
             let estimated = crate::activity_routes::estimated_ionic_strength(
                 route.db,
-                &problem.totals,
+                &activity_route_totals(&problem, vessel.temperature.0),
                 problem.kgw,
             );
             if crate::activity_routes::above_validity_ceiling(route, estimated) {
@@ -9692,6 +9723,17 @@ impl PhreeqcEquilibrator {
             } else {
                 problem.totals.push((el, n));
             }
+        }
+        // A solid the routed database cannot pose was freed above under the
+        // booking's element names (CoCl2 frees `Co(2)`), after the route's
+        // aliases were applied. Re-apply them so sit.dat is posed `Co`,
+        // which it defines, and never the `Co(2)` it does not.
+        if let Some(route) = crate::activity_routes::route_for_db(db_tag) {
+            crate::activity_routes::apply_aliases(
+                route,
+                &mut problem.elements,
+                &mut problem.totals,
+            );
         }
         let input = build_input(vessel, &problem, db_tag);
         // Old caches predate independent native N/S balances and the reviewed
