@@ -70,7 +70,7 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
 | wateq4f | 19 | 1 | 117 |
-| minteq.v4 | 21 | 4 | 112 |
+| minteq.v4 | 22 | 4 | 111 |
 | pitzer | 10 | 3 | 124 |
 
 | solid | route | class | phase | reason |
@@ -208,10 +208,10 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `K` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `K` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `K2Cr2O7` | wateq4f | refused | - | the routed database defines no phase for this solid |
-| `K2Cr2O7` | minteq.v4 | refused | K2Cr2O7 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `K2Cr2O7` | minteq.v4 | crystallises-with-priced-heat | K2Cr2O7 | PHREEQC phase saturation, delta_h 80.750 kJ/mol; solid priced |
 | `K2Cr2O7` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `K2CrO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
-| `K2CrO4` | minteq.v4 | refused | K2CrO4 | the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model |
+| `K2CrO4` | minteq.v4 | refused | K2CrO4 | the phase saturates at ionic strength >= 1.27 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `K2CrO4` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `K2SO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `K2SO4` | minteq.v4 | refused | - | the routed database defines no phase for this solid |

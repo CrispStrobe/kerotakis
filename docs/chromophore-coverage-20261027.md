@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 64, outside_method 131, parameterised 7, parameterised_ph 5, unclassified 40.
+Counts: missing_absorptivity 67, outside_method 131, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -32,6 +32,8 @@ Counts: missing_absorptivity 64, outside_method 131, parameterised 7, parameteri
 | missing_absorptivity | Co+2 | pink |
 | missing_absorptivity | CoCl2 | blue |
 | missing_absorptivity | Cr+3 | green |
+| missing_absorptivity | Cr2O7-2 | orange |
+| missing_absorptivity | CrO4-2 | yellow |
 | missing_absorptivity | Cu | reddish-brown |
 | missing_absorptivity | Cu(NO3)2 | blue-green |
 | missing_absorptivity | Cu(OH)2 | pale blue |
@@ -51,6 +53,7 @@ Counts: missing_absorptivity 64, outside_method 131, parameterised 7, parameteri
 | missing_absorptivity | Fe3O4 | black |
 | missing_absorptivity | FeCl3 | dark green-black crystals |
 | missing_absorptivity | FeSO4 | pale green |
+| missing_absorptivity | HCrO4- | orange |
 | missing_absorptivity | K | silvery |
 | missing_absorptivity | K2Cr2O7 | orange-red crystals |
 | missing_absorptivity | K2CrO4 | yellow crystals |

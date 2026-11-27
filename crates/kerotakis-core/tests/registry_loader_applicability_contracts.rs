@@ -101,10 +101,12 @@ fn phase_conflict(property: &str) {
 fn same_runtime(doc: &Value) {
     let canonical = document();
     let expected = parse_document(&canonical).unwrap();
-    assert_eq!(expected.len(), 247);
+    assert_eq!(expected.len(), 250);
     assert_eq!(
         expected.iter().filter(|s| s.heat_capacity == 0.0).count(),
-        69
+        // +3 (2026-11-26): the chromium(VI) ions carry the aqueous-ion
+        // zero-Cp convention.
+        72
     );
     let typed: RegistryDocument = serde_json::from_value(doc.clone()).unwrap();
     assert!(typed.validate().is_ok());

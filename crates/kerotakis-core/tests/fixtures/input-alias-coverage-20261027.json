@@ -486,6 +486,16 @@
       "source": "name:de"
     },
     {
+      "alias": "Chromat",
+      "canonical": "CrO4-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Chromat-Ion",
+      "canonical": "CrO4-2",
+      "source": "name:de"
+    },
+    {
       "alias": "Citrat",
       "canonical": "C6H5O7-3",
       "source": "ion-name:de"
@@ -663,6 +673,16 @@
     {
       "alias": "Diamant",
       "canonical": "diamond",
+      "source": "name:de"
+    },
+    {
+      "alias": "Dichromat",
+      "canonical": "Cr2O7-2",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Dichromat-Ion",
+      "canonical": "Cr2O7-2",
       "source": "name:de"
     },
     {
@@ -853,6 +873,16 @@
     {
       "alias": "Hydrogencarbonat-Ion",
       "canonical": "HCO3-",
+      "source": "name:de"
+    },
+    {
+      "alias": "Hydrogenchromat",
+      "canonical": "HCrO4-",
+      "source": "ion-name:de"
+    },
+    {
+      "alias": "Hydrogenchromat-Ion",
+      "canonical": "HCrO4-",
       "source": "name:de"
     },
     {
@@ -2526,9 +2556,19 @@
       "source": "name:fr"
     },
     {
+      "alias": "chromate",
+      "canonical": "CrO4-2",
+      "source": "ion-name:en"
+    },
+    {
       "alias": "chromate de potassium",
       "canonical": "K2CrO4",
       "source": "name:fr"
+    },
+    {
+      "alias": "chromate ion",
+      "canonical": "CrO4-2",
+      "source": "name:en"
     },
     {
       "alias": "chromium(III) ion",
@@ -2701,9 +2741,19 @@
       "source": "name:fr"
     },
     {
+      "alias": "dichromate",
+      "canonical": "Cr2O7-2",
+      "source": "ion-name:en"
+    },
+    {
       "alias": "dichromate de potassium",
       "canonical": "K2Cr2O7",
       "source": "name:fr"
+    },
+    {
+      "alias": "dichromate ion",
+      "canonical": "Cr2O7-2",
+      "source": "name:en"
     },
     {
       "alias": "dihydrogen phosphate",
@@ -2916,6 +2966,16 @@
       "source": "name:en"
     },
     {
+      "alias": "hydrogen chromate",
+      "canonical": "HCrO4-",
+      "source": "ion-name:en"
+    },
+    {
+      "alias": "hydrogen chromate ion",
+      "canonical": "HCrO4-",
+      "source": "name:en"
+    },
+    {
       "alias": "hydrogen iodide",
       "canonical": "HI",
       "source": "name:en"
@@ -2948,6 +3008,11 @@
     {
       "alias": "hydrogénocarbonate",
       "canonical": "HCO3-",
+      "source": "ion-name:fr"
+    },
+    {
+      "alias": "hydrogénochromate",
+      "canonical": "HCrO4-",
       "source": "ion-name:fr"
     },
     {
@@ -3171,6 +3236,11 @@
       "source": "name:fr"
     },
     {
+      "alias": "ion chromate",
+      "canonical": "CrO4-2",
+      "source": "name:fr"
+    },
+    {
       "alias": "ion chrome(III)",
       "canonical": "Cr+3",
       "source": "name:fr"
@@ -3193,6 +3263,11 @@
     {
       "alias": "ion cuivre(II)",
       "canonical": "Cu+2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion dichromate",
+      "canonical": "Cr2O7-2",
       "source": "name:fr"
     },
     {
@@ -3228,6 +3303,11 @@
     {
       "alias": "ion hydrogénocarbonate",
       "canonical": "HCO3-",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion hydrogénochromate",
+      "canonical": "HCrO4-",
       "source": "name:fr"
     },
     {

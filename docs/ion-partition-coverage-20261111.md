@@ -15,7 +15,7 @@ ion hydration, hundreds of kJ/mol, not repaid in an alkane).
 
 Hydrocarbon solvents in the registry: dodecane, hexadecane, hexane.
 
-Ion classes: monatomic anion 4, monatomic cation 19, polyatomic inorganic ion 22, small organic ion 3.
+Ion classes: monatomic anion 4, monatomic cation 19, polyatomic inorganic ion 25, small organic ion 3.
 
 | ion | formula | class | against a hydrocarbon |
 |---|---|---|---|
@@ -31,6 +31,8 @@ Ion classes: monatomic anion 4, monatomic cation 19, polyatomic inorganic ion 22
 | ClO- | ClO- | polyatomic inorganic ion | retained in water |
 | Co+2 | Co+2 | monatomic cation | retained in water |
 | Cr+3 | Cr+3 | monatomic cation | retained in water |
+| Cr2O7-2 | Cr2O7-2 | polyatomic inorganic ion | retained in water |
+| CrO4-2 | CrO4-2 | polyatomic inorganic ion | retained in water |
 | Cu+1 | Cu+1 | monatomic cation | retained in water |
 | Cu+2 | Cu+2 | monatomic cation | retained in water |
 | Fe(CN)6-3 | Fe(CN)6-3 | polyatomic inorganic ion | retained in water |
@@ -41,6 +43,7 @@ Ion classes: monatomic anion 4, monatomic cation 19, polyatomic inorganic ion 22
 | H2BO3- | H2BO3- | polyatomic inorganic ion | retained in water |
 | H2PO4- | H2PO4- | polyatomic inorganic ion | retained in water |
 | HCO3- | HCO3- | polyatomic inorganic ion | retained in water |
+| HCrO4- | HCrO4- | polyatomic inorganic ion | retained in water |
 | HPO4-2 | HPO4-2 | polyatomic inorganic ion | retained in water |
 | HS- | HS- | polyatomic inorganic ion | retained in water |
 | HSO3- | HSO3- | polyatomic inorganic ion | retained in water |

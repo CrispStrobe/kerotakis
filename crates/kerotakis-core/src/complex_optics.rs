@@ -66,6 +66,13 @@ const GE_FE3: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed. (
 complexes rising into the violet; the band is drawn editorially, not from a measured epsilon)";
 const GE_FE: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 25 \
 (hexacyanoferrate(II) pale yellow, thiocyanato complexes blood red)";
+const GE_CR6: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23, \
+section 23.3.3 (chromate yellow, dichromate orange; hydrogen chromate, dominant in dilute \
+acidified dichromate, between them). The reviewed absorptivities (Burke, Deardorff & Menis, \
+J. Res. NBS 76A (1972) 469) peak below 405 nm, so the visible tail is drawn editorially";
+const BR2_AQ: &str = "Dissolved bromine (bromine water) is yellow-orange to brown, from the Br2 \
+band near 390 nm ('Oxidation of Thiourea by Aqueous Bromine', snippet via lookchem PDF: Br2 171 \
+mol-1 dm3 cm-1 at 390 nm, the uvvis_absorptivity row); band width as for the other cited rows";
 
 /// The table. Append rows; never change a cited number without its source.
 pub const TABLE: &[ComplexColour] = &[
@@ -283,6 +290,29 @@ pub const TABLE: &[ComplexColour] = &[
         bands: &[(580.0, 7.0, 80.0)],
         basis: Basis::Editorial(GE_CO_NI),
     },
+    // --- chromium(VI): registry ions with no reviewed visible spectrum
+    ComplexColour {
+        species: "CrO4-2",
+        bands: &[(370.0, 2000.0, 35.0)],
+        basis: Basis::Editorial(GE_CR6),
+    },
+    ComplexColour {
+        species: "HCrO4-",
+        bands: &[(395.0, 1000.0, 40.0)],
+        basis: Basis::Editorial(GE_CR6),
+    },
+    ComplexColour {
+        species: "Cr2O7-2",
+        bands: &[(420.0, 1500.0, 45.0)],
+        basis: Basis::Editorial(GE_CR6),
+    },
+    // --- dissolved bromine: not a native species of the routed databases,
+    // so its aqueous portion takes this row (`solution_optics`).
+    ComplexColour {
+        species: "Br2",
+        bands: &[(390.0, 171.0, 55.0)],
+        basis: Basis::Cited(BR2_AQ),
+    },
 ];
 
 /// The row for a native species name (formula-compared, so `CuNH3+2` and
@@ -369,5 +399,37 @@ mod tests {
         assert!(fe.r > fe.b, "iron thiocyanate is red: {fe:?}");
         let pb = colour("Fe(CN)6-3", 0.01);
         assert!(pb.r > pb.b && pb.g > pb.b, "ferricyanide is yellow: {pb:?}");
+    }
+
+    #[test]
+    fn chromium_vi_and_bromine_water_take_their_reported_colours() {
+        let colour = |name: &str, molar: f64| {
+            let row = row_for(name).unwrap();
+            // Br2 has a cited peak (like Fe(SCN)+2); the Cr(VI) rows are editorial.
+            assert_eq!(is_editorial(row), name != "Br2", "{name} basis");
+            let s = spectrum(row).unwrap();
+            let a = s.map(|e| e * molar * crate::spectrum::BEAKER_PATH_CM);
+            crate::spectrum::transmitted_colour(&a)
+        };
+        let chromate = colour("CrO4-2", 1e-3);
+        assert!(
+            chromate.r > chromate.b && chromate.g > chromate.b,
+            "chromate is yellow: {chromate:?}"
+        );
+        let dichromate = colour("Cr2O7-2", 1e-3);
+        assert!(
+            dichromate.r > dichromate.g && dichromate.g > dichromate.b,
+            "dichromate is orange: {dichromate:?}"
+        );
+        let hydrogen = colour("HCrO4-", 1e-3);
+        assert!(
+            hydrogen.r > hydrogen.b && hydrogen.g > hydrogen.b,
+            "hydrogen chromate is orange-yellow: {hydrogen:?}"
+        );
+        let bromine = colour("Br2", 0.02);
+        assert!(
+            bromine.r > bromine.b,
+            "bromine water is yellow-orange to brown: {bromine:?}"
+        );
     }
 }

@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, not_condensed 89.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, not_condensed 92.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -193,6 +193,8 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, n
 | not_condensed | ClO- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Co+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cr+3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | Cr2O7-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | CrO4-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+1 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Cu+2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | Fe(CN)6-3 | aqueous | — | — | no | aqueous | aqueous | aqueous |
@@ -208,6 +210,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, n
 | not_condensed | HBr | gas | 186.28 | 206.43 | no | gas | gas | gas |
 | not_condensed | HCO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HClO | aqueous | — | — | no | aqueous | aqueous | aqueous |
+| not_condensed | HCrO4- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HPO4-2 | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HS- | aqueous | — | — | no | aqueous | aqueous | aqueous |
 | not_condensed | HSO3- | aqueous | — | — | no | aqueous | aqueous | aqueous |

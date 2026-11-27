@@ -405,8 +405,18 @@ fn neat(vessel: &Vessel, acid: &str) -> f64 {
 /// Whether the vessel holds this acid concentrated by the bench's own
 /// admission boundary: the liquid acid present and water below
 /// [`AQUEOUS_WATER_FRACTION_FLOOR`] of the competing liquids.
+///
+/// A neat acid with no water at all is the pure-acid medium itself
+/// (fuming nitric acid on copper, 2026-11-26). The water-fraction rule
+/// cannot say so for a strong acid, because
+/// [`crate::nonaqueous::water_fraction_among_solvents`] deliberately keeps
+/// a dry strong acid silent (a bottle on its way into a solution); a
+/// vessel whose only liquid is the acid is concentrated by any reading.
+/// Dry solids never qualify: the acid must be present as a liquid.
 fn concentrated_acid(vessel: &Vessel, acid: &str) -> bool {
-    neat(vessel, acid) > TRACE && !crate::nonaqueous::aqueous_model_admits(vessel)
+    neat(vessel, acid) > TRACE
+        && (!crate::nonaqueous::aqueous_model_admits(vessel)
+            || phase_moles(vessel, "water", &[Phase::Liquid, Phase::Aqueous]) <= TRACE)
 }
 
 /// Whether the vessel holds concentrated sulfuric acid.

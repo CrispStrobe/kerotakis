@@ -933,9 +933,9 @@
   {
     "solid": "K2Cr2O7",
     "route": "minteq.v4",
-    "class": "refused",
+    "class": "crystallises-with-priced-heat",
     "phase": "K2Cr2O7",
-    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+    "reason": "PHREEQC phase saturation, delta_h 80.750 kJ/mol; solid priced"
   },
   {
     "solid": "K2Cr2O7",
@@ -956,7 +956,7 @@
     "route": "minteq.v4",
     "class": "refused",
     "phase": "K2CrO4",
-    "reason": "the routed database defines this phase, but the solid's composition is not admitted by the aqueous component/oxidation-state model"
+    "reason": "the phase saturates at ionic strength >= 1.27 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
   },
   {
     "solid": "K2CrO4",

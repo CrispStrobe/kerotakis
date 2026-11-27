@@ -74,9 +74,11 @@ fn allocation_budget() {
     // guarding them brought the workload to 3643 (3742 after #922 added five
     // species). Budget tightened to match. 4050 after the complex-salts lane
     // added seven species and #926 eight more (the same once-built registry
-    // tables).
+    // tables). The chromium(VI) ions (2026-11-26) measured 4012 on their own
+    // branch (+270 over the shared base); summed with the 4050 that is about
+    // 4320, so the budget moved past it.
     assert!(
-        stats.total_blocks < 4_200,
+        stats.total_blocks < 4_400,
         "combined workload allocated {} blocks — investigate hot spots",
         stats.total_blocks
     );

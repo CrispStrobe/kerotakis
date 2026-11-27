@@ -10340,8 +10340,16 @@ impl PhreeqcEquilibrator {
                 .iter()
                 .filter_map(|(species, key)| {
                     let column = format!("m_{species}");
-                    value(&column)
-                        .map(|m| checked_component_readback(&column, m).map(|m| (*key, m)))
+                    value(&column).map(|m| {
+                        // Weighted by the atoms of the state's element each
+                        // species carries, so a share is a share of the
+                        // ELEMENT total: dichromate is two chromium(VI)
+                        // (2026-11-26). The booking divides by the same
+                        // count, so every existing one-atom split is
+                        // unchanged.
+                        checked_component_readback(&column, m)
+                            .map(|m| (*key, m * split_atoms(key, el)))
+                    })
                 })
                 .collect::<Result<_, _>>()?;
             // All or nothing. A partial split would divide the total by a
@@ -11375,6 +11383,17 @@ fn component_projection_error(reason: ProjectionReason, detail: impl Into<String
         solver: "phreeqc-inventory".into(),
         detail: format!("gas-aware analytical component balance: {}", detail.into()),
     }
+}
+
+/// Atoms of `state`'s element in one unit of registry species `key` (1 when
+/// the formula does not carry it, e.g. a named master like `Acetate`).
+fn split_atoms(key: &str, state: &str) -> f64 {
+    let base = state.split('(').next().unwrap_or(state);
+    species::lookup_key(key)
+        .and_then(|d| kerotakis_core::stoich::parse_formula(d.formula).ok())
+        .and_then(|f| f.counts.get(base).copied())
+        .filter(|n| *n > 0.0)
+        .unwrap_or(1.0)
 }
 
 fn checked_component_readback(column: &str, raw: f64) -> Result<f64, SolveError> {

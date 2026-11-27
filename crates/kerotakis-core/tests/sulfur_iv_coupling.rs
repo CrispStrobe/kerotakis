@@ -437,7 +437,7 @@ fn dissolved_oxygen_autoxidation_is_refused_typed() {
 fn rated_oxidants_without_a_registry_form_never_fire() {
     // Ozone, HOBr and OBr- carry cited constants but no registry form;
     // the table keeps them so that a registry addition is priced at once.
-    for key in ["O3", "HBrO", "BrO-", "HCrO4-"] {
+    for key in ["O3", "HBrO", "BrO-"] {
         let o = sulfur_iv::oxidant(key).unwrap();
         assert!(halogen_redox::registry_forms(o.key).is_empty(), "{key}");
     }
@@ -449,10 +449,10 @@ fn rated_oxidants_without_a_registry_form_never_fire() {
     // Dichromate has had a registry form since potassium dichromate joined
     // the shelf (H3); its product Cr+3 joined 2026-11-25, so acidified
     // dichromate now oxidises hydrogen sulfite.
-    assert_eq!(
-        halogen_redox::registry_forms("Cr2O7-2"),
-        vec!["K2Cr2O7".to_string()]
-    );
+    assert!(halogen_redox::registry_forms("Cr2O7-2").contains(&"K2Cr2O7".to_string()));
+    // Hydrogen chromate joined the registry (2026-11-26, chromium(VI)
+    // speciation): its rated row has a form now.
+    assert!(halogen_redox::registry_forms("HCrO4-").contains(&"HCrO4-".to_string()));
     let mut v = water();
     aq(&mut v, "K2Cr2O7", 1e-4);
     aq(&mut v, "HSO3-", 1e-4);
