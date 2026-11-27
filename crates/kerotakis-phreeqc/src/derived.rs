@@ -529,15 +529,28 @@ pub fn phase_in_db(name: &str, db_tag: &str) -> Option<&'static str> {
 /// between; nothing is invented, and a sulfide with no amorphous entry
 /// (CuS covellite, PbS galena) keeps its crystal.
 ///
-/// Deliberately scoped to sulfides: amorphous silica, alumina gel and the
-/// like are also what precipitates, but sand and corundum on the shelf are
-/// crystalline and kinetically inert, and those polymorph choices need
-/// their own review.
+/// The same holds for a binary metal hydroxide M(OH)n: what forms when lye
+/// or ammonia meets a metal salt at room temperature is the gelatinous,
+/// amorphous hydroxide, not an aged crystal. wateq4f `Zn(OH)2-a` (log K
+/// 12.45) and minteq.v4 `Zn(OH)2(am)` (12.474) against epsilon-Zn(OH)2
+/// (11.5 / 11.534) are the databases' own fresh entries (Ball and
+/// Nordstrom 1991, above). With the aged crystal the bench left 89% of a
+/// zinc hydroxide precipitate standing in 0.7 M NaOH, where the classical
+/// amphoteric test dissolves it to zincate, Zn(OH)4 2-; the more soluble
+/// fresh solid redissolves through the very same Zn(OH)4-2 and ammine
+/// mass action, with no constant added. A hydroxide with a single entry
+/// (Cu(OH)2, Ni(OH)2) is unaffected, as is any oxide.
+///
+/// Silica, alumina and other oxides stay out: sand and corundum on the
+/// shelf are crystalline and kinetically inert, and those polymorph
+/// choices need their own review.
 pub fn fresh_precipitate_rank(registry_key: &str, phase_name: &str) -> f64 {
     const NONMETALS: &[&str] = &[
         "H", "O", "C", "N", "S", "P", "F", "Cl", "Br", "I", "B", "Se", "Si", "As", "Te",
     ];
-    if !(phase_name.ends_with("(a)") || phase_name.ends_with("(am)")) {
+    // wateq4f spells its one amorphous hydroxide `Zn(OH)2-a`.
+    if !(phase_name.ends_with("(a)") || phase_name.ends_with("(am)") || phase_name.ends_with("-a"))
+    {
         return 0.0;
     }
     let Some(data) = species::REGISTRY.iter().find(|s| s.key == registry_key) else {
@@ -551,7 +564,15 @@ pub fn fresh_precipitate_rank(registry_key: &str, phase_name: &str) -> f64 {
         && f.counts
             .keys()
             .all(|e| e == "S" || !NONMETALS.contains(&e.as_str()));
-    if binary_metal_sulfide {
+    // M(OH)n: exactly one metal, and oxygen and hydrogen in equal counts.
+    let binary_metal_hydroxide = f.counts.len() == 3
+        && f.counts
+            .get("O")
+            .is_some_and(|o| f.counts.get("H") == Some(o))
+        && f.counts
+            .keys()
+            .all(|e| e == "O" || e == "H" || !NONMETALS.contains(&e.as_str()));
+    if binary_metal_sulfide || binary_metal_hydroxide {
         -1.0e6
     } else {
         0.0
@@ -2121,6 +2142,28 @@ mod tests {
         assert_eq!(fresh_precipitate_rank("SiO2", "SiO2(a)"), 0.0);
         assert_eq!(fresh_precipitate_rank("ZnS", "Sphalerite"), 0.0);
         assert!(fresh_precipitate_rank("ZnS", "ZnS(am)") < 0.0);
+    }
+
+    #[test]
+    fn a_fresh_metal_hydroxide_is_posed_amorphous_and_oxides_keep_the_crystal() {
+        // Zn(OH)2: the databases' own amorphous entries, not epsilon.
+        assert_eq!(
+            routed_phase_for_solid("Zn(OH)2", "wateq4f"),
+            Some("Zn(OH)2-a")
+        );
+        assert_eq!(
+            routed_phase_for_solid("Zn(OH)2", "minteq.v4"),
+            Some("Zn(OH)2(am)")
+        );
+        // A single-entry hydroxide keeps its one phase.
+        assert_eq!(
+            routed_phase_for_solid("Cu(OH)2", "wateq4f"),
+            Some("Cu(OH)2")
+        );
+        assert!(fresh_precipitate_rank("Zn(OH)2", "Zn(OH)2-a") < 0.0);
+        assert_eq!(fresh_precipitate_rank("Zn(OH)2", "Zn(OH)2-e"), 0.0);
+        // An oxide is not a hydroxide: zinc oxide keeps zincite.
+        assert_eq!(fresh_precipitate_rank("ZnO", "ZnO(a)"), 0.0);
     }
 
     fn dissolves(key: &str) -> Vec<(String, f64)> {

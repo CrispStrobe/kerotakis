@@ -2061,15 +2061,15 @@
     "solid": "Zn(OH)2",
     "route": "wateq4f",
     "class": "refused",
-    "phase": "Zn(OH)2-e",
-    "reason": "the phase saturates at ionic strength >= 632455532033.68 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+    "phase": "Zn(OH)2-a",
+    "reason": "the phase saturates at ionic strength >= 5636765862528.92 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
   },
   {
     "solid": "Zn(OH)2",
     "route": "minteq.v4",
     "class": "refused",
-    "phase": "Zn(OH)2(epsilon)",
-    "reason": "the phase saturates at ionic strength >= 683958885027.42 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+    "phase": "Zn(OH)2(am)",
+    "reason": "the phase saturates at ionic strength >= 5957032858858.41 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
   },
   {
     "solid": "Zn(OH)2",
