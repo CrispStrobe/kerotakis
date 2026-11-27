@@ -247,9 +247,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // solved vessel holds (dichromate, chromate, hydrogen chromate in
         // whatever proportion the pH dictates) carry the bottles' row, as
         // the hypochlorite and sulfite rows do.
-        "K2Cr2O7" | "K2CrO4" | "Cr2O7-2" | "CrO4-2" | "HCrO4-" => {
-            &[OxidizerStrong, ToxicSoluble]
-        }
+        "K2Cr2O7" | "K2CrO4" | "Cr2O7-2" | "CrO4-2" | "HCrO4-" => &[OxidizerStrong, ToxicSoluble],
         "NaNO2" => &[OxidizerStrong, ToxicSoluble],
         "Cl2" => &[OxidizerStrong],
         // Liquid bromine (ICSC 0107: "strong oxidant, reacts violently with

@@ -251,12 +251,10 @@ fn complexes_where(
     vessel: &Vessel,
     keep: impl Fn(&crate::complex_optics::ComplexColour) -> bool,
 ) -> Vec<String> {
-    let Some(solution) = &vessel.solution else {
-        return Vec::new();
-    };
-    solution
-        .species
+    vessel
+        .solution
         .iter()
+        .flat_map(|solution| &solution.species)
         .filter(|s| s.molality > 1e-9)
         .filter(|s| {
             !species::REGISTRY
@@ -265,7 +263,43 @@ fn complexes_where(
         })
         .filter(|s| crate::complex_optics::row_for(&s.name).is_some_and(&keep))
         .map(|s| s.name.clone())
-        .collect()
+        .chain(
+            row_coloured_portions(vessel)
+                .filter(|(_, _, row)| keep(row))
+                .map(|(key, _, _)| key.to_string()),
+        )
+        .fold(Vec::new(), |mut names, name| {
+            if !names.contains(&name) {
+                names.push(name);
+            }
+            names
+        })
+}
+
+/// Dissolved inventory with no registry spectrum that no native species
+/// stands for, coloured by a [`crate::complex_optics`] row instead. This is
+/// how a solute the routed database does not speciate (dissolved bromine)
+/// takes its row; a native species of the same name takes it through the
+/// solution instead, so the two paths never add the same row twice.
+fn row_coloured_portions(
+    vessel: &Vessel,
+) -> impl Iterator<Item = (&str, f64, &'static crate::complex_optics::ComplexColour)> {
+    let speciated = |key: &str| {
+        vessel
+            .solution
+            .as_ref()
+            .is_some_and(|s| s.species.iter().any(|n| same_species(&n.name, key)))
+    };
+    vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Aqueous && p.moles.0 > 0.0)
+        .filter(|p| species::lookup(&p.species).is_none_or(|d| d.spectrum.is_none()))
+        .filter(move |p| !speciated(&p.species.0))
+        .filter_map(|p| {
+            let row = crate::complex_optics::row_for(&p.species.0)?;
+            Some((p.species.0.as_str(), p.moles.0, row))
+        })
 }
 
 pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
@@ -328,6 +362,17 @@ pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS
             continue;
         };
         let concentration = visible_moles(vessel, key, portion.moles.0) / litres;
+        for (out, epsilon) in result.iter_mut().zip(spectrum) {
+            *out += epsilon * concentration * path_cm;
+        }
+    }
+    // A dissolved solute no native species stands for, coloured by its
+    // complex-table row (see `row_coloured_portions`).
+    for (key, moles, row) in row_coloured_portions(vessel) {
+        let Some(spectrum) = crate::complex_optics::spectrum(row) else {
+            continue;
+        };
+        let concentration = visible_moles(vessel, key, moles) / litres;
         for (out, epsilon) in result.iter_mut().zip(spectrum) {
             *out += epsilon * concentration * path_cm;
         }
