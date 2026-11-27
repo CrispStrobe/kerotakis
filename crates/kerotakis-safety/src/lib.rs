@@ -114,8 +114,10 @@ pub fn handling_hazards(species_key: &str) -> &'static [HandlingHazard] {
         // the eyes, skin and respiratory tract.
         "Br2" => &[Toxic, Corrosive],
         // IARC Monographs vol. 100C (2012): chromium(VI) compounds are
-        // carcinogenic to humans (Group 1).
-        "K2Cr2O7" | "K2CrO4" => &[Carcinogen],
+        // carcinogenic to humans (Group 1). The classification is of the
+        // hexavalent element, so the dissolved ions a solved vessel books
+        // the bottles as carry it too.
+        "K2Cr2O7" | "K2CrO4" | "Cr2O7-2" | "CrO4-2" | "HCrO4-" => &[Carcinogen],
         _ => &[],
     }
 }
@@ -241,7 +243,13 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // toxicants whose hazard is the dissolved anion, the same argument
         // EXP-39 made for oxalate. Sodium nitrite is a class 5.1 oxidiser
         // (UN 1500) and acutely toxic when swallowed (methaemoglobinaemia).
-        "K2Cr2O7" | "K2CrO4" => &[OxidizerStrong, ToxicSoluble],
+        // The hazard is the dissolved chromium(VI) anion, so the ions a
+        // solved vessel holds (dichromate, chromate, hydrogen chromate in
+        // whatever proportion the pH dictates) carry the bottles' row, as
+        // the hypochlorite and sulfite rows do.
+        "K2Cr2O7" | "K2CrO4" | "Cr2O7-2" | "CrO4-2" | "HCrO4-" => {
+            &[OxidizerStrong, ToxicSoluble]
+        }
         "NaNO2" => &[OxidizerStrong, ToxicSoluble],
         "Cl2" => &[OxidizerStrong],
         // Liquid bromine (ICSC 0107: "strong oxidant, reacts violently with
@@ -908,6 +916,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "KMnO4",
     "K2Cr2O7",
     "K2CrO4",
+    "Cr2O7-2",
+    "CrO4-2",
+    "HCrO4-",
     "KNO3",
     "Mg",
     "Mg+2",
