@@ -249,7 +249,7 @@ fn take_nitrite(vessel: &mut Vessel, n: f64) {
         let got = take(vessel, key, left, &[Phase::Aqueous]);
         if let Some(c) = cation {
             if got > 0.0 {
-                vessel.deposit(SpeciesId::new(*c), Moles(got), Phase::Aqueous);
+                vessel.deposit(SpeciesId::new(c), Moles(got), Phase::Aqueous);
             }
         }
         left -= got;
