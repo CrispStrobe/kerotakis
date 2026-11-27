@@ -118,6 +118,11 @@ pub fn handling_hazards(species_key: &str) -> &'static [HandlingHazard] {
         // hexavalent element, so the dissolved ions a solved vessel books
         // the bottles as carry it too.
         "K2Cr2O7" | "K2CrO4" | "Cr2O7-2" | "CrO4-2" | "HCrO4-" => &[Carcinogen],
+        // The same monograph names lead chromate among the evaluated
+        // chromium(VI) compounds; the sparingly soluble silver and barium
+        // chromates are hexavalent chromium too, and the classification is of
+        // the element's state, not of its solubility.
+        "PbCrO4" | "Ag2CrO4" | "BaCrO4" => &[Carcinogen],
         _ => &[],
     }
 }
@@ -664,6 +669,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Ag3PO4"
         | "PbSO4"
         | "PbI2"
+        // The sparingly soluble chromates (C1 chromate lane, 2026-11-27):
+        // their hazard is chromium(VI) toxicity and carcinogenicity, carried
+        // by `handling_hazards`, not a mixture reaction this matrix rates.
+        // Unlike the dissolved dichromate they are not filed as a strong
+        // oxidizer: that row describes the soluble salt in acid.
+        | "PbCrO4"
+        | "Ag2CrO4"
+        | "BaCrO4"
         // Copper(II) and lead(II) sulfide (C1 sulfur lane): not attacked by
         // dilute non-oxidising acid at bench scale (they are the
         // acid-insoluble sulfide group), so no gas-release group.
@@ -980,6 +993,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "PbS",
     "ZnS",
     "PbI2",
+    "PbCrO4",
+    "Ag2CrO4",
+    "BaCrO4",
     "Pb+2",
     "PE",
     "PET",

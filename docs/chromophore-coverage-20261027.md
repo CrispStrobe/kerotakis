@@ -14,16 +14,18 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 67, outside_method 131, parameterised 7, parameterised_ph 5, unclassified 40.
+Counts: missing_absorptivity 70, outside_method 131, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
 | missing_absorptivity | Ag | silvery |
 | missing_absorptivity | Ag2CO3 | pale yellow |
+| missing_absorptivity | Ag2CrO4 | brick red |
 | missing_absorptivity | Ag3PO4 | yellow |
 | missing_absorptivity | AgBr | pale yellow |
 | missing_absorptivity | AgI | pale yellow |
 | missing_absorptivity | Al | silver |
+| missing_absorptivity | BaCrO4 | pale yellow |
 | missing_absorptivity | Br2 | red-brown |
 | missing_absorptivity | C | black |
 | missing_absorptivity | Ca | silvery |
@@ -69,6 +71,7 @@ Counts: missing_absorptivity 67, outside_method 131, parameterised 7, parameteri
 | missing_absorptivity | Na | silvery |
 | missing_absorptivity | NaOCl | pale yellow-green |
 | missing_absorptivity | Pb | dull grey |
+| missing_absorptivity | PbCrO4 | yellow |
 | missing_absorptivity | PbI2 | yellow |
 | missing_absorptivity | PbS | black |
 | missing_absorptivity | Prussian_blue | deep blue |

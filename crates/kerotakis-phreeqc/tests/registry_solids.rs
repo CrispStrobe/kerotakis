@@ -188,3 +188,36 @@ fn copper_ii_sulfate_without_a_reductant_does_not_precipitate_cuprite() {
         .iter()
         .any(|p| p.species == "Cu2O"));
 }
+
+// The chromate precipitates (C1 chromate lane, 2026-11-27): minteq.v4
+// defines PbCrO4, Ag2CrO4 and BaCrO4 under their formulas, and the
+// chromium(VI) route already computed their saturation indices; before the
+// registry rows a lead salt and a chromate reported "PbCrO4 SI +4.4" and
+// deposited nothing.
+
+#[test]
+fn lead_nitrate_and_potassium_chromate_give_lead_chromate() {
+    assert_precipitates(
+        &[WATER, ("K2CrO4", 0.012), ("Pb(NO3)2", 0.01)],
+        "PbCrO4",
+        0.009,
+    );
+}
+
+#[test]
+fn silver_nitrate_and_potassium_chromate_give_silver_chromate() {
+    assert_precipitates(
+        &[WATER, ("K2CrO4", 0.012), ("AgNO3", 0.02)],
+        "Ag2CrO4",
+        0.008,
+    );
+}
+
+#[test]
+fn barium_chloride_and_potassium_chromate_give_barium_chromate() {
+    assert_precipitates(
+        &[WATER, ("K2CrO4", 0.012), ("BaCl2", 0.01)],
+        "BaCrO4",
+        0.009,
+    );
+}

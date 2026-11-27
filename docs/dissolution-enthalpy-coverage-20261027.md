@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 66/137, minteq.v4 72/137, pitzer 29/137.
+Priced after this change: wateq4f 66/140, minteq.v4 75/140, pitzer 29/140.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -31,6 +31,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 |---|---|---|---|
 | `Ag` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ag2CO3` | routed | routed | refused: a reaction species is not defined on the routed database |
+| `Ag2CrO4` | refused: a reaction species is not defined on the routed database | routed | refused: a reaction species is not defined on the routed database |
 | `Ag3PO4` | refused: the reviewed phase states no 25 C dissolution enthalpy | routed | refused: the reviewed phase states no 25 C dissolution enthalpy |
 | `AgBr` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `AgCl` | curated | curated | refused: a dissociation product the routed database does not define |
@@ -42,6 +43,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Ba(OH)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `BaCO3` | routed | routed | reference:wateq4f:Witherite |
 | `BaCl2` | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 |
+| `BaCrO4` | refused: a reaction species is not defined on the routed database | routed | refused: a reaction species is not defined on the routed database |
 | `BaSO4` | routed | routed | routed |
 | `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ca` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
@@ -120,6 +122,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `Pb` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Pb(NO3)2` | curated | curated | refused: a dissociation product the routed database does not define |
 | `PbCO3` | routed | routed | refused: a reaction species is not defined on the routed database |
+| `PbCrO4` | refused: a reaction species is not defined on the routed database | routed | refused: a reaction species is not defined on the routed database |
 | `PbI2` | routed | routed | refused: a reaction species is not defined on the routed database |
 | `PbS` | reference:wateq4f:Galena | reference:minteq.v4:Galena | refused: a reaction species is not defined on the routed database |
 | `PbSO4` | routed | routed | refused: a reaction species is not defined on the routed database |

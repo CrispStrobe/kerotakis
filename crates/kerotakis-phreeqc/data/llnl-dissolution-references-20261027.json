@@ -140,6 +140,23 @@
       "delta_h_kj": -13.1563
     },
     {
+      "phase": "BaCrO4",
+      "formula": "BaCrO4",
+      "lhs": [],
+      "rhs": [
+        [
+          "Ba+2",
+          1.0
+        ],
+        [
+          "CrO4-2",
+          1.0
+        ]
+      ],
+      "log_k": -9.9322,
+      "delta_h_kj": 25.9115
+    },
+    {
       "phase": "Barite",
       "formula": "BaSO4",
       "lhs": [],
@@ -470,6 +487,23 @@
       ],
       "log_k": -3.0053,
       "delta_h_kj": 24.6856
+    },
+    {
+      "phase": "Crocoite",
+      "formula": "PbCrO4",
+      "lhs": [],
+      "rhs": [
+        [
+          "CrO4-2",
+          1.0
+        ],
+        [
+          "Pb+2",
+          1.0
+        ]
+      ],
+      "log_k": -12.7177,
+      "delta_h_kj": 48.6181
     },
     {
       "phase": "CuCl2",

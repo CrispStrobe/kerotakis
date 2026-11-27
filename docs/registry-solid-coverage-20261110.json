@@ -6,20 +6,22 @@
     "pitzer"
   ],
   "counts": {
-    "bookable-unclaimed": 184,
+    "bookable-unclaimed": 181,
     "declined": 12,
-    "registry-solid": 63,
+    "registry-solid": 66,
     "unbookable": 329
   },
   "registry_solids_matched": [
     "Ag",
     "Ag2CO3",
+    "Ag2CrO4",
     "Ag3PO4",
     "AgBr",
     "AgCl",
     "AgI",
     "Al2O3",
     "BaCO3",
+    "BaCrO4",
     "BaSO4",
     "Ca(OH)2",
     "Ca3(PO4)2",
@@ -52,6 +54,7 @@
     "NaHCO3",
     "Pb",
     "PbCO3",
+    "PbCrO4",
     "PbI2",
     "PbS",
     "PbSO4",
@@ -105,6 +108,18 @@
         {
           "database": "wateq4f",
           "phase": "Ag2CO3"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "Ag2CrO4",
+      "registry_species": "Ag2CrO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "Ag2CrO4"
         }
       ],
       "class": "registry-solid"
@@ -197,6 +212,18 @@
         {
           "database": "wateq4f",
           "phase": "Witherite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "BaCrO4",
+      "registry_species": "BaCrO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "BaCrO4"
         }
       ],
       "class": "registry-solid"
@@ -737,6 +764,18 @@
         {
           "database": "wateq4f",
           "phase": "Cerussite"
+        }
+      ],
+      "class": "registry-solid"
+    },
+    {
+      "formula": "PbCrO4",
+      "registry_species": "PbCrO4",
+      "reason": null,
+      "phases": [
+        {
+          "database": "minteq.v4",
+          "phase": "PbCrO4"
         }
       ],
       "class": "registry-solid"
@@ -1562,18 +1601,6 @@
       "class": "bookable-unclaimed"
     },
     {
-      "formula": "Ag2CrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "Ag2CrO4"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
       "formula": "Ag2S",
       "registry_species": null,
       "reason": null,
@@ -1713,18 +1740,6 @@
         {
           "database": "minteq.v4",
           "phase": "Ba(OH)2:8H2O"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "BaCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "BaCrO4"
         }
       ],
       "class": "bookable-unclaimed"
@@ -3653,18 +3668,6 @@
         {
           "database": "wateq4f",
           "phase": "Hinsdalite"
-        }
-      ],
-      "class": "bookable-unclaimed"
-    },
-    {
-      "formula": "PbCrO4",
-      "registry_species": null,
-      "reason": null,
-      "phases": [
-        {
-          "database": "minteq.v4",
-          "phase": "PbCrO4"
         }
       ],
       "class": "bookable-unclaimed"

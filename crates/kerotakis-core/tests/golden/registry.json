@@ -7851,5 +7851,80 @@
     "provenance": "hydrogen chromate ion, HCrO4-: added by the chromium(VI) lane (2026-11-26) so a solved chromium(VI) total books back on minteq.v4.dat's own species (master CrO4-2; CrO4-2 + H+ = HCrO4- log K 6.51 and 2 CrO4-2 + 2 H+ = Cr2O7-2 + H2O log K 14.56, both NIST46.4 as the database cites them) instead of being withheld. IDENTITY PubChem CID 107815 (PUG REST InChIKey SNQOSLDJBAESSM-UHFFFAOYSA-M), read 2026-11-26. Molar mass from IUPAC/CIAAW 2021 standard atomic weights (conventional values Cr 51.996, O 15.999, H 1.008). Aqueous ion: heat capacity 0 and density 1.0 are the conventions every registry ion carries (the solution owns its heat and volume), NOT data. APPEARANCE orange: hydrogen chromate is the dominant chromium(VI) species of dilute acidified dichromate (Burke, Deardorff and Menis 1972, below), whose solutions are orange; N. N. Greenwood and A. Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23 (chromium), section 23.3.3 (chromate yellow, dichromate orange). NO SPECTRUM: the reviewed molar absorptivities found (R. W. Burke, E. R. Deardorff and O. Menis, J. Res. NBS 76A (1972) 469, Tables 6 and 9: HCrO4- 1576 and 1/2 Cr2O7-2 1788 L/(mol.cm) at 350 nm, CrO4-2 4830 at 373 nm, 25 C) lie below the visible bands this bench integrates, and no reviewed visible band shape is carried, so no epsilon(lambda) is claimed. NOT CLAIMED: H2CrO4, the chromate ion pairs and mixed complexes (named with these three in proportion), any Cr(VI) solid.",
     "spectrum_bands": null,
     "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "yellow",
+    "colour": {
+      "b": 0,
+      "g": 194,
+      "r": 242,
+      "strength": 0.0
+    },
+    "density": 6.12,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "PbCrO4",
+    "heat_capacity": 118.8,
+    "heat_capacity_polys": [],
+    "inchikey": "MOUPNEIJQCETIW-UHFFFAOYSA-N",
+    "key": "PbCrO4",
+    "magnetic": false,
+    "molar_mass": 323.1921,
+    "name": "lead(II) chromate",
+    "provenance": "lead(II) chromate, PbCrO4: a sparingly soluble chromium(VI) precipitate added by the C1 chromate lane (2026-11-27) because minteq.v4.dat defines it under its formula, `PbCrO4`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker (a lead, silver or barium salt with a chromate or dichromate) had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 24460 on 2026-11-27 (PUG REST property record): InChIKey MOUPNEIJQCETIW-UHFFFAOYSA-N. Molar mass 323.1921 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 207.2 + 1 x 51.9961 + 4 x 15.999 = 323.1921). DENSITY 6.12 g/mL: PubChem CID 24460 Experimental Properties > Density, attributed there to the CRC Handbook of Chemistry and Physics (Haynes, ed.): 6.12 g/cu cm. APPEARANCE `yellow`: PubChem CID 24460 Color/Form, The Merck Index: `Yellow or orange-yellow powder`; CRC Handbook: `Yellow-orange monoclinic crystals`; Ullmann's Encyclopedia (Anger et al., Chromium Compounds): orthorhombic yellow, monoclinic orange, tetragonal red. The precipitate from a lead salt and a chromate is the yellow pigment chrome yellow; the reflective sRGB #F2C200 is an editorial rendering of the cited word for the bench canvas, not a measured colour. HEAT CAPACITY 118.8 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Pb) + 1 x 26.0 (Cr) + 4 x 16.7 (O) = 118.8, the same editorial method the lead sulfate and carbonate rows use. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "brick red",
+    "colour": {
+      "b": 31,
+      "g": 55,
+      "r": 161,
+      "strength": 0.0
+    },
+    "density": 5.625,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "Ag2CrO4",
+    "heat_capacity": 142.3,
+    "heat_capacity_polys": [],
+    "inchikey": "OJKANDGLELGDHV-UHFFFAOYSA-N",
+    "key": "Ag2CrO4",
+    "magnetic": false,
+    "molar_mass": 331.7285,
+    "name": "silver chromate",
+    "provenance": "silver chromate, Ag2CrO4: a sparingly soluble chromium(VI) precipitate added by the C1 chromate lane (2026-11-27) because minteq.v4.dat defines it under its formula, `Ag2CrO4`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker (a lead, silver or barium salt with a chromate or dichromate) had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 62666 on 2026-11-27 (PUG REST property record): InChIKey OJKANDGLELGDHV-UHFFFAOYSA-N. Molar mass 331.7285 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 107.8682 + 1 x 51.9961 + 4 x 15.999 = 331.7285). DENSITY 5.625 g/mL and APPEARANCE `brick-red powder`: CRC Handbook of Chemistry and Physics (Haynes, ed.), Physical Constants of Inorganic Compounds, p. 4-84, as quoted by the Wikipedia `Silver chromate` infobox (read 2026-11-27; PubChem CID 24460's sibling record CID 62666 carries no density or colour section). The red of silver chromate, unlike the yellow of the chromate ion, is the Mohr titration end point (Belcher, Macdonald and Parry, Anal. Chim. Acta 16 (1957) 524, doi:10.1016/S0003-2670(00)89979-1; Robbins and Day, Mol. Phys. 34 (1977) 893, doi:10.1080/00268977700102201). The reflective sRGB #A1371F is an editorial rendering of the cited word for the bench canvas, not a measured colour. HEAT CAPACITY 142.3 J/(mol.K): the tabulated standard-state Cp of CRC Handbook p. 5-35 (Standard Thermodynamic Properties of Chemical Substances), as quoted by the same infobox. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "pale yellow",
+    "colour": {
+      "b": 122,
+      "g": 224,
+      "r": 240,
+      "strength": 0.0
+    },
+    "density": 4.498,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "BaCrO4",
+    "heat_capacity": 118.8,
+    "heat_capacity_polys": [],
+    "inchikey": "QFFVPLLCYGOFPU-UHFFFAOYSA-N",
+    "key": "BaCrO4",
+    "magnetic": false,
+    "molar_mass": 253.3191,
+    "name": "barium chromate",
+    "provenance": "barium chromate, BaCrO4: a sparingly soluble chromium(VI) precipitate added by the C1 chromate lane (2026-11-27) because minteq.v4.dat defines it under its formula, `BaCrO4`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker (a lead, silver or barium salt with a chromate or dichromate) had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 25136 on 2026-11-27 (PUG REST property record): InChIKey QFFVPLLCYGOFPU-UHFFFAOYSA-N. Molar mass 253.3191 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 137.327 + 1 x 51.9961 + 4 x 15.999 = 253.3191). DENSITY 4.498 g/mL: PubChem CID 25136 Experimental Properties > Density, attributed there to Sax's Dangerous Properties of Industrial Materials (Lewis, ed.): 4.498 at 15 C. APPEARANCE `pale yellow`: PubChem CID 25136 Color/Form, Sax's: `Heavy, pale-yellow crystalline powder`; The Merck Index: `Yellow heavy monoclinic orthorhombic crystals`. The reflective sRGB #F0E07A is an editorial rendering of the cited word for the bench canvas, not a measured colour. HEAT CAPACITY 118.8 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ba) + 1 x 26.0 (Cr) + 4 x 16.7 (O) = 118.8, the same editorial method the barium carbonate row uses. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

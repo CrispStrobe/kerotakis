@@ -8,7 +8,7 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 95,
+    "no_melting_point": 98,
     "not_condensed": 92
   },
   "species": [
@@ -845,6 +845,19 @@
       }
     },
     {
+      "species": "Ag2CrO4",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Al2(SO4)3",
       "standard_phase": "solid",
       "melting_k": null,
@@ -872,6 +885,19 @@
     },
     {
       "species": "BaCO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "BaCrO4",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
@@ -1600,6 +1626,19 @@
     },
     {
       "species": "PbCO3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "PbCrO4",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,

@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 50,
-    "neutral-refused": 191,
+    "neutral-refused": 194,
     "partitions": 9
   },
   "cases": [
@@ -297,6 +297,11 @@
       "basis": null
     },
     {
+      "species": "Ag2CrO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
       "species": "Ag3PO4",
       "class": "neutral-refused",
       "basis": null
@@ -348,6 +353,11 @@
     },
     {
       "species": "BaCl2",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "BaCrO4",
       "class": "neutral-refused",
       "basis": null
     },
@@ -853,6 +863,11 @@
     },
     {
       "species": "PbCO3",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "PbCrO4",
       "class": "neutral-refused",
       "basis": null
     },

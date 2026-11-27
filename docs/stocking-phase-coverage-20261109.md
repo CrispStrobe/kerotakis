@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, not_condensed 92.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 98, not_condensed 92.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -83,9 +83,11 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, n
 | melting_point_without_latent_heat | tert_butyl_bromide | liquid | 256.95 | 346.4 | no | liquid | liquid | liquid |
 | melting_point_without_latent_heat | uranium | solid | 1405 | — | no | solid | solid | solid |
 | no_melting_point | Ag2CO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | Ag2CrO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Al2(SO4)3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Al2O3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | BaCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | BaCrO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Br2 | liquid | — | — | no | liquid | liquid | liquid |
 | no_melting_point | C | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Ca | solid | — | — | no | solid | solid | solid |
@@ -142,6 +144,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 95, n
 | no_melting_point | PVA | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Pb(NO3)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PbCO3 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | PbCrO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | PbS | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Prussian_blue | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Zn(OH)2 | solid | — | — | no | solid | solid | solid |
