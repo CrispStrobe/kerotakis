@@ -990,6 +990,7 @@ impl Equilibrator for CuratedEquilibrator {
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
             || crate::reducing_sugar::fires(vessel)
             || crate::concentrated_sulfuric::fires(vessel)
+            || crate::nitrogen_oxides::fires(vessel)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -1167,6 +1168,12 @@ impl Equilibrator for CuratedEquilibrator {
             // Concentrated sulfuric acid (dehydration, HCl, hot oxidation)
             // and peroxide on dissolved hydrogen sulfide.
             if crate::concentrated_sulfuric::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Nitrogen oxides and nitrous acid: after the oxidising-acid
+            // rows that make NO and NO2 (NO + O2, NO2 into water, nitrous
+            // acid decomposition).
+            if crate::nitrogen_oxides::apply(vessel, &mut events) {
                 progressed = true;
             }
             if !progressed {
