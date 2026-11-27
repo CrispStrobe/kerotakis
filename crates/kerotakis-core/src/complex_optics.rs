@@ -427,6 +427,9 @@ mod tests {
             "hydrogen chromate is orange-yellow: {hydrogen:?}"
         );
         let bromine = colour("Br2", 0.02);
-        assert!(bromine.r > bromine.b, "bromine water is yellow-orange to brown: {bromine:?}");
+        assert!(
+            bromine.r > bromine.b,
+            "bromine water is yellow-orange to brown: {bromine:?}"
+        );
     }
 }
