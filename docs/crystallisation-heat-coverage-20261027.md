@@ -369,8 +369,8 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Zn` | wateq4f | refused | ZnMetal | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Zn` | minteq.v4 | refused | Znmetal | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Zn` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
-| `Zn(OH)2` | wateq4f | refused | Zn(OH)2-e | the phase saturates at ionic strength >= 632455532033.68 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
-| `Zn(OH)2` | minteq.v4 | refused | Zn(OH)2(epsilon) | the phase saturates at ionic strength >= 683958885027.42 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `Zn(OH)2` | wateq4f | refused | Zn(OH)2-a | the phase saturates at ionic strength >= 5636765862528.92 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `Zn(OH)2` | minteq.v4 | refused | Zn(OH)2(am) | the phase saturates at ionic strength >= 5957032858858.41 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `Zn(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Zn2Fe(CN)6` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Zn2Fe(CN)6` | minteq.v4 | solubility-only | Zn_hexacyanoferrate_II | the phase states no dissolution enthalpy: its log K does not move with temperature, so crystallisation on cooling is not temperature-resolved |
