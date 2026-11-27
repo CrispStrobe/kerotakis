@@ -42,6 +42,27 @@
     "reason": "the routed database defines no phase for this solid"
   },
   {
+    "solid": "Ag2CrO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Ag2CrO4",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "Ag2CrO4",
+    "reason": "PHREEQC phase saturation, delta_h 62.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "Ag2CrO4",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Ag3PO4",
     "route": "wateq4f",
     "class": "solubility-only",
@@ -267,6 +288,27 @@
   },
   {
     "solid": "BaCl2",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "BaCrO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "BaCrO4",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "BaCrO4",
+    "reason": "PHREEQC phase saturation, delta_h 33.000 kJ/mol; solid priced"
+  },
+  {
+    "solid": "BaCrO4",
     "route": "pitzer",
     "class": "refused",
     "phase": null,
@@ -1905,6 +1947,27 @@
   },
   {
     "solid": "PbCO3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "PbCrO4",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "PbCrO4",
+    "route": "minteq.v4",
+    "class": "crystallises-with-priced-heat",
+    "phase": "PbCrO4",
+    "reason": "PHREEQC phase saturation, delta_h 44.180 kJ/mol; solid priced"
+  },
+  {
+    "solid": "PbCrO4",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

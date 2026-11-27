@@ -82,17 +82,21 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// 2026-11-26 (chromium(VI) speciation): minteq.v4.dat's K2CrO4 and
 /// K2Cr2O7 phases become posable now that a Cr(6) total books on its own
 /// ions, so two rows leave the not-posable count.
+///
+/// 2026-11-27 (chromate solids): PbCrO4, Ag2CrO4 and BaCrO4 join, each a
+/// minteq.v4 phase under its formula without a reviewed solubility, so the
+/// gap grows by three and three phases gain a registry solid.
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 137,
-            database_phases: 63,
+            registry_solids: 140,
+            database_phases: 66,
             with_reviewed_solubility: 14,
-            without_reviewed_solubility: 49,
+            without_reviewed_solubility: 52,
             not_a_database_phase: 74,
-            phases_without_a_registry_solid: 595,
+            phases_without_a_registry_solid: 592,
             several_phase_names: 14,
             not_posable: 12,
         },
@@ -150,11 +154,14 @@ fn which_database_phases_have_a_reviewed_solubility() {
         vec![
             "Ag",
             "Ag2CO3",
+            // 2026-11-27: the chromate solids, minteq.v4 log K only.
+            "Ag2CrO4",
             "Ag3PO4",
             "AgBr",
             "AgI",
             "Al2O3",
             "BaCO3",
+            "BaCrO4",
             "Ca3(PO4)2",
             "CaO",
             "CoCl2",
@@ -184,6 +191,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "NaHCO3",
             "Pb",
             "PbCO3",
+            "PbCrO4",
             "PbI2",
             "PbS",
             "PbSO4",

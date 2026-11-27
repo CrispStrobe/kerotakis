@@ -9,6 +9,11 @@
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "routed"
   },
+  "Ag2CrO4": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "refused: a reaction species is not defined on the routed database"
+  },
   "Ag3PO4": {
     "minteq.v4": "routed",
     "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
@@ -63,6 +68,11 @@
     "minteq.v4": "reference:llnl.dat:BaCl2",
     "pitzer": "reference:llnl.dat:BaCl2",
     "wateq4f": "reference:llnl.dat:BaCl2"
+  },
+  "BaCrO4": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "refused: a reaction species is not defined on the routed database"
   },
   "BaSO4": {
     "minteq.v4": "routed",
@@ -453,6 +463,11 @@
     "minteq.v4": "routed",
     "pitzer": "refused: a reaction species is not defined on the routed database",
     "wateq4f": "routed"
+  },
+  "PbCrO4": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "refused: a reaction species is not defined on the routed database"
   },
   "PbI2": {
     "minteq.v4": "routed",

@@ -181,6 +181,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Bariumchromat",
+      "canonical": "BaCrO4",
+      "source": "name:de"
+    },
+    {
       "alias": "Bariumhydroxid",
       "canonical": "Ba(OH)2",
       "source": "name:de"
@@ -218,6 +223,11 @@
     {
       "alias": "Blei(II)-carbonat",
       "canonical": "PbCO3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Blei(II)-chromat",
+      "canonical": "PbCrO4",
       "source": "name:de"
     },
     {
@@ -1651,6 +1661,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Silberchromat",
+      "canonical": "Ag2CrO4",
+      "source": "name:de"
+    },
+    {
       "alias": "Silberiodid",
       "canonical": "AgI",
       "source": "name:de"
@@ -2126,6 +2141,11 @@
       "source": "name:en"
     },
     {
+      "alias": "barium chromate",
+      "canonical": "BaCrO4",
+      "source": "name:en"
+    },
+    {
       "alias": "barium hydroxide",
       "canonical": "Ba(OH)2",
       "source": "name:en"
@@ -2559,6 +2579,21 @@
       "alias": "chromate",
       "canonical": "CrO4-2",
       "source": "ion-name:en"
+    },
+    {
+      "alias": "chromate d'argent",
+      "canonical": "Ag2CrO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chromate de baryum",
+      "canonical": "BaCrO4",
+      "source": "name:fr"
+    },
+    {
+      "alias": "chromate de plomb(II)",
+      "canonical": "PbCrO4",
+      "source": "name:fr"
     },
     {
       "alias": "chromate de potassium",
@@ -3526,6 +3561,11 @@
       "source": "name:en"
     },
     {
+      "alias": "lead(II) chromate",
+      "canonical": "PbCrO4",
+      "source": "name:en"
+    },
+    {
       "alias": "lead(II) iodide",
       "canonical": "PbI2",
       "source": "name:en"
@@ -4248,6 +4288,11 @@
     {
       "alias": "silver chloride",
       "canonical": "AgCl",
+      "source": "name:en"
+    },
+    {
+      "alias": "silver chromate",
+      "canonical": "Ag2CrO4",
       "source": "name:en"
     },
     {
