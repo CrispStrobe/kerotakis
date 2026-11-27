@@ -7,10 +7,12 @@ pub(crate) fn database(tag: &str) -> Result<&'static IsolatedDatabase, String> {
     static WATEQ: OnceLock<Result<IsolatedDatabase, String>> = OnceLock::new();
     static MINTEQ: OnceLock<Result<IsolatedDatabase, String>> = OnceLock::new();
     static PITZER: OnceLock<Result<IsolatedDatabase, String>> = OnceLock::new();
+    static SIT: OnceLock<Result<IsolatedDatabase, String>> = OnceLock::new();
     let (slot, bytes) = match tag {
         "wateq4f" => (&WATEQ, crate::databases::wateq4f()),
         "minteq.v4" => (&MINTEQ, crate::databases::minteq_v4()),
         "pitzer" => (&PITZER, crate::databases::pitzer()),
+        "sit" => (&SIT, crate::databases::sit()),
         _ => return Err(format!("unknown native database {tag}")),
     };
     slot.get_or_init(|| crate::redox_isolation::transform(bytes))
@@ -22,10 +24,12 @@ pub(crate) fn fingerprint(tag: &str) -> Result<&'static str, String> {
     static WATEQ: OnceLock<Result<String, String>> = OnceLock::new();
     static MINTEQ: OnceLock<Result<String, String>> = OnceLock::new();
     static PITZER: OnceLock<Result<String, String>> = OnceLock::new();
+    static SIT: OnceLock<Result<String, String>> = OnceLock::new();
     let slot = match tag {
         "wateq4f" => &WATEQ,
         "minteq.v4" => &MINTEQ,
         "pitzer" => &PITZER,
+        "sit" => &SIT,
         _ => return Err(format!("unknown native database {tag}")),
     };
     slot.get_or_init(|| database(tag).map(|db| kerotakis_data::snapshot_sha256(&db.database)))

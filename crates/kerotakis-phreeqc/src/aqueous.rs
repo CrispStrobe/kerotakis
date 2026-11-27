@@ -1055,6 +1055,12 @@ pub struct PhreeqcEquilibrator {
     pinned_organic: Option<Phreeqc>,
     #[cfg(feature = "engine")]
     pinned_brine: Option<Phreeqc>,
+    /// sit.dat, reached only through `activity_routes`; loaded lazily on
+    /// the first routed pose so no other problem pays for it.
+    #[cfg(feature = "engine")]
+    sit: Option<Phreeqc>,
+    #[cfg(feature = "engine")]
+    pinned_sit: Option<Phreeqc>,
     /// concentrated brines — but it only knows the major-ion elements.
     #[cfg(feature = "engine")]
     brine: Phreeqc,
@@ -2255,6 +2261,7 @@ impl PhreeqcEquilibrator {
             let slot = match db_tag {
                 "minteq.v4" => &mut self.pinned_organic,
                 "pitzer" => &mut self.pinned_brine,
+                "sit" => &mut self.pinned_sit,
                 _ => &mut self.pinned_inorganic,
             };
             if slot.is_none() {
@@ -2270,6 +2277,20 @@ impl PhreeqcEquilibrator {
                     );
             }
             Ok(slot.as_mut().expect("just created"))
+        } else if db_tag == "sit" {
+            if self.sit.is_none() {
+                self.sit =
+                    Some(
+                        load_native_database("sit").map_err(|e| SolveError::NotConverged {
+                            reason: Some(Box::new(
+                                AqueousReason::ComponentNamespaceUnavailable.phrase(),
+                            )),
+                            solver: "phreeqc-aqueous".to_string(),
+                            detail: format!("could not load the sit.dat engine instance: {e}"),
+                        })?,
+                    );
+            }
+            Ok(self.sit.as_mut().expect("just created"))
         } else {
             Ok(match db_tag {
                 "minteq.v4" => &mut self.organic,
@@ -2645,6 +2666,8 @@ impl PhreeqcEquilibrator {
             pinned_inorganic: None,
             pinned_organic: None,
             pinned_brine: None,
+            sit: None,
+            pinned_sit: None,
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
             trial_cache: std::collections::HashMap::new(),
@@ -9189,6 +9212,54 @@ impl PhreeqcEquilibrator {
             if *db != db_tag {
                 db_tag = *db;
                 routing = ligand_routing_phrase(db, pairs);
+            }
+        }
+        // Activity-model routes (table: `activity_routes`): a reviewed
+        // metal-ligand family at high ionic strength whose complexes and
+        // consistent activity model exist only in another dataset —
+        // concentrated cobalt chloride needs sit.dat's CoCl3- / CoCl4-2 and
+        // its SIT coefficients. Only where no specific ligand decided the
+        // route, and never for the interface/solid-solution ledgers, which
+        // are validated on their own datasets.
+        if forced_route.is_none()
+            && matches!(
+                ligand_route,
+                crate::ligand_routing::LigandRoute::Unconstrained
+            )
+            && problem.surfaces.is_empty()
+            && problem.exchanges.is_empty()
+            && problem.solid_solutions.is_empty()
+        {
+            if let Some(route) =
+                crate::activity_routes::select(&problem.elements, &problem.totals, problem.kgw)
+            {
+                crate::activity_routes::apply_aliases(
+                    route,
+                    &mut problem.elements,
+                    &mut problem.totals,
+                );
+                let ionic_strength = crate::activity_routes::estimated_ionic_strength(
+                    route.db,
+                    &problem.totals,
+                    problem.kgw,
+                );
+                db_tag = route.db;
+                routing = Phrase::new(
+                    "routing.specific-ion-interaction",
+                    "chosen because {metal}-{ligand} at an estimated ionic strength of ~{ionic_strength} mol/kgw (from the input totals, not a measured value) needs the complexes and specific-ion-interaction activity model that {dataset} defines",
+                    vec![
+                        ("metal".to_string(), Slot::text(route.metal)),
+                        ("ligand".to_string(), Slot::text(route.ligand)),
+                        (
+                            "ionic_strength".to_string(),
+                            Slot::number(format!("{ionic_strength:.1}")),
+                        ),
+                        (
+                            "dataset".to_string(),
+                            Slot::text(format!("{}.dat", route.db)),
+                        ),
+                    ],
+                );
             }
         }
         if let Some(requested) = forced_route {

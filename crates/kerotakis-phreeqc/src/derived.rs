@@ -429,6 +429,10 @@ pub struct Derived {
     pub wateq4f: DbIndex,
     pub minteq: DbIndex,
     pub pitzer: DbIndex,
+    /// sit.dat, indexed for the activity-model routes only. Deliberately
+    /// NOT in [`DB_TAGS`]: it contributes no candidate phases, roles or
+    /// crosswalk rows, so every derived table stays exactly as it was.
+    pub sit: DbIndex,
     roles: BTreeMap<&'static str, DerivedRole>,
     phases: Vec<DerivedPhase>,
     /// Every matched polymorph across every database, resolvable by
@@ -1046,6 +1050,7 @@ pub fn index_for(db_tag: &str) -> &'static DbIndex {
     match db_tag {
         "minteq.v4" => &d.minteq,
         "pitzer" => &d.pitzer,
+        "sit" => &d.sit,
         _ => &d.wateq4f,
     }
 }
@@ -1311,6 +1316,7 @@ impl Derived {
             wateq4f,
             minteq,
             pitzer,
+            sit: DbIndex::parse(databases::sit()),
             roles,
             phases,
             all_phases,

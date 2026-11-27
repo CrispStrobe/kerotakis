@@ -68,6 +68,9 @@ pub enum ActivityModel {
     Pitzer,
     /// WATEQ Debye-Hückel extension: reliable to roughly I = 1 mol/kgw.
     WateqDebyeHuckel,
+    /// Specific ion interaction theory (Brønsted-Guggenheim-Scatchard): a
+    /// `SIT` block of pairwise interaction coefficients, as in sit.dat.
+    Sit,
     /// Davies equation: PHREEQC's default, roughly I < 0.5 mol/kgw.
     #[default]
     Davies,
@@ -90,6 +93,9 @@ impl ActivityModel {
             }
             ActivityModel::WateqDebyeHuckel => {
                 "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)"
+            }
+            ActivityModel::Sit => {
+                "SIT specific ion interaction theory (pairwise interaction coefficients fitted per ion pair)"
             }
             ActivityModel::Davies => "Davies equation (reliable to about I = 0.5 mol/kgw)",
         }
@@ -126,6 +132,11 @@ impl ActivityModel {
                     ("name".to_string(), Slot::text("WATEQ Debye-Hückel")),
                     ("ionic_strength".to_string(), Slot::number("1")),
                 ],
+            ),
+            ActivityModel::Sit => Phrase::new(
+                "provenance.model.specific-ion-interaction-theory",
+                "{name} specific ion interaction theory (pairwise interaction coefficients fitted per ion pair)",
+                vec![("name".to_string(), Slot::text("SIT"))],
             ),
             ActivityModel::Davies => Phrase::new(
                 "provenance.model.davies",
@@ -241,6 +252,8 @@ impl DbIndex {
         // Activity model: derived from what the file declares about itself.
         idx.activity_model = if text.contains("\nPITZER") {
             ActivityModel::Pitzer
+        } else if text.contains("\nSIT") {
+            ActivityModel::Sit
         } else if text.contains("-gamma") {
             ActivityModel::WateqDebyeHuckel
         } else {
