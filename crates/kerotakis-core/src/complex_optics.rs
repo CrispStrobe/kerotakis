@@ -70,11 +70,6 @@ const GE_CR6: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed. (
 section 23.3.3 (chromate yellow, dichromate orange; hydrogen chromate, dominant in dilute \
 acidified dichromate, between them). The reviewed absorptivities (Burke, Deardorff & Menis, \
 J. Res. NBS 76A (1972) 469) peak below 405 nm, so the visible tail is drawn editorially";
-const GE_CR3: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed. (1997), ch. 23, \
-section 23.3.5 (the violet hexaaquachromium(III) ion; sulfate and chloride complexes are green). \
-Its two spin-allowed d-d bands near 575 and 410 nm are weak (molar absorptivity of order 10-20), \
-so the band positions follow the cited ion and the heights are drawn editorially; the green \
-complexed forms are not separately represented";
 const BR2_AQ: &str = "Dissolved bromine (bromine water) is yellow-orange to brown, from the Br2 \
 band near 390 nm ('Oxidation of Thiourea by Aqueous Bromine', snippet via lookchem PDF: Br2 171 \
 mol-1 dm3 cm-1 at 390 nm, the uvvis_absorptivity row); band width as for the other cited rows";
@@ -311,12 +306,6 @@ pub const TABLE: &[ComplexColour] = &[
         bands: &[(420.0, 1500.0, 45.0)],
         basis: Basis::Editorial(GE_CR6),
     },
-    // --- chromium(III): the product of every dichromate reduction route
-    ComplexColour {
-        species: "Cr+3",
-        bands: &[(575.0, 13.0, 45.0), (410.0, 15.0, 40.0)],
-        basis: Basis::Editorial(GE_CR3),
-    },
     // --- dissolved bromine: not a native species of the routed databases,
     // so its aqueous portion takes this row (`solution_optics`).
     ComplexColour {
@@ -436,14 +425,6 @@ mod tests {
         assert!(
             hydrogen.r > hydrogen.b && hydrogen.g > hydrogen.b,
             "hydrogen chromate is orange-yellow: {hydrogen:?}"
-        );
-        // C1R-3 follow-up: chromium(III) at the 45 mM of a reduced test tube
-        // is a visible violet-green, not colourless; green dominates neither
-        // red nor blue alone, so the check is that it is not white.
-        let chromium = colour("Cr+3", 0.045);
-        assert!(
-            chromium.r.min(chromium.g).min(chromium.b) < 245,
-            "chromium(III) is coloured: {chromium:?}"
         );
         let bromine = colour("Br2", 0.02);
         assert!(
