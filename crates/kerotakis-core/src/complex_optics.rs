@@ -72,7 +72,7 @@ acidified dichromate, between them). The reviewed absorptivities (Burke, Deardor
 J. Res. NBS 76A (1972) 469) peak below 405 nm, so the visible tail is drawn editorially";
 const BR2_AQ: &str = "Dissolved bromine (bromine water) is yellow-orange to brown, from the Br2 \
 band near 390 nm ('Oxidation of Thiourea by Aqueous Bromine', snippet via lookchem PDF: Br2 171 \
-mol-1 dm3 cm-1 at 390 nm, the uvvis_absorptivity row); the band shape is editorial";
+mol-1 dm3 cm-1 at 390 nm, the uvvis_absorptivity row); band width as for the other cited rows";
 
 /// The table. Append rows; never change a cited number without its source.
 pub const TABLE: &[ComplexColour] = &[
@@ -311,7 +311,7 @@ pub const TABLE: &[ComplexColour] = &[
     ComplexColour {
         species: "Br2",
         bands: &[(390.0, 171.0, 55.0)],
-        basis: Basis::Editorial(BR2_AQ),
+        basis: Basis::Cited(BR2_AQ),
     },
 ];
 
@@ -405,7 +405,8 @@ mod tests {
     fn chromium_vi_and_bromine_water_take_their_reported_colours() {
         let colour = |name: &str, molar: f64| {
             let row = row_for(name).unwrap();
-            assert!(is_editorial(row), "{name} is an editorial row");
+            // Br2 has a cited peak (like Fe(SCN)+2); the Cr(VI) rows are editorial.
+            assert_eq!(is_editorial(row), name != "Br2", "{name} basis");
             let s = spectrum(row).unwrap();
             let a = s.map(|e| e * molar * crate::spectrum::BEAKER_PATH_CM);
             crate::spectrum::transmitted_colour(&a)
