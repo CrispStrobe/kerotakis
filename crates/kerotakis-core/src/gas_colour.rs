@@ -183,7 +183,9 @@ pub fn headspace_colour(vessel: &Vessel) -> Option<HeadspaceColour> {
     {
         let key = portion.species.0.as_str();
         if let Some(r) = row(key) {
-            let molar = portion.moles.0 / litres;
+            // NO2 is a pool with its colourless dimer (nitrogen_oxides).
+            let molar =
+                crate::nitrogen_oxides::coloured_moles(vessel, key, portion.moles.0) / litres;
             for (a, e) in absorbance.iter_mut().zip(r.epsilon) {
                 *a += e * molar * BEAKER_PATH_CM;
             }
