@@ -202,8 +202,23 @@ fn replace_tokens(line: &str, aliases: &BTreeMap<String, String>) -> String {
 }
 
 fn render_terms(terms: &[(String, f64)], aliases: &BTreeMap<String, String>) -> String {
+    // A side written with a subtracted first term (sit.dat:
+    // `- H+ + Am+3 + H2(PO4)- = Am(HPO4)+`) must not render as `-H+ ...`:
+    // PHREEQC reads a line opening with `-word` as an option and rejects the
+    // whole database. Term order on a side carries no meaning, so the added
+    // terms are written first; a side whose first term is added (every
+    // reaction of the other vendored databases) renders byte-identically.
+    let ordered: Vec<&(String, f64)> = if terms.first().is_some_and(|(_, n)| *n < 0.0) {
+        terms
+            .iter()
+            .filter(|(_, n)| *n >= 0.0)
+            .chain(terms.iter().filter(|(_, n)| *n < 0.0))
+            .collect()
+    } else {
+        terms.iter().collect()
+    };
     let mut out = String::new();
-    for (name, n) in terms {
+    for (name, n) in ordered {
         if !out.is_empty() {
             out.push_str(if *n < 0.0 { " - " } else { " + " });
         } else if *n < 0.0 {
@@ -549,7 +564,45 @@ pub fn transform(bytes: &[u8]) -> Result<IsolatedDatabase, String> {
 
 #[cfg(test)]
 mod tests {
-    use super::transform;
+    #[test]
+    fn subtracted_first_term_is_never_rendered_as_an_option() {
+        let aliases = BTreeMap::new();
+        let lhs = terms("- H+ + Am+3 + H2(PO4)-").expect("parses");
+        let rendered = render_terms(&lhs, &aliases);
+        assert_eq!(rendered, "Am+3 + H2(PO4)- - H+");
+        assert!(!rendered.starts_with('-'));
+        // Same terms, same coefficients: only the order moved.
+        let mut back = terms(&rendered).expect("reparses");
+        let mut original = lhs.clone();
+        back.sort_by(|a, b| a.0.cmp(&b.0));
+        original.sort_by(|a, b| a.0.cmp(&b.0));
+        assert_eq!(back, original);
+        // A side opening with an added term is unchanged.
+        let plain = terms("Co+2 - H+ + H2O").expect("parses");
+        assert_eq!(render_terms(&plain, &aliases), "Co+2 - H+ + H2O");
+    }
+
+    #[test]
+    fn vendored_sit_database_survives_isolation_without_option_lines() {
+        let db = transform(crate::databases::sit()).expect("sit.dat isolates");
+        let text = String::from_utf8_lossy(&db.database);
+        let bad: Vec<&str> = text
+            .lines()
+            .filter(|line| line.contains('=') && line.trim_start().starts_with('-'))
+            .filter(|line| {
+                let t = line.trim_start();
+                t.chars().nth(1).is_some_and(|c| !c.is_whitespace())
+            })
+            .collect();
+        assert!(
+            bad.is_empty(),
+            "reaction lines read as options: {:?}",
+            &bad[..bad.len().min(5)]
+        );
+    }
+
+    use super::{render_terms, terms, transform};
+    use std::collections::BTreeMap;
 
     #[test]
     fn isolated_phase_keeps_inline_thermodynamic_parameters_exactly() {
