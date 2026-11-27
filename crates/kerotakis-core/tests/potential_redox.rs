@@ -220,6 +220,39 @@ fn acidified_dichromate_oxidises_iron_two_to_chromium_three() {
     assert!(all(&v, "Cr+3") < 1e-12);
 }
 
+/// C1R-1: hydrogen peroxide reduces acidified dichromate to green
+/// chromium(III) and oxygen (the blue CrO(O2)2 intermediate is not booked).
+/// The shelf books peroxide as its liquid, so the reductant pool reads it
+/// there. Cr, O, H and charge are conserved by the data row.
+#[test]
+fn hydrogen_peroxide_reduces_acidified_dichromate_to_chromium_three() {
+    let mut v = water(0.166);
+    put(&mut v, "K2Cr2O7", 0.000068, Phase::Aqueous);
+    put(&mut v, "H2O2", 0.00294, Phase::Liquid);
+    acid(&mut v, 0.006);
+    let events = run(&mut v);
+    let eq = equations(&events);
+    assert!(
+        eq.contains(&"Cr₂O₇²⁻ + 8 H⁺ + 3 H₂O₂ → 2 Cr³⁺ + 3 O₂↑ + 7 H₂O".to_string()),
+        "{eq:?}"
+    );
+    assert!(
+        (all(&v, "Cr+3") - 0.000136).abs() < 1e-9,
+        "{}",
+        all(&v, "Cr+3")
+    );
+    assert!(all(&v, "K2Cr2O7") < 1e-12);
+    // 3 mol peroxide per mol dichromate are spent, the rest remains.
+    assert!((all(&v, "H2O2") - (0.00294 - 3.0 * 0.000068)).abs() < 1e-9);
+    // Without acid the dichromate couple is not admitted.
+    let mut v = water(0.166);
+    put(&mut v, "K2Cr2O7", 0.000068, Phase::Aqueous);
+    put(&mut v, "H2O2", 0.00294, Phase::Liquid);
+    let events = run(&mut v);
+    assert!(equations(&events).iter().all(|e| !e.contains("Cr")));
+    assert!(all(&v, "Cr+3") < 1e-12);
+}
+
 #[test]
 fn every_route_is_a_balanced_data_row() {
     for route in potential_redox::ROUTES {

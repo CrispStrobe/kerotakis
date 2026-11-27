@@ -76,6 +76,10 @@ pub const E0_BR2: f64 = 1.066;
 pub const E0_I2: f64 = 0.5355;
 pub const E0_FE3: f64 = 0.771;
 pub const E0_HCLO: f64 = 1.482;
+/// O₂(g) + 2 H⁺ + 2 e⁻ → H₂O₂: 0.695 V, CRC Electrochemical Series
+/// (Vanýsek). Hydrogen peroxide is the REDUCTANT of this couple: oxidised to
+/// oxygen by an oxidant stronger than itself (acidified dichromate).
+pub const E0_O2_H2O2: f64 = 0.695;
 
 /// One registry form that delivers a couple member, and the spectator ions
 /// it releases per unit of the member.
@@ -303,6 +307,26 @@ pub const COUPLES: &[Couple] = &[
         e0_v: E0_FE3,
         source: CRC,
     },
+    Couple {
+        id: "O2/H2O2",
+        oxidised: "O2",
+        oxidised_forms: &[],
+        oxidised_phase: Phase::Gas,
+        oxidised_unit_activity: true,
+        reduced: "H2O2",
+        reduced_per_oxidised: 1.0,
+        reduced_forms: &[],
+        reduced_acids: &[],
+        // The shelf books peroxide as its liquid; the reductant pool reads
+        // every condensed phase (`REDUCTANT_PHASES`).
+        reduced_phase: Phase::Aqueous,
+        reduced_unit_activity: false,
+        electrons: 2.0,
+        protons: 2.0,
+        water: 0.0,
+        e0_v: E0_O2_H2O2,
+        source: CRC,
+    },
 ];
 
 /// One reaction: the oxidant couple's oxidised member takes electrons from
@@ -319,6 +343,11 @@ const PREP: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §
 const DISPLACE: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.3 (each halogen displaces the heavier halides from solution)";
 const IODOMETRY: &str = "Vogel's Textbook of Quantitative Chemical Analysis, 6th ed., iodometric standardisations (dichromate, permanganate on acidified iodide)";
 const HYPOCHLOROUS: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §17.2.6 (hypochlorous acid as a rapid oxidant in acid solution)";
+/// Acidified dichromate and hydrogen peroxide. The first product is the blue
+/// peroxo species CrO(O₂)₂, which in aqueous acid decomposes within seconds
+/// to green chromium(III) and oxygen; the net reaction is the one booked.
+/// The blue intermediate is NOT represented (no registry species, no rate).
+const PEROXIDE_ON_DICHROMATE: &str = "Greenwood & Earnshaw, Chemistry of the Elements, 2nd ed., §23.3.4 (peroxo compounds of chromium: acidified dichromate with hydrogen peroxide gives blue CrO(O2)2, which decomposes in aqueous acid to Cr(III) and O2); the blue intermediate is not represented";
 const DICHROMATOMETRY: &str = "Vogel's Textbook of Quantitative Chemical Analysis, 6th ed., titrations with potassium dichromate (iron(II) in acid)";
 
 /// Every route, in the order they run: halogen preparations, then the
@@ -404,6 +433,11 @@ pub const ROUTES: &[Route] = &[
         reductant: "Fe+3/Fe+2",
         source: DICHROMATOMETRY,
     },
+    Route {
+        oxidant: "Cr2O7-2/Cr+3",
+        reductant: "O2/H2O2",
+        source: PEROXIDE_ON_DICHROMATE,
+    },
 ];
 
 pub fn couple(id: &str) -> Option<&'static Couple> {
@@ -455,6 +489,11 @@ fn in_registry(key: &str) -> bool {
 // ── inventory ────────────────────────────────────────────────────────
 
 const PHASES: &[Phase] = &[Phase::Aqueous, Phase::Solid, Phase::Liquid];
+/// Where a reductant is looked for. Liquid joins the dissolved and solid
+/// forms because the shelf books hydrogen peroxide as its liquid portion
+/// (C1 dichromate-and-peroxide, 2026-11-27); no other reductant member has a
+/// liquid portion, and the literal acids keep their own path.
+const REDUCTANT_PHASES: &[Phase] = &[Phase::Aqueous, Phase::Solid, Phase::Liquid];
 
 fn amount(vessel: &Vessel, key: &str, phases: &[Phase]) -> f64 {
     let id = SpeciesId::new(key);
@@ -547,7 +586,7 @@ fn literal_acid(vessel: &Vessel, c: &Couple) -> f64 {
 fn reductant_available(vessel: &Vessel, c: &Couple) -> f64 {
     forms_of(c.reduced, c.reduced_forms)
         .iter()
-        .map(|(f, per, _)| amount(vessel, f, &[Phase::Aqueous, Phase::Solid]) / per)
+        .map(|(f, per, _)| amount(vessel, f, REDUCTANT_PHASES) / per)
         .sum::<f64>()
         + literal_acid(vessel, c)
 }
@@ -576,7 +615,7 @@ fn take_reductant(vessel: &mut Vessel, c: &Couple, n: f64) {
         if left <= TRACE {
             break;
         }
-        let got = take(vessel, &f, left * per, &[Phase::Aqueous, Phase::Solid]) / per;
+        let got = take(vessel, &f, left * per, REDUCTANT_PHASES) / per;
         for (ion, k) in spect {
             release(vessel, ion, got * k);
         }

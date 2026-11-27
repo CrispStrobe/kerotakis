@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 182,
+    "boiling.no_data": 185,
     "boiling.reported": 68,
-    "melting.no_data": 149,
+    "melting.no_data": 152,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -512,6 +512,16 @@
       }
     },
     {
+      "species": "Ag2CrO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
       "species": "Ag3PO4",
       "standard_phase": "solid",
       "melting": {
@@ -681,6 +691,16 @@
         "outcome": "boiling",
         "kelvin": 1835.15,
         "source": "literature/transition-points/BaCl2"
+      }
+    },
+    {
+      "species": "BaCrO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {
@@ -2341,6 +2361,16 @@
         "outcome": "decomposition",
         "kelvin": 588.15,
         "source": "literature/transition-points/PbCO3"
+      }
+    },
+    {
+      "species": "PbCrO4",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {

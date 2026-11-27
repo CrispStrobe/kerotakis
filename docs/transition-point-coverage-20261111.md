@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 182, boiling.reported 68, melting.no_data 149, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 185, boiling.reported 68, melting.no_data 152, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -45,6 +45,7 @@ Counts: boiling.no_data 182, boiling.reported 68, melting.no_data 149, melting.r
 | Ag | solid | melting 1234.93 K | boiling 2483 K | literature/transition-points/Ag |
 | Ag+ | aqueous | no_data | no_data | — |
 | Ag2CO3 | solid | no_data | no_data | — |
+| Ag2CrO4 | solid | no_data | no_data | — |
 | Ag3PO4 | solid | melting 1122 K | no_data | literature/transition-points/Ag3PO4 |
 | AgBr | solid | melting 703 K | boiling 1806 K | literature/transition-points/AgBr |
 | AgCl | solid | melting 728 K | boiling 1830 K | literature/transition-points/AgCl |
@@ -58,6 +59,7 @@ Counts: boiling.no_data 182, boiling.reported 68, melting.no_data 149, melting.r
 | Ba+2 | aqueous | no_data | no_data | — |
 | BaCO3 | solid | no_data | no_data | — |
 | BaCl2 | solid | melting 1235 K | boiling 1835.15 K | literature/transition-points/BaCl2 |
+| BaCrO4 | solid | no_data | no_data | — |
 | BaSO4 | solid | melting 1623 K | no_data | literature/transition-points/BaSO4 |
 | Br- | aqueous | no_data | no_data | — |
 | Br2 | liquid | no_data | no_data | — |
@@ -200,6 +202,7 @@ Counts: boiling.no_data 182, boiling.reported 68, melting.no_data 149, melting.r
 | Pb(NO3)2 | solid | decomposition 539 K | decomposition 539 K | literature/transition-points/Pb(NO3)2 |
 | Pb+2 | aqueous | no_data | no_data | — |
 | PbCO3 | solid | decomposition 588.15 K | decomposition 588.15 K | literature/transition-points/PbCO3 |
+| PbCrO4 | solid | no_data | no_data | — |
 | PbI2 | solid | melting 685 K | boiling 1145 K | literature/transition-points/PbI2 |
 | PbS | solid | no_data | no_data | — |
 | PbSO4 | solid | melting 1360 K | no_data | literature/transition-points/PbSO4 |

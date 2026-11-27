@@ -662,12 +662,81 @@ fn redox_distribution(
             molality: moles,
         });
     }
+    pin_uncoupled_fast_redox(
+        &problem.totals,
+        redox_coupling(problem, db_tag).is_some(),
+        &mut redox,
+    );
     redox.sort_by(|a, b| {
         a.element
             .cmp(&b.element)
             .then(b.molality.total_cmp(&a.molality))
     });
     redox
+}
+
+/// The reported split must be the split the vessel is booked in. With no
+/// redox partner, a `FAST_REDOX` element goes back to the inventory in the
+/// oxidation states it was added in (see the readback), while PHREEQC still
+/// redistributes it against pe. Reporting the solver's split there said
+/// "all Cr as Cr(III)" over an inventory of 136 µmol hydrogen chromate
+/// (C1 dichromate-and-peroxide, 2026-11-27): both cannot be true, and the
+/// inventory is what the bench owns. So the element's dissolved molality is
+/// kept and re-split in the posed proportions. A bare, untagged input
+/// (no stated state) leaves the solver's split alone.
+fn pin_uncoupled_fast_redox(
+    totals: &[(String, f64)],
+    coupled: bool,
+    redox: &mut Vec<kerotakis_core::RedoxState>,
+) {
+    if coupled {
+        return;
+    }
+    for base in FAST_REDOX {
+        let molality: f64 = redox
+            .iter()
+            .filter(|state| state.element == *base)
+            .map(|state| state.molality)
+            .sum();
+        if molality <= 0.0 {
+            continue;
+        }
+        let mut posed: Vec<(i32, f64)> = Vec::new();
+        let mut untagged = false;
+        for (key, moles) in totals {
+            if *moles <= 0.0 {
+                continue;
+            }
+            let Some((element, rest)) = key.split_once('(') else {
+                if key == base {
+                    untagged = true;
+                }
+                continue;
+            };
+            if element != *base {
+                continue;
+            }
+            match rest.trim_end_matches(')').parse::<i32>() {
+                Ok(oxidation) => match posed.iter_mut().find(|(o, _)| *o == oxidation) {
+                    Some((_, n)) => *n += moles,
+                    None => posed.push((oxidation, *moles)),
+                },
+                Err(_) => untagged = true,
+            }
+        }
+        let posed_total: f64 = posed.iter().map(|(_, n)| n).sum();
+        if untagged || posed_total <= 0.0 {
+            continue;
+        }
+        redox.retain(|state| state.element != *base);
+        for (oxidation, n) in posed {
+            redox.push(kerotakis_core::RedoxState {
+                element: base.to_string(),
+                oxidation,
+                molality: molality * n / posed_total,
+            });
+        }
+    }
 }
 
 /// Molar mass of water, g/mol — `molar-mass/water` in the registry pack,
@@ -1135,6 +1204,65 @@ fn current_pe_authority(
             open_oxygen_pe_authority(vessel, db_tag, input)
         }
         _ => PeAuthority::Unwitnessed,
+    }
+}
+
+#[cfg(test)]
+mod uncoupled_redox_report_tests {
+    use super::*;
+
+    fn state(element: &str, oxidation: i32, molality: f64) -> kerotakis_core::RedoxState {
+        kerotakis_core::RedoxState {
+            element: element.to_string(),
+            oxidation,
+            molality,
+        }
+    }
+
+    /// C1R-2: acidified dichromate with peroxide, no redox coupling posed.
+    /// The solver put all chromium in Cr(3); the inventory books it as the
+    /// chromate it was added as. The report must agree with the booking.
+    #[test]
+    fn uncoupled_chromium_reports_the_booked_state_not_the_solver_split() {
+        let totals = vec![
+            ("Cr(6)".to_string(), 1.36e-4),
+            ("K".to_string(), 1.36e-4),
+            ("S(6)".to_string(), 3.0e-3),
+        ];
+        let mut redox = vec![
+            state("Cr", 3, 0.0438),
+            state("Cr", 6, 1.0e-9),
+            state("S", 6, 0.97),
+        ];
+        pin_uncoupled_fast_redox(&totals, false, &mut redox);
+        let chromium: Vec<_> = redox.iter().filter(|s| s.element == "Cr").collect();
+        assert_eq!(chromium.len(), 1);
+        assert_eq!(chromium[0].oxidation, 6);
+        assert!((chromium[0].molality - (0.0438 + 1.0e-9)).abs() < 1e-15);
+        // Non-FAST_REDOX elements keep the solver's split.
+        assert!(redox.iter().any(|s| s.element == "S" && s.oxidation == 6));
+    }
+
+    #[test]
+    fn coupled_or_untagged_chromium_keeps_the_solver_split() {
+        let solver = vec![state("Cr", 3, 0.04), state("Cr", 6, 0.001)];
+        let mut coupled = solver.clone();
+        pin_uncoupled_fast_redox(&[("Cr(6)".to_string(), 1e-4)], true, &mut coupled);
+        assert_eq!(coupled, solver);
+        let mut untagged = solver.clone();
+        pin_uncoupled_fast_redox(&[("Cr".to_string(), 1e-4)], false, &mut untagged);
+        assert_eq!(untagged, solver);
+    }
+
+    #[test]
+    fn mixed_posed_iron_is_split_in_the_posed_proportions() {
+        let totals = vec![("Fe(2)".to_string(), 3.0e-4), ("Fe(3)".to_string(), 1.0e-4)];
+        let mut redox = vec![state("Fe", 3, 0.004)];
+        pin_uncoupled_fast_redox(&totals, false, &mut redox);
+        let ferrous = redox.iter().find(|s| s.oxidation == 2).unwrap().molality;
+        let ferric = redox.iter().find(|s| s.oxidation == 3).unwrap().molality;
+        assert!((ferrous - 0.003).abs() < 1e-15);
+        assert!((ferric - 0.001).abs() < 1e-15);
     }
 }
 

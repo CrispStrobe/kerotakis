@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 50, neutral-refused 191, partitions 9.
+Counts: ion-stays-aqueous 50, neutral-refused 194, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -74,6 +74,7 @@ Counts: ion-stays-aqueous 50, neutral-refused 191, partitions 9.
 | ion-stays-aqueous | Zn+2 | — |
 | neutral-refused | Ag | — |
 | neutral-refused | Ag2CO3 | — |
+| neutral-refused | Ag2CrO4 | — |
 | neutral-refused | Ag3PO4 | — |
 | neutral-refused | AgBr | — |
 | neutral-refused | AgCl | — |
@@ -85,6 +86,7 @@ Counts: ion-stays-aqueous 50, neutral-refused 191, partitions 9.
 | neutral-refused | Ba(OH)2 | — |
 | neutral-refused | BaCO3 | — |
 | neutral-refused | BaCl2 | — |
+| neutral-refused | BaCrO4 | — |
 | neutral-refused | BaSO4 | — |
 | neutral-refused | Br2 | — |
 | neutral-refused | C | — |
@@ -186,6 +188,7 @@ Counts: ion-stays-aqueous 50, neutral-refused 191, partitions 9.
 | neutral-refused | Pb | — |
 | neutral-refused | Pb(NO3)2 | — |
 | neutral-refused | PbCO3 | — |
+| neutral-refused | PbCrO4 | — |
 | neutral-refused | PbI2 | — |
 | neutral-refused | PbS | — |
 | neutral-refused | PbSO4 | — |

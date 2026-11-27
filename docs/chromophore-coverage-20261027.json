@@ -23,7 +23,7 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 67,
+    "missing_absorptivity": 70,
     "outside_method": 131,
     "parameterised": 7,
     "parameterised_ph": 5,
@@ -38,6 +38,11 @@
     {
       "species": "Ag2CO3",
       "appearance": "pale yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Ag2CrO4",
+      "appearance": "brick red",
       "class": "missing_absorptivity"
     },
     {
@@ -58,6 +63,11 @@
     {
       "species": "Al",
       "appearance": "silver",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "BaCrO4",
+      "appearance": "pale yellow",
       "class": "missing_absorptivity"
     },
     {
@@ -283,6 +293,11 @@
     {
       "species": "Pb",
       "appearance": "dull grey",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "PbCrO4",
+      "appearance": "yellow",
       "class": "missing_absorptivity"
     },
     {

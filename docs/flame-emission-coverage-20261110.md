@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 67, refused 68.
+Registry species carrying a metal: emits 67, refused 71.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -94,6 +94,7 @@ Registry species carrying a metal: emits 67, refused 68.
 | refused | Ag | Ag | — |
 | refused | Ag+ | Ag | — |
 | refused | Ag2CO3 | Ag | — |
+| refused | Ag2CrO4 | Ag+Cr | — |
 | refused | Ag3PO4 | Ag | — |
 | refused | AgBr | Ag | — |
 | refused | AgCl | Ag | — |
@@ -103,6 +104,7 @@ Registry species carrying a metal: emits 67, refused 68.
 | refused | Al+3 | Al | — |
 | refused | Al2(SO4)3 | Al | — |
 | refused | Al2O3 | Al | — |
+| refused | BaCrO4 | Ba+Cr | — |
 | refused | Co(NO3)2 | Co | — |
 | refused | Co+2 | Co | — |
 | refused | CoCl2 | Co | — |
@@ -142,6 +144,7 @@ Registry species carrying a metal: emits 67, refused 68.
 | refused | Pb(NO3)2 | Pb | — |
 | refused | Pb+2 | Pb | — |
 | refused | PbCO3 | Pb | — |
+| refused | PbCrO4 | Cr+Pb | — |
 | refused | PbI2 | Pb | — |
 | refused | PbS | Pb | — |
 | refused | PbSO4 | Pb | — |
