@@ -29,6 +29,11 @@ pub struct ActivityRoute {
     /// mol/kgw. Below it the default dataset's activity model is in its
     /// own domain and stays the answer.
     pub min_ionic_strength: f64,
+    /// Validity ceiling of the routed activity model, mol/kgw. Above it
+    /// the route is still the best available answer but an extrapolation:
+    /// the solver keeps it and says so with a typed caveat
+    /// (`routing.activity-route-above-validity-ceiling`). Data, not code.
+    pub max_ionic_strength: f64,
     /// Database tag the route selects (a [`crate::native_namespace`] tag).
     pub db: &'static str,
     /// Complexes the routed database defines for this family and the
@@ -49,11 +54,30 @@ pub const ACTIVITY_MODEL_ROUTES: &[ActivityRoute] = &[ActivityRoute {
     metal: "Co",
     ligand: "Cl",
     min_ionic_strength: 0.5,
+    // SIT is reliable to about I = 3-4 mol/kg: Grenthe, Plyasunov & Spahiu,
+    // "Estimations of medium effects on thermodynamic data", ch. IX in
+    // Grenthe & Puigdomenech (eds.), Modelling in Aquatic Chemistry
+    // (OECD/NEA 1997), adopted as the NEA-TDB guideline (TDB-2). 3.5 is the
+    // middle of that band; above it SIT is an extrapolation.
+    max_ionic_strength: 3.5,
     db: "sit",
     complexes: &["CoCl+", "CoCl2", "CoCl3-", "CoCl4-2"],
     element_aliases: &[("Co(2)", "Co")],
     source: "vendor/iphreeqc/database/sit.dat: SOLUTION_SPECIES Co+2 + n Cl- (81TUR/WHI, 06BLA/IGN) and SIT eps(Co+2, Cl-) = 0.160",
 }];
+
+/// The reviewed row that selects database `db`, if any. A forced replay
+/// onto `db` uses this row's aliases and ceiling; an unknown tag has none.
+pub fn route_for_db(db: &str) -> Option<&'static ActivityRoute> {
+    ACTIVITY_MODEL_ROUTES.iter().find(|route| route.db == db)
+}
+
+/// Whether an estimated ionic strength lies above `route`'s validity
+/// ceiling. A non-finite estimate counts as above: it cannot be shown
+/// inside the domain.
+pub fn above_validity_ceiling(route: &ActivityRoute, ionic_strength: f64) -> bool {
+    !(ionic_strength.is_finite() && ionic_strength <= route.max_ionic_strength)
+}
 
 /// Charge of a master species written PHREEQC-style: `Co+2` → 2,
 /// `Cl-` → -1, `H2O` → 0.
@@ -248,6 +272,40 @@ mod tests {
         assert_eq!(elements, vec!["Cl".to_string(), "Co".to_string()]);
         assert!(totals.contains(&("Co".to_string(), 1.0)));
         assert!(totals.contains(&("Cl".to_string(), 2.0)));
+    }
+
+    #[test]
+    fn every_row_has_a_ceiling_above_its_trigger() {
+        for route in ACTIVITY_MODEL_ROUTES {
+            assert!(route.max_ionic_strength.is_finite());
+            assert!(route.max_ionic_strength > route.min_ionic_strength);
+        }
+    }
+
+    #[test]
+    fn sit_ceiling_is_the_nea_tdb_band() {
+        let route = route_for_db("sit").expect("the Co-Cl row selects sit");
+        assert!((3.0..=4.0).contains(&route.max_ionic_strength));
+        // 1 m CoCl2 (I = 3) is inside; 2 m CoCl2 (I = 6) is above.
+        let inside = vec![("Co".to_string(), 1.0), ("Cl".to_string(), 2.0)];
+        let above = vec![("Co".to_string(), 2.0), ("Cl".to_string(), 4.0)];
+        assert!(!above_validity_ceiling(
+            route,
+            estimated_ionic_strength("sit", &inside, 1.0)
+        ));
+        assert!(above_validity_ceiling(
+            route,
+            estimated_ionic_strength("sit", &above, 1.0)
+        ));
+        assert!(above_validity_ceiling(route, f64::NAN));
+    }
+
+    #[test]
+    fn unknown_databases_have_no_activity_route() {
+        assert!(route_for_db("sit").is_some());
+        for tag in ["wateq4f", "pitzer", "minteq.v4", "llnl", "", "SIT"] {
+            assert!(route_for_db(tag).is_none(), "{tag}");
+        }
     }
 
     #[test]

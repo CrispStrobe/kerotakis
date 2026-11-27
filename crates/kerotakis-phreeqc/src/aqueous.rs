@@ -457,6 +457,61 @@ fn dataset_phrase(db_tag: &str) -> Phrase {
     )
 }
 
+/// The typed caveat for an activity-route pose above its row's validity
+/// ceiling (see [`crate::activity_routes::ActivityRoute::max_ionic_strength`]).
+fn activity_route_ceiling_caveat(
+    routing: Phrase,
+    route: &crate::activity_routes::ActivityRoute,
+    estimated: f64,
+) -> Phrase {
+    Phrase::new(
+        "routing.activity-route-above-validity-ceiling",
+        "{routing}. The estimated ionic strength (~{ionic_strength} mol/kgw, from the input totals) is above about {ceiling} mol/kgw, beyond which {dataset}'s activity model is an extrapolation rather than a validated prediction",
+        vec![
+            ("routing".to_string(), Slot::phrase(routing)),
+            (
+                "ionic_strength".to_string(),
+                Slot::number(format!("{estimated:.1}")),
+            ),
+            (
+                "ceiling".to_string(),
+                Slot::number(format!("{:.1}", route.max_ionic_strength)),
+            ),
+            ("dataset".to_string(), Slot::text(format!("{}.dat", route.db))),
+        ],
+    )
+}
+
+/// Whether a forced replay may land on `tag`: the two reviewed default
+/// routes, or a database selected by a reviewed
+/// [`crate::activity_routes`] row — and in every case only when the
+/// native fingerprint of its exact bytes is available, so a replay binds
+/// the same database the original pose used. Unknown names stay refused.
+fn replay_route_reviewed(tag: &str) -> bool {
+    (matches!(tag, "pitzer" | "wateq4f") || crate::activity_routes::route_for_db(tag).is_some())
+        && crate::native_namespace::fingerprint(tag).is_ok()
+}
+
+/// A replay transition between two different reviewed routes.
+fn replay_transition_reviewed(from: &str, to: &str) -> bool {
+    from != to && replay_route_reviewed(from) && replay_route_reviewed(to)
+}
+
+/// Whether a forced replay's measured ionic strength is inside the routed
+/// model's domain. wateq4f: 0..=1 mol/kgw. Pitzer and the activity-route
+/// databases: any finite non-negative value — above an activity route's
+/// validity ceiling the pose is kept and carries the
+/// `routing.activity-route-above-validity-ceiling` caveat instead.
+fn replay_answer_in_domain(tag: &str, measured: Option<f64>) -> bool {
+    if !replay_route_reviewed(tag) {
+        return false;
+    }
+    match tag {
+        "wateq4f" => measured.is_some_and(|mu| mu.is_finite() && (0.0..=1.0).contains(&mu)),
+        _ => measured.is_some_and(|mu| mu.is_finite() && mu >= 0.0),
+    }
+}
+
 fn dataset_sources(db_tag: &str) -> Vec<String> {
     let mut sources: Vec<_> = derived::index_for(db_tag)
         .citations
@@ -1867,13 +1922,7 @@ impl PhreeqcEquilibrator {
                     .as_ref()
                     .filter(|info| info.scope == SolutionScope::Complete);
                 let measured = info.map(|info| info.ionic_strength);
-                let in_domain = match tag {
-                    "wateq4f" => {
-                        measured.is_some_and(|mu| mu.is_finite() && (0.0..=1.0).contains(&mu))
-                    }
-                    "pitzer" => measured.is_some_and(|mu| mu.is_finite() && mu >= 0.0),
-                    _ => false,
-                };
+                let in_domain = replay_answer_in_domain(tag, measured);
                 if first.db_tag != tag || !in_domain {
                     return Err(canonical_closure_error(
                         AqueousReason::ForcedRouteValidation,
@@ -2081,10 +2130,7 @@ impl PhreeqcEquilibrator {
                     ));
                 }
                 if pass.db_tag != route {
-                    if !matches!(
-                        (route, pass.db_tag),
-                        ("pitzer", "wateq4f") | ("wateq4f", "pitzer")
-                    ) {
+                    if !replay_transition_reviewed(route, pass.db_tag) {
                         return Err(canonical_closure_error(
                             AqueousReason::ModelTransitionUnsupported,
                             "unsupported aqueous model transition",
@@ -9263,12 +9309,20 @@ impl PhreeqcEquilibrator {
             }
         }
         if let Some(requested) = forced_route {
-            let transition_is_reviewed = matches!(requested, "pitzer" | "wateq4f")
-                && (db_tag == requested
-                    || matches!(
-                        (db_tag, requested),
-                        ("pitzer", "wateq4f") | ("wateq4f", "pitzer")
-                    ));
+            let transition_is_reviewed = replay_route_reviewed(requested)
+                && (db_tag == requested || replay_transition_reviewed(db_tag, requested));
+            // A replay onto an activity-route database poses the booked
+            // totals under that database's element names, exactly as the
+            // ordinary route does.
+            if let Some(route) = crate::activity_routes::route_for_db(requested) {
+                if transition_is_reviewed {
+                    crate::activity_routes::apply_aliases(
+                        route,
+                        &mut problem.elements,
+                        &mut problem.totals,
+                    );
+                }
+            }
             let target = derived::index_for(requested);
             let original_is_representable = problem
                 .elements
@@ -9311,7 +9365,48 @@ impl PhreeqcEquilibrator {
                 "provisional model replay from the original material input; final routing is verified by a fresh ordinary aqueous pose",
             );
         }
-        if potential_molality > 1.0 && db_tag != "pitzer" {
+        let activity_model = derived::index_for(db_tag).activity_model;
+        if potential_molality > 1.0
+            && db_tag != "pitzer"
+            && activity_model == crate::dbindex::ActivityModel::Sit
+        {
+            // The SIT route is CHOSEN for this load, not a fallback from
+            // Pitzer, and its domain is not Debye-Hueckel's 1 mol/kgw: say
+            // what actually limits it — pairwise coefficients fitted per
+            // ion pair, reliable to the route row's ceiling.
+            let ceiling = crate::activity_routes::route_for_db(db_tag)
+                .map_or(f64::NAN, |route| route.max_ionic_strength);
+            routing = Phrase::new(
+                "routing.specific-ion-interaction-load",
+                "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), solved with the specific-ion-interaction model, whose interaction coefficients are fitted per ion pair; ion pairs the dataset does not list carry no specific interaction, so this is not a validated concentrated-mixture prediction",
+                vec![
+                    ("routing".to_string(), Slot::phrase(routing)),
+                    (
+                        "molality".to_string(),
+                        Slot::number(format!("{potential_molality:.1}")),
+                    ),
+                ],
+            );
+            let posed: Vec<&str> = problem
+                .phases
+                .iter()
+                .map(|(name, _, _)| name.as_str())
+                .collect();
+            if !posed.is_empty() {
+                routing = Phrase::new(
+                    "routing.crystallisation-specific-ion-interaction-domain",
+                    "{routing}. Saturation and crystallisation of {phases} at this load rest on the specific-ion-interaction model (SIT, reliable to about I = {ionic_strength} mol/kgw where its ion-pair coefficients are measured), so those phase amounts are not a validated prediction",
+                    vec![
+                        ("routing".to_string(), Slot::phrase(routing)),
+                        ("phases".to_string(), Slot::text(posed.join(", "))),
+                        (
+                            "ionic_strength".to_string(),
+                            Slot::number(format!("{ceiling:.1}")),
+                        ),
+                    ],
+                );
+            }
+        } else if potential_molality > 1.0 && db_tag != "pitzer" {
             // The caveat is a clause AROUND the choice, not a string glued
             // after it: a language that puts the qualification first can
             // write "{routing}" wherever it wants in its own template.
@@ -9345,6 +9440,18 @@ impl PhreeqcEquilibrator {
                         ("phases".to_string(), Slot::text(posed.join(", "))),
                     ],
                 );
+            }
+        }
+        // Validity ceiling of an activity route (row data): above it the
+        // routed model is an extrapolation. Kept, and said.
+        if let Some(route) = crate::activity_routes::route_for_db(db_tag) {
+            let estimated = crate::activity_routes::estimated_ionic_strength(
+                route.db,
+                &problem.totals,
+                problem.kgw,
+            );
+            if crate::activity_routes::above_validity_ceiling(route, estimated) {
+                routing = activity_route_ceiling_caveat(routing, route, estimated);
             }
         }
         if !problem.surfaces.is_empty() {
@@ -16308,5 +16415,120 @@ mod frozen_state_tests {
         // FAST_REDOX elements keep their own rule (coupled or uncoupled).
         let mn2 = "Mn(2)".to_string();
         assert_eq!(frozen_state("Mn", "Mn(6)", &[(&mn2, 0.01)]), None);
+    }
+}
+
+#[cfg(test)]
+mod activity_route_caveat_tests {
+    use super::{
+        activity_route_ceiling_caveat, replay_answer_in_domain, replay_route_reviewed,
+        replay_transition_reviewed,
+    };
+    use kerotakis_core::Phrase;
+
+    #[test]
+    fn replay_accepts_sit_like_the_reviewed_routes() {
+        for tag in ["wateq4f", "pitzer", "sit"] {
+            assert!(replay_route_reviewed(tag), "{tag}");
+            assert!(
+                crate::native_namespace::fingerprint(tag).is_ok(),
+                "{tag} replay binds its exact database fingerprint"
+            );
+        }
+        assert!(replay_transition_reviewed("wateq4f", "sit"));
+        assert!(replay_transition_reviewed("sit", "wateq4f"));
+        assert!(replay_transition_reviewed("pitzer", "wateq4f"));
+        assert!(!replay_transition_reviewed("sit", "sit"));
+    }
+
+    #[test]
+    fn replay_stays_refused_for_unknown_and_unreviewed_names() {
+        for tag in ["minteq.v4", "llnl", "SIT", "sit.dat", "", "phreeqc"] {
+            assert!(!replay_route_reviewed(tag), "{tag}");
+            assert!(!replay_transition_reviewed("wateq4f", tag), "{tag}");
+            assert!(!replay_transition_reviewed(tag, "sit"), "{tag}");
+            assert!(!replay_answer_in_domain(tag, Some(0.1)), "{tag}");
+        }
+    }
+
+    #[test]
+    fn replay_domains_are_unchanged_and_sit_needs_a_finite_answer() {
+        assert!(replay_answer_in_domain("wateq4f", Some(0.9)));
+        assert!(!replay_answer_in_domain("wateq4f", Some(1.1)));
+        assert!(replay_answer_in_domain("pitzer", Some(6.0)));
+        assert!(replay_answer_in_domain("sit", Some(3.0)));
+        // Above the SIT ceiling the replay is kept (with the caveat).
+        assert!(replay_answer_in_domain("sit", Some(5.0)));
+        for tag in ["wateq4f", "pitzer", "sit"] {
+            assert!(!replay_answer_in_domain(tag, None), "{tag}");
+            assert!(!replay_answer_in_domain(tag, Some(f64::NAN)), "{tag}");
+            assert!(!replay_answer_in_domain(tag, Some(-0.1)), "{tag}");
+        }
+    }
+
+    #[test]
+    fn the_ceiling_caveat_names_the_route_and_its_ceiling() {
+        let route = crate::activity_routes::route_for_db("sit").expect("sit row");
+        let caveat = activity_route_ceiling_caveat(Phrase::bare("routing.x", "x"), route, 6.0);
+        assert_eq!(caveat.key, "routing.activity-route-above-validity-ceiling");
+        let text = format!("{caveat:?}");
+        assert!(text.contains("sit.dat"), "{text}");
+        assert!(text.contains("\"3.5\""), "{text}");
+        assert!(text.contains("\"6.0\""), "{text}");
+        assert!(!text.contains("Debye"), "{text}");
+    }
+
+    /// 1.5 mol CoCl2 in a kilogram of water: routed to sit.dat, the
+    /// concentrated-load caveat is the SIT one, never the Debye-Hueckel
+    /// fallback, and the estimated I of ~4.5 mol/kgw is above the row's
+    /// 3.5 ceiling, so the ceiling caveat is present too.
+    #[cfg(feature = "engine")]
+    #[test]
+    fn concentrated_cobalt_chloride_on_sit_gets_sit_caveats() {
+        use kerotakis_core::{Moles, Phase, SpeciesId, Vessel, VesselId};
+        let solver = super::PhreeqcEquilibrator::new().expect("engine");
+        let mut vessel = Vessel::new(VesselId(0), "concentrated CoCl2");
+        vessel.deposit(SpeciesId::new("water"), Moles(55.51), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("CoCl2"), Moles(1.5), Phase::Solid);
+        let setup = solver
+            .setup_problem(&vessel, None)
+            .expect("set up")
+            .expect("an aqueous problem");
+        assert_eq!(setup.db_tag, "sit");
+        let text = format!("{:?}", setup.routing);
+        assert!(text.contains("routing.specific-ion-interaction"), "{text}");
+        assert!(!text.contains("routing.activity-model-fallback"), "{text}");
+        assert!(
+            !text.contains("routing.crystallisation-outside-activity-domain"),
+            "{text}"
+        );
+        assert!(!text.contains("Debye-Hueckel, up to 1 mol/kgw"), "{text}");
+        assert!(
+            text.contains("routing.activity-route-above-validity-ceiling"),
+            "{text}"
+        );
+    }
+
+    /// The non-SIT caveats are unchanged: a concentrated load the Pitzer
+    /// route cannot carry (wateq4f, no activity route) still says
+    /// activity-model fallback, and gets no SIT clause.
+    #[cfg(feature = "engine")]
+    #[test]
+    fn concentrated_non_sit_route_keeps_the_fallback_caveat() {
+        use kerotakis_core::{Moles, Phase, SpeciesId, Vessel, VesselId};
+        let solver = super::PhreeqcEquilibrator::new().expect("engine");
+        let mut vessel = Vessel::new(VesselId(0), "concentrated copper sulfate");
+        vessel.deposit(SpeciesId::new("water"), Moles(55.51), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("CuSO4"), Moles(1.0), Phase::Solid);
+        let setup = solver
+            .setup_problem(&vessel, None)
+            .expect("set up")
+            .expect("an aqueous problem");
+        assert_ne!(setup.db_tag, "pitzer");
+        assert_ne!(setup.db_tag, "sit");
+        let text = format!("{:?}", setup.routing);
+        assert!(text.contains("routing.activity-model-fallback"), "{text}");
+        assert!(!text.contains("specific-ion-interaction"), "{text}");
+        assert!(!text.contains("above-validity-ceiling"), "{text}");
     }
 }
