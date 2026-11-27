@@ -548,7 +548,9 @@ pub fn fresh_precipitate_rank(registry_key: &str, phase_name: &str) -> f64 {
     const NONMETALS: &[&str] = &[
         "H", "O", "C", "N", "S", "P", "F", "Cl", "Br", "I", "B", "Se", "Si", "As", "Te",
     ];
-    if !(phase_name.ends_with("(a)") || phase_name.ends_with("(am)")) {
+    // wateq4f spells its one amorphous hydroxide `Zn(OH)2-a`.
+    if !(phase_name.ends_with("(a)") || phase_name.ends_with("(am)") || phase_name.ends_with("-a"))
+    {
         return 0.0;
     }
     let Some(data) = species::REGISTRY.iter().find(|s| s.key == registry_key) else {
