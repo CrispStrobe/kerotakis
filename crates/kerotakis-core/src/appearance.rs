@@ -238,8 +238,11 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         // and with none of it settled yet, naming no colour at all said
         // "colourless and cloudy" — the cloud lost the only colour in the
         // tube. Only tracked lots count; untracked solids keep the settled
-        // deposit wording they always had.
-        if has_liquid && !rises {
+        // deposit wording they always had. Only a chromatic solid tints:
+        // a white or uncoloured powder's cloud is already the scattering
+        // white `liquid_colour_word` reports, and greying it would lose that.
+        let chromatic = !matches!(colour_word(&colour, true), "white" | "grey" | "black");
+        if has_liquid && !rises && chromatic {
             if let Some(fraction) = tracked_suspension {
                 let m = p.moles.0 * fraction;
                 suspended_tint.0 += m;
