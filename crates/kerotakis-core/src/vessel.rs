@@ -2387,7 +2387,13 @@ impl Vessel {
     /// per dimer of an associating gas (`2 NO₂ ⇌ N₂O₄`), so an ideal-gas
     /// pressure does not count a dimerised pool twice.
     pub fn gas_molecules_in(&self, t_k: f64, litres: f64) -> f64 {
-        self.gas_moles().0 - crate::nitrogen_oxides::association_deficit(self, t_k, litres)
+        let pool = self.gas_moles().0;
+        let deficit = crate::nitrogen_oxides::association_deficit(self, t_k, litres);
+        if deficit == 0.0 {
+            pool
+        } else {
+            pool - deficit
+        }
     }
 
     /// Volume at which the owned gas exerts `pressure_pa` at `t_k`. The
@@ -2397,9 +2403,16 @@ impl Vessel {
     fn gas_volume_at(&self, t_k: f64, pressure_pa: f64) -> Liters {
         const R_LITRE_PASCAL: f64 = 8_314.462_618;
         let scale = R_LITRE_PASCAL * t_k / pressure_pa;
-        let mut hi = self.gas_moles().0 * scale;
+        // Same arithmetic as the plain ideal-gas volume, so a jar with no
+        // associating gas reads bit-identically to the monomer-only law.
+        let mut hi = self.gas_moles().0 * R_LITRE_PASCAL * t_k / pressure_pa;
+        if !(hi > 0.0 && hi.is_finite())
+            || crate::nitrogen_oxides::association_deficit(self, t_k, hi) == 0.0
+        {
+            return Liters(hi.max(0.0));
+        }
         let f = |v: f64| self.gas_molecules_in(t_k, v) * scale - v;
-        if !(hi > 0.0 && hi.is_finite()) || f(hi) >= 0.0 {
+        if f(hi) >= 0.0 {
             return Liters(hi.max(0.0));
         }
         let mut lo = 0.0_f64;
