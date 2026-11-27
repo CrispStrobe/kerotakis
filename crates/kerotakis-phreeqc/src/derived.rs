@@ -230,9 +230,16 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// admitted: potassium dichromate and chromate still dissolve without
 /// speciation, because booking a Cr(6) total back as `Cr+3` would be a
 /// silent reduction.
+///
+/// Nickel joined 2026-11-27 (nickel(II) hydroxide): wateq4f.dat (line 54)
+/// and minteq.v4.dat (line 66) both master `Ni` as `Ni+2` with no other
+/// oxidation state, so a bare nickel residue is the divalent cation and its
+/// hydrolysis and complexes are the database's own; pitzer.dat has no
+/// nickel. Like aluminium it is not in `CATION_RESIDUE`: no nickel oxide is
+/// admitted to dissolve as water.
 const RESIDUE_OK: &[&str] = &[
     "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "I", "F", "Cu", "Mn", "Fe", "Zn",
-    "Pb", "Al", "Co", "Cr",
+    "Pb", "Al", "Co", "Cr", "Ni",
 ];
 
 /// The subset of `RESIDUE_OK` that forms simple cations.
@@ -539,7 +546,9 @@ pub fn phase_in_db(name: &str, db_tag: &str) -> Option<&'static str> {
 /// amphoteric test dissolves it to zincate, Zn(OH)4 2-; the more soluble
 /// fresh solid redissolves through the very same Zn(OH)4-2 and ammine
 /// mass action, with no constant added. A hydroxide with a single entry
-/// (Cu(OH)2, Ni(OH)2) is unaffected, as is any oxide.
+/// (Cu(OH)2, Ni(OH)2) is unaffected, as is any oxide. Aluminium hydroxide
+/// takes the same route: wateq4f `Al(OH)3(a)` and minteq.v4 `Al(OH)3(am)`
+/// (log K 10.8 each) over gibbsite (8.11 / 8.291).
 ///
 /// Silica, alumina and other oxides stay out: sand and corundum on the
 /// shelf are crystalline and kinetically inert, and those polymorph
@@ -2162,6 +2171,19 @@ mod tests {
         );
         assert!(fresh_precipitate_rank("Zn(OH)2", "Zn(OH)2-a") < 0.0);
         assert_eq!(fresh_precipitate_rank("Zn(OH)2", "Zn(OH)2-e"), 0.0);
+        // Al(OH)3: amorphous over gibbsite on both routes; Ni(OH)2 single.
+        assert_eq!(
+            routed_phase_for_solid("Al(OH)3", "wateq4f"),
+            Some("Al(OH)3(a)")
+        );
+        assert_eq!(
+            routed_phase_for_solid("Al(OH)3", "minteq.v4"),
+            Some("Al(OH)3(am)")
+        );
+        assert_eq!(
+            routed_phase_for_solid("Ni(OH)2", "wateq4f"),
+            Some("Ni(OH)2")
+        );
         // An oxide is not a hydroxide: zinc oxide keeps zincite.
         assert_eq!(fresh_precipitate_rank("ZnO", "ZnO(a)"), 0.0);
     }

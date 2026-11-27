@@ -123,6 +123,11 @@ pub fn handling_hazards(species_key: &str) -> &'static [HandlingHazard] {
         // chromates are hexavalent chromium too, and the classification is of
         // the element's state, not of its solubility.
         "PbCrO4" | "Ag2CrO4" | "BaCrO4" => &[Carcinogen],
+        // IARC Monographs vol. 100C (2012): nickel compounds are
+        // carcinogenic to humans (Group 1). As for chromium(VI), the
+        // classification is of the element's compounds, so the precipitate
+        // and the dissolved ion a solved vessel books both carry it.
+        "Ni(OH)2" | "Ni+2" => &[Carcinogen],
         _ => &[],
     }
 }
@@ -471,6 +476,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // chloride). The shelf shows it as toxic for the same reason as barium.
         "CoCl2" => &[ToxicSoluble],
         "Co+2" => &[ToxicSoluble],
+        // Dissolved nickel(II): soluble nickel compounds are harmful if
+        // swallowed, skin sensitisers and carcinogens (IARC 100C, Group 1);
+        // shown as toxic for the same reason as soluble cobalt(II).
+        "Ni+2" => &[ToxicSoluble],
         // Cobalt(II) nitrate and its hexahydrate: the same soluble cobalt(II)
         // hazard as cobalt(II) chloride (soluble cobalt(II) salts).
         "Co(NO3)2" => &[ToxicSoluble],
@@ -677,6 +686,12 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "PbCrO4"
         | "Ag2CrO4"
         | "BaCrO4"
+        // Hydroxide-redissolution lane (2026-11-27): aluminium hydroxide is
+        // inert in this matrix as Zn(OH)2 is; nickel(II) hydroxide's hazard
+        // is carcinogenicity, carried by `handling_hazards`, not a mixture
+        // reaction this matrix rates.
+        | "Al(OH)3"
+        | "Ni(OH)2"
         // Copper(II) and lead(II) sulfide (C1 sulfur lane): not attacked by
         // dilute non-oxidising acid at bench scale (they are the
         // acid-insoluble sulfide group), so no gas-release group.
@@ -849,6 +864,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na3PO4",
     "Al2(SO4)3",
     "Al+3",
+    "Al(OH)3",
+    "Ni(OH)2",
+    "Ni+2",
     "MgCl2",
     "bischofite",
     "CoCl2",
