@@ -2,8 +2,8 @@
   "schema": "kerotakis/iodine-observables-coverage-v1",
   "solvent": "hexane",
   "counts": {
-    "ion-stays-aqueous": 50,
-    "neutral-refused": 194,
+    "ion-stays-aqueous": 51,
+    "neutral-refused": 196,
     "partitions": 9
   },
   "cases": [
@@ -232,6 +232,11 @@
       "basis": null
     },
     {
+      "species": "Ni+2",
+      "class": "ion-stays-aqueous",
+      "basis": null
+    },
+    {
       "species": "OH-",
       "class": "ion-stays-aqueous",
       "basis": null
@@ -328,6 +333,11 @@
     },
     {
       "species": "Al",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Al(OH)3",
       "class": "neutral-refused",
       "basis": null
     },
@@ -818,6 +828,11 @@
     },
     {
       "species": "NaOH",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "Ni(OH)2",
       "class": "neutral-refused",
       "basis": null
     },

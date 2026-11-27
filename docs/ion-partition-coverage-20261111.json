@@ -6,7 +6,7 @@
     "hexane"
   ],
   "classes": {
-    "monatomic cation": 19,
+    "monatomic cation": 20,
     "monatomic anion": 4,
     "small organic ion": 3,
     "polyatomic inorganic ion": 25
@@ -243,6 +243,12 @@
     {
       "species": "Na+",
       "formula": "Na+",
+      "ion_class": "monatomic cation",
+      "hydrocarbon_rule": "retained in water"
+    },
+    {
+      "species": "Ni+2",
+      "formula": "Ni+2",
       "ion_class": "monatomic cation",
       "hydrocarbon_rule": "retained in water"
     },
