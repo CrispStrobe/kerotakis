@@ -92,12 +92,22 @@ pub enum Endpoint {
     /// ceiling as a measurement — never satisfies the comparison.
     Pe { compare: Compare, value: f64 },
     /// Self-indicating: the titrant's own colour survives in the flask.
-    /// The flask's computed colour word is read before the first drop
-    /// and after every one; the endpoint is the first increment whose
-    /// colour differs from that baseline. Everything is equilibrated, so
-    /// a colour that appears here is by construction a colour that
-    /// stays — which is exactly what "persists" means at the bench.
+    /// The endpoint is the first increment after which the colour word
+    /// differs from the one before the first drop AND that difference is
+    /// carried by titrant-derived matter: dissolved species holding one of
+    /// the titrant's elements other than H and O, of which there is now
+    /// more than at the start. A colour the titrant produces in the
+    /// analyte (iron(III) from iron(II)) is not the titrant's colour and
+    /// never ends the titration. Everything is equilibrated, so a colour
+    /// that appears here is by construction a colour that stays — which
+    /// is exactly what "persists" means at the bench.
     ColourPersists,
+    /// Decolourising: the colour the flask started with is consumed.
+    /// The endpoint is the first increment after which the matter the
+    /// titrant has used up (everything dissolved the flask holds less of
+    /// than before the first drop) no longer changes the colour word —
+    /// iodine titrated with thiosulfate, with or without starch.
+    ColourDisappears,
 }
 
 impl Endpoint {

@@ -166,6 +166,7 @@ pub const GRAMMAR_WORDS: &[&str] = &[
     "max",
     "stages",
     "persists",
+    "disappears",
     "colour",
     "color",
     "ph",
@@ -1879,18 +1880,22 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     (Endpoint::Pe { compare, value }, NEUTRAL_PH, &rest[5..])
                 }
                 "colour" | "color" => {
-                    if rest.get(3) != Some(&"persists") {
-                        return Err(usage(
-                            "titrate <vessel> <titrant> [<c>M] <step> until \
-                                    colour persists [max <n>]",
-                        ));
-                    }
-                    (Endpoint::ColourPersists, NEUTRAL_PH, &rest[4..])
+                    let endpoint = match rest.get(3) {
+                        Some(&"persists") => Endpoint::ColourPersists,
+                        Some(&"disappears") => Endpoint::ColourDisappears,
+                        _ => {
+                            return Err(usage(
+                                "titrate <vessel> <titrant> [<c>M] <step> until \
+                                    colour persists|disappears [max <n>]",
+                            ));
+                        }
+                    };
+                    (endpoint, NEUTRAL_PH, &rest[4..])
                 }
                 other => {
                     return Err(Refusal::new(
     "error.not-an-endpoint",
-    "'{word}' is not an endpoint — this bench titrates until `ph <target>`, `pe <op> <value>`, or `colour persists`",
+    "'{word}' is not an endpoint — this bench titrates until `ph <target>`, `pe <op> <value>`, `colour persists` or `colour disappears`",
 ).with("word", other))
                 }
             };

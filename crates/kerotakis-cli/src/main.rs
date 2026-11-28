@@ -2446,7 +2446,7 @@ fn usage() -> ! {
          \x20 drain <from> <to>                      lower layer through stopcock\n\
          \x20 transport <v..> from <inlet> to <recv> steps <n> [courant <f>] [drain|reservoir]\n\
          \x20 titrate <v> <titrant> [<c>M] <step><mL|L> until <endpoint> [max <n>]\n\
-         \x20   endpoint: ph <target> | pe <op> <value> | colour persists\n\
+         \x20   endpoint: ph <target> | pe <op> <value> | colour persists | colour disappears\n\
          \x20 measure <vessel> <thermometer|balance|ph|pressure|conductivity|uvvis|calorimeter>\n\
          \x20 look <vessel>                          observe with your eyes\n\
          \x20 cell <vessel> <vessel>                 wire two half-cells\n\
@@ -3178,7 +3178,7 @@ fn repl() {
                  look and measure look <v> · smell <v> · measure <v> <thermometer|balance|ph|…>\n\
                  \x20                test <v> <splint|limewater|…> · chromatograph <v> · particles [v]\n\
                  electrochemistry cell <v> <v> · electrolyse <v> <A> <t>   (each half-cell wants its metal)\n\
-                 analysis         titrate <v> <name> [<c>M] <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
+                 analysis         titrate <v> <name> [<c>M] <step><mL|L> until <ph <t>|pe <op> <v>|colour persists|colour disappears>\n\
                  named reactions  react <v> <esterification|saponification|alcohol-oxidation|respiration>\n\
                  the bench        new [beaker|flask|tube|cylinder|crucible] · discard <v> · remove <v>\n\
                  \x20                inspect [v]\n\

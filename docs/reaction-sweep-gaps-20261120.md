@@ -187,7 +187,7 @@ headspace.
 
 Gaps, most severe first:
 
-### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — OPEN
+### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — PARTLY FIXED (fix/titrate-endpoint-20261128: persists now needs a titrant-derived colour; new `until colour disappears`; I2/S2O3 reaches 20 mL with or without starch. Fe(II)/MnO4- is still open: the open acidic flask reduces excess MnO4- to Mn(II), so no endpoint arrives)
 
 Titrating acidified iron(II) with 0.02 M permanganate stopped after the
 first 1 mL. About 25 mL was expected, and 2.48 mmol Fe(II) was still
