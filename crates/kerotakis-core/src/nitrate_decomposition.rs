@@ -259,12 +259,20 @@ pub fn equation(d: &Decomposition) -> String {
     let terms = [1.0, d.residue_per_mol, d.no2_per_mol, d.o2_per_mol];
     let k = (1..=8)
         .map(f64::from)
-        .find(|k| terms.iter().all(|t| ((t * k) - (t * k).round()).abs() < 1e-9))
+        .find(|k| {
+            terms
+                .iter()
+                .all(|t| ((t * k) - (t * k).round()).abs() < 1e-9)
+        })
         .unwrap_or(1.0);
     let term = |c: f64, key: &str, gas: bool| -> Option<String> {
         let n = (c * k).round();
         (n > 0.0).then(|| {
-            let lead = if n == 1.0 { String::new() } else { format!("{n} ") };
+            let lead = if n == 1.0 {
+                String::new()
+            } else {
+                format!("{n} ")
+            };
             format!("{lead}{}{}", subscript(key), if gas { "↑" } else { "" })
         })
     };
@@ -337,13 +345,14 @@ fn extent(vessel: &Vessel, d: &Decomposition, moles: f64) -> f64 {
     if d.heat_j_per_mol <= 0.0 || vessel.heat_capacity() <= 0.0 {
         return moles;
     }
-    let above = vessel.energy_between(d.onset_k, vessel.temperature.0).max(0.0);
+    let above = vessel
+        .energy_between(d.onset_k, vessel.temperature.0)
+        .max(0.0);
     moles.min(above / d.heat_j_per_mol)
 }
 
 fn residue_known(d: &Decomposition) -> bool {
-    species::lookup_key(&d.residue).is_some()
-        && !ALKALI_METALS.contains(&d.residue.as_str())
+    species::lookup_key(&d.residue).is_some() && !ALKALI_METALS.contains(&d.residue.as_str())
 }
 
 /// Whether any salt would decompose (or be refused) on this solve.
@@ -466,10 +475,9 @@ mod tests {
         for row in ONSETS {
             let d = decomposition(row.nitrate)
                 .unwrap_or_else(|| panic!("{} has no decomposition", row.nitrate));
-            let salt = crate::stoich::parse_formula(
-                species::lookup_key(row.nitrate).unwrap().formula,
-            )
-            .unwrap();
+            let salt =
+                crate::stoich::parse_formula(species::lookup_key(row.nitrate).unwrap().formula)
+                    .unwrap();
             let residue = crate::stoich::parse_formula(&d.residue).unwrap();
             let mut lhs = salt.counts.clone();
             let mut rhs: std::collections::BTreeMap<String, f64> = Default::default();
@@ -482,7 +490,11 @@ mod tests {
             rhs.retain(|_, n| n.abs() > 1e-12);
             assert_eq!(lhs.len(), rhs.len(), "{}: {lhs:?} vs {rhs:?}", row.nitrate);
             for (el, n) in &lhs {
-                assert!((rhs[el] - n).abs() < 1e-12, "{} {el}: {lhs:?} vs {rhs:?}", row.nitrate);
+                assert!(
+                    (rhs[el] - n).abs() < 1e-12,
+                    "{} {el}: {lhs:?} vs {rhs:?}",
+                    row.nitrate
+                );
             }
             assert!(d.onset_k > 298.15 && d.heat_j_per_mol > 0.0, "{d:?}");
         }
@@ -491,7 +503,10 @@ mod tests {
     #[test]
     fn classes_give_the_textbook_products() {
         let na = decomposition("NaNO3").unwrap();
-        assert_eq!((na.residue.as_str(), na.no2_per_mol, na.o2_per_mol), ("NaNO2", 0.0, 0.5));
+        assert_eq!(
+            (na.residue.as_str(), na.no2_per_mol, na.o2_per_mol),
+            ("NaNO2", 0.0, 0.5)
+        );
         assert_eq!(equation(&na), "2 NaNO₃ →Δ 2 NaNO₂ + O₂↑");
         let k = decomposition("KNO3").unwrap();
         assert_eq!(k.residue, "KNO2");

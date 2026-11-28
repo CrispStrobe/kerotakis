@@ -371,8 +371,8 @@ const IRON_OXIDE_BURNS: &[(&str, &str)] = &[
 /// nitrate to its nitrite well below the 600 °C onset Stern (1972) reports
 /// and then on to liquid sodium metal, and booked no oxygen for either step.
 const CEA_WITHHELD: &[&str] = &[
-    "NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4", "NaNO3", "KNO3", "AgNO3",
-    "Pb(NO3)2", "NaNO2", "KNO2",
+    "NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4", "NaNO3", "KNO3", "AgNO3", "Pb(NO3)2",
+    "NaNO2", "KNO2",
 ];
 
 /// Registry key → CEA species name, derived by matching chemical formulas.
@@ -2107,7 +2107,10 @@ mod alkali_metal_guard_tests {
     use super::*;
 
     fn pool_has_metal(mapped: &[(SpeciesId, f64)], metal: &str) -> bool {
-        let elements: Vec<String> = ["Na", "K", "N", "O", "Cl"].iter().map(|e| e.to_string()).collect();
+        let elements: Vec<String> = ["Na", "K", "N", "O", "Cl"]
+            .iter()
+            .map(|e| e.to_string())
+            .collect();
         pool_for(&elements, &withheld_oxides(mapped))
             .iter()
             .any(|s| s.composition.keys().all(|el| el == metal))
@@ -2133,8 +2136,13 @@ mod alkali_metal_guard_tests {
 
     #[test]
     fn nitrates_and_nitrites_are_owned_by_the_core_route() {
-        for key in ["NaNO3", "KNO3", "NaNO2", "KNO2", "AgNO3", "Pb(NO3)2", "Cu(NO3)2"] {
-            assert!(cea_name(key).is_none(), "{key} still maps into the Gibbs route");
+        for key in [
+            "NaNO3", "KNO3", "NaNO2", "KNO2", "AgNO3", "Pb(NO3)2", "Cu(NO3)2",
+        ] {
+            assert!(
+                cea_name(key).is_none(),
+                "{key} still maps into the Gibbs route"
+            );
         }
     }
 }

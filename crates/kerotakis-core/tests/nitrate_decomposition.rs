@@ -102,14 +102,20 @@ fn assert_conserved(bench: &Bench, events: &[Event], nitrate: &str, n: f64) {
     assert_eq!(out.len(), elements(nitrate).len(), "{out:?}");
     let want = n * molar_mass(nitrate);
     // Registry molar masses are rounded per species; allow their rounding.
-    assert!((mass - want).abs() / want < 1e-4, "{nitrate}: {mass} g vs {want} g");
+    assert!(
+        (mass - want).abs() / want < 1e-4,
+        "{nitrate}: {mass} g vs {want} g"
+    );
 }
 
-/// Heat enough to reach the onset and pay the whole reaction, plus margin.
+/// Heat enough to reach the onset and pay the whole reaction, plus margin:
+/// each pass leaves the contents just below the onset (the residue's heat
+/// capacity is smaller than the salt's), and that sensible heat is spent
+/// without buying any reaction.
 fn full_dose(bench: &Bench, nitrate: &str, n: f64) -> f64 {
     let d = decomposition(nitrate).unwrap();
     let v = bench.vessel(V).unwrap();
-    v.energy_between(v.temperature.0, d.onset_k) + n * d.heat_j_per_mol + 50.0
+    v.energy_between(v.temperature.0, d.onset_k) + 1.5 * n * d.heat_j_per_mol + 50.0
 }
 
 fn decomposes(nitrate: &str, n: f64) -> (Bench, Vec<Event>) {
@@ -205,15 +211,22 @@ fn lead_nitrate_is_refused_while_lead_oxide_is_not_a_species() {
     assert!(bench.vessel(V).unwrap().temperature.0 > 539.0);
     assert!((moles(&bench, "Pb(NO3)2") - n).abs() < 1e-12);
     assert_eq!(evolved(&events, "NO2"), 0.0);
-    assert!(events.iter().any(|e| matches!(e,
+    assert!(
+        events.iter().any(|e| matches!(e,
         Event::NotYetModeled { reason: Some(r), .. }
             if r.key == "not-modeled.nitrate-decomposition-residue-missing")),
-        "{events:#?}");
+        "{events:#?}"
+    );
 }
 
 #[test]
 fn nothing_decomposes_below_the_onset() {
-    for (nitrate, n) in [("NaNO3", 0.01), ("KNO3", 0.01), ("Cu(NO3)2", 0.005), ("AgNO3", 0.005)] {
+    for (nitrate, n) in [
+        ("NaNO3", 0.01),
+        ("KNO3", 0.01),
+        ("Cu(NO3)2", 0.005),
+        ("AgNO3", 0.005),
+    ] {
         let d = decomposition(nitrate).unwrap();
         let mut bench = Bench::new();
         let mut s = stack();
@@ -224,11 +237,16 @@ fn nothing_decomposes_below_the_onset() {
         let events = heat(&mut bench, &mut s, dose);
         let t = bench.vessel(V).unwrap().temperature.0;
         assert!(t < d.onset_k, "{nitrate}: {t} K");
-        assert!((moles(&bench, nitrate) - n).abs() < 1e-12, "{nitrate}: {events:#?}");
+        assert!(
+            (moles(&bench, nitrate) - n).abs() < 1e-12,
+            "{nitrate}: {events:#?}"
+        );
         assert_eq!(evolved(&events, "O2"), 0.0, "{nitrate}");
         assert_eq!(evolved(&events, "NO2"), 0.0, "{nitrate}");
         assert!(
-            !events.iter().any(|e| matches!(e, Event::ReactionOccurred { .. })),
+            !events
+                .iter()
+                .any(|e| matches!(e, Event::ReactionOccurred { .. })),
             "{nitrate}: {events:#?}"
         );
     }

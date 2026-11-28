@@ -1076,6 +1076,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Kaliumnitrit",
+      "canonical": "KNO2",
+      "source": "name:de"
+    },
+    {
       "alias": "Kaliumpermanganat",
       "canonical": "KMnO4",
       "source": "name:de"
@@ -3881,6 +3886,11 @@
       "source": "ion-name:en"
     },
     {
+      "alias": "nitrite de potassium",
+      "canonical": "KNO2",
+      "source": "name:fr"
+    },
+    {
       "alias": "nitrite de sodium",
       "canonical": "NaNO2",
       "source": "name:fr"
@@ -4283,6 +4293,11 @@
     {
       "alias": "potassium nitrate",
       "canonical": "KNO3",
+      "source": "name:en"
+    },
+    {
+      "alias": "potassium nitrite",
+      "canonical": "KNO2",
       "source": "name:en"
     },
     {

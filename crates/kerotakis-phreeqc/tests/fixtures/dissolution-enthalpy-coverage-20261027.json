@@ -289,6 +289,11 @@
     "pitzer": "refused: a dissociation product the routed database does not define",
     "wateq4f": "curated"
   },
+  "KNO2": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
   "KNO3": {
     "minteq.v4": "reference:llnl.dat:Niter",
     "pitzer": "refused: a reaction species is not defined on the routed database",

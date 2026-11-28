@@ -76,11 +76,20 @@ fn heated_sodium_nitrate_books_oxygen_and_never_sodium_metal() {
     let steps = run("new crucible\nadd v2 NaNO3 1g\nheat v2 15kJ\ninspect v2\n");
     let n = 1.0 / 84.9947;
     assert!(moles(&steps, "NaNO3") < 1e-9, "{:#?}", contents(&steps));
-    assert!((moles(&steps, "NaNO2") - n).abs() < 1e-6, "{:#?}", contents(&steps));
+    assert!(
+        (moles(&steps, "NaNO2") - n).abs() < 1e-6,
+        "{:#?}",
+        contents(&steps)
+    );
     let o2 = evolved(&steps, "O2");
     assert!((o2 - 0.0059).abs() < 0.0001, "{o2}");
     for metal in ALKALI {
-        assert_eq!(moles(&steps, metal), 0.0, "{metal}: {:#?}", contents(&steps));
+        assert_eq!(
+            moles(&steps, metal),
+            0.0,
+            "{metal}: {:#?}",
+            contents(&steps)
+        );
     }
 }
 
@@ -89,7 +98,11 @@ fn heated_potassium_nitrate_stops_at_the_nitrite() {
     let steps = run("new crucible\nadd v2 KNO3 1g\nheat v2 15kJ\ninspect v2\n");
     let n = 1.0 / 101.1032;
     assert!(moles(&steps, "KNO3") < 1e-9, "{:#?}", contents(&steps));
-    assert!((moles(&steps, "KNO2") - n).abs() < 1e-6, "{:#?}", contents(&steps));
+    assert!(
+        (moles(&steps, "KNO2") - n).abs() < 1e-6,
+        "{:#?}",
+        contents(&steps)
+    );
     assert!((evolved(&steps, "O2") - n / 2.0).abs() < 1e-6);
     for metal in ALKALI {
         assert_eq!(moles(&steps, metal), 0.0, "{metal}");
@@ -122,8 +135,14 @@ fn a_gentle_heat_leaves_the_nitrates_whole() {
     // 300 J takes 1 g of each salt well past room temperature but nowhere
     // near its onset (600 °C and 650 °C).
     for (key, nitrite, molar_mass) in [("NaNO3", "NaNO2", 84.9947), ("KNO3", "KNO2", 101.1032)] {
-        let steps = run(&format!("new crucible\nadd v2 {key} 1g\nheat v2 0.3kJ\ninspect v2\n"));
-        assert!((moles(&steps, key) - 1.0 / molar_mass).abs() < 1e-6, "{key}: {:#?}", contents(&steps));
+        let steps = run(&format!(
+            "new crucible\nadd v2 {key} 1g\nheat v2 0.3kJ\ninspect v2\n"
+        ));
+        assert!(
+            (moles(&steps, key) - 1.0 / molar_mass).abs() < 1e-6,
+            "{key}: {:#?}",
+            contents(&steps)
+        );
         assert_eq!(moles(&steps, nitrite), 0.0, "{key}");
         assert_eq!(evolved(&steps, "O2"), 0.0, "{key}");
         assert_eq!(evolved(&steps, "NO2"), 0.0, "{key}");
