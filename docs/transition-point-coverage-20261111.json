@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 189,
+    "boiling.no_data": 190,
     "boiling.reported": 68,
-    "melting.no_data": 156,
+    "melting.no_data": 157,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -796,6 +796,16 @@
         "outcome": "boiling",
         "kelvin": 391.4,
         "source": "literature/transition-points/CH3COOH"
+      }
+    },
+    {
+      "species": "CHI3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {

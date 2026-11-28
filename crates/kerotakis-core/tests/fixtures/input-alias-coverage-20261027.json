@@ -986,6 +986,11 @@
       "source": "name:de"
     },
     {
+      "alias": "Iodoform",
+      "canonical": "CHI3",
+      "source": "name:de"
+    },
+    {
       "alias": "Iodwasserstoff",
       "canonical": "HI",
       "source": "name:de"
@@ -3249,6 +3254,16 @@
       "alias": "iodine",
       "canonical": "I2",
       "source": "name:en"
+    },
+    {
+      "alias": "iodoform",
+      "canonical": "CHI3",
+      "source": "name:en"
+    },
+    {
+      "alias": "iodoforme",
+      "canonical": "CHI3",
+      "source": "name:fr"
     },
     {
       "alias": "iodure",

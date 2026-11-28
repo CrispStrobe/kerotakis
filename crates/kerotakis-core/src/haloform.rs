@@ -260,9 +260,11 @@ mod tests {
         let text = match key {
             "OH-" => "OH-",
             "I-" => "I-",
-            _ => crate::species::lookup_key(key)
-                .unwrap_or_else(|| panic!("{key} is a known species"))
-                .formula,
+            _ => {
+                crate::species::lookup_key(key)
+                    .unwrap_or_else(|| panic!("{key} is a known species"))
+                    .formula
+            }
         };
         crate::stoich::parse_formula(text).unwrap()
     }
@@ -296,7 +298,8 @@ mod tests {
 
     #[test]
     fn ethanol_propanone_and_propan_2_ol_give_iodoform() {
-        for (substrate, iodine_per) in [("ethanol", 4.0), ("propanone", 3.0), ("isopropanol", 4.0)] {
+        for (substrate, iodine_per) in [("ethanol", 4.0), ("propanone", 3.0), ("isopropanol", 4.0)]
+        {
             let mut v = tube(substrate, 333.15, 0.01);
             let mut events = Vec::new();
             assert!(apply(&mut v, &mut events), "{substrate}");

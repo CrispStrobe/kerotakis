@@ -19,6 +19,7 @@ so the bound amount is an upper-bounded editorial estimate, not a measured quant
 | species | formula | I atoms | pool class |
 |---|---|---|---|
 | AgI | AgI | 1 | other-pool |
+| CHI3 | CHI3 | 3 | other-pool |
 | HI | HI | 1 | other-pool |
 | KIO3 | KIO3 | 1 | other-pool |
 | PbI2 | PbI2 | 2 | other-pool |

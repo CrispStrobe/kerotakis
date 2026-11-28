@@ -89,6 +89,11 @@
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
   },
+  "CHI3": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
   "Ca": {
     "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
     "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",

@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 189, boiling.reported 68, melting.no_data 156, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 190, boiling.reported 68, melting.no_data 157, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -68,6 +68,7 @@ Counts: boiling.no_data 189, boiling.reported 68, melting.no_data 156, melting.r
 | C6H5O7-3 | aqueous | no_data | no_data | — |
 | CH3COO- | aqueous | no_data | no_data | — |
 | CH3COOH | liquid | melting 289.77 K | boiling 391.4 K | literature/transition-points/CH3COOH |
+| CHI3 | solid | no_data | no_data | — |
 | CO | gas | melting 68.1 K | boiling 81.66 K | literature/transition-points/CO |
 | CO2 | gas | sublimation 194.68 K | sublimation 194.68 K | literature/transition-points/CO2 |
 | CO2(aq) | aqueous | no_data | no_data | — |

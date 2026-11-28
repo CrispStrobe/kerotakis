@@ -8021,5 +8021,30 @@
     "provenance": "potassium nitrite, KNO2: added by the nitrate-decomposition lane (2026-11-28) as the residue of potassium nitrate's thermal decomposition, KNO3 = KNO2 + 1/2 O2 (K. H. Stern, J. Phys. Chem. Ref. Data 1 (1972) 747, p. 763). IDENTITY VERIFIED against PubChem CID 516910 on 2026-11-28 (PUG REST property record): InChIKey BXNHTSHTPBPRFX-UHFFFAOYSA-M, formula KNO2. Molar mass 85.1038 g/mol from IUPAC/CIAAW 2021 standard atomic weights (39.0983 + 14.007 + 2 x 15.999), matching the NASA CEA thermo.inp KNO2 records. DENSITY 1.915 g/mL at 25 C from HSDB as reproduced in PubChem CID 516910 (Density, read 2026-11-28). HEAT CAPACITY 85.2 J/(mol.K) is an explicit editorial estimate by Kopp's rule (O 16.7, every other element 25.9 J/(mol.K)), the sodium nitrite row's convention, not a measurement. APPEARANCE `white`: HSDB 'White or slightly yellow granules or rods' (PubChem CID 516910, Color/Form); the reflective sRGB is the sodium nitrite row's editorial rendering of that word, not a measured colour; flame colour `lilac` is the registry's potassium flame word. NOT CLAIMED: melting point, solubility, dissolution enthalpy, the nitrite's own decomposition.",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "yellow",
+    "colour": {
+      "b": 96,
+      "g": 208,
+      "r": 232,
+      "strength": 0.0
+    },
+    "density": 4.008,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "CHI3",
+    "heat_capacity": 95.1,
+    "heat_capacity_polys": [],
+    "inchikey": "OKJPEAGHQZHRQV-UHFFFAOYSA-N",
+    "key": "CHI3",
+    "magnetic": false,
+    "molar_mass": 393.732,
+    "name": "iodoform",
+    "provenance": "iodoform (triiodomethane), CHI3: added by the haloform lane (2026-11-28, sweep gap S4) as the yellow precipitate of the iodoform test (Vogel's Textbook of Practical Organic Chemistry, 5th ed.; R. C. Fuson and B. A. Bull, Chem. Rev. 15 (1934) 275, doi:10.1021/cr60052a001). IDENTITY: PubChem CID 6374, InChIKey OKJPEAGHQZHRQV-UHFFFAOYSA-N, formula CHI3. Molar mass 393.732 g/mol from IUPAC/CIAAW 2021 standard atomic weights (12.011 + 1.008 + 3 x 126.904). DENSITY 4.008 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 'Physical Constants of Organic Compounds' (triiodomethane), as reproduced in PubChem CID 6374 Experimental Properties > Density (HSDB). APPEARANCE `yellow`: HSDB 'Yellow powder or crystals' (PubChem CID 6374, Color/Form); the reflective sRGB #E8D060 is the registry's editorial rendering of the word `yellow` (as for Ag3PO4), not a measured colour. HEAT CAPACITY 95.1 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 7.5 (C) + 1 x 9.6 (H) + 3 x 26.0 (I) = 95.1, the same editorial method the calcium phosphate rows use. WHAT IS NOT CLAIMED: no solubility, solubility product, dissolution enthalpy, melting point or reaction heat; the solid is booked only by the qualitative haloform route.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

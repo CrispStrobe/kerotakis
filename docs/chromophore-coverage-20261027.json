@@ -23,7 +23,7 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 71,
+    "missing_absorptivity": 72,
     "outside_method": 134,
     "parameterised": 7,
     "parameterised_ph": 5,
@@ -78,6 +78,11 @@
     {
       "species": "C",
       "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "CHI3",
+      "appearance": "yellow",
       "class": "missing_absorptivity"
     },
     {

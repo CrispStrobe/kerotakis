@@ -21,7 +21,7 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 | minteq.v4 | 22 | 42 |
 | pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 68/143, minteq.v4 77/143, pitzer 29/143.
+Priced after this change: wateq4f 68/144, minteq.v4 77/144, pitzer 29/144.
 
 The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
@@ -47,6 +47,7 @@ The "before" column counts the routes that were already owned at ef9e9632 (curat
 | `BaCrO4` | refused: a reaction species is not defined on the routed database | routed | refused: a reaction species is not defined on the routed database |
 | `BaSO4` | routed | routed | routed |
 | `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `CHI3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `Ca` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ca(CH3COO)2` | molecular:registry | curated | molecular:registry |
 | `Ca(OH)2` | curated | curated | curated |

@@ -35,8 +35,7 @@ fn run_with(script: &str, json: bool) -> String {
 
 fn last_contents(script: &str) -> Vec<serde_json::Value> {
     let text = run_with(script, true);
-    let last: serde_json::Value =
-        serde_json::from_str(text.lines().last().unwrap()).expect("JSON");
+    let last: serde_json::Value = serde_json::from_str(text.lines().last().unwrap()).expect("JSON");
     last["bench"]["vessels"].as_array().unwrap()[0]["contents"]
         .as_array()
         .cloned()
@@ -76,9 +75,7 @@ fn methanol_gives_no_iodoform() {
 }
 
 fn liquid_word(indicator: &str, ph_reagent: &str) -> String {
-    let script = format!(
-        "add v1 water 50mL\nadd v1 {indicator} 0.00001mol\n{ph_reagent}look v1\n"
-    );
+    let script = format!("add v1 water 50mL\nadd v1 {indicator} 0.00001mol\n{ph_reagent}look v1\n");
     let text = run_with(&script, false);
     text.lines()
         .rev()

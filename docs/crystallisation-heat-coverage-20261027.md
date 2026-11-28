@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 19 | 1 | 123 |
-| minteq.v4 | 25 | 4 | 114 |
-| pitzer | 10 | 3 | 130 |
+| wateq4f | 19 | 1 | 124 |
+| minteq.v4 | 25 | 4 | 115 |
+| pitzer | 10 | 3 | 131 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -129,6 +129,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `C` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `C` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `C` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `CHI3` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `CHI3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `CHI3` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Ca` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Ca` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Ca` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |

@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 51,
-    "neutral-refused": 197,
+    "neutral-refused": 198,
     "partitions": 9
   },
   "cases": [
@@ -383,6 +383,11 @@
     },
     {
       "species": "C",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "CHI3",
       "class": "neutral-refused",
       "basis": null
     },

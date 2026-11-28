@@ -8,7 +8,7 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 101,
+    "no_melting_point": 102,
     "not_condensed": 93
   },
   "species": [
@@ -937,6 +937,19 @@
     },
     {
       "species": "C",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
+      "species": "CHI3",
       "standard_phase": "solid",
       "melting_k": null,
       "boiling_k": null,
