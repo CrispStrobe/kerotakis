@@ -78,7 +78,7 @@ fn redox_half_titration(solver: &mut PhreeqcEquilibrator, permanganate: f64) -> 
 }
 
 #[test]
-fn actual_coupled_root_survives_new_cache_round_trip_but_endpoint_does_not_gain_pe() {
+fn actual_coupled_root_survives_new_cache_round_trip_and_equivalence_earns_its_own_root() {
     let mut fresh = PhreeqcEquilibrator::new().expect("engine");
     let half = redox_half_titration(&mut fresh, 0.0005);
     assert!(half.vessels[0].solution.as_ref().unwrap().pe.is_some());
@@ -114,7 +114,24 @@ fn actual_coupled_root_survives_new_cache_round_trip_but_endpoint_does_not_gain_
 
     let mut endpoint_solver = PhreeqcEquilibrator::new().expect("engine");
     let endpoint = redox_half_titration(&mut endpoint_solver, 0.0010);
-    assert_eq!(endpoint.vessels[0].solution.as_ref().unwrap().pe, None);
+    // At equivalence the root is bracketed above the old pe-17 ceiling by
+    // trace iron(II) against trace permanganate (`WATER_INERT_OXIDANTS`):
+    // a real crossing, earned like any other, well above the half-way pe.
+    let half_pe = half.vessels[0].solution.as_ref().unwrap().pe.unwrap();
+    let endpoint_pe = endpoint.vessels[0].solution.as_ref().unwrap().pe;
+    assert!(
+        endpoint_pe.is_some_and(|pe| pe > half_pe + 3.0),
+        "equivalence pe {endpoint_pe:?} against half-way {half_pe}"
+    );
+    let endpoint_cache = serde_json::to_value(endpoint_solver.export_cache()).unwrap();
+    assert!(
+        endpoint_cache["entries"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|entry| entry["pe_authority"] == "coupled_root"),
+        "the equivalence answer carries a root witness, not an unpinned one"
+    );
 }
 
 #[test]

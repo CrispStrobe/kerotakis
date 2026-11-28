@@ -80,7 +80,10 @@ const FE_SETUP: &[&str] = &[
 #[test]
 fn iron_ii_with_permanganate_stops_at_the_stoichiometric_volume() {
     assert!((FE_STOICHIOMETRIC_ML - 25.0).abs() < 1e-9);
-    assert_iron_endpoint("titrate v1 KMnO4 0.02M 0.5mL until colour persists max 80");
+    assert_iron_endpoint(
+        "titrate v1 KMnO4 0.02M 0.5mL until colour persists max 80",
+        1.0,
+    );
 }
 
 /// The same titration in 1 mL increments. It used to fail outright at
@@ -90,14 +93,18 @@ fn iron_ii_with_permanganate_stops_at_the_stoichiometric_volume() {
 /// passes that must agree to 1e-6 K.
 #[test]
 fn iron_ii_with_permanganate_in_one_millilitre_steps() {
-    assert_iron_endpoint("titrate v1 KMnO4 0.02M 1mL until colour persists max 40");
+    // The first increment past 25 mL is 26 mL: within one step.
+    assert_iron_endpoint(
+        "titrate v1 KMnO4 0.02M 1mL until colour persists max 40",
+        1.0 + 1e-6,
+    );
 }
 
-fn assert_iron_endpoint(titration: &str) {
+fn assert_iron_endpoint(titration: &str, within_ml: f64) {
     let (ml, reached, bench) = titrate(FE_SETUP, titration);
     assert!(reached, "endpoint must be reached, stopped at {ml:.2} mL");
     assert!(
-        (ml - FE_STOICHIOMETRIC_ML).abs() <= 1.0,
+        (ml - FE_STOICHIOMETRIC_ML).abs() <= within_ml,
         "endpoint at {ml:.2} mL, stoichiometric {FE_STOICHIOMETRIC_ML:.2} mL"
     );
     // Not before equivalence: the burette has delivered at least the

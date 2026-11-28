@@ -79,52 +79,66 @@ fn permanganate_oxidises_iron_in_the_ratio_the_half_equations_give() {
     }
 }
 
-/// Past equivalence the books cannot be balanced, and the bench must say so
-/// rather than inventing the electrons.
+/// Electrons booked in the dissolved oxidation states, mol. 5.55 mol of
+/// water is 0.1 kg; the reaction's own water shifts that by under 0.1%.
+fn electron_sum(states: &[RedoxState], kgw: f64) -> f64 {
+    states
+        .iter()
+        .filter(|s| s.element == "Fe" || s.element == "Mn")
+        .map(|s| s.oxidation as f64 * s.molality * kgw)
+        .sum()
+}
+
+/// Past equivalence the excess permanganate stays permanganate.
 ///
 /// 0.0015 mol of permanganate needs 0.0075 mol of electrons; 0.005 mol of
-/// iron(II) can supply 0.005. The missing 0.0025 mol would have to come from
-/// oxidising water or chloride, which this bench does not carry — and
-/// PHREEQC will do it silently if asked, which is what used to happen: the
-/// bisection ran to the edge of its bracket, every last manganese came back
-/// as Mn(II), and 12% of the electron inventory appeared from nowhere. A
-/// colourless answer to the one titration whose entire point is that the
-/// excess stays purple.
-///
-/// The refusal is the honest outcome, not a gap: the solver declines, the
-/// stack carries on, and the vessel is reported with its elements in the
-/// states they were added in — with the routing saying exactly that.
+/// iron(II) can supply 0.005. Thermodynamics says the rest comes from
+/// oxidising water, and PHREEQC will do that if asked: before 2026-11-28
+/// this beaker was first refused (its pe lies above the stability field of
+/// water) and had been, earlier still, returned with every manganese as
+/// Mn(II) and 12% of the electrons from nowhere. Water is not oxidised by
+/// permanganate on a bench, which is why the excess stays purple, and the
+/// engine now holds it so (`WATER_INERT_OXIDANTS`): all the iron is
+/// iron(III), 1 mmol of manganese is Mn(II), the remaining 0.5 mmol is
+/// still Mn(VII), and the electron books close.
 #[test]
-fn excess_oxidant_is_refused_rather_than_balanced_from_nowhere() {
+fn excess_permanganate_stays_permanganate_and_the_books_balance() {
     let states = titrate(0.0015);
     assert!(
-        fraction(&states, "Mn", 7) > 0.98,
-        "with the coupling refused, manganese should be shown as added — Mn(VII) — \
-         not reduced by electrons that do not exist: {states:?}"
+        fraction(&states, "Fe", 3) > 0.999,
+        "every iron(II) is oxidised past equivalence: {states:?}"
     );
     assert!(
-        fraction(&states, "Fe", 2) > 0.98,
-        "and the iron should be shown as added too: {states:?}"
+        (fraction(&states, "Mn", 7) - 1.0 / 3.0).abs() < 0.005,
+        "a third of the manganese is the excess and stays Mn(VII): {states:?}"
+    );
+    assert!(
+        (fraction(&states, "Mn", 2) - 2.0 / 3.0).abs() < 0.005,
+        "two thirds took the iron's electrons: {states:?}"
+    );
+    // 0.005 Fe(II) + 0.0015 Mn(VII) went in: 0.0205 mol of oxidation.
+    let kgw = 0.1;
+    let booked = electron_sum(&states, kgw);
+    assert!(
+        (booked - 0.0205).abs() < 0.0205 * 3e-3,
+        "the electron ledger must close: booked {booked:.6e} of 2.05e-2"
     );
 }
 
-/// Swapping the acid changes nothing, and that is the point.
+/// An acid-starved flask is refused, and refused for the right reason.
 ///
-/// The tempting story about the refusal above is the textbook one: that
-/// permanganate titrations are run in sulfuric acid because hydrochloric
-/// acid's chloride gets oxidised. It is a good story and it is not what is
-/// happening here. The electrons are owed by the solvent, so the beaker is
-/// refused either way, with the same residual to four figures.
-///
-/// The test exists to stop that story being written back into a codex
-/// entry: an entry framed as "the bench refuses this, and the refusal is
-/// why your lab reaches for sulfuric" would be teaching something the
-/// engine does not show.
+/// With only 0.005 mol HCl the 8 protons each permanganate consumes run
+/// out, the pH climbs, and the iron(III) that forms precipitates as its
+/// hydroxide. The coupled balance counts dissolved oxidation states only,
+/// so a root found there would leave too much permanganate standing
+/// against electrons locked in the solid. The bench declines that answer
+/// and shows the elements as added. In sulfuric acid at the same amount
+/// the protons suffice, no solid forms, and the excess is balanced — so
+/// the acid matters through its protons, not through its chloride.
 #[test]
-fn the_refusal_does_not_depend_on_which_acid() {
-    let mut hydrochloric = None;
-    let mut sulfuric = None;
-    for (acid, slot) in [("HCl", &mut hydrochloric), ("H2SO4", &mut sulfuric)] {
+fn an_acid_starved_flask_is_refused_and_a_sulfuric_one_is_balanced() {
+    let mut fractions = Vec::new();
+    for acid in ["HCl", "H2SO4"] {
         let mut eq = PhreeqcEquilibrator::new().expect("engine");
         let mut bench = Bench::new();
         let v = VesselId(0);
@@ -139,12 +153,17 @@ fn the_refusal_does_not_depend_on_which_acid() {
             .as_ref()
             .map(|s| s.redox.clone())
             .unwrap_or_default();
-        *slot = Some(fraction(&states, "Mn", 7));
+        fractions.push((fraction(&states, "Mn", 7), fraction(&states, "Fe", 2)));
     }
+    let (hcl_mn7, hcl_fe2) = fractions[0];
+    let (h2so4_mn7, h2so4_fe2) = fractions[1];
     assert!(
-        hydrochloric.expect("hcl") > 0.98 && sulfuric.expect("h2so4") > 0.98,
-        "excess permanganate is refused in both acids — the chloride is not what \
-         decides it: HCl {hydrochloric:?}, H2SO4 {sulfuric:?}"
+        hcl_mn7 > 0.98 && hcl_fe2 > 0.98,
+        "refused: shown as added, Mn(VII) {hcl_mn7:.3}, Fe(II) {hcl_fe2:.3}"
+    );
+    assert!(
+        (h2so4_mn7 - 1.0 / 3.0).abs() < 0.005 && h2so4_fe2 < 1e-3,
+        "balanced: Mn(VII) {h2so4_mn7:.3}, Fe(II) {h2so4_fe2:.3}"
     );
 }
 
@@ -172,40 +191,42 @@ fn titrate_in(acid: &str, kmno4: f64) -> (Vec<Event>, Option<SolutionInfo>) {
     (events, bench.vessel(v).expect("vessel").solution.clone())
 }
 
-/// At the equivalence point a potential is not a measurement.
+/// The potential jumps at the equivalence point, which is what makes the
+/// endpoint detectable.
 ///
-/// Both couple members are spent there, so the electron sum goes flat and
-/// approaches the target asymptotically instead of crossing it —
-/// 1.699941e-2, 1.699992e-2, 1.699999e-2 against 1.7e-2, never once on the
-/// far side. The root is at infinite pe, the search runs to the top of its
-/// bracket, and the residual there passes at 1e-8. Printing that as
-/// "pe 17.00 (+1.006 V)" republishes the bracket ceiling as a measurement,
-/// which is the fault the residual check exists to remove, wearing a
-/// convergence as a disguise.
-///
-/// The distribution is right and is kept. Only the potential is withheld,
-/// and withholding it is the chemistry: at equivalence the potential really
-/// is undefined, which is precisely why an endpoint is detectable.
+/// Before 2026-11-28 the search stopped at pe 17, below where the last
+/// trace of permanganate can exist, so at equivalence the electron sum
+/// only approached its target and no potential was reported. With the
+/// water-inert oxidant held above the water ceiling the trace iron(II) and
+/// trace permanganate both have a place, the sum crosses its target, and
+/// the equivalence point has its own, textbook-defined potential: between
+/// the iron couple's (before) and the permanganate couple's (after), and
+/// far from both.
 #[test]
-fn the_equivalence_point_reports_no_potential() {
-    let (_, half) = titrate_in("H2SO4", 0.0005);
-    let half = half.expect("solution");
+fn the_potential_jumps_at_the_equivalence_point() {
+    let pe = |kmno4: f64| {
+        let (_, solution) = titrate_in("H2SO4", kmno4);
+        let solution = solution.expect("solution");
+        assert!(
+            !solution.redox.is_empty(),
+            "the oxidation-state split is an answer and must survive"
+        );
+        solution
+            .pe
+            .unwrap_or_else(|| panic!("{kmno4} mol MnO4-: the balance pins pe"))
+    };
+    let (half, before, at, after) = (pe(0.0005), pe(0.0009), pe(0.0010), pe(0.0011));
     assert!(
-        half.pe.is_some(),
-        "half-titrated, the balance pins pe and it should be reported"
-    );
-
-    let (_, at) = titrate_in("H2SO4", 0.0010);
-    let at = at.expect("solution");
-    assert!(
-        at.pe.is_none(),
-        "at equivalence pe is undefined and must not be printed, got {:?}",
-        at.pe
+        half < before && before < at && at < after,
+        "{half} {before} {at} {after}"
     );
     assert!(
-        !at.redox.is_empty(),
-        "the oxidation-state split is still an answer and must survive"
+        at - before > 3.0,
+        "the jump into equivalence is steep: {before} -> {at}"
     );
+    // Past equivalence the permanganate couple sets pe, which lies above
+    // the old ceiling and below its own standard pe (1.507 V, pe 25.5).
+    assert!(after > 17.0 && after < 25.5, "{after}");
 }
 
 /// A beaker whose coupling stood down says so in the stream.
@@ -214,10 +235,10 @@ fn the_equivalence_point_reports_no_potential() {
 /// purple, iron still iron(II) — which looks like an ordinary answer. The
 /// reason it is not one used to live only in `explain`'s routing, and the
 /// reader most likely to be misled is exactly the one who does not know to
-/// ask for it.
+/// ask for it. The acid-starved flask is the case that still stands down.
 #[test]
 fn a_stood_down_coupling_is_announced_where_it_happens() {
-    let (events, _) = titrate_in("H2SO4", 0.0015);
+    let (events, _) = titrate_in("HCl", 0.0015);
     assert!(
         events.iter().any(|e| matches!(
             e,

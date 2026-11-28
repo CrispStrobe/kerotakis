@@ -2557,7 +2557,16 @@ impl PhreeqcEquilibrator {
         // oxidation held out of the solve (`build_input_at`).
         let search = if top > FULL.1 && search.saw_below && !search.saw_above {
             let above = self.bisect_pe(vessel, problem, db_tag, coupling, FULL.1, top, root_tol)?;
-            if above.best.is_some() {
+            // `oxidation_sum` reads dissolved oxidation-state totals only.
+            // An answer that put a coupled element into a solid (iron(III)
+            // hydroxide once an acid-starved flask's pH climbs) has
+            // electrons in it the balance did not count, and its "root"
+            // would leave too much oxidant standing. That answer is not
+            // taken; the refusal below stands.
+            let solid_held = above.best.as_ref().is_some_and(|out| {
+                coupled_element_in_solid(&out.selected, problem, &coupling.columns)
+            });
+            if above.best.is_some() && !solid_held {
                 PeSearch {
                     saw_below: true,
                     ..above
@@ -14213,6 +14222,32 @@ fn redox_coupling_totals(totals: &[(String, f64)], db_tag: &str) -> Option<Redox
         columns,
         scale,
         water_inert_ceiling,
+    })
+}
+
+/// Whether a solved answer holds any of the coupled elements (the bases of
+/// `columns`) in a posed equilibrium phase. A phase the derived index does
+/// not know counts as holding one: its composition cannot be ruled out.
+fn coupled_element_in_solid(rows: &[Vec<String>], problem: &Problem, columns: &[String]) -> bool {
+    let (Some(header), Some(last)) = (rows.first(), rows.last()) else {
+        return false;
+    };
+    let coupled = |element: &str| {
+        let base = element.split('(').next().unwrap_or(element);
+        columns
+            .iter()
+            .any(|column| column.split('(').next() == Some(base))
+    };
+    problem.phases.iter().any(|(name, ..)| {
+        let holds = derived::phase_by_name(name)
+            .is_none_or(|phase| phase.elements.iter().any(|(e, _)| coupled(e)));
+        let amount = header
+            .iter()
+            .position(|h| h == name)
+            .and_then(|i| last.get(i))
+            .and_then(|v| v.parse::<f64>().ok())
+            .unwrap_or(0.0);
+        holds && amount > 0.0
     })
 }
 

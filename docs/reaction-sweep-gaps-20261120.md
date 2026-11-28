@@ -214,7 +214,9 @@ oxidants (`WATER_INERT_OXIDANTS` in aqueous.rs: Mn(VII) 1.507 V, Cr(VI)
 above the water ceiling to the oxidant's own standard pe + 4, with the O(0)
 master held from forming (a separate engine instance, the same pinning
 device as the fast-redox state pins). Manganate and other unlisted states
-keep the old ceiling. Acceptance: the 0.5 mL titration stops at 25 mL
+keep the old ceiling. An above-ceiling answer that leaves a coupled element
+in a solid is refused (see S1c). The equivalence point now earns its own
+pe (18.6 in the redox tests), between the iron and permanganate couples. Acceptance: the 0.5 mL titration stops at 25 mL
 with MnO4- left and Fe(II) consumed. Below equivalence, MnO4- still reacts
 completely with Fe(II) (negative control).
 
@@ -232,6 +234,18 @@ electron target, so the ledger drifted. Fix: locate a bracketed root to
 1e-11 of the inventory using Illinois false position (a few evaluations),
 write the trial pe with 12 decimals, and keep the verdict tolerance
 unchanged. Acceptance: the 1 mL titration reaches the endpoint.
+
+### S1c. The coupled electron balance ignores electrons held in solids (bug) — OPEN
+
+`oxidation_sum` reads dissolved oxidation-state totals only. When a solve
+puts a coupled element into a posed phase, that solid's electrons are not
+counted, and the pe search compensates. Example: Fe(OH)3 from an
+acid-starved flask with 0.005 mol HCl, 0.005 mol FeSO4 and 0.0015 mol
+KMnO4. There the found root left 0.635 mmol MnO4- against an expected
+0.5 mmol. The above-ceiling search of S1a refuses such an answer and the
+beaker is shown as added. The undercount below pe 17 predates this sweep
+and is not fixed. Generic fix: add phase moles × state to the sum, using
+each phase's oxidation-state composition from its dissolution reaction.
 
 ### S2. Sodium nitrate decomposes to sodium metal, with no oxygen (bug) — FIXED (fix/nitrate-decomp-20261128)
 
