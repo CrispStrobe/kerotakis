@@ -71,23 +71,40 @@ const FE_SETUP: &[&str] = &[
     "add v1 FeSO4 0.0025mol",
 ];
 
-/// BLOCKED on the engine, not the endpoint: in this open acidic flask the
-/// coupled redox solve equilibrates excess permanganate against water and
-/// air, so past equivalence all Mn reads as Mn(II) and no permanganate
-/// colour can survive (bench run 2026-11-28: 30 mL delivered, "all Mn as
-/// Mn(II)", 2.50 mmol Fe(III)). Permanganate's kinetic stability in acid
-/// is a separate model gap; this test is the acceptance for it.
+/// Past equivalence the excess permanganate must stay permanganate. The
+/// coupled redox solve used to refuse that state (its pe lies above the
+/// stability field of water) and fall back to an uncoupled solve pinned to
+/// atmospheric oxygen, which reduced every manganese to Mn(II) by
+/// oxidising water — chemistry that needs a catalyst and does not happen
+/// in a titration flask (`WATER_INERT_OXIDANTS`).
 #[test]
-#[ignore = "engine reduces excess MnO4- in open acidic flask; see doc comment"]
 fn iron_ii_with_permanganate_stops_at_the_stoichiometric_volume() {
     assert!((FE_STOICHIOMETRIC_ML - 25.0).abs() < 1e-9);
-    let (ml, reached, bench) = titrate(
-        FE_SETUP,
+    assert_iron_endpoint(
         "titrate v1 KMnO4 0.02M 0.5mL until colour persists max 80",
+        1.0,
     );
+}
+
+/// The same titration in 1 mL increments. It used to fail outright at
+/// 17 mL ("coupled aqueous temperature did not converge within 64
+/// passes"): the electron balance was located only to 1e-4 of the
+/// inventory, so its reaction heat wandered by ~1e-4 K between thermal
+/// passes that must agree to 1e-6 K.
+#[test]
+fn iron_ii_with_permanganate_in_one_millilitre_steps() {
+    // The first increment past 25 mL is 26 mL: within one step.
+    assert_iron_endpoint(
+        "titrate v1 KMnO4 0.02M 1mL until colour persists max 40",
+        1.0 + 1e-6,
+    );
+}
+
+fn assert_iron_endpoint(titration: &str, within_ml: f64) {
+    let (ml, reached, bench) = titrate(FE_SETUP, titration);
     assert!(reached, "endpoint must be reached, stopped at {ml:.2} mL");
     assert!(
-        (ml - FE_STOICHIOMETRIC_ML).abs() <= 1.0,
+        (ml - FE_STOICHIOMETRIC_ML).abs() <= within_ml,
         "endpoint at {ml:.2} mL, stoichiometric {FE_STOICHIOMETRIC_ML:.2} mL"
     );
     // Not before equivalence: the burette has delivered at least the
@@ -107,6 +124,49 @@ fn iron_ii_with_permanganate_stops_at_the_stoichiometric_volume() {
     assert!(
         iron_ii < 0.01 * FE_MOL,
         "iron(II) must be consumed at the endpoint, {iron_ii:.3e} mol left"
+    );
+    // The excess the endpoint saw is permanganate still in the flask.
+    let permanganate: f64 = amount(&bench, "MnO4-");
+    assert!(
+        permanganate > 0.0,
+        "past equivalence permanganate must remain, found none"
+    );
+}
+
+fn amount(bench: &Bench, species: &str) -> f64 {
+    bench
+        .vessel(VesselId(0))
+        .expect("vessel")
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == species)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+/// Negative control: holding permanganate inert toward WATER must not
+/// hold it inert toward iron(II). Short of equivalence the fast couple
+/// still equilibrates completely — every permanganate is reduced to
+/// Mn(II), five iron(III) for each, and none is left purple.
+#[test]
+fn below_equivalence_permanganate_still_reacts_completely_with_iron_ii() {
+    let mut bench = Bench::new();
+    let mut s = stack();
+    for text in FE_SETUP {
+        line(&mut bench, &mut s, text);
+    }
+    line(&mut bench, &mut s, "add v1 KMnO4 0.0002mol");
+    let manganese_ii = amount(&bench, "Mn+2");
+    let permanganate = amount(&bench, "MnO4-");
+    let iron_iii = amount(&bench, "Fe+3");
+    assert!(
+        (manganese_ii - 2e-4).abs() < 1e-6,
+        "Mn(II) {manganese_ii:.4e} mol, expected 2.0e-4"
+    );
+    assert!(permanganate < 1e-9, "{permanganate:.3e} mol MnO4- left");
+    assert!(
+        (iron_iii - 1e-3).abs() < 1e-5,
+        "Fe(III) {iron_iii:.4e} mol, expected 1.0e-3"
     );
 }
 

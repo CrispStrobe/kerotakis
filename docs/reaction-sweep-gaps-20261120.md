@@ -187,7 +187,7 @@ headspace.
 
 Gaps, most severe first:
 
-### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — PARTLY FIXED (fix/titrate-endpoint-20261128: persists now needs a titrant-derived colour; new `until colour disappears`; I2/S2O3 reaches 20 mL with or without starch. Fe(II)/MnO4- is still open: the open acidic flask reduces excess MnO4- to Mn(II), so no endpoint arrives)
+### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — FIXED (fix/titrate-endpoint-20261128: persists now needs a titrant-derived colour; new `until colour disappears`; I2/S2O3 reaches 20 mL with or without starch. Fe(II)/MnO4- completed by fix/permanganate-inert-20261128, see S1a and S1b)
 
 Titrating acidified iron(II) with 0.02 M permanganate stopped after the
 first 1 mL. About 25 mL was expected, and 2.48 mmol Fe(II) was still
@@ -200,6 +200,52 @@ Generic fix: judge the endpoint from the excess-titrant species, or from a
 colour change against the pre-endpoint colour, and keep the rule in one
 place for all titrants. Acceptance: Fe(II)/MnO4- endpoint within 1 mL of
 stoichiometry. I2/S2O3 with starch gives the same volume as without it.
+
+### S1a. Excess permanganate oxidises water in an open acidic flask (wrong chemistry) — FIXED (fix/permanganate-inert-20261128)
+
+Past equivalence the electron balance of Fe/Mn has its root above pe 17,
+the top of the coupled search. The coupled solve refused, and the fallback
+uncoupled solve fixed pe from atmospheric O2 with manganese unpinned (it was
+in two states). PHREEQC then reduced every MnO4- to Mn(II) by oxidising
+water, and the oxygen made was booked nowhere. Real permanganate does not
+oxidise water on a bench timescale. Generic fix: a table of water-inert
+oxidants (`WATER_INERT_OXIDANTS` in aqueous.rs: Mn(VII) 1.507 V, Cr(VI)
+1.36 V, sourced). When one of them is the excess, the search continues
+above the water ceiling to the oxidant's own standard pe + 4, with the O(0)
+master held from forming (a separate engine instance, the same pinning
+device as the fast-redox state pins). Manganate and other unlisted states
+keep the old ceiling. An above-ceiling answer that leaves a coupled element
+in a solid is refused (see S1c). The equivalence point now earns its own
+pe (18.6 in the redox tests), between the iron and permanganate couples. Acceptance: the 0.5 mL titration stops at 25 mL
+with MnO4- left and Fe(II) consumed. Below equivalence, MnO4- still reacts
+completely with Fe(II) (negative control).
+
+### S1b. Thermal fixed point fails at 1 mL titration steps (numerical) — FIXED (fix/permanganate-inert-20261128)
+
+At 1 mL steps the same titration failed at 17 mL with "coupled aqueous
+temperature did not converge within 64 passes" (at 0.5 mL steps it failed
+near 5 mL). Raising the cap would only hide the cause. The pe search
+stopped as soon as the electron residual was below 1e-4 of the inventory
+(OPT-7). The accepted root then depended on the search path, and the warm
+start changed that path on every thermal pass. The reaction heat in that
+slack moved T by about 1e-4 K between passes, which never meets the
+1e-6 K tolerance. The same residual was also booked into the next step's
+electron target, so the ledger drifted. Fix: locate a bracketed root to
+1e-11 of the inventory using Illinois false position (a few evaluations),
+write the trial pe with 12 decimals, and keep the verdict tolerance
+unchanged. Acceptance: the 1 mL titration reaches the endpoint.
+
+### S1c. The coupled electron balance ignores electrons held in solids (bug) — OPEN
+
+`oxidation_sum` reads dissolved oxidation-state totals only. When a solve
+puts a coupled element into a posed phase, that solid's electrons are not
+counted, and the pe search compensates. Example: Fe(OH)3 from an
+acid-starved flask with 0.005 mol HCl, 0.005 mol FeSO4 and 0.0015 mol
+KMnO4. There the found root left 0.635 mmol MnO4- against an expected
+0.5 mmol. The above-ceiling search of S1a refuses such an answer and the
+beaker is shown as added. The undercount below pe 17 predates this sweep
+and is not fixed. Generic fix: add phase moles × state to the sum, using
+each phase's oxidation-state composition from its dissolution reaction.
 
 ### S2. Sodium nitrate decomposes to sodium metal, with no oxygen (bug) — FIXED (fix/nitrate-decomp-20261128)
 
