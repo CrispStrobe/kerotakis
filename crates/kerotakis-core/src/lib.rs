@@ -64,6 +64,7 @@ pub mod gas_colour;
 pub mod gas_tests;
 pub mod gel;
 pub mod halogen_redox;
+pub mod haloform;
 pub mod heat_capacity;
 pub mod heterogeneous;
 pub mod hmix;

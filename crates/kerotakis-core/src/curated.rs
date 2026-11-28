@@ -989,6 +989,7 @@ impl Equilibrator for CuratedEquilibrator {
             || crate::halogen_redox::fires(vessel)
             || crate::iodine_chemistry::ferric_iodide_fires(vessel)
             || crate::reducing_sugar::fires(vessel)
+            || crate::haloform::fires(vessel)
             || crate::concentrated_sulfuric::fires(vessel)
             || crate::nitrogen_oxides::fires(vessel)
             || crate::nitrate_decomposition::fires(vessel)
@@ -1164,6 +1165,10 @@ impl Equilibrator for CuratedEquilibrator {
             }
             // Fehling/Benedict and Tollens reducing-sugar tests.
             if crate::reducing_sugar::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Iodoform (haloform) test, one row per substrate (S4).
+            if crate::haloform::apply(vessel, &mut events) {
                 progressed = true;
             }
             // Concentrated sulfuric acid (dehydration, HCl, hot oxidation)

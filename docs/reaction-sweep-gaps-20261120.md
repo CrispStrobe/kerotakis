@@ -276,19 +276,33 @@ unless the charge already holds that metal. KNO2 joins the registry.
 Cu(NO3)2 is drawn blue-green (word-colour table). Pb(NO3)2 is refused with a
 typed note because PbO is not yet a registry species.
 
-### S4. No haloform (iodoform) route (missing reaction and species) — OPEN
+### S4. No haloform (iodoform) route (missing reaction and species) — FIXED (fix/haloform-indicators-20261128)
 
 Ethanol with I2/KI/NaOH, warmed, gives no reaction and no CHI3. CHI3 is
 not a species. Generic fix: a haloform family row (CH3CO– or CH3CH(OH)–
 substrates, X2/OH-) plus a CHI3 registry row (yellow solid, sourced data).
 
-### S5. Methyl orange has no acid-base colour; bromothymol blue colours off (wrong observation) — OPEN
+### S5. Methyl orange has no acid-base colour; bromothymol blue colours off (wrong observation) — FIXED (fix/haloform-indicators-20261128)
 
 Methyl orange stays "red" at pH 12.2, and the notice says it has no aqueous
 mapping. Bromothymol blue is drawn orange at pH 1.75 and purple at pH 12.2,
 where yellow and blue are expected. Generic fix: indicator table rows with
 pKa and the two-form colours, using the existing phenolphthalein-style
 indicator route.
+
+Fix (S4 and S5): `kerotakis_core::haloform` holds one row per substrate
+(propanone, propan-2-ol, ethanol), each a balanced overall equation checked
+for atoms and charge; warm (editorial 50 °C onset) alkaline I2 gives CHI3 as
+a yellow solid plus acetate (or, from ethanol, formic acid held molecular).
+Methanol has no row and stays negative. CHI3 joins the registry (PubChem CID
+6374, CIAAW mass, CRC/HSDB density 4.008 g/mL, HSDB colour "yellow", Kopp
+Cp). Indicators: `Indicator::form_word` names the sourced acid colour below
+the CRC transition range and the base colour above it, for every two-colour
+indicator in the table; inside the range the computed hue is kept. Methyl
+orange's pKa 3.47 now cites Sandberg et al., J. Phys. Chem. 76 (1972) 4023.
+Still open: methyl orange keeps its "ionic solute without an aqueous
+mapping" notice (its sulfonate is not speciated), and the mixed-band colour
+of an overdosed dye is still the computed hue.
 
 ### S6. No KNO3 crystallisation on cooling; cooling passes the freezing boundary (missing species) — OPEN
 

@@ -568,6 +568,8 @@ fn describe(
             "blue-black"
         } else if crate::starch_iodine::has_aqueous_lugol_colour(vessel) {
             "brown"
+        } else if let Some(word) = crate::solution_optics::indicator_colour_word(vessel) {
+            word
         } else {
             colour
                 .as_ref()

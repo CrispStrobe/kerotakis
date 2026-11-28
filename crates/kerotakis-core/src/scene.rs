@@ -876,7 +876,9 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         .map(|c| SceneLiquid {
             volume_l: resolved_volume_l + homogeneous_material_volume_l + material_volume_l,
             srgb: [c.r, c.g, c.b],
-            colour_word: appearance::liquid_colour_word(c, seen.cloudiness).to_string(),
+            colour_word: crate::solution_optics::indicator_colour_word(v)
+                .unwrap_or_else(|| appearance::liquid_colour_word(c, seen.cloudiness))
+                .to_string(),
             cloudiness: seen.cloudiness,
             path_length_cm: crate::vessel::path_cm_for(&v.label),
             spectral_gaps: seen.spectral_gaps.clone(),

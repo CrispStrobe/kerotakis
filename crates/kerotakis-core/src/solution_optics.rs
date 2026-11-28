@@ -339,6 +339,31 @@ fn missing_native_spectra(vessel: &Vessel) -> Vec<String> {
         .collect()
 }
 
+/// The sourced form word of a two-colour indicator that carries most of
+/// this liquid's visible absorbance, if one does (see
+/// [`crate::indicator::Indicator::form_word`]). A solution whose colour is
+/// mostly something else keeps its computed word.
+pub fn indicator_colour_word(vessel: &Vessel) -> Option<&'static str> {
+    let ph = vessel.solution.as_ref().map(|s| s.ph).filter(|ph| ph.is_finite())?;
+    let path_cm = crate::vessel::path_cm_for(&vessel.label);
+    let total: f64 = absorbance(vessel, path_cm).iter().sum();
+    if total.is_nan() || total <= 0.0 {
+        return None;
+    }
+    let litres = vessel.liquid_volume().0.max(1e-9);
+    vessel
+        .contents
+        .iter()
+        .filter(|p| matches!(p.phase, Phase::Aqueous | Phase::Liquid) && p.moles.0 > 0.0)
+        .filter_map(|p| crate::indicator::lookup(&p.species.0).map(|i| (p, i)))
+        .find(|(p, indicator)| {
+            let concentration = visible_moles(vessel, &p.species.0, p.moles.0) / litres;
+            let own: f64 = indicator.spectrum_at(ph).iter().sum::<f64>() * concentration * path_cm;
+            own > 0.5 * total
+        })
+        .and_then(|(_, indicator)| indicator.form_word(ph))
+}
+
 pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS] {
     let mut result = [0.0; crate::spectrum::BANDS];
     let litres = vessel.liquid_volume().0.max(1e-9);

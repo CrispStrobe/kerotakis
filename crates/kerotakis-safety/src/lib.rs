@@ -682,6 +682,9 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Ag3PO4"
         | "PbSO4"
         | "PbI2"
+        // Iodoform (haloform lane, 2026-11-28): a sparingly soluble yellow
+        // organic solid; nothing in this mixture matrix is about it.
+        | "CHI3"
         // The sparingly soluble chromates (C1 chromate lane, 2026-11-27):
         // their hazard is chromium(VI) toxicity and carcinogenicity, carried
         // by `handling_hazards`, not a mixture reaction this matrix rates.
@@ -1016,6 +1019,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "PbS",
     "ZnS",
     "PbI2",
+    "CHI3",
     "PbCrO4",
     "Ag2CrO4",
     "BaCrO4",

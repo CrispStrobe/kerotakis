@@ -318,6 +318,7 @@ fn build_input_alias_table() -> InputAliasTable {
         .iter()
         .chain(crate::enzyme::ADDITIONAL_ENZYME_SPECIES.iter())
         .chain(crate::reducing_sugar::PRODUCT_SPECIES.iter())
+        .chain(crate::haloform::PRODUCT_SPECIES.iter())
         .map(|data| data.key.to_lowercase())
         .chain(std::iter::once(BASE_EQUIVALENTS.to_lowercase()))
         .collect();
@@ -1092,6 +1093,7 @@ pub fn all_species() -> Vec<&'static SpeciesData> {
         .iter()
         .chain(crate::enzyme::ADDITIONAL_ENZYME_SPECIES.iter())
         .chain(crate::reducing_sugar::PRODUCT_SPECIES.iter())
+        .chain(crate::haloform::PRODUCT_SPECIES.iter())
         .chain(map.values().copied())
         .collect()
 }
@@ -1220,6 +1222,9 @@ fn lookup_resolved_key(key: &str) -> Option<&'static SpeciesData> {
         return Some(s);
     }
     if let Some(s) = crate::reducing_sugar::species_data(key) {
+        return Some(s);
+    }
+    if let Some(s) = crate::haloform::species_data(key) {
         return Some(s);
     }
     loaded_index()

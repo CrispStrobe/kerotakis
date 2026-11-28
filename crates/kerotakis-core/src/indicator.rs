@@ -98,6 +98,35 @@ impl Indicator {
         }
     }
 
+    /// The sourced word for the form a two-colour indicator shows at this
+    /// pH: `acid_colour` below its sourced visual transition range,
+    /// `base_colour` above it, and `None` inside the range (the mixed
+    /// colour) and for a one-colour indicator such as phenolphthalein,
+    /// whose word is the computed colour's.
+    ///
+    /// The Beer–Lambert colour stays the computed spectrum; this only names
+    /// it. A Gaussian band of either form, at the concentrations a bench
+    /// overdoses a dye to, absorbs far enough into its neighbours that the
+    /// hue arithmetic drifts (bromothymol blue's yellow read "orange", its
+    /// blue "purple", methyl orange's yellow "red" — 2026-11-28 sweep, S5);
+    /// the colour a chemist reports for each form and the range it is seen
+    /// outside of are table entries with a source, and the table says it.
+    pub fn form_word(&self, ph: f64) -> Option<&'static str> {
+        let acid_colourless = (self.acid)().iter().all(|e| *e == 0.0);
+        let base_colourless = (self.base)().iter().all(|e| *e == 0.0);
+        if acid_colourless || base_colourless || !ph.is_finite() {
+            return None;
+        }
+        let (lo, hi) = self.transition;
+        if ph < lo {
+            Some(self.acid_colour)
+        } else if ph > hi {
+            Some(self.base_colour)
+        } else {
+            None
+        }
+    }
+
     /// The two spectra mixed in the ratio the pH sets.
     pub fn spectrum_at(&self, ph: f64) -> Spectrum {
         let f = self.base_fraction(ph);
@@ -148,7 +177,8 @@ pub const INDICATORS: &[Indicator] = &[
     Indicator {
         key: "methyl_orange",
         // Transition 3.1–4.4 (red → yellow), CRC Handbook "Acid-Base
-        // Indicators"; pKIn 3.47.
+        // Indicators"; pKIn 3.47 (Sandberg et al., J. Phys. Chem. 76
+        // (1972) 4023, doi:10.1021/j100670a024).
         pkas: &[3.47],
         transition: (3.1, 4.4),
         // Protonated azonium form, red, λmax ≈ 505 nm.
@@ -157,7 +187,7 @@ pub const INDICATORS: &[Indicator] = &[
         base: || bands(&[(464.0, 26_000.0, 55.0)]),
         acid_colour: "red",
         base_colour: "yellow",
-        provenance: "pKa 3.47 and λmax 505/464 nm are literature values; ε values good to about a significant figure; Gaussian band shapes are ours",
+        provenance: "pKa 3.47 (water, 25 °C): R. G. Sandberg, G. H. Henderson, R. D. White and E. M. Eyring, J. Phys. Chem. 76 (1972) 4023, doi:10.1021/j100670a024, as quoted by Wikipedia 'Methyl orange' (read 2026-11-28); transition 3.1–4.4 red → yellow from the CRC Handbook indicator table; λmax 505/464 nm are literature values; ε values good to about a significant figure; Gaussian band shapes are ours",
     },
     Indicator {
         key: "bromothymol_blue",
@@ -440,6 +470,33 @@ mod indicator_tests {
         assert!(p.base_fraction(11.0) > 0.9);
         let ratio = p.base_fraction(7.0) / p.base_fraction(6.0);
         assert!((ratio - 100.0).abs() < 1.0, "{ratio}");
+    }
+
+    /// S5 (2026-11-28 sweep): every two-colour indicator names its sourced
+    /// acid colour at pH 3 below its range and its base colour at pH 11
+    /// above it, and names neither inside its mixed band.
+    #[test]
+    fn two_colour_indicators_name_their_sourced_forms() {
+        let mo = lookup("methyl_orange").unwrap();
+        assert_eq!(mo.form_word(3.0), Some("red"));
+        assert_eq!(mo.form_word(7.0), Some("yellow"));
+        assert_eq!(mo.form_word(11.0), Some("yellow"));
+        assert_eq!(mo.form_word(3.47), None);
+        let btb = lookup("bromothymol_blue").unwrap();
+        assert_eq!(btb.form_word(3.0), Some("yellow"));
+        assert_eq!(btb.form_word(7.0), None);
+        assert_eq!(btb.form_word(5.0), Some("yellow"));
+        assert_eq!(btb.form_word(11.0), Some("blue"));
+        assert_eq!(lookup("phenolphthalein").unwrap().form_word(11.0), None);
+        for i in INDICATORS {
+            let (lo, hi) = i.transition;
+            if let Some(word) = i.form_word(lo - 0.5) {
+                assert_eq!(word, i.acid_colour, "{}", i.key);
+            }
+            if let Some(word) = i.form_word(hi + 0.5) {
+                assert_eq!(word, i.base_colour, "{}", i.key);
+            }
+        }
     }
 
     #[test]

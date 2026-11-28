@@ -97,16 +97,17 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// 2026-11-28 (nitrate decomposition): potassium nitrite joins as a registry
 /// solid that is not a database phase (registry solids and the
 /// not-a-database-phase count each +1; the gate printed these totals).
+/// 2026-11-28 (haloform): iodoform joins the same way (+1 each).
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 143,
+            registry_solids: 144,
             database_phases: 68,
             with_reviewed_solubility: 14,
             without_reviewed_solubility: 54,
-            not_a_database_phase: 75,
+            not_a_database_phase: 76,
             phases_without_a_registry_solid: 588,
             several_phase_names: 15,
             not_posable: 12,

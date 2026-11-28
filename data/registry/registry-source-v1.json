@@ -1694,6 +1694,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/CHI3",
+      "citation": "iodoform (triiodomethane), CHI3: added by the haloform lane (2026-11-28, sweep gap S4) as the yellow precipitate of the iodoform test (Vogel's Textbook of Practical Organic Chemistry, 5th ed.; R. C. Fuson and B. A. Bull, Chem. Rev. 15 (1934) 275, doi:10.1021/cr60052a001). IDENTITY: PubChem CID 6374, InChIKey OKJPEAGHQZHRQV-UHFFFAOYSA-N, formula CHI3. Molar mass 393.732 g/mol from IUPAC/CIAAW 2021 standard atomic weights (12.011 + 1.008 + 3 x 126.904). DENSITY 4.008 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 'Physical Constants of Organic Compounds' (triiodomethane), as reproduced in PubChem CID 6374 Experimental Properties > Density (HSDB). APPEARANCE `yellow`: HSDB 'Yellow powder or crystals' (PubChem CID 6374, Color/Form); the reflective sRGB #E8D060 is the registry's editorial rendering of the word `yellow` (as for Ag3PO4), not a measured colour. HEAT CAPACITY 95.1 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 7.5 (C) + 1 x 9.6 (H) + 3 x 26.0 (I) = 95.1, the same editorial method the calcium phosphate rows use. WHAT IS NOT CLAIMED: no solubility, solubility product, dissolution enthalpy, melting point or reaction heat; the solid is booked only by the qualitative haloform route.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/Ag2CO3",
       "citation": "silver carbonate, Ag2CO3: a sparingly soluble laboratory precipitate added by the registry-solid coverage lane (docs/registry-solid-coverage-20261110.md) because wateq4f.dat and minteq.v4.dat both define it under its formula, `Ag2CO3`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 92796 on 2026-11-10 (PUG REST property record): InChIKey KQTXIZHBFFWWFW-UHFFFAOYSA-L. Molar mass 275.744 g/mol from IUPAC/CIAAW 2021 standard atomic weights (2 x 107.8682 + 1 x 12.011 + 3 x 15.999 = 275.744). DENSITY 6.077 g/mL: PubChem CID 92796 Experimental Properties > Density, attributed there to the PAC Chemical Database, U.S. Department of Energy: 6.077 at 25 degC (CAMEO Chemicals gives 6.1 at 68 degF). APPEARANCE `pale yellow`: PubChem CID 92796 Physical Description (Haz-Map, quoting the Merck Index): `Light yellow solid; Darkens on drying and light exposure`; the reflective sRGB #EEE0A0 is an editorial rendering of that cited word for the bench canvas, not a measured colour. HEAT CAPACITY 109.6 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 2 x 26.0 (Ag) + 1 x 7.5 (C) + 3 x 16.7 (O) = 109.6, the same editorial method the calcium phosphate rows use, written out so it can be checked. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -7272,6 +7281,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/KNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "CHI3",
+      "canonical_key": "OKJPEAGHQZHRQV-UHFFFAOYSA-N",
+      "name": "iodoform",
+      "identifiers": {
+        "inchikey": "OKJPEAGHQZHRQV-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/CHI3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -34428,6 +34453,125 @@
       },
       "evidence": {
         "source_id": "legacy/KNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/CHI3",
+      "species_id": "CHI3",
+      "formula": "CHI3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CHI3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CHI3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "I",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CHI3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CHI3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/CHI3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -64547,6 +64691,99 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/CHI3",
+      "species_id": "CHI3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 393.732,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CHI3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      },
+      "source_id": "legacy/CHI3"
+    },
+    {
+      "id": "heat-capacity/CHI3",
+      "species_id": "CHI3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 95.1,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CHI3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      },
+      "source_id": "legacy/CHI3"
+    },
+    {
+      "id": "density/CHI3",
+      "species_id": "CHI3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.008,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CHI3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      },
+      "source_id": "legacy/CHI3"
     }
   ],
   "heat_capacity_polynomials": [
@@ -75672,6 +75909,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/KNO2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/CHI3",
+      "species_id": "CHI3",
+      "phase": "solid",
+      "appearance": "yellow",
+      "flame_colour": null,
+      "reflective_srgb": "#E8D060",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/CHI3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -89111,6 +89364,74 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/CHI3",
+      "subject": {
+        "kind": "species",
+        "id": "CHI3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CHI3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "source_id": "legacy/CHI3"
+    },
+    {
+      "id": "legacy-tint-strength/CHI3",
+      "subject": {
+        "kind": "species",
+        "id": "CHI3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/CHI3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      },
+      "source_id": "legacy/CHI3"
     }
   ],
   "material_recipes": [
