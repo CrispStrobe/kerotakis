@@ -344,7 +344,11 @@ fn missing_native_spectra(vessel: &Vessel) -> Vec<String> {
 /// [`crate::indicator::Indicator::form_word`]). A solution whose colour is
 /// mostly something else keeps its computed word.
 pub fn indicator_colour_word(vessel: &Vessel) -> Option<&'static str> {
-    let ph = vessel.solution.as_ref().map(|s| s.ph).filter(|ph| ph.is_finite())?;
+    let ph = vessel
+        .solution
+        .as_ref()
+        .map(|s| s.ph)
+        .filter(|ph| ph.is_finite())?;
     let path_cm = crate::vessel::path_cm_for(&vessel.label);
     let total: f64 = absorbance(vessel, path_cm).iter().sum();
     if total.is_nan() || total <= 0.0 {
