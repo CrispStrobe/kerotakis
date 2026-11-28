@@ -26,6 +26,13 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, moles: f64) -> Vec
         .expect("step")
 }
 
+/// Enough heat to decompose the whole mole of NaHCO3. The decomposition
+/// pays its cited +91.6 kJ per reaction (45.8 kJ for one mole of soda;
+/// `curated::CURATED_REACTION_HEATS`, 2026-11-28 sweep S7), so the 10 kJ
+/// these tests used to dose decomposed it all only while the row paid
+/// nothing. Warming to the threshold and boiling off the water take the rest.
+const DOSE_J: f64 = 120_000.0;
+
 fn heat(bench: &mut Bench, stack: &mut SolverStack, joules: f64) -> Vec<Event> {
     bench
         .step_with(
@@ -92,7 +99,7 @@ fn fires_when_heated() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "NaHCO3", 1.0);
-    let events = heat(&mut bench, &mut s, 10_000.0);
+    let events = heat(&mut bench, &mut s, DOSE_J);
     assert!(
         events
             .iter()
@@ -126,7 +133,7 @@ fn co2_evolves_as_gas() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "NaHCO3", 1.0);
-    let events = heat(&mut bench, &mut s, 10_000.0);
+    let events = heat(&mut bench, &mut s, DOSE_J);
     assert!(
         events
             .iter()
@@ -154,7 +161,7 @@ fn named_baking_powder_surrogate_reaches_computed_heat_activation() {
         .iter()
         .any(|event| matches!(event, Event::ReactionOccurred { .. })));
 
-    let events = heat(&mut bench, &mut s, 10_000.0);
+    let events = heat(&mut bench, &mut s, DOSE_J);
     assert!(
         events.iter().any(|event| matches!(event,
             Event::GasEvolved { species, moles, .. }
@@ -182,7 +189,7 @@ fn co2_contained_in_sealed_headspace() {
             &PermissiveScreen,
         )
         .expect("seal");
-    let events = heat(&mut bench, &mut s, 10_000.0);
+    let events = heat(&mut bench, &mut s, DOSE_J);
     assert!(
         events
             .iter()
@@ -197,7 +204,7 @@ fn na2co3_produced_as_solid() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "NaHCO3", 1.0);
-    heat(&mut bench, &mut s, 10_000.0);
+    heat(&mut bench, &mut s, DOSE_J);
     let na2co3 = moles_in_phase(&bench, "Na2CO3", species::Phase::Solid);
     assert!(na2co3 > 0.0, "Na2CO3 solid expected, got {na2co3}");
 }
@@ -207,7 +214,7 @@ fn stoichiometry_correct() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "NaHCO3", 1.0);
-    heat(&mut bench, &mut s, 10_000.0);
+    heat(&mut bench, &mut s, DOSE_J);
     let na2co3 = moles_in_phase(&bench, "Na2CO3", species::Phase::Solid);
     // 2 NaHCO3 → 1 Na2CO3: 1.0 mol NaHCO3 → 0.5 mol Na2CO3
     assert!(
@@ -243,7 +250,7 @@ fn conserves_elements() {
     let c_before = total_element(&bench, "C");
     let o_before = total_element(&bench, "O");
     let h_before = total_element(&bench, "H");
-    heat(&mut bench, &mut s, 10_000.0);
+    heat(&mut bench, &mut s, DOSE_J);
     let na_after = total_element(&bench, "Na");
     let c_after = total_element(&bench, "C");
     let o_after = total_element(&bench, "O");
@@ -273,7 +280,7 @@ fn no_apology_for_products() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "NaHCO3", 1.0);
-    let events = heat(&mut bench, &mut s, 10_000.0);
+    let events = heat(&mut bench, &mut s, DOSE_J);
     let apologies: Vec<_> = events
         .iter()
         .filter(|e| matches!(e, Event::NotYetModeled { .. }))

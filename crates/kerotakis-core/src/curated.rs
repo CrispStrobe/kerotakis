@@ -839,6 +839,9 @@ fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
     }
 }
 
+/// The reference temperature of the cited standard reaction heats.
+const REFERENCE_K: f64 = 298.15;
+
 /// Cited standard reaction enthalpies of curated rows that carry a
 /// temperature threshold, J per mole of reaction as written, keyed by the
 /// row's equation. A heated row with a heat here is paid out of the heat
@@ -1098,6 +1101,14 @@ impl Equilibrator for CuratedEquilibrator {
                     continue;
                 }
                 progressed = true;
+                // A paid row closes its energy through 298.15 K (Hess): the
+                // reactants' warmth above 298.15 K, less the cited reaction
+                // heat, is what the products hold above 298.15 K. Re-pricing
+                // the heat on the products at the current temperature instead
+                // would let products with a different heat capacity carry
+                // warmth nobody delivered.
+                let warmth_before = reaction_heat_j_per_mol(reaction)
+                    .map(|_| vessel.energy_between(REFERENCE_K, vessel.temperature.0));
                 if reaction.solvent.is_some() {
                     solvent_gated_done[i] = true;
                 }
@@ -1171,9 +1182,11 @@ impl Equilibrator for CuratedEquilibrator {
                         vessel.deposit(SpeciesId::new(key), n, *phase);
                     }
                 }
-                if let Some(heat) = reaction_heat_j_per_mol(reaction) {
+                if let (Some(heat), Some(warmth)) =
+                    (reaction_heat_j_per_mol(reaction), warmth_before)
+                {
                     let before = vessel.temperature.0;
-                    let to = vessel.temperature_after(-x * heat);
+                    let to = vessel.temperature_after_from(REFERENCE_K, warmth - x * heat);
                     if to.is_finite() && to != before {
                         vessel.temperature = Kelvin(to);
                         events.push(Event::TemperatureChanged {
