@@ -3389,6 +3389,36 @@ fn saturation_moles(phase: &str, kgw: f64, temperature_k: f64) -> Option<f64> {
     Some(saturation_molal * kgw)
 }
 
+/// Element totals an activity route estimates its ionic strength from:
+/// the dissolved totals plus what a supplied solid phase can put into
+/// solution (capped at its registry solubility, as
+/// [`potential_molality`] caps it). A soluble salt added as a solid is
+/// posed as a finite phase with no dissolved total, so the totals alone
+/// read 1.5 mol CoCl2 in a kilogram of water as I = 0 and the route never
+/// fired.
+fn activity_route_totals(problem: &Problem, temperature_k: f64) -> Vec<(String, f64)> {
+    let kgw = problem.kgw.max(MIN_SOLVENT_KG);
+    let mut totals = problem.totals.clone();
+    for (name, moles, _) in &problem.phases {
+        if *moles <= 0.0 {
+            continue;
+        }
+        let Some(phase) = derived::phase_by_name(name) else {
+            continue;
+        };
+        let dissolvable =
+            saturation_moles(name, kgw, temperature_k).map_or(*moles, |cap| moles.min(cap));
+        for (element, coefficient) in &phase.elements {
+            let n = coefficient * dissolvable;
+            match totals.iter_mut().find(|(e, _)| e == element) {
+                Some(entry) => entry.1 += n,
+                None => totals.push((element.clone(), n)),
+            }
+        }
+    }
+    totals
+}
+
 /// A rough ceiling on the molality of the solution PHREEQC is about to be
 /// handed: what is dissolved, plus what the solid phases could dissolve
 /// (each formula unit taken as about two ions).
@@ -3440,36 +3470,6 @@ fn saturation_moles(phase: &str, kgw: f64, temperature_k: f64) -> Option<f64> {
 ///   registry has not reviewed — manganese dioxide and silver chloride
 ///   are both in that transcript — still inflates the estimate. Closing
 ///   that is registry data with a source behind it, not arithmetic here.
-/// Element totals an activity route estimates its ionic strength from:
-/// the dissolved totals plus what a supplied solid phase can put into
-/// solution (capped at its registry solubility, as
-/// [`potential_molality`] caps it). A soluble salt added as a solid is
-/// posed as a finite phase with no dissolved total, so the totals alone
-/// read 1.5 mol CoCl2 in a kilogram of water as I = 0 and the route never
-/// fired.
-fn activity_route_totals(problem: &Problem, temperature_k: f64) -> Vec<(String, f64)> {
-    let kgw = problem.kgw.max(MIN_SOLVENT_KG);
-    let mut totals = problem.totals.clone();
-    for (name, moles, _) in &problem.phases {
-        if *moles <= 0.0 {
-            continue;
-        }
-        let Some(phase) = derived::phase_by_name(name) else {
-            continue;
-        };
-        let dissolvable =
-            saturation_moles(name, kgw, temperature_k).map_or(*moles, |cap| moles.min(cap));
-        for (element, coefficient) in &phase.elements {
-            let n = coefficient * dissolvable;
-            match totals.iter_mut().find(|(e, _)| e == element) {
-                Some(entry) => entry.1 += n,
-                None => totals.push((element.clone(), n)),
-            }
-        }
-    }
-    totals
-}
-
 fn potential_molality(problem: &Problem, temperature_k: f64) -> f64 {
     let kgw = problem.kgw.max(MIN_SOLVENT_KG);
     let dissolved: f64 = problem.totals.iter().map(|(_, n)| n).sum();
