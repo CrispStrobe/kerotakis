@@ -1116,6 +1116,12 @@ pub struct PhreeqcEquilibrator {
     sit: Option<Phreeqc>,
     #[cfg(feature = "engine")]
     pinned_sit: Option<Phreeqc>,
+    /// Instances, per database, for coupled trials above the water ceiling
+    /// (`water_oxidation_hold_block`): their redefinition of O(0) must
+    /// never reach an ordinary or pinned input, where the atmospheric
+    /// O2(g) pe depends on the database's own oxygen couple.
+    #[cfg(feature = "engine")]
+    water_held: std::collections::HashMap<String, Phreeqc>,
     /// concentrated brines — but it only knows the major-ion elements.
     #[cfg(feature = "engine")]
     brine: Phreeqc,
@@ -2303,7 +2309,18 @@ impl PhreeqcEquilibrator {
     /// routed database's instance — see the field docs.
     #[cfg(feature = "engine")]
     fn engine_for(&mut self, db_tag: &str, input: &str) -> Result<&mut Phreeqc, SolveError> {
-        if input.contains("SOLUTION_SPECIES") {
+        if input.contains(WATER_OXIDATION_HOLD) {
+            if !self.water_held.contains_key(db_tag) {
+                let engine =
+                    load_native_database(db_tag).map_err(|e| SolveError::NotConverged {
+                        reason: Some(Box::new(AqueousReason::PinnedInstanceLoadFailed.phrase())),
+                        solver: "phreeqc-aqueous".to_string(),
+                        detail: format!("could not load a water-held engine instance: {e}"),
+                    })?;
+                self.water_held.insert(db_tag.to_string(), engine);
+            }
+            Ok(self.water_held.get_mut(db_tag).expect("just created"))
+        } else if input.contains("SOLUTION_SPECIES") {
             let slot = match db_tag {
                 "minteq.v4" => &mut self.pinned_organic,
                 "pitzer" => &mut self.pinned_brine,
@@ -2464,12 +2481,42 @@ impl PhreeqcEquilibrator {
         // oxidised and chloride goes with it, which is where the solver
         // starts refusing — and a bracket that reaches into that region
         // lets a run of failures march the search into it.
-        const FULL: (f64, f64) = (-10.0, 17.0);
-        // The tolerance the balance is finally judged by; the search is
-        // allowed to stop the moment it is met, because grinding the
-        // bracket to 1e-6 pe after the residual is paid only re-prices an
-        // answer already bought (OPT-7).
+        const FULL: (f64, f64) = (-10.0, WATER_OXIDATION_PE_CEILING);
+        // The tolerance the balance is finally judged by.
         let residual_tol = 1e-9_f64.max(1e-4 * coupling.scale);
+        // The precision a bracketed root is located to, which is a
+        // different thing. Stopping the moment the verdict tolerance was
+        // met (OPT-7) returned a root anywhere inside it, at a point that
+        // depended on the search path — and the warm start moves the path
+        // on every pass of the thermal fixed point. Iron(II) titrated with
+        // permanganate in 1 mL steps then failed "coupled aqueous
+        // temperature did not converge within 64 passes" at 17 mL: each
+        // pass accepted an electron balance off by up to 1.4e-6 mol (1e-4
+        // of the inventory), the reaction heat that carries moved T by
+        // ~1e-4 K from pass to pass, and the 1e-6 K thermal tolerance could
+        // never be met — no oscillation, just an inner solve far coarser
+        // than the outer one it feeds. The same slack was also booked: the
+        // next step's electron target was the previous answer's sum, so the
+        // ledger drifted by the residual every addition. A root is
+        // therefore located until the residual is negligible beside the
+        // inventory (false position makes that a few evaluations), and the
+        // verdict is still judged by `residual_tol`.
+        let root_tol = 1e-15_f64.max(1e-11 * coupling.scale);
+        // Above the water ceiling only when an oxidant the bench holds
+        // kinetically inert toward water is what is in excess (see
+        // `WATER_INERT_OXIDANTS`); otherwise the bracket is the
+        // stability field of water, as before.
+        let top = coupling
+            .water_inert_ceiling
+            .filter(|_| {
+                problem.gases.is_empty()
+                    && problem.external_gases.is_empty()
+                    && !problem
+                        .phases
+                        .iter()
+                        .any(|(name, ..)| name == ATMOSPHERIC_OXYGEN)
+            })
+            .unwrap_or(FULL.1);
         // Warm start (OPT-7): across the temperature fixed point's
         // iterations the pe root barely moves, so a narrow window around
         // the last *bracketed* answer usually contains it. The narrow pass
@@ -2478,7 +2525,7 @@ impl PhreeqcEquilibrator {
         // back to the full bracket, so refusals and undetermined-pe
         // verdicts are only ever pronounced on the full-bracket evidence
         // they were designed for.
-        let search = match self.warm_pe {
+        let search = match self.warm_pe.filter(|pe| pe - 0.75 < top) {
             Some(pe) => {
                 let warm = self.bisect_pe(
                     vessel,
@@ -2486,8 +2533,8 @@ impl PhreeqcEquilibrator {
                     db_tag,
                     coupling,
                     (pe - 0.75).max(FULL.0),
-                    (pe + 0.75).min(FULL.1),
-                    residual_tol,
+                    (pe + 0.75).min(top),
+                    root_tol,
                 )?;
                 let warm_residual = warm
                     .last_sum
@@ -2495,26 +2542,31 @@ impl PhreeqcEquilibrator {
                 if warm.saw_below && warm.saw_above && warm_residual <= residual_tol {
                     warm
                 } else {
-                    self.bisect_pe(
-                        vessel,
-                        problem,
-                        db_tag,
-                        coupling,
-                        FULL.0,
-                        FULL.1,
-                        residual_tol,
-                    )?
+                    self.bisect_pe(vessel, problem, db_tag, coupling, FULL.0, FULL.1, root_tol)?
                 }
             }
-            None => self.bisect_pe(
-                vessel,
-                problem,
-                db_tag,
-                coupling,
-                FULL.0,
-                FULL.1,
-                residual_tol,
-            )?,
+            None => self.bisect_pe(vessel, problem, db_tag, coupling, FULL.0, FULL.1, root_tol)?,
+        };
+        // The balance's root lies above the water ceiling: every trial
+        // found too few electrons on the oxidant side even at pe 17, which
+        // is what an oxidant left over after the reductant ran out looks
+        // like. Where that oxidant is kinetically inert toward water, its
+        // excess stays oxidised and the root is a real, higher potential —
+        // the purple of permanganate past the end point of a titration.
+        // The search continues above the ceiling with water's own
+        // oxidation held out of the solve (`build_input_at`).
+        let search = if top > FULL.1 && search.saw_below && !search.saw_above {
+            let above = self.bisect_pe(vessel, problem, db_tag, coupling, FULL.1, top, root_tol)?;
+            if above.best.is_some() {
+                PeSearch {
+                    saw_below: true,
+                    ..above
+                }
+            } else {
+                search
+            }
+        } else {
+            search
         };
         let PeSearch {
             best,
@@ -2618,6 +2670,11 @@ impl PhreeqcEquilibrator {
         let (mut saw_below, mut saw_above) = (false, false);
         let mut mid = 0.5 * (lo + hi);
         let mut interior_probe: u32 = 1;
+        // Residuals (sum − target) at `lo` and `hi`, once a trial has been
+        // seen there, for false position; and which side moved last, for
+        // the Illinois weighting that stops one stale end from pinning it.
+        let (mut r_lo, mut r_hi): (Option<f64>, Option<f64>) = (None, None);
+        let mut last_side: Option<bool> = None;
         // Failed evaluations have no residual sign. Keep the valid bounds
         // unchanged and try dyadic interior points: midpoint, quarters,
         // eighths, sixteenths. Both sides of a numerical hole are explored.
@@ -2627,7 +2684,21 @@ impl PhreeqcEquilibrator {
             let level = 31 - interior_probe.leading_zeros();
             let denominator = 1_u32 << (level + 1);
             let numerator = 2 * (interior_probe - (1_u32 << level)) + 1;
-            let trial_pe = lo + (hi - lo) * numerator as f64 / denominator as f64;
+            let mut trial_pe = lo + (hi - lo) * numerator as f64 / denominator as f64;
+            // Once the root is bracketed, the electron sum is a smooth
+            // monotone function of pe and false position homes in on it in
+            // a handful of evaluations where halving needs dozens. A
+            // proposal hugging either end falls back to the midpoint, and
+            // a failed evaluation always does (`interior_probe`).
+            if let (1, Some(a), Some(b)) = (interior_probe, r_lo, r_hi) {
+                if a < 0.0 && b > 0.0 {
+                    let proposal = lo + (hi - lo) * (-a / (b - a));
+                    let margin = 1e-3 * (hi - lo);
+                    if proposal.is_finite() && proposal > lo + margin && proposal < hi - margin {
+                        trial_pe = proposal;
+                    }
+                }
+            }
             let input = build_input_at(vessel, problem, db_tag, Some((trial_pe, coupling)));
             let Ok(out) = self.run_trial(db_tag, &input) else {
                 if interior_probe == 15 {
@@ -2650,21 +2721,32 @@ impl PhreeqcEquilibrator {
             }
             last_sum = Some(sum);
             best = Some(out);
-            if sum < coupling.target {
+            let residual = sum - coupling.target;
+            let below = residual < 0.0;
+            if below {
                 saw_below = true;
                 lo = mid;
+                r_lo = Some(residual);
+                if last_side == Some(true) {
+                    r_hi = r_hi.map(|r| 0.5 * r);
+                }
             } else {
                 saw_above = true;
                 hi = mid;
+                r_hi = Some(residual);
+                if last_side == Some(false) {
+                    r_lo = r_lo.map(|r| 0.5 * r);
+                }
             }
-            // Residual break (OPT-7): stopping here is judged by the same
-            // tolerance the post-check enforces, so nothing that would have
-            // been refused gets waved through — the search just stops
-            // paying for precision the verdict cannot use.
+            last_side = Some(below);
+            // Residual break: `residual_tol` is the root precision the
+            // caller asked for (`solve_coupled`'s `root_tol`), much finer
+            // than the tolerance the balance is judged by, so the answer
+            // does not depend on where the search happened to start.
             if (sum - coupling.target).abs() <= residual_tol {
                 break;
             }
-            if hi - lo < 1e-6 {
+            if hi - lo < 1e-9 {
                 break;
             }
         }
@@ -2714,6 +2796,7 @@ impl PhreeqcEquilibrator {
             pinned_brine: None,
             sit: None,
             pinned_sit: None,
+            water_held: std::collections::HashMap::new(),
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
             trial_cache: std::collections::HashMap::new(),
@@ -13856,6 +13939,114 @@ struct RedoxCoupling {
     /// inventory, so the balance residual can be judged against how much
     /// there was to balance rather than against an absolute number.
     scale: f64,
+    /// The pe the electron search may extend to above the water ceiling,
+    /// present only when the inventory holds an oxidant listed in
+    /// `WATER_INERT_OXIDANTS` (see `water_inert_ceiling`).
+    water_inert_ceiling: Option<f64>,
+}
+
+/// Top of the coupled pe search where water itself sets the limit. Above
+/// about pe 17 PHREEQC begins oxidising the solvent to dissolved O2 (pe 24
+/// at pH 1 asks for ~10^16 mol/kg of it and the solve breaks down), so
+/// nothing an ordinary solve can stand on lives higher.
+const WATER_OXIDATION_PE_CEILING: f64 = 17.0;
+
+/// The O(0) redefinition itself; also the marker `engine_for` routes on.
+const WATER_OXIDATION_HOLD: &str =
+    "    2 H2O = O2 + 4 H+ + 4 e-\n        log_k -300 # water oxidation held";
+
+/// pe per volt at 25 °C: F / (R T ln 10) = 1 / 0.05916 V.
+const PE_PER_VOLT_25C: f64 = 1.0 / 0.059_16;
+
+/// How far above an inert oxidant's own standard pe the search may go:
+/// covers acid below pH 0 and a large excess of the oxidised form
+/// (+1.6 pe per pH unit and +0.2 pe per decade of MnO4-/Mn2+), so the root
+/// is bracketed rather than placed.
+const WATER_INERT_PE_MARGIN: f64 = 4.0;
+
+/// An oxidant that is strong enough to oxidise water and does not do so on
+/// a bench timescale.
+///
+/// Thermodynamically, anything with E° above the O2/H2O couple (1.229 V)
+/// takes electrons from water, and PHREEQC's equilibrium does exactly
+/// that: permanganate left over past the end point of a titration came
+/// back entirely as Mn(II), with the oxygen it made from water nowhere in
+/// the ledger. On a bench the oxidation of water needs a catalyst and does
+/// not happen: acidified permanganate and dichromate are the standard
+/// solutions of volumetric analysis precisely because they keep. This is
+/// curated kinetics, the same kind of statement as `FAST_REDOX` and the
+/// isolated slow couples of `redox_isolation`: the listed couple stays in
+/// equilibrium with every fast reductant, while water's oxidation is held
+/// out of the solve.
+///
+/// A new inert oxidant is one row. An oxidant absent here (manganate,
+/// Mn(VI), which disproportionates in acid; aqueous Co(III), which does
+/// oxidise water) keeps the water ceiling and refuses an excess as before.
+struct WaterInertOxidant {
+    element: &'static str,
+    /// The oxidation state that is inert toward water.
+    state: i32,
+    /// Standard reduction potential of the couple, V — only used to place
+    /// the top of the pe search, never as a thermodynamic constant (the
+    /// database's own log K decides the speciation).
+    e0_volts: f64,
+    #[allow(dead_code)] // provenance, read by people
+    source: &'static str,
+}
+
+const WATER_INERT_OXIDANTS: &[WaterInertOxidant] = &[
+    WaterInertOxidant {
+        element: "Mn",
+        state: 7,
+        e0_volts: kerotakis_core::potential_redox::E0_MNO4,
+        source: "MnO4-/Mn2+ 1.507 V, CRC Electrochemical Series (Vanýsek); standard \
+                 permanganate solutions are stable in acid once free of MnO2 \
+                 (Vogel's Textbook of Quantitative Chemical Analysis, 6th ed., \
+                 permanganate titrimetry)",
+    },
+    WaterInertOxidant {
+        element: "Cr",
+        state: 6,
+        e0_volts: kerotakis_core::potential_redox::E0_CR2O7,
+        source: "Cr2O7^2-/Cr3+ 1.36 V, Bard, Parsons & Jordan, Standard Potentials \
+                 in Aqueous Solution (1985); potassium dichromate is a primary \
+                 standard whose acidified solutions keep indefinitely (Vogel, 6th ed., \
+                 dichromate titrimetry)",
+    },
+];
+
+/// The pe the coupled search may reach when `totals` carry a water-inert
+/// oxidant of a coupled element: its standard pe plus the margin, the
+/// highest such over the present oxidants. `None` keeps the water ceiling.
+fn water_inert_ceiling(totals: &[(String, f64)], coupled: &[&str]) -> Option<f64> {
+    WATER_INERT_OXIDANTS
+        .iter()
+        .filter(|row| coupled.contains(&row.element))
+        .filter(|row| {
+            totals.iter().any(|(key, moles)| {
+                *moles > 0.0
+                    && key.split('(').next() == Some(row.element)
+                    && tagged_state(key) == Some(row.state)
+            })
+        })
+        .map(|row| row.e0_volts * PE_PER_VOLT_25C + WATER_INERT_PE_MARGIN)
+        .filter(|pe| *pe > WATER_OXIDATION_PE_CEILING)
+        .reduce(f64::max)
+}
+
+/// Held water oxidation for a coupled trial above the water ceiling: the
+/// O(0) master species redefined so it never forms, the same pinning device
+/// as `fast_redox_pin_block`'s log K ±50. The initial solution then carries
+/// no dissolved oxygen made from the solvent, and the electron balance is
+/// struck among the posed elements alone. Empty when the database's O(0)
+/// master is not O2.
+fn water_oxidation_hold_block(db_tag: &str) -> String {
+    match derived::index_for(db_tag).masters.get("O(0)") {
+        Some(master) if master.species == "O2" => {
+            format!("SOLUTION_SPECIES\n{WATER_OXIDATION_HOLD}\n")
+        }
+        _ => String::new(),
+    }
 }
 
 /// The charge of a master species that is the bare cation of `base` —
@@ -14015,10 +14206,13 @@ fn redox_coupling_totals(totals: &[(String, f64)], db_tag: &str) -> Option<Redox
             columns.push(master.clone());
         }
     }
+    let water_inert_ceiling = water_inert_ceiling(totals, &coupled)
+        .filter(|_| !water_oxidation_hold_block(db_tag).is_empty());
     Some(RedoxCoupling {
         target,
         columns,
         scale,
+        water_inert_ceiling,
     })
 }
 
@@ -14606,6 +14800,13 @@ fn build_input_at(
             db_tag,
         ));
     }
+    // A trial above the water ceiling exists only for a water-inert
+    // oxidant in excess (`WATER_INERT_OXIDANTS`); water's oxidation is held.
+    if let Some((pe, coupling)) = couple {
+        if pe > WATER_OXIDATION_PE_CEILING && coupling.water_inert_ceiling.is_some() {
+            input.push_str(&water_oxidation_hold_block(db_tag));
+        }
+    }
     // Only consulted on the uncoupled path; a coupled solve holds nothing.
     let held = if couple.is_none() {
         held_redox_split(&problem.totals, db_tag)
@@ -14628,7 +14829,7 @@ fn build_input_at(
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
-        Some((pe, _)) => writeln!(input, "    pe        {pe:.6}").unwrap(),
+        Some((pe, _)) => writeln!(input, "    pe        {pe:.12}").unwrap(),
         // Otherwise the beaker is open to the room, and the air above it is
         // what sets its redox state. PHREEQC's default of pe 4 is not a
         // measurement, it is a placeholder, and it is mildly *reducing*:
@@ -16572,5 +16773,65 @@ mod activity_route_caveat_tests {
         assert!(text.contains("routing.activity-model-fallback"), "{text}");
         assert!(!text.contains("specific-ion-interaction"), "{text}");
         assert!(!text.contains("above-validity-ceiling"), "{text}");
+    }
+}
+
+#[cfg(test)]
+mod water_inert_oxidant_tests {
+    use super::{
+        redox_coupling_totals, water_inert_ceiling, water_oxidation_hold_block,
+        WATER_OXIDATION_PE_CEILING,
+    };
+
+    fn totals(rows: &[(&str, f64)]) -> Vec<(String, f64)> {
+        rows.iter().map(|(k, n)| (k.to_string(), *n)).collect()
+    }
+
+    #[test]
+    fn permanganate_lifts_the_search_above_the_water_ceiling() {
+        let coupling =
+            redox_coupling_totals(&totals(&[("Fe", 2.5e-3), ("Mn(7)", 6e-4)]), "wateq4f")
+                .expect("iron(II) and permanganate couple");
+        let top = coupling
+            .water_inert_ceiling
+            .expect("permanganate is water-inert");
+        // 1.507 V is pe 25.47; the margin puts the top four above it.
+        assert!((top - (1.507 / 0.059_16 + 4.0)).abs() < 1e-9, "{top}");
+        assert!(top > WATER_OXIDATION_PE_CEILING);
+        assert!(!water_oxidation_hold_block("wateq4f").is_empty());
+    }
+
+    #[test]
+    fn dichromate_is_a_row_of_the_same_rule() {
+        let top = water_inert_ceiling(&totals(&[("Fe", 1e-3), ("Cr(6)", 1e-4)]), &["Fe", "Cr"])
+            .expect("dichromate is water-inert");
+        assert!((top - (1.36 / 0.059_16 + 4.0)).abs() < 1e-9, "{top}");
+    }
+
+    #[test]
+    fn an_unlisted_or_reduced_state_keeps_the_water_ceiling() {
+        // Manganate disproportionates in acid and Mn(II) is no oxidant:
+        // neither may carry the search above the stability field of water.
+        for rows in [
+            &[("Fe", 1e-3), ("Mn(6)", 1e-4)][..],
+            &[("Fe(3)", 1e-3), ("Mn(2)", 1e-4)][..],
+            &[("Fe", 1e-3), ("Cu", 1e-4)][..],
+        ] {
+            assert_eq!(
+                water_inert_ceiling(&totals(rows), &["Fe", "Mn", "Cu"]),
+                None,
+                "{rows:?}"
+            );
+        }
+        // An exhausted permanganate total is no excess either.
+        assert_eq!(
+            water_inert_ceiling(&totals(&[("Fe", 1e-3), ("Mn(7)", 0.0)]), &["Fe", "Mn"]),
+            None
+        );
+        // Nor does it count for an element outside the coupled set.
+        assert_eq!(
+            water_inert_ceiling(&totals(&[("Mn(7)", 1e-4)]), &["Fe"]),
+            None
+        );
     }
 }
