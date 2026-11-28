@@ -430,6 +430,7 @@
       "pricing": "product_not_in_registry",
       "registry_forms": [
         "NO2-",
+        "KNO2",
         "NaNO2"
       ],
       "status": "refused",

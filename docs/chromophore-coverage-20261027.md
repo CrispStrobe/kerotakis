@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 71, outside_method 133, parameterised 7, parameterised_ph 5, unclassified 40.
+Counts: missing_absorptivity 71, outside_method 134, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -126,6 +126,7 @@ Counts: missing_absorptivity 71, outside_method 133, parameterised 7, parameteri
 | outside_method | KHSO4 | white |
 | outside_method | KI | white crystalline solid |
 | outside_method | KIO3 | white crystalline powder |
+| outside_method | KNO2 | white |
 | outside_method | KNO3 | white |
 | outside_method | KOH | white |
 | outside_method | Mg(OH)2 | white |

@@ -59,6 +59,7 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/carbonate_endpoint.rs",
     ROOT / "crates/kerotakis-core/src/chlorine.rs",
     ROOT / "crates/kerotakis-core/src/nitrogen_oxides.rs",
+    ROOT / "crates/kerotakis-core/src/nitrate_decomposition.rs",
     ROOT / "crates/kerotakis-core/src/potential_redox.rs",
     ROOT / "crates/kerotakis-core/src/appearance.rs",
     ROOT / "crates/kerotakis-core/src/complex_optics.rs",

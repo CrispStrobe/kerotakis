@@ -510,6 +510,10 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
 fn appearance_word_colour(word: &str) -> Option<Colour> {
     let (r, g, b) = match word {
         "red" => (178, 34, 34),
+        // CSS `teal`, hue 180°: reads back as "blue-green". Anhydrous
+        // copper(II) nitrate is recorded "blue-green" (Merck Index) with no
+        // reflectance, and was drawn white (2026-11-28 sweep, S3).
+        "blue-green" => (0, 128, 128),
         _ => return None,
     };
     Some(Colour {

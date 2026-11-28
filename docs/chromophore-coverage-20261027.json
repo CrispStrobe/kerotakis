@@ -24,7 +24,7 @@
   ],
   "counts": {
     "missing_absorptivity": 71,
-    "outside_method": 133,
+    "outside_method": 134,
     "parameterised": 7,
     "parameterised_ph": 5,
     "unclassified": 40
@@ -568,6 +568,11 @@
     {
       "species": "KIO3",
       "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "KNO2",
+      "appearance": "white",
       "class": "outside_method"
     },
     {

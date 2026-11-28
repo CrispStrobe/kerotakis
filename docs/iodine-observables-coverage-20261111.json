@@ -3,7 +3,7 @@
   "solvent": "hexane",
   "counts": {
     "ion-stays-aqueous": 51,
-    "neutral-refused": 196,
+    "neutral-refused": 197,
     "partitions": 9
   },
   "cases": [
@@ -653,6 +653,11 @@
     },
     {
       "species": "KMnO4",
+      "class": "neutral-refused",
+      "basis": null
+    },
+    {
+      "species": "KNO2",
       "class": "neutral-refused",
       "basis": null
     },

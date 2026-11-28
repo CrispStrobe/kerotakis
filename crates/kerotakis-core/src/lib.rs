@@ -85,6 +85,7 @@ pub mod measurement;
 pub mod melting_range;
 pub mod molecule;
 mod named_alkaline;
+pub mod nitrate_decomposition;
 pub mod nitrogen_oxides;
 pub mod nonaqueous;
 pub mod nuclide;
