@@ -1229,7 +1229,6 @@ pub struct ExposureFinding {
     pub locations: [String; 2],
 }
 
-#[derive(Debug, Clone)]
 /// Reactive groups whose hazard is a gas the acid drives out, with the gas
 /// it is. A DISSOLVED member of such a group can only effervesce once the
 /// solution holds more of the gas than it can keep in solution at one
@@ -1265,6 +1264,7 @@ fn dissolved_groups_below_gas_floor(vessel: &Vessel) -> Vec<ReactiveGroup> {
         .collect()
 }
 
+#[derive(Debug, Clone)]
 struct PresentSpecies<'a> {
     key: &'a str,
     location: &'a str,
