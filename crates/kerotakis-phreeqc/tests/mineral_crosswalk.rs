@@ -93,16 +93,20 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// `Al(OH)3(am)`), Ni(OH)2 one, so four names gain a registry solid and
 /// one more row has several names. NOT YET CHECKED BY A RUN: pinned from
 /// the phase blocks by hand; a failure prints the true totals.
+///
+/// 2026-11-28 (nitrate decomposition): potassium nitrite joins as a registry
+/// solid that is not a database phase (registry solids and the
+/// not-a-database-phase count each +1; the gate printed these totals).
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 142,
+            registry_solids: 143,
             database_phases: 68,
             with_reviewed_solubility: 14,
             without_reviewed_solubility: 54,
-            not_a_database_phase: 74,
+            not_a_database_phase: 75,
             phases_without_a_registry_solid: 588,
             several_phase_names: 15,
             not_posable: 12,

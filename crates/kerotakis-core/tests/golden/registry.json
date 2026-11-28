@@ -7996,5 +7996,30 @@
     "provenance": "barium chromate, BaCrO4: a sparingly soluble chromium(VI) precipitate added by the C1 chromate lane (2026-11-27) because minteq.v4.dat defines it under its formula, `BaCrO4`, so the routed aqueous solver already computes its saturation index, and before this row a supersaturated beaker (a lead, silver or barium salt with a chromate or dichromate) had no registry solid to precipitate it as. IDENTITY VERIFIED against PubChem CID 25136 on 2026-11-27 (PUG REST property record): InChIKey QFFVPLLCYGOFPU-UHFFFAOYSA-N. Molar mass 253.3191 g/mol from IUPAC/CIAAW 2021 standard atomic weights (1 x 137.327 + 1 x 51.9961 + 4 x 15.999 = 253.3191). DENSITY 4.498 g/mL: PubChem CID 25136 Experimental Properties > Density, attributed there to Sax's Dangerous Properties of Industrial Materials (Lewis, ed.): 4.498 at 15 C. APPEARANCE `pale yellow`: PubChem CID 25136 Color/Form, Sax's: `Heavy, pale-yellow crystalline powder`; The Merck Index: `Yellow heavy monoclinic orthorhombic crystals`. The reflective sRGB #F0E07A is an editorial rendering of the cited word for the bench canvas, not a measured colour. HEAT CAPACITY 118.8 J/(mol.K) IS AN ESTIMATE AND IS NOT OFFERED AS A MEASUREMENT: Kopp's rule over the standard atomic contributions, 1 x 26.0 (Ba) + 1 x 26.0 (Cr) + 4 x 16.7 (O) = 118.8, the same editorial method the barium carbonate row uses. WHAT IS NOT CLAIMED: no solubility product, no dissolution enthalpy, no melting or decomposition temperature and no aqueous solubility figure. The solubility of this solid is the routed database's own log K, read through the composition match in kerotakis_phreeqc::derived, and nothing here restates it.",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 236,
+      "g": 246,
+      "r": 248,
+      "strength": 0.0
+    },
+    "density": 1.915,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "lilac",
+    "forms_only_above_k": null,
+    "formula": "KNO2",
+    "heat_capacity": 85.2,
+    "heat_capacity_polys": [],
+    "inchikey": "BXNHTSHTPBPRFX-UHFFFAOYSA-M",
+    "key": "KNO2",
+    "magnetic": false,
+    "molar_mass": 85.1038,
+    "name": "potassium nitrite",
+    "provenance": "potassium nitrite, KNO2: added by the nitrate-decomposition lane (2026-11-28) as the residue of potassium nitrate's thermal decomposition, KNO3 = KNO2 + 1/2 O2 (K. H. Stern, J. Phys. Chem. Ref. Data 1 (1972) 747, p. 763). IDENTITY VERIFIED against PubChem CID 516910 on 2026-11-28 (PUG REST property record): InChIKey BXNHTSHTPBPRFX-UHFFFAOYSA-M, formula KNO2. Molar mass 85.1038 g/mol from IUPAC/CIAAW 2021 standard atomic weights (39.0983 + 14.007 + 2 x 15.999), matching the NASA CEA thermo.inp KNO2 records. DENSITY 1.915 g/mL at 25 C from HSDB as reproduced in PubChem CID 516910 (Density, read 2026-11-28). HEAT CAPACITY 85.2 J/(mol.K) is an explicit editorial estimate by Kopp's rule (O 16.7, every other element 25.9 J/(mol.K)), the sodium nitrite row's convention, not a measurement. APPEARANCE `white`: HSDB 'White or slightly yellow granules or rods' (PubChem CID 516910, Color/Form); the reflective sRGB is the sodium nitrite row's editorial rendering of that word, not a measured colour; flame colour `lilac` is the registry's potassium flame word. NOT CLAIMED: melting point, solubility, dissolution enthalpy, the nitrite's own decomposition.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 188,
+    "boiling.no_data": 189,
     "boiling.reported": 68,
-    "melting.no_data": 155,
+    "melting.no_data": 156,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -1706,6 +1706,16 @@
         "outcome": "decomposition",
         "kelvin": 523.15,
         "source": "literature/transition-points/KMnO4"
+      }
+    },
+    {
+      "species": "KNO2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {

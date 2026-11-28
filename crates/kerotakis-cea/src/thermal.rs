@@ -364,7 +364,16 @@ const IRON_OXIDE_BURNS: &[(&str, &str)] = &[
 /// combustion product pool until that is reviewed as its own lane.
 // TODO(redox-species-20261125): admit NO/NO2 to combustion with a reviewed
 // flame-temperature adjudication.
-const CEA_WITHHELD: &[&str] = &["NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4"];
+///
+/// The metal nitrates and nitrites (2026-11-28 sweep, S2/S3) are owned by
+/// `kerotakis_core::nitrate_decomposition`, which decomposes them from a
+/// cited onset by cation class. Left mapped, the Gibbs route took sodium
+/// nitrate to its nitrite well below the 600 °C onset Stern (1972) reports
+/// and then on to liquid sodium metal, and booked no oxygen for either step.
+const CEA_WITHHELD: &[&str] = &[
+    "NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4", "NaNO3", "KNO3", "AgNO3", "Pb(NO3)2",
+    "NaNO2", "KNO2",
+];
 
 /// Registry key → CEA species name, derived by matching chemical formulas.
 fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
@@ -644,9 +653,33 @@ fn formula_composition(formula: &str) -> Option<BTreeMap<String, f64>> {
 /// pool is exactly what it was before these rows existed.
 const COMPOUND_ONLY_OXIDES: &[(&str, &str)] = &[("ZnO", "Zn"), ("Al2O3", "Al")];
 
+/// The alkali metals. No thermal route may make one out of its salt.
+const ALKALI_METALS: &[&str] = &["Li", "Na", "K", "Rb", "Cs"];
+
 /// Element compositions of the [`COMPOUND_ONLY_OXIDES`] this charge may not
-/// form.
+/// form, and of the alkali metals it may not make.
+///
+/// An alkali metal is withheld unless the charge already holds the metal
+/// itself: reducing a sodium or potassium salt to the metal takes
+/// electrolysis or a stronger reductant than anything a burner offers, and
+/// the 2026-11-28 sweep caught this route turning hot sodium nitrite into
+/// liquid sodium (S2). A lump of sodium burning in air still has its metal,
+/// its vapour and its oxides to reach; only a charge without the metal loses
+/// them. Pure-metal compositions (`Na`, `Na2`) are withheld; compounds are not.
 fn withheld_oxides(mapped: &[(SpeciesId, f64)]) -> Vec<BTreeMap<String, f64>> {
+    let mut withheld = withheld_compound_only_oxides(mapped);
+    for metal in ALKALI_METALS {
+        if mapped.iter().any(|(id, _)| id.0 == *metal) {
+            continue;
+        }
+        for atoms in [1.0, 2.0] {
+            withheld.push(BTreeMap::from([((*metal).to_string(), atoms)]));
+        }
+    }
+    withheld
+}
+
+fn withheld_compound_only_oxides(mapped: &[(SpeciesId, f64)]) -> Vec<BTreeMap<String, f64>> {
     COMPOUND_ONLY_OXIDES
         .iter()
         .filter(|(_, metal)| {
@@ -2066,5 +2099,50 @@ mod phase_feed_tests {
             db().get("CH3OH").unwrap().h(1200.0)
         );
         assert!(enthalpy_within_record(methanol, 100.0).is_none());
+    }
+}
+
+#[cfg(test)]
+mod alkali_metal_guard_tests {
+    use super::*;
+
+    fn pool_has_metal(mapped: &[(SpeciesId, f64)], metal: &str) -> bool {
+        let elements: Vec<String> = ["Na", "K", "N", "O", "Cl"]
+            .iter()
+            .map(|e| e.to_string())
+            .collect();
+        pool_for(&elements, &withheld_oxides(mapped))
+            .iter()
+            .any(|s| s.composition.keys().all(|el| el == metal))
+    }
+
+    #[test]
+    fn a_salt_alone_cannot_reach_its_alkali_metal() {
+        // S2 (2026-11-28): hot sodium nitrite became liquid sodium. With no
+        // metal in the charge, no pure sodium or potassium record is a
+        // candidate product, in any phase.
+        let salt = [(SpeciesId::new("NaCl"), 0.01)];
+        assert!(!pool_has_metal(&salt, "Na"));
+        assert!(!pool_has_metal(&salt, "K"));
+    }
+
+    #[test]
+    fn the_metal_itself_keeps_its_phases() {
+        // A lump of sodium still has its own records to melt and burn through.
+        let metal = [(SpeciesId::new("Na"), 0.01)];
+        assert!(pool_has_metal(&metal, "Na"));
+        assert!(!pool_has_metal(&metal, "K"));
+    }
+
+    #[test]
+    fn nitrates_and_nitrites_are_owned_by_the_core_route() {
+        for key in [
+            "NaNO3", "KNO3", "NaNO2", "KNO2", "AgNO3", "Pb(NO3)2", "Cu(NO3)2",
+        ] {
+            assert!(
+                cea_name(key).is_none(),
+                "{key} still maps into the Gibbs route"
+            );
+        }
     }
 }

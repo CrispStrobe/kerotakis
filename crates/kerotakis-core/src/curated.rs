@@ -991,6 +991,7 @@ impl Equilibrator for CuratedEquilibrator {
             || crate::reducing_sugar::fires(vessel)
             || crate::concentrated_sulfuric::fires(vessel)
             || crate::nitrogen_oxides::fires(vessel)
+            || crate::nitrate_decomposition::fires(vessel)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -1174,6 +1175,12 @@ impl Equilibrator for CuratedEquilibrator {
             // rows that make NO and NO2 (NO + O2, NO2 into water, nitrous
             // acid decomposition).
             if crate::nitrogen_oxides::apply(vessel, &mut events) {
+                progressed = true;
+            }
+            // Dry metal nitrates above their cited onset, by cation class
+            // (S2/S3, 2026-11-28 sweep). Heat-limited, so it cannot loop:
+            // each pass leaves the contents at or below the onset.
+            if crate::nitrate_decomposition::apply(vessel, &mut events) {
                 progressed = true;
             }
             if !progressed {

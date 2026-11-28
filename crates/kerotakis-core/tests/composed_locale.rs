@@ -49,6 +49,10 @@ const COMPOSERS: &[(&str, &str)] = &[
         include_str!("../src/nitrogen_oxides.rs"),
     ),
     (
+        "nitrate_decomposition.rs",
+        include_str!("../src/nitrate_decomposition.rs"),
+    ),
+    (
         "potential_redox.rs",
         include_str!("../src/potential_redox.rs"),
     ),

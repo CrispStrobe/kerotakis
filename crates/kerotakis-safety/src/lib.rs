@@ -259,6 +259,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // the hypochlorite and sulfite rows do.
         "K2Cr2O7" | "K2CrO4" | "Cr2O7-2" | "CrO4-2" | "HCrO4-" => &[OxidizerStrong, ToxicSoluble],
         "NaNO2" => &[OxidizerStrong, ToxicSoluble],
+        // Potassium nitrite (2026-11-28, the residue of heated saltpetre):
+        // a class 5.1 oxidiser (UN 1488) and toxic when swallowed, the
+        // sodium salt's hazard for the same anion.
+        "KNO2" => &[OxidizerStrong, ToxicSoluble],
         "Cl2" => &[OxidizerStrong],
         // Liquid bromine (ICSC 0107: "strong oxidant, reacts violently with
         // combustible and reducing materials"); its toxicity and
@@ -982,6 +986,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaCl",
     "NaNO3",
     "NaNO2",
+    "KNO2",
     "NaHCO3",
     "NaHSO3",
     "NaHSO4",

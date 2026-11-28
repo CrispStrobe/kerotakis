@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 188, boiling.reported 68, melting.no_data 155, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 189, boiling.reported 68, melting.no_data 156, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -147,6 +147,7 @@ Counts: boiling.no_data 188, boiling.reported 68, melting.no_data 155, melting.r
 | KI | solid | melting 958 K | boiling 1597 K | literature/transition-points/KI |
 | KIO3 | solid | melting 833 K | no_data | literature/transition-points/KIO3 |
 | KMnO4 | solid | decomposition 523.15 K | decomposition 523.15 K | literature/transition-points/KMnO4 |
+| KNO2 | solid | no_data | no_data | — |
 | KNO3 | solid | melting 610 K | no_data | literature/transition-points/KNO3 |
 | KOH | solid | melting 673 K | boiling 1600 K | literature/transition-points/KOH |
 | KSCN | aqueous | no_data | no_data | — |

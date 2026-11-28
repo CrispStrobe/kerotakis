@@ -15,7 +15,7 @@ and boiled, with its latent heat paid, by the vaporising route.
 After a non-burning `ignite`, whatever the flame melted is refrozen when the vessel is
 put back at its starting temperature (`phase_route::refreeze_flame_melts`).
 
-Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 100, not_condensed 93.
+Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 101, not_condensed 93.
 
 | basis | species | standard | mp / K | bp / K | fusion owner | 10 °C | 25 °C | 40 °C |
 |---|---|---|---|---|---|---|---|---|
@@ -123,6 +123,7 @@ Counts: derived 25, melting_point_without_latent_heat 38, no_melting_point 100, 
 | no_melting_point | KBr | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KHSO4 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | KMnO4 | solid | — | — | no | solid | solid | solid |
+| no_melting_point | KNO2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | Mg(OH)2 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | MgCO3 | solid | — | — | no | solid | solid | solid |
 | no_melting_point | MgCl2 | solid | — | — | no | solid | solid | solid |

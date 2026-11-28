@@ -201,7 +201,7 @@ colour change against the pre-endpoint colour, and keep the rule in one
 place for all titrants. Acceptance: Fe(II)/MnO4- endpoint within 1 mL of
 stoichiometry. I2/S2O3 with starch gives the same volume as without it.
 
-### S2. Sodium nitrate decomposes to sodium metal, with no oxygen (bug) — OPEN
+### S2. Sodium nitrate decomposes to sodium metal, with no oxygen (bug) — FIXED (fix/nitrate-decomp-20261128)
 
 Heating NaNO3 to 1335 °C reports NaNO2 and then 0.0117 mol liquid sodium.
 No O2 or other gas is booked for either step. Real behaviour is
@@ -210,13 +210,25 @@ oxides, never to the metal. Generic fix: a nitrate-decomposition table
 row per cation class, with the gas products and a no-metal-product guard.
 Acceptance: about 5.9 mmol O2 from 1 g NaNO3, and no Na(l).
 
-### S3. Heavy-metal nitrates do not decompose (missing reaction) — OPEN
+### S3. Heavy-metal nitrates do not decompose (missing reaction) — FIXED (fix/nitrate-decomp-20261128)
 
 Cu(NO3)2 held at 1500 °C stays intact, with 0 kJ to chemistry. The
 anhydrous salt is also drawn "white". Expected:
 2 Cu(NO3)2 → 2 CuO + 4 NO2 + O2, black solid, brown gas. This could share
 the S2 table: an alkali row gives nitrite + O2, and a row for other metals
 gives oxide + NO2 + O2. Each needs reviewed onset temperatures.
+
+Fix (S2 and S3): `kerotakis_core::nitrate_decomposition` holds one row per
+cation class (group 1 except Li → nitrite + O2; noble metals → metal + NO2 +
+O2; every other metal → oxide + NO2 + O2) and one cited onset and reaction
+enthalpy per salt, from Stern, J. Phys. Chem. Ref. Data 1 (1972) 747 and the
+registry's reviewed decomposition points: NaNO3 873 K, KNO3 923 K,
+Cu(NO3)2 500 K, AgNO3 513 K, Pb(NO3)2 539 K. The reaction is paid from the
+heat the vessel holds above the onset. The Gibbs route no longer maps the
+nitrates and nitrites, and no longer offers an alkali metal as a product
+unless the charge already holds that metal. KNO2 joins the registry.
+Cu(NO3)2 is drawn blue-green (word-colour table). Pb(NO3)2 is refused with a
+typed note because PbO is not yet a registry species.
 
 ### S4. No haloform (iodoform) route (missing reaction and species) — OPEN
 

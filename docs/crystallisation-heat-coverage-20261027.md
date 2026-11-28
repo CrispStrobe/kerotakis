@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 19 | 1 | 122 |
-| minteq.v4 | 25 | 4 | 113 |
-| pitzer | 10 | 3 | 129 |
+| wateq4f | 19 | 1 | 123 |
+| minteq.v4 | 25 | 4 | 114 |
+| pitzer | 10 | 3 | 130 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -249,6 +249,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `KMnO4` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `KMnO4` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `KMnO4` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `KNO2` | wateq4f | refused | - | the routed database defines no phase for this solid |
+| `KNO2` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
+| `KNO2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `KNO3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `KNO3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `KNO3` | pitzer | refused | - | the routed database defines no phase for this solid |
