@@ -7514,8 +7514,14 @@ fn freezing_boundary_binds(v: &Vessel) -> bool {
         return false;
     }
     let (t, _) = crate::solve::vessel_transitions(v);
-    if t.solute_molality.is_nan() || t.solute_molality <= 0.0 {
-        return false;
+    let counted = t.solute_molality.is_finite() && t.solute_molality > 0.0;
+    if !counted {
+        // No particle census (nothing solved yet): any dissolved stock still
+        // leaves a freezing point the equilibrator cannot place.
+        return v
+            .contents
+            .iter()
+            .any(|p| p.phase == Phase::Aqueous && p.moles.0 > 0.0);
     }
     let owned_above = t.freezing_k.is_finite()
         && t.within_model_range()
