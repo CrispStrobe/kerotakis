@@ -1385,7 +1385,7 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         ),
         (
             "lemonade-indicator.lab",
-            &["liquid is blue", "liquid is orange"],
+            &["liquid is blue", "liquid is yellow"],
         ),
         (
             "antacid-suspension.lab",
