@@ -269,7 +269,7 @@ fn every_route_is_a_balanced_data_row() {
 /// iron(III) and hexacyanoferrate(II) for the solver to precipitate.
 #[test]
 fn iron_two_and_hexacyanoferrate_three_transfer_an_electron_for_prussian_blue() {
-    assert!(potential_redox::E0_FE_CN6 < potential_redox::E0_FE3);
+    const { assert!(potential_redox::E0_FE_CN6 < potential_redox::E0_FE3) };
     let mut v = water(0.555);
     put(&mut v, "FeSO4", 0.0004, Phase::Solid);
     put(&mut v, "K3Fe(CN)6", 0.0003, Phase::Solid);
