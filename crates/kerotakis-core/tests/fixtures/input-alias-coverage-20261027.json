@@ -71,6 +71,11 @@
       "source": "charge-notation"
     },
     {
+      "alias": "AlH3O3",
+      "canonical": "Al(OH)3",
+      "source": "formula"
+    },
+    {
       "alias": "Aluminium",
       "canonical": "Al",
       "source": "name:de"
@@ -78,6 +83,11 @@
     {
       "alias": "Aluminium-Ion",
       "canonical": "Al+3",
+      "source": "name:de"
+    },
+    {
+      "alias": "Aluminiumhydroxid",
+      "canonical": "Al(OH)3",
       "source": "name:de"
     },
     {
@@ -1481,6 +1491,26 @@
       "source": "name:de"
     },
     {
+      "alias": "Ni2+",
+      "canonical": "Ni+2",
+      "source": "charge-notation"
+    },
+    {
+      "alias": "NiH2O2",
+      "canonical": "Ni(OH)2",
+      "source": "formula"
+    },
+    {
+      "alias": "Nickel(II)-Ion",
+      "canonical": "Ni+2",
+      "source": "name:de"
+    },
+    {
+      "alias": "Nickel(II)-hydroxid",
+      "canonical": "Ni(OH)2",
+      "source": "name:de"
+    },
+    {
       "alias": "Nitrat",
       "canonical": "NO3-",
       "source": "ion-name:de"
@@ -2003,6 +2033,11 @@
     {
       "alias": "aluminium",
       "canonical": "Al",
+      "source": "name:en"
+    },
+    {
+      "alias": "aluminium hydroxide",
+      "canonical": "Al(OH)3",
       "source": "name:en"
     },
     {
@@ -3106,6 +3141,11 @@
       "source": "ion-name:fr"
     },
     {
+      "alias": "hydroxyde d'aluminium",
+      "canonical": "Al(OH)3",
+      "source": "name:fr"
+    },
+    {
       "alias": "hydroxyde de baryum",
       "canonical": "Ba(OH)2",
       "source": "name:fr"
@@ -3128,6 +3168,11 @@
     {
       "alias": "hydroxyde de magnésium",
       "canonical": "Mg(OH)2",
+      "source": "name:fr"
+    },
+    {
+      "alias": "hydroxyde de nickel(II)",
+      "canonical": "Ni(OH)2",
       "source": "name:fr"
     },
     {
@@ -3398,6 +3443,11 @@
     {
       "alias": "ion manganèse(III)",
       "canonical": "Mn+3",
+      "source": "name:fr"
+    },
+    {
+      "alias": "ion nickel(II)",
+      "canonical": "Ni+2",
       "source": "name:fr"
     },
     {
@@ -3764,6 +3814,16 @@
       "alias": "neige carbonique",
       "canonical": "dry_ice",
       "source": "name:fr"
+    },
+    {
+      "alias": "nickel(II) hydroxide",
+      "canonical": "Ni(OH)2",
+      "source": "name:en"
+    },
+    {
+      "alias": "nickel(II) ion",
+      "canonical": "Ni+2",
+      "source": "name:en"
     },
     {
       "alias": "nitrate",

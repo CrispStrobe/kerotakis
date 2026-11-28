@@ -26,7 +26,7 @@ melt on their plateau.
 | batch3-diverse:th-004 | paraffin wax melting range; warning above it |
 | batch3-diverse:po-009 | PE / PP melting ranges; blend warning above them |
 
-Counts: boiling.no_data 185, boiling.reported 68, melting.no_data 152, melting.range 5, melting.reported 96.
+Counts: boiling.no_data 188, boiling.reported 68, melting.no_data 155, melting.range 5, melting.reported 96.
 
 ## Melting ranges
 
@@ -52,6 +52,7 @@ Counts: boiling.no_data 185, boiling.reported 68, melting.no_data 152, melting.r
 | AgI | solid | melting 831 K | boiling 1777 K | literature/transition-points/AgI |
 | AgNO3 | solid | melting 483 K | decomposition 513 K | literature/transition-points/AgNO3 |
 | Al | solid | melting 933.473 K | boiling 2743 K | literature/transition-points/Al |
+| Al(OH)3 | solid | no_data | no_data | — |
 | Al+3 | aqueous | no_data | no_data | — |
 | Al2(SO4)3 | solid | no_data | no_data | — |
 | Al2O3 | solid | no_data | no_data | — |
@@ -190,6 +191,8 @@ Counts: boiling.no_data 185, boiling.reported 68, melting.no_data 152, melting.r
 | NaOAc | solid | no_data | no_data | — |
 | NaOCl | liquid | no_data | no_data | — |
 | NaOH | solid | melting 593 K | boiling 1651 K | literature/transition-points/NaOH |
+| Ni(OH)2 | solid | no_data | no_data | — |
+| Ni+2 | aqueous | no_data | no_data | — |
 | O2 | gas | melting 54.4 K | boiling 90.19 K | literature/transition-points/O2 |
 | OH- | aqueous | no_data | no_data | — |
 | PE | solid | range 411.98–414.6 K | no_data | — |

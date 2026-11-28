@@ -23,8 +23,8 @@
     "brown"
   ],
   "counts": {
-    "missing_absorptivity": 70,
-    "outside_method": 131,
+    "missing_absorptivity": 71,
+    "outside_method": 133,
     "parameterised": 7,
     "parameterised_ph": 5,
     "unclassified": 40
@@ -291,6 +291,11 @@
       "class": "missing_absorptivity"
     },
     {
+      "species": "Ni(OH)2",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
       "species": "Pb",
       "appearance": "dull grey",
       "class": "missing_absorptivity"
@@ -387,6 +392,11 @@
     },
     {
       "species": "AgNO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Al(OH)3",
       "appearance": "white",
       "class": "outside_method"
     },
@@ -703,6 +713,11 @@
     {
       "species": "NaOH",
       "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Ni+2",
+      "appearance": "colourless",
       "class": "outside_method"
     },
     {

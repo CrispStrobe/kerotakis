@@ -189,6 +189,27 @@
     "reason": "the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation"
   },
   {
+    "solid": "Al(OH)3",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Al(OH)3(a)",
+    "reason": "the phase saturates at ionic strength >= 283930805016.09 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "Al(OH)3",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Al(OH)3(am)",
+    "reason": "the phase saturates at ionic strength >= 283930805016.09 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "Al(OH)3",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
     "solid": "Al2(SO4)3",
     "route": "wateq4f",
     "class": "refused",
@@ -1779,6 +1800,27 @@
   },
   {
     "solid": "NaOH",
+    "route": "pitzer",
+    "class": "refused",
+    "phase": null,
+    "reason": "the routed database defines no phase for this solid"
+  },
+  {
+    "solid": "Ni(OH)2",
+    "route": "wateq4f",
+    "class": "refused",
+    "phase": "Ni(OH)2",
+    "reason": "the phase saturates at ionic strength >= 126191468896.04 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "Ni(OH)2",
+    "route": "minteq.v4",
+    "class": "refused",
+    "phase": "Ni(OH)2",
+    "reason": "the phase saturates at ionic strength >= 12446005703383.25 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route"
+  },
+  {
+    "solid": "Ni(OH)2",
     "route": "pitzer",
     "class": "refused",
     "phase": null,

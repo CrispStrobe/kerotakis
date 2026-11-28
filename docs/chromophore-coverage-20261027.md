@@ -14,7 +14,7 @@ The refusal is the spectrophotometer's half of the shared instrument coverage di
 (`instrument_coverage::InstrumentCoverage`: supported / missing parameters / outside
 method); `instrument_coverage::disclosure_of` enumerates every instrument's status.
 
-Counts: missing_absorptivity 70, outside_method 131, parameterised 7, parameterised_ph 5, unclassified 40.
+Counts: missing_absorptivity 71, outside_method 133, parameterised 7, parameterised_ph 5, unclassified 40.
 
 | class | species | curated appearance |
 |---|---|---|
@@ -70,6 +70,7 @@ Counts: missing_absorptivity 70, outside_method 131, parameterised 7, parameteri
 | missing_absorptivity | NO2 | brown |
 | missing_absorptivity | Na | silvery |
 | missing_absorptivity | NaOCl | pale yellow-green |
+| missing_absorptivity | Ni(OH)2 | green |
 | missing_absorptivity | Pb | dull grey |
 | missing_absorptivity | PbCrO4 | yellow |
 | missing_absorptivity | PbI2 | yellow |
@@ -90,6 +91,7 @@ Counts: missing_absorptivity 70, outside_method 131, parameterised 7, parameteri
 | missing_absorptivity | uranium | dull silvery grey |
 | outside_method | AgCl | white |
 | outside_method | AgNO3 | white |
+| outside_method | Al(OH)3 | white |
 | outside_method | Al+3 | colourless |
 | outside_method | Al2(SO4)3 | white powder |
 | outside_method | Al2O3 | white |
@@ -153,6 +155,7 @@ Counts: missing_absorptivity 70, outside_method 131, parameterised 7, parameteri
 | outside_method | NaNO3 | white |
 | outside_method | NaOAc | white |
 | outside_method | NaOH | white |
+| outside_method | Ni+2 | colourless |
 | outside_method | O2 | colourless |
 | outside_method | PE | translucent white plastic |
 | outside_method | PET | clear plastic |

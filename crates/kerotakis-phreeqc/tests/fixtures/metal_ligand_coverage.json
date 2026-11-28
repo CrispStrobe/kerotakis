@@ -5258,7 +5258,7 @@
     "metal": "Ni",
     "ligand": "Acetate",
     "family": "acetate",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -5273,7 +5273,7 @@
     "metal": "Ni",
     "ligand": "Benzoate",
     "family": "background (Benzoate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5287,7 +5287,7 @@
     "metal": "Ni",
     "ligand": "Br",
     "family": "background (Br)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5304,7 +5304,7 @@
     "metal": "Ni",
     "ligand": "Butyrate",
     "family": "background (Butyrate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5318,7 +5318,7 @@
     "metal": "Ni",
     "ligand": "C",
     "family": "background (C)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5338,7 +5338,7 @@
     "metal": "Ni",
     "ligand": "Citrate",
     "family": "citrate",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -5356,7 +5356,7 @@
     "metal": "Ni",
     "ligand": "Cl",
     "family": "background (Cl)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5375,7 +5375,7 @@
     "metal": "Ni",
     "ligand": "Cyanide",
     "family": "cyanide",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -5392,7 +5392,7 @@
     "metal": "Ni",
     "ligand": "Diethylamine",
     "family": "background (Diethylamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5410,7 +5410,7 @@
     "metal": "Ni",
     "ligand": "Dimethylamine",
     "family": "background (Dimethylamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5424,7 +5424,7 @@
     "metal": "Ni",
     "ligand": "Edta",
     "family": "EDTA",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -5440,7 +5440,7 @@
     "metal": "Ni",
     "ligand": "Ethylenediamine",
     "family": "background (Ethylenediamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5456,7 +5456,7 @@
     "metal": "Ni",
     "ligand": "F",
     "family": "background (F)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5473,7 +5473,7 @@
     "metal": "Ni",
     "ligand": "Formate",
     "family": "background (Formate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5487,7 +5487,7 @@
     "metal": "Ni",
     "ligand": "Four_picoline",
     "family": "background (Four_picoline)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5504,7 +5504,7 @@
     "metal": "Ni",
     "ligand": "Glutamate",
     "family": "background (Glutamate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5519,7 +5519,7 @@
     "metal": "Ni",
     "ligand": "Glycine",
     "family": "background (Glycine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5535,7 +5535,7 @@
     "metal": "Ni",
     "ligand": "Isopropylamine",
     "family": "background (Isopropylamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5553,7 +5553,7 @@
     "metal": "Ni",
     "ligand": "Methylamine",
     "family": "background (Methylamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5567,7 +5567,7 @@
     "metal": "Ni",
     "ligand": "N(-3)",
     "family": "ammine",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": true,
     "complexes": {
       "minteq.v4": [
@@ -5582,7 +5582,7 @@
     "metal": "Ni",
     "ligand": "N(5)",
     "family": "background (N(5))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5596,7 +5596,7 @@
     "metal": "Ni",
     "ligand": "Nta",
     "family": "background (Nta)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5612,7 +5612,7 @@
     "metal": "Ni",
     "ligand": "OH",
     "family": "hydroxide",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5633,7 +5633,7 @@
     "metal": "Ni",
     "ligand": "Phthalate",
     "family": "background (Phthalate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5648,7 +5648,7 @@
     "metal": "Ni",
     "ligand": "Propionate",
     "family": "background (Propionate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5662,7 +5662,7 @@
     "metal": "Ni",
     "ligand": "Propylamine",
     "family": "background (Propylamine)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5679,7 +5679,7 @@
     "metal": "Ni",
     "ligand": "S(6)",
     "family": "background (S(6))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5698,7 +5698,7 @@
     "metal": "Ni",
     "ligand": "Salicylate",
     "family": "background (Salicylate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5713,7 +5713,7 @@
     "metal": "Ni",
     "ligand": "Se(6)",
     "family": "background (Se(6))",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5727,7 +5727,7 @@
     "metal": "Ni",
     "ligand": "Tartarate",
     "family": "background (Tartarate)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5742,7 +5742,7 @@
     "metal": "Ni",
     "ligand": "Three_picoline",
     "family": "background (Three_picoline)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [
@@ -5759,7 +5759,7 @@
     "metal": "Ni",
     "ligand": "Two_picoline",
     "family": "background (Two_picoline)",
-    "registry_supplies_metal": false,
+    "registry_supplies_metal": true,
     "route_deciding": false,
     "complexes": {
       "minteq.v4": [

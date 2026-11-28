@@ -1037,6 +1037,24 @@
       "retrieved": null
     },
     {
+      "id": "legacy/Ni(OH)2",
+      "citation": "nickel(II) hydroxide, Ni(OH)2: added by the hydroxide-redissolution lane (2026-11-27). IDENTITY VERIFIED against PubChem CID 61534 (PubChem PUG REST/PUG View, read 2026-11-27): InChIKey BFDHFSHZJLFAMC-UHFFFAOYSA-L, formula H2NiO2. Molar mass 92.7074 g/mol from IUPAC/CIAAW 2021 (58.6934 + 2 x 15.999 + 2 x 1.008). DENSITY 4.1 g/mL: U.S. Coast Guard CHRIS (1999, 4.1 at 68 F) and HSDB ('4.1 @25 C'), as quoted in PubChem CID 61534. HEAT CAPACITY 78.6 J/(mol.K) IS AN ESTIMATE, NOT A MEASUREMENT: Kopp's rule 26.0 (metal) + 2 x 16.7 (O) + 2 x 9.6 (H), the malachite row's editorial method. APPEARANCE `green`: HSDB 'Green crystals, hexagonal' / 'Light green microcrystalline powder' (PubChem CID 61534); the reflective sRGB is an editorial rendering of that word, not a measured colour. AQUEOUS BEHAVIOUR IS THE ROUTED DATABASES' OWN: wateq4f.dat `Ni(OH)2` (log K 10.8) and minteq.v4.dat `Ni(OH)2` (12.794) are single entries (no amorphous polymorph), so fresh_precipitate_rank leaves them as is. Of the routed databases only minteq.v4 defines nickel ammines and only to Ni(NH3)2+2 (NIST46.4, log K -13.598 on the NH4+ basis); the hexaammine Ni(NH3)6+2 that dissolves the hydroxide in excess ammonia on the bench exists in llnl.dat (not routed), so redissolution in excess ammonia is NOT reproduced on the routed data and is not claimed. NOT CLAIMED: solubility figure, dissolution enthalpy, Cp(T).",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Al(OH)3",
+      "citation": "aluminium hydroxide, Al(OH)3, the fresh gelatinous precipitate: added by the hydroxide-redissolution lane (2026-11-27). IDENTITY VERIFIED against PubChem CID 10176082 (PubChem PUG REST/PUG View, read 2026-11-27): InChIKey WNROFYMDJYEPJX-UHFFFAOYSA-K, formula AlH3O3. Molar mass 78.0025 g/mol from IUPAC/CIAAW 2021 standard atomic weights (26.9815384 + 3 x 15.999 + 3 x 1.008). DENSITY 2.42 g/mL: HSDB and ILO-WHO ICSC as quoted in PubChem CID 10176082 ('2.42 @25 C'; HSDB adds that the gel's constants vary with composition, 'density approximately 2.4'). HEAT CAPACITY 104.9 J/(mol.K) IS AN ESTIMATE, NOT A MEASUREMENT: Kopp's rule over the standard atomic contributions 26.0 (metal) + 3 x 16.7 (O) + 3 x 9.6 (H), the same editorial method as the malachite row; it prices sensible heat only. APPEARANCE `white`: HSDB 'White, gelatinous precipitate' / 'white, bulky, amorphous powder' (PubChem CID 10176082); the sRGB is the existing editorial rendering of `white`. AQUEOUS BEHAVIOUR IS THE ROUTED DATABASES' OWN: wateq4f.dat `Al(OH)3(a)` (log K 10.8, delta_h -26.5 kcal) and minteq.v4.dat `Al(OH)3(am)` (log K 10.8, -111 kJ) are posed as the fresh precipitate by derived::fresh_precipitate_rank in preference to Gibbsite (8.11 / 8.291); amphoteric redissolution goes through each database's Al+3 + 4 H2O = Al(OH)4- + 4 H+. Neither database defines an aluminium ammine. NOT CLAIMED: solubility figure, dissolution enthalpy, Cp(T).",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/Br-",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -1822,6 +1840,15 @@
     {
       "id": "legacy/Al+3",
       "citation": "Kerotakis analytical aqueous basis ion for aluminium, added with aluminium sulfate (A2, 2026-11-21); identity PubChem CID 104727 (aluminum(3+)), InChIKey REDXJYDRNCIFBQ-UHFFFAOYSA-N. Molar mass 26.9815384 g/mol, IUPAC/CIAAW 2021. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. Al+3 is the master species of Al in wateq4f.dat and minteq.v4.dat, so its hydrolysis (AlOH+2, Al(OH)2+, ...) is the database's own; no equilibrium or kinetic constant is introduced here.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Ni+2",
+      "citation": "Kerotakis analytical aqueous basis ion for nickel, added with nickel(II) hydroxide (2026-11-27); identity PubChem CID 934, InChIKey VEQPNABPJHWNSG-UHFFFAOYSA-N. Molar mass 58.6934 g/mol, IUPAC/CIAAW 2021. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. Ni+2 is the master species of Ni in wateq4f.dat and minteq.v4.dat, so its hydrolysis and complexes are the database's own; no equilibrium or kinetic constant is introduced here. APPEARANCE: the dilute ion's pale green tint is not modelled here (no reviewed absorptivity); `colourless` follows the Al+3 basis-ion convention of an untinted basis ion.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
@@ -5043,6 +5070,38 @@
       }
     },
     {
+      "id": "Ni(OH)2",
+      "canonical_key": "BFDHFSHZJLFAMC-UHFFFAOYSA-L",
+      "name": "nickel(II) hydroxide",
+      "identifiers": {
+        "inchikey": "BFDHFSHZJLFAMC-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Al(OH)3",
+      "canonical_key": "WNROFYMDJYEPJX-UHFFFAOYSA-K",
+      "name": "aluminium hydroxide",
+      "identifiers": {
+        "inchikey": "WNROFYMDJYEPJX-UHFFFAOYSA-K"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "Br-",
       "canonical_key": "CPELXLSAUQHCOX-UHFFFAOYSA-M",
       "name": "bromide ion",
@@ -6552,6 +6611,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Ni+2",
+      "canonical_key": "VEQPNABPJHWNSG-UHFFFAOYSA-N",
+      "name": "nickel(II) ion",
+      "identifiers": {
+        "inchikey": "VEQPNABPJHWNSG-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Ni+2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -18814,6 +18889,244 @@
       }
     },
     {
+      "id": "composition/Ni(OH)2",
+      "species_id": "Ni(OH)2",
+      "formula": "NiH2O2",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ni(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Ni",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ni(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ni(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Al(OH)3",
+      "species_id": "Al(OH)3",
+      "formula": "AlH3O3",
+      "elements": [
+        {
+          "element": "Al",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al(OH)3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al(OH)3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al(OH)3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "composition/Br-",
       "species_id": "Br-",
       "formula": "Br-",
@@ -29400,6 +29713,71 @@
       },
       "evidence": {
         "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Ni+2",
+      "species_id": "Ni+2",
+      "formula": "Ni+2",
+      "elements": [
+        {
+          "element": "Ni",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Ni+2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ni+2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Ni+2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -48113,6 +48491,186 @@
       }
     },
     {
+      "id": "molar-mass/Ni(OH)2",
+      "species_id": "Ni(OH)2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 92.7074,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Ni(OH)2",
+      "species_id": "Ni(OH)2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 78.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Ni(OH)2",
+      "species_id": "Ni(OH)2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 4.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Al(OH)3",
+      "species_id": "Al(OH)3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 78.0025,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Al(OH)3",
+      "species_id": "Al(OH)3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 104.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Al(OH)3",
+      "species_id": "Al(OH)3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.42,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Br-",
       "species_id": "Br-",
       "phase": "aqueous",
@@ -59743,6 +60301,96 @@
           "kind": "unestablished"
         },
         "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Ni+2",
+      "species_id": "Ni+2",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 58.6934,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni+2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Ni+2",
+      "species_id": "Ni+2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni+2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Ni+2",
+      "species_id": "Ni+2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni+2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -72076,6 +72724,38 @@
       }
     },
     {
+      "id": "optical/Ni(OH)2",
+      "species_id": "Ni(OH)2",
+      "phase": "solid",
+      "appearance": "green",
+      "flame_colour": null,
+      "reflective_srgb": "#7FB77E",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Al(OH)3",
+      "species_id": "Al(OH)3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#F5F5F5",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "optical/HBr",
       "species_id": "HBr",
       "phase": "gas",
@@ -74102,6 +74782,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Ni+2",
+      "species_id": "Ni+2",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Ni+2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -81018,6 +81714,138 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/Ni(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Ni(OH)2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Ni(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Ni(OH)2"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Ni(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Al(OH)3",
+      "subject": {
+        "kind": "species",
+        "id": "Al(OH)3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Al(OH)3",
+      "subject": {
+        "kind": "species",
+        "id": "Al(OH)3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/Al(OH)3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/Br-",
       "subject": {
         "kind": "species",
@@ -86173,6 +87001,39 @@
           "kind": "exact"
         },
         "source_id": "legacy/Al+3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Ni+2",
+      "subject": {
+        "kind": "species",
+        "id": "Ni+2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Ni+2",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"

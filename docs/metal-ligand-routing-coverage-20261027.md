@@ -11,7 +11,7 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 - route-deciding, defined on wateq4f: 4
 - route-deciding, defined only on minteq.v4: 52
 - route-deciding, missing on every routed database (refused): 1
-- route-deciding, metal suppliable from the registry: 37
+- route-deciding, metal suppliable from the registry: 42
 
 ## Route-deciding families
 
@@ -56,11 +56,11 @@ A complex is any `SOLUTION_SPECIES` reaction whose left-hand master elements are
 | Mn | Acetate | acetate | yes | - | Mn(Acetate)+ | - | routes to minteq.v4 | - |
 | Mn | Citrate | citrate | yes | - | Mn(Citrate)-, MnH(Citrate) | - | routes to minteq.v4 | - |
 | Mn | Edta | EDTA | yes | - | Mn(Edta)-2, MnH(Edta)- | - | routes to minteq.v4 | - |
-| Ni | Acetate | acetate | no | - | Ni(Acetate)+, Ni(Acetate)2 | - | routes to minteq.v4 | - |
-| Ni | Citrate | citrate | no | - | Ni(Citrate)-, Ni(Citrate)2-4, NiH(Citrate), NiH(Citrate)2-3, NiH2(Citrate)+ | - | routes to minteq.v4 | - |
-| Ni | Cyanide | cyanide | no | - | Ni(Cyanide)4-2, NiH(Cyanide)4-, NiH2Cyanide4, NiH3(Cyanide)4+ | - | routes to minteq.v4 | - |
-| Ni | Edta | EDTA | no | - | Ni(Edta)-2, NiH(Edta)-, NiOH(Edta)-3 | - | routes to minteq.v4 | - |
-| Ni | N(-3) | ammine | no | - | Ni(NH3)2+2, NiNH3+2 | - | routes to minteq.v4 | - |
+| Ni | Acetate | acetate | yes | - | Ni(Acetate)+, Ni(Acetate)2 | - | routes to minteq.v4 | - |
+| Ni | Citrate | citrate | yes | - | Ni(Citrate)-, Ni(Citrate)2-4, NiH(Citrate), NiH(Citrate)2-3, NiH2(Citrate)+ | - | routes to minteq.v4 | - |
+| Ni | Cyanide | cyanide | yes | - | Ni(Cyanide)4-2, NiH(Cyanide)4-, NiH2Cyanide4, NiH3(Cyanide)4+ | - | routes to minteq.v4 | - |
+| Ni | Edta | EDTA | yes | - | Ni(Edta)-2, NiH(Edta)-, NiOH(Edta)-3 | - | routes to minteq.v4 | - |
+| Ni | N(-3) | ammine | yes | - | Ni(NH3)2+2, NiNH3+2 | - | routes to minteq.v4 | - |
 | Pb | Acetate | acetate | yes | - | Pb(Acetate)+, Pb(Acetate)2 | - | routes to minteq.v4 | - |
 | Pb | Citrate | citrate | yes | - | Pb(Citrate)-, Pb(Citrate)2-4 | - | routes to minteq.v4 | - |
 | Pb | Edta | EDTA | yes | - | Pb(Edta)-2, PbH(Edta)-, PbH2(Edta) | - | routes to minteq.v4 | - |

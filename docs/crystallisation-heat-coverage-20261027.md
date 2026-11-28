@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 19 | 1 | 120 |
-| minteq.v4 | 25 | 4 | 111 |
-| pitzer | 10 | 3 | 127 |
+| wateq4f | 19 | 1 | 122 |
+| minteq.v4 | 25 | 4 | 113 |
+| pitzer | 10 | 3 | 129 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -102,6 +102,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `Al` | wateq4f | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Al` | minteq.v4 | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
 | `Al` | pitzer | refused | - | the metallic state belongs to the electron-balanced displacement route, not aqueous crystallisation |
+| `Al(OH)3` | wateq4f | refused | Al(OH)3(a) | the phase saturates at ionic strength >= 283930805016.09 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `Al(OH)3` | minteq.v4 | refused | Al(OH)3(am) | the phase saturates at ionic strength >= 283930805016.09 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `Al(OH)3` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `Al2(SO4)3` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `Al2(SO4)3` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `Al2(SO4)3` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -330,6 +333,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `NaOH` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `NaOH` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `NaOH` | pitzer | refused | - | the routed database defines no phase for this solid |
+| `Ni(OH)2` | wateq4f | refused | Ni(OH)2 | the phase saturates at ionic strength >= 126191468896.04 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `Ni(OH)2` | minteq.v4 | refused | Ni(OH)2 | the phase saturates at ionic strength >= 12446005703383.25 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
+| `Ni(OH)2` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `PE` | wateq4f | refused | - | this registry form is excluded from aqueous mineral posing by the physical phase-owner rule |
 | `PE` | minteq.v4 | refused | - | this registry form is excluded from aqueous mineral posing by the physical phase-owner rule |
 | `PE` | pitzer | refused | - | this registry form is excluded from aqueous mineral posing by the physical phase-owner rule |

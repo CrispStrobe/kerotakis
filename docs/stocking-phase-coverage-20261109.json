@@ -8,8 +8,8 @@
   "counts": {
     "derived": 25,
     "melting_point_without_latent_heat": 38,
-    "no_melting_point": 98,
-    "not_condensed": 92
+    "no_melting_point": 100,
+    "not_condensed": 93
   },
   "species": [
     {
@@ -858,6 +858,19 @@
       }
     },
     {
+      "species": "Al(OH)3",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
+      }
+    },
+    {
       "species": "Al2(SO4)3",
       "standard_phase": "solid",
       "melting_k": null,
@@ -1557,6 +1570,19 @@
         "10C": "liquid",
         "25C": "liquid",
         "40C": "liquid"
+      }
+    },
+    {
+      "species": "Ni(OH)2",
+      "standard_phase": "solid",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "no_melting_point",
+      "stocked": {
+        "10C": "solid",
+        "25C": "solid",
+        "40C": "solid"
       }
     },
     {
@@ -2783,6 +2809,19 @@
     },
     {
       "species": "Na+",
+      "standard_phase": "aqueous",
+      "melting_k": null,
+      "boiling_k": null,
+      "fusion_owner": false,
+      "basis": "not_condensed",
+      "stocked": {
+        "10C": "aqueous",
+        "25C": "aqueous",
+        "40C": "aqueous"
+      }
+    },
+    {
+      "species": "Ni+2",
       "standard_phase": "aqueous",
       "melting_k": null,
       "boiling_k": null,

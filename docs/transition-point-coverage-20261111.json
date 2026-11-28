@@ -1,9 +1,9 @@
 {
   "schema": "kerotakis.transition-point-coverage.v2",
   "counts": {
-    "boiling.no_data": 185,
+    "boiling.no_data": 188,
     "boiling.reported": 68,
-    "melting.no_data": 152,
+    "melting.no_data": 155,
     "melting.range": 5,
     "melting.reported": 96
   },
@@ -612,6 +612,16 @@
         "outcome": "boiling",
         "kelvin": 2743.0,
         "source": "literature/transition-points/Al"
+      }
+    },
+    {
+      "species": "Al(OH)3",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {
@@ -2211,6 +2221,26 @@
         "outcome": "boiling",
         "kelvin": 1651.0,
         "source": "literature/transition-points/NaOH"
+      }
+    },
+    {
+      "species": "Ni(OH)2",
+      "standard_phase": "solid",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
+      }
+    },
+    {
+      "species": "Ni+2",
+      "standard_phase": "aqueous",
+      "melting": {
+        "basis": "no_data"
+      },
+      "boiling": {
+        "basis": "no_data"
       }
     },
     {

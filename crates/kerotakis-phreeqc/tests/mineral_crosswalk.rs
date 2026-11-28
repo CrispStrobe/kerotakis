@@ -86,18 +86,25 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// 2026-11-27 (chromate solids): PbCrO4, Ag2CrO4 and BaCrO4 join, each a
 /// minteq.v4 phase under its formula without a reviewed solubility, so the
 /// gap grows by three and three phases gain a registry solid.
+///
+/// 2026-11-27 (hydroxide redissolution): Al(OH)3 and Ni(OH)2 join, both
+/// database phases without a reviewed solubility (gap +2). Al(OH)3 matches
+/// three phase names (Gibbsite, wateq4f `Al(OH)3(a)`, minteq.v4
+/// `Al(OH)3(am)`), Ni(OH)2 one, so four names gain a registry solid and
+/// one more row has several names. NOT YET CHECKED BY A RUN: pinned from
+/// the phase blocks by hand; a failure prints the true totals.
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
         solubility_gap(),
         SolubilityGap {
-            registry_solids: 140,
-            database_phases: 66,
+            registry_solids: 142,
+            database_phases: 68,
             with_reviewed_solubility: 14,
-            without_reviewed_solubility: 52,
+            without_reviewed_solubility: 54,
             not_a_database_phase: 74,
-            phases_without_a_registry_solid: 592,
-            several_phase_names: 14,
+            phases_without_a_registry_solid: 588,
+            several_phase_names: 15,
             not_posable: 12,
         },
         "the crosswalk has drifted from the shipped databases or registry"
@@ -159,6 +166,9 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "Ag3PO4",
             "AgBr",
             "AgI",
+            // 2026-11-27: gibbsite and the amorphous hydroxides; no reviewed
+            // solubility is claimed.
+            "Al(OH)3",
             "Al2O3",
             "BaCO3",
             "BaCrO4",
@@ -189,6 +199,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "MnO2",
             "Na2SO4",
             "NaHCO3",
+            "Ni(OH)2",
             "Pb",
             "PbCO3",
             "PbCrO4",

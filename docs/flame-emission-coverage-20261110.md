@@ -20,7 +20,7 @@ Ba, Cu flames) from Pearse and Gaydon, *The Identification of Molecular Spectra*
 | Ba | apple green | 553.548 | BaOH | no |
 | Cu | blue-green | 324.754, 327.396 | CuCl/CuOH | no |
 
-Registry species carrying a metal: emits 67, refused 71.
+Registry species carrying a metal: emits 67, refused 74.
 
 | class | species | metals | curated colour |
 |---|---|---|---|
@@ -101,6 +101,7 @@ Registry species carrying a metal: emits 67, refused 71.
 | refused | AgI | Ag | — |
 | refused | AgNO3 | Ag | — |
 | refused | Al | Al | — |
+| refused | Al(OH)3 | Al | — |
 | refused | Al+3 | Al | — |
 | refused | Al2(SO4)3 | Al | — |
 | refused | Al2O3 | Al | — |
@@ -140,6 +141,8 @@ Registry species carrying a metal: emits 67, refused 71.
 | refused | MnO2 | Mn | — |
 | refused | MnO4- | Mn | — |
 | refused | MnO4-2 | Mn | — |
+| refused | Ni(OH)2 | Ni | — |
+| refused | Ni+2 | Ni | — |
 | refused | Pb | Pb | — |
 | refused | Pb(NO3)2 | Pb | — |
 | refused | Pb+2 | Pb | — |

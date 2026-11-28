@@ -18,7 +18,7 @@ not a measured zero coefficient. Partition rows and their sources are in
 `docs/separation-coverage-20261109.md` (I2: K = 85; aqueous solubility Hartley & Campbell,
 J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741).
 
-Counts: ion-stays-aqueous 50, neutral-refused 194, partitions 9.
+Counts: ion-stays-aqueous 51, neutral-refused 196, partitions 9.
 
 | class | species | basis |
 |---|---|---|
@@ -61,6 +61,7 @@ Counts: ion-stays-aqueous 50, neutral-refused 194, partitions 9.
 | ion-stays-aqueous | NO2- | — |
 | ion-stays-aqueous | NO3- | — |
 | ion-stays-aqueous | Na+ | — |
+| ion-stays-aqueous | Ni+2 | — |
 | ion-stays-aqueous | OH- | — |
 | ion-stays-aqueous | PO4-3 | — |
 | ion-stays-aqueous | Pb+2 | — |
@@ -81,6 +82,7 @@ Counts: ion-stays-aqueous 50, neutral-refused 194, partitions 9.
 | neutral-refused | AgI | — |
 | neutral-refused | AgNO3 | — |
 | neutral-refused | Al | — |
+| neutral-refused | Al(OH)3 | — |
 | neutral-refused | Al2(SO4)3 | — |
 | neutral-refused | Al2O3 | — |
 | neutral-refused | Ba(OH)2 | — |
@@ -179,6 +181,7 @@ Counts: ion-stays-aqueous 50, neutral-refused 194, partitions 9.
 | neutral-refused | NaOAc | — |
 | neutral-refused | NaOCl | — |
 | neutral-refused | NaOH | — |
+| neutral-refused | Ni(OH)2 | — |
 | neutral-refused | O2 | — |
 | neutral-refused | PE | — |
 | neutral-refused | PET | — |
