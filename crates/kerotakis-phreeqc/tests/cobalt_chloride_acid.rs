@@ -9,7 +9,8 @@
 //! and that share now returns to the posed cobalt(II).
 //!
 //! Positive: CoCl2 in concentrated HCl solves, keeps every cobalt as Co+2,
-//! and the routed database's highest chloro complex (CoCl+) appears.
+//! and the chloro complex CoCl+ appears (since 2026-11-27 on sit.dat, via
+//! the Co-Cl activity route, rather than minteq.v4.dat).
 //! Negative: dilute CoCl2 in water stays essentially free Co2+.
 #![cfg(feature = "engine")]
 
@@ -82,11 +83,13 @@ fn cobalt_chloride_in_concentrated_hydrochloric_acid_solves_as_chloro_cobalt_ii(
     let co = moles(&bench, "Co+2");
     assert!((co - n).abs() < 1e-6 * n, "Co+2 {co} vs {n}: {steps:#?}");
     assert!(moles(&bench, "CoCl2") < 1e-12);
-    // minteq.v4.dat's highest cobalt(II) chloro complex is CoCl+ (no
-    // CoCl2/CoCl3-/CoCl4-2 rows), so that is what must appear. Its share
-    // (~1 % here) is the database's log K 0.539 under Davies activities far
-    // outside their ionic-strength domain; the blue CoCl4-2 needs a route
-    // that defines it (sit.dat) and is a recorded gap, not asserted here.
+    // At this chloride load the reviewed activity route
+    // (`activity_routes`, Co-Cl) poses the solution on sit.dat, which
+    // defines CoCl+ through CoCl4-2 with SIT activities; the solid CoCl2
+    // (a phase sit.dat spells differently) is freed into the Co/Cl totals.
+    // CoCl+ is asserted as the chloro complex every route carrying cobalt
+    // defines; the higher complexes' shares are SIT extrapolations above
+    // the route's ionic-strength ceiling and are not asserted here.
     let cocl = species
         .iter()
         .find(|(name, _)| name == "CoCl+")

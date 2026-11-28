@@ -16,6 +16,7 @@ use std::ffi::{CStr, CString};
 pub mod acceptance;
 pub mod acid_endpoint_acceptance;
 pub mod activity_range;
+pub mod activity_routes;
 mod aqueous;
 pub mod aqueous_gases;
 pub mod complexation;
@@ -96,6 +97,16 @@ pub mod databases {
         include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
+    /// ThermoChimie-style SIT database — specific ion interaction theory.
+    /// Reached only through the reviewed rows of
+    /// [`crate::activity_routes::ACTIVITY_MODEL_ROUTES`]; nothing is added to
+    /// or removed from the vendored bytes.
+    pub const SIT: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/sit.dat");
+
+    /// The SIT database exactly as vendored.
+    pub fn sit() -> &'static [u8] {
+        SIT
+    }
 
     /// One reviewed species added to minteq.v4: lactate.
     ///
