@@ -299,16 +299,48 @@ temperature then keeps falling with the liquid unchanged. Fix: a reviewed
 KNO3 solubility phase (a data row). Separately, `cool` should stop or
 refuse at the freezing boundary it announces.
 
-### S7. Minor observations — OPEN
+### S7. Minor observations — MOSTLY FIXED (fix/sweep-minor-20261128)
 
 - HCl added to sealed plain water raises the "acid and carbonate fizz"
   hazard. The only carbonate present is dissolved air CO2, so the hazard
-  trigger needs a threshold.
+  trigger needs a threshold. — FIXED: the safety screen's
+  `GAS_RELEASING_GROUPS` table floors a *dissolved* gas-releasing group at
+  what the solution can hold at one atmosphere (Henry's law, the registry's
+  CO2 coefficient at the vessel temperature, times the liquid volume).
+  Below it the gas stays in solution and no fizz is raised; solid
+  carbonates are never floored.
 - 0.05 mol CuSO4 in 50 mL water (1 M) precipitates 8.4 mmol chalcanthite,
-  although 1 M is below its solubility (about 1.4 M).
+  although 1 M is below its solubility (about 1.4 M). — CAUSE FOUND, OPEN:
+  the solute load (~2 mol/kgw of ions, I ≈ 4) sends the solve to the Pitzer
+  route, which cannot take it (the vendored pitzer.dat has no copper), so
+  it falls back to wateq4f's Debye–Hückel activities far above their
+  ~1 mol/kgw domain; the inflated ion activity product puts chalcanthite
+  (and antlerite) above saturation. The step already says the phase amounts
+  are outside the validated activity domain. No vendored database has a
+  concentrated Cu–SO4 model (sit.dat has Cu+2 and Chalcanthite but no
+  ε(Cu+2, SO4-2)), and the registry holds no sourced CuSO4 solubility, so
+  the fix needs either a reviewed solubility row (with a curve route like
+  `crystallisation::SolubilityCurve`) or a concentrated activity route; no
+  number is invented here.
 - When NaHCO3 is heated, −1.44 kJ "went into chemistry". The sign is
-  inconsistent with an endothermic decomposition.
-- AgBr is drawn "yellow" rather than cream. Hot ZnO is not drawn yellow.
+  inconsistent with an endothermic decomposition. — FIXED: the sign
+  convention was right (positive = absorbed); the accounting was not. The
+  curated row paid no reaction heat, so the vessel kept heat the
+  decomposition should have absorbed, and the end contents' Cp·ΔT exceeded
+  what was delivered. `curated::CURATED_REACTION_HEATS` now pays a cited
+  heat for thresholded rows (NaHCO3: +91.60 kJ per reaction, NBS 1982),
+  heat-limited above the threshold like the nitrate table.
+- AgBr is drawn "yellow" rather than cream. Hot ZnO is not drawn yellow. —
+  FIXED: a bright solid of yellow hue with saturation below 0.3 is named
+  "cream" (AgBr; AgI stays yellow), and `appearance::THERMOCHROMIC_SOLIDS`
+  holds temperature-dependent colours (ZnO yellow from 800 °C, where the
+  cited source states the yellow non-stoichiometric phase), used by both the
+  words and the scene.
 - Gas tests on an open beaker answer "nothing to test, collect over a
   sealed vessel". This is correct and typed, and is noted here only so that
   scripts seal first.
+- Regression of #941 — FIXED: withholding the metal nitrates from CEA made a
+  nitrate-and-fuel charge unmappable, so KNO3 + sugar stopped burning. The
+  nitrates and nitrites are now fuel-gated (`CEA_FUEL_GATED`): CEA takes
+  them beside a fuel (`combustion::holds_fuel`), and the nitrate table keeps
+  the salt heated alone.

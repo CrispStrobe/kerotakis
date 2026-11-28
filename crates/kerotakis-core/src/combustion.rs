@@ -253,6 +253,31 @@ pub fn fuel_of(species: &str) -> Option<&'static Fuel> {
     FUELS.iter().find(|fuel| fuel.species == species)
 }
 
+/// Elemental fuels an oxidiser salt burns with: charcoal and graphite,
+/// sulfur, and the reactive metals of flash powders. The compound fuels are
+/// [`FUELS`], [`GAS_FUELS`] and [`METAL_FUELS`]; a new elemental fuel is one
+/// key here.
+pub const ELEMENTAL_FUELS: &[&str] = &["C", "graphite", "activated_charcoal", "S", "Mg", "Al"];
+
+/// Whether `species` is something an oxidiser burns: a curated fuel, a fuel
+/// gas, a metal fuel or an elemental fuel.
+pub fn is_fuel(species: &str) -> bool {
+    fuel_of(species).is_some()
+        || gas_fuel(species).is_some()
+        || METAL_FUELS.iter().any(|m| m.metal == species)
+        || ELEMENTAL_FUELS.contains(&species)
+}
+
+/// Whether the vessel holds any fuel ([`is_fuel`]) above a trace. An
+/// oxidiser salt heated with one is a combustion (the Gibbs route's), and
+/// heated alone a decomposition (`crate::nitrate_decomposition`).
+pub fn holds_fuel(vessel: &Vessel) -> bool {
+    vessel
+        .contents
+        .iter()
+        .any(|p| p.moles.0 > 1e-12 && is_fuel(&p.species.0))
+}
+
 /// BRD-041 routing: the autoignition temperature of a fuel the registry
 /// names, in air near one atmosphere.
 #[derive(Debug, Clone, Copy, PartialEq)]

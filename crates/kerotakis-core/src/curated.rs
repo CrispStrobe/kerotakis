@@ -11,7 +11,7 @@
 use crate::ops::Event;
 use crate::solve::{Equilibrator, SolveError};
 use crate::species::Phase;
-use crate::units::Moles;
+use crate::units::{Kelvin, Moles};
 use crate::vessel::Vessel;
 use crate::SpeciesId;
 
@@ -839,6 +839,46 @@ fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
     }
 }
 
+/// Cited standard reaction enthalpies of curated rows that carry a
+/// temperature threshold, J per mole of reaction as written, keyed by the
+/// row's equation. A heated row with a heat here is paid out of the heat
+/// the vessel holds above its threshold, exactly as
+/// [`crate::nitrate_decomposition`] pays a nitrate: it runs only as far as
+/// that heat allows and leaves the contents no colder than the threshold,
+/// so a burner still on finishes it on its next pass. A row with no entry
+/// here applies no reaction heat at all, as before. A new heated row with
+/// a sourced enthalpy is one more line in this table.
+///
+/// 2 NaHCO3(cr) -> Na2CO3(cr) + H2O(l) + CO2(g): +91.60 kJ, from the NBS
+/// tables (D. D. Wagman et al., J. Phys. Chem. Ref. Data 11 (1982)
+/// Suppl. 2): NaHCO3(cr) -950.81, Na2CO3(cr) -1130.68, H2O(l) -285.830,
+/// CO2(g) -393.509 kJ/mol. Liquid water is the row's own product; boiling
+/// it off is priced by the boiling route, not here. Before this entry the
+/// row paid nothing, the vessel kept the heat the decomposition should have
+/// absorbed, and the step reported a negative "-1.44 kJ went into
+/// chemistry" (2026-11-28 sweep, S7): an accounting gap, not a sign error.
+const CURATED_REACTION_HEATS: &[(&str, f64)] = &[("2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑", 91_600.0)];
+
+/// The cited reaction heat of a curated row, J per mole of reaction.
+pub(crate) fn reaction_heat_j_per_mol(reaction: &CuratedReaction) -> Option<f64> {
+    CURATED_REACTION_HEATS
+        .iter()
+        .find(|(equation, _)| *equation == reaction.equation)
+        .map(|(_, heat)| *heat)
+}
+
+/// `x` limited to what the heat above the row's threshold can pay for.
+fn heat_limited_extent(vessel: &Vessel, reaction: &CuratedReaction, x: f64) -> f64 {
+    let (Some(heat), Some(min_t)) = (reaction_heat_j_per_mol(reaction), reaction.min_temp_k) else {
+        return x;
+    };
+    if heat <= 0.0 || vessel.heat_capacity() <= 0.0 {
+        return x;
+    }
+    let above = vessel.energy_between(min_t, vessel.temperature.0).max(0.0);
+    x.min(above / heat)
+}
+
 /// Whether this one reaction can actually run in this vessel: hot
 /// enough, catalyst present, right solvent, and reactants left to
 /// consume. Extracted from `CuratedSolver::applies` so that callers
@@ -863,7 +903,7 @@ pub fn fires(vessel: &Vessel, reaction: &CuratedReaction) -> bool {
             crate::nonaqueous::single_organic_solvent(vessel) == Some(req)
                 && extent_in_solvent(vessel, reaction, req) > TRACE
         }
-        None => extent(vessel, reaction) > TRACE,
+        None => heat_limited_extent(vessel, reaction, extent(vessel, reaction)) > TRACE,
     }
 }
 
@@ -1053,6 +1093,7 @@ impl Equilibrator for CuratedEquilibrator {
                 } else {
                     extent(vessel, reaction)
                 };
+                let x = heat_limited_extent(vessel, reaction, x);
                 if x <= TRACE {
                     continue;
                 }
@@ -1128,6 +1169,18 @@ impl Equilibrator for CuratedEquilibrator {
                         }
                     } else {
                         vessel.deposit(SpeciesId::new(key), n, *phase);
+                    }
+                }
+                if let Some(heat) = reaction_heat_j_per_mol(reaction) {
+                    let before = vessel.temperature.0;
+                    let to = vessel.temperature_after(-x * heat);
+                    if to.is_finite() && to != before {
+                        vessel.temperature = Kelvin(to);
+                        events.push(Event::TemperatureChanged {
+                            vessel: vessel.id,
+                            from: Kelvin(before),
+                            to: Kelvin(to),
+                        });
                     }
                 }
             }
@@ -1206,5 +1259,56 @@ mod organic_availability_tests {
         vessel.deposit(SpeciesId::new("NaNO3"), Moles(0.25), Phase::Liquid);
         assert_eq!(available_dissolved(&vessel, "NaNO3", "ethanol"), 0.25);
         assert_eq!(vessel.moles_of(&SpeciesId::new("NaNO3")).0, 0.75);
+    }
+}
+
+#[cfg(test)]
+mod reaction_heat_tests {
+    use super::*;
+    use crate::VesselId;
+
+    fn hot_soda(t: f64) -> Vessel {
+        let mut v = Vessel::new(VesselId(0), "crucible");
+        v.deposit(SpeciesId::new("NaHCO3"), Moles(0.0238), Phase::Solid);
+        v.temperature = Kelvin(t);
+        v
+    }
+
+    /// Decomposing baking soda absorbs its cited +91.6 kJ per mole of
+    /// reaction: the contents cool, never below the threshold, and only as
+    /// much decomposes as the heat above the threshold pays for (S7).
+    #[test]
+    fn heated_bicarbonate_pays_its_reaction_heat() {
+        let mut v = hot_soda(540.0);
+        let above = v.energy_between(353.0, 540.0);
+        CuratedEquilibrator.equilibrate(&mut v).unwrap();
+        let left = v.moles_of(&SpeciesId::new("NaHCO3")).0;
+        let reacted = (0.0238 - left) / 2.0;
+        assert!(reacted > 1e-4, "some decomposes: {reacted}");
+        assert!(left > 1e-4, "heat-limited, not complete: {left}");
+        assert!((reacted * 91_600.0 - above).abs() < 0.02 * above);
+        assert!(v.temperature.0 < 540.0 && v.temperature.0 > 340.0);
+    }
+
+    /// A row with no cited heat, and the bicarbonate row below its
+    /// threshold, leave the temperature exactly as it was.
+    #[test]
+    fn rows_without_heat_or_below_threshold_do_not_change_temperature() {
+        let mut cold = hot_soda(340.0);
+        CuratedEquilibrator.equilibrate(&mut cold).unwrap();
+        assert_eq!(cold.temperature.0, 340.0);
+        assert_eq!(cold.moles_of(&SpeciesId::new("NaHCO3")).0, 0.0238);
+        let unheated = REACTIONS
+            .iter()
+            .filter(|r| r.min_temp_k.is_none())
+            .filter(|r| reaction_heat_j_per_mol(r).is_some())
+            .count();
+        assert_eq!(unheated, 0, "only thresholded rows carry a paid heat");
+        for (equation, _) in CURATED_REACTION_HEATS {
+            assert!(
+                REACTIONS.iter().any(|r| r.equation == *equation),
+                "heat row names no curated equation: {equation}"
+            );
+        }
     }
 }

@@ -1094,12 +1094,14 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             existing.volume_l += volume_l;
             continue;
         }
-        let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
-            r: 220,
-            g: 220,
-            b: 220,
-            strength: 0.0,
-        });
+        let colour = crate::appearance::thermochromic_colour(&p.species.0, v.temperature.0)
+            .or_else(|| data.and_then(|d| d.colour))
+            .unwrap_or(Colour {
+                r: 220,
+                g: 220,
+                b: 220,
+                strength: 0.0,
+            });
         solids.push(SceneSolid {
             species: p.species.0.to_string(),
             name: data

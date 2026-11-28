@@ -324,7 +324,10 @@ fn dry_moles(vessel: &Vessel, key: &str) -> f64 {
 
 /// The salts that are hot enough and present, each with its decomposition.
 fn candidates(vessel: &Vessel) -> Vec<(Decomposition, f64)> {
-    if wet(vessel) {
+    // With a fuel beside it the nitrate is an oxidiser in a combustion,
+    // which the Gibbs route owns (`kerotakis_cea`'s fuel-gated nitrates);
+    // this table is the salt heated on its own.
+    if wet(vessel) || crate::combustion::holds_fuel(vessel) {
         return Vec::new();
     }
     ONSETS

@@ -1230,6 +1230,41 @@ pub struct ExposureFinding {
 }
 
 #[derive(Debug, Clone)]
+/// Reactive groups whose hazard is a gas the acid drives out, with the gas
+/// it is. A DISSOLVED member of such a group can only effervesce once the
+/// solution holds more of the gas than it can keep in solution at one
+/// atmosphere (Henry's law, the registry's own coefficient at the vessel's
+/// temperature). Below that the gas stays dissolved and nothing fizzes:
+/// plain water carries a few micromoles of carbonate from the room's CO2,
+/// and acidifying it releases no froth. Solids are never floored — a lump
+/// of chalk in acid fizzes however little acid there is.
+const GAS_RELEASING_GROUPS: &[(ReactiveGroup, &str)] = &[(ReactiveGroup::Carbonate, "CO2")];
+
+/// The groups of [`GAS_RELEASING_GROUPS`] whose dissolved amount in this
+/// vessel is too small to leave solution as a gas.
+fn dissolved_groups_below_gas_floor(vessel: &Vessel) -> Vec<ReactiveGroup> {
+    let volume_l = vessel.liquid_volume().0;
+    GAS_RELEASING_GROUPS
+        .iter()
+        .filter(|(group, gas)| {
+            let Some(coeff) = kerotakis_core::properties::henry_lookup(gas) else {
+                return false;
+            };
+            let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
+            let floor = k_h * volume_l;
+            let dissolved: f64 = vessel
+                .contents
+                .iter()
+                .filter(|p| p.phase != kerotakis_core::Phase::Solid)
+                .filter(|p| groups(p.species.0.as_str()).contains(group))
+                .map(|p| p.moles.0)
+                .sum();
+            dissolved < floor
+        })
+        .map(|(group, _)| *group)
+        .collect()
+}
+
 struct PresentSpecies<'a> {
     key: &'a str,
     location: &'a str,
@@ -1248,8 +1283,16 @@ pub fn assess_exposures<'a>(
 ) -> Vec<ExposureFinding> {
     let mut present = Vec::new();
     for (location, vessel) in exposures {
+        let below_gas_floor = dissolved_groups_below_gas_floor(vessel);
         for portion in &vessel.contents {
             if portion.moles.0 <= 1e-12 {
+                continue;
+            }
+            if portion.phase != kerotakis_core::Phase::Solid
+                && groups(portion.species.0.as_str())
+                    .iter()
+                    .any(|g| below_gas_floor.contains(g))
+            {
                 continue;
             }
             present.push(PresentSpecies {
@@ -2045,6 +2088,41 @@ mod tests {
             }
             other => panic!("expected Caution, got {other:?}"),
         }
+    }
+
+    /// Dissolved carbonate at the level room air leaves in water stays in
+    /// solution when acidified: no fizz hazard (sweep S7).
+    #[test]
+    fn acid_in_water_with_trace_dissolved_carbonate_does_not_fizz() {
+        let mut v = Vessel::new(VesselId(0), "test");
+        v.deposit(SpeciesId::new("water"), Moles(2.775), Phase::Liquid);
+        v.deposit(SpeciesId::new("HCl"), Moles(0.02), Phase::Liquid);
+        v.deposit(SpeciesId::new("CO3-2"), Moles(1e-6), Phase::Aqueous);
+        if let SafetyVerdict::Warn { rule, .. } = ReactiveGroupScreen.assess(&v) {
+            assert_ne!(rule, "acid-carbonate-co2");
+        }
+    }
+
+    /// Dissolved carbonate above what 50 mL can hold as CO2 at 1 atm still
+    /// warns, as does a solid carbonate however small.
+    #[test]
+    fn acid_with_dissolved_carbonate_above_henry_floor_still_fizzes() {
+        let mut v = Vessel::new(VesselId(0), "test");
+        v.deposit(SpeciesId::new("water"), Moles(2.775), Phase::Liquid);
+        v.deposit(SpeciesId::new("HCl"), Moles(0.02), Phase::Liquid);
+        v.deposit(SpeciesId::new("CO3-2"), Moles(0.01), Phase::Aqueous);
+        assert!(matches!(
+            ReactiveGroupScreen.assess(&v),
+            SafetyVerdict::Warn { ref rule, .. } if rule == "acid-carbonate-co2"
+        ));
+        let mut solid = Vessel::new(VesselId(1), "test");
+        solid.deposit(SpeciesId::new("water"), Moles(2.775), Phase::Liquid);
+        solid.deposit(SpeciesId::new("HCl"), Moles(0.02), Phase::Liquid);
+        solid.deposit(SpeciesId::new("CaCO3"), Moles(1e-6), Phase::Solid);
+        assert!(matches!(
+            ReactiveGroupScreen.assess(&solid),
+            SafetyVerdict::Warn { ref rule, .. } if rule == "acid-carbonate-co2"
+        ));
     }
 
     #[test]

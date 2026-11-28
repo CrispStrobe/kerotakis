@@ -148,3 +148,37 @@ fn a_gentle_heat_leaves_the_nitrates_whole() {
         assert_eq!(evolved(&steps, "NO2"), 0.0, "{key}");
     }
 }
+
+#[test]
+fn potassium_nitrate_with_sugar_burns_and_releases_gas() {
+    // Regression of #941: withholding the nitrates from the Gibbs route made
+    // a nitrate-and-fuel charge unmappable, and the sugar no longer burned.
+    let steps = run("new crucible\nadd v2 KNO3 5g\nadd v2 sucrose 3g\nheat v2 20kJ\ninspect v2\n");
+    assert!(moles(&steps, "sucrose") < 1e-6, "{:#?}", contents(&steps));
+    assert!(evolved(&steps, "CO2") > 0.05, "{:#?}", events(&steps));
+    for metal in ALKALI {
+        assert!(
+            moles(&steps, metal) < 1e-12,
+            "{metal}: {:#?}",
+            contents(&steps)
+        );
+    }
+}
+
+#[test]
+fn potassium_nitrate_alone_still_gives_nitrite_and_oxygen() {
+    // The fuel gate leaves the salt heated on its own with the table route.
+    let steps = run("new crucible\nadd v2 KNO3 1g\nheat v2 15kJ\ninspect v2\n");
+    let n = 1.0 / 101.1032;
+    assert!(
+        (moles(&steps, "KNO2") - n).abs() < 1e-6,
+        "{:#?}",
+        contents(&steps)
+    );
+    assert!(
+        (evolved(&steps, "O2") - n / 2.0).abs() < 1e-6,
+        "{:#?}",
+        events(&steps)
+    );
+    assert!(evolved(&steps, "CO2") < 1e-12);
+}

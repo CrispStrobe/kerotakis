@@ -365,15 +365,20 @@ const IRON_OXIDE_BURNS: &[(&str, &str)] = &[
 // TODO(redox-species-20261125): admit NO/NO2 to combustion with a reviewed
 // flame-temperature adjudication.
 ///
-/// The metal nitrates and nitrites (2026-11-28 sweep, S2/S3) are owned by
-/// `kerotakis_core::nitrate_decomposition`, which decomposes them from a
-/// cited onset by cation class. Left mapped, the Gibbs route took sodium
-/// nitrate to its nitrite well below the 600 °C onset Stern (1972) reports
-/// and then on to liquid sodium metal, and booked no oxygen for either step.
-const CEA_WITHHELD: &[&str] = &[
-    "NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4", "NaNO3", "KNO3", "AgNO3", "Pb(NO3)2",
-    "NaNO2", "KNO2",
-];
+const CEA_WITHHELD: &[&str] = &["NO", "NO2", "HNO3", "Br2", "Cu(NO3)2", "KHSO4", "K2SO4"];
+
+/// Registry keys the Gibbs route takes only as an oxidiser beside a fuel.
+///
+/// A metal nitrate or nitrite heated ON ITS OWN is owned by
+/// `kerotakis_core::nitrate_decomposition`, which decomposes it from a
+/// cited onset by cation class (2026-11-28 sweep, S2/S3): left to this
+/// route, sodium nitrate went to its nitrite well below the 600 °C onset
+/// Stern (1972) reports and then on to liquid sodium, with no oxygen booked.
+/// Heated WITH a fuel (`kerotakis_core::combustion::holds_fuel`) it is the
+/// oxidiser of a combustion, potassium nitrate and sugar, and that is this
+/// route's: withholding the salt there too made the charge unmappable and
+/// the mixture stopped burning at all (regression of #941).
+const CEA_FUEL_GATED: &[&str] = &["NaNO3", "KNO3", "AgNO3", "Pb(NO3)2", "NaNO2", "KNO2"];
 
 /// Registry key → CEA species name, derived by matching chemical formulas.
 fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
@@ -547,13 +552,28 @@ fn held_solid_feed(vessel: &Vessel, key: &str) -> Option<(&'static Species, f64,
     h.is_finite().then_some((record, h, high))
 }
 
-/// The CEA species a registry key resolves to, if any.
+/// The CEA species a registry key resolves to, if any. A fuel-gated
+/// oxidiser ([`CEA_FUEL_GATED`]) resolves only through
+/// [`cea_name_with_fuel`].
 pub fn cea_name(registry_key: &str) -> Option<&'static str> {
+    if CEA_FUEL_GATED.contains(&registry_key) {
+        return None;
+    }
     mapping().get(registry_key).copied()
 }
 
+/// [`cea_name`] for a charge that does (`fuel`) or does not hold a fuel.
+pub fn cea_name_with_fuel(registry_key: &str, fuel: bool) -> Option<&'static str> {
+    if fuel && CEA_FUEL_GATED.contains(&registry_key) {
+        return mapping().get(registry_key).copied();
+    }
+    cea_name(registry_key)
+}
+
+/// Ungated: a fuel-gated oxidiser reaches this only as the feed of a charge
+/// [`charge`] has already admitted with its fuel.
 fn cea_species(registry_key: &str) -> Option<&'static Species> {
-    let name = cea_name(registry_key)?;
+    let name = *mapping().get(registry_key)?;
     db().get(name).or_else(|| db().get_reactant(name))
 }
 
@@ -813,8 +833,9 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     let mut solid_continuations = Vec::new();
     let mut condensed_moles = 0.0;
     let mut used_feed_thermo = false;
+    let fuel = kerotakis_core::combustion::holds_fuel(vessel);
     for p in &vessel.contents {
-        let Some(cea) = cea_name(&p.species.0) else {
+        let Some(cea) = cea_name_with_fuel(&p.species.0, fuel) else {
             return None; // something here is outside the NASA data: decline
         };
         used_feed_thermo |= db().get(cea).is_none() && db().get_reactant(cea).is_some();
@@ -1059,7 +1080,7 @@ impl Equilibrator for ThermalEquilibrator {
                 .mapped
                 .iter()
                 .filter_map(|(id, _)| {
-                    let name = cea_name(&id.0)?;
+                    let name = *mapping().get(id.0.as_str())?;
                     db().get_reactant(name)
                         .is_some()
                         .then(|| cea_identity_stem(name))
@@ -2144,5 +2165,30 @@ mod alkali_metal_guard_tests {
                 "{key} still maps into the Gibbs route"
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod fuel_gated_oxidiser_tests {
+    use super::*;
+
+    #[test]
+    fn a_nitrate_maps_only_beside_a_fuel() {
+        for key in CEA_FUEL_GATED {
+            assert!(cea_name_with_fuel(key, false).is_none(), "{key} alone");
+        }
+        assert!(cea_name_with_fuel("KNO3", true).is_some());
+        assert!(cea_name_with_fuel("NaNO3", true).is_some());
+        // An unconditionally withheld key stays out even with a fuel.
+        assert!(cea_name_with_fuel("Cu(NO3)2", true).is_none());
+    }
+
+    #[test]
+    fn sugar_and_charcoal_count_as_fuel_and_salt_does_not() {
+        use kerotakis_core::combustion::is_fuel;
+        assert!(is_fuel("sucrose"));
+        assert!(is_fuel("C"));
+        assert!(!is_fuel("KNO3"));
+        assert!(!is_fuel("NaCl"));
     }
 }

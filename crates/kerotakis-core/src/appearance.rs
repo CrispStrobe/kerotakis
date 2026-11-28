@@ -221,7 +221,8 @@ pub fn observe(vessel: &Vessel) -> Appearance {
                 strength: 0.0,
             }
         } else {
-            data.and_then(|d| d.colour)
+            thermochromic_colour(&p.species.0, vessel.temperature.0)
+                .or_else(|| data.and_then(|d| d.colour))
                 .or_else(|| {
                     data.and_then(|d| d.appearance)
                         .and_then(appearance_word_colour)
@@ -426,6 +427,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
 /// `solid` picks the right word for an uncoloured thing: a powder is
 /// *white*, a liquid is *colourless*, and calling either by the other's
 /// name is the sort of small wrongness a child notices immediately.
+/// Saturation below which a bright yellow-hued solid is named cream.
+const CREAM_MAX_SATURATION: f64 = 0.3;
+
 pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
     let (r, g, b) = (c.r as f64, c.g as f64, c.b as f64);
     let max = r.max(g).max(b);
@@ -490,6 +494,12 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
             }
         }
         h if h < 45.0 => "orange",
+        // A bright solid with only a trace of yellow is cream, not yellow:
+        // silver bromide (#F2E6B0, saturation 0.27) is the "cream
+        // precipitate" of the halide test, beside yellow silver iodide
+        // (#F0E08C, 0.42). Solids only — a dilute yellow solution is pale
+        // yellow, and the transmission vocabulary has no cream.
+        h if h < 70.0 && solid && saturation < CREAM_MAX_SATURATION && max > 200.0 => "cream",
         h if h < 70.0 => "yellow",
         h if h < 160.0 => "green",
         h if h < 200.0 => "blue-green",
@@ -498,6 +508,34 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
         _ if dark => "deep purple",
         _ => "purple",
     }
+}
+
+/// Solids whose colour depends on temperature: one row per species, the
+/// temperature at and above which the hot colour is drawn, and that colour.
+/// Below the row's temperature the registry colour applies unchanged. A new
+/// thermochromic solid is a new row here, nothing else.
+///
+/// Zinc oxide: white cold, yellow hot, reverting on cooling, from a small
+/// loss of oxygen to non-stoichiometric Zn(1+x)O (Greenwood & Earnshaw,
+/// Chemistry of the Elements, 2nd ed., zinc oxide; English Wikipedia
+/// `Zinc oxide`, which states x = 0.00007 at 800 °C). 800 °C is the
+/// temperature at which the source states the yellow phase; no earlier
+/// onset is claimed. The RGB is CSS `gold`, a rendering of the cited word
+/// "yellow", not a measured reflectance.
+pub(crate) const THERMOCHROMIC_SOLIDS: &[(&str, f64, (u8, u8, u8))] =
+    &[("ZnO", 1073.15, (255, 215, 0))];
+
+/// The hot colour of a [`THERMOCHROMIC_SOLIDS`] row at `t_kelvin`, if any.
+pub(crate) fn thermochromic_colour(species: &str, t_kelvin: f64) -> Option<Colour> {
+    THERMOCHROMIC_SOLIDS
+        .iter()
+        .find(|(key, hot_from_k, _)| *key == species && t_kelvin >= *hot_from_k)
+        .map(|(_, _, (r, g, b))| Colour {
+            r: *r,
+            g: *g,
+            b: *b,
+            strength: 0.0,
+        })
 }
 
 /// A bright scattering liquid is visibly white rather than "colourless".
@@ -777,6 +815,38 @@ mod tests {
             v.deposit(SpeciesId::new(key), Moles(*moles), *phase);
         }
         v
+    }
+
+    /// Silver bromide is the cream halide precipitate; silver iodide, a
+    /// more saturated yellow, stays yellow (sweep S7).
+    #[test]
+    fn silver_bromide_is_cream_and_silver_iodide_yellow() {
+        let agbr = species::lookup(&SpeciesId::new("AgBr"))
+            .unwrap()
+            .colour
+            .unwrap();
+        let agi = species::lookup(&SpeciesId::new("AgI"))
+            .unwrap()
+            .colour
+            .unwrap();
+        assert_eq!(colour_word(&agbr, true), "cream");
+        assert_eq!(colour_word(&agi, true), "yellow");
+        // A solution of the same tint is not called cream.
+        assert_ne!(colour_word(&agbr, false), "cream");
+    }
+
+    /// Zinc oxide is drawn yellow hot and white cold (sweep S7).
+    #[test]
+    fn zinc_oxide_is_yellow_only_when_hot() {
+        let mut v = vessel_with(&[("ZnO", 0.01, Phase::Solid)]);
+        let cold = observe(&v);
+        assert!(cold.words.contains("white"), "{}", cold.words);
+        assert!(!cold.words.contains("yellow"), "{}", cold.words);
+        v.temperature = Kelvin(1173.15);
+        let hot = observe(&v);
+        assert!(hot.words.contains("yellow"), "{}", hot.words);
+        assert!(thermochromic_colour("ZnO", 1000.0).is_none());
+        assert!(thermochromic_colour("CuO", 1173.15).is_none());
     }
 
     #[test]
