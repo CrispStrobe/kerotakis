@@ -262,3 +262,74 @@ fn every_route_is_a_balanced_data_row() {
         assert!(potential_redox::couple(route.reductant).is_some());
     }
 }
+
+/// C1R-6 Turnbull's blue: iron(II) with hexacyanoferrate(III). On standard
+/// potentials alone (0.358 V < 0.771 V) nothing happens; the Prussian blue
+/// solubility product drives the electron transfer, so the route books
+/// iron(III) and hexacyanoferrate(II) for the solver to precipitate.
+#[test]
+fn iron_two_and_hexacyanoferrate_three_transfer_an_electron_for_prussian_blue() {
+    const { assert!(potential_redox::E0_FE_CN6 < potential_redox::E0_FE3) };
+    let mut v = water(0.555);
+    put(&mut v, "FeSO4", 0.0004, Phase::Solid);
+    put(&mut v, "K3Fe(CN)6", 0.0003, Phase::Solid);
+    let events = run(&mut v);
+    assert!(
+        equations(&events)
+            .iter()
+            .any(|e| e.contains("Fe(CN)") && e.contains("Fe")),
+        "{events:#?}"
+    );
+    assert!(
+        note_keys(&events).contains(&"not-modeled.potential-redox-precipitate-driven".to_string())
+    );
+    let fe3 = all(&v, "Fe+3");
+    let fcy4 = all(&v, "Fe(CN)6-4");
+    // Electron balance: every iron(III) made reduced one hexacyanoferrate(III).
+    assert!(fe3 > 1e-4, "iron(III) {fe3}");
+    assert!((fe3 - fcy4).abs() < 1e-12, "{fe3} vs {fcy4}");
+    // Potassium stays a spectator: three per hexacyanoferrate taken.
+    assert!((all(&v, "K+") + 3.0 * all(&v, "K3Fe(CN)6") - 0.0009).abs() < 1e-12);
+}
+
+#[test]
+fn iron_three_with_hexacyanoferrate_three_or_iron_two_with_two_is_not_this_route() {
+    let mut a = water(0.555);
+    put(&mut a, "FeCl3", 0.0004, Phase::Solid);
+    put(&mut a, "K3Fe(CN)6", 0.0003, Phase::Solid);
+    assert!(equations(&run(&mut a))
+        .iter()
+        .all(|e| !e.contains("Fe(CN)")));
+    let mut b = water(0.555);
+    put(&mut b, "FeSO4", 0.0004, Phase::Solid);
+    put(&mut b, "K4Fe(CN)6", 0.0003, Phase::Solid);
+    assert!(equations(&run(&mut b))
+        .iter()
+        .all(|e| !e.contains("Fe(CN)")));
+}
+
+/// C1R-5: acidified dichromate and ethanol. The registry has no
+/// acetaldehyde, so no route is posed; the honesty tail names the gap
+/// instead of leaving a silent, unreacted beaker.
+#[test]
+fn acidified_dichromate_and_ethanol_name_the_missing_acetaldehyde() {
+    let mut v = water(0.555);
+    put(&mut v, "K2Cr2O7", 0.0003, Phase::Solid);
+    acid(&mut v, 0.01);
+    put(&mut v, "ethanol", 0.005, Phase::Liquid);
+    // The honesty tail reads the vessel after a solve, when the ledger
+    // carries the acid as solute charge (as `run` books it).
+    v.solute_charge = displacement::solute_charge(&v);
+    let notes = note_keys(&potential_redox::dormant_notes(&v));
+    assert!(
+        notes.contains(&"not-modeled.oxidation-product-unregistered".to_string()),
+        "{notes:?}"
+    );
+    // Without acid, or without ethanol, the note is not shown.
+    let mut neutral = water(0.555);
+    put(&mut neutral, "K2Cr2O7", 0.0003, Phase::Solid);
+    put(&mut neutral, "ethanol", 0.005, Phase::Liquid);
+    neutral.solute_charge = displacement::solute_charge(&neutral);
+    assert!(!note_keys(&potential_redox::dormant_notes(&neutral))
+        .contains(&"not-modeled.oxidation-product-unregistered".to_string()));
+}

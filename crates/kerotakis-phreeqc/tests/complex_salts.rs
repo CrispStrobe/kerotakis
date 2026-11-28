@@ -7,6 +7,9 @@
 //! * Native complexes take their colour from `complex_optics` rows, so the
 //!   tetraammine copper solution is blue and no longer a spectral gap.
 //!
+//! * Iron(II) with hexacyanoferrate(III) (Turnbull's blue) gives the same
+//!   Prussian blue by electron transfer.
+//!
 //! Negatives: hexacyanoferrate(III) with iron(III) and hexacyanoferrate(II)
 //! alone throw nothing down; a dilute acid does not open the anion.
 #![cfg(feature = "engine")]
@@ -82,6 +85,25 @@ fn iron_three_with_hexacyanoferrate_two_gives_prussian_blue() {
     let pb = solid(&bench, "Prussian_blue");
     assert!(pb > 0.9e-4, "Prussian blue {pb}: {steps:#?}");
     // Iron, carbon and nitrogen are conserved through the precipitate.
+    assert!((element(&bench, "Fe") - 0.0007).abs() < 1e-9);
+    assert!((element(&bench, "N") - 0.0018).abs() < 1e-9);
+    let look = kerotakis_core::appearance::observe(vessel(&bench));
+    assert!(look.words.contains("blue"), "{}", look.words);
+}
+
+/// C1R-6: Turnbull's blue is Prussian blue. Iron(II) with
+/// hexacyanoferrate(III) transfers an electron (core potential-redox route,
+/// driven by the precipitate) and the solve throws down the same phase.
+#[test]
+fn iron_two_with_hexacyanoferrate_three_gives_turnbulls_blue_which_is_prussian_blue() {
+    let (bench, steps) = run(&[
+        "add v1 water 10mL",
+        "add v1 FeSO4 0.0004mol",
+        "add v1 K3Fe(CN)6 0.0003mol",
+        "wait 10s",
+    ]);
+    let pb = solid(&bench, "Prussian_blue");
+    assert!(pb > 0.5e-4, "Prussian blue {pb}: {steps:#?}");
     assert!((element(&bench, "Fe") - 0.0007).abs() < 1e-9);
     assert!((element(&bench, "N") - 0.0018).abs() < 1e-9);
     let look = kerotakis_core::appearance::observe(vessel(&bench));
