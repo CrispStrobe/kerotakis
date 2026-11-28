@@ -7513,15 +7513,33 @@ fn freezing_boundary_binds(v: &Vessel) -> bool {
     if !liquid_water {
         return false;
     }
-    let (t, _) = crate::solve::vessel_transitions(v);
-    let counted = t.solute_molality.is_finite() && t.solute_molality > 0.0;
-    if !counted {
-        // No particle census (nothing solved yet): any dissolved stock still
-        // leaves a freezing point the equilibrator cannot place.
-        return v
+    let (mut t, _) = crate::solve::vessel_transitions(v);
+    if !(t.solute_molality.is_finite() && t.solute_molality > 0.0) {
+        // No particle census yet (nothing solved this vessel): count the
+        // dissolved stock as ideal particles, the same fallback the state
+        // equilibrator's solvent activity takes.
+        let water_kg: f64 = v
             .contents
             .iter()
-            .any(|p| p.phase == Phase::Aqueous && p.moles.0 > 0.0);
+            .filter(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+            .map(|p| p.moles.0)
+            .sum::<f64>()
+            * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
+        let dissolved: f64 = v
+            .contents
+            .iter()
+            .filter(|p| p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum();
+        if dissolved <= 0.0 || water_kg <= 0.0 {
+            return false;
+        }
+        t = crate::states::transitions_with(
+            crate::states::SolventActivity::ideal(),
+            dissolved / water_kg,
+            v.pressure.0 / 1000.0,
+        )
+        .0;
     }
     let owned_above = t.freezing_k.is_finite()
         && t.within_model_range()
