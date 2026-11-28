@@ -30,8 +30,9 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, moles: f64) -> Vec
 /// pays its cited +91.6 kJ per reaction (45.8 kJ for one mole of soda;
 /// `curated::CURATED_REACTION_HEATS`, 2026-11-28 sweep S7), so the 10 kJ
 /// these tests used to dose decomposed it all only while the row paid
-/// nothing. Warming to the threshold and boiling off the water take the rest.
-const DOSE_J: f64 = 80_000.0;
+/// nothing. The rest warms the products; a larger dose drives the solution
+/// past the aqueous model's 300 °C ceiling, which is a typed boundary note.
+const DOSE_J: f64 = 60_000.0;
 
 /// The sealed tests' dose: enough to decompose the mole (45.8 kJ plus the
 /// warm-up) but not so much that the hot headspace bursts the seal and
