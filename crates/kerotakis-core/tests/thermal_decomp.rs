@@ -31,7 +31,12 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, moles: f64) -> Vec
 /// `curated::CURATED_REACTION_HEATS`, 2026-11-28 sweep S7), so the 10 kJ
 /// these tests used to dose decomposed it all only while the row paid
 /// nothing. Warming to the threshold and boiling off the water take the rest.
-const DOSE_J: f64 = 120_000.0;
+const DOSE_J: f64 = 80_000.0;
+
+/// The sealed tests' dose: enough to decompose the mole (45.8 kJ plus the
+/// warm-up) but not so much that the hot headspace bursts the seal and
+/// vents the carbon the closed balance counts.
+const SEALED_DOSE_J: f64 = 55_000.0;
 
 fn heat(bench: &mut Bench, stack: &mut SolverStack, joules: f64) -> Vec<Event> {
     bench
@@ -189,7 +194,7 @@ fn co2_contained_in_sealed_headspace() {
             &PermissiveScreen,
         )
         .expect("seal");
-    let events = heat(&mut bench, &mut s, DOSE_J);
+    let events = heat(&mut bench, &mut s, SEALED_DOSE_J);
     assert!(
         events
             .iter()
@@ -250,7 +255,7 @@ fn conserves_elements() {
     let c_before = total_element(&bench, "C");
     let o_before = total_element(&bench, "O");
     let h_before = total_element(&bench, "H");
-    heat(&mut bench, &mut s, DOSE_J);
+    heat(&mut bench, &mut s, SEALED_DOSE_J);
     let na_after = total_element(&bench, "Na");
     let c_after = total_element(&bench, "C");
     let o_after = total_element(&bench, "O");
