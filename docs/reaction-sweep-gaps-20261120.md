@@ -187,7 +187,7 @@ headspace.
 
 Gaps, most severe first:
 
-### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — OPEN
+### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — FIXED (fix/titrate-endpoint-20261128: persists reads titrant-derived colour; new `until colour disappears`)
 
 Titrating acidified iron(II) with 0.02 M permanganate stopped after the
 first 1 mL. About 25 mL was expected, and 2.48 mmol Fe(II) was still

@@ -132,6 +132,125 @@ fn liquid_colour_word_of(vessel: &Vessel) -> &'static str {
         .unwrap_or("colourless")
 }
 
+/// Elements named by a bottle key or a native species name. A name that
+/// is neither a registry key nor a parseable formula carries no elements,
+/// and so is never attributed to the titrant or the analyte.
+fn elements_of_name(name: &str) -> std::collections::BTreeSet<String> {
+    let formula = species::lookup_key(name).map(|d| d.formula).unwrap_or(name);
+    crate::stoich::parse_formula_with(formula, crate::stoich::FormulaDialect::PhreeqcMaster)
+        .map(|f| {
+            f.counts
+                .into_iter()
+                .filter(|(_, n)| *n > 0.0)
+                .map(|(e, _)| e)
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+/// One dissolved or liquid thing the eye could be reading: a bottle
+/// portion (`true`) or a native species row (`false`), by name.
+type LiquidKey = (bool, String);
+
+/// Moles of every dissolved or liquid portion and native species row.
+/// Moles, not concentrations: the burette's water dilutes everything, and
+/// a dilution is not a reaction.
+fn liquid_amounts(v: &Vessel) -> std::collections::BTreeMap<LiquidKey, f64> {
+    let mut out = std::collections::BTreeMap::new();
+    for p in &v.contents {
+        if matches!(p.phase, Phase::Aqueous | Phase::Liquid) {
+            *out.entry((true, p.species.0.clone())).or_insert(0.0) += p.moles.0.max(0.0);
+        }
+    }
+    if let Some(solution) = &v.solution {
+        let kg = solution
+            .solvent_kg
+            .filter(|kg| kg.is_finite() && *kg > 0.0)
+            .unwrap_or(0.0);
+        for native in &solution.species {
+            *out.entry((false, native.name.clone())).or_insert(0.0) +=
+                native.molality.max(0.0) * kg;
+        }
+    }
+    out
+}
+
+/// The flask's colour word with some of its dissolved matter taken out of
+/// the light path. Solids are never removed: a colour endpoint is read
+/// through the liquid.
+fn colour_word_without(v: &Vessel, drop: impl Fn(&LiquidKey, f64) -> bool) -> &'static str {
+    let mut seen = v.clone();
+    seen.contents.retain(|p| {
+        !(matches!(p.phase, Phase::Aqueous | Phase::Liquid)
+            && drop(&(true, p.species.0.clone()), p.moles.0))
+    });
+    if let Some(solution) = &mut seen.solution {
+        let kg = solution
+            .solvent_kg
+            .filter(|kg| kg.is_finite() && *kg > 0.0)
+            .unwrap_or(0.0);
+        solution
+            .species
+            .retain(|n| !drop(&(false, n.name.clone()), n.molality.max(0.0) * kg));
+    }
+    liquid_colour_word_of(&seen)
+}
+
+/// Relative margin below which an amount counts as unchanged.
+const COLOUR_ENDPOINT_MARGIN: f64 = 1e-9;
+
+/// "Until colour persists": the colour the TITRANT brings survives.
+///
+/// The titrant-derived matter is every dissolved thing that carries one
+/// of the titrant's characteristic elements (its elements other than H
+/// and O, which water already supplies) and of which the flask now holds
+/// more than it did before the first drop. Before equivalence the
+/// titrant is consumed into its reduced or bound form; past it, its own
+/// coloured form accumulates. The endpoint is reached when removing that
+/// matter from the light path changes what the eye reports — so a colour
+/// produced in the ANALYTE (iron(III) from iron(II), say) never ends a
+/// titration, and a colourless titrant never "persists".
+fn titrant_colour_persists(
+    v: &Vessel,
+    titrant_elements: &std::collections::BTreeSet<String>,
+    baseline: &std::collections::BTreeMap<LiquidKey, f64>,
+) -> bool {
+    if titrant_elements.is_empty() {
+        return false;
+    }
+    let shown = liquid_colour_word_of(v);
+    let without = colour_word_without(v, |key, moles| {
+        let before = baseline.get(key).copied().unwrap_or(0.0);
+        moles > before * (1.0 + COLOUR_ENDPOINT_MARGIN)
+            && !elements_of_name(&key.1).is_disjoint(titrant_elements)
+    });
+    shown != without
+}
+
+/// "Until colour disappears": the colour the flask started with is gone.
+///
+/// The consumed matter is every dissolved thing of which the flask now
+/// holds less than before the first drop. The endpoint is reached when
+/// the colour of what is left of it no longer shows: removing it from
+/// the light path changes nothing the eye reports. A colour that was
+/// never there cannot disappear, so a colourless start never arrives.
+fn consumed_colour_disappeared(
+    v: &Vessel,
+    baseline_colour: &str,
+    baseline: &std::collections::BTreeMap<LiquidKey, f64>,
+) -> bool {
+    if baseline_colour == "colourless" {
+        return false;
+    }
+    let shown = liquid_colour_word_of(v);
+    let without = colour_word_without(v, |key, moles| {
+        baseline
+            .get(key)
+            .is_some_and(|&before| moles < before * (1.0 - COLOUR_ENDPOINT_MARGIN))
+    });
+    shown == without
+}
+
 /// The endpoint pH of every acid–base indicator dissolved in this vessel.
 fn indicator_endpoints_of(vessel: &Vessel) -> Vec<f64> {
     let mut out: Vec<f64> = vessel
@@ -6743,6 +6862,14 @@ impl Bench {
         // and stopped titrations long before equivalence.
         let indicator_endpoints = indicator_endpoints_of(self.vessel(vessel)?);
         let baseline_ph = self.vessel(vessel)?.solution.as_ref().map(|s| s.ph);
+        // The colour endpoints are judged against the flask's dissolved
+        // inventory before the first drop: what the titrant ADDS (persists)
+        // and what it CONSUMES (disappears).
+        let baseline_amounts = liquid_amounts(self.vessel(vessel)?);
+        let titrant_elements: std::collections::BTreeSet<String> = elements_of_name(&titrant.0)
+            .into_iter()
+            .filter(|e| e != "H" && e != "O")
+            .collect();
 
         let mut total_volume = Liters(0.0);
         let mut reached = false;
@@ -6967,12 +7094,24 @@ impl Bench {
                         Endpoint::Pe { compare, value } => {
                             info.pe.is_some_and(|pe| compare.holds(pe, value))
                         }
-                        Endpoint::ColourPersists => match baseline_ph {
-                            Some(start) if !indicator_endpoints.is_empty() => indicator_endpoints
+                        // An acid–base indicator turns where its sourced
+                        // transition puts it, which is both a colour that
+                        // appears and one that disappears.
+                        Endpoint::ColourPersists | Endpoint::ColourDisappears
+                            if baseline_ph.is_some() && !indicator_endpoints.is_empty() =>
+                        {
+                            let start = baseline_ph.unwrap_or(f64::NAN);
+                            indicator_endpoints
                                 .iter()
-                                .any(|&turn| (start - turn) * (ph - turn) <= 0.0 && start != turn),
-                            _ => colour != baseline_colour,
-                        },
+                                .any(|&turn| (start - turn) * (ph - turn) <= 0.0 && start != turn)
+                        }
+                        Endpoint::ColourPersists => {
+                            colour != baseline_colour
+                                && titrant_colour_persists(v, &titrant_elements, &baseline_amounts)
+                        }
+                        Endpoint::ColourDisappears => {
+                            consumed_colour_disappeared(v, baseline_colour, &baseline_amounts)
+                        }
                     };
                     if arrived {
                         reached = true;
@@ -7062,6 +7201,22 @@ impl Bench {
                         (
                             "colour".to_string(),
                             Slot::term("appearance", baseline_colour),
+                        ),
+                    ],
+                )),
+                Endpoint::ColourDisappears => Some(Phrase::new(
+                    "not-modeled.titration-colour-disappears",
+                    "the burette ran to its {steps}-step limit and the colour \
+                     it was meant to remove still shows: the liquid is \
+                     {colour}. Either the endpoint is further away than \
+                     {steps} increments, or the flask began without a colour \
+                     the titrant consumes. Raise `max`, or titrate to a pH or \
+                     a pe instead",
+                    vec![
+                        steps(),
+                        (
+                            "colour".to_string(),
+                            Slot::term("appearance", liquid_colour_word_of(self.vessel(vessel)?)),
                         ),
                     ],
                 )),

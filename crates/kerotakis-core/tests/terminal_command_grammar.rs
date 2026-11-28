@@ -17,6 +17,8 @@ fn titration_endpoints_keep_valid_default_and_explicit_step_limits() {
             },
         ),
         ("colour persists", Endpoint::ColourPersists),
+        ("colour disappears", Endpoint::ColourDisappears),
+        ("color disappears", Endpoint::ColourDisappears),
     ] {
         for (suffix, steps) in [("", 100), (" max 4", 4)] {
             let input = format!("titrate v1 NaOH 1M 1mL until {endpoint}{suffix}");
@@ -37,7 +39,7 @@ fn titration_endpoints_keep_valid_default_and_explicit_step_limits() {
 
 #[test]
 fn titration_rejects_unconsumed_or_incomplete_step_limit_tails() {
-    for endpoint in ["ph 7", "pe > 8", "colour persists"] {
+    for endpoint in ["ph 7", "pe > 8", "colour persists", "colour disappears"] {
         for suffix in [" max 4 ignored", " max 4 max 9", " max", " ignored"] {
             let input = format!("titrate v1 NaOH 1M 1mL until {endpoint}{suffix}");
             assert!(parse_op(&input).is_err(), "silently accepted: {input}");

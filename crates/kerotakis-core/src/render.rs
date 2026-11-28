@@ -5045,6 +5045,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "pe {compare} {value}",
                     &[("compare", compare.symbol()), ("value", &locale.number(format!("{value}")))],
                 ),
+                crate::ops::Endpoint::ColourDisappears => locale.t(
+                    "event.titrated.endpoint.colour_gone",
+                    "a flask whose colour has disappeared",
+                ).to_string(),
                 _ => locale.fill(
                     "event.titrated.endpoint.colour",
                     "a {name} colour that stays",
