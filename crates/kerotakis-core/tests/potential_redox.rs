@@ -317,6 +317,9 @@ fn acidified_dichromate_and_ethanol_name_the_missing_acetaldehyde() {
     put(&mut v, "K2Cr2O7", 0.0003, Phase::Solid);
     acid(&mut v, 0.01);
     put(&mut v, "ethanol", 0.005, Phase::Liquid);
+    // The honesty tail reads the vessel after a solve, when the ledger
+    // carries the acid as solute charge (as `run` books it).
+    v.solute_charge = displacement::solute_charge(&v);
     let notes = note_keys(&potential_redox::dormant_notes(&v));
     assert!(
         notes.contains(&"not-modeled.oxidation-product-unregistered".to_string()),
@@ -326,6 +329,7 @@ fn acidified_dichromate_and_ethanol_name_the_missing_acetaldehyde() {
     let mut neutral = water(0.555);
     put(&mut neutral, "K2Cr2O7", 0.0003, Phase::Solid);
     put(&mut neutral, "ethanol", 0.005, Phase::Liquid);
+    neutral.solute_charge = displacement::solute_charge(&neutral);
     assert!(!note_keys(&potential_redox::dormant_notes(&neutral))
         .contains(&"not-modeled.oxidation-product-unregistered".to_string()));
 }
