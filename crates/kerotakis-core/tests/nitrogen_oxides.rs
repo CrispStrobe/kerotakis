@@ -253,3 +253,89 @@ fn a_sealed_jar_holds_back_nitrous_acid_decomposition() {
     let (open, sealed) = (mk(false), mk(true));
     assert!(sealed < open, "sealed {sealed} open {open}");
 }
+
+// ── headspace pressure counts molecules ──────────────────────────────
+
+#[test]
+fn a_dimerised_jar_reads_the_molecule_pressure_not_the_pool_pressure() {
+    // 0.04 mol NO2 units in 0.5 L at 25 C: pool pressure 1.98 bar, but at
+    // Kp 6.7 bar^-1 roughly two thirds of the pool is dimer, so the real
+    // pressure is n_M + n_D, between half and all of the pool count.
+    let mut v = jar(0.5);
+    put(&mut v, "NO2", 0.04, Phase::Gas);
+    v.temperature = Kelvin(298.15);
+    v.refresh_pressure();
+    let pool_pa = 0.04 * 8_314.462_618 * 298.15 / 0.5;
+    let m = nitrogen_oxides::monomer_moles(0.04, 298.15, 0.5);
+    let molecules = m + 0.5 * (0.04 - m);
+    let expect = molecules * 8_314.462_618 * 298.15 / 0.5;
+    assert!(
+        (v.pressure.0 - expect).abs() / expect < 1e-9,
+        "{:?}",
+        v.pressure
+    );
+    assert!(v.pressure.0 < 0.8 * pool_pa && v.pressure.0 > 0.5 * pool_pa);
+    // Negative control: a non-associating gas reads its full pool count.
+    let mut n2 = jar(0.5);
+    put(&mut n2, "N2", 0.04, Phase::Gas);
+    n2.refresh_pressure();
+    assert!((n2.pressure.0 - pool_pa).abs() / pool_pa < 1e-12);
+}
+
+#[test]
+fn a_piston_jar_volume_counts_each_dimer_once() {
+    let mut v = Vessel::new(VesselId(0), "syringe");
+    v.headspace = Headspace::PressureControlled {
+        pressure: Pascal(101_325.0),
+        volume: Liters(1.0),
+    };
+    put(&mut v, "NO2", 0.04, Phase::Gas);
+    v.temperature = Kelvin(298.15);
+    v.refresh_pressure();
+    let Headspace::PressureControlled { volume, .. } = v.headspace else {
+        unreachable!()
+    };
+    // Self-consistent: the molecule count at that volume fills it at 1 atm.
+    let n = v.gas_molecules_in(298.15, volume.0);
+    let back = n * 8_314.462_618 * 298.15 / 101_325.0;
+    assert!(
+        (back - volume.0).abs() / volume.0 < 1e-9,
+        "{volume:?} {back}"
+    );
+    // Bounded by the all-dimer and all-monomer volumes.
+    let full = 0.04 * 8_314.462_618 * 298.15 / 101_325.0;
+    assert!(volume.0 < full && volume.0 > 0.5 * full);
+}
+
+// ── N2O4 condensation caveat ─────────────────────────────────────────
+
+#[test]
+fn saturation_line_passes_through_the_boiling_point() {
+    let p = nitrogen_oxides::n2o4_saturation_bar(nitrogen_oxides::N2O4_BOILING_K).unwrap();
+    assert!((p - 1.01325).abs() < 1e-12);
+    // Colder means lower vapour pressure; the line refuses above its range.
+    assert!(nitrogen_oxides::n2o4_saturation_bar(273.15).unwrap() < 0.5);
+    assert!(nitrogen_oxides::n2o4_saturation_bar(400.0).is_none());
+}
+
+#[test]
+fn a_concentrated_jar_in_ice_flags_condensing_dinitrogen_tetroxide() {
+    // 0.1 mol NO2 units in 0.5 L at 0 C: nearly all dimer at ~2.2 bar,
+    // above the ~0.41 bar saturation line, so liquid N2O4 would form.
+    let mut v = jar(0.5);
+    put(&mut v, "NO2", 0.1, Phase::Gas);
+    v.temperature = Kelvin(273.15);
+    assert!(nitrogen_oxides::n2o4_supersaturation(&v).is_some());
+    let mut events = Vec::new();
+    nitrogen_oxides::apply(&mut v, &mut events);
+    assert!(
+        note_keys(&events).contains(&"not-modeled.dinitrogen-tetroxide-condensation".to_string())
+    );
+    // Negative control: the same jar warm, or a dilute jar in ice, stays gas.
+    v.temperature = Kelvin(323.15);
+    assert!(nitrogen_oxides::n2o4_supersaturation(&v).is_none());
+    let mut dilute = jar(5.0);
+    put(&mut dilute, "NO2", 0.002, Phase::Gas);
+    dilute.temperature = Kelvin(273.15);
+    assert!(nitrogen_oxides::n2o4_supersaturation(&dilute).is_none());
+}

@@ -2,6 +2,8 @@
 # Metal-ammine complexes borrowed verbatim (log_k only) from llnl.dat, which
 # ships in vendor/iphreeqc/database but is not a routed database. No reaction enthalpy
 # (reaction heat stays declared unpriced), no rate, no spectrum. 25 C, I = 0.
+# Exception, stated on its row: the nitrous acid protonation carries llnl's
+# stated reaction enthalpy (a datum, not a "Not possible to calculate" hole).
 SOLUTION_SPECIES
     # llnl.dat lines 9413-9433 (zinc ammines)
     Zn+2 + NH3 = Zn(NH3)+2
@@ -19,3 +21,15 @@ SOLUTION_SPECIES
         log_k 4.876
     Cd+2 + 4 NH3 = Cd(NH3)4+2
         log_k 7.2914
+    # llnl.dat lines 4549-4552 (nitrous acid). Every route that loads this
+    # file (wateq4f, minteq.v4) defines NO2- as its N(3) master species but
+    # no protonated form, so acidified nitrite had no weak-acid buffer.
+    # log_k 3.2206 is llnl's stated value (pKa 3.22; the NBS 1982 tables
+    # give 3.22 too, see kerotakis-core nitrogen_oxides.rs). The stated
+    # -delta_H -14.782 kJ/mol is carried (NBS: -14.6). llnl's -analytic fit
+    # is NOT taken: it evaluates to 3.232 at 25 C, disagreeing with the
+    # stated log_k. Matter books back under NO2- (no registry HNO2), the
+    # citrate/thiosulfate precedent; the pH sees the buffer.
+    NO2- + H+ = HNO2
+        log_k 3.2206
+        -delta_H -14.782 kJ/mol
