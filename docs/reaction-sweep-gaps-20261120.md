@@ -167,3 +167,90 @@ gas-release question has to be re-checked once G1 is deployed.
 | --- | --- |
 | G1 thermo basis | this PR |
 | G2–G6 | open, reasons above |
+
+## 2026-11-28 sweep
+
+Thirty own-design experiments in families earlier sweeps had not covered:
+redox titrations, gas collection and gas tests, electrolysis, organic
+tests, silver and lead halides, thermal decomposition of carbonates and
+nitrates, flame tests, buffers, solubility against temperature, and
+indicators. Expectations were written before the scripts were run. The
+binary was a release CLI from the gate build of the nitrogen-oxides branch,
+close to current main. Tally: 23 pass, 3 fail, 3 gap, 1 bug.
+
+Passes include the starch-iodine colour, Fehling and Tollens with glucose,
+AgCl/AgBr/AgI/PbI2 precipitates, AgCl redissolving in ammonia, electrolysis
+of CuSO4, acidified water and brine, Daniell cell EMF, CaCO3/ZnCO3/NaHCO3
+decomposition, flame colours, acetate and ammonia buffers, peroxide
+titration with permanganate, and H2/O2/CO2/NH3 tests over a sealed
+headspace.
+
+Gaps, most severe first:
+
+### S1. Titration endpoint "until colour persists" fires early (wrong quantity) — OPEN
+
+Titrating acidified iron(II) with 0.02 M permanganate stopped after the
+first 1 mL. About 25 mL was expected, and 2.48 mmol Fe(II) was still
+present. Titrating iodine with thiosulfate stopped at 11 mL with 0.45 mmol
+I2 left when starch was present. The same titration without starch
+correctly stopped at 20 mL. The detector behaves like "the colour stopped
+changing between steps", not "the titrant's colour persists". A
+decolourising endpoint (`until colour disappears`) is also missing.
+Generic fix: judge the endpoint from the excess-titrant species, or from a
+colour change against the pre-endpoint colour, and keep the rule in one
+place for all titrants. Acceptance: Fe(II)/MnO4- endpoint within 1 mL of
+stoichiometry. I2/S2O3 with starch gives the same volume as without it.
+
+### S2. Sodium nitrate decomposes to sodium metal, with no oxygen (bug) — OPEN
+
+Heating NaNO3 to 1335 °C reports NaNO2 and then 0.0117 mol liquid sodium.
+No O2 or other gas is booked for either step. Real behaviour is
+2 NaNO3 → 2 NaNO2 + O2. NaNO2 decomposes further only to Na2O and nitrogen
+oxides, never to the metal. Generic fix: a nitrate-decomposition table
+row per cation class, with the gas products and a no-metal-product guard.
+Acceptance: about 5.9 mmol O2 from 1 g NaNO3, and no Na(l).
+
+### S3. Heavy-metal nitrates do not decompose (missing reaction) — OPEN
+
+Cu(NO3)2 held at 1500 °C stays intact, with 0 kJ to chemistry. The
+anhydrous salt is also drawn "white". Expected:
+2 Cu(NO3)2 → 2 CuO + 4 NO2 + O2, black solid, brown gas. This could share
+the S2 table: an alkali row gives nitrite + O2, and a row for other metals
+gives oxide + NO2 + O2. Each needs reviewed onset temperatures.
+
+### S4. No haloform (iodoform) route (missing reaction and species) — OPEN
+
+Ethanol with I2/KI/NaOH, warmed, gives no reaction and no CHI3. CHI3 is
+not a species. Generic fix: a haloform family row (CH3CO– or CH3CH(OH)–
+substrates, X2/OH-) plus a CHI3 registry row (yellow solid, sourced data).
+
+### S5. Methyl orange has no acid-base colour; bromothymol blue colours off (wrong observation) — OPEN
+
+Methyl orange stays "red" at pH 12.2, and the notice says it has no aqueous
+mapping. Bromothymol blue is drawn orange at pH 1.75 and purple at pH 12.2,
+where yellow and blue are expected. Generic fix: indicator table rows with
+pKa and the two-form colours, using the existing phenolphthalein-style
+indicator route.
+
+### S6. No KNO3 crystallisation on cooling; cooling passes the freezing boundary (missing species) — OPEN
+
+25 g KNO3 in 20 g water stays fully dissolved down to −67.9 °C, still
+"colourless and clear". A typed notice says that no validated KNO3 phase
+exists. The −21.1 °C partial-freezing boundary is announced, but the
+temperature then keeps falling with the liquid unchanged. Fix: a reviewed
+KNO3 solubility phase (a data row). Separately, `cool` should stop or
+refuse at the freezing boundary it announces.
+
+### S7. Minor observations — OPEN
+
+- HCl added to sealed plain water raises the "acid and carbonate fizz"
+  hazard. The only carbonate present is dissolved air CO2, so the hazard
+  trigger needs a threshold.
+- 0.05 mol CuSO4 in 50 mL water (1 M) precipitates 8.4 mmol chalcanthite,
+  although 1 M is below its solubility (about 1.4 M).
+- When NaHCO3 is heated, −1.44 kJ "went into chemistry". The sign is
+  inconsistent with an endothermic decomposition.
+- AgBr is drawn "yellow" rather than cream. Hot ZnO is not drawn yellow.
+- Gas tests on an open beaker answer "nothing to test, collect over a
+  sealed vessel". This is correct and typed, and is noted here only so that
+  scripts seal first.
