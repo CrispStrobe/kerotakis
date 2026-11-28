@@ -21,8 +21,8 @@ fn constructing_the_stack_registers_the_routed_dissolution_pricer() {
 }
 
 /// With the routed price in place, the coupled solve against the Berkeley
-/// validation curve releases crystallisation heat at that price; at
-/// runtime KNO3 is still refused for want of a validated routed phase.
+/// curve releases crystallisation heat at that price, and the runtime
+/// (which admits the measured curve, S6) gives the same answer.
 #[test]
 fn the_curve_mechanism_charges_the_routed_price() {
     use kerotakis_core::*;
@@ -55,10 +55,9 @@ fn the_curve_mechanism_charges_the_routed_price() {
     let price = enthalpy::dissolution_enthalpy_kj("KNO3").unwrap();
     assert!((owned.heat_j - owned.moles * price * 1000.0).abs() < 1e-6);
     assert!((289.0..294.0).contains(&owned.final_k), "{owned:?}");
-    assert!(matches!(
+    // Admitted at runtime (S6): the runtime answer IS the curve solve.
+    assert_eq!(
         crystallisation::cool_with_crystallisation(&v, 12_000.0, &sensible),
-        Some(Err(crystallisation::Refusal::NoRoutedPhase {
-            salt: "KNO3"
-        }))
-    ));
+        Some(Ok(owned))
+    );
 }

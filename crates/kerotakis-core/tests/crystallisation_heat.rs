@@ -44,7 +44,7 @@ fn cool(v: &Vessel, joules: f64) -> Option<Result<crystallisation::Crystallised,
 }
 
 /// The coupled solve against the Berkeley curve as a validation reference
-/// (not admitted at runtime).
+/// (admitted at runtime since S6; this path bypasses the admission check).
 fn against_curve(v: &Vessel, joules: f64) -> Result<crystallisation::Crystallised, Refusal> {
     crystallisation::register_dissolution_pricer(niter_pricer);
     let from = v.temperature.0;
@@ -98,21 +98,54 @@ fn kno3_cooling_crystallises_releases_heat_and_stops_where_the_ledger_closes() {
         .map(|p| p.moles.0)
         .sum();
     assert!((k - KNO3_MOL).abs() < 1e-12);
-    // Not admitted at runtime: crystals of a validation-only curve are not
-    // held back from the aqueous engine.
+    // Admitted at runtime (S6): at the temperature the ledger closed at the
+    // solution is saturated, so its crystals are held back from the aqueous
+    // engine rather than re-dissolved on the next step...
+    end.temperature = Kelvin(owned.final_k);
+    assert!(crystallisation::holds_solid(&end, "KNO3"));
+    // ...and released again once the solution is warm enough to take them.
+    end.temperature = Kelvin(321.76);
     assert!(!crystallisation::holds_solid(&end, "KNO3"));
 }
 
-/// TH-007 at runtime: no routed database phase owns KNO3 and the llnl
-/// Niter route fails validation, so a saturating dose is refused rather
-/// than cooled heat-free in silence.
+/// TH-007 at runtime (S6, 2026-11-28 sweep): no routed database phase owns
+/// KNO3, so the admitted Berkeley measurement does. A saturating dose
+/// crystallises at runtime exactly as the validation solve does.
 #[test]
-fn kno3_saturation_at_runtime_is_refused_for_want_of_a_routed_phase() {
+fn kno3_saturation_at_runtime_crystallises_against_the_admitted_curve() {
     let v = solution(321.76, KNO3_MOL, &[]);
-    assert!(matches!(
-        cool(&v, 12_000.0),
-        Some(Err(Refusal::NoRoutedPhase { salt: "KNO3" }))
-    ));
+    assert!(crystallisation::curve_for("KNO3").unwrap().runtime_admitted);
+    let runtime = cool(&v, 12_000.0).expect("saturating").expect("owned");
+    assert_eq!(runtime, against_curve(&v, 12_000.0).unwrap());
+    assert!(runtime.moles > 0.13, "{runtime:?}");
+}
+
+/// A start already SUPERSATURATED (a dissolution step cooled the solution
+/// past its own saturation point, as the 2026-11-28 sweep's t29 did) closes
+/// its ledger ABOVE the start: the crystals it owes pay back heat.
+#[test]
+fn a_supersaturated_start_crystallises_and_warms_toward_saturation() {
+    // 0.2967 mol in 50 g water saturates near 48 C; start it at 25 C.
+    let v = solution(298.15, KNO3_MOL, &[]);
+    let owned = cool(&v, 100.0).expect("saturated").expect("owned");
+    assert!(owned.final_k > 298.15, "{owned:?}");
+    assert!(owned.moles > 0.0 && owned.moles < KNO3_MOL, "{owned:?}");
+    // One ledger, even when the sensible part is negative.
+    let mut end = v.clone();
+    crystallisation::apply(
+        &mut end,
+        crystallisation::curve_for("KNO3").unwrap(),
+        owned.moles,
+    );
+    let sensible = end.energy_between(owned.final_k, 298.15);
+    assert!((sensible + owned.heat_j - 100.0).abs() < 1e-3, "{sensible}");
+    // Exactly saturated where it stopped.
+    let water_g = WATER_MOL * species::lookup_key("water").unwrap().molar_mass;
+    let cap = crystallisation::curve_for("KNO3")
+        .unwrap()
+        .capacity_mol(water_g, owned.final_k)
+        .unwrap();
+    assert!((KNO3_MOL - owned.moles - cap).abs() < 1e-8);
 }
 
 #[test]

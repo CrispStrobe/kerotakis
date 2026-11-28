@@ -16,9 +16,10 @@
 //! ions included); `kerotakis_phreeqc::crystallisation_route` enumerates
 //! which registry solids that owns on which route. This module is the
 //! coupled energy solve for a salt booked on its ions, and it runs at
-//! runtime only against a curve that is explicitly `runtime_admitted`.
-//! Measured curves are otherwise VALIDATION references, and a saturated
-//! solution of such a salt is refused ([`Refusal::NoRoutedPhase`]).
+//! runtime only against a curve that is explicitly `runtime_admitted`
+//! (KNO3's Berkeley curve is, since S6: no routed database owns Niter).
+//! A measured curve that is not admitted is a VALIDATION reference, and a
+//! saturated solution of such a salt is refused ([`Refusal::NoRoutedPhase`]).
 //!
 //! A salt is owned by this solve when, and only when, three facts hold:
 //!
@@ -80,7 +81,8 @@ pub struct SolubilityCurve {
     /// Whether the bench may crystallise against this curve at runtime.
     /// The primary solubility source is the routed database's own phase
     /// (`kerotakis_phreeqc::crystallisation_route`); a measured curve is a
-    /// VALIDATION reference unless it is explicitly admitted. None is.
+    /// VALIDATION reference unless it is explicitly admitted, which it may be
+    /// only for a salt no routed database owns.
     pub runtime_admitted: bool,
 }
 
@@ -110,11 +112,21 @@ pub const CURVES: &[SolubilityCurve] = &[SolubilityCurve {
              undersaturation. The scan's OCR prints the sixth temperature as '7G-00'; it is \
              read as 76.00 C, consistent with the neighbouring points and with the Comey \
              comparison column (159.0) printed beside it.",
-    // No routed database (wateq4f, minteq.v4, pitzer) defines Niter, and
-    // llnl.dat's Niter under the default route's Debye-Hueckel activities
-    // misses this curve by 51-74% (tests/crystallisation_validation.rs in
-    // kerotakis-phreeqc). So KNO3 crystallisation is refused at runtime.
-    runtime_admitted: false,
+    // ADMITTED (S6, 2026-11-28 sweep). No routed database (wateq4f,
+    // minteq.v4, pitzer) defines Niter, and llnl.dat's Niter under the
+    // default route's Debye-Hueckel activities misses this curve by 51-74%
+    // (tests/crystallisation_validation.rs in kerotakis-phreeqc, still
+    // pinned): the PHREEQC phase stays refused until a reviewed
+    // concentrated K+/NO3- activity model exists. This measured curve needs
+    // no activity model -- it IS the saturation measurement -- and the
+    // solve owns it only inside its measured domain: binary K+/NO3-/water
+    // (`Refusal::NotBinary` otherwise), 0.40-91.65 C
+    // (`Refusal::BelowCurveDomain` below), at the routed llnl Niter
+    // dissolution enthalpy (`Refusal::Unpriced` without one). Speciation of
+    // the remaining brine is still the routed engine's, with its own
+    // concentrated-load notice; the crystallised amount does not depend
+    // on it.
+    runtime_admitted: true,
 }];
 
 /// The reviewed curve for a registry salt, if one is shipped.
@@ -235,6 +247,9 @@ pub enum Refusal {
     /// The dose would carry the solution below the lowest measured point,
     /// toward the salt–ice eutectic this module does not own.
     BelowCurveDomain { salt: &'static str, floor_k: f64 },
+    /// A supersaturated start whose crystallisation heat would carry the
+    /// solution above the highest measured point.
+    AboveCurveDomain { salt: &'static str, ceiling_k: f64 },
     /// Other dissolved ions, or an unpaired excess of the salt's own: the
     /// binary pure-water curve does not describe this solution.
     NotBinary { salt: &'static str },
@@ -422,7 +437,21 @@ fn solve(
             floor_k,
         });
     }
-    let (mut lo, mut hi) = (floor_k, t0);
+    // The root normally lies below the start. A start that is already
+    // SUPERSATURATED (a dissolution step that cooled the solution past its
+    // own saturation point) can put it above: the crystals the solution owes
+    // hand back enough heat to warm it. `balance` is monotone over the whole
+    // measured domain, so the bracket runs to the top of it.
+    let ceiling_k_curve = curve.domain_k().1;
+    let (mut lo, mut hi) = (floor_k, t0.max(ceiling_k_curve));
+    if balance(hi).is_some_and(|b| b > 0.0) {
+        // Even at the top of the measured range the ledger cannot close:
+        // the answer lies above every measured point.
+        return Err(Refusal::AboveCurveDomain {
+            salt: curve.salt,
+            ceiling_k: ceiling_k_curve,
+        });
+    }
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
         // `balance` is positive below the root and negative above it.

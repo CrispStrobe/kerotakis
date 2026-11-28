@@ -37,9 +37,11 @@
 //! (owned by `kerotakis_core::solve::StateEquilibrator`, #852/#857).
 //!
 //! Measured curves (`kerotakis_core::crystallisation::CURVES`, Berkeley
-//! 1904) are VALIDATION references only: `tests/crystallisation_validation.rs`
-//! compares PHREEQC-derived solubilities against them and reports the
-//! deviation.
+//! 1904) are VALIDATION references for the PHREEQC phases here:
+//! `tests/crystallisation_validation.rs` compares PHREEQC-derived
+//! solubilities against them and reports the deviation. A curve for a solid
+//! that no routed database owns (KNO3) is additionally admitted at runtime
+//! by the core crystallisation ledger; its rows here stay `refused`.
 
 use crate::{derived, enthalpy};
 use kerotakis_core::{species, Phase};

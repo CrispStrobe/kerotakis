@@ -290,7 +290,7 @@ where yellow and blue are expected. Generic fix: indicator table rows with
 pKa and the two-form colours, using the existing phenolphthalein-style
 indicator route.
 
-### S6. No KNO3 crystallisation on cooling; cooling passes the freezing boundary (missing species) — OPEN
+### S6. No KNO3 crystallisation on cooling; cooling passes the freezing boundary (missing species) — CLOSED (fix/kno3-cooling-20261128)
 
 25 g KNO3 in 20 g water stays fully dissolved down to −67.9 °C, still
 "colourless and clear". A typed notice says that no validated KNO3 phase
@@ -298,6 +298,22 @@ exists. The −21.1 °C partial-freezing boundary is announced, but the
 temperature then keeps falling with the liquid unchanged. Fix: a reviewed
 KNO3 solubility phase (a data row). Separately, `cool` should stop or
 refuse at the freezing boundary it announces.
+
+Closed by two generic changes. (1) The crystallisation ledger admits the
+reviewed Berkeley (1904) KNO3 measurement at runtime: no routed database
+owns Niter, and llnl's Niter stays refused because it misses that
+measurement by 51–74% without a concentrated-nitrate activity model. The
+curve is used only inside its measured domain (binary K+/NO3−/water,
+0.40–91.65 °C) at the routed Niter dissolution enthalpy, with the existing
+typed refusals outside it. Any future salt gets the same treatment from one
+curve row. A start that is already supersaturated now closes its ledger by
+crystallising, which warms it. (2) `cool` stops at the partial-freezing
+boundary (−21.1 °C) whenever the solution's freezing cannot be placed above
+it, and says how much of the dose was not removed
+(`not-modeled.cooling-stopped-at-freezing-boundary`). Tests:
+`kerotakis-phreeqc/tests/kno3_cooling.rs` and `crystallisation_heat.rs`.
+Still open: `add` dissolves a whole charge past saturation, as at t29's
+−9.3 °C. The cool that follows now recovers the crystals.
 
 ### S7. Minor observations — OPEN
 

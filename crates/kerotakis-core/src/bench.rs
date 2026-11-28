@@ -2812,6 +2812,23 @@ impl Bench {
                                         ),
                                     ],
                                 ),
+                                crate::crystallisation::Refusal::AboveCurveDomain {
+                                    salt,
+                                    ceiling_k,
+                                } => Phrase::new(
+                                    "not-modeled.crystallisation-above-curve-domain",
+                                    "this solution is supersaturated with {salt}, and the heat its \
+             crystallisation would release carries it above {ceiling} K, the highest \
+             measured point of its solubility curve, so its crystallisation is not \
+             computed",
+                                    vec![
+                                        ("salt".to_string(), Slot::term("species", salt)),
+                                        (
+                                            "ceiling".to_string(),
+                                            Slot::number(format!("{ceiling_k:.2}")),
+                                        ),
+                                    ],
+                                ),
                                 crate::crystallisation::Refusal::NoRoutedPhase { salt } => {
                                     Phrase::new(
                                         "not-modeled.crystallisation-no-routed-phase",
@@ -2870,6 +2887,27 @@ impl Bench {
                         // before it the heat capacities have stopped describing
                         // anything, because even a tabulated curve runs out of
                         // table around 100-300 K and is held flat below it.
+                        // S6 (2026-11-28 sweep): a liquid solution whose
+                        // freezing the state equilibrator cannot place above
+                        // its own partial-freezing boundary (an out-of-range
+                        // or non-finite liquidus, or one at or below the
+                        // boundary) has no computed phase change to absorb
+                        // the dose there. Carrying the thermometer past the
+                        // boundary the bench itself announces produced a
+                        // KNO3 brine "colourless and clear" at -67.9 C. The
+                        // sensible arm therefore stops AT the boundary and
+                        // says how much of the dose was not removed. A
+                        // solution whose freezing IS owned above the
+                        // boundary keeps the existing path, where latent
+                        // heat pays the dose.
+                        let boundary = crate::states::BRINE_MODEL_MIN_K;
+                        let stops_at_freezing_boundary =
+                            wanted < boundary && freezing_boundary_binds(v);
+                        let wanted = if stops_at_freezing_boundary {
+                            wanted.max(from.0.min(boundary))
+                        } else {
+                            wanted
+                        };
                         let to = Kelvin(wanted.max(0.0));
                         let moved = -v.energy_between(from.0, to.0);
                         v.temperature = to;
@@ -2896,6 +2934,39 @@ impl Bench {
                             capped: false,
                         });
                         brown_dry_lemon_mark(v, &mut events);
+                        if stops_at_freezing_boundary {
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.cooling-stopped-at-freezing-boundary",
+                                    "cooling stopped at the partial-freezing model boundary of \
+             {temperature} °C: below it this solution needs salt crystallisation and a \
+             solute-specific eutectic phase diagram, which are not modelled, so the \
+             remaining {remaining} kJ of the {asked} kJ asked for were not removed",
+                                    vec![
+                                        (
+                                            "temperature".to_string(),
+                                            Slot::number(format!(
+                                                "{:.1}",
+                                                Kelvin(boundary).to_celsius()
+                                            )),
+                                        ),
+                                        (
+                                            "remaining".to_string(),
+                                            Slot::number(format!(
+                                                "{:.2}",
+                                                ((energy.0 - moved) / 1000.0).max(0.0)
+                                            )),
+                                        ),
+                                        (
+                                            "asked".to_string(),
+                                            Slot::number(format!("{:.2}", energy.0 / 1000.0)),
+                                        ),
+                                    ],
+                                ),
+                            ));
+                        }
                         if wanted < 0.0 {
                             let could_pay = holds / 1000.0;
                             events.push(Event::not_modeled(
@@ -7422,6 +7493,34 @@ fn recognize_lemon_paper_mark(vessel: &mut Vessel, events: &mut Vec<Event>) {
         lemon_amount_g,
         paper_amount_g,
     });
+}
+
+/// Does sensible cooling of this vessel have to stop at the partial-freezing
+/// model boundary ([`crate::states::BRINE_MODEL_MIN_K`])?
+///
+/// Yes when it holds liquid water with something dissolved in it AND the
+/// state equilibrator cannot place that solution's freezing above the
+/// boundary: its liquidus is non-finite, outside the solvent model's stated
+/// range, or itself at or below the boundary. Below the boundary such a
+/// solution owes salt crystallisation and a eutectic phase diagram the bench
+/// does not model, and the equilibrator refuses there without moving the
+/// temperature, so nothing else would stop the thermometer.
+fn freezing_boundary_binds(v: &Vessel) -> bool {
+    let liquid_water = v
+        .contents
+        .iter()
+        .any(|p| p.species.0 == "water" && p.phase == Phase::Liquid && p.moles.0 > 0.0);
+    if !liquid_water {
+        return false;
+    }
+    let (t, _) = crate::solve::vessel_transitions(v);
+    if t.solute_molality.is_nan() || t.solute_molality <= 0.0 {
+        return false;
+    }
+    let owned_above = t.freezing_k.is_finite()
+        && t.within_model_range()
+        && t.freezing_k > crate::states::BRINE_MODEL_MIN_K;
+    !owned_above
 }
 
 fn brown_dry_lemon_mark(vessel: &mut Vessel, events: &mut Vec<Event>) {

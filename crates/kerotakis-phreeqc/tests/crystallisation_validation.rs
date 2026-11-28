@@ -107,7 +107,7 @@ fn llnl_niter_block() -> String {
     format!("PHASES\n{}\n", block.join("\n"))
 }
 
-/// Why KNO3 is NOT admitted: no routed database defines Niter, and posing
+/// Why the llnl Niter PHASE is NOT admitted: no routed database defines it, and posing
 /// llnl's Niter on the default route (wateq4f activities) misses every
 /// measured point by far more than any stated tolerance (an independent
 /// pre-run estimate gave -51% at 0.4 C to -74% at 91.65 C). This test
@@ -116,7 +116,16 @@ fn llnl_niter_block() -> String {
 #[test]
 fn llnl_niter_on_the_default_route_fails_validation_against_berkeley() {
     let curve = crystallisation::curve_for("KNO3").expect("reference curve");
-    assert!(!curve.runtime_admitted);
+    // S6 admits the MEASURED curve at runtime; the PHREEQC phase this test
+    // pins stays refused on every route.
+    assert!(curve.runtime_admitted);
+    for tag in ["wateq4f", "minteq.v4", "pitzer"] {
+        assert_eq!(
+            kerotakis_phreeqc::crystallisation_route::route_row("KNO3", tag).class,
+            "refused",
+            "{tag}"
+        );
+    }
     let phases = llnl_niter_block();
     let molar_mass = 101.1032;
     for &(t_c, grams) in curve.points {
