@@ -77,7 +77,7 @@ fn solution(water_g: f64, salt_g: f64, t_k: f64) -> (Bench, SolverStack) {
     v.deposit(SpeciesId::new("K+"), Moles(n), Phase::Aqueous);
     v.deposit(SpeciesId::new("NO3-"), Moles(n), Phase::Aqueous);
     v.temperature = Kelvin(t_k);
-    bench.vessels.push(v);
+    bench.vessels[0] = v;
     (bench, stack())
 }
 
